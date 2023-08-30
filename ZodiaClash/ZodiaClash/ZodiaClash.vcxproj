@@ -112,7 +112,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -148,11 +148,8 @@
     <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
-<<<<<<< HEAD
     <ClInclude Include="mmath.h" />
     <ClInclude Include="physic.h" />
-=======
->>>>>>> parent of 18a5fd0 (GSM)
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="vmath.h" />
@@ -161,13 +158,10 @@
   <ItemGroup>
     <ClCompile Include="frameratecontroller.cpp" />
     <ClCompile Include="gamestatemanager.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="mmath.cpp" />
     <ClCompile Include="physic.cpp" />
     <ClCompile Include="vmath.cpp" />
     <ClCompile Include="physics.cpp" />
-=======
->>>>>>> parent of 18a5fd0 (GSM)
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
