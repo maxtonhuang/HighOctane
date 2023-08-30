@@ -31,7 +31,7 @@ More important overloads
 #pragma once
 
 #include "commonheaderfilelist.h"
-#include <math.h>
+#include <cmath>
 #include <iostream>
 
 namespace vmath {

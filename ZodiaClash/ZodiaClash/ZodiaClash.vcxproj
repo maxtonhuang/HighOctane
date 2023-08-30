@@ -145,6 +145,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="debug.h" />
     <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug.cpp" />
     <ClCompile Include="frameratecontroller.cpp" />
     <ClCompile Include="gamestatemanager.cpp" />
     <ClCompile Include="mmath.cpp" />
