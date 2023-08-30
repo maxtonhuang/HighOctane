@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{184f6c61-aef7-4662-81ff-bb5d04c370b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{55484882-0643-4957-833c-469c10b928af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{08dfa90f-38db-43b6-b5bc-86e3f0ed33bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{0778fcee-e1fa-4802-9162-84f68d94f0ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineArchitecture">
+      <UniqueIdentifier>{d743a8cb-8bff-4f12-b28d-b446431d5efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineArchitecture">
+      <UniqueIdentifier>{593ef4db-c246-4cf2-a48a-5ed5978a9798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Debug">
+      <UniqueIdentifier>{cfa50472-e1f5-4a19-867d-659604c30d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Debug">
+      <UniqueIdentifier>{1f87699b-1baf-4eb1-bf6d-77daab51574b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,10 +51,22 @@
     <ClInclude Include="ZodiaClash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="graphics.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="physic.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
+    <ClInclude Include="mmath.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vmath.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestatemanager.h">
+      <Filter>Header Files\EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="frameratecontroller.h">
+      <Filter>Header Files\EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="commonheaderfilelist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,11 +74,20 @@
     <ClCompile Include="ZodiaClash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="graphics.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="mmath.cpp">
+      <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="physics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="vmath.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="frameratecontroller.cpp">
+      <Filter>Source Files\EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestatemanager.cpp">
+      <Filter>Source Files\EngineArchitecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

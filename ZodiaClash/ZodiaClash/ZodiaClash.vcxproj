@@ -74,13 +74,13 @@
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
     <IncludePath>$(IncludePath);$(SolutionDir)Extern</IncludePath>
-    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
     <IncludePath>$(IncludePath);$(SolutionDir)Extern</IncludePath>
-    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022</LibraryPath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -120,11 +120,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
-copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y</Command>
+      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,24 +139,29 @@ copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetD
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q
-copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y</Command>
+      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\" /s /r /y /q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="graphics.h" />
-    <ClInclude Include="input.h" />
+    <ClInclude Include="gamestatemanager.h" />
+    <ClInclude Include="commonheaderfilelist.h" />
+    <ClInclude Include="mmath.h" />
+    <ClInclude Include="physic.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="vmath.h" />
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="graphics.cpp" />
-    <ClCompile Include="input.cpp" />
+    <ClCompile Include="frameratecontroller.cpp" />
+    <ClCompile Include="gamestatemanager.cpp" />
+    <ClCompile Include="mmath.cpp" />
+    <ClCompile Include="vmath.cpp" />
+    <ClCompile Include="physics.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
