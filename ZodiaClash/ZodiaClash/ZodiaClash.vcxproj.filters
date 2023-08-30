@@ -39,6 +39,12 @@
     <ClInclude Include="gamestatemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZodiaClash.cpp">
@@ -48,6 +54,12 @@
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="gamestatemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mmath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="vmath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
