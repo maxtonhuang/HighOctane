@@ -66,6 +66,9 @@
     <ClInclude Include="frameratecontroller.h">
       <Filter>Header Files\EngineArchitecture</Filter>
     </ClInclude>
+    <ClInclude Include="commonheaderfilelist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZodiaClash.cpp">

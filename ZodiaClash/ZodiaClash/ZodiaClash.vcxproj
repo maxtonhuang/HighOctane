@@ -148,6 +148,7 @@
     <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
+    <ClInclude Include="commonheaderfilelist.h" />
     <ClInclude Include="mmath.h" />
     <ClInclude Include="physic.h" />
     <ClInclude Include="Resource.h" />
