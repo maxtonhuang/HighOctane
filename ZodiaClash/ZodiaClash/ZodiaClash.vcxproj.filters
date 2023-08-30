@@ -19,8 +19,8 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{55484882-0643-4957-833c-469c10b928af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Maths">
-      <UniqueIdentifier>{0c093181-ac47-4f8f-b8e4-382a688f940b}</UniqueIdentifier>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{08dfa90f-38db-43b6-b5bc-86e3f0ed33bf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,13 +56,7 @@
     <ClCompile Include="ZodiaClash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="physic.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="gamestatemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mmath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="vmath.cpp">
@@ -72,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mmath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
