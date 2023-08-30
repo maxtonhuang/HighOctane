@@ -39,15 +39,21 @@
     <ClInclude Include="gamestatemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="frameratecontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZodiaClash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="physic.cpp">
+    <ClCompile Include="physics.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="gamestatemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="frameratecontroller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

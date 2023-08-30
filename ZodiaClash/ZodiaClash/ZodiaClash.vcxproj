@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
     <ClInclude Include="physic.h" />
@@ -150,8 +151,9 @@
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="frameratecontroller.cpp" />
     <ClCompile Include="gamestatemanager.cpp" />
-    <ClCompile Include="physic.cpp" />
+    <ClCompile Include="physics.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
