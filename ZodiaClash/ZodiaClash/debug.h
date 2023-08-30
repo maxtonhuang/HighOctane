@@ -18,13 +18,20 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "vmath.h"
 
 //By defining G_ENABLE_DEBUG_DIAGNOSTICS you can explicitly 
 //enable or disable debugging and diagnostic macros
-#if !defined(G_ENABLE_DEBUG_DIAGNOSTICS) 
-#   if defined(_DEBUG)
-#       define G_ENABLE_DEBUG_DIAGNOSTICS 1
-#   else
-#       define G_ENABLE_DEBUG_DIAGNOSTICS 0
-#   endif
-#endif
+//#if !defined(G_ENABLE_DEBUG_DIAGNOSTICS) 
+//#   if defined(_DEBUG)
+//#       define G_ENABLE_DEBUG_DIAGNOSTICS 1
+//#   else
+//#       define G_ENABLE_DEBUG_DIAGNOSTICS 0
+//#   endif
+//#endif
+
+namespace debug {
+	void writeFile(void);
+	void writeFile(float num);
+	void writeFile(vmath::Vector2 vec);
+}

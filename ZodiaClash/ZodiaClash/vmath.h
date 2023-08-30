@@ -13,12 +13,11 @@
 @date		30 August 2023
 @brief		This file contains the overloading of the vectors 2 and 3
 
+IF ANYTHING IS CALCULATED WRONGLY PLEASE LET ME KNOW THANK YOU VERY MUCH
+
 More important overloads
 ' ^ ' dot product
 ' % ' cross product
-' ~ ' inverse
-' magnitude() ' magnitude
-' normalize() ' normalize
 ' * ' scalar product
 ' / ' scalar division
 ' == ' equality
@@ -26,6 +25,12 @@ More important overloads
 ' ! ' boolean not
 ' [] ' subscript
 
+' negate() ' negate vector
+' magnitude() ' magnitude
+' normalize() ' normalize
+' midpoint(Vector2& b) ' midpoint of two vectors
+' distance(Vector2& b) ' distance between two vectors
+' inRange(Vector2& b, float distRange) ' test if the vector is in the range of the object
 
 *//*______________________________________________________________________*/
 #pragma once
@@ -35,6 +40,7 @@ More important overloads
 #include <iostream>
 
 namespace vmath {
+
 	class Vector2 {
 		public:
 			float x;
@@ -49,6 +55,12 @@ namespace vmath {
 			// Second constructor
 			Vector2(float xIn, float yIn) : x{ xIn }, y{ yIn } { }
 
+			// Copy constructor
+			Vector2(const Vector2& b) {
+				this->x = b.x;
+				this->y = b.y;
+			}
+			
 			// Overloading =
 			Vector2& operator=(const Vector2& b) {
 				this->x = b.x;
@@ -117,17 +129,15 @@ namespace vmath {
 				return this->x * b.x + this->y * b.y;
 			}
 
-			// Overloading ~ infront for the negative of the vector
-			Vector2 operator~() {
-				Vector2 vector;
-				vector.x = -this->x;
-				vector.y = -this->y;
-				return vector;
+			// Negation
+			Vector2 negate()
+			{
+				return Vector2(-x, -y);
 			}
-	
+
 			// Magnitude of the vector
 			float magnitude() {
-				return sqrt(pow(this->x, 2) + pow(this->y, 2));
+				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2)));
 			}
 			
 			// Normalize the vector
@@ -138,6 +148,28 @@ namespace vmath {
 				return vector;
 			}
 
+			// Mid point of two vectors
+			Vector2 midpoint(Vector2& b) {
+				Vector2 vector;
+				vector.x = (this->x + b.x) / 2;
+				vector.y = (this->y + b.y) / 2;
+				return vector;
+			}
+
+			// Distance between two vectors
+			float distance(Vector2& b) {
+				return static_cast<float>(sqrt(pow(this->x - b.x, 2) + pow(this->y - b.y, 2)));
+			}
+
+			// Test if the vector is in the range of the object
+			bool inRange(Vector2& b, float distRange) {
+				if (this->distance(b) <= distRange) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
 			/*----------------------------------------------------
 						Mostly for debugging purposes          
 			----------------------------------------------------*/
@@ -228,6 +260,13 @@ namespace vmath {
 			// Second constructor
 			Vector3(float xIn, float yIn, float zIn) : x{ xIn }, y{ yIn }, z{ zIn } { }
 
+			// Copy constructor
+			Vector3(const Vector3& b) {
+				this->x = b.x;
+				this->y = b.y;
+				this->z = b.z;
+			}
+
 			// Overloading =
 			Vector3& operator=(const Vector3& b) {
 				this->x = b.x;
@@ -314,18 +353,15 @@ namespace vmath {
 				return vector;
 			}
 
-			// Overloading ~ infront for the negative of the vector
-			Vector3 operator~() {
-				Vector3 vector;
-				vector.x = -this->x;
-				vector.y = -this->y;
-				vector.z = -this->z;
-				return vector;
+			// Negation vector
+			Vector3 negate()
+			{
+				return Vector3(-x, -y, -z);
 			}
 
 			// Magnitude of the vector
 			float magnitude() {
-				return sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2));
+				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
 			}
 
 			// Normalize the vector
@@ -335,6 +371,30 @@ namespace vmath {
 				vector.y = this->y / this->magnitude();
 				vector.z = this->z / this->magnitude();
 				return vector;
+			}
+			
+			// Mid point of two vectors
+			Vector3 midpoint(const Vector3& b) {
+				Vector3 vector;
+				vector.x = (this->x + b.x) / 2;
+				vector.y = (this->y + b.y) / 2;
+				vector.z = (this->z + b.z) / 2;
+				return vector;
+			}
+
+			// Distance between two vectors
+			float distance(const Vector3& b) {
+				return static_cast<float>(sqrt(pow(this->x - b.x, 2) + pow(this->y - b.y, 2) + pow(this->z - b.z, 2)));
+			}
+
+			// Test if the vector is in the range of the object
+			bool inRange(const Vector3& b, float range) {
+				if (this->distance(b) <= range) {
+					return true;
+				}
+				else {
+					return false;
+				}
 			}
 
 			/*----------------------------------------------------
