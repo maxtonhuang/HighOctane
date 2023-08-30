@@ -112,7 +112,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -144,12 +144,14 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
+    <ClInclude Include="physic.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestatemanager.cpp" />
+    <ClCompile Include="physic.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
