@@ -144,14 +144,18 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
+    <ClInclude Include="mmath.h" />
     <ClInclude Include="physic.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="vmath.h" />
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gamestatemanager.cpp" />
+    <ClCompile Include="mmath.cpp" />
     <ClCompile Include="physic.cpp" />
+    <ClCompile Include="vmath.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
