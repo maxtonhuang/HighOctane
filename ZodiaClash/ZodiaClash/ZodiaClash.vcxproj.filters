@@ -87,6 +87,9 @@
     <ClInclude Include="input.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZodiaClash.cpp">
@@ -112,6 +115,12 @@
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

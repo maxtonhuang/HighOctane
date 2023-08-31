@@ -1,11 +1,13 @@
 #include "graphics.h"
 #include "input.h"
+#include <iostream>
 
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
 GLFWwindow* GraphicsManager::window;
 int GraphicsManager::width;
 int GraphicsManager::height;
+Shader GraphicsManager::shaderprogram;
 
 void GraphicsManager::Init() {
     //TEMPORARY INITIALISATION, TO BE READ FROM FILE
@@ -37,14 +39,30 @@ void GraphicsManager::Init() {
 
     glViewport(0, 0, width, height);
 
+    glewInit();
+
+    //Compile shaders
+    std::vector<std::pair<GLenum, std::string>> shadervector{
+        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/vertexshader.vert"),
+        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/fragmentshader.frag")
+    };
+
+    if (shaderprogram.Compile(shadervector) == false) {
+        std::cout << "Unable to compile shader program! Exiting...\n";
+        std::exit(EXIT_FAILURE);
+    }
+
     //TEMP
     Draw();
 }
 
+void GraphicsManager::Cleanup() {
+    shaderprogram.DeleteShader();
+    glfwTerminate();
+}
+
 void GraphicsManager::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
-
-
 
     glfwSwapBuffers(window);
 }

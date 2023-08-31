@@ -29,7 +29,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // TODO: Place code here.
     GraphicsManager::Init();
 
-
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_ZODIACLASH, szWindowClass, MAX_LOADSTRING);
