@@ -63,7 +63,7 @@
     <ClInclude Include="ZodiaClash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="physic.h">
+    <ClInclude Include="physics.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="mmath.h">
