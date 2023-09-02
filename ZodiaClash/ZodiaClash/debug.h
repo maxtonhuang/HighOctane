@@ -19,6 +19,7 @@
 #include <string>
 #include <fstream>
 #include "vmath.h"
+#include <chrono>
 
 //By defining G_ENABLE_DEBUG_DIAGNOSTICS you can explicitly 
 //enable or disable debugging and diagnostic macros
@@ -30,8 +31,22 @@
 //#   endif
 //#endif
 
-namespace debug {
-	void writeFile(void);
-	void writeFile(float num);
-	void writeFile(vmath::Vector2 vec);
+namespace debuglog {
+
+	class Logger {
+		public:
+			Logger(const std::string &logFileName = "testlog.txt");
+
+			void log(const std::string &message);
+
+			void rotateLogFile(size_t maxFileSize);
+		private:
+			std::ofstream logFile;
+			std::string currentLogFileName;
+
+
+			std::string getTimeStamp();
+			std::streampos getLogFileSize();
+	};
+
 }

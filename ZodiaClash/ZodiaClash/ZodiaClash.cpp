@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "ZodiaClash.h"
 #include "graphics.h"
+#include "debug.h"
 
 #define MAX_LOADSTRING 100
 
@@ -54,6 +55,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
+
+    /*----------------------------------*/
+    debuglog::Logger logger;
+    logger.log("This is a test message");
+    /*----------------------------------*/
+
 
     return (int) msg.wParam;
 }
