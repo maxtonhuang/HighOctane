@@ -83,12 +83,15 @@
     </ClInclude>
     <ClInclude Include="debug.h">
       <Filter>Header Files\Debug</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="graphics.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecore.h">
+      <Filter>Header Files\EngineArchitecture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,12 +115,15 @@
     </ClCompile>
     <ClCompile Include="debug.cpp">
       <Filter>Source Files\Debug</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecore.cpp">
+      <Filter>Source Files\EngineArchitecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

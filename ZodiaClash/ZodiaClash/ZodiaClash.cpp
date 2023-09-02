@@ -1,11 +1,16 @@
 // ZodiaClash.cpp : Defines the entry point for the application.
 //
 
+
+////////// MAIN ///////////
+
 #include "framework.h"
 #include "ZodiaClash.h"
 #include "graphics.h"
 
 #define MAX_LOADSTRING 100
+
+
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
@@ -30,6 +35,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     GraphicsManager::Init();
 
 
+
+
+    // 
+
+    
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_ZODIACLASH, szWindowClass, MAX_LOADSTRING);
@@ -42,7 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ZODIACLASH));
-
+    
     MSG msg;
 
     // Main message loop:
@@ -54,7 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
-
+    
     return (int) msg.wParam;
 }
 

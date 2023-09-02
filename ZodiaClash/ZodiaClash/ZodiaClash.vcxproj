@@ -150,6 +150,7 @@ copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetD
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="debug.h" />
+    <ClInclude Include="enginecore.h" />
     <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
@@ -165,6 +166,7 @@ copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetD
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="enginecore.cpp" />
     <ClCompile Include="frameratecontroller.cpp" />
     <ClCompile Include="gamestatemanager.cpp" />
     <ClCompile Include="graphics.cpp" />
