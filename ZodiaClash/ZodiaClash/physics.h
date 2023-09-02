@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "vmath.h"
 
 struct PhysicsBody {
 	//position will be the center of the object 
@@ -22,7 +23,7 @@ class PhysicsEngine {
 public:
 	std::vector<PhysicsBody> bodies; // store all the bodies
 	void update(float deltaTime);
-	void integrate(PhysicsBody& body, float deltaTime);
+	void update(PhysicsBody& body, float deltaTime);
 	void externalForces(PhysicsBody& body, float deltaTime);
 	void collisionDetectionAndResponse();
 	static bool CheckCollision(const PhysicsBody& bodyA, const PhysicsBody& bodyB); // check collision with 2 bodies

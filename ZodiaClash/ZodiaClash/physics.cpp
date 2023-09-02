@@ -4,12 +4,12 @@
 
 void PhysicsEngine::update(float deltaTime) {
     for (auto& body : bodies) {
-        integrate(body, deltaTime); externalForces(body, deltaTime); //every frame, update the following for each body 
+        update(body, deltaTime); externalForces(body, deltaTime); //every frame, update the following for each body 
     }
     collisionDetectionAndResponse(); //call this function every frame
 }
 
-void PhysicsEngine::integrate(PhysicsBody& body, float deltaTime) {
+void PhysicsEngine::update(PhysicsBody& body, float deltaTime) {
     body.velocity += body.acceleration * deltaTime; // Update velocity based on acceleration
     body.position += body.velocity * deltaTime; // Update position based on velocity(speed with direction)
 }
