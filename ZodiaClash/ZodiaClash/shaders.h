@@ -7,6 +7,9 @@ class Shader {
 public:
 	bool Compile(std::vector<std::pair<GLenum, std::string>> vec);
 	void DeleteShader();
+	void Use();
+	void UnUse();
+	GLuint GetHandle() const;
 private:
 	GLuint handle;
 };

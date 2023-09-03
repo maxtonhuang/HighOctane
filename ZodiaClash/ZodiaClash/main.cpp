@@ -4,7 +4,7 @@
 int main() {
 	GraphicsManager::Init();
 
-	while (1) {
+	while (!GraphicsManager::WindowClosed()) {
 		glfwPollEvents();
 	}
 }

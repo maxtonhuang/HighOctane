@@ -63,8 +63,23 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 
 	return true;
 }
+
 void Shader::DeleteShader() {
 	if (handle > 0) {
 		glDeleteProgram(handle);
 	}
+}
+
+void Shader::Use() {
+	if (handle > 0) {
+		glUseProgram(handle);
+	}
+}
+
+void Shader::UnUse() {
+	glUseProgram(0);
+}
+
+GLuint Shader::GetHandle() const {
+	return handle;
 }

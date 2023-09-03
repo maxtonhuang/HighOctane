@@ -1,15 +1,39 @@
 #pragma once
 #include "shaders.h"
+#include <glew-2.2.0/include/GL/glew.h>
 #include <glfw-3.3.8.bin.WIN64/include/GLFW/glfw3.h>
+#include <glm-0.9.9.8/glm/glm.hpp>
+#include "model.h"
 
 class GraphicsManager {
 public:
-	static void Init();
-	static void Cleanup();
-	static void Draw();
+	static void Init(); //initialise graphics manager at start of program
+	static void Cleanup(); //delete memory used by graphics manager at end of program
+	static void Draw(); //draw the screen, to be called every frame
+	
+	static bool WindowClosed(); //returns true if window is closed, else false
+
+	//VAO info for draw functions in other classes
+	struct VAOInfo {
+		GLenum primitivetype;
+		GLuint id;
+		GLuint drawcnt;
+	};
+	static const VAOInfo& GetVAOInfo(); //get vao info (for other class graphics use)
+	static const Shader& GetShader();
+
 private:
+	//Vertex struct for creating VAO with
+	struct Vertex {
+		glm::vec2 pos; //Vertex coordinates
+		glm::vec3 col; //RGB colour
+		glm::vec2 tex; //Texture coordinates
+	};
+	static void CreateVAO();
+
 	static GLFWwindow* window;
 	static int width;
 	static int height;
 	static Shader shaderprogram;
+	static VAOInfo vao;
 };
