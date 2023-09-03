@@ -8,6 +8,9 @@
 
 #define MAX_LOADSTRING 100
 
+// For debugging
+debuglog::Logger logger("testlog.txt", debuglog::LOG_LEVEL::Trace, gEnableDebugDiagnostics);
+
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
@@ -24,11 +27,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    // Enable/Disable the logging file
+    logger.setLoggingEnabled(gEnableDebugDiagnostics);
+    logger.info("Program started");
+
+
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: Place code here.
     GraphicsManager::Init();
+    logger.info("Graphics started");
 
 
     // Initialize global strings
@@ -57,8 +66,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     /*----------------------------------*/
-    debuglog::Logger logger;
-    logger.log("This is a test message");
+    logger.setLevel(debuglog::LOG_LEVEL::Trace);
+
+    logger.trace("This is a test trace message");
+    logger.debug("This is a test debug message");
+    logger.info("This is a test info message");
+    logger.warning("This is a test warning message");
+    logger.error("This is a test error message");
+    logger.fatal("This is a test fatal message");
     /*----------------------------------*/
 
 

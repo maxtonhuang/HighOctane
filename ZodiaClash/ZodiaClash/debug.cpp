@@ -13,6 +13,15 @@
 @date		30 August 2023
 @brief		This file contains the functions definintion for debugging
 
+Logger() : Constructor
+~Logger() : Destructor
+log() : Log into the file
+rotateLogFile() : Rotate the log file
+setLevel() : Set the log level
+getLevel() : Get the log level
+getTimeStamp() : Get the time stamp
+getLogFileSize() : Get the log file size
+
 
 TODO :
 Maybe rotating of log file, now it only changes the file name to old
@@ -27,12 +36,17 @@ Maybe rotating of log file, now it only changes the file name to old
 
 #define MAX_FILE_SIZE 1048576 // 1MB
 
+// Define this to enable debug diagnostics
+int gEnableDebugDiagnostics = G_ENABLE_DEBUG_DIAGNOSTICS;
+
 namespace debuglog {
 
 	// Logger
-	Logger::Logger(const std::string &logFileName) {
+	Logger::Logger(const std::string &logFileName, LOG_LEVEL level, bool loggingEnabled) {
 
 		currentLogFileName = logFileName;
+		this->currentLogLevel = level;
+		this->loggingEnabled = loggingEnabled;
 
 		// Open the file
 		logFile.open(logFileName, std::ios::out | std::ios::app);
@@ -44,14 +58,59 @@ namespace debuglog {
 		}
 	}
 
-	// Log into the file
-	void Logger::log(const std::string &message) {
-		// Get the timestamp
-		std::string timeStamp = getTimeStamp();
-		// Write to file
-		logFile << timeStamp << "\n" << message << "\n";
+	// Destructor
+	Logger::~Logger() {
 
+		// Close the file
+		logFile.close();
+	}
+
+	// Log into the file
+	void Logger::log(LOG_LEVEL level, const std::string &message) {
+
+		// If the logging is enabled and current log level is lower than the level set
+		if (loggingEnabled && static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
+
+			// Get the time
+			std::string timeStamp = getTimeStamp();
+
+			// Get the current level
+			std::string levels = getLevel(level);
+
+			// Log it
+			logFile << timeStamp << " [" << levels << "] " << message << "\n";
+		}
 		rotateLogFile(MAX_FILE_SIZE);
+	}
+
+	void Logger::trace(const std::string& message) {
+		// Call the log function with TRACE log level
+		log(LOG_LEVEL::Trace, message);
+	}
+
+	void Logger::debug(const std::string& message) {
+		// Call the log function with DEBUG log level
+		log(LOG_LEVEL::Debug, message);
+	}
+
+	void Logger::info(const std::string& message) {
+		// Call the log function with INFO log level
+		log(LOG_LEVEL::Info, message);
+	}
+
+	void Logger::warning(const std::string& message) {
+		// Call the log function with WARNING log level
+		log(LOG_LEVEL::Warning, message);
+	}
+
+	void Logger::error(const std::string& message) {
+		// Call the log function with ERROR log level
+		log(LOG_LEVEL::Error, message);
+	}
+
+	void Logger::fatal(const std::string& message) {
+		// Call the log function with FATAL log level
+		log(LOG_LEVEL::Fatal, message);
 	}
 
 	// Rotate the log file
@@ -78,12 +137,42 @@ namespace debuglog {
 		}
 	}
 
+	// Set the log level
+	void Logger::setLevel(LOG_LEVEL level) {
+		currentLogLevel = level;
+	}
+
+	// Set the logging enabling
+	void Logger::setLoggingEnabled(bool toggle) {
+		loggingEnabled = toggle;
+	}
+
+	// Get the log level
+	std::string Logger::getLevel(LOG_LEVEL level) {
+		switch (level) {
+
+		case LOG_LEVEL::Trace:
+			return "T";
+		case LOG_LEVEL::Debug:
+			return "D";
+		case LOG_LEVEL::Info:
+			return "I";
+		case LOG_LEVEL::Warning:
+			return "W";
+		case LOG_LEVEL::Error:
+			return "E";
+		case LOG_LEVEL::Fatal:
+			return "F";
+		default:
+			return "U";
+		}
+	}
 
 	// Get the timestamp
 	std::string Logger::getTimeStamp(void) {
 		std::time_t now = std::time(nullptr);
 		struct tm timeInfo;
-		localtime_s(&timeInfo, &now); // Use localtime_s for safe conversion
+		localtime_s(&timeInfo, &now);
 		char timestamp[20];
 		std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", &timeInfo);
 		return std::string(timestamp);
@@ -93,6 +182,11 @@ namespace debuglog {
 	std::streampos Logger::getLogFileSize(void) {
 		logFile.seekp(0, std::ios::end);
 		return logFile.tellp();
+	}
+
+	// Get the toggling enable
+	bool Logger::getLoggingEnabled(void) {
+		return loggingEnabled;
 	}
 }
 

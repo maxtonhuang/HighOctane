@@ -21,32 +21,72 @@
 #include "vmath.h"
 #include <chrono>
 
-//By defining G_ENABLE_DEBUG_DIAGNOSTICS you can explicitly 
-//enable or disable debugging and diagnostic macros
-//#if !defined(G_ENABLE_DEBUG_DIAGNOSTICS) 
-//#   if defined(_DEBUG)
-//#       define G_ENABLE_DEBUG_DIAGNOSTICS 1
-//#   else
-//#       define G_ENABLE_DEBUG_DIAGNOSTICS 0
-//#   endif
-//#endif
+// Define this to enable debug diagnostics
+// In debug mode, the logging tools will run
+// In release mode, it won't
+#if !defined(G_ENABLE_DEBUG_DIAGNOSTICS) 
+#   if defined(_DEBUG)
+#       define G_ENABLE_DEBUG_DIAGNOSTICS 1
+#   else
+#       define G_ENABLE_DEBUG_DIAGNOSTICS 0
+#   endif
+#endif
+
+extern int gEnableDebugDiagnostics;
 
 namespace debuglog {
 
-	class Logger {
-		public:
-			Logger(const std::string &logFileName = "testlog.txt");
-
-			void log(const std::string &message);
-
-			void rotateLogFile(size_t maxFileSize);
-		private:
-			std::ofstream logFile;
-			std::string currentLogFileName;
-
-
-			std::string getTimeStamp();
-			std::streampos getLogFileSize();
+	enum class LOG_LEVEL {
+		Trace,
+		Debug,
+		Info,
+		Warning,
+		Error,
+		Fatal
 	};
 
+	class Logger {
+		public:
+			Logger(const std::string &logFileName = "testlog.txt", LOG_LEVEL level = LOG_LEVEL::Trace, bool loggingEnabled = true);
+			~Logger();
+
+			
+			void trace(const std::string& message);
+			void debug(const std::string& message);
+			void info(const std::string& message);
+			void warning(const std::string &message);
+			void error(const std::string &message);
+			void fatal(const std::string &message);
+
+
+			void rotateLogFile(size_t maxFileSize);
+
+			void setLevel(LOG_LEVEL level);
+			void setLoggingEnabled(bool toggle);
+
+			std::string getLevel(LOG_LEVEL level);
+			std::string getTimeStamp();
+			std::streampos getLogFileSize();
+			bool getLoggingEnabled();
+
+		private:
+
+			void log(LOG_LEVEL level, const std::string& message);
+
+			std::ofstream logFile;
+			std::string currentLogFileName;
+			LOG_LEVEL currentLogLevel;
+
+			bool loggingEnabled;
+
+
+
+	};
+
+	//Implement these functions to control how errors and
+	//debug printing are handled
+	//bool SignalErrorHandler(const char* expression, const char* file, int line, const char* formatMessage = 0, ...);
+	//void DebugPrintHandler(const char* msg, ...);
+
+	extern Logger logger;
 }

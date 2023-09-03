@@ -1,2 +1,15 @@
-2023-09-02 19:25:04
-This is a test message
+2023-09-03 14:14:31 [I] Program started
+2023-09-03 14:14:33 [T] This is a trace message
+2023-09-03 14:14:33 [D] This is a debug message
+2023-09-03 14:14:33 [I] This is a info message
+2023-09-03 14:14:33 [W] This is a warning message
+2023-09-03 14:14:33 [E] This is a error message
+2023-09-03 14:14:33 [F] This is a fatal message
+2023-09-03 14:16:44 [I] Program started
+2023-09-03 14:16:45 [I] Graphics started
+2023-09-03 14:16:45 [T] This is a trace message
+2023-09-03 14:16:45 [D] This is a debug message
+2023-09-03 14:16:45 [I] This is a info message
+2023-09-03 14:16:45 [W] This is a warning message
+2023-09-03 14:16:45 [E] This is a error message
+2023-09-03 14:16:45 [F] This is a fatal message
