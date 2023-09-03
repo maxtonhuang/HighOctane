@@ -188,5 +188,45 @@ namespace debuglog {
 	bool Logger::getLoggingEnabled(void) {
 		return loggingEnabled;
 	}
+
+	/*-------------------MOVE THIS TO SOMEWHERE ELSE, NOT SUPPOSED TO BE IN DEBUG------------------------------------------------------------------*/
+	// Create console, right now console std::cout << doesn't work
+	// Need to find a way to fix it
+	// Maybe add the graphics init into here
+
+	void zcSysInit(_In_ HINSTANCE hInstance, _In_ int nCmdShow, int windowWidth, int windowHeight, bool createConsole, int maxFrameRate, bool vSync) {
+		// If console cannot be created
+		if (!createConsole) {
+			// Probably some error message next time
+			return;
+		}
+
+		// If debug mode, create console
+		if (createConsole) {
+
+			// Allocate a new console for the calling process
+			AllocConsole();
+
+			// Attach the console to the current process
+			AttachConsole(GetCurrentProcessId()); 
+
+			// Set the title of the console
+			SetConsoleTitle(L"ZodiaClash - Console"); 
+
+
+			FILE* newStdout;
+			freopen_s(&newStdout, "CONIN$", "r", stdin); // If need to read from console
+			freopen_s(&newStdout, "CONOUT$", "w", stderr); // If need to write to console
+			freopen_s(&newStdout, "CONOUT$", "w", stdout); // If need to write to console
+
+			// Just for fun
+			std::cout << "ZodiaClash Engine Version 0.1\n";
+		}
+		else {
+			return;
+		}
+
+	}
+
 }
 

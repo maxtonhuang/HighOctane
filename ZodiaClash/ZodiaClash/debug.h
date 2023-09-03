@@ -21,6 +21,9 @@
 #include "vmath.h"
 #include <chrono>
 
+// Move this together with the bottom code please thank you to either engine or graphics
+#include "framework.h"
+
 // Define this to enable debug diagnostics
 // In debug mode, the logging tools will run
 // In release mode, it won't
@@ -89,4 +92,9 @@ namespace debuglog {
 	//void DebugPrintHandler(const char* msg, ...);
 
 	extern Logger logger;
+
+	/*-------------------MOVE THIS TO SOMEWHERE ELSE, NOT SUPPOSED TO BE IN DEBUG------------------------------------------------------------------*/
+	// Create console
+
+	void zcSysInit(_In_ HINSTANCE hInstance, _In_ int nCmdShow, int windowWidth, int windowHeight, bool createConsole, int maxFrameRate, bool vSync);
 }
