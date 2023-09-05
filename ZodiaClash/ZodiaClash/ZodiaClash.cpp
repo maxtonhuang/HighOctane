@@ -46,10 +46,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Game loop here please change it in the future
     int test = 0;
-    while (true)
+    while (!GraphicsManager::WindowClosed())
     {
+        glfwPollEvents();
         test++;
-
 	}
 
     //// Initialize global strings
