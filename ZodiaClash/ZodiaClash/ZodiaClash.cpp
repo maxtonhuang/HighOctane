@@ -9,7 +9,7 @@
 //#define MAX_LOADSTRING 100
 
 // For debugging
-debuglog::Logger logger("testlog.txt", debuglog::LOG_LEVEL::Trace, gEnableDebugDiagnostics);
+debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, G_ENABLE_DEBUG_DIAGNOSTICS);
 
 // Global Variables:
 //HINSTANCE hInst;                                // current instance
@@ -29,20 +29,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    // Enable run-time memory check for debug builds.
+    #if defined(DEBUG) | defined(_DEBUG)
+        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+    #endif
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    // To enable the console
+    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, G_ENABLE_DEBUG_DIAGNOSTICS, 60,true);
+    
     // Enable/Disable the logging file
-    logger.setLoggingEnabled(gEnableDebugDiagnostics);
+    logger.setLoggingEnabled(G_ENABLE_DEBUG_DIAGNOSTICS);
     logger.info("Program started");
 
-    // To enable the console
-    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, gEnableDebugDiagnostics, 60,true);
-    
     // TODO: Place code here.
     GraphicsManager::Init();
     logger.info("Graphics started");
+
+    std::cout << "Current file: " << __FILE__ << std::endl;
+    std::cout << "Current line: " << __LINE__ << std::endl;
+    std::cout << "Current function: " << __FUNCTION__ << std::endl;  
 
     // Game loop here please change it in the future
     int test = 0;
@@ -50,6 +58,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         glfwPollEvents();
         test++;
+        //std::cout << test << '\n';
 	}
 
     //// Initialize global strings
@@ -88,6 +97,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     logger.fatal("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
 
+    //_CrtDumpMemoryLeaks();
 
     /*return (int) msg.wParam;*/
     return 0;
