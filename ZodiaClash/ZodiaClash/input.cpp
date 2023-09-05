@@ -71,19 +71,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         switch (key) {
         case GLFW_KEY_W:
             keyStateW = GL_TRUE;
-            std::cout << "W" << std::endl;
             break;
         case GLFW_KEY_A:
             keyStateA = GL_TRUE;
-            std::cout << "A" << std::endl;
             break;
         case GLFW_KEY_S:
             keyStateS = GL_TRUE;
-            std::cout << "S" << std::endl;
             break;
         case GLFW_KEY_D:
             keyStateD = GL_TRUE;
-            std::cout << "D" << std::endl;
             break;
         }
     }
@@ -118,11 +114,9 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
         switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
             mouseClickL = GL_TRUE;
-            std::cout << "ML" << std::endl;
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
             mouseClickR = GL_TRUE;
-            std::cout << "MR" << std::endl;
             break;
         }
     }

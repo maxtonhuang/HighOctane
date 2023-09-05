@@ -59,7 +59,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         glfwPollEvents();
         test++;
-        //std::cout << test << '\n';
 	}
 
     //// Initialize global strings
