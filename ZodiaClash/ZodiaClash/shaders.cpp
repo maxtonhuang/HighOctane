@@ -11,6 +11,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	for (auto& p : vec) {
 		std::ifstream shaderfile(p.second, std::ifstream::in);
 		if (!shaderfile) {
+			std::cout << "Unable to find shader file " << p.second << "!\n";
 			return false;
 		}
 
@@ -50,14 +51,17 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	int linkresult;
 	glGetShaderiv(handle, GL_LINK_STATUS, &linkresult);
 	if (linkresult == GL_FALSE) {
+		std::cout << "Unable to link shader!\n";
 		return false;
 	}
 
 	//Validate the program
-	glLinkProgram(handle);
+	//glLinkProgram(handle);
+	glValidateProgram(handle);
 	int validateresult;
 	glGetShaderiv(handle, GL_VALIDATE_STATUS, &validateresult);
 	if (validateresult == GL_FALSE) {
+		std::cout << "Unable to validate shader!\n";
 		return false;
 	}
 

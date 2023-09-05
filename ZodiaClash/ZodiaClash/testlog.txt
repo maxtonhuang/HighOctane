@@ -558,3 +558,57 @@
 2023-09-05 10:33:03 [W] This is a test warning message
 2023-09-05 10:33:03 [E] This is a test error message
 2023-09-05 10:33:03 [F] This is a test fatal message
+2023-09-05 13:50:05 [I] Program started
+2023-09-05 13:50:06 [I] Graphics started
+2023-09-05 13:50:08 [T] This is a test trace message
+2023-09-05 13:50:08 [D] This is a test debug message
+2023-09-05 13:50:08 [I] This is a test info message
+2023-09-05 13:50:08 [W] This is a test warning message
+2023-09-05 13:50:08 [E] This is a test error message
+2023-09-05 13:50:08 [F] This is a test fatal message
+2023-09-05 13:54:43 [I] Program started
+2023-09-05 13:54:44 [I] Graphics started
+2023-09-05 13:54:45 [T] This is a test trace message
+2023-09-05 13:54:45 [D] This is a test debug message
+2023-09-05 13:54:45 [I] This is a test info message
+2023-09-05 13:54:45 [W] This is a test warning message
+2023-09-05 13:54:45 [E] This is a test error message
+2023-09-05 13:54:45 [F] This is a test fatal message
+2023-09-05 13:56:05 [I] Program started
+2023-09-05 13:56:05 [I] Graphics started
+2023-09-05 13:56:39 [I] Program started
+2023-09-05 13:56:39 [I] Graphics started
+2023-09-05 13:59:22 [I] Program started
+2023-09-05 13:59:23 [I] Graphics started
+2023-09-05 13:59:29 [T] This is a test trace message
+2023-09-05 13:59:29 [D] This is a test debug message
+2023-09-05 13:59:29 [I] This is a test info message
+2023-09-05 13:59:29 [W] This is a test warning message
+2023-09-05 13:59:29 [E] This is a test error message
+2023-09-05 13:59:29 [F] This is a test fatal message
+2023-09-05 14:03:36 [I] Program started
+2023-09-05 14:03:36 [I] Graphics started
+2023-09-05 14:05:31 [I] Program started
+2023-09-05 14:05:31 [I] Graphics started
+2023-09-05 14:05:34 [T] This is a test trace message
+2023-09-05 14:05:34 [D] This is a test debug message
+2023-09-05 14:05:34 [I] This is a test info message
+2023-09-05 14:05:34 [W] This is a test warning message
+2023-09-05 14:05:34 [E] This is a test error message
+2023-09-05 14:05:34 [F] This is a test fatal message
+2023-09-05 14:06:08 [I] Program started
+2023-09-05 14:06:09 [I] Graphics started
+2023-09-05 14:06:12 [T] This is a test trace message
+2023-09-05 14:06:12 [D] This is a test debug message
+2023-09-05 14:06:12 [I] This is a test info message
+2023-09-05 14:06:12 [W] This is a test warning message
+2023-09-05 14:06:12 [E] This is a test error message
+2023-09-05 14:06:12 [F] This is a test fatal message
+2023-09-05 14:16:49 [I] Program started
+2023-09-05 14:16:50 [I] Graphics started
+2023-09-05 14:16:55 [T] This is a test trace message
+2023-09-05 14:16:55 [D] This is a test debug message
+2023-09-05 14:16:55 [I] This is a test info message
+2023-09-05 14:16:55 [W] This is a test warning message
+2023-09-05 14:16:55 [E] This is a test error message
+2023-09-05 14:16:55 [F] This is a test fatal message
