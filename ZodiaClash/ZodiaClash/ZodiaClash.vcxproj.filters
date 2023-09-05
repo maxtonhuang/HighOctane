@@ -108,6 +108,9 @@
     <ClInclude Include="message.h">
       <Filter>Header Files\EngineArchitecture</Filter>
     </ClInclude>
+    <ClInclude Include="ecsfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZodiaClash.cpp">
@@ -147,6 +150,9 @@
       <Filter>Source Files\EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ecsfactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
