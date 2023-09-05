@@ -612,3 +612,19 @@
 2023-09-05 14:16:55 [W] This is a test warning message
 2023-09-05 14:16:55 [E] This is a test error message
 2023-09-05 14:16:55 [F] This is a test fatal message
+2023-09-05 14:38:05 [I] Program started
+2023-09-05 14:38:05 [I] Graphics started
+2023-09-05 14:38:07 [T] This is a test trace message
+2023-09-05 14:38:07 [D] This is a test debug message
+2023-09-05 14:38:07 [I] This is a test info message
+2023-09-05 14:38:07 [W] This is a test warning message
+2023-09-05 14:38:07 [E] This is a test error message
+2023-09-05 14:38:07 [F] This is a test fatal message
+2023-09-05 14:43:54 [I] Program started
+2023-09-05 14:43:55 [I] Graphics started
+2023-09-05 14:43:56 [T] This is a test trace message
+2023-09-05 14:43:56 [D] This is a test debug message
+2023-09-05 14:43:56 [I] This is a test info message
+2023-09-05 14:43:56 [W] This is a test warning message
+2023-09-05 14:43:56 [E] This is a test error message
+2023-09-05 14:43:56 [F] This is a test fatal message
