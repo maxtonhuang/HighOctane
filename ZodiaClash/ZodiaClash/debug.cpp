@@ -36,9 +36,6 @@ Maybe rotating of log file, now it only changes the file name to old
 
 #define MAX_FILE_SIZE 1048576 // 1MB
 
-// Define this to enable debug diagnostics
-int gEnableDebugDiagnostics = G_ENABLE_DEBUG_DIAGNOSTICS;
-
 namespace debuglog {
 
 	// Logger
@@ -79,36 +76,36 @@ namespace debuglog {
 
 			// Log it
 			logFile << timeStamp << " [" << levels << "] " << message << "\n";
+			std::cout << timeStamp << " [" << levels << "] " << message << "\n";
 		}
 		rotateLogFile(MAX_FILE_SIZE);
 	}
-
-	void Logger::trace(const std::string& message) {
+	void Logger::trace(const std::string&message) {
 		// Call the log function with TRACE log level
 		log(LOG_LEVEL::Trace, message);
 	}
 
-	void Logger::debug(const std::string& message) {
+	void Logger::debug(const std::string &message) {
 		// Call the log function with DEBUG log level
 		log(LOG_LEVEL::Debug, message);
 	}
 
-	void Logger::info(const std::string& message) {
+	void Logger::info(const std::string &message) {
 		// Call the log function with INFO log level
 		log(LOG_LEVEL::Info, message);
 	}
 
-	void Logger::warning(const std::string& message) {
+	void Logger::warning(const std::string &message) {
 		// Call the log function with WARNING log level
 		log(LOG_LEVEL::Warning, message);
 	}
 
-	void Logger::error(const std::string& message) {
+	void Logger::error(const std::string &message) {
 		// Call the log function with ERROR log level
 		log(LOG_LEVEL::Error, message);
 	}
 
-	void Logger::fatal(const std::string& message) {
+	void Logger::fatal(const std::string &message) {
 		// Call the log function with FATAL log level
 		log(LOG_LEVEL::Fatal, message);
 	}
@@ -227,6 +224,7 @@ namespace debuglog {
 		}
 
 	}
+
 
 }
 
