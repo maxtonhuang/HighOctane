@@ -151,6 +151,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="debug.h" />
     <ClInclude Include="frameratecontroller.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gamestatemanager.h" />
@@ -159,7 +160,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClInclude Include="input.h" />
     <ClInclude Include="mmath.h" />
     <ClInclude Include="model.h" />
-    <ClInclude Include="physic.h" />
+    <ClInclude Include="physics.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="shaders.h" />
     <ClInclude Include="targetver.h" />
@@ -167,6 +168,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug.cpp" />
     <ClCompile Include="frameratecontroller.cpp" />
     <ClCompile Include="gamestatemanager.cpp" />
     <ClCompile Include="graphics.cpp" />
