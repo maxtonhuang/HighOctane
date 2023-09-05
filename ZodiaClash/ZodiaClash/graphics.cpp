@@ -56,7 +56,7 @@ void GraphicsManager::Init() {
 
     if (shaderprogram.Compile(shadervector) == false) {
         std::cout << "Unable to compile shader program! Exiting...\n";
-        std::exit(EXIT_FAILURE);
+        //std::exit(EXIT_FAILURE);
     }
 
     shaderprogram.Use();

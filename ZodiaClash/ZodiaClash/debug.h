@@ -19,7 +19,8 @@
 #include <string>
 #include <fstream>
 #include "vmath.h"
-#include <chrono>
+#include <chrono>	
+
 
 // Move this together with the bottom code please thank you to either engine or graphics
 #include "framework.h"
@@ -30,12 +31,11 @@
 #if !defined(G_ENABLE_DEBUG_DIAGNOSTICS) 
 #   if defined(_DEBUG)
 #       define G_ENABLE_DEBUG_DIAGNOSTICS 1
+
 #   else
 #       define G_ENABLE_DEBUG_DIAGNOSTICS 0
 #   endif
 #endif
-
-extern int gEnableDebugDiagnostics;
 
 namespace debuglog {
 
@@ -52,7 +52,6 @@ namespace debuglog {
 		public:
 			Logger(const std::string &logFileName = "testlog.txt", LOG_LEVEL level = LOG_LEVEL::Trace, bool loggingEnabled = true);
 			~Logger();
-
 			
 			void trace(const std::string& message);
 			void debug(const std::string& message);
@@ -60,7 +59,6 @@ namespace debuglog {
 			void warning(const std::string &message);
 			void error(const std::string &message);
 			void fatal(const std::string &message);
-
 
 			void rotateLogFile(size_t maxFileSize);
 
@@ -81,9 +79,6 @@ namespace debuglog {
 			LOG_LEVEL currentLogLevel;
 
 			bool loggingEnabled;
-
-
-
 	};
 
 	//Implement these functions to control how errors and
@@ -97,4 +92,5 @@ namespace debuglog {
 	// Create console
 
 	void zcSysInit(_In_ HINSTANCE hInstance, _In_ int nCmdShow, int windowWidth, int windowHeight, bool createConsole, int maxFrameRate, bool vSync);
+
 }
