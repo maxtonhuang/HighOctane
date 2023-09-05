@@ -6,6 +6,7 @@
 #include "graphics.h"
 #include "debug.h"
 #include "input.h"
+#include "texture.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -47,6 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // TODO: Place code here.
     GraphicsManager::Init();
+
     logger.info("Graphics started");
 
     std::cout << "Current file: " << __FILE__ << std::endl;
@@ -58,6 +60,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     while (!GraphicsManager::WindowClosed())
     {
         glfwPollEvents();
+        GraphicsManager::Draw();
         test++;
 	}
 

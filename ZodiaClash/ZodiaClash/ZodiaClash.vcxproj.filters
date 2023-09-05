@@ -95,6 +95,9 @@
     <ClInclude Include="collision.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -131,6 +134,9 @@
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">

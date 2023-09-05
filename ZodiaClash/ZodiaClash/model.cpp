@@ -4,7 +4,9 @@
 
 Model::Model() {
 	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	color = glm::vec3{ 1,0,0 };
+	color = glm::vec3{ 1,1,1 };
+	//tex = new Texture("../Assets/Textures/test.png");
+	//Texture test_texture("../Assets/Textures/test.png");
 }
 
 void Model::Update() {
@@ -12,6 +14,10 @@ void Model::Update() {
 }
 
 void Model::Draw() {
+	glBindTexture(GL_TEXTURE_2D, 1);
+	glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
 	glBindVertexArray(GraphicsManager::GetVAOInfo().id);
 
 	//Pass matrix to shader
@@ -32,8 +38,19 @@ void Model::Draw() {
 		glUniform3fv(uniform_var_color, 1, glm::value_ptr(color));
 	}
 	else {
-		std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-		std::cout << "Please check vertex shader!\n";
+		std::cout << "Uniform variable uColor doesn't exist!\n";
+		std::cout << "Please check fragment shader!\n";
+		std::exit(EXIT_FAILURE);
+	}
+
+	GLint uniform_var_tex = glGetUniformLocation(
+		(GraphicsManager::GetShader()).GetHandle(), "uTex2d");
+	if (uniform_var_color >= 0) {
+		glUniform3fv(uniform_var_color, 1, glm::value_ptr(color));
+	}
+	else {
+		std::cout << "Uniform variable uColor doesn't exist!\n";
+		std::cout << "Please check fragment shader!\n";
 		std::exit(EXIT_FAILURE);
 	}
 

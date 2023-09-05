@@ -11,6 +11,7 @@ Shader GraphicsManager::shaderprogram;
 GraphicsManager::VAOInfo GraphicsManager::vao;
 
 Model test;
+Texture test_tex;
 
 void GraphicsManager::Init() {
     //TEMPORARY INITIALISATION, TO BE READ FROM FILE
@@ -40,7 +41,7 @@ void GraphicsManager::Init() {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     //Set default background colour
-    glClearColor(0.f, 1.f, 0.f, 1.f);
+    glClearColor(0.f, 0.f, 0.f, 1.f);
 
     //Create viewport
     glViewport(0, 0, width, height);
@@ -64,6 +65,8 @@ void GraphicsManager::Init() {
     //Create square VAO for use in drawing
     CreateVAO();
 
+    test_tex.Init("../Assets/Textures/test.png");
+
     //TEMP
     Draw();
 }
@@ -85,10 +88,10 @@ void GraphicsManager::CreateVAO() {
     std::vector<Vertex> vtx_array{};
     std::vector<GLushort> idx_vtx{};
 
-    vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,0) });
-    vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,1) });
-    vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,0) });
-    vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,1) });
+    vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
+    vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
+    vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
+    vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
 
     //Buffer for vertex order
     idx_vtx.push_back(3);

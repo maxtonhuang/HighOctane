@@ -4,7 +4,9 @@
 #include <glfw-3.3.8.bin.WIN64/include/GLFW/glfw3.h>
 #include <glm-0.9.9.8/glm/glm.hpp>
 #include "graphics.h"
-#include "shaders.h"
+#include "texture.h"
+
+class Texture;
 
 class Model {
 public:
@@ -12,6 +14,7 @@ public:
 	void Update();
 	void Draw();
 private:
+	Texture* tex{};
 	glm::mat3 matrix{};
 	glm::vec3 color{};
 };
