@@ -93,6 +93,15 @@
     <ClInclude Include="enginecore.h">
       <Filter>Header Files\EngineArchitecture</Filter>
     </ClInclude>
+    <ClInclude Include="factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="system.h">
+      <Filter>Header Files\EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
+      <Filter>Header Files\EngineArchitecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZodiaClash.cpp">
@@ -124,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="enginecore.cpp">
       <Filter>Source Files\EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="factory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,10 +7,12 @@
 #include "framework.h"
 #include "ZodiaClash.h"
 #include "graphics.h"
+#include "enginecore.h" 
+
 
 #define MAX_LOADSTRING 100
 
-
+using namespace Architecture;
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
@@ -35,11 +37,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     GraphicsManager::Init();
 
 
+    // Max
 
+    {
+
+        EngineCore* engine = new EngineCore();
+
+
+
+
+
+
+
+    }
 
     // 
 
-    
+    /*
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_ZODIACLASH, szWindowClass, MAX_LOADSTRING);
@@ -55,6 +69,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     MSG msg;
 
+
+    // ////////// INTERCEPT MESSAGE HERE.
+    // 
+    // 
     // Main message loop:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
@@ -66,9 +84,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
     
     return (int) msg.wParam;
+    */
 }
 
-
+/*
 
 //
 //  FUNCTION: MyRegisterClass()
@@ -191,3 +210,4 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
+*/
