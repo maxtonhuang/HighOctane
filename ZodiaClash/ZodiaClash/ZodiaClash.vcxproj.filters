@@ -90,6 +90,12 @@
     <ClInclude Include="input.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="enginecore.h">
       <Filter>Header Files\EngineArchitecture</Filter>
     </ClInclude>
@@ -130,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="enginecore.cpp">
       <Filter>Source Files\EngineArchitecture</Filter>
