@@ -71,15 +71,19 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         switch (key) {
         case GLFW_KEY_W:
             keyStateW = GL_TRUE;
+            test_model.AddPos(0, 100);
             break;
         case GLFW_KEY_A:
             keyStateA = GL_TRUE;
+            test_model.AddPos(-100, 0);
             break;
         case GLFW_KEY_S:
             keyStateS = GL_TRUE;
+            test_model.AddPos(0, -100);
             break;
         case GLFW_KEY_D:
             keyStateD = GL_TRUE;
+            test_model.AddPos(100, 0);
             break;
         }
     }

@@ -2,8 +2,10 @@
 
 /*                                                                   includes
 ----------------------------------------------------------------------------- */
-#include <glfw-3.3.8.bin.WIN64/include/GLFW/glfw3.h>
+//#include <glfw-3.3.8.bin.WIN64/include/GLFW/glfw3.h>
 #include <string>
+#include "graphics.h"
+//#include "model.h"
 
 class InputManager {
 	public:
