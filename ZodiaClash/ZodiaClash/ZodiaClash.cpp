@@ -12,6 +12,7 @@
 #include "enginecore.h" 
 #include "message.h"
 #include "texture.h"
+#include "debugdiagnostic.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -51,9 +52,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // To enable the console
     debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, G_ENABLE_DEBUG_DIAGNOSTICS, 60,true);
-    
-    // Enable/Disable the logging file
-    logger.setLoggingEnabled(G_ENABLE_DEBUG_DIAGNOSTICS);
     logger.info("Program started");
 
     // TODO: Place code here.
