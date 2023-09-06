@@ -28,12 +28,12 @@
 // Define this to enable debug diagnostics
 // In debug mode, the logging tools will run
 // In release mode, it won't
-#if !defined(G_ENABLE_DEBUG_DIAGNOSTICS) 
+#if !defined(ENABLE_DEBUG_DIAG) 
 #   if defined(_DEBUG)
-#       define G_ENABLE_DEBUG_DIAGNOSTICS 1
+#       define ENABLE_DEBUG_DIAG 1
 
 #   else
-#       define G_ENABLE_DEBUG_DIAGNOSTICS 0
+#       define ENABLE_DEBUG_DIAG 0
 #   endif
 #endif
 
@@ -50,6 +50,7 @@ namespace debuglog {
 
 	class Logger {
 		public:
+			Logger();
 			Logger(const std::string &logFileName = "testlog.txt", LOG_LEVEL level = LOG_LEVEL::Trace, bool loggingEnabled = true);
 			~Logger();
 			

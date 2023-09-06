@@ -40,6 +40,22 @@ Maybe rotating of log file, now it only changes the file name to old
 
 namespace debuglog {
 
+	// Constructor
+	Logger::Logger() {
+		currentLogFileName = "testlog.txt";
+		this->currentLogLevel = LOG_LEVEL::Trace;
+		this->loggingEnabled = true;
+		
+		// Open the file
+		logFile.open(currentLogFileName, std::ios::out | std::ios::app);
+
+		// If logfile cannot open for some reason
+		if (!logFile) {
+			std::cerr << "Error opening file" << "\n";
+			exit(1);
+		}
+	}
+
 	// Logger
 	Logger::Logger(const std::string &logFileName, LOG_LEVEL level, bool loggingEnabled) {
 
