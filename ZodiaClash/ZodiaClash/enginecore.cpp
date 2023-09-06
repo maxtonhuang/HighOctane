@@ -1,7 +1,6 @@
 
 #include "enginecore.h"
 #include <windows.h>
-//#pragma comment(lib, "winmm.lib")
 
 
 namespace Architecture {
