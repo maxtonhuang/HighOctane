@@ -13,26 +13,12 @@ namespace Architecture {
     public:
 
         void CreateEntity(/*attributes*/);
-
+        void DeleteEntity(size_t entityID);
         void DeleteAllEntities();
 
     private:
         
         /////////// COMPONENTS ///////////
-
-        // Define a component structure for position
-        struct Position {
-            float x, y;
-
-            Position(float _x, float _y) : x(_x), y(_y) {}
-        };
-
-        // Define a component structure for rendering
-        struct Renderable {
-            std::string sprite;
-
-            Renderable(const std::string& _sprite) : sprite(_sprite) {}
-        };
 
         // Define a component structure for user input
         struct Input {
@@ -41,17 +27,52 @@ namespace Architecture {
             Input() : left(false), right(false), up(false), down(false) {}
         };
 
-        // Define a component structure for AI
-        struct AI {
-            bool active;
-
-            AI() : active(true) {}
+        struct Position {
+            double _x, _y;
         };
-        
 
+        struct Collider {
+            // bounding box
+        };
 
+        struct PhysicalAttributes {
+            // velocity
+            // movement
+            // direction
+            // acceleration
+        };
 
+        struct AI {
+            // enums for AI Behaviour
+        };
 
+        struct Animation {
+
+        };
+
+        struct Audio {
+            // Audio File
+        };
+
+        struct Timers {
+            // timers for animation and cooldowns
+        };
+
+        struct StatusEffects {
+            // buffs/debuffs
+        };
+
+        struct Health {
+
+        };
+
+        struct UI {
+
+        };
+
+        struct Transform {
+            // for transforming meshes
+        };
 
         ////////// ENTITIES ///////////
 
@@ -59,20 +80,19 @@ namespace Architecture {
 
         // Define an entity structure
         struct Entity {
-            Position* position;
-            Renderable* renderable;
             Input* input;
+            Position* position;
+            Collider* collider;
+            PhysicalAttributes* physicalAttributes;
             AI* ai;
+            Animation* animation;
+            Audio* audio;
+            Timers* timers;
+            StatusEffects* statusEffects;
+            Health* health;
+            UI* ui;
+            Transform* transform;            
         };
-
-        // array to contain IDs that correspond to the respective systems
-        std::vector<unsigned int> physicsEntities;
-        std::vector<unsigned int> aEntities;
-        std::vector<unsigned int> bEntities;
-        std::vector<unsigned int> cEntities;
-        std::vector<unsigned int> dEntities;
-        std::vector<unsigned int> eEntities;
-        std::vector<unsigned int> fEntities;
 
         std::vector<Entity> entities;
 
