@@ -28,11 +28,13 @@ Maybe rotating of log file, now it only changes the file name to old
 
 *//*______________________________________________________________________*/
 
-#include "debug.h"
+#include "debuglog.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <ctime>
+
+
 
 #define MAX_FILE_SIZE 1048576 // 1MB
 

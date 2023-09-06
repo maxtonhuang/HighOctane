@@ -62,9 +62,6 @@
     <ClInclude Include="commonheaderfilelist.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="debug.h">
-      <Filter>Debug</Filter>
-    </ClInclude>
     <ClInclude Include="frameratecontroller.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
@@ -95,6 +92,12 @@
     <ClInclude Include="collision.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="debuglog.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="debugdiagnostic.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -112,7 +115,7 @@
     <ClCompile Include="gamestatemanager.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
-    <ClCompile Include="debug.cpp">
+    <ClCompile Include="debuglog.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
     <ClCompile Include="graphics.cpp">
@@ -131,6 +134,9 @@
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="debugdiagnostic.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">
