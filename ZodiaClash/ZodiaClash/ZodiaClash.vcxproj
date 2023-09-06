@@ -152,6 +152,8 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="collision.h" />
+    <ClInclude Include="debugdiagnostic.h" />
+    <ClInclude Include="debuglog.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="ecsfactory.h" />
     <ClInclude Include="enginecore.h" />
@@ -175,6 +177,8 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="collision.cpp" />
+    <ClCompile Include="debugdiagnostic.cpp" />
+    <ClCompile Include="debuglog.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="ecsfactory.cpp" />
     <ClCompile Include="enginecore.cpp" />

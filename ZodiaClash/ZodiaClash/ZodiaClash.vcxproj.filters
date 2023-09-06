@@ -19,6 +19,96 @@
     <ClCompile Include="message.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ZodiaClash.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="commonheaderfilelist.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="frameratecontroller.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestatemanager.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="mmath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vmath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="debuglog.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="debugdiagnostic.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mmath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="vmath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="frameratecontroller.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestatemanager.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="debuglog.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="debugdiagnostic.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
     <ClInclude Include="collision.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="ecsfactory.h" />

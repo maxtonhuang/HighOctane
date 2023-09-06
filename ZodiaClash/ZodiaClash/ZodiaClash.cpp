@@ -7,7 +7,7 @@
 #include "framework.h"
 #include "ZodiaClash.h"
 #include "graphics.h"
-#include "debug.h"
+#include "debuglog.h"
 #include "input.h"
 #include "enginecore.h" 
 #include "message.h"
