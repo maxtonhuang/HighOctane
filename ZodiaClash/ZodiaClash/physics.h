@@ -1,8 +1,8 @@
 //#pragma once
 //#include <vector>
-//#include "vmath.h"
-//#include "collision.h"
-//#include "body.h"
+//#include "VMath.h"
+//#include "Collision.h"
+//#include "Body.h"
 //
 ///*
 //* TODO:

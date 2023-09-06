@@ -34,8 +34,8 @@ TO DO maybe
 *//*______________________________________________________________________*/
 #pragma once
 
-#include "commonheaderfilelist.h"
-#include "vmath.h"
+#include "CommonHeaderFileList.h"
+#include "VMath.h"
 
 #include <cmath>
 #include <iostream>

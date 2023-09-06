@@ -1,5 +1,5 @@
-#include "graphics.h"
-#include "input.h"
+#include "Graphics.h"
+#include "Input.h"
 #include <iostream>
 
 Model test_model;

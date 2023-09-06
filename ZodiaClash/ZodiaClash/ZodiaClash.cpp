@@ -4,15 +4,14 @@
 
 ////////// MAIN ///////////
 
-#include "framework.h"
+#include "Framework.h"
 #include "ZodiaClash.h"
-#include "graphics.h"
-#include "debuglog.h"
-#include "input.h"
-#include "enginecore.h" 
-#include "message.h"
-#include "texture.h"
-#include "debugdiagnostic.h"
+#include "Graphics.h"
+#include "DebugLog.h"
+#include "Input.h"
+#include "EngineCore.h" 
+#include "Message.h"
+#include "Texture.h"
 
 //#define MAX_LOADSTRING 100
 

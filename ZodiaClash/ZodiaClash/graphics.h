@@ -1,6 +1,6 @@
 #pragma once
-#include "shaders.h"
-#include "model.h"
+#include "Shaders.h"
+#include "Model.h"
 
 class GraphicsManager {
 public:

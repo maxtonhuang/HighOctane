@@ -18,12 +18,12 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "vmath.h"
+#include "VMath.h"
 #include <chrono>	
 
 
 // Move this together with the bottom code please thank you to either engine or graphics
-#include "framework.h"
+#include "Framework.h"
 
 // Define this to enable debug diagnostics
 // In debug mode, the logging tools will run

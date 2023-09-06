@@ -22,7 +22,7 @@ Angle between two vectors
 Test between Object 1, Object 2 and the range
 
 *//*______________________________________________________________________*/
-#include "vmath.h"
+#include "VMath.h"
 
 namespace vmath {
 

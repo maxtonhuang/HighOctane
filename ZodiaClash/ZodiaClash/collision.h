@@ -1,7 +1,7 @@
 //#pragma once
 //#include <vector>
-//#include "vmath.h"
-//#include "body.h"
+//#include "VMath.h"
+//#include "Body.h"
 //namespace physics {
 //
 //	/*

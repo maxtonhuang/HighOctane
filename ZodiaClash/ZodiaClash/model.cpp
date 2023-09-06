@@ -1,5 +1,5 @@
-#include "model.h"
-#include "graphics.h"
+#include "Model.h"
+#include "Graphics.h"
 #include <glm-0.9.9.8/glm/gtc/type_ptr.hpp> //for value_ptr
 #include <iostream>
 

@@ -28,7 +28,7 @@ Maybe rotating of log file, now it only changes the file name to old
 
 *//*______________________________________________________________________*/
 
-#include "debuglog.h"
+#include "DebugLog.h"
 #include <iostream>
 #include <string>
 #include <fstream>

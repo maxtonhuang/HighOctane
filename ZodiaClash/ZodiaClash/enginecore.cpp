@@ -1,6 +1,6 @@
 
-#include "enginecore.h"
-#include <windows.h>
+#include "EngineCore.h"
+#include <Windows.h>
 
 
 namespace Architecture {

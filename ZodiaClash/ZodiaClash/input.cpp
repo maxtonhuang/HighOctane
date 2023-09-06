@@ -1,7 +1,7 @@
 
 /*                                                                   includes
 ----------------------------------------------------------------------------- */
-#include "input.h"
+#include "Input.h"
 #include <iostream>
 
 /*                                                   objects with file scope
