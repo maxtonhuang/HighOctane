@@ -126,7 +126,7 @@ namespace Architecture {
 void ECS::CreateEntity(/*attributes*/) {
     Entity tempEntity = {/*attributes*/ };
     entities.emplace_back(tempEntity);
-    ++tempEntity.id;
+    ++entityID;
 }
 
 void ECS::DeleteAllEntities() {

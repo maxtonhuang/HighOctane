@@ -9,7 +9,7 @@ namespace Architecture {
 	
     
 	// Define message types
-    enum class MessageType { Collision, Input, GameEvent, KeyDown, KeyUp, MouseClick, WindowResize, CustomEvent };
+    enum class MessageType { Collision, Input, GameEvent, KeyDown, KeyUp, MouseClick, WindowResize, CustomEvent, Quit };
 
 
     // Define a message structure

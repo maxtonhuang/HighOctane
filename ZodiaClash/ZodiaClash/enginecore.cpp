@@ -1,7 +1,7 @@
 
 #include "enginecore.h"
-#include "windows.h"
-
+#include <windows.h>
+//#pragma comment(lib, "winmm.lib")
 
 
 namespace Architecture {
@@ -31,7 +31,7 @@ namespace Architecture {
 
 		while (gameActive) {
 
-			size_t currentTime = timeGetTime();
+			unsigned int currentTime = timeGetTime();
 
 			double dt = (currentTime - previousTime) / 1000.0;
 
@@ -48,7 +48,7 @@ namespace Architecture {
 
 
 	void EngineCore::BroadcastMessage(Message* message) {
-		if (message->MessageId == Quit) {
+		if (message->type == MessageType::Quit) {
 			gameActive = false;
 		}
 

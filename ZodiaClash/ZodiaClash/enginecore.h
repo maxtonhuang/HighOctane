@@ -27,7 +27,7 @@ namespace Architecture {
 
 		std::vector<ISystem*> Systems;
 
-		size_t previousTime;
+		unsigned int previousTime;
 
 		bool gameActive;
 

@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="collision.cpp" />
-    <ClCompile Include="debug.cpp" />
     <ClCompile Include="ecsfactory.cpp" />
     <ClCompile Include="enginecore.cpp" />
     <ClCompile Include="factory.cpp" />
@@ -17,59 +16,27 @@
     <ClCompile Include="physics.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
     <ClCompile Include="message.cpp" />
+    <ClCompile Include="debugdiagnostic.cpp" />
+    <ClCompile Include="debuglog.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ZodiaClash.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="commonheaderfilelist.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="frameratecontroller.h">
-      <Filter>EngineArchitecture</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestatemanager.h">
-      <Filter>EngineArchitecture</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="model.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="shaders.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="mmath.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="vmath.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="physics.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="collision.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="debuglog.h">
-      <Filter>Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="debugdiagnostic.h">
-      <Filter>Debug</Filter>
-    </ClInclude>
+    <ClInclude Include="collision.h" />
+    <ClInclude Include="debugdiagnostic.h" />
+    <ClInclude Include="debuglog.h" />
+    <ClInclude Include="frameratecontroller.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="gamestatemanager.h" />
+    <ClInclude Include="commonheaderfilelist.h" />
+    <ClInclude Include="graphics.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="mmath.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="physics.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="shaders.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="vmath.h" />
+    <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -87,9 +54,6 @@
     <ClCompile Include="gamestatemanager.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
-    <ClCompile Include="debuglog.cpp">
-      <Filter>Debug</Filter>
-    </ClCompile>
     <ClCompile Include="graphics.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -106,11 +70,7 @@
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="ZodiaClash.cpp" />
-    <ClCompile Include="debugdiagnostic.cpp">
-      <Filter>Debug</Filter>
-    </ClCompile>
     <ClInclude Include="collision.h" />
-    <ClInclude Include="debug.h" />
     <ClInclude Include="ecsfactory.h" />
     <ClInclude Include="enginecore.h" />
     <ClInclude Include="factory.h" />

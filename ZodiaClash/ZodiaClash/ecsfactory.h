@@ -55,9 +55,10 @@ namespace Architecture {
 
         ////////// ENTITIES ///////////
 
+        size_t entityID{ 0 };
+
         // Define an entity structure
         struct Entity {
-            static int id;
             Position* position;
             Renderable* renderable;
             Input* input;
