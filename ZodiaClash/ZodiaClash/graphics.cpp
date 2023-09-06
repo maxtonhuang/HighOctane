@@ -2,6 +2,9 @@
 #include "input.h"
 #include <iostream>
 
+Model test_model;
+Texture test_tex;
+
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
 GLFWwindow* GraphicsManager::window;
@@ -10,13 +13,10 @@ int GraphicsManager::height;
 Shader GraphicsManager::shaderprogram;
 GraphicsManager::VAOInfo GraphicsManager::vao;
 
-Model test;
-Texture test_tex;
-
 void GraphicsManager::Init() {
     //TEMPORARY INITIALISATION, TO BE READ FROM FILE
-    width = 1024;
-    height = 768;
+    width = 1024 * 2;
+    height = 768 * 2;
 
     glfwInit();
 
@@ -41,7 +41,7 @@ void GraphicsManager::Init() {
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     //Set default background colour
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClearColor(1.f, 0.f, 0.f, 1.f);
 
     //Create viewport
     glViewport(0, 0, width, height);
@@ -65,8 +65,8 @@ void GraphicsManager::Init() {
     //Create square VAO for use in drawing
     CreateVAO();
 
-    test_tex.Init("../Assets/Textures/test.png");
-
+    test_tex.Init("../Assets/Textures/cat.png");
+    test_model.AttachTexture(test_tex);
     //TEMP
     Draw();
 }
@@ -79,7 +79,8 @@ void GraphicsManager::Cleanup() {
 void GraphicsManager::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    test.Draw();
+    test_model.Update();
+    test_model.Draw();
 
     glfwSwapBuffers(window);
 }
@@ -149,4 +150,12 @@ const Shader& GraphicsManager::GetShader() {
 
 bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
+}
+
+double GraphicsManager::GetWidth() {
+    return (double)width;
+}
+
+double GraphicsManager::GetHeight() {
+    return (double)height;
 }

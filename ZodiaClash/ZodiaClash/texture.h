@@ -1,5 +1,5 @@
 #pragma once
-#include "graphics.h"
+#include "graphlib.h"
 
 const int channelnum = 4;
 
@@ -9,6 +9,10 @@ public:
 	~Texture();
 	void Init(char const*);
 	GLuint GetID();
+	bool IsActive();
+
+	int GetWidth();
+	int GetHeight();
 private:
 	GLuint id{};
 	int width{};

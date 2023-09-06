@@ -98,6 +98,9 @@
     <ClInclude Include="texture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="graphlib.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
