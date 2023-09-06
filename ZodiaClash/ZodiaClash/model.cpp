@@ -4,7 +4,7 @@
 #include <iostream>
 
 Model::Model() {
-	color = glm::vec3{ 1,1,1 };
+	color = glm::vec4{ 1,1,1,1 };
 	pos = glm::vec2{ 0,0 };
 	tex = nullptr;
 	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
@@ -14,7 +14,7 @@ Model::Model() {
 }
 
 Model::Model(Texture& input) {
-	color = glm::vec3{ 1,1,1 };
+	color = glm::vec4{ 1,1,1,1 };
 	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
 	pos = glm::vec2{ 0,0 };
 	scale = glm::vec2{ 1,1 };
@@ -63,7 +63,7 @@ void Model::Draw() {
 	GLint uniform_var_color = glGetUniformLocation(
 		(GraphicsManager::GetShader()).GetHandle(), "uColor");
 	if (uniform_var_color >= 0) {
-		glUniform3fv(uniform_var_color, 1, glm::value_ptr(color));
+		glUniform4fv(uniform_var_color, 1, glm::value_ptr(color));
 	}
 	else {
 		std::cout << "Uniform variable uColor doesn't exist!\n";

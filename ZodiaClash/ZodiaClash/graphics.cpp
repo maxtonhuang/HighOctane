@@ -65,8 +65,13 @@ void GraphicsManager::Init() {
     //Create square VAO for use in drawing
     CreateVAO();
 
+    //Enable alpha
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
     test_tex.Init("../Assets/Textures/cat.png");
     test_model.AttachTexture(test_tex);
+
     //TEMP
     Draw();
 }

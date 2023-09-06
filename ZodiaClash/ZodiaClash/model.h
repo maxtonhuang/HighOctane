@@ -21,5 +21,5 @@ private:
 
 	Texture* tex{};
 	glm::mat3 matrix{};
-	glm::vec3 color{};
+	glm::vec4 color{};
 };
