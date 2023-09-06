@@ -11,6 +11,7 @@
 #include "input.h"
 #include "enginecore.h" 
 #include "message.h"
+#include "texture.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -57,6 +58,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // TODO: Place code here.
     GraphicsManager::Init();
+
     logger.info("Graphics started");
 
 
@@ -92,6 +94,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     while (!GraphicsManager::WindowClosed())
     {
         glfwPollEvents();
+        GraphicsManager::Draw();
         test++;
 	}
 
