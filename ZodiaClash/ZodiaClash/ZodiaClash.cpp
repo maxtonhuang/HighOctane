@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "input.h"
 #include "enginecore.h" 
+#include "message.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -44,6 +45,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
+    
+
+
     // To enable the console
     debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, G_ENABLE_DEBUG_DIAGNOSTICS, 60,true);
     
@@ -58,7 +62,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Max
 
-    {
 
         EngineCore* engine = new EngineCore();
 
@@ -68,7 +71,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-    }
+
 
     // 
 
@@ -125,6 +128,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     return (int) msg.wParam;
     */
+
+
+
+    MSG msg;
+    while (GetMessage(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))
@@ -217,6 +228,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 ////  WM_DESTROY  - post a quit message and return
 ////
 ////
+// 
+// 
+
+
+
+// Windows event handler
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    switch (uMsg) {
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+    case WM_LBUTTONDOWN:
+        // Handle other Windows events...
+        ConvertWindowsEventToMessage(uMsg);
+        return 0;
+        // Handle other Windows events...
+    default:
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+}
+
+
 //LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //{
 //    switch (message)

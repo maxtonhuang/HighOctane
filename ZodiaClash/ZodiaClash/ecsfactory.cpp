@@ -1,4 +1,4 @@
-#include "ecs.h"
+#include "ecsfactory.h"
 
 #include <iostream>
 #include <vector>
@@ -11,7 +11,10 @@
 
 */
 
-namespace ECS {
+namespace Architecture {
+
+
+    
 
 
     /*
@@ -79,7 +82,7 @@ namespace ECS {
         Entity entity2 = { 2, new Position(1.0f, 1.0f), nullptr, new Input(), nullptr };
 
         // Add entities to the ECS
-        std::vector<Entity> entities;
+        std::vector<Entity> entities; <----------------------------------
         entities.push_back(entity1);
         entities.push_back(entity2);
 
@@ -116,5 +119,20 @@ namespace ECS {
     }
     */
 
+
+
+    // Create new entity and add to the entity list.
+
+void ECS::CreateEntity(/*attributes*/) {
+    Entity tempEntity = {/*attributes*/ };
+    entities.emplace_back(tempEntity);
+    ++tempEntity.id;
+}
+
+void ECS::DeleteAllEntities() {
+    for (Entity val : entities) {
+        /* Delete Each Attribute */
+    }
+}
 
 }

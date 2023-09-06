@@ -1,8 +1,41 @@
 #pragma once
 
+#include <Windows.h>
+#include <list>
 
 
 namespace Architecture {
+
+	
+    
+	// Define message types
+    enum class MessageType { Collision, Input, GameEvent, KeyDown, KeyUp, MouseClick, WindowResize, CustomEvent };
+
+
+    // Define a message structure
+    struct Message {
+        MessageType type;
+        int senderEntityID;
+        int recipientEntityID;
+        // Additional message data
+    };
+
+	void ConvertWindowsEventToMessage(unsigned int uMsg);
+
+	
+
+
+
+
+    
+
+
+
+
+
+
+	/*
+
 	enum MessageIdType {
 		None,
 		Quit,
@@ -20,4 +53,7 @@ namespace Architecture {
 		MessageIdType MessageId;
 		virtual ~Message() {};
 	};
+
+	*/
 }
+

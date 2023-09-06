@@ -183,6 +183,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClCompile Include="gamestatemanager.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="message.cpp" />
     <ClCompile Include="mmath.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="shaders.cpp" />
