@@ -1,7 +1,7 @@
 #pragma once
 
-#include "graphlib.h"
-#include "texture.h"
+#include "GraphLib.h"
+#include "Texture.h"
 
 class Texture;
 

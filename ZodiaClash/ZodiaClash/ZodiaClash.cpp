@@ -1,17 +1,25 @@
 // ZodiaClash.cpp : Defines the entry point for the application.
 //
 
-#include "framework.h"
+
+////////// MAIN ///////////
+
+#include "Framework.h"
 #include "ZodiaClash.h"
-#include "graphics.h"
-#include "debug.h"
-#include "input.h"
-#include "texture.h"
+#include "Graphics.h"
+#include "DebugLog.h"
+#include "DebugDiagnostic.h"
+#include "Input.h"
+#include "EngineCore.h" 
+#include "Message.h"
+#include "Texture.h"
 
 //#define MAX_LOADSTRING 100
 
 // For debugging
-debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, G_ENABLE_DEBUG_DIAGNOSTICS);
+debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
+
+using namespace Architecture;
 
 // Global Variables:
 //HINSTANCE hInst;                                // current instance
@@ -39,18 +47,43 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // To enable the console
-    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, G_ENABLE_DEBUG_DIAGNOSTICS, 60,true);
     
-    // Enable/Disable the logging file
-    logger.setLoggingEnabled(G_ENABLE_DEBUG_DIAGNOSTICS);
+    
+
+    // To enable the console
+    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
     logger.info("Program started");
+
 
     // TODO: Place code here.
     GraphicsManager::Init();
 
     logger.info("Graphics started");
 
+
+    // Max
+
+
+        EngineCore* engine = new EngineCore();
+
+
+
+
+
+
+
+
+
+    // 
+
+    /*
+    // Initialize global strings
+    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_ZODIACLASH, szWindowClass, MAX_LOADSTRING);
+    MyRegisterClass(hInstance);
+
+    // Perform application initialization:
+    if (!InitInstance (hInstance, nCmdShow))
     std::cout << "Current file: " << __FILE__ << std::endl;
     std::cout << "Current line: " << __LINE__ << std::endl;
     std::cout << "Current function: " << __FUNCTION__ << std::endl;  
@@ -64,6 +97,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         test++;
 	}
 
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ZODIACLASH));
+    
+    MSG msg;
     //// Initialize global strings
     //LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     //LoadStringW(hInstance, IDC_ZODIACLASH, szWindowClass, MAX_LOADSTRING);
@@ -78,6 +114,30 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ZODIACLASH));
 
     //MSG msg;
+
+    // ////////// INTERCEPT MESSAGE HERE.
+    // 
+    // 
+    // Main message loop:
+    while (GetMessage(&msg, nullptr, 0, 0))
+    {
+        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+    
+    return (int) msg.wParam;
+    */
+
+
+
+    MSG msg;
+    while (GetMessage(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))
@@ -170,6 +230,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 ////  WM_DESTROY  - post a quit message and return
 ////
 ////
+// 
+// 
+
+
+
+// Windows event handler
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    switch (uMsg) {
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+    case WM_LBUTTONDOWN:
+        // Handle other Windows events...
+        ConvertWindowsEventToMessage(uMsg);
+        return 0;
+        // Handle other Windows events...
+    default:
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+}
+
+
 //LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //{
 //    switch (message)
@@ -217,13 +298,3 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //    case WM_INITDIALOG:
 //        return (INT_PTR)TRUE;
 //
-//    case WM_COMMAND:
-//        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-//        {
-//            EndDialog(hDlg, LOWORD(wParam));
-//            return (INT_PTR)TRUE;
-//        }
-//        break;
-//    }
-//    return (INT_PTR)FALSE;
-//}

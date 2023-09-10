@@ -1,5 +1,5 @@
 #pragma once
-#include "graphlib.h"
+#include "GraphLib.h"
 
 const int channelnum = 4;
 
