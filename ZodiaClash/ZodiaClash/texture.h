@@ -29,4 +29,5 @@ public:
 	std::map<std::string, Texture> data;
 };
 
+//I THINK THIS CURRENTLY CAUSES MEMORY LEAKS AS MAP MEMORY ISNT CLEARED
 extern TextureManager texList;

@@ -9,7 +9,6 @@ TextureManager texList;
 
 Texture::Texture() {
 	active = false;
-	//data = nullptr;
 }
 
 void Texture::Init(char const* filename) {

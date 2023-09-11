@@ -13,6 +13,7 @@
 #include "EngineCore.h" 
 #include "Message.h"
 #include "Texture.h"
+#include "MMath.h"
 
 //#define MAX_LOADSTRING 100
 
