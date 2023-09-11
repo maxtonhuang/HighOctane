@@ -36,10 +36,15 @@ namespace Architecture {
 
 			previousTime = currentTime;
 
+			glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
+
 			for (size_t i = 0; i < Systems.size(); ++i) {
 				Systems[i]->Update(dt);
 			}
-
+			graphics.Draw();
+			if (graphics.WindowClosed()) {
+				gameActive = false;
+			}
 		}
 
 

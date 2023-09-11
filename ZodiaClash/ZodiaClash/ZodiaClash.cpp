@@ -56,8 +56,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
     // TODO: Place code here.
-    GraphicsManager::Init();
-
+    graphics.Initialize(1000, 1000);
     logger.info("Graphics started");
 
 
@@ -65,7 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
         EngineCore* engine = new EngineCore();
-
+        engine->GameLoop();
 
 
 
