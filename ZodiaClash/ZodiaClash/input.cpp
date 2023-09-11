@@ -1,7 +1,7 @@
 
 /*                                                                   includes
 ----------------------------------------------------------------------------- */
-#include "input.h"
+#include "Input.h"
 #include <iostream>
 
 /*                                                   objects with file scope
@@ -12,6 +12,8 @@ GLboolean InputManager::keyStateS{ GL_FALSE };
 GLboolean InputManager::keyStateD{ GL_FALSE };
 GLboolean InputManager::mouseClickL{ GL_FALSE };
 GLboolean InputManager::mouseClickR{ GL_FALSE };
+double InputManager::cursorposX;
+double InputManager::cursorposY;
 
 
 //bool InputManager::InputInit(GLint w, GLint h, std::string t) {
@@ -85,6 +87,12 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             keyStateD = GL_TRUE;
             test_model.AddPos(100, 0);
             break;
+        case GLFW_KEY_E:
+            test_model.AddRot(10);
+            break;
+        case GLFW_KEY_Q:
+            test_model.AddRot(-10);
+            break;
         }
     }
 }
@@ -144,5 +152,8 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
+    cursorposX = xpos * 2 - graphics.GetWidth();
+    cursorposY = -ypos * 2 + graphics.GetHeight();
 
+    test_model.SetPos(cursorposX, cursorposY);
 }

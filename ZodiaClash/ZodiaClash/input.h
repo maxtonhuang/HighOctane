@@ -4,8 +4,8 @@
 ----------------------------------------------------------------------------- */
 //#include <glfw-3.3.8.bin.WIN64/include/GLFW/glfw3.h>
 #include <string>
-#include "graphics.h"
-//#include "model.h"
+#include "Graphics.h"
+//#include "Model.h"
 
 class InputManager {
 	public:
@@ -21,5 +21,6 @@ class InputManager {
 		static GLboolean mouseClickL;
 		static GLboolean mouseClickR;
 	private:
-
+		static double cursorposX;
+		static double cursorposY;
 };

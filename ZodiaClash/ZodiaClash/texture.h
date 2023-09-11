@@ -1,5 +1,7 @@
 #pragma once
-#include "graphlib.h"
+#include "GraphLib.h"
+#include <string>
+#include <map>
 
 const int channelnum = 4;
 
@@ -14,11 +16,17 @@ public:
 	int GetWidth();
 	int GetHeight();
 private:
+	std::string name{};
 	GLuint id{};
 	int width{};
 	int height{};
 	bool active{false};
-
-	unsigned char* data;
-
 };
+
+class TextureManager {
+public:
+	Texture* Add(char const* texname);
+	std::map<std::string, Texture> data;
+};
+
+extern TextureManager texList;

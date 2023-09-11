@@ -4,19 +4,20 @@
 
 ////////// MAIN ///////////
 
-#include "framework.h"
+#include "Framework.h"
 #include "ZodiaClash.h"
-#include "graphics.h"
-#include "debuglog.h"
-#include "input.h"
-#include "enginecore.h" 
-#include "message.h"
-#include "texture.h"
+#include "Graphics.h"
+#include "DebugLog.h"
+#include "DebugDiagnostic.h"
+#include "Input.h"
+#include "EngineCore.h" 
+#include "Message.h"
+#include "Texture.h"
 
 //#define MAX_LOADSTRING 100
 
 // For debugging
-debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, G_ENABLE_DEBUG_DIAGNOSTICS);
+debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
 
 using namespace Architecture;
 
@@ -47,18 +48,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     
-
+    
 
     // To enable the console
-    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, G_ENABLE_DEBUG_DIAGNOSTICS, 60,true);
-    
-    // Enable/Disable the logging file
-    logger.setLoggingEnabled(G_ENABLE_DEBUG_DIAGNOSTICS);
+    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
     logger.info("Program started");
 
-    // TODO: Place code here.
-    GraphicsManager::Init();
 
+    // TODO: Place code here.
+    graphics.Initialize(1000, 1000);
     logger.info("Graphics started");
 
 
@@ -66,7 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
         EngineCore* engine = new EngineCore();
-
+        engine->GameLoop();
 
 
 

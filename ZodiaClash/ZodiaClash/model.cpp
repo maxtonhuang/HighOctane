@@ -1,10 +1,14 @@
-#include "model.h"
-#include "graphics.h"
+#include "Model.h"
+#include "Graphics.h"
 #include <glm-0.9.9.8/glm/gtc/type_ptr.hpp> //for value_ptr
 #include <iostream>
 
+const float pi = 3.14159265358979323846;
+
+std::vector<Model> modelList;
+
 Model::Model() {
-	color = glm::vec3{ 1,1,1 };
+	color = glm::vec4{ 1,1,1,1 };
 	pos = glm::vec2{ 0,0 };
 	tex = nullptr;
 	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
@@ -14,7 +18,7 @@ Model::Model() {
 }
 
 Model::Model(Texture& input) {
-	color = glm::vec3{ 1,1,1 };
+	color = glm::vec4{ 1,1,1,1 };
 	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
 	pos = glm::vec2{ 0,0 };
 	scale = glm::vec2{ 1,1 };
@@ -28,14 +32,30 @@ Model::Model(Texture& input) {
 		width = 0;
 		height = 0;
 	}
-	//tex = new Texture("../Assets/Textures/test.png");
-	//Texture test_texture("../Assets/Textures/test.png");
+}
+
+Model::Model(char const* input) {
+	color = glm::vec4{ 1,1,1,1 };
+	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
+	pos = glm::vec2{ 0,0 };
+	scale = glm::vec2{ 1,1 };
+	tex = texList.Add(input);
+	if (tex->IsActive()) {
+		width = (double)tex->GetWidth();
+		height = (double)tex->GetHeight();
+	}
+	else {
+		width = 0;
+		height = 0;
+	}
 }
 
 void Model::Update() {
-	matrix = glm::mat3{ width / GraphicsManager::GetWidth(),0,0,
-		0,height / GraphicsManager::GetHeight(),0,
-		pos.x / GraphicsManager::GetWidth(),pos.y / GraphicsManager::GetHeight(),1 };
+	double x = scale.x * width / graphics.GetWidth();
+	double y = scale.y * height / graphics.GetHeight();
+	matrix = glm::mat3{ cos(rotationRadians) * x,-sin(rotationRadians) * x,0,
+		sin(rotationRadians) * y, cos(rotationRadians) * y,0,
+		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
 	//matrix = glm::mat3{0.5,0,0,0,0.5,0,0,0,1};
 }
 
@@ -46,11 +66,11 @@ void Model::Draw() {
 		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 	
-	glBindVertexArray(GraphicsManager::GetVAOInfo().id);
+	glBindVertexArray(graphics.GetVAOInfo().id);
 
 	//Pass matrix to shader
 	GLint uniform_var_matrix = glGetUniformLocation(
-		(GraphicsManager::GetShader()).GetHandle(), "uModelToNDC");
+		(graphics.GetShader()).GetHandle(), "uModelToNDC");
 	if (uniform_var_matrix >= 0) {
 		glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
@@ -61,9 +81,9 @@ void Model::Draw() {
 	}
 
 	GLint uniform_var_color = glGetUniformLocation(
-		(GraphicsManager::GetShader()).GetHandle(), "uColor");
+		(graphics.GetShader()).GetHandle(), "uColor");
 	if (uniform_var_color >= 0) {
-		glUniform3fv(uniform_var_color, 1, glm::value_ptr(color));
+		glUniform4fv(uniform_var_color, 1, glm::value_ptr(color));
 	}
 	else {
 		std::cout << "Uniform variable uColor doesn't exist!\n";
@@ -72,9 +92,9 @@ void Model::Draw() {
 	}
 
 	GLint uniform_var_tex = glGetUniformLocation(
-		(GraphicsManager::GetShader()).GetHandle(), "uTex2d");
-	if (uniform_var_color >= 0) {
-		glUniform3fv(uniform_var_color, 1, glm::value_ptr(color));
+		(graphics.GetShader()).GetHandle(), "uTex2d");
+	if (uniform_var_tex >= 0) {
+		glUniform3fv(uniform_var_tex, 1, glm::value_ptr(color));
 	}
 	else {
 		std::cout << "Uniform variable uColor doesn't exist!\n";
@@ -82,7 +102,7 @@ void Model::Draw() {
 		std::exit(EXIT_FAILURE);
 	}
 
-	glDrawElements(GraphicsManager::GetVAOInfo().primitivetype, GraphicsManager::GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
 }
 
 void Model::AttachTexture(Texture& input) {
@@ -91,7 +111,41 @@ void Model::AttachTexture(Texture& input) {
 	height = (double)tex->GetHeight();
 }
 
+void Model::AttachTexture(char const* input) {
+	tex = texList.Add(input);
+	if (tex->IsActive()) {
+		width = (double)tex->GetWidth();
+		height = (double)tex->GetHeight();
+	}
+}
+
+void Model::SetPos(double x, double y) {
+	pos.x = x;
+	pos.y = y;
+}
+
 void Model::AddPos(double x, double y) {
 	pos.x += x;
 	pos.y += y;
+}
+
+void Model::SetRot(double rot) {
+	rotation = rot;
+	rotationRadians = rotation * pi / 180;
+}
+
+void Model::AddRot(double rot) {
+	rotation += rot;
+	if (rotation > 360) {
+		rotation -= 360;
+	}
+	if (rotation < 0) {
+		rotation += 360;
+	}
+	rotationRadians = rotation * pi / 180;
+}
+
+void Model::SetScale(double x, double y) {
+	scale.x = x;
+	scale.y = y;
 }

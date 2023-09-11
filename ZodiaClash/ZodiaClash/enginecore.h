@@ -1,6 +1,7 @@
 #pragma once
 
-#include "system.h"
+#include "System.h"
+#include "graphics.h"
 #include <vector>
 
 

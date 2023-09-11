@@ -1,22 +1,39 @@
-#include "graphics.h"
-#include "input.h"
+#include "Graphics.h"
+#include "Input.h"
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <random>
 
 Model test_model;
 Texture test_tex;
+GraphicsManager graphics;
 
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
-GLFWwindow* GraphicsManager::window;
-int GraphicsManager::width;
-int GraphicsManager::height;
-Shader GraphicsManager::shaderprogram;
-GraphicsManager::VAOInfo GraphicsManager::vao;
+//GLFWwindow* GraphicsManager::window;
+//int GraphicsManager::width;
+//int GraphicsManager::height;
+//Shader GraphicsManager::shaderprogram;
+//GraphicsManager::VAOInfo GraphicsManager::vao;
 
-void GraphicsManager::Init() {
+GraphicsManager::GraphicsManager() {
+    width = 0;
+    height = 0;
+    vao = VAOInfo{};
+    window = nullptr;
+    shaderprogram = Shader{};
+}
+
+GraphicsManager::~GraphicsManager() {
+    shaderprogram.DeleteShader();
+    glfwTerminate();
+}
+
+void GraphicsManager::Initialize(int w, int h) {
     //TEMPORARY INITIALISATION, TO BE READ FROM FILE
-    width = 1024 * 2;
-    height = 768 * 2;
+    width = w;
+    height = h;
 
     glfwInit();
 
@@ -65,19 +82,43 @@ void GraphicsManager::Init() {
     //Create square VAO for use in drawing
     CreateVAO();
 
-    test_tex.Init("../Assets/Textures/cat.png");
-    test_model.AttachTexture(test_tex);
+    //Enable alpha
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    test_model.AttachTexture("cat.png");
+
     //TEMP
+    std::default_random_engine rng;
+    std::uniform_real_distribution<double> rand_width(0, 2 * width);
+    std::uniform_real_distribution<double> rand_height(0, 2 * height);
+    for (int i = 0; i < 5000; i++) {
+        Model mdl;
+        mdl.AttachTexture("cat.png");
+        mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
+        modelList.emplace_back(mdl);
+    }
     Draw();
 }
 
-void GraphicsManager::Cleanup() {
-    shaderprogram.DeleteShader();
-    glfwTerminate();
+void GraphicsManager::Update(float dt) {
+    static float fpsInterval = 1.f;
+    fpsInterval += dt;
+    if (fpsInterval > 1) {
+        std::stringstream title;
+        title << "ZodiaClash " << std::fixed << std::setprecision(2) << 1 / dt;
+        glfwSetWindowTitle(window, title.str().c_str());
+        fpsInterval -= 1;
+    }
 }
 
 void GraphicsManager::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
+
+    for (Model& m : modelList) {
+        m.Update();
+        m.Draw();
+    }
 
     test_model.Update();
     test_model.Draw();
@@ -138,6 +179,10 @@ void GraphicsManager::CreateVAO() {
     vao.id = vaoid;
     vao.primitivetype = GL_TRIANGLE_STRIP;
     vao.drawcnt = vtx_array.size();
+}
+
+std::string GraphicsManager::GetName() {
+    return "Graphics";
 }
 
 const GraphicsManager::VAOInfo& GraphicsManager::GetVAOInfo() {

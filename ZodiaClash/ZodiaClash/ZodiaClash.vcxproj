@@ -75,12 +75,15 @@
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
     <IncludePath>$(IncludePath);$(SolutionDir)Extern</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64</LibraryPath>
+    <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
     <IncludePath>$(IncludePath);$(SolutionDir)Extern</IncludePath>
     <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64</LibraryPath>
+    <LinkIncremental>
+    </LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,49 +154,47 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="collision.h" />
-    <ClInclude Include="debugdiagnostic.h" />
-    <ClInclude Include="debuglog.h" />
-    <ClInclude Include="ecsfactory.h" />
-    <ClInclude Include="enginecore.h" />
-    <ClInclude Include="factory.h" />
-    <ClInclude Include="frameratecontroller.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="gamestatemanager.h" />
-    <ClInclude Include="commonheaderfilelist.h" />
-    <ClInclude Include="graphics.h" />
-    <ClInclude Include="graphlib.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="message.h" />
-    <ClInclude Include="mmath.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="physics.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="DebugDiagnostic.h" />
+    <ClInclude Include="DebugLog.h" />
+    <ClInclude Include="EcsFactory.h" />
+    <ClInclude Include="EngineCore.h" />
+    <ClInclude Include="FrameRateController.h" />
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="CommonHeaderFileList.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GraphLib.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="MMath.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="shaders.h" />
-    <ClInclude Include="system.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="texture.h" />
-    <ClInclude Include="vmath.h" />
+    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="System.h" />
+    <ClInclude Include="TargetVer.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="VMath.h" />
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="collision.cpp" />
-    <ClCompile Include="debugdiagnostic.cpp" />
-    <ClCompile Include="debuglog.cpp" />
-    <ClCompile Include="ecsfactory.cpp" />
-    <ClCompile Include="enginecore.cpp" />
-    <ClCompile Include="factory.cpp" />
-    <ClCompile Include="frameratecontroller.cpp" />
-    <ClCompile Include="gamestatemanager.cpp" />
-    <ClCompile Include="graphics.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="message.cpp" />
-    <ClCompile Include="mmath.cpp" />
-    <ClCompile Include="model.cpp" />
-    <ClCompile Include="shaders.cpp" />
-    <ClCompile Include="texture.cpp" />
-    <ClCompile Include="vmath.cpp" />
-    <ClCompile Include="physics.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="DebugDiagnostic.cpp" />
+    <ClCompile Include="DebugLog.cpp" />
+    <ClCompile Include="EcsFactory.cpp" />
+    <ClCompile Include="EngineCore.cpp" />
+    <ClCompile Include="FrameRateController.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MMath.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="VMath.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>

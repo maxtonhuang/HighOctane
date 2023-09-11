@@ -28,7 +28,7 @@ Maybe rotating of log file, now it only changes the file name to old
 
 *//*______________________________________________________________________*/
 
-#include "debuglog.h"
+#include "DebugLog.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -39,6 +39,22 @@ Maybe rotating of log file, now it only changes the file name to old
 #define MAX_FILE_SIZE 1048576 // 1MB
 
 namespace debuglog {
+
+	// Constructor
+	Logger::Logger() {
+		currentLogFileName = "testlog.txt";
+		this->currentLogLevel = LOG_LEVEL::Trace;
+		this->loggingEnabled = true;
+		
+		// Open the file
+		logFile.open(currentLogFileName, std::ios::out | std::ios::app);
+
+		// If logfile cannot open for some reason
+		if (!logFile) {
+			std::cerr << "Error opening file" << "\n";
+			exit(1);
+		}
+	}
 
 	// Logger
 	Logger::Logger(const std::string &logFileName, LOG_LEVEL level, bool loggingEnabled) {

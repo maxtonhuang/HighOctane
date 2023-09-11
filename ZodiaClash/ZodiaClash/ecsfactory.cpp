@@ -1,4 +1,4 @@
-#include "ecsfactory.h"
+#include "EcsFactory.h"
 
 #include <iostream>
 #include <vector>

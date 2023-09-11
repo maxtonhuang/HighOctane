@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "message.h"
+#include "Message.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
