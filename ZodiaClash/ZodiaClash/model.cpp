@@ -3,6 +3,8 @@
 #include <glm-0.9.9.8/glm/gtc/type_ptr.hpp> //for value_ptr
 #include <iostream>
 
+const float pi = 3.14159265358979323846;
+
 std::vector<Model> modelList;
 
 Model::Model() {
@@ -49,8 +51,10 @@ Model::Model(char const* input) {
 }
 
 void Model::Update() {
-	matrix = glm::mat3{ width / graphics.GetWidth(),0,0,
-		0,height / graphics.GetHeight(),0,
+	double x = scale.x * width / graphics.GetWidth();
+	double y = scale.y * height / graphics.GetHeight();
+	matrix = glm::mat3{ cos(rotationRadians) * x,-sin(rotationRadians) * x,0,
+		sin(rotationRadians) * y, cos(rotationRadians) * y,0,
 		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
 	//matrix = glm::mat3{0.5,0,0,0,0.5,0,0,0,1};
 }
@@ -115,7 +119,28 @@ void Model::AttachTexture(char const* input) {
 	}
 }
 
+void Model::SetPos(double x, double y) {
+	pos.x = x;
+	pos.y = y;
+}
+
 void Model::AddPos(double x, double y) {
 	pos.x += x;
 	pos.y += y;
+}
+
+void Model::SetRot(double rot) {
+	rotation = rot;
+	rotationRadians = rotation * pi / 180;
+}
+
+void Model::AddRot(double rot) {
+	rotation += rot;
+	if (rotation > 360) {
+		rotation -= 360;
+	}
+	if (rotation < 0) {
+		rotation += 360;
+	}
+	rotationRadians = rotation * pi / 180;
 }

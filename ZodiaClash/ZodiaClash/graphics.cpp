@@ -1,6 +1,9 @@
 #include "Graphics.h"
 #include "Input.h"
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <random>
 
 Model test_model;
 Texture test_tex;
@@ -86,15 +89,37 @@ void GraphicsManager::Initialize(int w, int h) {
     test_model.AttachTexture("cat.png");
 
     //TEMP
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> rand_width(0, 2 * width);
+    std::uniform_int_distribution<std::mt19937::result_type> rand_height(0, 2 * height);
+    for (int i = 0; i < 5000; i++) {
+        Model mdl;
+        mdl.AttachTexture("cat.png");
+        mdl.SetPos(rand_width(rng) - width * 1.5, rand_height(rng) - height * 1.5);
+        modelList.emplace_back(mdl);
+    }
     Draw();
 }
 
 void GraphicsManager::Update(float dt) {
-    
+    static float fpsInterval = 1.f;
+    fpsInterval += dt;
+    if (fpsInterval > 1) {
+        std::stringstream title;
+        title << "ZodiaClash " << std::fixed << std::setprecision(2) << 1 / dt;
+        glfwSetWindowTitle(window, title.str().c_str());
+        fpsInterval -= 1;
+    }
 }
 
 void GraphicsManager::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
+
+    for (Model& m : modelList) {
+        m.Update();
+        m.Draw();
+    }
 
     test_model.Update();
     test_model.Draw();

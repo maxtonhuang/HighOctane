@@ -85,6 +85,12 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             keyStateD = GL_TRUE;
             test_model.AddPos(100, 0);
             break;
+        case GLFW_KEY_E:
+            test_model.AddRot(10);
+            break;
+        case GLFW_KEY_Q:
+            test_model.AddRot(-10);
+            break;
         }
     }
 }

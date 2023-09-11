@@ -41,6 +41,7 @@ namespace Architecture {
 			for (size_t i = 0; i < Systems.size(); ++i) {
 				Systems[i]->Update(dt);
 			}
+			graphics.Update(dt);
 			graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
