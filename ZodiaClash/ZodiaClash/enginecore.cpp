@@ -46,7 +46,7 @@ namespace Architecture {
 	}
 
 
-	void EngineCore::BroadcastMessage(Message* message) {
+	/*void EngineCore::BroadcastMessage(Message* message) {
 		if (message->type == MessageType::Quit) {
 			gameActive = false;
 		}
@@ -54,7 +54,7 @@ namespace Architecture {
 		for (size_t i = 0; i < Systems.size(); ++i) {
 			Systems[i]->SendMessage(message);
 		}
-	}
+	}*/
 
 	void EngineCore::AddSystem(ISystem* system) {
 		Systems.emplace_back(system);

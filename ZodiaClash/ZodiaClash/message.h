@@ -9,16 +9,32 @@ namespace Architecture {
 	
     
 	// Define message types
-    enum class MessageType { Collision, Input, GameEvent, KeyDown, KeyUp, MouseClick, WindowResize, CustomEvent, Quit };
+    enum class MessageType { 
+
+		// to add more message types
+
+		Collision, 
+		Input, 
+		GameEvent, 
+		KeyDown, 
+		KeyUp, 
+		MouseClick, 
+		WindowResize, 
+		CustomEvent, 
+		Quit 
+	};
 
 
     // Define a message structure
     struct Message {
         MessageType type;
         int senderEntityID;
-        int recipientEntityID;
+        //int recipientEntityID;
         // Additional message data
+
     };
+
+	// create mailboxes for each system.
 
 	void ConvertWindowsEventToMessage(unsigned int uMsg);
 

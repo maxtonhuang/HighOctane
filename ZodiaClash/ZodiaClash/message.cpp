@@ -37,7 +37,12 @@ namespace Architecture {
     void ConvertWindowsEventToMessage(unsigned int uMsg) {
         Message message;
         switch (uMsg) {
-        case WM_KEYDOWN:
+        case WM_CLOSE:
+            message.type = MessageType::Quit;
+            message.senderEntityID = 0;
+            message.recipientEntityID = 1;
+            break;
+        /*case WM_KEYDOWN:
             message.type = MessageType::KeyDown;
             // Populate message with key data
             break;
@@ -50,6 +55,7 @@ namespace Architecture {
             // Populate message with mouse click data
             break;
             // Handle other Windows events...
+            */
         default:
             message.type = MessageType::CustomEvent;
             // Populate message with relevant data
