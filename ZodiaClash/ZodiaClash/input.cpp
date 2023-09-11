@@ -12,6 +12,8 @@ GLboolean InputManager::keyStateS{ GL_FALSE };
 GLboolean InputManager::keyStateD{ GL_FALSE };
 GLboolean InputManager::mouseClickL{ GL_FALSE };
 GLboolean InputManager::mouseClickR{ GL_FALSE };
+double InputManager::cursorposX;
+double InputManager::cursorposY;
 
 
 //bool InputManager::InputInit(GLint w, GLint h, std::string t) {
@@ -150,5 +152,8 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
+    cursorposX = xpos * 2 - graphics.GetWidth();
+    cursorposY = -ypos * 2 + graphics.GetHeight();
 
+    test_model.SetPos(cursorposX, cursorposY);
 }

@@ -144,3 +144,8 @@ void Model::AddRot(double rot) {
 	}
 	rotationRadians = rotation * pi / 180;
 }
+
+void Model::SetScale(double x, double y) {
+	scale.x = x;
+	scale.y = y;
+}

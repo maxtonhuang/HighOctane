@@ -19,6 +19,7 @@ public:
 	void AddPos(double x, double y);
 	void SetRot(double rot); //INPUT IN DEGREES
 	void AddRot(double rot); //INPUT IN DEGREES
+	void SetScale(double x, double y);
 private:
 	glm::vec2 pos{}; //Position in screen coordinates
 	glm::vec2 scale{}; //Scale

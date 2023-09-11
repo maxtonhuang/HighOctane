@@ -21,5 +21,6 @@ class InputManager {
 		static GLboolean mouseClickL;
 		static GLboolean mouseClickR;
 	private:
-
+		static double cursorposX;
+		static double cursorposY;
 };
