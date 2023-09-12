@@ -19,6 +19,8 @@
 // For debugging
 debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
 
+
+
 using namespace Architecture;
 
 // Global Variables:
@@ -33,6 +35,7 @@ using namespace Architecture;
 //INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 bool gConsoleInitalized = false;
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -54,6 +57,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
     logger.info("Program started");
 
+    //Mail mail;
+    
 
     // TODO: Place code here.
     graphics.Initialize(1000, 1000);
@@ -64,6 +69,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
         EngineCore* engine = new EngineCore();
+        
+        
+        
         engine->GameLoop();
 
 
@@ -138,8 +146,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         DispatchMessage(&msg);
     }
 
-    Assert(1 < 2, "Hello");
-
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))
     //{
@@ -164,6 +170,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //_CrtDumpMemoryLeaks();
 
     /*return (int) msg.wParam;*/
+    
+    delete engine;
+    
     return 0;
 }
 
@@ -243,7 +252,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     case WM_KEYUP:
     case WM_LBUTTONDOWN:
         // Handle other Windows events...
-        ConvertWindowsEventToMessage(uMsg);
+        extern Mail mail;
+        mail.ConvertWindowsEventToPostcard(uMsg);
         return 0;
         // Handle other Windows events...
     default:

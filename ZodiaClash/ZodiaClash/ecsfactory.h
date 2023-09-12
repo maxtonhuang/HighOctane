@@ -1,236 +1,204 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
+//#include <iostream>
+//#include <vector>
+//#include <array>
+//#include <string>
 #include <array>
-#include <string>
 #include <bitset>
 #include <queue>
+#include <unordered_map>
+#include <set>
+#include <memory>
 #include "debugdiagnostic.h"
 
 
 namespace Architecture {
 
-
-    ////////// ENTITY //////////
-
-
     // A simple type alias
     using Entity = std::uint32_t;
 
     // Used to define the size of arrays later on
-    const Entity MAX_ENTITIES = 5000;
-
-    class EntityManager
-    {
-    public:
-        EntityManager()
-        {
-            // Initialize the queue with all possible entity IDs
-            for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
-            {
-                mAvailableEntities.push(entity);
-            }
-        }
-
-        Entity CreateEntity()
-        {
-            Assert(mLivingEntityCount < MAX_ENTITIES, "Too many entities in existence.");
-
-            // Take an ID from the front of the queue
-            Entity id = mAvailableEntities.front();
-            mAvailableEntities.pop();
-            ++mLivingEntityCount;
-
-            return id;
-        }
-
-        void DestroyEntity(Entity entity)
-        {
-            //assert(entity < MAX_ENTITIES && "Entity out of range.");
-
-            // Invalidate the destroyed entity's signature
-            mSignatures[entity].reset();
-
-            // Put the destroyed ID at the back of the queue
-            mAvailableEntities.push(entity);
-            --mLivingEntityCount;
-        }
-
-        void SetSignature(Entity entity, Signature signature)
-        {
-            //assert(entity < MAX_ENTITIES && "Entity out of range.");
-
-            // Put this entity's signature into the array
-            mSignatures[entity] = signature;
-        }
-
-        Signature GetSignature(Entity entity)
-        {
-            //assert(entity < MAX_ENTITIES && "Entity out of range.");
-
-            // Get this entity's signature from the array
-            return mSignatures[entity];
-        }
-
-    private:
-        // Queue of unused entity IDs
-        std::queue<Entity> mAvailableEntities{};
-
-        // Array of signatures where the index corresponds to the entity ID
-        std::array<Signature, MAX_ENTITIES> mSignatures{};
-
-        // Total living entities - used to keep limits on how many exist
-        uint32_t mLivingEntityCount{};
-    };
-
-
-    ////////// COMPONENT //////////
-
-
+    const Entity MAX_ENTITIES = 100'000;
 
     // A simple type alias
     using ComponentType = std::uint8_t;
 
     // Used to define the size of arrays later on
-    const ComponentType MAX_COMPONENTS = 32;
-
-
+    const ComponentType MAX_COMPONENTS = 128;
 
     // A simple type alias
     using Signature = std::bitset<MAX_COMPONENTS>;
 
 
+    ////////// ENTITY /////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-    ////////// SYSTEM //////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-
-
-    class ECS {
-
+    class EntityManager {
     public:
+        EntityManager();
 
-        void CreateEntity();
-        void DeleteEntity(size_t entityID);
-        void DeleteAllEntities();
+        Entity CreateEntity();
+
+        void DestroyEntity(Entity entity);
+
+        void SetSignature(Entity entity, Signature signature);
+
+        Signature GetSignature(Entity entity);
 
     private:
-        
+        // Queue of unused entity IDs
+        std::queue<Entity> m_AvailableEntities{};
 
+        // Array of signatures where the index corresponds to the entity ID
+        std::array<Signature, MAX_ENTITIES> m_Signatures{};
 
-
-
-
-
-
-
-        /////////// COMPONENTS ///////////
-
-        // Define a component structure for user input
-        struct Input {
-            bool left, right, up, down;
-
-            Input() : left(false), right(false), up(false), down(false) {}
-        };
-
-        struct Position {
-            double _x, _y;
-        };
-
-        struct Collider {
-            // bounding box
-        };
-
-        struct PhysicalAttributes {
-            // velocity
-            // movement
-            // direction
-            // acceleration
-        };
-
-        struct AI {
-            // enums for AI Behaviour
-        };
-
-        struct Animation {
-
-        };
-
-        struct Audio {
-            // Audio File
-        };
-
-        struct Timers {
-            // timers for animation and cooldowns
-        };
-
-        struct StatusEffects {
-            // buffs/debuffs
-        };
-
-        struct Health {
-
-        };
-
-        struct UI {
-
-        };
-
-        struct Transform {
-            // for transforming meshes
-        };
-
-        ////////// ENTITIES ///////////
-
-        size_t entityID{ 0 };
-
-        // Define an entity structure
-        struct Entity {
-            Input* input;
-            Position* position;
-            Collider* collider;
-            PhysicalAttributes* physicalAttributes;
-            AI* ai;
-            Animation* animation;
-            Audio* audio;
-            Timers* timers;
-            StatusEffects* statusEffects;
-            Health* health;
-            UI* ui;
-            Transform* transform;            
-        };
-
-        std::vector<Entity> entities;
-
+        // Total living entities - used to keep limits on how many exist
+        uint32_t m_LivingEntityCount{};
     };
 
 
+    ////////// COMPONENT //////////////////////////////////////////////////////
+
+    class IComponentArray {
+    public:
+        virtual ~IComponentArray() = default;
+        virtual void EntityDestroyed(Entity entity) = 0;
+    };
 
 
-    */
+    template<typename T>
+    class ComponentArray : public IComponentArray {
+    public:
+        void InsertData(Entity entity, T component);
+
+        void RemoveData(Entity entity);
+
+        T& GetData(Entity entity);
+
+        void EntityDestroyed(Entity entity) override;
+
+    private:
+        // The packed array of components (of generic type T),
+        // set to a specified maximum amount, matching the maximum number
+        // of entities allowed to exist simultaneously, so that each entity
+        // has a unique spot.
+        std::array<T, MAX_ENTITIES> m_ComponentArray;
+
+        // Map from an entity ID to an array index.
+        std::unordered_map<Entity, size_t> m_EntityToIndexMap;
+
+        // Map from an array index to an entity ID.
+        std::unordered_map<size_t, Entity> m_IndexToEntityMap;
+
+        // Total size of valid entries in the array.
+        size_t m_Size;
+    };
+
+
+    class ComponentManager {
+    public:
+        template<typename T>
+        void RegisterComponent();
+
+        template<typename T>
+        ComponentType GetComponentType();
+
+        template<typename T>
+        void AddComponent(Entity entity, T component);
+
+        template<typename T>
+        void RemoveComponent(Entity entity);
+
+        template<typename T>
+        T& GetComponent(Entity entity);
+
+        void EntityDestroyed(Entity entity);
+
+    private:
+        // Map from type string pointer to a component type
+        std::unordered_map<const char*, ComponentType> m_ComponentTypes{};
+
+        // Map from type string pointer to a component array
+        std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays{};
+
+        // The component type to be assigned to the next registered component - starting at 0
+        ComponentType m_NextComponentType{};
+
+        // Convenience function to get the statically casted pointer to the ComponentArray of type T.
+        template<typename T>
+        std::shared_ptr<ComponentArray<T>> GetComponentArray();
+    };
+
+
+    ////////// SYSTEM /////////////////////////////////////////////////////////
+
+    class System {
+    public:
+        std::set<Entity> m_Entities;
+    };
+
+
+    class SystemManager {
+    public:
+        template<typename T>
+        std::shared_ptr<T> RegisterSystem();
+
+        template<typename T>
+        void SetSignature(Signature signature);
+
+        void EntityDestroyed(Entity entity);
+
+        void EntitySignatureChanged(Entity entity, Signature entitySignature);
+
+    private:
+        // Map from system type string pointer to a signature
+        std::unordered_map<const char*, Signature> m_Signatures{};
+
+        // Map from system type string pointer to a system pointer
+        std::unordered_map<const char*, std::shared_ptr<System>> m_Systems{};
+    };
+
+
+    ////////// ECS COORDINATOR ////////////////////////////////////////////////
+
+    class ECS {
+    public:
+        void Init();
+
+        // Entity methods ------------------------------
+        Entity CreateEntity();
+
+        void DestroyEntity(Entity entity);
+
+        // Component methods ---------------------------
+        template<typename T>
+        void RegisterComponent();
+
+        template<typename T>
+        void AddComponent(Entity entity, T component);
+
+        template<typename T>
+        void RemoveComponent(Entity entity);
+
+        template<typename T>
+        T& GetComponent(Entity entity);
+
+        template<typename T>
+        ComponentType GetComponentType();
+
+        // System methods ------------------------------
+        template<typename T>
+        std::shared_ptr<T> RegisterSystem();
+
+        template<typename T>
+        void SetSystemSignature(Signature signature);
+
+    private:
+        std::unique_ptr<ComponentManager> m_ComponentManager;
+        std::unique_ptr<EntityManager> m_EntityManager;
+        std::unique_ptr<SystemManager> m_SystemManager;
+    };
+
+
 
 }
