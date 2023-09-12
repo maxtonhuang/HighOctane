@@ -138,6 +138,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         DispatchMessage(&msg);
     }
 
+    Assert(1 < 2, "Hello");
+
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))
     //{
