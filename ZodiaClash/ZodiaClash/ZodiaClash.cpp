@@ -19,7 +19,7 @@
 // For debugging
 debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
 
-
+extern Mail mail;
 
 using namespace Architecture;
 
@@ -252,7 +252,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     case WM_KEYUP:
     case WM_LBUTTONDOWN:
         // Handle other Windows events...
-        extern Mail mail;
+        
         mail.ConvertWindowsEventToPostcard(uMsg);
         return 0;
         // Handle other Windows events...
