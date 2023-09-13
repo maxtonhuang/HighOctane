@@ -1,6 +1,5 @@
 #include "Graphics.h"
 #include "Input.h"
-#include "graphlib.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -23,13 +22,11 @@ GraphicsManager::GraphicsManager() {
     height = 0;
     vao = VAOInfo{};
     window = nullptr;
-    textureshaderprogram = Shader{};
-    flatshaderprogram = Shader{};
+    shaderprogram = Shader{};
 }
 
 GraphicsManager::~GraphicsManager() {
-    textureshaderprogram.DeleteShader();
-    flatshaderprogram.DeleteShader();
+    shaderprogram.DeleteShader();
     glfwTerminate();
 }
 
@@ -70,27 +67,17 @@ void GraphicsManager::Initialize(int w, int h) {
     glewInit();
 
     //Compile shaders
-    std::vector<std::pair<GLenum, std::string>> textureshadervector{
-        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/TextureVertexShader.vert"),
-        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/TextureFragmentShader.frag")
+    std::vector<std::pair<GLenum, std::string>> shadervector{
+        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/vertexshader.vert"),
+        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/fragmentshader.frag")
     };
 
-    if (textureshaderprogram.Compile(textureshadervector) == false) {
+    if (shaderprogram.Compile(shadervector) == false) {
         std::cout << "Unable to compile shader program! Exiting...\n";
         //std::exit(EXIT_FAILURE);
     }
 
-    std::vector<std::pair<GLenum, std::string>> flatshadervector{
-        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/FlatVertexShader.vert"),
-        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/FlatFragmentShader.frag")
-    };
-
-    if (flatshaderprogram.Compile(flatshadervector) == false) {
-        std::cout << "Unable to compile shader program! Exiting...\n";
-        //std::exit(EXIT_FAILURE);
-    }
-
-    textureshaderprogram.Use();
+    shaderprogram.Use();
 
     //Create square VAO for use in drawing
     CreateVAO();
@@ -103,25 +90,31 @@ void GraphicsManager::Initialize(int w, int h) {
 
     //TEMP
     std::default_random_engine rng;
-    std::uniform_real_distribution<float> rand_width(0, 2 * width);
-    std::uniform_real_distribution<float> rand_height(0, 2 * height);
-    for (int i = 0; i < 6; i++) {
+    std::uniform_real_distribution<double> rand_width(0, 2 * width);
+    std::uniform_real_distribution<double> rand_height(0, 2 * height);
+    for (int i = 0; i < 3000; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
         modelList.emplace_back(mdl);
     }
+
+    glfwSwapInterval(0);
+
     Draw();
 }
 
 void GraphicsManager::Update(float dt) {
     static float fpsInterval = 1.f;
+    static int count = 0;
     fpsInterval += dt;
+    ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
-        title << "ZodiaClash " << std::fixed << std::setprecision(2) << 1 / dt;
+        title << "ZodiaClash " << std::fixed << count;
         glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
+        count = 0;
     }
 }
 
@@ -135,8 +128,6 @@ void GraphicsManager::Draw() {
 
     test_model.Update();
     test_model.Draw();
-
-    DrawPoint(500, 100);
 
     glfwSwapBuffers(window);
 }
@@ -196,33 +187,6 @@ void GraphicsManager::CreateVAO() {
     vao.drawcnt = vtx_array.size();
 }
 
-void GraphicsManager::DrawPoint(float x, float y) {
-    glPointSize(10.f);
-    flatshaderprogram.Use();
-    glBindVertexArray(vao.id);
-
-    glm::mat3 matrix{ 0,0,0,0,0,0, x / (float)width, y / (float)height,1 };
-
-    //Pass matrix to shader
-    GLint uniform_var_matrix = glGetUniformLocation(
-        flatshaderprogram.GetHandle(), "uModelToNDC");
-    if (uniform_var_matrix >= 0) {
-        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-    }
-    else {
-        std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-        std::cout << "Please check vertex shader!\n";
-        std::exit(EXIT_FAILURE);
-    }
-
-    glDrawElements(GL_POINTS, vao.drawcnt, GL_UNSIGNED_SHORT, NULL);
-    textureshaderprogram.Use();
-}
-
-void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2) {
-
-}
-
 std::string GraphicsManager::GetName() {
     return "Graphics";
 }
@@ -232,17 +196,17 @@ const GraphicsManager::VAOInfo& GraphicsManager::GetVAOInfo() {
 }
 
 const Shader& GraphicsManager::GetShader() {
-    return textureshaderprogram;
+    return shaderprogram;
 }
 
 bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
 }
 
-float GraphicsManager::GetWidth() {
-    return (float)width;
+double GraphicsManager::GetWidth() {
+    return (double)width;
 }
 
-float GraphicsManager::GetHeight() {
-    return (float)height;
+double GraphicsManager::GetHeight() {
+    return (double)height;
 }

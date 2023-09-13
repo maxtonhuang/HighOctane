@@ -12,11 +12,36 @@
 @section	Section A
 @date		30 August 2023
 @brief		This file contains the functions declaration for debugging
+
+HOW TO USE THE FUNCTIONS
+
+1. Include this header file in the file you want to use the functions
+
+2.	\code{.cpp}
+		DebugPrint("Debug message: %s %d", "Value:", 42);
+	\endcode
+
+	This will print out the following message to the standard error stream:
+	"Debug message: Value: 42"
+
+3.	\code{.cpp}
+		int x = -1;
+		Assert(x > 0, "x must be more than 0");
+	\endcode
+
+	This will print out and (log to error file?) the following message to the standard error stream:
+	Assertion failed in {code.cpp} {line }: x must be more than 0
+
+TODO :
+ASSERT TO LOG FILE INTO AN ERROR FILE
+
 *//*______________________________________________________________________*/
 #pragma once
 
 #include <cstdio>
 #include <cstdarg> // For va_list, va_start, va_end
+#include <iostream>
+#include <cstdlib> // For abort
 
 // Define this to enable debug diagnostics
 // In debug mode, the logging tools will run
@@ -30,12 +55,21 @@
 #   endif
 #endif
 
+
+// Define the path separator for different operating systems
+#ifdef _WIN32
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
+#endif
+
 namespace debug {
 
 	// Is to print debug messages
-	void debugPrintHandler(const char* message, ...);
+	void printDebugHandler(const char* message, ...);
 
-	
+	// Is to assert debug messages
+	void assertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
 }
 
 
@@ -43,9 +77,13 @@ namespace debug {
 // If debug diagnostics is enabled, then we will use the debug printing function
 #if ENABLE_DEBUG_DIAG
 
-#define DebugPrint(...) debug::debugPrintHandler(__VA_ARGS__);
+#define DebugPrint(...) debug::printDebugHandler(__VA_ARGS__);
+
+#define Assert(condition, ...) debug::assertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
 
 // Else, we will just ignore the debug printing function
 #else
 #define DebugPrint(...) ((void)0)
+
+#define Assert(condition, ...) ((void)0)
 #endif

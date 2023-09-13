@@ -169,6 +169,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClInclude Include="Message.h" />
     <ClInclude Include="MMath.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Shaders.h" />
@@ -191,6 +192,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="MMath.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VMath.cpp" />
