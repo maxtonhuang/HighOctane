@@ -15,7 +15,7 @@ public:
 	bool WindowClosed(); //returns true if window is closed, else false
 
 	void DrawPoint(float x, float y);
-	void DrawLine(float x1, float y1, float x2, float y2);
+	void DrawLineLoop(const glm::mat3& input);
 
 	//VAO info for draw functions in other classes
 	struct VAOInfo {
@@ -34,7 +34,7 @@ private:
 		glm::vec3 col; //RGB colour
 		glm::vec2 tex; //Texture coordinates
 	};
-	void CreateVAO();
+	void CreateVAO(VAOInfo& vao, std::vector<Vertex>& vtx_array, std::vector<GLushort>& idx_vtx);
 
 	GLFWwindow* window;
 	int width;
@@ -42,6 +42,7 @@ private:
 	Shader textureshaderprogram;
 	Shader flatshaderprogram;
 	VAOInfo vao;
+	VAOInfo lineloopvao;
 };
 
 extern GraphicsManager graphics;

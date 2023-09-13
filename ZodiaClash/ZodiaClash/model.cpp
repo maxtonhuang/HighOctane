@@ -51,10 +51,10 @@ Model::Model(char const* input) {
 }
 
 void Model::Update() {
-	float x = scale.x * width / graphics.GetWidth();
-	float y = scale.y * height / graphics.GetHeight();
-	matrix = glm::mat3{ cos(rotationRadians) * x,-sin(rotationRadians) * x,0,
-		sin(rotationRadians) * y, cos(rotationRadians) * y,0,
+	float x = scale.x * width;
+	float y = scale.y * height;
+	matrix = glm::mat3{ cos(rotationRadians) * x / graphics.GetWidth() ,-sin(rotationRadians) * x / graphics.GetHeight(),0,
+		sin(rotationRadians) * y / graphics.GetWidth() , cos(rotationRadians) * y / graphics.GetHeight(),0,
 		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
 	//matrix = glm::mat3{0.5,0,0,0,0.5,0,0,0,1};
 }
@@ -106,6 +106,7 @@ void Model::Draw() {
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
 	//glDrawElements(GL_LINE_LOOP, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
+	graphics.DrawLineLoop(matrix);
 }
 
 void Model::AttachTexture(Texture& input) {

@@ -57,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
     // TODO: Place code here.
-    graphics.Initialize(1000, 1000);
+    graphics.Initialize(1920, 1080);
     logger.info("Graphics started");
 
 
@@ -133,11 +133,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-    MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
+    //MSG msg;
+    //while (GetMessage(&msg, nullptr, 0, 0)) {
+    //    TranslateMessage(&msg);
+    //    DispatchMessage(&msg);
+    //}
 
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))

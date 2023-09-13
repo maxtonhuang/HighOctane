@@ -93,7 +93,44 @@ void GraphicsManager::Initialize(int w, int h) {
     textureshaderprogram.Use();
 
     //Create square VAO for use in drawing
-    CreateVAO();
+    {
+        std::vector<Vertex> vtx_array{};
+        std::vector<GLushort> idx_vtx{};
+
+        vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
+        vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
+        vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
+        vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
+
+        //Buffer for vertex order
+        idx_vtx.push_back(3);
+        idx_vtx.push_back(1);
+        idx_vtx.push_back(2);
+        idx_vtx.push_back(0);
+
+        vao.primitivetype = GL_TRIANGLE_STRIP;
+        CreateVAO(vao,vtx_array,idx_vtx);
+    }
+
+    //Create line VAO for use in drawing lines
+    {
+        std::vector<Vertex> vtx_array{};
+        std::vector<GLushort> idx_vtx{};
+
+        vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
+        vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
+        vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
+        vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
+
+        //Buffer for vertex order
+        idx_vtx.push_back(0);
+        idx_vtx.push_back(1);
+        idx_vtx.push_back(3);
+        idx_vtx.push_back(2);
+
+        lineloopvao.primitivetype = GL_LINE_LOOP;
+        CreateVAO( lineloopvao, vtx_array, idx_vtx);
+    }
 
     //Enable alpha
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -105,7 +142,7 @@ void GraphicsManager::Initialize(int w, int h) {
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, 2 * width);
     std::uniform_real_distribution<float> rand_height(0, 2 * height);
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 1000; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
@@ -116,12 +153,15 @@ void GraphicsManager::Initialize(int w, int h) {
 
 void GraphicsManager::Update(float dt) {
     static float fpsInterval = 1.f;
+    static int count = 0;
     fpsInterval += dt;
+    ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
-        title << "ZodiaClash " << std::fixed << std::setprecision(2) << 1 / dt;
+        title << "ZodiaClash " << count;
         glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
+        count = 0;
     }
 }
 
@@ -141,21 +181,7 @@ void GraphicsManager::Draw() {
     glfwSwapBuffers(window);
 }
 
-void GraphicsManager::CreateVAO() {
-    std::vector<Vertex> vtx_array{};
-    std::vector<GLushort> idx_vtx{};
-
-    vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
-    vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
-    vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
-    vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
-
-    //Buffer for vertex order
-    idx_vtx.push_back(3);
-    idx_vtx.push_back(1);
-    idx_vtx.push_back(2);
-    idx_vtx.push_back(0);
-
+void GraphicsManager::CreateVAO(VAOInfo& vao, std::vector<Vertex>& vtx_array, std::vector<GLushort>& idx_vtx) {
     //Create buffer vertex
     GLuint vbo_hdl;
     glCreateBuffers(1, &vbo_hdl);
@@ -192,7 +218,6 @@ void GraphicsManager::CreateVAO() {
     glBindVertexArray(0);
 
     vao.id = vaoid;
-    vao.primitivetype = GL_TRIANGLE_STRIP;
     vao.drawcnt = vtx_array.size();
 }
 
@@ -219,8 +244,24 @@ void GraphicsManager::DrawPoint(float x, float y) {
     textureshaderprogram.Use();
 }
 
-void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2) {
+void GraphicsManager::DrawLineLoop(const glm::mat3& input) {
+    flatshaderprogram.Use();
+    glBindVertexArray(lineloopvao.id);
 
+    //Pass matrix to shader
+    GLint uniform_var_matrix = glGetUniformLocation(
+        flatshaderprogram.GetHandle(), "uModelToNDC");
+    if (uniform_var_matrix >= 0) {
+        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(input));
+    }
+    else {
+        std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
+        std::cout << "Please check vertex shader!\n";
+        std::exit(EXIT_FAILURE);
+    }
+
+    glDrawElements(lineloopvao.primitivetype, lineloopvao.drawcnt, GL_UNSIGNED_SHORT, NULL);
+    textureshaderprogram.Use();
 }
 
 std::string GraphicsManager::GetName() {
