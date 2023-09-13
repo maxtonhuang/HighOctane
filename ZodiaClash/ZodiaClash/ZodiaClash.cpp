@@ -55,6 +55,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Console();
     logger.info("Program started");
 
+    
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
     logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
@@ -65,7 +66,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     logger.error("This is a test error message");
     logger.fatal("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
-
 
     //Mail mail;
     // TODO: Place code here.

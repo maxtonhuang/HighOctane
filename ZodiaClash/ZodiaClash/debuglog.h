@@ -82,16 +82,8 @@ namespace debuglog {
 			bool loggingEnabled;
 	};
 
-	//Implement these functions to control how errors and
-	//debug printing are handled
-	//bool SignalErrorHandler(const char* expression, const char* file, int line, const char* formatMessage = 0, ...);
-	//void DebugPrintHandler(const char* msg, ...);
-
 	// Extern declarations
 	extern Logger logger;
 
 	extern Logger crashLogger;
-
-
-
 }
