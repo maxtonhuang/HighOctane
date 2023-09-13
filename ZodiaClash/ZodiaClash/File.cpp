@@ -12,7 +12,7 @@ void toLower(std::string& s) {
 	std::transform(s.begin(), s.end(), s.begin(), convertCharacters);
 }
 
-void File::SetFilePath(std::string file)
+void FilePath::SetFilePath(std::string file)
 {
 	toLower(file);
 
@@ -30,7 +30,7 @@ void File::SetFilePath(std::string file)
 	FullDirectory = file.substr(0, dirEnd);
 }
 
-std::string File::GetFilePathWithNewExtension(const std::string& newExtension)
+std::string FilePath::GetFilePathWithNewExtension(const std::string& newExtension)
 {
 	return FullDirectory + FileName + newExtension;
 }

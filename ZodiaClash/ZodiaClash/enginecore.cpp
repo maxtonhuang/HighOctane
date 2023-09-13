@@ -3,6 +3,8 @@
 #include "Movement.h"
 #include "Message.h"
 #include "Input.h"
+#include "Serialization.h"
+#include "File.h"
 #include <Windows.h>
 
 float dt;
@@ -34,6 +36,7 @@ namespace Architecture {
 			Systems[i]->Initialize();
 		}
 
+		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 	}
 
 	void EngineCore::GameLoop() {

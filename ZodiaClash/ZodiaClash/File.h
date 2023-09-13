@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 #include <cctype>
-class File {
+class FilePath {
 public:
-	File() {};
-	File(std::string file) { SetFilePath(file); };
-	File& operator=(std::string file) {
+	FilePath() {};
+	FilePath(std::string file) { SetFilePath(file); };
+	FilePath& operator=(std::string file) {
 		SetFilePath(file);
 		return *this;
 	};
