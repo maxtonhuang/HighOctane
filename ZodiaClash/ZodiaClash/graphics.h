@@ -3,12 +3,12 @@
 #include "Model.h"
 #include "System.h"
 
-class GraphicsManager : virtual public Architecture::ISystem {
+class GraphicsManager /*: virtual public Architecture::ISystem*/ { // need to change
 public:
 	GraphicsManager();
 	~GraphicsManager();
 	void Initialize(int w, int h); //initialise graphics manager at start of program
-	void Update(float dt);
+	void Update(float g_dt);
 	void Draw(); //draw the screen, to be called every frame
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false

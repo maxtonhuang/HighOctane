@@ -2,60 +2,75 @@
 #include "Message.h"
 #include "Enginecore.h"
 #include "DebugDiagnostic.h"
+#include "ECS.h"
 
 extern Mail mail;
-extern float dt;
+extern float g_dt;
 
 //int keyInput;
 
-int Movement()
-{
-	int keyInput = 11;
+void UpdateMovement(Vel & movement) {	
+	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
+	
+	//int keyInput = 11;
 	
 	for (Postcard msg : mail.mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_DOWN) {
 			
-			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { keyInput += 10; }
-			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { keyInput += -10; }
-			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { keyInput += -1; }
-			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { keyInput += 1; }
+			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { movement.velocity.y += 200.f * g_dt; }
+			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { movement.velocity.y += -200.f * g_dt; }
+			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { movement.velocity.x += -200.f * g_dt; }
+			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { movement.velocity.x += 200.f * g_dt; }
 		}
 	}
 	mail.mailbox[ADDRESS::MOVEMENT].clear();
 
-	return keyInput;
+
 }
 
-void UpdateModel() {
-	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
-	int direction = Movement();
+void UpdateModel(Transform & transform, Vel & movement) {
+	
+	transform.position += movement.velocity;
+
+
+
+
+
+
+	
+	
+	//int direction = Movement();
+	/*
+	
+	
 	switch (direction) {
 	case UP_DIRECTION:
-		test_model.AddPos(0, 200 * dt);
+		test_model.AddPos(0, 200 * g_dt);
 		break;
 	case UPRIGHT_DIRECTION:
-		test_model.AddPos(200 * dt, 200 * dt);
+		test_model.AddPos(200 * g_dt, 200 * g_dt);
 		break;
 	case RIGHT_DIRECTION:
-		test_model.AddPos(200 * dt, 0);
+		test_model.AddPos(200 * g_dt, 0);
 		break;
 	case DOWNRIGHT_DIRECTION:
-		test_model.AddPos(200 * dt, -200 * dt);
+		test_model.AddPos(200 * g_dt, -200 * g_dt);
 		break;
 	case DOWN_DIRECTION:
-		test_model.AddPos(0, -200 * dt);
+		test_model.AddPos(0, -200 * g_dt);
 		break;
 	case DOWNLEFT_DIRECTION:
-		test_model.AddPos(-200 * dt, -200 * dt);
+		test_model.AddPos(-200 * g_dt, -200 * g_dt);
 		break;
 	case LEFT_DIRECTION:
-		test_model.AddPos(-200 * dt, 0);
+		test_model.AddPos(-200 * g_dt, 0);
 		break;
 	case UPLEFT_DIRECTION:
-		test_model.AddPos(-200 * dt, 200 * dt);
+		test_model.AddPos(-200 * g_dt, 200 * g_dt);
 		break;
 	case NEUTRAL_DIRECTION:
 	default:
 		break;
 	}
+	*/
 }

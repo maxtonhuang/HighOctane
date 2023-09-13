@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ECS.h"
 
 //extern int keyInput;
 
@@ -15,6 +15,6 @@ enum OBJECT_DIRECTION {
 	NEUTRAL_DIRECTION = 11,
 };
 
-int Movement();
+void UpdateMovement(Vel & movement);
 
-void UpdateModel();
+void UpdateModel(Transform & transform, Vel & movement);

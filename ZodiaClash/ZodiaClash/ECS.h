@@ -11,6 +11,7 @@
 #include <set>
 #include <memory>
 #include "debugdiagnostic.h"
+#include "Components.h"
 
 
 namespace Architecture {
@@ -199,6 +200,13 @@ namespace Architecture {
         std::unique_ptr<SystemManager> m_SystemManager;
     };
 
+    class PhysicsSystem : public System {
+    public:
+        void Update(float g_dt);
+
+    };
+
 
 
 }
+

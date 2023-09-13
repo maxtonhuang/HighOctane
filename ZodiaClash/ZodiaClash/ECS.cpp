@@ -1,11 +1,9 @@
-#include "EcsFactory.h"
+#include "ECS.h"
 
 
 
 
 namespace Architecture {
-
-
 
     ///////////////////////////////////////////////////////////////////////////
     ////////// ENTITY /////////////////////////////////////////////////////////
@@ -310,5 +308,7 @@ namespace Architecture {
         m_SystemManager->SetSignature<T>(signature);
     }
 
+extern ECS ecs;
 
 }
+

@@ -6,6 +6,7 @@
 #include <string>
 #include "Graphics.h"
 //#include "Model.h"
+#include "Message.h"
 
 class InputManager {
 	public:

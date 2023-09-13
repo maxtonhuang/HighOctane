@@ -3,50 +3,74 @@
 #include "Movement.h"
 #include "Message.h"
 #include "Input.h"
+#include "ECS.h"
+#include "EntityFactory.h"
+#include "Components.h"
+#include "VMath.h"
 #include <Windows.h>
+#include <chrono>
 
-float dt;
+using Vec2 = vmath::Vector2;
+
+float g_dt;
 
 namespace Architecture {
 
 	EngineCore* CORE;
-
+	ECS ecs;
+	
+	
 	EngineCore::EngineCore() {
-		previousTime = 0;
+		m_previousTime = 0;
 		gameActive = true;
 		CORE = this;
-
-		Initialize();
-
-		//AddSystem(physics);
-
-		mail.RegisterMailbox(ADDRESS::MOVEMENT);
-		mail.RegisterMailbox(ADDRESS::INPUT);
-
 	}
 
 	EngineCore::~EngineCore() {
 		// empty by design
 	}
 
-	void EngineCore::Initialize() {
-		for (size_t i = 0; i < Systems.size(); ++i) {
-			Systems[i]->Initialize();
+	void EngineCore::Run() {
+		
+		////////// INITILIZE //////////
+		ecs.Init();
+		ecs.RegisterComponent<Transform>();
+		ecs.RegisterComponent<Vel>();
+
+		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
+
+		Signature signature;
+		signature.set(ecs.GetComponentType<Transform>());
+		signature.set(ecs.GetComponentType<Vel>());
+
+		ecs.SetSystemSignature<PhysicsSystem>(signature);
+
+		std::vector<Entity> entities(MAX_ENTITIES);
+
+		for (Entity entity : entities) {
+			entity = ecs.CreateEntity();
+
+			ecs.AddComponent(entity, Transform{ Vec2(0.f, 0.f), Vec2(0.f, 0.f), Vec2(0.f, 0.f) });
+			ecs.AddComponent(entity, Vel{ Vec2(0.f, 0.f) });
+			// Add components here
 		}
 
-	}
+		LoadPreFabs();
 
-	void EngineCore::GameLoop() {
+		mail.RegisterMailbox(ADDRESS::MOVEMENT);
+		mail.RegisterMailbox(ADDRESS::INPUT);
 
-		previousTime = timeGetTime();
+
+
+		////////// GAME LOOP //////////
+
+		m_previousTime = GetTime();
 
 		while (gameActive) {
 
-			unsigned int currentTime = timeGetTime();
-
-			dt = (currentTime - previousTime) / 1000.0;
-
-			previousTime = currentTime;
+			uint64_t l_currentTime = GetTime();
+			g_dt = (l_currentTime - m_previousTime) / 1000.f; // dt is in milliseconds
+			m_previousTime = l_currentTime;
 
 			mail.SendMails(); // 1
 
@@ -58,45 +82,22 @@ namespace Architecture {
 
 			mail.SendMails(); // 3
 
-			UpdateModel();
+			physicsSystem->Update(g_dt);
 
-			// ECS should update movement of objects here ?
+			//UpdateModel();
 
-			for (size_t i = 0; i < Systems.size(); ++i) {
-				Systems[i]->Update(dt);
-			}
-			graphics.Update(dt);
+			graphics.Update(g_dt);
 			graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
-		}
 
-
-	}
-
-
-	/*void EngineCore::BroadcastMessage(Message* message) {
-		if (message->type == MessageType::Quit) {
-			gameActive = false;
-		}
-
-		for (size_t i = 0; i < Systems.size(); ++i) {
-			Systems[i]->SendMessage(message);
-		}
-	}*/
-
-	void EngineCore::AddSystem(ISystem* system) {
-		Systems.emplace_back(system);
-	}
-
-	void EngineCore::DestroySystems() {
-		for (size_t i = 0; i < Systems.size(); ++i) {
-			delete Systems[Systems.size() - i - 1];
 		}
 	}
 
-
+	uint64_t EngineCore::GetTime() {
+		return std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
+	}
 
 
 }

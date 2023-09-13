@@ -92,7 +92,7 @@ void GraphicsManager::Initialize(int w, int h) {
     std::default_random_engine rng;
     std::uniform_real_distribution<double> rand_width(0, 2 * width);
     std::uniform_real_distribution<double> rand_height(0, 2 * height);
-    for (int i = 0; i < 3000; i++) {
+    for (int i = 0; i < 5000; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
@@ -104,10 +104,10 @@ void GraphicsManager::Initialize(int w, int h) {
     Draw();
 }
 
-void GraphicsManager::Update(float dt) {
+void GraphicsManager::Update(float g_dt) {
     static float fpsInterval = 1.f;
     static int count = 0;
-    fpsInterval += dt;
+    fpsInterval += g_dt;
     ++count;
     if (fpsInterval > 1) {
         std::stringstream title;

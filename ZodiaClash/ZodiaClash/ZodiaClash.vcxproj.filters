@@ -41,7 +41,7 @@
     <ClInclude Include="commonheaderfilelist.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="frameratecontroller.h">
+    <ClInclude Include="EntityFactory.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
     <ClInclude Include="gamestatemanager.h">
@@ -86,7 +86,7 @@
     <ClInclude Include="EngineCore.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
-    <ClInclude Include="EcsFactory.h">
+    <ClInclude Include="ECS.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
     <ClInclude Include="Message.h">
@@ -99,6 +99,9 @@
     <ClInclude Include="Movement.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -110,7 +113,7 @@
     <ClCompile Include="vmath.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="frameratecontroller.cpp">
+    <ClCompile Include="EntityFactory.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="gamestatemanager.cpp">
@@ -141,7 +144,7 @@
     <ClCompile Include="DebugLog.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="EcsFactory.cpp">
+    <ClCompile Include="ECS.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="EngineCore.cpp">
@@ -152,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="Movement.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems.cpp">
+      <Filter>EngineArchitecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
