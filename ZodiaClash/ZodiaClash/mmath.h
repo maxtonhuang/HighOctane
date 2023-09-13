@@ -189,13 +189,13 @@ namespace mmath {
 		}
 
 		// Determinant of the matrix
-		float determinant() {
+		float determinant() const {
 			float det = this->m00 * this->m11 - this->m01 * this->m10;
 			return det;
 		}
 		
 		// Overloading of ~ for inverse
-		Matrix2 inverse() {
+		Matrix2 inverse() const {
 			Matrix2 temp;
 
 			float det = this->m00 * this->m11 - this->m01 * this->m10;
@@ -493,7 +493,7 @@ namespace mmath {
 			}
 
 			// Negate a matrix
-			Matrix3 negate() {
+			Matrix3 negate() const {
 				Matrix3 temp;
 				temp.m00 = -this->m00;
 				temp.m01 = -this->m01;
@@ -508,13 +508,13 @@ namespace mmath {
 			}
 
 			// Determinant of a matrix
-			float determinant() {
+			float determinant() const {
 				float det = this->m00 * (this->m11 * this->m22 - this->m12 * this->m21) - this->m01 * (this->m10 * this->m22 - this->m12 * this->m20) + this->m02 * (this->m10 * this->m21 - this->m11 * this->m20);
 				return det;
 			}
 
 			// inverse a matrix
-			Matrix3 inverse() {
+			Matrix3 inverse() const{
 				Matrix3 temp;
 				float det = this->determinant();
 				if (det == 0) {

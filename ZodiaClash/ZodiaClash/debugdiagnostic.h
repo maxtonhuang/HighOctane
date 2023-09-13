@@ -70,6 +70,9 @@ namespace debug {
 
 	// Is to assert debug messages
 	void assertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
+
+	// Console init
+	void consoleInitHandler();
 }
 
 
@@ -81,9 +84,13 @@ namespace debug {
 
 #define Assert(condition, ...) debug::assertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
 
+#define Console(...) debug::consoleInitHandler(__VA_ARGS__);
+
 // Else, we will just ignore the debug printing function
 #else
 #define DebugPrint(...) ((void)0)
 
 #define Assert(condition, ...) ((void)0)
+
+#define Console(...) ((void)0)
 #endif

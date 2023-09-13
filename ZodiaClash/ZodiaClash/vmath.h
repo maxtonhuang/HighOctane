@@ -125,13 +125,13 @@ namespace vmath {
 			}
 
 			// Negation
-			Vector2 negate()
+			Vector2 negate() const
 			{
 				return Vector2(-x, -y);
 			}
 
 			// Magnitude of the vector
-			float magnitude() {
+			float magnitude() const {
 				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2)));
 			}
 			
@@ -141,7 +141,7 @@ namespace vmath {
 			}
 
 			// Normalize the vector
-			Vector2 normalize() {
+			Vector2 normalize() const {
 				Vector2 vector;
 				vector.x = this->x / this->magnitude();
 				vector.y = this->y / this->magnitude();
@@ -149,7 +149,7 @@ namespace vmath {
 			}
 
 			// Mid point of two vectors
-			Vector2 midpoint(Vector2& b) {
+			Vector2 midpoint(Vector2& b) const {
 				Vector2 vector;
 				vector.x = (this->x + b.x) / 2;
 				vector.y = (this->y + b.y) / 2;
@@ -157,12 +157,12 @@ namespace vmath {
 			}
 
 			// Distance between two vectors
-			float distance(Vector2& b) {
+			float distance(Vector2& b) const {
 				return static_cast<float>(sqrt(pow(this->x - b.x, 2) + pow(this->y - b.y, 2)));
 			}
 
 			// Test if the vector is in the range of the object
-			bool inRange(Vector2& b, float distRange) {
+			bool inRange(Vector2& b, float distRange) const {
 				if (this->distance(b) <= distRange) {
 					return true;
 				}
@@ -349,7 +349,7 @@ namespace vmath {
 			}
 
 			// Negation vector
-			Vector3 negate()
+			Vector3 negate() const
 			{
 				return Vector3(-x, -y, -z);
 			}
@@ -360,12 +360,12 @@ namespace vmath {
 			}
 
 			// Magnitude of the vector
-			float magnitude() {
+			float magnitude() const {
 				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
 			}
 
 			// Normalize the vector
-			Vector3 normalize() {
+			Vector3 normalize() const {
 				Vector3 vector;
 				vector.x = this->x / this->magnitude();
 				vector.y = this->y / this->magnitude();
@@ -374,7 +374,7 @@ namespace vmath {
 			}
 			
 			// Mid point of two vectors
-			Vector3 midpoint(const Vector3& b) {
+			Vector3 midpoint(const Vector3& b) const {
 				Vector3 vector;
 				vector.x = (this->x + b.x) / 2;
 				vector.y = (this->y + b.y) / 2;
@@ -383,12 +383,12 @@ namespace vmath {
 			}
 
 			// Distance between two vectors
-			float distance(const Vector3& b) {
+			float distance(const Vector3& b) const {
 				return static_cast<float>(sqrt(pow(this->x - b.x, 2) + pow(this->y - b.y, 2) + pow(this->z - b.z, 2)));
 			}
 
 			// Test if the vector is in the range of the object
-			bool inRange(const Vector3& b, float range) {
+			bool inRange(const Vector3& b, float range) const {
 				if (this->distance(b) <= range) {
 					return true;
 				}

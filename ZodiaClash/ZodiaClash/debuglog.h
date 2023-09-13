@@ -93,9 +93,5 @@ namespace debuglog {
 	extern Logger crashLogger;
 
 
-	/*-------------------MOVE THIS TO SOMEWHERE ELSE, NOT SUPPOSED TO BE IN DEBUG------------------------------------------------------------------*/
-	// Create console
-
-	void zcSysInit(_In_ HINSTANCE hInstance, _In_ int nCmdShow, int windowWidth, int windowHeight, bool createConsole, int maxFrameRate, bool vSync);
 
 }

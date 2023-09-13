@@ -108,5 +108,28 @@ namespace debug {
         } while (false);
     }
 
+
+    // Creates the console
+    void consoleInitHandler() {
+        // Allocate a new console for the calling process
+        AllocConsole();
+
+         // Attach the console to the current process
+        AttachConsole(GetCurrentProcessId());
+
+        // Set the title of the console
+        SetConsoleTitle(L"ZodiaClash - Console");
+
+
+        FILE* newStdout;
+        freopen_s(&newStdout, "CONIN$", "r", stdin); // If need to read from console
+        freopen_s(&newStdout, "CONOUT$", "w", stderr); // If need to write to console
+        freopen_s(&newStdout, "CONOUT$", "w", stdout); // If need to write to console
+
+        // Just for fun
+        std::cout << "ZodiaClash Engine Version 0.1\n";
+
+    }
+
 } // namespace debug
 

@@ -34,8 +34,6 @@ using namespace Architecture;
 //LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 //INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-bool gConsoleInitalized = false;
-
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -54,7 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
 
     // To enable the console
-    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
+    Console();
     logger.info("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
