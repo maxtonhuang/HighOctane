@@ -27,6 +27,12 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{2aa6d306-c376-4906-a9c2-d1ed9a85d4a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{0ea2baaa-0796-4b0d-8400-6baeaae4ad96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -97,10 +103,16 @@
     </ClInclude>
     <ClInclude Include="ZodiaClash.h" />
     <ClInclude Include="Movement.h">
-    <Filter>Physics</Filter>
+      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Body.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="Body.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
