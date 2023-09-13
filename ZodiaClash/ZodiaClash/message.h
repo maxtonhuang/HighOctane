@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include <list>
+//#include <list>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -99,7 +99,7 @@ class Mail {
 public:
 
 	Mail() {
-		// empty by design.
+		mailQueue.reserve(MAILBOX_RESERVE_CAP);
 	}
 
 	void RegisterMailbox(ADDRESS system);
@@ -114,14 +114,9 @@ public:
 
 private:
 
-	std::list<Postcard> mailQueue;
+	std::vector<Postcard> mailQueue;
 
 };
 
 extern Mail mail;
-  
-
-// create mailboxes for each system.
-
-	
 
