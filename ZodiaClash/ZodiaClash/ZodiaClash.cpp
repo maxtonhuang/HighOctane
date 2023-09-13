@@ -69,7 +69,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Mail mail;
     // TODO: Place code here.
-    graphics.Initialize(1000, 1000);
+    graphics.Initialize(1920, 1080);
     logger.info("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
