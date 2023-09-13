@@ -98,17 +98,21 @@ void GraphicsManager::Initialize(int w, int h) {
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
         modelList.emplace_back(mdl);
     }
+
     Draw();
 }
 
 void GraphicsManager::Update(float dt) {
     static float fpsInterval = 1.f;
+    static int count = 0;
     fpsInterval += dt;
+    ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
-        title << "ZodiaClash " << std::fixed << std::setprecision(2) << 1 / dt;
+        title << "ZodiaClash " << std::fixed << count;
         glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
+        count = 0;
     }
 }
 

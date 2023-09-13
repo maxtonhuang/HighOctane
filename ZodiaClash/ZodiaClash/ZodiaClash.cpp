@@ -140,11 +140,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-    MSG msg;
+    /*MSG msg;
     while (GetMessage(&msg, nullptr, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
-    }
+    }*/
 
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))

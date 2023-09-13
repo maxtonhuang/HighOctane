@@ -72,7 +72,7 @@ namespace Architecture {
         void InsertData(Entity entity, T component);
 
         void RemoveData(Entity entity);
-
+        
         T& GetData(Entity entity);
 
         void EntityDestroyed(Entity entity) override;
