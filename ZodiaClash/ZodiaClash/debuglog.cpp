@@ -36,7 +36,7 @@ Maybe rotating of log file, now it only changes the file name to old
 #include "vMath.h"
 
 
-constexpr size_t MAX_FILE_SIZE = 1048576; // 1MB;
+constexpr size_t MAX_FILE_SIZE = 1048576; // 1MB
 
 namespace debuglog {
 
@@ -89,6 +89,41 @@ namespace debuglog {
 	// Log into the file
 	void Logger::log(LOG_LEVEL level, const std::string& message) {
 
+		// Change the colour of the console
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		switch (level) {
+		case LOG_LEVEL::Trace:
+			// Change the console colour
+			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+			break;
+
+		case LOG_LEVEL::Debug:
+			// Change the console colour
+			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
+			break;
+
+		case LOG_LEVEL::Info:
+			// Change the console colour
+			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN);
+			break;
+
+		case LOG_LEVEL::Warning:
+			// Change the console colour
+			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_RED);
+			break;
+
+		case LOG_LEVEL::Error:
+			// Change the console colour
+			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
+			break;
+
+		case LOG_LEVEL::Fatal:
+			// Change the console colour
+			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED);
+			break;
+		}
+
 		// If the logging is enabled and current log level is lower than the level set
 		if (loggingEnabled && static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
 
@@ -101,6 +136,10 @@ namespace debuglog {
 			logFile << timeStamp << " [" << levels << "] " << message << "\n";
 			std::cout << timeStamp << " [" << levels << "] " << message << "\n";
 		}
+
+		// Change back to default colour
+		SetConsoleTextAttribute(hConsole, textColour );
+
 		rotateLogFile(MAX_FILE_SIZE);
 	}
 
@@ -109,9 +148,6 @@ namespace debuglog {
 
 		// Log it
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		// Change the console colour
-		SetConsoleTextAttribute(hConsole, textColour |FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY );
 
 		// Call the log function with TRACE log level
 		log(LOG_LEVEL::Trace, message);
@@ -122,9 +158,6 @@ namespace debuglog {
 		// Log it
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-		// Change the console colour
-		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY );
-
 		// Call the log function with DEBUG log level
 		log(LOG_LEVEL::Debug, message);
 	}
@@ -133,9 +166,6 @@ namespace debuglog {
 
 		// Log it
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		// Change the console colour
-		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN );
 
 		// Call the log function with INFO log level
 		log(LOG_LEVEL::Info, message);
@@ -146,9 +176,6 @@ namespace debuglog {
 		// Log it
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-		// Change the console colour
-		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_RED);
-
 		// Call the log function with WARNING log level
 		log(LOG_LEVEL::Warning, message);
 	}
@@ -158,9 +185,6 @@ namespace debuglog {
 		// Log it
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-		// Change the console colour
-		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
-
 		// Call the log function with ERROR log level
 		log(LOG_LEVEL::Error, message);
 	}
@@ -169,9 +193,6 @@ namespace debuglog {
 
 		// Log it
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		// Change the console colour
-		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED );
 
 		// Call the log function with FATAL log level
 		log(LOG_LEVEL::Fatal, message);
