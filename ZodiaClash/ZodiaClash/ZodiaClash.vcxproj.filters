@@ -97,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="ZodiaClash.h" />
     <ClInclude Include="Movement.h">
+    <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.h">
       <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -151,6 +154,9 @@
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="Movement.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
