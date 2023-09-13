@@ -1,11 +1,7 @@
 
 #include "EngineCore.h"
-#include "Movement.h"
-#include "Message.h"
-#include "Input.h"
 #include <Windows.h>
 
-float dt;
 
 namespace Architecture {
 
@@ -15,14 +11,6 @@ namespace Architecture {
 		previousTime = 0;
 		gameActive = true;
 		CORE = this;
-
-		Initialize();
-
-		//AddSystem(physics);
-
-		mail.RegisterMailbox(ADDRESS::MOVEMENT);
-		mail.RegisterMailbox(ADDRESS::INPUT);
-
 	}
 
 	EngineCore::~EngineCore() {
@@ -44,23 +32,11 @@ namespace Architecture {
 
 			unsigned int currentTime = timeGetTime();
 
-			dt = (currentTime - previousTime) / 1000.0;
+			double dt = (currentTime - previousTime) / 1000.0;
 
 			previousTime = currentTime;
 
-			mail.SendMails(); // 1
-
 			glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
-
-			mail.SendMails(); // 2
-
-			InputManager::KeyCheck();
-
-			mail.SendMails(); // 3
-
-			UpdateModel();
-
-			// ECS should update movement of objects here ?
 
 			for (size_t i = 0; i < Systems.size(); ++i) {
 				Systems[i]->Update(dt);
@@ -76,7 +52,7 @@ namespace Architecture {
 	}
 
 
-	/*void EngineCore::BroadcastMessage(Message* message) {
+	void EngineCore::BroadcastMessage(Message* message) {
 		if (message->type == MessageType::Quit) {
 			gameActive = false;
 		}
@@ -84,7 +60,7 @@ namespace Architecture {
 		for (size_t i = 0; i < Systems.size(); ++i) {
 			Systems[i]->SendMessage(message);
 		}
-	}*/
+	}
 
 	void EngineCore::AddSystem(ISystem* system) {
 		Systems.emplace_back(system);

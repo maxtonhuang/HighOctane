@@ -9,10 +9,8 @@
 
 class InputManager {
 	public:
-		//static bool InputInit(GLint w, GLint h, std::string t);
+		static bool InputInit(GLint w, GLint h, std::string t);
 		static void KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod);
-		static void KeyCheck();
-		static INFO KeyConversion(int key);
 		static void MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod);
 		static void CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos);
 

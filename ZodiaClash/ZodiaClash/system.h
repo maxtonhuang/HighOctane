@@ -14,9 +14,9 @@ namespace Architecture {
 
 	public:
 
-		/*virtual void SendMessage(Message* message) {
+		virtual void SendMessage(Message* message) {
 			UNREFERENCED_PARAMETER(message);
-		};*/
+		};
 
 		virtual void Update(float timeslice) = 0;
 
