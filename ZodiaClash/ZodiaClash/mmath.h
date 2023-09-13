@@ -16,7 +16,6 @@
 IF ANYTHING IS CALCULATED WRONGLY PLEASE LET ME KNOW THANK YOU VERY MUCH
 
 More important overloads
-' ^ ' dot product
 ' % ' cross product
 
 ' * ' scalar product
@@ -25,6 +24,7 @@ More important overloads
 ' != ' inequality
 ' [] ' subscript
 
+' dot() ' dot product
 ' negate() ' negate matrix
 ' inverse() ' inverse matrix
 
@@ -171,12 +171,6 @@ namespace mmath {
 			this->m11 /= b;
 			return *this;
 		}
-		
-		// Overloading ^ for dot product
-		float operator^(const Matrix2& b) {
-			float temp;
-			temp = this->m00 * b.m00 + this->m01 * b.m01 + this->m10 * b.m10 + this->m11 * b.m11;
-		}
 
 		// Negate matrix
 		Matrix2 negate() {
@@ -188,14 +182,20 @@ namespace mmath {
 			return temp;
 		}
 
+		// Dot product
+		static float dot(const Matrix2& a, const Matrix2& b) {
+			float temp = a.m00 * b.m00 + a.m01 * b.m10 + a.m10 * b.m01 + a.m11 * b.m11;
+			return temp;
+		}
+
 		// Determinant of the matrix
-		float determinant() {
+		float determinant() const {
 			float det = this->m00 * this->m11 - this->m01 * this->m10;
 			return det;
 		}
 		
 		// Overloading of ~ for inverse
-		Matrix2 inverse() {
+		Matrix2 inverse() const {
 			Matrix2 temp;
 
 			float det = this->m00 * this->m11 - this->m01 * this->m10;
@@ -462,13 +462,6 @@ namespace mmath {
 				return *this;
 			}
 
-			// Overloading ^ for dot product
-			float operator^(const Matrix3& b) {
-				float temp;
-				temp = this->m00 * b.m00 + this->m01 * b.m01 + this->m02 * b.m02 + this->m10 * b.m10 + this->m11 * b.m11 + this->m12 * b.m12 + this->m20 * b.m20 + this->m21 * b.m21 + this->m22 * b.m22;
-				return temp;
-			}
-
 			// Overloading % for cross product
 			Matrix3 operator%(const Matrix3& b) {
 				Matrix3 temp;
@@ -484,8 +477,23 @@ namespace mmath {
 				return temp;
 			}
 
+			// Dot product
+			static float dot(const Matrix3& a, const Matrix3& b) {
+				float temp = 0;
+				temp += a.m00 * b.m00;
+				temp += a.m01 * b.m01;
+				temp += a.m02 * b.m02;
+				temp += a.m10 * b.m10;
+				temp += a.m11 * b.m11;
+				temp += a.m12 * b.m12;
+				temp += a.m20 * b.m20;
+				temp += a.m21 * b.m21;
+				temp += a.m22 * b.m22;
+				return temp;
+			}
+
 			// Negate a matrix
-			Matrix3 negate() {
+			Matrix3 negate() const {
 				Matrix3 temp;
 				temp.m00 = -this->m00;
 				temp.m01 = -this->m01;
@@ -500,13 +508,13 @@ namespace mmath {
 			}
 
 			// Determinant of a matrix
-			float determinant() {
+			float determinant() const {
 				float det = this->m00 * (this->m11 * this->m22 - this->m12 * this->m21) - this->m01 * (this->m10 * this->m22 - this->m12 * this->m20) + this->m02 * (this->m10 * this->m21 - this->m11 * this->m20);
 				return det;
 			}
 
 			// inverse a matrix
-			Matrix3 inverse() {
+			Matrix3 inverse() const{
 				Matrix3 temp;
 				float det = this->determinant();
 				if (det == 0) {

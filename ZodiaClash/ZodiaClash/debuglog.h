@@ -87,11 +87,11 @@ namespace debuglog {
 	//bool SignalErrorHandler(const char* expression, const char* file, int line, const char* formatMessage = 0, ...);
 	//void DebugPrintHandler(const char* msg, ...);
 
+	// Extern declarations
 	extern Logger logger;
 
-	/*-------------------MOVE THIS TO SOMEWHERE ELSE, NOT SUPPOSED TO BE IN DEBUG------------------------------------------------------------------*/
-	// Create console
+	extern Logger crashLogger;
 
-	void zcSysInit(_In_ HINSTANCE hInstance, _In_ int nCmdShow, int windowWidth, int windowHeight, bool createConsole, int maxFrameRate, bool vSync);
+
 
 }

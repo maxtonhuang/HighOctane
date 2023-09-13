@@ -13,12 +13,13 @@
 #include "EngineCore.h" 
 #include "Message.h"
 #include "Texture.h"
-#include "MMath.h"
 
 //#define MAX_LOADSTRING 100
 
 // For debugging
 debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
+
+extern Mail mail;
 
 using namespace Architecture;
 
@@ -33,7 +34,6 @@ using namespace Architecture;
 //LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 //INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-bool gConsoleInitalized = false;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -52,19 +52,38 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
 
     // To enable the console
-    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
+    Console();
     logger.info("Program started");
 
+    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
+    logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
+    logger.trace("This is a test trace message");
+    logger.debug("This is a test debug message");
+    logger.info("This is a test info message");
+    logger.warning("This is a test warning message");
+    logger.error("This is a test error message");
+    logger.fatal("This is a test fatal message");
+    /*---------------------------------------------------------------------------------------------*/
+
+
+    //Mail mail;
     // TODO: Place code here.
-    graphics.Initialize(1920, 1080);
+    graphics.Initialize(1000, 1000);
     logger.info("Graphics started");
 
+    // For Wen Yuan to test his assert functions and logging
+    //int x = -1;
+
+    //Assert(x >= 0, "x must be more than 0");
 
     // Max
 
 
         EngineCore* engine = new EngineCore();
+        
+        
+        
         engine->GameLoop();
 
 
@@ -133,11 +152,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-    //MSG msg;
-    //while (GetMessage(&msg, nullptr, 0, 0)) {
-    //    TranslateMessage(&msg);
-    //    DispatchMessage(&msg);
-    //}
+    /*MSG msg;
+    while (GetMessage(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }*/
 
     //// Main message loop:
     //while (GetMessage(&msg, nullptr, 0, 0))
@@ -149,20 +168,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //    }
     //}
 
-    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
-    logger.trace("This is a test trace message");
-    logger.debug("This is a test debug message");
-    logger.info("This is a test info message");
-    logger.warning("This is a test warning message");
-    logger.error("This is a test error message");
-    logger.fatal("This is a test fatal message");
-    /*---------------------------------------------------------------------------------------------*/
 
     //_CrtDumpMemoryLeaks();
 
     /*return (int) msg.wParam;*/
+    
+    delete engine;
+    
     return 0;
 }
 
@@ -242,7 +255,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
     case WM_KEYUP:
     case WM_LBUTTONDOWN:
         // Handle other Windows events...
-        ConvertWindowsEventToMessage(uMsg);
+        
+        mail.ConvertWindowsEventToPostcard(uMsg);
         return 0;
         // Handle other Windows events...
     default:
