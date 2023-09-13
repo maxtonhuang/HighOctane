@@ -48,10 +48,15 @@ namespace Architecture {
 
 			previousTime = currentTime;
 
-			mail.SendMails();
+			mail.SendMails(); // 1
 
 			glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
+
+			mail.SendMails(); // 2
+
 			InputManager::KeyCheck();
+
+			mail.SendMails(); // 3
 
 			UpdateModel();
 
