@@ -22,6 +22,7 @@ GraphicsManager::GraphicsManager() {
     width = 0;
     height = 0;
     vao = VAOInfo{};
+    lineloopvao = VAOInfo{};
     window = nullptr;
     textureshaderprogram = Shader{};
     flatshaderprogram = Shader{};
@@ -77,7 +78,7 @@ void GraphicsManager::Initialize(int w, int h) {
 
     if (textureshaderprogram.Compile(textureshadervector) == false) {
         std::cout << "Unable to compile shader program! Exiting...\n";
-        //std::exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     std::vector<std::pair<GLenum, std::string>> flatshadervector{
@@ -87,7 +88,7 @@ void GraphicsManager::Initialize(int w, int h) {
 
     if (flatshaderprogram.Compile(flatshadervector) == false) {
         std::cout << "Unable to compile shader program! Exiting...\n";
-        //std::exit(EXIT_FAILURE);
+        std::exit(EXIT_FAILURE);
     }
 
     textureshaderprogram.Use();
@@ -136,7 +137,9 @@ void GraphicsManager::Initialize(int w, int h) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    test_model.AttachTexture("cat.png");
+    texList.AddSpriteSheet("duck.png", 1, 6, 6);
+    test_model.AttachTexture("duck.png");
+    texList.data["duck.png"].CreateSpriteSheet(1, 6, 6);
 
     //TEMP
     std::default_random_engine rng;

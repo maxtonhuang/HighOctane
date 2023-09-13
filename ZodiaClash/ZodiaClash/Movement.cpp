@@ -30,6 +30,9 @@ void Movement()
 			if (msg.info == INFO::KEY_Q) {
 				test_model.AddRot(-30 * dt);
 			}
+			if (msg.info == INFO::KEY_P) {
+				test_model.AdvanceAnimation();
+			}
 		}
 	}
 	mail.mailbox[ADDRESS::MOVEMENT].clear();

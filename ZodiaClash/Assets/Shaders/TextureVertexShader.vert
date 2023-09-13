@@ -8,9 +8,10 @@ layout (location=1) out vec3 vColor;
 layout (location=2) out vec2 vTex;
 
 uniform mat3 uModelToNDC;
+uniform mat3 uTexCoord;
 
 void main() {
 gl_Position = vec4(vec2(uModelToNDC * vec3(aVertexPosition, 1.f)),0.0,1.0);
 vColor = aVertexColor;
-vTex = aTexturePosition;
+vTex = vec2(uTexCoord * vec3(aTexturePosition, 1.f));
 }

@@ -79,7 +79,18 @@ void Model::Draw() {
 	else {
 		std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
 		std::cout << "Please check vertex shader!\n";
-		std::exit(EXIT_FAILURE);
+		//std::exit(EXIT_FAILURE);
+	}
+
+	GLint uniform_var_texmatrix = glGetUniformLocation(
+		graphics.GetShader().GetHandle(), "uTexCoord");
+	if (uniform_var_matrix >= 0) {
+		glUniformMatrix3fv(uniform_var_texmatrix, 1, GL_FALSE, glm::value_ptr(tex->GetSheetMatrix(animation)));
+	}
+	else {
+		std::cout << "Uniform variable uTexCoord doesn't exist!\n";
+		std::cout << "Please check vertex shader!\n";
+		//std::exit(EXIT_FAILURE);
 	}
 
 	GLint uniform_var_color = glGetUniformLocation(
@@ -90,7 +101,7 @@ void Model::Draw() {
 	else {
 		std::cout << "Uniform variable uColor doesn't exist!\n";
 		std::cout << "Please check fragment shader!\n";
-		std::exit(EXIT_FAILURE);
+		//std::exit(EXIT_FAILURE);
 	}
 
 	GLint uniform_var_tex = glGetUniformLocation(
@@ -101,7 +112,7 @@ void Model::Draw() {
 	else {
 		std::cout << "Uniform variable uTex2d doesn't exist!\n";
 		std::cout << "Please check fragment shader!\n";
-		std::exit(EXIT_FAILURE);
+		//std::exit(EXIT_FAILURE);
 	}
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
@@ -127,7 +138,7 @@ void Model::AttachTexture(Texture& input) {
 void Model::AttachTexture(char const* input) {
 	tex = texList.Add(input);
 	if (tex->IsActive()) {
-		width = (float)tex->GetWidth();`
+		width = (float)tex->GetWidth();
 		height = (float)tex->GetHeight();
 	}
 }
@@ -161,4 +172,15 @@ void Model::AddRot(float rot) {
 void Model::SetScale(float x, float y) {
 	scale.x = x;
 	scale.y = y;
+}
+
+void Model::SetAnimation(int index) {
+	animation = index;
+}
+
+void Model::AdvanceAnimation() {
+	++animation;
+	if (animation >= tex->GetSheetSize()) {
+		animation = 0;
+	}
 }
