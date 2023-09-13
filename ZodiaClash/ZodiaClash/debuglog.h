@@ -87,7 +87,11 @@ namespace debuglog {
 	//bool SignalErrorHandler(const char* expression, const char* file, int line, const char* formatMessage = 0, ...);
 	//void DebugPrintHandler(const char* msg, ...);
 
+	// Extern declarations
 	extern Logger logger;
+
+	extern Logger crashLogger;
+
 
 	/*-------------------MOVE THIS TO SOMEWHERE ELSE, NOT SUPPOSED TO BE IN DEBUG------------------------------------------------------------------*/
 	// Create console

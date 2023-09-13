@@ -57,13 +57,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
     logger.info("Program started");
 
-    //Mail mail;
-    
+    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
+    logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
+    logger.trace("This is a test trace message");
+    logger.debug("This is a test debug message");
+    logger.info("This is a test info message");
+    logger.warning("This is a test warning message");
+    logger.error("This is a test error message");
+    logger.fatal("This is a test fatal message");
+    /*---------------------------------------------------------------------------------------------*/
+
+
+    //Mail mail;
     // TODO: Place code here.
     graphics.Initialize(1000, 1000);
     logger.info("Graphics started");
 
+    // For Wen Yuan to test his assert functions and logging
+    //int x = -1;
+
+    //Assert(x >= 0, "x must be more than 0");
 
     // Max
 
@@ -156,16 +170,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //    }
     //}
 
-    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
-    logger.trace("This is a test trace message");
-    logger.debug("This is a test debug message");
-    logger.info("This is a test info message");
-    logger.warning("This is a test warning message");
-    logger.error("This is a test error message");
-    logger.fatal("This is a test fatal message");
-    /*---------------------------------------------------------------------------------------------*/
 
     //_CrtDumpMemoryLeaks();
 

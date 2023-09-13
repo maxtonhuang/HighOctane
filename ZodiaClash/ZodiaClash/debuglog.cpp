@@ -33,6 +33,7 @@ Maybe rotating of log file, now it only changes the file name to old
 #include <string>
 #include <fstream>
 #include <ctime>
+#include "vMath.h"
 
 
 
@@ -40,12 +41,20 @@ Maybe rotating of log file, now it only changes the file name to old
 
 namespace debuglog {
 
+	
+
+	// Variables
+	HANDLE hConsole;
+
+	// Change it to white
+	WORD textColour = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN;
+
 	// Constructor
 	Logger::Logger() {
 		currentLogFileName = "testlog.txt";
 		this->currentLogLevel = LOG_LEVEL::Trace;
 		this->loggingEnabled = true;
-		
+
 		// Open the file
 		logFile.open(currentLogFileName, std::ios::out | std::ios::app);
 
@@ -57,7 +66,7 @@ namespace debuglog {
 	}
 
 	// Logger
-	Logger::Logger(const std::string &logFileName, LOG_LEVEL level, bool loggingEnabled) {
+	Logger::Logger(const std::string& logFileName, LOG_LEVEL level, bool loggingEnabled) {
 
 		currentLogFileName = logFileName;
 		this->currentLogLevel = level;
@@ -65,7 +74,7 @@ namespace debuglog {
 
 		// Open the file
 		logFile.open(logFileName, std::ios::out | std::ios::app);
-	
+
 		// If logfile cannot open for some reason
 		if (!logFile) {
 			std::cerr << "Error opening file" << "\n";
@@ -81,7 +90,7 @@ namespace debuglog {
 	}
 
 	// Log into the file
-	void Logger::log(LOG_LEVEL level, const std::string &message) {
+	void Logger::log(LOG_LEVEL level, const std::string& message) {
 
 		// If the logging is enabled and current log level is lower than the level set
 		if (loggingEnabled && static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
@@ -92,38 +101,83 @@ namespace debuglog {
 			// Get the current level
 			std::string levels = getLevel(level);
 
-			// Log it
+
+
 			logFile << timeStamp << " [" << levels << "] " << message << "\n";
 			std::cout << timeStamp << " [" << levels << "] " << message << "\n";
 		}
 		rotateLogFile(MAX_FILE_SIZE);
 	}
+
+
 	void Logger::trace(const std::string&message) {
+
+		// Log it
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		// Change the console colour
+		SetConsoleTextAttribute(hConsole, textColour |FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY );
+
 		// Call the log function with TRACE log level
 		log(LOG_LEVEL::Trace, message);
 	}
 
 	void Logger::debug(const std::string &message) {
+
+		// Log it
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		// Change the console colour
+		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY );
+
 		// Call the log function with DEBUG log level
 		log(LOG_LEVEL::Debug, message);
 	}
 
 	void Logger::info(const std::string &message) {
+
+		// Log it
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		// Change the console colour
+		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN );
+
 		// Call the log function with INFO log level
 		log(LOG_LEVEL::Info, message);
 	}
 
 	void Logger::warning(const std::string &message) {
+
+		// Log it
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		// Change the console colour
+		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_RED);
+
 		// Call the log function with WARNING log level
 		log(LOG_LEVEL::Warning, message);
 	}
 
 	void Logger::error(const std::string &message) {
+
+		// Log it
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		// Change the console colour
+		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
+
 		// Call the log function with ERROR log level
 		log(LOG_LEVEL::Error, message);
 	}
 
 	void Logger::fatal(const std::string &message) {
+
+		// Log it
+		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		// Change the console colour
+		SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED );
+
 		// Call the log function with FATAL log level
 		log(LOG_LEVEL::Fatal, message);
 	}
@@ -203,6 +257,8 @@ namespace debuglog {
 	bool Logger::getLoggingEnabled(void) {
 		return loggingEnabled;
 	}
+
+
 
 	/*-------------------MOVE THIS TO SOMEWHERE ELSE, NOT SUPPOSED TO BE IN DEBUG------------------------------------------------------------------*/
 	// Create console, right now console std::cout << doesn't work

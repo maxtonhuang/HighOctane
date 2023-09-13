@@ -16,7 +16,6 @@
 IF ANYTHING IS CALCULATED WRONGLY PLEASE LET ME KNOW THANK YOU VERY MUCH
 
 More important overloads
-' ^ ' dot product
 ' % ' cross product
 ' * ' scalar product
 ' / ' scalar division
@@ -25,6 +24,7 @@ More important overloads
 ' ! ' boolean not
 ' [] ' subscript
 
+' dot()' dot product
 ' negate() ' negate vector
 ' magnitude() ' magnitude
 ' normalize() ' normalize
@@ -123,11 +123,6 @@ namespace vmath {
 				this->y /= scale;
 				return *this;
 			}
-		
-			// Overloading ^ for dot product
-			float operator^(const Vector2& b) {
-				return this->x * b.x + this->y * b.y;
-			}
 
 			// Negation
 			Vector2 negate()
@@ -140,6 +135,11 @@ namespace vmath {
 				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2)));
 			}
 			
+			// Dot product
+			static float dot(const Vector2& a, const Vector2& b) {
+				return a.x * b.x + a.y * b.y;
+			}
+
 			// Normalize the vector
 			Vector2 normalize() {
 				Vector2 vector;
@@ -339,11 +339,6 @@ namespace vmath {
 				return *this;
 			}
 
-			// Overloading ^ for dot product
-			float operator^(const Vector3& b) {
-				return this->x * b.x + this->y * b.y + this->z * b.z;
-			}
-
 			// Overload % for the cross product
 			Vector3 operator%(const Vector3& b) {
 				Vector3 vector;
@@ -357,6 +352,11 @@ namespace vmath {
 			Vector3 negate()
 			{
 				return Vector3(-x, -y, -z);
+			}
+
+			// Dot product
+			static float dot(const Vector3& a, const Vector3& b) {
+				return a.x * b.x + a.y * b.y + a.z * b.z;
 			}
 
 			// Magnitude of the vector

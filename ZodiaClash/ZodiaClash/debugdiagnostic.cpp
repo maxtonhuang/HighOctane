@@ -15,9 +15,9 @@
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
+#include "debuglog.h"
 
 namespace debug {
-
     /*!
      * \brief Prints a debug message to the standard error stream.
      *
@@ -83,6 +83,9 @@ namespace debug {
                     fileName++;
                 }
 
+                // Create the logging file only when needed
+                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace, true);
+
                 // Print an error message with just the file name and line number
                 std::cerr << "Assertion failed in " << fileName << " line " << line << ": ";
 
@@ -92,6 +95,10 @@ namespace debug {
                     va_start(args, message);
                     vfprintf(stderr, message, args);
                     va_end(args);
+
+                    // Log the crash into the crash file
+                    crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line) + ": " + message);
+
                 }
 
                 std::cerr << std::endl;
