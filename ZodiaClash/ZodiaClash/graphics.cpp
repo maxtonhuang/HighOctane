@@ -92,12 +92,14 @@ void GraphicsManager::Initialize(int w, int h) {
     std::default_random_engine rng;
     std::uniform_real_distribution<double> rand_width(0, 2 * width);
     std::uniform_real_distribution<double> rand_height(0, 2 * height);
-    for (int i = 0; i < 5000; i++) {
+    for (int i = 0; i < 3000; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
         modelList.emplace_back(mdl);
     }
+
+    glfwSwapInterval(0);
 
     Draw();
 }
