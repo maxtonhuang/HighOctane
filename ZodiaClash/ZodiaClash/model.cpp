@@ -106,7 +106,16 @@ void Model::Draw() {
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
 	//glDrawElements(GL_LINE_LOOP, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
+}
+
+void Model::DrawOutline() {
 	graphics.DrawLineLoop(matrix);
+	float tmp_width = cos(rotationRadians) * -width + sin(rotationRadians) * -height;
+	float tmp_height = -sin(rotationRadians) * -width + cos(rotationRadians) * -height;
+	graphics.DrawPoint(pos.x + tmp_width, pos.y + tmp_height);
+	graphics.DrawPoint(pos.x - tmp_width, pos.y + tmp_height);
+	graphics.DrawPoint(pos.x + tmp_width, pos.y - tmp_height);
+	graphics.DrawPoint(pos.x - tmp_width, pos.y - tmp_height);
 }
 
 void Model::AttachTexture(Texture& input) {
@@ -118,7 +127,7 @@ void Model::AttachTexture(Texture& input) {
 void Model::AttachTexture(char const* input) {
 	tex = texList.Add(input);
 	if (tex->IsActive()) {
-		width = (float)tex->GetWidth();
+		width = (float)tex->GetWidth();`
 		height = (float)tex->GetHeight();
 	}
 }

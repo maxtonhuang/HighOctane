@@ -13,6 +13,7 @@ public:
 	Model(char const*);
 	void Update();
 	void Draw();
+	void DrawOutline();
 	void AttachTexture(Texture&);
 	void AttachTexture(char const*);
 	void SetPos(float x, float y);
