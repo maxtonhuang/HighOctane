@@ -18,8 +18,6 @@ namespace Architecture {
 
 		void DestroySystems();
 
-		void BroadcastMessage(Message* m);
-
 		void AddSystem(ISystem* system);
 
 		void Initialize();
