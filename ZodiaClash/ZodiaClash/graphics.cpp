@@ -144,7 +144,7 @@ void GraphicsManager::Initialize(int w, int h) {
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, 2 * width);
     std::uniform_real_distribution<float> rand_height(0, 2 * height);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);

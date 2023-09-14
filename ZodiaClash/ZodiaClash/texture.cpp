@@ -130,7 +130,7 @@ Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, i
 
 void TextureManager::Clear() {
 	for (auto& t : data) {
-		std::cout << t.first << "\n";
+		t.second.FreeTexture();
 	}
 	data.clear();
 }

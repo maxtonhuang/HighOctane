@@ -62,7 +62,8 @@ void Model::Update() {
 void Model::Draw() {
 	if (tex != nullptr) {
 		glBindTextureUnit(1, tex->GetID());
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	}
 	else {
 		glBindTextureUnit(1, 0);
