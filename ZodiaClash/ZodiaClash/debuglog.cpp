@@ -34,9 +34,10 @@ Maybe rotating of log file, now it only changes the file name to old
 #include <fstream>
 #include <ctime>
 #include "vMath.h"
+#include "debugdiagnostic.h"
 
 
-constexpr size_t MAX_FILE_SIZE = 1048576; // 1MB
+constexpr size_t MAX_FILE_SIZE {1048576}; // 1MB
 
 namespace debuglog {
 
@@ -57,7 +58,7 @@ namespace debuglog {
 
 		// If logfile cannot open for some reason
 		if (!logFile) {
-			std::cerr << "Error opening file" << "\n";
+			Assert(!logFile, "Error opening file");
 			exit(1);
 		}
 	}
@@ -74,7 +75,7 @@ namespace debuglog {
 
 		// If logfile cannot open for some reason
 		if (!logFile) {
-			std::cerr << "Error opening file" << "\n";
+			Assert(!logFile, "Error opening file");
 			exit(1);
 		}
 	}
@@ -146,17 +147,11 @@ namespace debuglog {
 
 	void Logger::trace(const std::string&message) {
 
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 		// Call the log function with TRACE log level
 		log(LOG_LEVEL::Trace, message);
 	}
 
 	void Logger::debug(const std::string &message) {
-
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		// Call the log function with DEBUG log level
 		log(LOG_LEVEL::Debug, message);
@@ -164,17 +159,11 @@ namespace debuglog {
 
 	void Logger::info(const std::string &message) {
 
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 		// Call the log function with INFO log level
 		log(LOG_LEVEL::Info, message);
 	}
 
 	void Logger::warning(const std::string &message) {
-
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		// Call the log function with WARNING log level
 		log(LOG_LEVEL::Warning, message);
@@ -182,17 +171,11 @@ namespace debuglog {
 
 	void Logger::error(const std::string &message) {
 
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 		// Call the log function with ERROR log level
 		log(LOG_LEVEL::Error, message);
 	}
 
 	void Logger::fatal(const std::string &message) {
-
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		// Call the log function with FATAL log level
 		log(LOG_LEVEL::Fatal, message);
@@ -211,17 +194,17 @@ namespace debuglog {
 
 			// If cannot rename
 			if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
-				std::cerr << "Error: Failed to rename the log file." << std::endl;
+				Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot open file");
 			}
 
 			// Reopen the log file
 			logFile.open(currentLogFileName, std::ios::out | std::ios::app);
 			if (!logFile.is_open()) {
-				std::cerr << "Error: Unable to reopen the log file." << std::endl;
+				Assert(!logFile, "Cannot open file");
 			}
 		}
 	}
-
+	
 	// Set the log level
 	void Logger::setLevel(LOG_LEVEL level) {
 		currentLogLevel = level;
@@ -274,5 +257,7 @@ namespace debuglog {
 		return loggingEnabled;
 	}
 
+	// For debugging
+	Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
 }
 

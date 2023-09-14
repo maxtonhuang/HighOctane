@@ -15,15 +15,11 @@
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
-#include "debuglog.h"
-#include <psapi.h>
-#include <thread>
-#include "pdh.h"
 
 namespace debug {
 
     // Variables
-    float performanceTime = 0;
+    float performanceTime{};
 
     /*!
      * \brief Prints a debug message to the standard error stream.
@@ -45,7 +41,7 @@ namespace debug {
         va_start(args, message);
 
         // Use vsnprintf to format the message with variable arguments into a buffer
-        const int bufferSize = 1024;
+        const int bufferSize{ 1024 };
         char buffer[bufferSize];
         vsnprintf(buffer, bufferSize, message, args);
 
@@ -137,9 +133,6 @@ namespace debug {
 
     }
 
-    
-
-
     // Function to print out the memory usage
     void performanceDataHandler() {
 
@@ -154,13 +147,10 @@ namespace debug {
 			
             // To get the memory usage in bytes
             if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
-
+                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
                 // Working set size in bytes
                 SIZE_T usedMemory = pmc.WorkingSetSize;
                 std::cout << "Used memory: " << usedMemory / (1024 * 1024) << " MB" << std::endl;
-                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "TEST\n")
-            }
-            else {
                 
             }
 
@@ -182,12 +172,16 @@ namespace debug {
 
                 // If CPU usage is more than 50%
                 Assert(usagePercent > 50.f, "CPU usage is more than 50%!");
-            }
-
-            
+            }  
         }
+    }
 
+    void CustomTerminateHandler() {
+        // Log the unhandled exception information
 
+        Assert(true, "Unhandled exception occurred");
+        // Terminate the program
+        std::abort();
     }
 
 } // namespace debug
