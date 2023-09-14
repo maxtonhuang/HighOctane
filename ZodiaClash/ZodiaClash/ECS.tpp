@@ -7,7 +7,7 @@
 
 template<typename T>
 void ComponentArray<T>::InsertData(Entity entity, T component) {
-    Assert(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Component added to same entity more than once.");
+    Assert(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Component added to same entity more than once.");
 
     // Put new entry at end and update the maps
     size_t newIndex = m_Size;
@@ -18,8 +18,8 @@ void ComponentArray<T>::InsertData(Entity entity, T component) {
 }
 
 template<typename T>
-void ComponentArray<T>::RemoveData(Entity entity) {
-    Assert(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Removing non-existent component.");
+void ComponentArray<T>::RemoveData(Entity entity) { // check
+    Assert(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Removing non-existent component.");
 
     // Copy element at end into deleted element's place to maintain density
     size_t indexOfRemovedEntity = m_EntityToIndexMap[entity];
@@ -39,7 +39,7 @@ void ComponentArray<T>::RemoveData(Entity entity) {
 
 template<typename T>
 T& ComponentArray<T>::GetData(Entity entity) {
-    Assert(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Retrieving non-existent component.");
+    Assert(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Retrieving non-existent component.");
 
     // Return a reference to the entity's component
     return m_ComponentArray[m_EntityToIndexMap[entity]];
@@ -60,7 +60,7 @@ template<typename T>
 void ComponentManager::RegisterComponent() {
     const char* typeName = typeid(T).name();
 
-    Assert(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Registering component type more than once.");
+    Assert(m_ComponentTypes.find(typeName) != m_ComponentTypes.end(), "Registering component type more than once.");
 
     // Add this component type to the component type map
     m_ComponentTypes.insert({ typeName, m_NextComponentType });
@@ -76,7 +76,7 @@ template<typename T>
 ComponentType ComponentManager::GetComponentType() {
     const char* typeName = typeid(T).name();
 
-    Assert(m_ComponentTypes.find(typeName) != m_ComponentTypes.end(), "Component not registered before use.");
+    Assert(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
 
     // Return this component's type - used for creating signatures
     return m_ComponentTypes[typeName];
@@ -104,7 +104,7 @@ template<typename T>
 std::shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray() {
     const char* typeName = typeid(T).name();
 
-    Assert(m_ComponentTypes.find(typeName) != m_ComponentTypes.end(), "Component not registered before use.");
+    Assert(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
 
     return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
 }
@@ -119,7 +119,7 @@ template<typename T>
 std::shared_ptr<T> SystemManager::RegisterSystem() {
     const char* typeName = typeid(T).name();
 
-    Assert(m_Systems.find(typeName) == m_Systems.end(), "Registering system more than once.");
+    Assert(m_Systems.find(typeName) != m_Systems.end(), "Registering system more than once.");
 
     // Create a pointer to the system and return it so it can be used externally
     std::shared_ptr<T> system = std::make_shared<T>();
@@ -131,7 +131,7 @@ template<typename T>
 void SystemManager::SetSignature(Signature signature) {
     const char* typeName = typeid(T).name();
 
-    Assert(m_Systems.find(typeName) != m_Systems.end(), "System used before registered.");
+    Assert(m_Systems.find(typeName) == m_Systems.end(), "System used before registered.");
 
     // Set the signature for this system
     m_Signatures.insert({ typeName, signature });

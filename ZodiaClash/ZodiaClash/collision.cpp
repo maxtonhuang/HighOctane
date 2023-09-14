@@ -1,6 +1,6 @@
 #include "Collision.h"
 
-extern float dt;
+extern float g_dt;
 
 namespace physics {
 
@@ -22,7 +22,7 @@ namespace physics {
 			Step 2: Initialize and calculate the new velocity of Vb
 			*/
 			float tFirst = 0.f;
-			float tLast = dt;
+			float tLast = g_dt;
 
 			vmath::Vector2 vB;
 			vB.x = vel2.x - vel1.x;

@@ -60,7 +60,7 @@ namespace Architecture {
 		LoadPreFabs();
 
 		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
-	}
+	
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
 
