@@ -1,7 +1,7 @@
 #pragma once
 #include "GraphLib.h"
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 const int channelnum = 4;
@@ -11,6 +11,8 @@ public:
 	Texture();
 	~Texture();
 	void Init(char const*);
+	void FreeTexture();
+
 	GLuint GetID();
 	bool IsActive();
 	void CreateSpriteSheet(int row, int column, int spritenum);
@@ -31,9 +33,11 @@ private:
 
 class TextureManager {
 public:
+	~TextureManager();
 	Texture* Add(char const* texname);
 	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum);
-	std::map<std::string, Texture> data;
+	void Clear();
+	std::unordered_map<std::string, Texture> data;
 };
 
 //I THINK THIS CURRENTLY CAUSES MEMORY LEAKS AS MAP MEMORY ISNT CLEARED

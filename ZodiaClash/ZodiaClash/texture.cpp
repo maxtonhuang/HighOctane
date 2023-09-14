@@ -64,6 +64,12 @@ void Texture::CreateSpriteSheet(int row, int column, int spritenum) {
 	return;
 }
 
+void Texture::FreeTexture() {
+	if (active) {
+		glDeleteTextures(1, &id);
+	}
+}
+
 GLuint Texture::GetID() {
 	return id;
 }
@@ -91,6 +97,10 @@ int Texture::GetSheetSize() {
 	return (int)sheetmatrix.size();
 }
 
+TextureManager::~TextureManager() {
+	this->Clear();
+}
+
 Texture* TextureManager::Add(const char* texname) {
 	if (data.count(texname)) {
 		return &data[texname];
@@ -116,4 +126,11 @@ Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, i
 	temp.CreateSpriteSheet(row, col, spritenum);
 	data.emplace(texname, temp);
 	return &data[texname];
+}
+
+void TextureManager::Clear() {
+	for (auto& t : data) {
+		std::cout << t.first << "\n";
+	}
+	data.clear();
 }

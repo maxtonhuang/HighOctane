@@ -139,7 +139,6 @@ void GraphicsManager::Initialize(int w, int h) {
 
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     test_model.AttachTexture("duck.png");
-    texList.data["duck.png"].CreateSpriteSheet(1, 6, 6);
 
     //TEMP
     std::default_random_engine rng;
@@ -151,6 +150,7 @@ void GraphicsManager::Initialize(int w, int h) {
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
         modelList.emplace_back(mdl);
     }
+
     Draw();
 }
 
