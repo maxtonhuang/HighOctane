@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "VMath.h"
-#include "Body.h"
+//#include "Body.h"
 
 namespace physics {
 
@@ -44,7 +44,7 @@ namespace physics {
 	class Circle : public Shape
 	{
 	public:
-		Circle() : Shape(SHAPE_CIRCLE) {};
+		Circle() : Shape(SHAPE_CIRCLE), center{ 0.f, 0.f }, radius{ 0.1f }, isStatic{}, isVulnerable{} {};
 		vmath::Vector2 center;
 		float radius;
 		bool isStatic;
@@ -56,7 +56,7 @@ namespace physics {
 	class AABB : public Shape
 	{
 	public:
-		AABB() : Shape(SHAPE_BOX) {};
+		AABB() : Shape(SHAPE_BOX), min{ 0.f, 0.f }, max{ 0.f, 0.f }, isStatic{}, isVulnerable{} {};
 		vmath::Vector2 min;
 		vmath::Vector2 max;
 		bool isStatic;
@@ -155,7 +155,7 @@ namespace physics {
 								Shape* beta,
 								vmath::Vector2 betaPos,
 								ContactSet* c);*/
-		void CheckCollision(Shape::SHAPE_ID alpha, Shape::SHAPE_ID beta);
+		static bool CheckCollision(const Body& alpha, const Body& beta);
 
 		//void CollisionDetectionAndResponse();
 		//bool CheckCollision(const Body& otherBody);// check collision with another body

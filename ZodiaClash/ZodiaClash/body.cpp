@@ -69,91 +69,92 @@ namespace physics {
 		velocity = vel;
 	}
 
-	bool Body::CheckCollision(const Body& otherBody) 
+	bool Body::CheckCollision(const Body& otherBody)
 	{
 		return CollisionManager::CheckCollision(*this, otherBody);
 	};
 
 
-//void Body::PublishResults()
-//{
-//	tx->Position = Position;
-//}
+	//void Body::PublishResults()
+	//{
+	//	tx->Position = Position;
+	//}
 
-//void Body::DebugDraw()
-//{
-//	if (IsStatic)
-//	{
-//		//White
-//		Drawer::Instance.SetColor(Vec4(1, 1, 1, 1));
+	//void Body::DebugDraw()
+	//{
+	//	if (IsStatic)
+	//	{
+	//		//White
+	//		Drawer::Instance.SetColor(Vec4(1, 1, 1, 1));
 
-//		//Draw the shape of the object
-//		BodyShape->Draw();
-//	}
-//	else
-//	{
-//		//Red
-//		Drawer::Instance.SetColor(Vec4(1, 0, 0, 1));
+	//		//Draw the shape of the object
+	//		BodyShape->Draw();
+	//	}
+	//	else
+	//	{
+	//		//Red
+	//		Drawer::Instance.SetColor(Vec4(1, 0, 0, 1));
 
-//		//Draw the shape of the object
-//		BodyShape->Draw();
+	//		//Draw the shape of the object
+	//		BodyShape->Draw();
 
-//		//Draw the velocity of the object
-//		Drawer::Instance.SetColor(Vec4(1, 1, 1, 1));
-//		Drawer::Instance.MoveTo(Position);
-//		Drawer::Instance.LineTo(Position + Velocity * 0.25f);
-//	}
+	//		//Draw the velocity of the object
+	//		Drawer::Instance.SetColor(Vec4(1, 1, 1, 1));
+	//		Drawer::Instance.MoveTo(Position);
+	//		Drawer::Instance.LineTo(Position + Velocity * 0.25f);
+	//	}
 
-//}
+	//}
 
-//void Body::Initialize()
-//{
-//	//Get the transform to write results to
-//	tx = GetOwner()->has(Transform);
+	//void Body::Initialize()
+	//{
+	//	//Get the transform to write results to
+	//	tx = GetOwner()->has(Transform);
 
-//	//Get the starting position
-//	Position = tx->Position;
+	//	//Get the starting position
+	//	Position = tx->Position;
 
-//	//Add this body to the body list
-//	PHYSICS->Bodies.push_back(this);
+	//	//Add this body to the body list
+	//	PHYSICS->Bodies.push_back(this);
 
-//	//If mass is zero object is interpreted
-//	//to be static
-//	if (Mass > 0.0f)
-//	{
-//		IsStatic = false;
-//		InvMass = 1.0f / Mass;
-//	}
-//	else
-//	{
-//		IsStatic = true;
-//		InvMass = 0.0f;
-//	}
+	//	//If mass is zero object is interpreted
+	//	//to be static
+	//	if (Mass > 0.0f)
+	//	{
+	//		IsStatic = false;
+	//		InvMass = 1.0f / Mass;
+	//	}
+	//	else
+	//	{
+	//		IsStatic = true;
+	//		InvMass = 0.0f;
+	//	}
 
-//	BodyShape->body = this;
-//}
+	//	BodyShape->body = this;
+	//}
 
-	/*void Body::Serialize(ISerializer& stream)
-	{
-		StreamRead(stream, Mass);
-		StreamRead(stream, Friction);
-		StreamRead(stream, Restitution);
-
-		std::string shapeName;
-		StreamRead(stream, shapeName);
-
-		if (shapeName == "Circle")
+		/*void Body::Serialize(ISerializer& stream)
 		{
-			ShapeCircle* shape = new ShapeCircle();
-			StreamRead(stream, shape->Radius);
-			this->BodyShape = shape;
-		}
+			StreamRead(stream, Mass);
+			StreamRead(stream, Friction);
+			StreamRead(stream, Restitution);
 
-		if (shapeName == "Box")
-		{
-			ShapeAAB* shape = new ShapeAAB();
-			StreamRead(stream, shape->Extents);
-			this->BodyShape = shape;
-		}
+			std::string shapeName;
+			StreamRead(stream, shapeName);
 
-	}*/
+			if (shapeName == "Circle")
+			{
+				ShapeCircle* shape = new ShapeCircle();
+				StreamRead(stream, shape->Radius);
+				this->BodyShape = shape;
+			}
+
+			if (shapeName == "Box")
+			{
+				ShapeAAB* shape = new ShapeAAB();
+				StreamRead(stream, shape->Extents);
+				this->BodyShape = shape;
+			}
+
+		}*/
+}

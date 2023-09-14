@@ -2,6 +2,8 @@
 #include "collision.h"
 #pragma once
 
+using vmath::Vector2;
+
 ///Body Component provides basic point physics dynamics including mass, 
 ///velocity, forces, acceleration, and collision resolution.
 ///Component will modify transform component attributes every frame.

@@ -227,39 +227,43 @@ namespace physics {
         
     }
 
-	void CollisionManager::CheckCollision(Shape::SHAPE_ID alpha, Shape::SHAPE_ID beta) {
-		if ((alpha == Shape::SHAPE_BOX) && (beta == Shape::SHAPE_BOX)) {
-			//check if alpha isStatic is false first?
-			//CheckCollisionBoxBox();
+	bool CollisionManager::CheckCollision(const Body& alpha, const Body& beta) {
+		return false;
+		//Shape::SHAPE_ID alphaShape = alpha.bodyShape->id;
+		//Shape::SHAPE_ID betaShape = beta.bodyShape->id;
 
-			//collision response
-			//if beta isStatic is true, call OnCollideSnap()
-			//if beta isVulnerable is true, call OnCollideDestroy()
-		}
-		else if ((alpha == Shape::SHAPE_BOX) && (beta == Shape::SHAPE_CIRCLE)) {
-			//check if alpha isStatic is false first?
-			//CheckCollisionBoxCircle();
+		//if ((alphaShape == Shape::SHAPE_BOX) && (betaShape == Shape::SHAPE_BOX)) {
+		//	//check if alpha isStatic is false first?
+		//	//CheckCollisionBoxBox();
 
-			//collision response
-			//if beta isStatic is true, call OnCollideSnap()
-			//if beta isVulnerable is true, call OnCollideDestroy()
-		}
-		else if ((alpha == Shape::SHAPE_CIRCLE) && (beta == Shape::SHAPE_CIRCLE)) {
-			//check if alpha isStatic is false first?
-			//CheckCollisionBoxCircle();
+		//	//collision response
+		//	//if beta isStatic is true, call OnCollideSnap()
+		//	//if beta isVulnerable is true, call OnCollideDestroy()
+		//}
+		//else if ((alpha == Shape::SHAPE_BOX) && (beta == Shape::SHAPE_CIRCLE)) {
+		//	//check if alpha isStatic is false first?
+		//	//CheckCollisionBoxCircle();
 
-			//collision response
-			//if beta isStatic is true, call OnCollideSnap()
-			//if beta isVulnerable is true, call OnCollideDestroy()
-		}
-		else if ((alpha == Shape::SHAPE_CIRCLE) && (beta == Shape::SHAPE_BOX)) {
-			//check if alpha isStatic is false first?
-			//CheckCollisionCircleBox();
+		//	//collision response
+		//	//if beta isStatic is true, call OnCollideSnap()
+		//	//if beta isVulnerable is true, call OnCollideDestroy()
+		//}
+		//else if ((alpha == Shape::SHAPE_CIRCLE) && (beta == Shape::SHAPE_CIRCLE)) {
+		//	//check if alpha isStatic is false first?
+		//	//CheckCollisionBoxCircle();
 
-			//collision response
-			//if beta isStatic is true, call OnCollideSnap()
-			//if beta isVulnerable is true, call OnCollideDestroy()
-		}
+		//	//collision response
+		//	//if beta isStatic is true, call OnCollideSnap()
+		//	//if beta isVulnerable is true, call OnCollideDestroy()
+		//}
+		//else if ((alpha == Shape::SHAPE_CIRCLE) && (beta == Shape::SHAPE_BOX)) {
+		//	//check if alpha isStatic is false first?
+		//	//CheckCollisionCircleBox();
+
+		//	//collision response
+		//	//if beta isStatic is true, call OnCollideSnap()
+		//	//if beta isVulnerable is true, call OnCollideDestroy()
+		//}
 
 		//separate checking system for border collision?
 	}
