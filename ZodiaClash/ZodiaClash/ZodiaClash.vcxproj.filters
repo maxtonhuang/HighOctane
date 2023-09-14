@@ -198,7 +198,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ECS.tpp">
+    <None Include="ECS.t">
       <Filter>EngineArchitecture</Filter>
     </None>
   </ItemGroup>

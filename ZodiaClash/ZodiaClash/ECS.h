@@ -200,7 +200,7 @@ namespace Architecture {
         std::unique_ptr<SystemManager> m_SystemManager;
     };
 
-    #include "ECS.tpp" // for template functions of ECS
+    #include "ECS.t" // for template functions of ECS
 
     class PhysicsSystem : public System {
     public:
