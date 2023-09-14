@@ -12,10 +12,10 @@ namespace physics {
 		Body(); //constructor
 		~Body(); //destructor
 
-		void AddForce(vmath::Vector2 force);
+		void AddForce(Vector2 force);
 		void Integrate(float deltaTime);
-		void SetPosition(vmath::Vector2);
-		void SetVelocity(vmath::Vector2);
+		void SetPosition(Vector2);
+		void SetVelocity(Vector2);
 		bool CheckCollision(const Body& otherBody);
 		//void DebugDraw();//Draw the object using the debug drawer
 		//void PublishResults();
@@ -24,11 +24,11 @@ namespace physics {
 
 		Body* next;
 		Body* prev;
-		vmath::Vector2 position; 
-		vmath::Vector2 prevPosition;
-		vmath::Vector2 velocity;
-		vmath::Vector2 acceleration;
-		vmath::Vector2 accumulatedForce;
+		Vector2 position; 
+		Vector2 prevPosition;
+		Vector2 velocity;
+		Vector2 acceleration;
+		Vector2 accumulatedForce;
 		float mass;
 		float restitution;
 		float friction{ 0.2f };

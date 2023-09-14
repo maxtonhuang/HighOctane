@@ -9,7 +9,7 @@ namespace physics {
     PhysicsManager::PhysicsManager()
     {
         PHYSICS = this;
-        gravity = vmath::Vector2(0, -400);
+        gravity = Vector2(0, -400);
         maxVelocity = 1000;
         maxVelocitySq = maxVelocity * maxVelocity;
         advanceStep = false;
@@ -22,7 +22,7 @@ namespace physics {
     void PhysicsManager::Initialize() 
     {
         PHYSICS = this;
-        gravity = vmath::Vector2(0, -400);
+        gravity = Vector2(0, -400);
         maxVelocity = 1000;
         maxVelocitySq = maxVelocity * maxVelocity;
     }

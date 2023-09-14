@@ -4,10 +4,10 @@
 namespace physics {
 	Body::Body()
 	{
-		position = Vec2(0, 0);
-		prevPosition = Vec2(0, 0);
-		velocity = Vec2(0, 0);
-		acceleration = Vec2(0, 0);
+		position = Vector2(0, 0);
+		prevPosition = Vector2(0, 0);
+		velocity = Vector2(0, 0);
+		acceleration = Vector2(0, 0);
 		accumulatedForce = Vector2(0, 0);
 		mass = 0.0f;
 		restitution = 0.0f;
@@ -17,8 +17,11 @@ namespace physics {
 
 	Body::~Body()
 	{
-		delete bodyShape;
-		PHYSICS->Bodies.erase(this);
+		/*delete bodyShape;
+		PHYSICS->bodies.erase(this);*/
+		//auto it = std::find(PHYSICS->bodies.begin(), PHYSICS->bodies.end(), someBodyObject);
+		//// if (it != PHYSICS->bodies.end()) {
+		////     PHYSICS->bodies.erase(it);
 	}
 
 	void Body::Integrate(float deltaTime)
@@ -30,38 +33,38 @@ namespace physics {
 		prevPosition = position;
 
 		// Update the position base on deltatime
-		position += velocity * dt;
+		position += velocity * deltaTime;
 
 		// Update the acceleration based on the global gravity and any accumulated forces on the body.
 		acceleration = PHYSICS->gravity;
-		vmath::Vector2 newAcceleration = accumulatedForce + acceleration;
+		Vector2 newAcceleration = accumulatedForce + acceleration;
 
 		// Update the velocity using the newly computed acceleration.
 		//velocity is speed with direction
-		velocity += newAcceleration * dt;
+		velocity += newAcceleration * deltaTime;
 
 		// Ensure the velocity doesn't exceed a maximum value for numerical stability.
-		if (velocity.dot(velocity) > PHYSICS->maxVelocitySq) // Use dot product to get the squared magnitude
+		if (Vector2::dot(velocity, velocity) > PHYSICS->maxVelocitySq) // Use dot product to get the squared magnitude
 		{
 			velocity.normalize(); // Make the velocity a unit vector
 			velocity *= PHYSICS->maxVelocity; // Scale it to the maximum allowed velocity
 		}
 
 		// Reset the accumulated force to zero for the next frame
-		accumulatedForce = vmath::Vector2(0, 0);
+		accumulatedForce = Vector2(0, 0);
 	}
 
-	void Body::AddForce(vmath::Vector2 force)
+	void Body::AddForce(Vector2 force)
 	{
 		accumulatedForce += force;
 	}
 
-	void Body::SetPosition(vmath::Vector2 pos)
+	void Body::SetPosition(Vector2 pos)
 	{
 		position = pos;
 	}
 
-	void Body::SetVelocity(vmath::Vector2 vel)
+	void Body::SetVelocity(Vector2 vel)
 	{
 		velocity = vel;
 	}
@@ -130,7 +133,7 @@ namespace physics {
 //	BodyShape->body = this;
 //}
 
-	void Body::Serialize(ISerializer& stream)
+	/*void Body::Serialize(ISerializer& stream)
 	{
 		StreamRead(stream, Mass);
 		StreamRead(stream, Friction);
@@ -153,4 +156,4 @@ namespace physics {
 			this->BodyShape = shape;
 		}
 
-	}
+	}*/

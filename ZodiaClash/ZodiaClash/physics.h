@@ -1,44 +1,3 @@
-<<<<<<< Updated upstream
-//#pragma once
-//#include <vector>
-//#include "VMath.h"
-//#include "Collision.h"
-//#include "Body.h"
-//
-///*
-//* TODO:
-//* - init
-//* - update body position
-//* - update forces
-//* - consider debug drawing step
-//*/
-//namespace physics {
-//	class PhysicsManager {
-//	public:
-//		PhysicsManager(); //constructor
-//
-//		// new ver. arrangment
-//	public:
-//		std::vector<Body> bodies; // store all the bodies
-//		void Initialize(); //initializes 1x instance of physics and relevant (global?) variables
-//		void Update(float deltaTime);
-//		void Integrate(Body& body, float deltaTime);
-//		void DetectCollision(float deltaTime);
-//		CollisionManager collision;
-//
-//		//attributes (some overlap with body, need further clarif.)
-//	public:
-//		vmath::Vector2 gravity;
-//		float maxVelocity;
-//		float maxVelocitySq;
-//
-//		//note: PenetrationEpsilon and PenetrationResolvePercentage in sample, to confirm further usage
-//	};
-//
-//	// global pointer
-//	extern PhysicsManager* PHYSICS;
-//}
-=======
 #pragma once
 #include <vector>
 #include "vmath.h"
@@ -52,6 +11,7 @@
 * - update forces
 * - consider debug drawing step
 */
+using namespace vmath; 
 namespace physics {
 	class PhysicsManager {
 	public:
@@ -71,7 +31,7 @@ namespace physics {
 
 	public:
 		std::vector<Body> bodies; // store all the bodies
-		vmath::Vector2 gravity;
+		Vector2 gravity;
 		float maxVelocity;
 		float maxVelocitySq;
 		bool advanceStep;
@@ -84,4 +44,3 @@ namespace physics {
 	// global pointer
 	extern PhysicsManager* PHYSICS;
 }
->>>>>>> Stashed changes
