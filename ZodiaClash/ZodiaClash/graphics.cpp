@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Input.h"
 #include "graphlib.h"
+#include "debugdiagnostic.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -23,6 +24,7 @@ GraphicsManager::GraphicsManager() {
     height = 0;
     vao = VAOInfo{};
     lineloopvao = VAOInfo{};
+    circlevao = VAOInfo{};
     window = nullptr;
     textureshaderprogram = Shader{};
     flatshaderprogram = Shader{};
@@ -71,25 +73,22 @@ void GraphicsManager::Initialize(int w, int h) {
     glewInit();
 
     //Compile shaders
+    bool compile_status;
     std::vector<std::pair<GLenum, std::string>> textureshadervector{
         std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/TextureVertexShader.vert"),
         std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/TextureFragmentShader.frag")
     };
 
-    if (textureshaderprogram.Compile(textureshadervector) == false) {
-        std::cout << "Unable to compile shader program! Exiting...\n";
-        std::exit(EXIT_FAILURE);
-    }
+    compile_status = textureshaderprogram.Compile(textureshadervector);
+    Assert(compile_status, "Unable to compile texture shader program!\n");
 
     std::vector<std::pair<GLenum, std::string>> flatshadervector{
         std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/FlatVertexShader.vert"),
         std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/FlatFragmentShader.frag")
     };
 
-    if (flatshaderprogram.Compile(flatshadervector) == false) {
-        std::cout << "Unable to compile shader program! Exiting...\n";
-        std::exit(EXIT_FAILURE);
-    }
+    compile_status = flatshaderprogram.Compile(flatshadervector);
+    Assert(compile_status, "Unable to compile flat shader program!\n");
 
     textureshaderprogram.Use();
 
@@ -131,6 +130,26 @@ void GraphicsManager::Initialize(int w, int h) {
 
         lineloopvao.primitivetype = GL_LINE_LOOP;
         CreateVAO( lineloopvao, vtx_array, idx_vtx);
+    }
+
+    //Create circle VAO for use in drawing
+    {
+        const int circle_size = 100; //amount of triangles per circle. Higher amount means circle is more rounded but uses more triangles to render
+        std::vector<Vertex> vtx_array{};
+        std::vector<GLushort> idx_vtx{};
+
+        vtx_array.push_back(Vertex{glm::vec2(0, 0), glm::vec3(1, 1, 1), glm::vec2(0.5, 0.5) });
+        idx_vtx.push_back(0);
+
+        const float angle = 2 * 3.14159265358979323846 / circle_size;
+        for (int i = 0; i < circle_size; ++i) {
+            vtx_array.push_back(Vertex{ glm::vec2(std::cos(angle * i), std::sin(angle * i)), glm::vec3(1, 1, 1), glm::vec2(glm::vec2(std::cos(angle * i) * 0.5 + 0.5, std::sin(angle * i) * 0.5 + 0.5))});
+            idx_vtx.push_back(i + 1);
+        }
+        idx_vtx.push_back(1);
+
+        circlevao.primitivetype = GL_TRIANGLE_FAN;
+        CreateVAO(circlevao, vtx_array, idx_vtx);
     }
 
     //Enable alpha
@@ -180,6 +199,8 @@ void GraphicsManager::Draw() {
     test_model.Draw();
     test_model.DrawOutline();
 
+    DrawCircle(1000,0,100);
+
     glfwSwapBuffers(window);
 }
 
@@ -220,7 +241,7 @@ void GraphicsManager::CreateVAO(VAOInfo& vao, std::vector<Vertex>& vtx_array, st
     glBindVertexArray(0);
 
     vao.id = vaoid;
-    vao.drawcnt = vtx_array.size();
+    vao.drawcnt = idx_vtx.size();
 }
 
 void GraphicsManager::DrawPoint(float x, float y) {
@@ -235,11 +256,6 @@ void GraphicsManager::DrawPoint(float x, float y) {
         flatshaderprogram.GetHandle(), "uModelToNDC");
     if (uniform_var_matrix >= 0) {
         glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-    }
-    else {
-        std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-        std::cout << "Please check vertex shader!\n";
-        std::exit(EXIT_FAILURE);
     }
 
     glDrawElements(GL_POINTS, vao.drawcnt, GL_UNSIGNED_SHORT, NULL);
@@ -256,13 +272,27 @@ void GraphicsManager::DrawLineLoop(const glm::mat3& input) {
     if (uniform_var_matrix >= 0) {
         glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(input));
     }
-    else {
-        std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-        std::cout << "Please check vertex shader!\n";
-        std::exit(EXIT_FAILURE);
-    }
 
     glDrawElements(lineloopvao.primitivetype, lineloopvao.drawcnt, GL_UNSIGNED_SHORT, NULL);
+    textureshaderprogram.Use();
+}
+
+void GraphicsManager::DrawCircle(float x, float y, float radius) {
+    //const glm::mat3 matrix{ 1,0,0,0,1,0,0,0,1 };
+
+    glm::mat3 matrix{ radius / width, 0 ,0 ,0, radius / height, 0, x / width, y / height, 1 };
+
+    flatshaderprogram.Use();
+    glBindVertexArray(circlevao.id);
+
+    //Pass matrix to shader
+    GLint uniform_var_matrix = glGetUniformLocation(
+        flatshaderprogram.GetHandle(), "uModelToNDC");
+    if (uniform_var_matrix >= 0) {
+        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+
+    glDrawElements(circlevao.primitivetype, circlevao.drawcnt, GL_UNSIGNED_SHORT, NULL);
     textureshaderprogram.Use();
 }
 

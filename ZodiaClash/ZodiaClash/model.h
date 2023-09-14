@@ -13,8 +13,8 @@ public:
 	Model(char const*);
 
 	void Update();
-	void Draw();
-	void DrawOutline();
+	void Draw(); //Draw the texture of the model
+	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
 	void AttachTexture(Texture&);
 	void AttachTexture(char const*);

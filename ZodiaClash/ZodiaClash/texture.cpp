@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "debugdiagnostic.h"
 
 #include <iostream>
 
@@ -30,7 +31,7 @@ void Texture::Init(char const* filename) {
 	data = stbi_load(filepath.c_str(), &width, &height, &filechannels, channelnum);
 	if (data == nullptr) {
 		active = false;
-		std::cout << "Unable to find texture " << filename << "!\n";
+		DebugPrint("Unable to find texture %s\n", filename);
 		return;
 	}
 	else {

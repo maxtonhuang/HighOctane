@@ -16,6 +16,7 @@ public:
 
 	void DrawPoint(float x, float y);
 	void DrawLineLoop(const glm::mat3& input);
+	void DrawCircle(float x, float y, float radius);
 
 	//VAO info for draw functions in other classes
 	struct VAOInfo {
@@ -43,6 +44,7 @@ private:
 	Shader flatshaderprogram;
 	VAOInfo vao;
 	VAOInfo lineloopvao;
+	VAOInfo circlevao;
 };
 
 extern GraphicsManager graphics;

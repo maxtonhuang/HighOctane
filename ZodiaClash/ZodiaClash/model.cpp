@@ -56,14 +56,13 @@ void Model::Update() {
 	matrix = glm::mat3{ cos(rotationRadians) * x / graphics.GetWidth() ,-sin(rotationRadians) * x / graphics.GetHeight(),0,
 		sin(rotationRadians) * y / graphics.GetWidth() , cos(rotationRadians) * y / graphics.GetHeight(),0,
 		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
-	//matrix = glm::mat3{0.5,0,0,0,0.5,0,0,0,1};
 }
 
 void Model::Draw() {
 	if (tex != nullptr) {
 		glBindTextureUnit(1, tex->GetID());
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	}
 	else {
 		glBindTextureUnit(1, 0);
@@ -77,21 +76,11 @@ void Model::Draw() {
 	if (uniform_var_matrix >= 0) {
 		glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
-	else {
-		std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-		std::cout << "Please check vertex shader!\n";
-		//std::exit(EXIT_FAILURE);
-	}
 
 	GLint uniform_var_texmatrix = glGetUniformLocation(
 		graphics.GetShader().GetHandle(), "uTexCoord");
 	if (uniform_var_matrix >= 0) {
 		glUniformMatrix3fv(uniform_var_texmatrix, 1, GL_FALSE, glm::value_ptr(tex->GetSheetMatrix(animation)));
-	}
-	else {
-		std::cout << "Uniform variable uTexCoord doesn't exist!\n";
-		std::cout << "Please check vertex shader!\n";
-		//std::exit(EXIT_FAILURE);
 	}
 
 	GLint uniform_var_color = glGetUniformLocation(
@@ -99,25 +88,14 @@ void Model::Draw() {
 	if (uniform_var_color >= 0) {
 		glUniform4fv(uniform_var_color, 1, glm::value_ptr(color));
 	}
-	else {
-		std::cout << "Uniform variable uColor doesn't exist!\n";
-		std::cout << "Please check fragment shader!\n";
-		//std::exit(EXIT_FAILURE);
-	}
 
 	GLint uniform_var_tex = glGetUniformLocation(
 		graphics.GetShader().GetHandle(), "uTex2d");
 	if (uniform_var_tex >= 0) {
 		glUniform1i(uniform_var_tex, 1);
 	}
-	else {
-		std::cout << "Uniform variable uTex2d doesn't exist!\n";
-		std::cout << "Please check fragment shader!\n";
-		//std::exit(EXIT_FAILURE);
-	}
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
-	//glDrawElements(GL_LINE_LOOP, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
 }
 
 void Model::DrawOutline() {
