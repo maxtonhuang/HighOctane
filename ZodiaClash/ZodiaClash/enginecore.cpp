@@ -32,7 +32,7 @@ namespace Architecture {
 
 	void EngineCore::Run() {
 		
-		////////// INITILIZE //////////
+		////////// INITIALIZE //////////
 		ecs.Init();
 		ecs.RegisterComponent<Transform>();
 		ecs.RegisterComponent<Vel>();

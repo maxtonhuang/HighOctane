@@ -173,4 +173,9 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ECS.tpp">
+      <Filter>EngineArchitecture</Filter>
+    </None>
+  </ItemGroup>
 </Project>
