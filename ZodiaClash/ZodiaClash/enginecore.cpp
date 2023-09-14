@@ -3,6 +3,8 @@
 #include "Movement.h"
 #include "Message.h"
 #include "Input.h"
+#include "Serialization.h"
+#include "File.h"
 #include "ECS.h"
 #include "EntityFactory.h"
 #include "Components.h"
@@ -57,6 +59,8 @@ namespace Architecture {
 
 		LoadPreFabs();
 
+		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
+	}
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
 

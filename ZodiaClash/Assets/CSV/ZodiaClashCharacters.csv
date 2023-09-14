@@ -1,0 +1,6 @@
+id,name,maxHealth,attack,defense,speed
+1,Cat,50,10,10,5
+2,Ox,70,7,25,4
+3,Goat,,,,
+4,Guard,50,15,20,2
+5,Emperor,,,,

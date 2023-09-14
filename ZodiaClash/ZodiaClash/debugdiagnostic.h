@@ -33,7 +33,7 @@ HOW TO USE THE FUNCTIONS
 	Assertion failed in {code.cpp} {line }: x must be more than 0
 
 TODO :
-ASSERT TO LOG FILE INTO AN ERROR FILE
+PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 
 *//*______________________________________________________________________*/
 #pragma once
@@ -70,6 +70,12 @@ namespace debug {
 
 	// Is to assert debug messages
 	void assertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
+
+	// Console init
+	void consoleInitHandler();
+
+	// Performance data
+	void performanceDataHandler();
 }
 
 
@@ -81,9 +87,22 @@ namespace debug {
 
 #define Assert(condition, ...) debug::assertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
 
+#define Console(...) debug::consoleInitHandler(__VA_ARGS__);
+
+#if _WIN32
+#define Performance(...) debug::performanceDataHandler(__VA_ARGS__);
+
+#else
+#define Performance(...) ((void)0)
+
+#endif
 // Else, we will just ignore the debug printing function
 #else
 #define DebugPrint(...) ((void)0)
 
 #define Assert(condition, ...) ((void)0)
+
+#define Console(...) ((void)0)
+
+#define Performance(...) ((void)0)
 #endif

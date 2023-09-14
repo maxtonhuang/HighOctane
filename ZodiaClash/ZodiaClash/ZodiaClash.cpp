@@ -27,8 +27,18 @@ extern Mail mail;
 
 using namespace Architecture;
 
-bool gConsoleInitalized = false;
+// Global Variables:
+//HINSTANCE hInst;                                // current instance
+//WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
+//WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
+// Forward declarations of functions included in this code module:
+//ATOM                MyRegisterClass(HINSTANCE hInstance);
+//BOOL                InitInstance(HINSTANCE, int);
+//LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+//INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+bool gConsoleInitalized = false;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -47,23 +57,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
 
     // To enable the console
-    debuglog::zcSysInit(hInstance, nCmdShow, 700, 700, ENABLE_DEBUG_DIAG, 60,true);
+    Console();
     logger.info("Program started");
 
     
-
-    // TODO: Place code here.
-    graphics.Initialize(1000, 1000);
-    logger.info("Graphics started");
-
-
-
-    EngineCore* engine = new EngineCore();
-        
-    engine->Run();
-
-
-
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
     logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
@@ -74,6 +71,43 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     logger.error("This is a test error message");
     logger.fatal("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
+
+    // TODO: Place code here.
+    graphics.Initialize(1000, 1000);
+    logger.info("Graphics started");
+
+    // For Wen Yuan to test his assert functions and logging
+    //int x = -1;
+
+    //Assert(x >= 0, "x must be more than 0");
+
+    // Max
+
+    EngineCore* engine = new EngineCore();
+        
+    engine->Run();
+
+
+
+    /*MSG msg;
+    while (GetMessage(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }*/
+
+    //// Main message loop:
+    //while (GetMessage(&msg, nullptr, 0, 0))
+    //{
+    //    if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+    //    {
+    //        TranslateMessage(&msg);
+    //        DispatchMessage(&msg);
+    //    }
+    //}
+
+    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
+    logger.setLevel(debuglog::LOG_LEVEL::Trace);
+
 
     //_CrtDumpMemoryLeaks();
 
