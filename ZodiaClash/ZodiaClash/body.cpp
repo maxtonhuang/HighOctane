@@ -69,10 +69,15 @@ namespace physics {
 		velocity = vel;
 	}
 
-	bool Body::CheckCollision(const Body& otherBody)
+	bool Body::CheckBodyCollision(const Body& otherBody)
 	{
-		return CollisionManager::CheckCollision(*this, otherBody);
-	};
+		return CollisionManager::CheckBodyCollision(*this, otherBody);
+	}
+
+	bool Body::CheckBorderCollision()
+	{
+		return CollisionManager::CheckBorderCollision(*this);
+	}
 
 
 	//void Body::PublishResults()

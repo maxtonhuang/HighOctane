@@ -18,7 +18,8 @@ namespace physics {
 		void Integrate(float deltaTime);
 		void SetPosition(Vector2);
 		void SetVelocity(Vector2);
-		bool CheckCollision(const Body& otherBody);
+		bool CheckBodyCollision(const Body& otherBody);
+		bool CheckBorderCollision();
 		//void DebugDraw();//Draw the object using the debug drawer
 		//void PublishResults();
 		//virtual void Initialize();
