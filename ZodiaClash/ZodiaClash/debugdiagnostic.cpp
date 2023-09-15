@@ -50,6 +50,9 @@ namespace debug {
 
         // Print the formatted message to the standard error stream
         fprintf(stderr, "%s\n", buffer);
+
+        // Log it into the file
+        debuglog::logger.info(buffer);
     }
 
 

@@ -24,7 +24,8 @@ getLogFileSize() : Get the log file size
 
 
 TODO :
-Maybe rotating of log file, now it only changes the file name to old
+Maybe rotating of log file between 3 log files
+Delete the files by time and number of log file created
 
 *//*______________________________________________________________________*/
 
@@ -35,9 +36,10 @@ Maybe rotating of log file, now it only changes the file name to old
 #include <ctime>
 #include "vMath.h"
 #include "debugdiagnostic.h"
+#include <filesystem>
 
 
-constexpr size_t MAX_FILE_SIZE {1048576}; // 1MB
+constexpr size_t MAX_FILE_SIZE {1024 * 1024}; // 1MB
 
 namespace debuglog {
 
@@ -187,15 +189,17 @@ namespace debuglog {
 		if (static_cast<size_t>(getLogFileSize()) >= maxFileSize) {
 			// Close the current log file
 			logFile.close();
-
+				
 			std::string newFileName = currentLogFileName;
 			newFileName.erase(newFileName.size() - 4); // Remove the .txt extension
 			newFileName += "Old.txt"; 
 
 			// If cannot rename
 			if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
-				Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot open file");
+				Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot rename file");
 			}
+
+
 
 			// Reopen the log file
 			logFile.open(currentLogFileName, std::ios::out | std::ios::app);
@@ -256,6 +260,7 @@ namespace debuglog {
 	bool Logger::getLoggingEnabled(void) {
 		return loggingEnabled;
 	}
+
 
 	// For debugging
 	Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
