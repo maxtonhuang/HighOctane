@@ -102,12 +102,12 @@ namespace debug {
                     vfprintf(stderr, message, args);
                     va_end(args);
 
-                    // Log the crash into the crash file
-                    crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line) + ": " + message);
-
                 }
 
                 std::cerr << std::endl;
+
+                // Log the crash into the crash file
+                crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line));
 
                 std::abort();
             }
@@ -145,6 +145,7 @@ namespace debug {
         FILETIME idleTime, kernelTime, userTime;
         performanceTime++;
 
+        // Prints it out once at intervals
         if (performanceTime > 300) {
 			performanceTime = 0;
 			
@@ -168,7 +169,7 @@ namespace debug {
                 user.HighPart = userTime.dwHighDateTime;
 
                 // Calculate CPU usage percentage
-                double total = kernel.QuadPart + user.QuadPart;
+                double total = static_cast<double>(kernel.QuadPart + user.QuadPart);
                 double idlePercent = (static_cast<double>(idle.QuadPart) / total) * 100.0;
                 double usagePercent = 100.0 - idlePercent;
                 std::cout << "CPU Usage: " << usagePercent << "%" << std::endl;

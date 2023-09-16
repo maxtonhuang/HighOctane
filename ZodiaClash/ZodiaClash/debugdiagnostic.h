@@ -49,9 +49,9 @@ PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 #include <crtdbg.h>
 
 
-// Define this to enable debug diagnostics
-// In debug mode, the logging tools will run
-// In release mode, it won't
+// Do not need to touch this, it is auto
+// If Debug mode, then enable debug diagnostics
+// Else, disable it
 #if !defined(ENABLE_DEBUG_DIAG) 
 #   if defined(_DEBUG)
 #       define ENABLE_DEBUG_DIAG 1

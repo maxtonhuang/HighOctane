@@ -15,10 +15,9 @@
 #include "Texture.h"
 #include "ECS.h"
 #include "Components.h"
+#include <filesystem>
 
 //#define MAX_LOADSTRING 100
-
-
 
 using Vec2 = vmath::Vector2;
 
@@ -79,7 +78,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;
 
-    //Assert(x >= 0, "x must be more than 0");
+    //Assert(x <= 0, "x must be more than 0");
 
     // Max
 
