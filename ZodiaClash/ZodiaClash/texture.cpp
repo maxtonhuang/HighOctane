@@ -1,5 +1,6 @@
 #include "Texture.h"
 #include "debugdiagnostic.h"
+#include "GraphicConstants.h"
 
 #include <iostream>
 
@@ -10,7 +11,12 @@ TextureManager texList;
 
 Texture::Texture() {
 	active = false;
-	sheetmatrix.emplace_back(glm::mat3{ 1,0,0,0,1,0,0,0,1 });
+	Texcoords spriteCoords;
+	spriteCoords.bl = glm::vec2{ 0, 1 };
+	spriteCoords.br = glm::vec2{ 1, 1 };
+	spriteCoords.tl = glm::vec2{ 0, 0 };
+	spriteCoords.tr = glm::vec2{ 1, 0 };
+	texcoords.emplace_back(spriteCoords);
 }
 
 Texture::~Texture() {
@@ -46,22 +52,27 @@ void Texture::Init(char const* filename) {
 
 void Texture::CreateSpriteSheet(int row, int column, int spritenum) {
 	int count = 0;
-	std::vector<glm::mat3> newsheetmatrix;
+	std::vector<Texcoords> newtexcoords;
 	float colDist = 1.f / column;
 	float rowDist = 1.f / row;
 	width *= colDist;
 	height *= rowDist;
 	for (int i = 0; i < row; ++i) {
 		for (int t = 0; t < column; ++t) {
-			newsheetmatrix.emplace_back(glm::mat3{colDist, 0, 0, 0, rowDist, 0, colDist * t, rowDist * i, 1});
+			Texcoords spriteCoords;
+			spriteCoords.bl = glm::vec2{ colDist * t, rowDist * (i + 1) };
+			spriteCoords.br = glm::vec2{ colDist * (t + 1), rowDist * (i + 1) };
+			spriteCoords.tl = glm::vec2{ colDist * t, rowDist * i };
+			spriteCoords.tr = glm::vec2{ colDist * (t + 1), rowDist * i };
+			newtexcoords.emplace_back(spriteCoords);
 			++count;
 			if (count >= spritenum) {
-				sheetmatrix.swap(newsheetmatrix);
+				texcoords.swap(newtexcoords);
 				return;
 			}
 		}
 	}
-	sheetmatrix.swap(newsheetmatrix);
+	texcoords.swap(newtexcoords);
 	return;
 }
 
@@ -87,19 +98,36 @@ int Texture::GetHeight() {
 	return height;
 }
 
-glm::mat3& Texture::GetSheetMatrix(int index) {
-	if (index >= sheetmatrix.size() || index < 0) {
-		return sheetmatrix[0];
-	}
-	return sheetmatrix[index];
+int Texture::GetSheetSize() {
+	return texcoords.size();
 }
 
-int Texture::GetSheetSize() {
-	return (int)sheetmatrix.size();
+glm::vec2 Texture::GetTexCoords(int index, int pos) {
+	switch (pos) {
+	case 0:
+		return texcoords[index].bl;
+		break;
+	case 1:
+		return texcoords[index].br;
+		break;
+	case 2:
+		return texcoords[index].tl;
+		break;
+	case 3:
+		return texcoords[index].tr;
+		break;
+	}
+	return glm::vec2{};
 }
 
 TextureManager::~TextureManager() {
 	this->Clear();
+}
+
+void TextureManager::Initialize() {
+	glGenTextures(1, &arrayid);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, arrayid);
+	glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA, GRAPHICS::defaultWidth, GRAPHICS::defaultHeight, GRAPHICS::MAXTEXTURES);
 }
 
 Texture* TextureManager::Add(const char* texname) {

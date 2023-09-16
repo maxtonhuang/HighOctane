@@ -6,6 +6,13 @@
 
 const int channelnum = 4;
 
+struct Texcoords {
+	glm::vec2 bl{};
+	glm::vec2 br{};
+	glm::vec2 tl{};
+	glm::vec2 tr{};
+};
+
 class Texture {
 public:
 	Texture();
@@ -20,7 +27,7 @@ public:
 	int GetWidth();
 	int GetHeight();
 
-	glm::mat3& GetSheetMatrix(int index);
+	glm::vec2 GetTexCoords(int index, int pos);
 	int GetSheetSize();
 private:
 	std::string name{};
@@ -28,17 +35,18 @@ private:
 	int width{};
 	int height{};
 	bool active{false};
-	std::vector<glm::mat3> sheetmatrix;
+	std::vector<Texcoords> texcoords;
 };
 
 class TextureManager {
 public:
 	~TextureManager();
+	void Initialize();
 	Texture* Add(char const* texname);
 	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum);
 	void Clear();
 	std::unordered_map<std::string, Texture> data;
+	GLuint arrayid;
 };
 
-//I THINK THIS CURRENTLY CAUSES MEMORY LEAKS AS MAP MEMORY ISNT CLEARED
 extern TextureManager texList;

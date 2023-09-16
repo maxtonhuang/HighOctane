@@ -53,12 +53,21 @@ Model::Model(char const* input) {
 void Model::Update() {
 	float x = scale.x * width;
 	float y = scale.y * height;
-	matrix = glm::mat3{ cos(rotationRadians) * x / graphics.GetWidth() ,-sin(rotationRadians) * x / graphics.GetHeight(),0,
-		sin(rotationRadians) * y / graphics.GetWidth() , cos(rotationRadians) * y / graphics.GetHeight(),0,
-		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
+	matrix = glm::mat3{ cos(rotationRadians) * x / GRAPHICS::defaultWidthF ,-sin(rotationRadians) * x / GRAPHICS::defaultHeightF,0,
+		sin(rotationRadians) * y / GRAPHICS::defaultWidthF , cos(rotationRadians) * y / GRAPHICS::defaultHeightF,0,
+		pos.x / GRAPHICS::w,pos.y / GRAPHICS::h,1 };
+	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
+	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
+	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
+	glm::vec3 topright3 = matrix * glm::vec3{ 1,1,1 };
+	botleft = glm::vec2{ bottomleft3.x,bottomleft3.y };
+	botright = glm::vec2{ bottomright3.x,bottomright3.y };
+	topleft = glm::vec2{ topleft3.x,topleft3.y };
+	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
 void Model::Draw() {
+	/*
 	if (tex != nullptr) {
 		glBindTextureUnit(1, tex->GetID());
 		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
@@ -96,16 +105,28 @@ void Model::Draw() {
 	}
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
+	*/
+	if (textureRenderer.GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
+		textureRenderer.Draw();
+	}
+	textureRenderer.AddVertex(Vertex{ botleft,color, tex->GetTexCoords(animation,0), (float)tex->GetID() - 1});
+	textureRenderer.AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ topright,color, tex->GetTexCoords(animation,3), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
 }
 
 void Model::DrawOutline() {
-	graphics.DrawLineLoop(matrix);
-	float tmp_width = cos(rotationRadians) * -width + sin(rotationRadians) * -height;
-	float tmp_height = -sin(rotationRadians) * -width + cos(rotationRadians) * -height;
-	graphics.DrawPoint(pos.x + tmp_width, pos.y + tmp_height);
-	graphics.DrawPoint(pos.x - tmp_width, pos.y + tmp_height);
-	graphics.DrawPoint(pos.x + tmp_width, pos.y - tmp_height);
-	graphics.DrawPoint(pos.x - tmp_width, pos.y - tmp_height);
+	flatRenderer.AddVertex(Vertex{ botleft, glm::vec3{1,1,1} });
+	flatRenderer.AddVertex(Vertex{ botright, glm::vec3{1,1,1} });
+	flatRenderer.AddVertex(Vertex{ topright, glm::vec3{1,1,1} });
+	flatRenderer.AddVertex(Vertex{ topleft, glm::vec3{1,1,1} });
+	flatRenderer.Draw(GL_LINE_LOOP);
+	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
 void Model::AttachTexture(Texture& input) {

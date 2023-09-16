@@ -2,6 +2,7 @@
 
 #include "GraphLib.h"
 #include "Texture.h"
+#include "Renderer.h"
 #include <vector>
 
 class Texture;
@@ -44,8 +45,10 @@ private:
 
 	//PRECOMPUTED VALUES
 	float rotationRadians{};
+	glm::vec2 topleft{};
+	glm::vec2 topright{};
+	glm::vec2 botleft{};
+	glm::vec2 botright{};
 };
 
-//THIS CURRENTLY CAUSES MEMORY LEAKS AS VECTOR MEMORY ISNT CLEARED
-//ALSO ITS TEMPORARY, COMPONENT TO BE ADDED TO ENTITY LIST
 extern std::vector<Model> modelList;

@@ -7,7 +7,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	if (handle <= 0) {
 		handle = glCreateProgram();
 	}
-	
+
 	for (auto& p : vec) {
 		std::ifstream shaderfile(p.second, std::ifstream::in);
 		if (!shaderfile) {
@@ -77,6 +77,12 @@ void Shader::DeleteShader() {
 void Shader::Use() {
 	if (handle > 0) {
 		glUseProgram(handle);
+		if (glGetError() == GL_INVALID_VALUE) {
+			//std::cout << "Invalid program!\n";
+		}
+	}
+	else {
+		std::cout << "Unable to use shader program!\n";
 	}
 }
 

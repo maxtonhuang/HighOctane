@@ -11,6 +11,9 @@ Model test_model;
 Texture test_tex;
 GraphicsManager graphics;
 
+Renderer flatRenderer;
+Renderer textureRenderer;
+
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
 //GLFWwindow* GraphicsManager::window;
@@ -22,17 +25,10 @@ GraphicsManager graphics;
 GraphicsManager::GraphicsManager() {
     width = 0;
     height = 0;
-    vao = VAOInfo{};
-    lineloopvao = VAOInfo{};
-    circlevao = VAOInfo{};
     window = nullptr;
-    textureshaderprogram = Shader{};
-    flatshaderprogram = Shader{};
 }
 
 GraphicsManager::~GraphicsManager() {
-    textureshaderprogram.DeleteShader();
-    flatshaderprogram.DeleteShader();
     glfwTerminate();
 }
 
@@ -72,101 +68,26 @@ void GraphicsManager::Initialize(int w, int h) {
     //Initialise glew for glew functions
     glewInit();
 
-    //Compile shaders
-    bool compile_status;
-    std::vector<std::pair<GLenum, std::string>> textureshadervector{
-        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/TextureVertexShader.vert"),
-        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/TextureFragmentShader.frag")
-    };
-
-    compile_status = textureshaderprogram.Compile(textureshadervector);
-    Assert(compile_status, "Unable to compile texture shader program!\n");
-
-    std::vector<std::pair<GLenum, std::string>> flatshadervector{
-        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/FlatVertexShader.vert"),
-        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/FlatFragmentShader.frag")
-    };
-
-    compile_status = flatshaderprogram.Compile(flatshadervector);
-    Assert(compile_status, "Unable to compile flat shader program!\n");
-
-    textureshaderprogram.Use();
-
-    //Create square VAO for use in drawing
-    {
-        std::vector<Vertex> vtx_array{};
-        std::vector<GLushort> idx_vtx{};
-
-        vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
-        vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
-        vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
-        vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
-
-        //Buffer for vertex order
-        idx_vtx.push_back(3);
-        idx_vtx.push_back(1);
-        idx_vtx.push_back(2);
-        idx_vtx.push_back(0);
-
-        vao.primitivetype = GL_TRIANGLE_STRIP;
-        CreateVAO(vao,vtx_array,idx_vtx);
-    }
-
-    //Create line VAO for use in drawing lines
-    {
-        std::vector<Vertex> vtx_array{};
-        std::vector<GLushort> idx_vtx{};
-
-        vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
-        vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
-        vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
-        vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
-
-        //Buffer for vertex order
-        idx_vtx.push_back(0);
-        idx_vtx.push_back(1);
-        idx_vtx.push_back(3);
-        idx_vtx.push_back(2);
-
-        lineloopvao.primitivetype = GL_LINE_LOOP;
-        CreateVAO( lineloopvao, vtx_array, idx_vtx);
-    }
-
-    //Create circle VAO for use in drawing
-    {
-        const int circle_size = 100; //amount of triangles per circle. Higher amount means circle is more rounded but uses more triangles to render
-        std::vector<Vertex> vtx_array{};
-        std::vector<GLushort> idx_vtx{};
-
-        vtx_array.push_back(Vertex{glm::vec2(0, 0), glm::vec3(1, 1, 1), glm::vec2(0.5, 0.5) });
-        idx_vtx.push_back(0);
-
-        const float angle = 2 * 3.14159265358979323846 / circle_size;
-        for (int i = 0; i < circle_size; ++i) {
-            vtx_array.push_back(Vertex{ glm::vec2(std::cos(angle * i), std::sin(angle * i)), glm::vec3(1, 1, 1), glm::vec2(glm::vec2(std::cos(angle * i) * 0.5 + 0.5, std::sin(angle * i) * 0.5 + 0.5))});
-            idx_vtx.push_back(i + 1);
-        }
-        idx_vtx.push_back(1);
-
-        circlevao.primitivetype = GL_TRIANGLE_FAN;
-        CreateVAO(circlevao, vtx_array, idx_vtx);
-    }
-
     //Enable alpha
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+
+    //Initialize renderers
+    flatRenderer.Initialize("../Assets/Shaders/FlatVertexShader2.vert", "../Assets/Shaders/FlatFragmentShader2.frag");
+    textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag");
 
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     test_model.AttachTexture("duck.png");
 
     //TEMP
     std::default_random_engine rng;
-    std::uniform_real_distribution<float> rand_width(0, 2 * width);
-    std::uniform_real_distribution<float> rand_height(0, 2 * height);
-    for (int i = 0; i < 1; i++) {
+    std::uniform_real_distribution<float> rand_width(0, width);
+    std::uniform_real_distribution<float> rand_height(0, height);
+    for (int i = 0; i < 10000; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
-        mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
+        mdl.SetPos(rand_width(rng) - width / 2, rand_height(rng) - height / 2);
+        mdl.SetScale(0.1, 0.1);
         modelList.emplace_back(mdl);
     }
 
@@ -199,113 +120,25 @@ void GraphicsManager::Draw() {
     test_model.Draw();
     test_model.DrawOutline();
 
-    DrawCircle(1000,0,100);
+    textureRenderer.Draw();
 
     glfwSwapBuffers(window);
 }
 
-void GraphicsManager::CreateVAO(VAOInfo& vao, std::vector<Vertex>& vtx_array, std::vector<GLushort>& idx_vtx) {
-    //Create buffer vertex
-    GLuint vbo_hdl;
-    glCreateBuffers(1, &vbo_hdl);
-    glNamedBufferStorage(vbo_hdl, sizeof(Vertex) * vtx_array.size(),
-        vtx_array.data(), GL_DYNAMIC_STORAGE_BIT);
-
-    GLuint vaoid;
-    //Assign vertex positions to shader
-    glCreateVertexArrays(1, &vaoid);
-    glEnableVertexArrayAttrib(vaoid, 0);
-    glVertexArrayVertexBuffer(vaoid, 0, vbo_hdl, 0, sizeof(Vertex));
-    glVertexArrayAttribFormat(vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
-    glVertexArrayAttribBinding(vaoid, 0, 0);
-
-    //Assign colour positions to shader
-    glEnableVertexArrayAttrib(vaoid, 1);
-    glVertexArrayVertexBuffer(vaoid, 1, vbo_hdl, sizeof(Vertex::pos), sizeof(Vertex));
-    glVertexArrayAttribFormat(vaoid, 1, 3, GL_FLOAT, GL_FALSE, 0);
-    glVertexArrayAttribBinding(vaoid, 1, 1);
-
-    //Assign texture positions to shader
-    glEnableVertexArrayAttrib(vaoid, 2);
-    glVertexArrayVertexBuffer(vaoid, 2, vbo_hdl, sizeof(Vertex::pos) + sizeof(Vertex::col), sizeof(Vertex));
-    glVertexArrayAttribFormat(vaoid, 2, 2, GL_FLOAT, GL_FALSE, 0);
-    glVertexArrayAttribBinding(vaoid, 2, 2);
-
-    GLuint ebo_hdl;
-    glCreateBuffers(1, &ebo_hdl);
-    glNamedBufferStorage(ebo_hdl, sizeof(GLushort) * idx_vtx.size(),
-        reinterpret_cast<GLvoid*>(idx_vtx.data()),
-        GL_DYNAMIC_STORAGE_BIT);
-    glVertexArrayElementBuffer(vaoid, ebo_hdl);
-
-    glBindVertexArray(0);
-
-    vao.id = vaoid;
-    vao.drawcnt = idx_vtx.size();
+void GraphicsManager::DrawPoint(float x, float y, float pointsize) {
+    glPointSize(pointsize);
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.Draw(GL_POINTS);
 }
 
-void GraphicsManager::DrawPoint(float x, float y) {
-    glPointSize(10.f);
-    flatshaderprogram.Use();
-    glBindVertexArray(vao.id);
-
-    glm::mat3 matrix{ 0,0,0,0,0,0, x / (float)width, y / (float)height,1 };
-
-    //Pass matrix to shader
-    GLint uniform_var_matrix = glGetUniformLocation(
-        flatshaderprogram.GetHandle(), "uModelToNDC");
-    if (uniform_var_matrix >= 0) {
-        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-    }
-
-    glDrawElements(GL_POINTS, vao.drawcnt, GL_UNSIGNED_SHORT, NULL);
-    textureshaderprogram.Use();
-}
-
-void GraphicsManager::DrawLineLoop(const glm::mat3& input) {
-    flatshaderprogram.Use();
-    glBindVertexArray(lineloopvao.id);
-
-    //Pass matrix to shader
-    GLint uniform_var_matrix = glGetUniformLocation(
-        flatshaderprogram.GetHandle(), "uModelToNDC");
-    if (uniform_var_matrix >= 0) {
-        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(input));
-    }
-
-    glDrawElements(lineloopvao.primitivetype, lineloopvao.drawcnt, GL_UNSIGNED_SHORT, NULL);
-    textureshaderprogram.Use();
-}
-
-void GraphicsManager::DrawCircle(float x, float y, float radius) {
-    //const glm::mat3 matrix{ 1,0,0,0,1,0,0,0,1 };
-
-    glm::mat3 matrix{ radius / width, 0 ,0 ,0, radius / height, 0, x / width, y / height, 1 };
-
-    flatshaderprogram.Use();
-    glBindVertexArray(circlevao.id);
-
-    //Pass matrix to shader
-    GLint uniform_var_matrix = glGetUniformLocation(
-        flatshaderprogram.GetHandle(), "uModelToNDC");
-    if (uniform_var_matrix >= 0) {
-        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-    }
-
-    glDrawElements(circlevao.primitivetype, circlevao.drawcnt, GL_UNSIGNED_SHORT, NULL);
-    textureshaderprogram.Use();
+void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2) {
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.Draw(GL_LINES);
 }
 
 std::string GraphicsManager::GetName() {
     return "Graphics";
-}
-
-const GraphicsManager::VAOInfo& GraphicsManager::GetVAOInfo() {
-    return vao;
-}
-
-const Shader& GraphicsManager::GetShader() {
-    return textureshaderprogram;
 }
 
 bool GraphicsManager::WindowClosed() {

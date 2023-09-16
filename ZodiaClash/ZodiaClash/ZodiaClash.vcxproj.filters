@@ -97,10 +97,16 @@
     </ClInclude>
     <ClInclude Include="ZodiaClash.h" />
     <ClInclude Include="Movement.h">
-    <Filter>Physics</Filter>
+      <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Body.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicConstants.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="Body.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
