@@ -18,7 +18,7 @@ void Renderer::Initialize(char const* vertexshader, char const* fragmentshader) 
     };
 
     compile_status = shaderprogram.Compile(shadervector);
-    Assert(compile_status, "Unable to compile shader program!\n");
+    Assert(!compile_status, "Unable to compile shader program!\n");
 
     CreateVAO();
 }

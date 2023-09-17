@@ -30,6 +30,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 			shaderhandle = glCreateShader(GL_FRAGMENT_SHADER);
 			break;
 		default:
+			std::cout << "Not valid shader type!\n";
 			return false;
 		}
 
@@ -40,6 +41,11 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 		glGetShaderiv(shaderhandle, GL_COMPILE_STATUS, &compileresult);
 		if (compileresult == GL_FALSE) {
 			std::cout << "Shader compilation failed!\n";
+			GLchar* errorLog = new GLchar[1024];
+			int length;
+			glGetShaderInfoLog(shaderhandle, 1024, &length, &errorLog[0]);
+			std::cout << errorLog << "\n";
+			delete[] errorLog;
 			return false;
 		}
 

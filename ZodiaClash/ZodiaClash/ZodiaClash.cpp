@@ -72,7 +72,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
-    graphics.Initialize(1000, 1000);
+    graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     debuglog::logger.info("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
