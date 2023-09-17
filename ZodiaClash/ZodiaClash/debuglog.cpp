@@ -33,13 +33,11 @@ Dynamically change the log level during run time
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <ctime>
-#include "debugdiagnostic.h"
-#include <filesystem>
-#include <exception>
+
+// I need this here, cannot put in header file or it would create a circular dependency
+// Which will break the code and then I will cry
+#include "DebugDiagnostic.h"
+
 
 constexpr size_t MAX_FILE_SIZE {1024 * 1024}; // 1MB
 

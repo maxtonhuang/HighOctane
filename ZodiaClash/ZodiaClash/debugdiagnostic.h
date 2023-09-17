@@ -38,7 +38,10 @@ PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 *//*______________________________________________________________________*/
 #pragma once
 
+// Please don't move this to the bottom or it will create a circular dependency
 #include "debuglog.h"
+
+// Include the necessary libraries
 #include <psapi.h>
 #include <cstdio>
 #include <cstdarg> // For va_list, va_start, va_end

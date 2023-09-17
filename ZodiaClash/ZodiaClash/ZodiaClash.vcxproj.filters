@@ -117,6 +117,9 @@
     <ClInclude Include="Components.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
+    <ClInclude Include="DebugProfile.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="File.cpp">
       <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugProfile.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

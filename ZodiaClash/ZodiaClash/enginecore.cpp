@@ -54,6 +54,7 @@ namespace Architecture {
 
 			ecs.AddComponent(entity, Transform{ Vec2(0.f, 0.f), Vec2(0.f, 0.f), Vec2(0.f, 0.f) });
 			ecs.AddComponent(entity, Vel{ Vec2(0.f, 0.f) });
+			//ecs.AddComponent(entity, PerformanceProfileComponent{}); // For debugging
 			// Add components here
 		}
 
