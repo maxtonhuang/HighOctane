@@ -11,6 +11,7 @@
 #include <set>
 #include <memory>
 #include "debugdiagnostic.h"
+#include "Components.h"
 
 
 namespace Architecture {
@@ -19,13 +20,13 @@ namespace Architecture {
     using Entity = std::uint32_t;
 
     // Used to define the size of arrays later on
-    const Entity MAX_ENTITIES = 100'000;
+    const Entity MAX_ENTITIES = 1'000;
 
     // A simple type alias
     using ComponentType = std::uint8_t;
 
     // Used to define the size of arrays later on
-    const ComponentType MAX_COMPONENTS = 128;
+    const ComponentType MAX_COMPONENTS = 16;
 
     // A simple type alias
     using Signature = std::bitset<MAX_COMPONENTS>;
@@ -199,6 +200,14 @@ namespace Architecture {
         std::unique_ptr<SystemManager> m_SystemManager;
     };
 
+    #include "ECS.t" // for template functions of ECS
+
+    class PhysicsSystem : public System {
+    public:
+        void Update(float g_dt);
+
+    };
 
 
 }
+

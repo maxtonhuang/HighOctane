@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include "Message.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -10,22 +9,28 @@
 
 namespace Architecture {
 	
-	class ISystem {
+	//void PhysicsSystem::Update(float g_dt);
 
-	public:
 
-		/*virtual void SendMessage(Message* message) {
-			UNREFERENCED_PARAMETER(message);
-		};*/
 
-		virtual void Update(float timeslice) = 0;
 
-		virtual std::string GetName() = 0;
 
-		virtual void Initialize() {};
-		
-		virtual ~ISystem() {};
+	//class ISystem {
 
-	};
+	//public:
+
+	//	/*virtual void SendMessage(Message* message) {
+	//		UNREFERENCED_PARAMETER(message);
+	//	};*/
+
+	//	virtual void Update(float timeslice) = 0;
+
+	//	virtual std::string GetName() = 0;
+
+	//	virtual void Initialize() {};
+	//	
+	//	virtual ~ISystem() {};
+
+	//};
 
 }

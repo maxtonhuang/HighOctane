@@ -5,6 +5,7 @@
 #include <vector>
 
 
+
 namespace Architecture {
 
 	class EngineCore {
@@ -12,21 +13,28 @@ namespace Architecture {
 		EngineCore();
 		~EngineCore();
 
+		//void LoadPreFabs();
 
+		void Run();
 
-		void GameLoop();
+		//void Initialize();
 
-		void DestroySystems();
+		//void GameLoop();
+		
+		// remove
+		//void DestroySystems();
+		
+		//remove
+		//void AddSystem(ISystem* system);
 
-		void AddSystem(ISystem* system);
-
-		void Initialize();
+		uint64_t GetTime();
 
 	private:
 
-		std::vector<ISystem*> Systems;
+		// remove
+		//std::vector<ISystem*> Systems;
 
-		unsigned int previousTime;
+		uint64_t m_previousTime;
 
 		bool gameActive;
 

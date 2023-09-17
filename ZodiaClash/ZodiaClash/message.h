@@ -108,7 +108,7 @@ public:
 
 	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info);
 
-	void ConvertWindowsEventToPostcard(unsigned int uMsg);
+	//void ConvertWindowsEventToPostcard(unsigned int uMsg);
 
 	std::unordered_map<ADDRESS, std::vector<Postcard>> mailbox;
 

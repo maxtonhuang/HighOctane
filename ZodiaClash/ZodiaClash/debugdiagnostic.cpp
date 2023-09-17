@@ -15,9 +15,12 @@
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
-#include "debuglog.h"
 
 namespace debug {
+
+    // Variables
+    float performanceTime{};
+
     /*!
      * \brief Prints a debug message to the standard error stream.
      *
@@ -38,7 +41,7 @@ namespace debug {
         va_start(args, message);
 
         // Use vsnprintf to format the message with variable arguments into a buffer
-        const int bufferSize = 1024;
+        const int bufferSize{ 1024 };
         char buffer[bufferSize];
         vsnprintf(buffer, bufferSize, message, args);
 
@@ -47,7 +50,10 @@ namespace debug {
 
         // Print the formatted message to the standard error stream
         fprintf(stderr, "%s\n", buffer);
-	}
+
+        // Log it into the file
+        debuglog::logger.info(buffer);
+    }
 
 
     /*!
@@ -68,7 +74,7 @@ namespace debug {
         do {
 
             // If the condition is true, then we don't need to do anything
-            if (!condition) {
+            if (condition) {
 
                 // Extract the file name from the file path
                 const char* fileName = std::strrchr(file, PATH_SEPARATOR[0]);
@@ -96,12 +102,12 @@ namespace debug {
                     vfprintf(stderr, message, args);
                     va_end(args);
 
-                    // Log the crash into the crash file
-                    crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line) + ": " + message);
-
                 }
 
                 std::cerr << std::endl;
+
+                // Log the crash into the crash file
+                crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line));
 
                 std::abort();
             }
@@ -114,12 +120,11 @@ namespace debug {
         // Allocate a new console for the calling process
         AllocConsole();
 
-         // Attach the console to the current process
+        // Attach the console to the current process
         AttachConsole(GetCurrentProcessId());
 
         // Set the title of the console
         SetConsoleTitle(L"ZodiaClash - Console");
-
 
         FILE* newStdout;
         freopen_s(&newStdout, "CONIN$", "r", stdin); // If need to read from console
@@ -129,6 +134,58 @@ namespace debug {
         // Just for fun
         std::cout << "ZodiaClash Engine Version 0.1\n";
 
+    }
+
+    // Function to print out the memory usage
+    void performanceDataHandler() {
+
+        PROCESS_MEMORY_COUNTERS pmc;
+
+        // For the CPU usage
+        FILETIME idleTime, kernelTime, userTime;
+        performanceTime++;
+
+        // Prints it out once at intervals
+        if (performanceTime > 300) {
+			performanceTime = 0;
+			
+            // To get the memory usage in bytes
+            if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
+                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
+                // Working set size in bytes
+                SIZE_T usedMemory = pmc.WorkingSetSize;
+                std::cout << "Used memory: " << usedMemory / (1024 * 1024) << " MB" << std::endl;
+                
+            }
+
+            // To get the CPU percentage usage
+            if (GetSystemTimes(&idleTime, &kernelTime, &userTime)) {
+                ULARGE_INTEGER idle, kernel, user;
+                idle.LowPart = idleTime.dwLowDateTime;
+                idle.HighPart = idleTime.dwHighDateTime;
+                kernel.LowPart = kernelTime.dwLowDateTime;
+                kernel.HighPart = kernelTime.dwHighDateTime;
+                user.LowPart = userTime.dwLowDateTime;
+                user.HighPart = userTime.dwHighDateTime;
+
+                // Calculate CPU usage percentage
+                double total = static_cast<double>(kernel.QuadPart + user.QuadPart);
+                double idlePercent = (static_cast<double>(idle.QuadPart) / total) * 100.0;
+                double usagePercent = 100.0 - idlePercent;
+                std::cout << "CPU Usage: " << usagePercent << "%" << std::endl;
+
+                // If CPU usage is more than 50%
+                Assert(usagePercent > 50.f, "CPU usage is more than 50%!");
+            }  
+        }
+    }
+
+    void CustomTerminateHandler() {
+        // Log the unhandled exception information
+
+        Assert(true, "Unhandled exception occurred");
+        // Terminate the program
+        std::abort();
     }
 
 } // namespace debug

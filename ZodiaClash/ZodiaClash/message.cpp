@@ -39,7 +39,7 @@ void Mail::CreatePostcard(TYPE messageType, ADDRESS from, INFO info) {
 }
 
 
-
+/*
 // Function to convert Windows events to custom messages
 void Mail::ConvertWindowsEventToPostcard(unsigned int uMsg) {
     Postcard message{};
@@ -47,7 +47,7 @@ void Mail::ConvertWindowsEventToPostcard(unsigned int uMsg) {
     case WM_CLOSE:
         CreatePostcard(TYPE::QUIT, ADDRESS::WINDOWS, INFO::NONE);
         break;
-    /*case WM_KEYDOWN:
+    case WM_KEYDOWN:
         message.type = MessageType::KeyDown;
         // Populate message with key data
         break;
@@ -60,10 +60,11 @@ void Mail::ConvertWindowsEventToPostcard(unsigned int uMsg) {
         // Populate message with mouse click data
         break;
         // Handle other Windows events...
-        */
+        
     default:
         message.type = TYPE::CUSTOM_EVENT;
         // Populate message with relevant data
         break;
     }
 }
+*/
