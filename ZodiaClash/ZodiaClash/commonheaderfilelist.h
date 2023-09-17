@@ -21,3 +21,4 @@
 ----------------------------------------------------*/
 
 // Common header files to be put into here
+#define NOMINMAX //DISABLES WINDOWS MIN AND MAX DEFINES
