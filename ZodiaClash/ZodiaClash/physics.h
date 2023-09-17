@@ -6,6 +6,8 @@
 
 using namespace vmath;
 
+class Body; //forward declaration
+
 namespace physics {
 	class PhysicsManager {
 	public:

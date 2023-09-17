@@ -5,11 +5,13 @@
 
 using namespace vmath;
 
+class Shape; //forward declaration
+
 namespace physics {
 	class Body{
 	public:
 		Body(); //constructor
-		~Body(); //destructor
+		//~Body(); //destructor
 		void AddForce(Vector2 force);
 		void Integrate(float deltaTime);
 		void SetPosition(Vector2);
