@@ -4,10 +4,11 @@
 #include "vmath.h"
 #include "ECS.h" // will include the Body component definition
 #include "collision.h"
+#include "body.h"
 
 using namespace vmath;
 
-class Body; //forward declaration
+struct Body; //forward declaration
 
 namespace physics {
     class PhysicsManager {
