@@ -5,7 +5,7 @@ namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
 
-    PhysicsManager::PhysicsManager()
+    PhysicsManager::PhysicsManager(Architecture::ECS& ecs) : m_ecs(ecs)
     {
         PHYSICS = this;
         gravity = Vector2(0, -400);
@@ -55,11 +55,53 @@ namespace physics {
         }
     }
 
-    void PhysicsManager::IntegrateBodies(float deltaTime) 
+    void PhysicsManager::AddEntity(Architecture::Entity entity) {
+        m_Entities.push_back(entity);
+    }
+
+    void PhysicsManager::Integrate(Body& body, float deltaTime) {
+        // If the body is static, we don't want to update its position or velocity.
+        if (body.isStatic) return;
+
+        // Store the current position as the previous position
+        body.prevPosition = body.position;
+
+        // Update the position based on deltaTime
+        body.position += body.velocity * deltaTime;
+
+        // Update the acceleration based on the global gravity and any accumulated forces on the body.
+        body.acceleration = PHYSICS->gravity;
+        Vector2 newAcceleration = body.accumulatedForce + body.acceleration;
+
+        // Update the velocity using the newly computed acceleration.
+        body.velocity += newAcceleration * deltaTime;
+
+        // Ensure the velocity doesn't exceed a maximum value for numerical stability.
+        if (Vector2::dot(body.velocity, body.velocity) > PHYSICS->maxVelocitySq) {
+            body.velocity.normalize();  // Make the velocity a unit vector
+            body.velocity *= PHYSICS->maxVelocity;  // Scale it to the maximum allowed velocity
+        }
+
+        // Reset the accumulated force to zero for the next frame
+        body.accumulatedForce = Vector2(0, 0);
+    }
+
+    void PhysicsManager::AddForce(Body& body, Vector2 force) {
+        body.accumulatedForce += force;
+    }
+
+
+    void PhysicsManager::IntegrateBodies(float deltaTime)
     {
-        for (Body& body : bodies)
-        {
-            body.Integrate(deltaTime);
+        for (const auto& entity : m_Entities) {
+            auto& body = m_ecs.GetComponent<physics::Body>(entity);
+
+            // Integrate the body.
+            if (!body.isStatic)
+            {
+                body.velocity += body.acceleration * deltaTime;
+                body.position += body.velocity * deltaTime;
+            }
         }
     }
 
@@ -71,10 +113,10 @@ namespace physics {
         //DetectCollision(deltaTime);
     }
 
-    /*void PhysicsManager::DetectCollision(float deltaTime)
+    void DebugDraw()
     {
 
-    }*/
+    }
 
 
     //void CollisionManager::CollisionDetectionAndResponse() {

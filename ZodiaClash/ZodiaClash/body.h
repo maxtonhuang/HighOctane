@@ -8,20 +8,8 @@ using namespace vmath;
 class Shape; //forward declaration
 
 namespace physics {
-	class Body{
-	public:
-		Body(); //constructor
-		//~Body(); //destructor
-		void AddForce(Vector2 force);
-		void Integrate(float deltaTime);
-		void SetPosition(Vector2);
-		void SetVelocity(Vector2);
-		//bool CheckCollision(const Body& otherBody);
-		//void DebugDraw();//Draw the object using the debug drawer
-		//void PublishResults();
-		//virtual void Initialize();
-		//virtual void Serialize(ISerializer& stream);
 
+	struct Body {
 		Body* next{};
 		Body* prev{};
 		Vector2 position{};
@@ -32,13 +20,18 @@ namespace physics {
 		float mass{};
 		float restitution{};
 		float friction{ 0.2f };
-
-		// Indicates if the body is movable
 		bool isStatic{};
 		Shape* bodyShape;
 
-		/*class Collider {
+		// Constructors, if needed, can remain
+		Body();
 
-		};*/
+		// These setters might stay if you find them useful, but in pure ECS they might not be here.
+		void SetPosition(Vector2 pos);
+		void SetVelocity(Vector2 vel);
+
+		// Getters can also be useful
+		Vector2 GetPosition() const { return position; }
+		Vector2 GetVelocity() const { return velocity; }
 	};
 }
