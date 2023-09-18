@@ -1,3 +1,4 @@
+#include "GUIManager.h"
 #include "Graphics.h"
 #include "Input.h"
 #include <iostream>
@@ -101,7 +102,8 @@ void GraphicsManager::Initialize(int w, int h) {
 
     glfwSwapInterval(0);
 
-    Draw();
+    guiManager.Init(window);
+    //Draw();
 }
 
 void GraphicsManager::Update(float g_dt) {
@@ -128,7 +130,7 @@ void GraphicsManager::Draw() {
 
     test_model.Update();
     test_model.Draw();
-
+    guiManager.Update(window);
     glfwSwapBuffers(window);
 }
 
