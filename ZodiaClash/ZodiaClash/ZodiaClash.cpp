@@ -15,11 +15,9 @@
 #include "Texture.h"
 #include "ECS.h"
 #include "Components.h"
+#include <filesystem>
 
 //#define MAX_LOADSTRING 100
-
-// For debugging
-debuglog::Logger logger("test.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
 
 using Vec2 = vmath::Vector2;
 
@@ -58,28 +56,29 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // To enable the console
     Console();
-    logger.info("Program started");
+    debuglog::logger.info("Program started");
 
     
-    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
-    logger.trace("This is a test trace message");
-    logger.debug("This is a test debug message");
-    logger.info("This is a test info message");
-    logger.warning("This is a test warning message");
-    logger.error("This is a test error message");
-    logger.fatal("This is a test fatal message");
+    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
+    debuglog::logger.setLevel(debuglog::LOG_LEVEL::Trace);
+
+    debuglog::logger.trace("This is a test trace message");
+    debuglog::logger.debug("This is a test debug message");
+    debuglog::logger.info("This is a test info message");
+    debuglog::logger.warning("This is a test warning message");
+    debuglog::logger.error("This is a test error message");
+    debuglog::logger.fatal("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
-    graphics.Initialize(1000, 1000);
-    logger.info("Graphics started");
+    graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+    debuglog::logger.info("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;
 
-    //Assert(x >= 0, "x must be more than 0");
+    //Assert(x <= 0, "x must be more than 0");
 
     // Max
 
@@ -106,7 +105,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //}
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
 
     //_CrtDumpMemoryLeaks();

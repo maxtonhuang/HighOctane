@@ -119,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -166,6 +167,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="CommonHeaderFileList.h" />
+    <ClInclude Include="GraphicConstants.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphLib.h" />
     <ClInclude Include="Input.h" />
@@ -174,6 +176,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClInclude Include="Model.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
@@ -199,6 +202,7 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
     <ClCompile Include="MMath.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Movement.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Systems.cpp" />

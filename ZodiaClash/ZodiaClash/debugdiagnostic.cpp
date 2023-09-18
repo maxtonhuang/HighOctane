@@ -15,15 +15,11 @@
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
-#include "debuglog.h"
-#include <psapi.h>
-#include <thread>
-#include "pdh.h"
 
 namespace debug {
 
     // Variables
-    float performanceTime = 0;
+    float performanceTime{};
 
     /*!
      * \brief Prints a debug message to the standard error stream.
@@ -45,7 +41,7 @@ namespace debug {
         va_start(args, message);
 
         // Use vsnprintf to format the message with variable arguments into a buffer
-        const int bufferSize = 1024;
+        const int bufferSize{ 1024 };
         char buffer[bufferSize];
         vsnprintf(buffer, bufferSize, message, args);
 
@@ -54,6 +50,9 @@ namespace debug {
 
         // Print the formatted message to the standard error stream
         fprintf(stderr, "%s\n", buffer);
+
+        // Log it into the file
+        debuglog::logger.info(buffer);
     }
 
 
@@ -103,12 +102,12 @@ namespace debug {
                     vfprintf(stderr, message, args);
                     va_end(args);
 
-                    // Log the crash into the crash file
-                    crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line) + ": " + message);
-
                 }
 
                 std::cerr << std::endl;
+
+                // Log the crash into the crash file
+                crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line));
 
                 std::abort();
             }
@@ -137,9 +136,6 @@ namespace debug {
 
     }
 
-    
-
-
     // Function to print out the memory usage
     void performanceDataHandler() {
 
@@ -149,18 +145,16 @@ namespace debug {
         FILETIME idleTime, kernelTime, userTime;
         performanceTime++;
 
+        // Prints it out once at intervals
         if (performanceTime > 300) {
 			performanceTime = 0;
 			
             // To get the memory usage in bytes
             if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
-
+                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
                 // Working set size in bytes
                 SIZE_T usedMemory = pmc.WorkingSetSize;
                 std::cout << "Used memory: " << usedMemory / (1024 * 1024) << " MB" << std::endl;
-                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "TEST\n")
-            }
-            else {
                 
             }
 
@@ -175,19 +169,23 @@ namespace debug {
                 user.HighPart = userTime.dwHighDateTime;
 
                 // Calculate CPU usage percentage
-                double total = kernel.QuadPart + user.QuadPart;
+                double total = static_cast<double>(kernel.QuadPart + user.QuadPart);
                 double idlePercent = (static_cast<double>(idle.QuadPart) / total) * 100.0;
                 double usagePercent = 100.0 - idlePercent;
                 std::cout << "CPU Usage: " << usagePercent << "%" << std::endl;
 
                 // If CPU usage is more than 50%
                 Assert(usagePercent > 50.f, "CPU usage is more than 50%!");
-            }
-
-            
+            }  
         }
+    }
 
+    void CustomTerminateHandler() {
+        // Log the unhandled exception information
 
+        Assert(true, "Unhandled exception occurred");
+        // Terminate the program
+        std::abort();
     }
 
 } // namespace debug

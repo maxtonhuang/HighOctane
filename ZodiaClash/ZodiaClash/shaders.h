@@ -11,5 +11,5 @@ public:
 	void UnUse();
 	GLuint GetHandle() const;
 private:
-	GLuint handle;
+	GLuint handle{};
 };

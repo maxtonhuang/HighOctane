@@ -71,6 +71,8 @@ namespace debuglog {
 			std::streampos getLogFileSize();
 			bool getLoggingEnabled();
 
+
+
 		private:
 
 			void log(LOG_LEVEL level, const std::string& message);
@@ -86,4 +88,6 @@ namespace debuglog {
 	extern Logger logger;
 
 	extern Logger crashLogger;
+
+
 }

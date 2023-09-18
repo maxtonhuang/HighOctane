@@ -24,8 +24,12 @@ getLogFileSize() : Get the log file size
 
 
 TODO :
-Maybe rotating of log file, now it only changes the file name to old
+Maybe rotating of log file between 3 log files
+Delete the files by time and number of log file created
 
+
+WHEN IMGUI IS DONE
+Dynamically change the log level during run time
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
@@ -33,10 +37,11 @@ Maybe rotating of log file, now it only changes the file name to old
 #include <string>
 #include <fstream>
 #include <ctime>
-#include "vMath.h"
+#include "debugdiagnostic.h"
+#include <filesystem>
+#include <exception>
 
-
-constexpr size_t MAX_FILE_SIZE = 1048576; // 1MB
+constexpr size_t MAX_FILE_SIZE {1024 * 1024}; // 1MB
 
 namespace debuglog {
 
@@ -48,7 +53,7 @@ namespace debuglog {
 
 	// Constructor
 	Logger::Logger() {
-		currentLogFileName = "testlog.txt";
+		currentLogFileName = "consolelog.log";
 		this->currentLogLevel = LOG_LEVEL::Trace;
 		this->loggingEnabled = true;
 
@@ -57,7 +62,7 @@ namespace debuglog {
 
 		// If logfile cannot open for some reason
 		if (!logFile) {
-			std::cerr << "Error opening file" << "\n";
+			Assert(!logFile, "Error opening file");
 			exit(1);
 		}
 	}
@@ -74,7 +79,7 @@ namespace debuglog {
 
 		// If logfile cannot open for some reason
 		if (!logFile) {
-			std::cerr << "Error opening file" << "\n";
+			Assert(!logFile, "Error opening file");
 			exit(1);
 		}
 	}
@@ -134,6 +139,10 @@ namespace debuglog {
 			std::string levels = getLevel(level);
 
 			logFile << timeStamp << " [" << levels << "] " << message << "\n";
+
+			// Flush the buffer to write immediately, if not, need to interact with the graphics
+			logFile.flush();
+
 			std::cout << timeStamp << " [" << levels << "] " << message << "\n";
 		}
 
@@ -146,17 +155,11 @@ namespace debuglog {
 
 	void Logger::trace(const std::string&message) {
 
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 		// Call the log function with TRACE log level
 		log(LOG_LEVEL::Trace, message);
 	}
 
 	void Logger::debug(const std::string &message) {
-
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		// Call the log function with DEBUG log level
 		log(LOG_LEVEL::Debug, message);
@@ -164,17 +167,11 @@ namespace debuglog {
 
 	void Logger::info(const std::string &message) {
 
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 		// Call the log function with INFO log level
 		log(LOG_LEVEL::Info, message);
 	}
 
 	void Logger::warning(const std::string &message) {
-
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		// Call the log function with WARNING log level
 		log(LOG_LEVEL::Warning, message);
@@ -182,17 +179,11 @@ namespace debuglog {
 
 	void Logger::error(const std::string &message) {
 
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 		// Call the log function with ERROR log level
 		log(LOG_LEVEL::Error, message);
 	}
 
 	void Logger::fatal(const std::string &message) {
-
-		// Log it
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 		// Call the log function with FATAL log level
 		log(LOG_LEVEL::Fatal, message);
@@ -204,24 +195,36 @@ namespace debuglog {
 		if (static_cast<size_t>(getLogFileSize()) >= maxFileSize) {
 			// Close the current log file
 			logFile.close();
+			
+			// C++14
+			//std::string newFileName = currentLogFileName;
+			//newFileName.erase(newFileName.size() - 4); // Remove the .txt extension
+			//newFileName += "Old.txt"; 
 
-			std::string newFileName = currentLogFileName;
-			newFileName.erase(newFileName.size() - 4); // Remove the .txt extension
-			newFileName += "Old.txt"; 
+			//// If cannot rename
+			//if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
+			//	Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot rename file");
+			//}
 
-			// If cannot rename
-			if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
-				std::cerr << "Error: Failed to rename the log file." << std::endl;
-			}
+            std::filesystem::path currentPath(currentLogFileName);
+            std::filesystem::path newPath = currentPath.stem();
+
+            newPath += "Old.log";
+
+			// Rename the file using std::filesystem
+			std::filesystem::rename(currentPath, newPath);
 
 			// Reopen the log file
 			logFile.open(currentLogFileName, std::ios::out | std::ios::app);
 			if (!logFile.is_open()) {
-				std::cerr << "Error: Unable to reopen the log file." << std::endl;
+				Assert(!logFile, "Cannot open file");
 			}
+
+			// Remove the old file
+			//std::filesystem::remove(newPath);
 		}
 	}
-
+	
 	// Set the log level
 	void Logger::setLevel(LOG_LEVEL level) {
 		currentLogLevel = level;
@@ -252,21 +255,50 @@ namespace debuglog {
 			return "U";
 		}
 	}
-
+	
 	// Get the timestamp
 	std::string Logger::getTimeStamp(void) {
+		
+		// Get the current time
 		std::time_t now = std::time(nullptr);
+
+		// Get the time info
 		struct tm timeInfo;
 		localtime_s(&timeInfo, &now);
 		char timestamp[20];
+
+		// Format the time
 		std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", &timeInfo);
+
+		// Return the timestamp
 		return std::string(timestamp);
 	}
 
 	// Get log file size
 	std::streampos Logger::getLogFileSize(void) {
-		logFile.seekp(0, std::ios::end);
-		return logFile.tellp();
+
+		// C++14
+		//logFile.seekp(0, std::ios::end);
+		//return logFile.tellp();
+		
+		// C++17
+		// Get the path of the log file
+		std::filesystem::path filePath(currentLogFileName);
+		
+		// Get the error code
+		std::error_code ec;
+
+		// Get the file size
+		std::uintmax_t fileSize = std::filesystem::file_size(filePath, ec);
+
+		// If there is no error
+		if (!ec) {
+			return fileSize;
+		}
+		else {
+			return -1;
+		}
+
 	}
 
 	// Get the toggling enable
@@ -274,5 +306,7 @@ namespace debuglog {
 		return loggingEnabled;
 	}
 
+	// For debugging
+	Logger logger("consoletest.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
 }
 
