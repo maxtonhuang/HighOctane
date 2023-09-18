@@ -20,6 +20,8 @@ public:
 	void AttachTexture(Texture&);
 	void AttachTexture(char const*);
 
+	void SetDim(float w, float h, float r = 0.f);
+
 	void SetPos(float x, float y);
 	void AddPos(float x, float y);
 
@@ -52,3 +54,10 @@ private:
 };
 
 extern std::vector<Model> modelList;
+
+extern Model test_circle1;
+extern Model test_circle2;
+extern Model test_circle3;
+extern Model test_rect1;
+extern Model test_rect2;
+extern Model test_rect3;

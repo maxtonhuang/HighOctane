@@ -83,7 +83,7 @@ void GraphicsManager::Initialize(int w, int h) {
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, width);
     std::uniform_real_distribution<float> rand_height(0, height);
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 0; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width / 2, rand_height(rng) - height / 2);
@@ -115,6 +115,19 @@ void GraphicsManager::Draw() {
         m.Update();
         m.Draw();
     }
+
+    test_circle1.Update();
+    test_circle2.Update();
+    test_circle3.Update();
+    test_circle1.Draw();
+    test_circle2.Draw();
+    test_circle3.Draw();
+    test_rect1.Update();
+    test_rect2.Update();
+    test_rect3.Update();
+    test_rect1.Draw();
+    test_rect2.Draw();
+    test_rect3.Draw();
 
     test_model.Update();
     test_model.Draw();
