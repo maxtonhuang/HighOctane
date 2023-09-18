@@ -72,6 +72,7 @@ void GraphicsManager::Initialize(int w, int h) {
         std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/fragmentshader.frag")
     };
 
+    // ------------------------ CONVERT TO DEBUG ASSERT -----------------------------//
     if (shaderprogram.Compile(shadervector) == false) {
         std::cout << "Unable to compile shader program! Exiting...\n";
         //std::exit(EXIT_FAILURE);
@@ -86,6 +87,7 @@ void GraphicsManager::Initialize(int w, int h) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
+    // ------------------------------------ MODEL CREATE START ---------------------------------//
     test_model.AttachTexture("cat.png");
 
     //TEMP
@@ -98,7 +100,7 @@ void GraphicsManager::Initialize(int w, int h) {
         mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
         modelList.emplace_back(mdl);
     }
-
+    // ----------------------------------- MODEL CREATE END -----------------------------------//
     glfwSwapInterval(0);
 
     Draw();
@@ -118,7 +120,7 @@ void GraphicsManager::Update(float g_dt) {
     }
 }
 
-void GraphicsManager::Draw() {
+void GraphicsManager::Draw() { // ------------- Can this go into ECS? ------------------------------//
     glClear(GL_COLOR_BUFFER_BIT);
 
     for (Model& m : modelList) {

@@ -19,6 +19,16 @@ namespace Architecture {
 		}
 	}
 	
+	// Movement System
+	void MovementSystem::Update(float g_dt) {
 	
+	}
+
+
+	// Input System
+	void InputSystem::Update(float g_dt) {
+
+
+	}
 }
 

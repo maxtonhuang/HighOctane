@@ -208,6 +208,17 @@ namespace Architecture {
 
     };
 
+    class MovementSystem : public System {
+    public:
+        void Update(float g_dt);
+
+    };
+
+    class InputSystem : public System {
+    public:
+        void Update(float g_dt);
+
+    };
 
 }
 
