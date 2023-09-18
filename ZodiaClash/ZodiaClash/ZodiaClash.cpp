@@ -15,10 +15,9 @@
 #include "Texture.h"
 #include "ECS.h"
 #include "Components.h"
+#include <filesystem>
 
 //#define MAX_LOADSTRING 100
-
-
 
 using Vec2 = vmath::Vector2;
 
@@ -73,13 +72,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
-    graphics.Initialize(1000, 1000);
+    graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     debuglog::logger.info("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;
 
-    //Assert(x >= 0, "x must be more than 0");
+    //Assert(x <= 0, "x must be more than 0");
 
     // Max
 
@@ -106,7 +105,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //}
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    debuglog::logger.setLevel(debuglog::LOG_LEVEL::Trace);
 
 
     //_CrtDumpMemoryLeaks();

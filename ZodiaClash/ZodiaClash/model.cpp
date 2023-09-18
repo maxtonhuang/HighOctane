@@ -1,6 +1,6 @@
 #include "Model.h"
 #include "Graphics.h"
-#include <glm-0.9.9.8/glm/gtc/type_ptr.hpp> //for value_ptr
+#include <glm-0.9.9.8/glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 const float pi = 3.14159265358979323846;
@@ -24,8 +24,8 @@ Model::Model(Texture& input) {
 	scale = glm::vec2{ 1,1 };
 	if (input.IsActive()) {
 		tex = &input;
-		width = (double)tex->GetWidth();
-		height = (double)tex->GetHeight();
+		width = (float)tex->GetWidth();
+		height = (float)tex->GetHeight();
 	}
 	else {
 		tex = nullptr;
@@ -41,8 +41,8 @@ Model::Model(char const* input) {
 	scale = glm::vec2{ 1,1 };
 	tex = texList.Add(input);
 	if (tex->IsActive()) {
-		width = (double)tex->GetWidth();
-		height = (double)tex->GetHeight();
+		width = (float)tex->GetWidth();
+		height = (float)tex->GetHeight();
 	}
 	else {
 		width = 0;
@@ -51,90 +51,114 @@ Model::Model(char const* input) {
 }
 
 void Model::Update() {
-	double x = scale.x * width / graphics.GetWidth();
-	double y = scale.y * height / graphics.GetHeight();
-	matrix = glm::mat3{ cos(rotationRadians) * x,-sin(rotationRadians) * x,0,
-		sin(rotationRadians) * y, cos(rotationRadians) * y,0,
-		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
-	//matrix = glm::mat3{0.5,0,0,0,0.5,0,0,0,1};
+	float x = scale.x * width;
+	float y = scale.y * height;
+	matrix = glm::mat3{ cos(rotationRadians) * x / GRAPHICS::defaultWidthF ,-sin(rotationRadians) * x / GRAPHICS::defaultHeightF,0,
+		sin(rotationRadians) * y / GRAPHICS::defaultWidthF , cos(rotationRadians) * y / GRAPHICS::defaultHeightF,0,
+		pos.x / GRAPHICS::w,pos.y / GRAPHICS::h,1 };
+	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
+	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
+	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
+	glm::vec3 topright3 = matrix * glm::vec3{ 1,1,1 };
+	botleft = glm::vec2{ bottomleft3.x,bottomleft3.y };
+	botright = glm::vec2{ bottomright3.x,bottomright3.y };
+	topleft = glm::vec2{ topleft3.x,topleft3.y };
+	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
 void Model::Draw() {
+	/*
 	if (tex != nullptr) {
-		glBindTexture(GL_TEXTURE_2D, tex->GetID());
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glBindTextureUnit(1, tex->GetID());
+		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 	}
-	
+	else {
+		glBindTextureUnit(1, 0);
+	}
+
 	glBindVertexArray(graphics.GetVAOInfo().id);
 
 	//Pass matrix to shader
 	GLint uniform_var_matrix = glGetUniformLocation(
-		(graphics.GetShader()).GetHandle(), "uModelToNDC");
+		graphics.GetShader().GetHandle(), "uModelToNDC");
 	if (uniform_var_matrix >= 0) {
 		glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
-	else {
-		std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-		std::cout << "Please check vertex shader!\n";
-		std::exit(EXIT_FAILURE);
+
+	GLint uniform_var_texmatrix = glGetUniformLocation(
+		graphics.GetShader().GetHandle(), "uTexCoord");
+	if (uniform_var_matrix >= 0) {
+		glUniformMatrix3fv(uniform_var_texmatrix, 1, GL_FALSE, glm::value_ptr(tex->GetSheetMatrix(animation)));
 	}
 
 	GLint uniform_var_color = glGetUniformLocation(
-		(graphics.GetShader()).GetHandle(), "uColor");
+		graphics.GetShader().GetHandle(), "uColor");
 	if (uniform_var_color >= 0) {
 		glUniform4fv(uniform_var_color, 1, glm::value_ptr(color));
 	}
-	else {
-		std::cout << "Uniform variable uColor doesn't exist!\n";
-		std::cout << "Please check fragment shader!\n";
-		std::exit(EXIT_FAILURE);
-	}
 
 	GLint uniform_var_tex = glGetUniformLocation(
-		(graphics.GetShader()).GetHandle(), "uTex2d");
+		graphics.GetShader().GetHandle(), "uTex2d");
 	if (uniform_var_tex >= 0) {
-		glUniform3fv(uniform_var_tex, 1, glm::value_ptr(color));
-	}
-	else {
-		std::cout << "Uniform variable uColor doesn't exist!\n";
-		std::cout << "Please check fragment shader!\n";
-		std::exit(EXIT_FAILURE);
+		glUniform1i(uniform_var_tex, 1);
 	}
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
+	*/
+	if (textureRenderer.GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
+		textureRenderer.Draw();
+	}
+	textureRenderer.AddVertex(Vertex{ botleft,color, tex->GetTexCoords(animation,0), (float)tex->GetID() - 1});
+	textureRenderer.AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ topright,color, tex->GetTexCoords(animation,3), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
+	textureRenderer.AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+}
+
+void Model::DrawOutline() {
+	flatRenderer.AddVertex(Vertex{ botleft, glm::vec3{1,1,1} });
+	flatRenderer.AddVertex(Vertex{ botright, glm::vec3{1,1,1} });
+	flatRenderer.AddVertex(Vertex{ topright, glm::vec3{1,1,1} });
+	flatRenderer.AddVertex(Vertex{ topleft, glm::vec3{1,1,1} });
+	flatRenderer.Draw(GL_LINE_LOOP);
+	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
 void Model::AttachTexture(Texture& input) {
 	tex = &input;
-	width = (double)tex->GetWidth();
-	height = (double)tex->GetHeight();
+	width = (float)tex->GetWidth();
+	height = (float)tex->GetHeight();
 }
 
 void Model::AttachTexture(char const* input) {
 	tex = texList.Add(input);
 	if (tex->IsActive()) {
-		width = (double)tex->GetWidth();
-		height = (double)tex->GetHeight();
+		width = (float)tex->GetWidth();
+		height = (float)tex->GetHeight();
 	}
 }
 
-void Model::SetPos(double x, double y) {
+void Model::SetPos(float x, float y) {
 	pos.x = x;
 	pos.y = y;
 }
 
-void Model::AddPos(double x, double y) {
+void Model::AddPos(float x, float y) {
 	pos.x += x;
 	pos.y += y;
 }
 
-void Model::SetRot(double rot) {
+void Model::SetRot(float rot) {
 	rotation = rot;
 	rotationRadians = rotation * pi / 180;
 }
 
-void Model::AddRot(double rot) {
+void Model::AddRot(float rot) {
 	rotation += rot;
 	if (rotation > 360) {
 		rotation -= 360;
@@ -145,7 +169,18 @@ void Model::AddRot(double rot) {
 	rotationRadians = rotation * pi / 180;
 }
 
-void Model::SetScale(double x, double y) {
+void Model::SetScale(float x, float y) {
 	scale.x = x;
 	scale.y = y;
+}
+
+void Model::SetAnimation(int index) {
+	animation = index;
+}
+
+void Model::AdvanceAnimation() {
+	++animation;
+	if (animation >= tex->GetSheetSize()) {
+		animation = 0;
+	}
 }

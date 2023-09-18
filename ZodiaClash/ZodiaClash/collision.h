@@ -18,11 +18,11 @@ namespace physics {
 	
 	// basic line, shape data
 
-	struct Linesegment {
+	/*struct Linesegment {
 		vmath::Vector2 point0;
 		vmath::Vector2 point1;
 		vmath::Vector2 normal;
-	};
+	};*/
 
 
 	class Shape {
@@ -44,8 +44,7 @@ namespace physics {
 	class Circle : public Shape
 	{
 	public:
-		Circle() : Shape(SHAPE_CIRCLE), center{ 0.f, 0.f }, radius{ 0.1f }, isStatic{}, isVulnerable{} {};
-		vmath::Vector2 center;
+		Circle() : Shape(SHAPE_CIRCLE), radius{ 0.1f }, isStatic{}, isVulnerable{} {};
 		float radius;
 		bool isStatic;
 		bool isVulnerable;
@@ -56,9 +55,10 @@ namespace physics {
 	class AABB : public Shape
 	{
 	public:
-		AABB() : Shape(SHAPE_BOX), min{ 0.f, 0.f }, max{ 0.f, 0.f }, isStatic{}, isVulnerable{} {};
+		AABB() : Shape(SHAPE_BOX), min{ 0.f, 0.f }, max{ 0.f, 0.f }, extents{ 0.f, 0.f }, isStatic{}, isVulnerable{} {};
 		vmath::Vector2 min;
 		vmath::Vector2 max;
+		vmath::Vector2 extents;
 		bool isStatic;
 		bool isVulnerable;
 		//virtual void Draw();
@@ -96,66 +96,32 @@ namespace physics {
 		void ResolveVelocities(float dt);
 		void ResolvePositions(float dt);
 	};
-	
 
+	**/
 
 	// function pointer for different collision tests
 	typedef bool (*CollisionTest)
-		(Shape* alpha, 
-			vmath::Vector2 alphaPos, 
+		(Shape* alpha,
+			vmath::Vector2 alphaPos,
 			Shape* beta,
-			vmath::Vector2 betaPos,
-			ContactSet* c);
-	**/
+			vmath::Vector2 betaPos);
+			//ContactSet* c);
 
 	class CollisionManager
 	{
 	public:
-		//std::vector<Body> bodies; // store all the bodies -- to reloc
-
-
-		// SECTION: COLLISION DETECTION
-		bool CheckCollisionBoxBox(const AABB& aabb1,
-			const vmath::Vector2& vel1,
-			const AABB& aabb2,
-			const vmath::Vector2& vel2);
-
-		bool CheckCollisionCircleCircle(const Circle& circle1,
-			const vmath::Vector2& vel1,
-			const Circle& circle2,
-			const vmath::Vector2& vel2);
-
-		bool CheckCollisionCircleBox(const Circle& circle,
-			const vmath::Vector2& vel1,
-			const AABB& aabb,
-			const vmath::Vector2& vel2);
-
-		bool CheckCollisionBoxCircle(const AABB& aabb,
-			const vmath::Vector2& vel1,
-			const Circle& circle,
-			const vmath::Vector2& vel2);
-
-		bool CheckCollisionBoxBorder(const AABB& aabb,
-			const vmath::Vector2& vel);
-
-		bool CheckCollisionBCircleBorder(const Circle& circle,
-			const vmath::Vector2& vel);
-
-		
-		// SECTION: COLLISION RESPONSE
-		void OnCollideSnap(Shape::SHAPE_ID alpha, Shape::SHAPE_ID beta);
-		void OnCollideDestroy(Shape::SHAPE_ID alpha, Shape::SHAPE_ID beta);
-
-		
-		// SECTION: CORE COLLISION MANAGER
 		CollisionManager();
-		/*CollisionTest Collision[Shape::NUM_OF_SHAPES][Shape::NUM_OF_SHAPES];
+		
+		/*
+		* CollisionTest Collision[Shape::NUM_OF_SHAPES][Shape::NUM_OF_SHAPES];
 		bool GetContacts(Shape* alpha,
 								vmath::Vector2 alphaPos,
 								Shape* beta,
 								vmath::Vector2 betaPos,
 								ContactSet* c);*/
-		static bool CheckCollision(const Body& alpha, const Body& beta);
+		static bool CheckBodyCollision(const Body& alpha, const Body& beta);
+
+		static bool CheckBorderCollision(const Body& alpha);
 
 		//void CollisionDetectionAndResponse();
 		//bool CheckCollision(const Body& otherBody);// check collision with another body

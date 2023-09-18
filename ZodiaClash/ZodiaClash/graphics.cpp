@@ -1,6 +1,8 @@
 #include "GUIManager.h"
 #include "Graphics.h"
 #include "Input.h"
+#include "graphlib.h"
+#include "debugdiagnostic.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -9,6 +11,9 @@
 Model test_model;
 Texture test_tex;
 GraphicsManager graphics;
+
+Renderer flatRenderer;
+Renderer textureRenderer;
 
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
@@ -21,13 +26,10 @@ GraphicsManager graphics;
 GraphicsManager::GraphicsManager() {
     width = 0;
     height = 0;
-    vao = VAOInfo{};
     window = nullptr;
-    shaderprogram = Shader{};
 }
 
 GraphicsManager::~GraphicsManager() {
-    shaderprogram.DeleteShader();
     glfwTerminate();
 }
 
@@ -67,36 +69,26 @@ void GraphicsManager::Initialize(int w, int h) {
     //Initialise glew for glew functions
     glewInit();
 
-    //Compile shaders
-    std::vector<std::pair<GLenum, std::string>> shadervector{
-        std::make_pair(GL_VERTEX_SHADER, "../Assets/Shaders/vertexshader.vert"),
-        std::make_pair(GL_FRAGMENT_SHADER, "../Assets/Shaders/fragmentshader.frag")
-    };
-
-    if (shaderprogram.Compile(shadervector) == false) {
-        std::cout << "Unable to compile shader program! Exiting...\n";
-        //std::exit(EXIT_FAILURE);
-    }
-
-    shaderprogram.Use();
-
-    //Create square VAO for use in drawing
-    CreateVAO();
-
     //Enable alpha
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    test_model.AttachTexture("cat.png");
+    //Initialize renderers
+    flatRenderer.Initialize("../Assets/Shaders/FlatVertexShader2.vert", "../Assets/Shaders/FlatFragmentShader2.frag");
+    textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag");
+
+    texList.AddSpriteSheet("duck.png", 1, 6, 6);
+    test_model.AttachTexture("duck.png");
 
     //TEMP
     std::default_random_engine rng;
-    std::uniform_real_distribution<double> rand_width(0, 2 * width);
-    std::uniform_real_distribution<double> rand_height(0, 2 * height);
-    for (int i = 0; i < 5000; i++) {
+    std::uniform_real_distribution<float> rand_width(0, width);
+    std::uniform_real_distribution<float> rand_height(0, height);
+    for (int i = 0; i < 10000; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
-        mdl.SetPos(rand_width(rng) - width, rand_height(rng) - height);
+        mdl.SetPos(rand_width(rng) - width / 2, rand_height(rng) - height / 2);
+        mdl.SetScale(0.1, 0.1);
         modelList.emplace_back(mdl);
     }
 
@@ -106,14 +98,14 @@ void GraphicsManager::Initialize(int w, int h) {
     //Draw();
 }
 
-void GraphicsManager::Update(float g_dt) {
+void GraphicsManager::Update(float dt) {
     static float fpsInterval = 1.f;
     static int count = 0;
-    fpsInterval += g_dt;
+    fpsInterval += dt;
     ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
-        title << "ZodiaClash " << std::fixed << count;
+        title << "ZodiaClash " << count;
         glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
         count = 0;
@@ -134,81 +126,30 @@ void GraphicsManager::Draw() {
     glfwSwapBuffers(window);
 }
 
-void GraphicsManager::CreateVAO() {
-    std::vector<Vertex> vtx_array{};
-    std::vector<GLushort> idx_vtx{};
+void GraphicsManager::DrawPoint(float x, float y, float pointsize) {
+    glPointSize(pointsize);
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.Draw(GL_POINTS);
+}
 
-    vtx_array.push_back(Vertex{ glm::vec2(-1,-1),glm::vec3(1,1,1),glm::vec2(0,1) });
-    vtx_array.push_back(Vertex{ glm::vec2(-1,1),glm::vec3(1,1,1),glm::vec2(0,0) });
-    vtx_array.push_back(Vertex{ glm::vec2(1,-1),glm::vec3(1,1,1),glm::vec2(1,1) });
-    vtx_array.push_back(Vertex{ glm::vec2(1,1),glm::vec3(1,1,1),glm::vec2(1,0) });
-
-    //Buffer for vertex order
-    idx_vtx.push_back(3);
-    idx_vtx.push_back(1);
-    idx_vtx.push_back(2);
-    idx_vtx.push_back(0);
-
-    //Create buffer vertex
-    GLuint vbo_hdl;
-    glCreateBuffers(1, &vbo_hdl);
-    glNamedBufferStorage(vbo_hdl, sizeof(Vertex) * vtx_array.size(),
-        vtx_array.data(), GL_DYNAMIC_STORAGE_BIT);
-
-    GLuint vaoid;
-    //Assign vertex positions to shader
-    glCreateVertexArrays(1, &vaoid);
-    glEnableVertexArrayAttrib(vaoid, 0);
-    glVertexArrayVertexBuffer(vaoid, 0, vbo_hdl, 0, sizeof(Vertex));
-    glVertexArrayAttribFormat(vaoid, 0, 2, GL_FLOAT, GL_FALSE, 0);
-    glVertexArrayAttribBinding(vaoid, 0, 0);
-
-    //Assign colour positions to shader
-    glEnableVertexArrayAttrib(vaoid, 1);
-    glVertexArrayVertexBuffer(vaoid, 1, vbo_hdl, sizeof(Vertex::pos), sizeof(Vertex));
-    glVertexArrayAttribFormat(vaoid, 1, 3, GL_FLOAT, GL_FALSE, 0);
-    glVertexArrayAttribBinding(vaoid, 1, 1);
-
-    //Assign texture positions to shader
-    glEnableVertexArrayAttrib(vaoid, 2);
-    glVertexArrayVertexBuffer(vaoid, 2, vbo_hdl, sizeof(Vertex::pos) + sizeof(Vertex::col), sizeof(Vertex));
-    glVertexArrayAttribFormat(vaoid, 2, 2, GL_FLOAT, GL_FALSE, 0);
-    glVertexArrayAttribBinding(vaoid, 2, 2);
-
-    GLuint ebo_hdl;
-    glCreateBuffers(1, &ebo_hdl);
-    glNamedBufferStorage(ebo_hdl, sizeof(GLushort) * idx_vtx.size(),
-        reinterpret_cast<GLvoid*>(idx_vtx.data()),
-        GL_DYNAMIC_STORAGE_BIT);
-    glVertexArrayElementBuffer(vaoid, ebo_hdl);
-
-    glBindVertexArray(0);
-
-    vao.id = vaoid;
-    vao.primitivetype = GL_TRIANGLE_STRIP;
-    vao.drawcnt = vtx_array.size();
+void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2) {
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.Draw(GL_LINES);
 }
 
 std::string GraphicsManager::GetName() {
     return "Graphics";
 }
 
-const GraphicsManager::VAOInfo& GraphicsManager::GetVAOInfo() {
-    return vao;
-}
-
-const Shader& GraphicsManager::GetShader() {
-    return shaderprogram;
-}
-
 bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
 }
 
-double GraphicsManager::GetWidth() {
-    return (double)width;
+float GraphicsManager::GetWidth() {
+    return (float)width;
 }
 
-double GraphicsManager::GetHeight() {
-    return (double)height;
+float GraphicsManager::GetHeight() {
+    return (float)height;
 }
