@@ -12,6 +12,7 @@
 #include <Windows.h>
 #include <chrono>
 #include "GUIManager.h"
+#include "debugdiagnostic.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -96,6 +97,8 @@ namespace Architecture {
 			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
+
+			//Performance();
 			//gui.Update(graphics.window);
 		}
 	}
