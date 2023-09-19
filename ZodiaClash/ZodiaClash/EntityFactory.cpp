@@ -27,7 +27,7 @@ namespace Architecture {
 			masterEntitiesList["CAT"] = entity;
 			ecs.AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
 			//ecs.AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
-			ecs.AddComponent(entity, Transform{ glm::vec2{ 0.f,0.f }, 0.f, glm::vec2{ 1.f,1.f }, vmath::Vector2{ 0,0 } });
+			ecs.AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f,1.f }, vmath::Vector2{ 0,0 } });
 			ecs.AddComponent(entity, Tex{ texList.Add("cat.png") });
 			ecs.AddComponent(entity, Matrix{ glm::mat3{ 1,0,0,0,1,0,0,0,1 } });
 			ecs.AddComponent(entity, Visible{ false });

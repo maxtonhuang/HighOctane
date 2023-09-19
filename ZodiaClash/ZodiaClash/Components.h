@@ -8,9 +8,9 @@
 using Vec2 = vmath::Vector2;
 
 struct Transform {
-    glm::vec2 position;
+    Vec2 position;
     float rotation;
-    glm::vec2 scale;
+    Vec2 scale;
     Vec2 velocity;
 };
 
