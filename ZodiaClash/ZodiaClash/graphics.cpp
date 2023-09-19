@@ -1,3 +1,4 @@
+#include "GUIManager.h"
 #include "Graphics.h"
 #include "Input.h"
 #include "graphlib.h"
@@ -79,6 +80,8 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     test_model.AttachTexture("duck.png");
 
+    guiManager.Init(window);
+
     //TEMP
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, width);
@@ -134,6 +137,8 @@ void GraphicsManager::Draw() {
     test_model.DrawOutline();
 
     textureRenderer.Draw();
+    
+    guiManager.Update(window);
 
     glfwSwapBuffers(window);
 }
