@@ -11,18 +11,31 @@ struct Transform {
     glm::vec2 position;
     float rotation;
     glm::vec2 scale;
+    Vec2 velocity;
 };
 
-struct Vel {
-    Vec2 velocity;
+struct Matrix {
+    glm::mat3 matrix;
+};
+
+struct Size {
+    float width;
+    float height;
 };
 
 struct Color {
     glm::vec4 color;
 };
 
-struct Texture {
-    Texture* tex{};
+struct Tex {
+    Texture* tex;
 };
 
+struct Visible {
+    bool isVisible;
+};
 
+struct BoundingBox {
+    //AABB
+
+};

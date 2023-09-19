@@ -7,10 +7,10 @@ const float pi = 3.14159265358979323846;
 
 std::vector<Model> modelList;
 
-Model::Model() {
-	color = glm::vec4{ 1,1,1,1 };
-	pos = glm::vec2{ 0,0 };
-	tex = nullptr;
+Model::Model() { // Use this
+	color = glm::vec4{ 1,1,1,1 }; //done
+	pos = glm::vec2{ 0,0 }; //done
+	tex = nullptr; //done
 	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
 	scale = glm::vec2{ 1,1 };
 	width = 0;

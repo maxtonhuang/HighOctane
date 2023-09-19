@@ -80,29 +80,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Assert(x <= 0, "x must be more than 0");
 
-    // Max
+    // Max --------
 
     EngineCore* engine = new EngineCore();
         
     engine->Run();
 
-
-
-    /*MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }*/
-
-    //// Main message loop:
-    //while (GetMessage(&msg, nullptr, 0, 0))
-    //{
-    //    if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-    //    {
-    //        TranslateMessage(&msg);
-    //        DispatchMessage(&msg);
-    //    }
-    //}
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
 

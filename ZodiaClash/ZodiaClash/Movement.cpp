@@ -9,7 +9,7 @@ extern float g_dt;
 
 //int keyInput;
 
-void UpdateMovement(Vel & movement) {	
+void UpdateMovement(Transform & transform) {	
 	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
 	
 	//int keyInput = 11;
@@ -17,10 +17,10 @@ void UpdateMovement(Vel & movement) {
 	for (Postcard msg : mail.mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_DOWN) {
 			
-			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { movement.velocity.y += 200.f * g_dt; }
-			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { movement.velocity.y += -200.f * g_dt; }
-			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { movement.velocity.x += -200.f * g_dt; }
-			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { movement.velocity.x += 200.f * g_dt; }
+			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { transform.velocity.y += 200.f * g_dt; }
+			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { transform.velocity.y += -200.f * g_dt; }
+			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { transform.velocity.x += -200.f * g_dt; }
+			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { transform.velocity.x += 200.f * g_dt; }
 		}
 	}
 	mail.mailbox[ADDRESS::MOVEMENT].clear();
@@ -28,9 +28,9 @@ void UpdateMovement(Vel & movement) {
 
 }
 
-void UpdateModel(Transform & transform, Vel & movement) {
+void UpdateModel(Transform & transform) {
 	
-	transform.position += movement.velocity;
+	transform.position += transform.velocity;
 
 
 
