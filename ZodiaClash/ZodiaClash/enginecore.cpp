@@ -47,6 +47,8 @@ namespace Architecture {
 		ecs.RegisterComponent<Matrix>();
 		ecs.RegisterComponent<Texture>();
 		ecs.RegisterComponent<Size>();
+		ecs.RegisterComponent<Visible>();
+		ecs.RegisterComponent<Tex>();
 
 		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
 		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
@@ -58,6 +60,8 @@ namespace Architecture {
 		signatureMS.set(ecs.GetComponentType<Matrix>());
 		signatureMS.set(ecs.GetComponentType<Texture>());
 		signatureMS.set(ecs.GetComponentType<Size>());
+		signatureMS.set(ecs.GetComponentType<Visible>());
+		signatureMS.set(ecs.GetComponentType<Tex>());
 
 		ecs.SetSystemSignature<ModelSystem>(signatureMS);
 
