@@ -11,6 +11,8 @@
 #include "VMath.h"
 #include <Windows.h>
 #include <chrono>
+#include "GUIManager.h"
+#include "debugdiagnostic.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -63,8 +65,8 @@ namespace Architecture {
 	
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
-
-
+		
+	
 
 		////////// GAME LOOP //////////
 
@@ -89,13 +91,15 @@ namespace Architecture {
 			physicsSystem->Update(g_dt);
 
 			//UpdateModel();
-
+			
 			graphics.Update(g_dt);
 			graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
 
+			//Performance();
+			//gui.Update(graphics.window);
 		}
 	}
 

@@ -16,11 +16,11 @@
 Logger() : Constructor
 ~Logger() : Destructor
 log() : Log into the file
-rotateLogFile() : Rotate the log file
-setLevel() : Set the log level
-getLevel() : Get the log level
-getTimeStamp() : Get the time stamp
-getLogFileSize() : Get the log file size
+RotateLogFile() : Rotate the log file
+SetLevel() : Set the log level
+GetLevel() : Get the log level
+GetTimeStamp() : Get the time stamp
+GetLogFileSize() : Get the log file size
 
 
 TODO :
@@ -133,10 +133,10 @@ namespace debuglog {
 		if (loggingEnabled && static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
 
 			// Get the time
-			std::string timeStamp = getTimeStamp();
+			std::string timeStamp = GetTimeStamp();
 
 			// Get the current level
-			std::string levels = getLevel(level);
+			std::string levels = GetLevel(level);
 
 			logFile << timeStamp << " [" << levels << "] " << message << "\n";
 
@@ -149,7 +149,7 @@ namespace debuglog {
 		// Change back to default colour
 		SetConsoleTextAttribute(hConsole, textColour );
 
-		rotateLogFile(MAX_FILE_SIZE);
+		RotateLogFile(MAX_FILE_SIZE);
 	}
 
 
@@ -190,9 +190,9 @@ namespace debuglog {
 	}
 
 	// Rotate the log file
-	void Logger::rotateLogFile(size_t maxFileSize) {
+	void Logger::RotateLogFile(size_t maxFileSize) {
 		// Check if the log file needs rotation based on the maximum file size
-		if (static_cast<size_t>(getLogFileSize()) >= maxFileSize) {
+		if (static_cast<size_t>(GetLogFileSize()) >= maxFileSize) {
 			// Close the current log file
 			logFile.close();
 			
@@ -226,17 +226,17 @@ namespace debuglog {
 	}
 	
 	// Set the log level
-	void Logger::setLevel(LOG_LEVEL level) {
+	void Logger::SetLevel(LOG_LEVEL level) {
 		currentLogLevel = level;
 	}
 
 	// Set the logging enabling
-	void Logger::setLoggingEnabled(bool toggle) {
+	void Logger::SetLoggingEnabled(bool toggle) {
 		loggingEnabled = toggle;
 	}
 
 	// Get the log level
-	std::string Logger::getLevel(LOG_LEVEL level) {
+	std::string Logger::GetLevel(LOG_LEVEL level) {
 		switch (level) {
 
 		case LOG_LEVEL::Trace:
@@ -257,7 +257,7 @@ namespace debuglog {
 	}
 	
 	// Get the timestamp
-	std::string Logger::getTimeStamp(void) {
+	std::string Logger::GetTimeStamp(void) {
 		
 		// Get the current time
 		std::time_t now = std::time(nullptr);
@@ -275,7 +275,7 @@ namespace debuglog {
 	}
 
 	// Get log file size
-	std::streampos Logger::getLogFileSize(void) {
+	std::streampos Logger::GetLogFileSize(void) {
 
 		// C++14
 		//logFile.seekp(0, std::ios::end);
@@ -302,7 +302,7 @@ namespace debuglog {
 	}
 
 	// Get the toggling enable
-	bool Logger::getLoggingEnabled(void) {
+	bool Logger::GetLoggingEnabled(void) {
 		return loggingEnabled;
 	}
 
