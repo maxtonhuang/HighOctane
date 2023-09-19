@@ -5,6 +5,7 @@
 #include "ZodiaClash.h"
 #include "Message.h"
 #include "DebugDiagnostic.h"
+#include "AudioManager.h"
 #include <iostream>
 #include <unordered_map>
 
@@ -78,6 +79,9 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         keyStatus[key] = KeyConversion(key);
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
+        }
+        if (GLFW_KEY_M == key) {
+            audio.PlaySounds("../Assets/Sound/ping.wav");
         }
         //switch (key) {
         //case GLFW_KEY_ESCAPE:

@@ -16,6 +16,7 @@
 #include "ECS.h"
 #include "Components.h"
 #include <filesystem>
+#include "AudioManager.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -73,6 +74,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // TODO: Place code here.
     graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+    audio.Initialize();
+    audio.AddSound("../Assets/Sound/ping.wav");
     debuglog::logger.info("Graphics started");
 
     //DEBUG GRAPHIC MODELS FOR COLLISION TESTING
