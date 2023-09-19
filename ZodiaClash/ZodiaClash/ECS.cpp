@@ -10,7 +10,7 @@ namespace Architecture {
 
     EntityManager::EntityManager() {
         // Initialize the queue with all possible entity IDs
-        for (Entity entity = 0; entity < MAX_ENTITIES; ++entity) {
+        for (Entity entity = 1; entity < MAX_ENTITIES; ++entity) {
             m_AvailableEntities.push(entity);
         }
     }

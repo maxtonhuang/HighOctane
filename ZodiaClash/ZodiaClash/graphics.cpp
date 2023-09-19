@@ -112,7 +112,7 @@ void GraphicsManager::Update(float dt) {
     }
 }
 
-void GraphicsManager::Draw() {
+void GraphicsManager::Draw() { // ------------- Can this go into ECS? ------------------------------//
     glClear(GL_COLOR_BUFFER_BIT);
 
     for (Model& m : modelList) {

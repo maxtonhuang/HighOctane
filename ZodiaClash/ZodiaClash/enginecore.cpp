@@ -23,6 +23,7 @@ namespace Architecture {
 	EngineCore* CORE;
 	ECS ecs;
 	
+	const uint32_t MAX_MODELS = 5000;
 	
 	EngineCore::EngineCore() {
 		m_previousTime = 0;
@@ -35,47 +36,65 @@ namespace Architecture {
 	}
 
 	void EngineCore::Run() {
+
+		
 		
 		////////// INITIALIZE //////////
 		ecs.Init();
 		ecs.RegisterComponent<Transform>();
-		ecs.RegisterComponent<Vel>();
+		//ecs.RegisterComponent<Velocity>();
+		ecs.RegisterComponent<Color>();
+		ecs.RegisterComponent<Matrix>();
+		ecs.RegisterComponent<Texture>();
+		ecs.RegisterComponent<Size>();
 
 		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
+		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
 
-		Signature signature;
-		signature.set(ecs.GetComponentType<Transform>());
-		signature.set(ecs.GetComponentType<Vel>());
+		Signature signatureMS;
+		signatureMS.set(ecs.GetComponentType<Transform>());
+		//signatureMS.set(ecs.GetComponentType<Velocity>());
+		signatureMS.set(ecs.GetComponentType<Color>());
+		signatureMS.set(ecs.GetComponentType<Matrix>());
+		signatureMS.set(ecs.GetComponentType<Texture>());
+		signatureMS.set(ecs.GetComponentType<Size>());
 
-		ecs.SetSystemSignature<PhysicsSystem>(signature);
+		ecs.SetSystemSignature<ModelSystem>(signatureMS);
 
-		std::vector<Entity> entities(MAX_ENTITIES);
 
-		for (Entity entity : entities) {
-			entity = ecs.CreateEntity();
 
-			ecs.AddComponent(entity, Transform{ Vec2(0.f, 0.f), Vec2(0.f, 0.f), Vec2(0.f, 0.f) });
-			ecs.AddComponent(entity, Vel{ Vec2(0.f, 0.f) });
-			// Add components here
-		}
+		//ecs.SetSystemSignature<PhysicsSystem>(signature);
 
-		LoadPreFabs();
+		std::vector<Entity> entities(MAX_ENTITIES, 0);
+
+		// need to change
+		//for (Entity entity : entities) {
+		//	entity = ecs.CreateEntity();
+
+		//	ecs.AddComponent(entity, Transform{ Vec2(0.f, 0.f), Vec2(0.f, 0.f), Vec2(0.f, 0.f) });
+		//	ecs.AddComponent(entity, Vel{ Vec2(0.f, 0.f) });
+		//	// Add components here
+		//}
+		///------
+
+		LoadMasterModel();
 
 		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 	
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
-		
-	
+
+		LoadModels(MAX_MODELS);
 
 		////////// GAME LOOP //////////
 
+		// update time calculations
 		m_previousTime = GetTime();
 
 		while (gameActive) {
 
 			uint64_t l_currentTime = GetTime();
-			g_dt = (l_currentTime - m_previousTime) / 1000.f; // dt is in milliseconds
+			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
 			m_previousTime = l_currentTime;
 
 			mail.SendMails(); // 1
@@ -88,7 +107,7 @@ namespace Architecture {
 
 			mail.SendMails(); // 3
 
-			physicsSystem->Update(g_dt);
+			physicsSystem->Update();
 
 			//UpdateModel();
 			
@@ -104,8 +123,7 @@ namespace Architecture {
 	}
 
 	uint64_t EngineCore::GetTime() {
-		return std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
+		return (std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count()) - m_initialTime;
 	}
-
 
 }

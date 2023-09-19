@@ -3,6 +3,7 @@
 #include "System.h"
 #include "graphics.h"
 #include <vector>
+#include <chrono>
 
 
 
@@ -13,27 +14,15 @@ namespace Architecture {
 		EngineCore();
 		~EngineCore();
 
-		//void LoadPreFabs();
 
 		void Run();
 
-		//void Initialize();
-
-		//void GameLoop();
-		
-		// remove
-		//void DestroySystems();
-		
-		//remove
-		//void AddSystem(ISystem* system);
 
 		uint64_t GetTime();
 
 	private:
 
-		// remove
-		//std::vector<ISystem*> Systems;
-
+		const uint64_t m_initialTime = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
 		uint64_t m_previousTime;
 
 		bool gameActive;
