@@ -42,34 +42,44 @@ namespace Architecture {
 		////////// INITIALIZE //////////
 		ecs.Init();
 		ecs.RegisterComponent<Transform>();
-		//ecs.RegisterComponent<Velocity>();
 		ecs.RegisterComponent<Color>();
 		ecs.RegisterComponent<Matrix>();
 		ecs.RegisterComponent<Texture>();
 		ecs.RegisterComponent<Size>();
 		ecs.RegisterComponent<Visible>();
 		ecs.RegisterComponent<Tex>();
+		ecs.RegisterComponent<MainCharacter>();
 
 		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
 		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
+		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
+		{
+			Signature signature;
+			signature.set(ecs.GetComponentType<Transform>());
+			signature.set(ecs.GetComponentType<Color>());
+			signature.set(ecs.GetComponentType<Matrix>());
+			signature.set(ecs.GetComponentType<Texture>());
+			signature.set(ecs.GetComponentType<Size>());
+			signature.set(ecs.GetComponentType<Visible>());
+			signature.set(ecs.GetComponentType<Tex>());
+			signature.set(ecs.GetComponentType<MainCharacter>());
 
-		Signature signatureMS;
-		signatureMS.set(ecs.GetComponentType<Transform>());
-		//signatureMS.set(ecs.GetComponentType<Velocity>());
-		signatureMS.set(ecs.GetComponentType<Color>());
-		signatureMS.set(ecs.GetComponentType<Matrix>());
-		signatureMS.set(ecs.GetComponentType<Texture>());
-		signatureMS.set(ecs.GetComponentType<Size>());
-		signatureMS.set(ecs.GetComponentType<Visible>());
-		signatureMS.set(ecs.GetComponentType<Tex>());
+			ecs.SetSystemSignature<ModelSystem>(signature);
+		}
 
-		ecs.SetSystemSignature<ModelSystem>(signatureMS);
+		{
+			Signature signature;
+			signature.set(ecs.GetComponentType<Transform>());
+			signature.set(ecs.GetComponentType<Visible>());
+			signature.set(ecs.GetComponentType<MainCharacter>());
 
+			ecs.SetSystemSignature<MovementSystem>(signature);
+		}
 
 
 		//ecs.SetSystemSignature<PhysicsSystem>(signature);
 
-		std::vector<Entity> entities(MAX_ENTITIES, 0);
+		//std::vector<Entity> entities(MAX_ENTITIES, 0);
 
 		// need to change
 		//for (Entity entity : entities) {
@@ -88,7 +98,9 @@ namespace Architecture {
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
 
-		LoadModels(MAX_MODELS);
+		LoadModels(1, true);
+
+		//LoadModels(MAX_MODELS);
 
 		////////// GAME LOOP //////////
 
@@ -111,11 +123,13 @@ namespace Architecture {
 
 			mail.SendMails(); // 3
 
-			physicsSystem->Update();
+			movementSystem->Update();
+
+			//physicsSystem->Update();
 
 			//UpdateModel();
 			
-			graphics.Update(g_dt);
+			graphics.Update(g_dt); // Put into ECS to update and draw Entities <<<--------
 			graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;

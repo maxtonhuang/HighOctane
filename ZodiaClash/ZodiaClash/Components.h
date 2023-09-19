@@ -35,6 +35,10 @@ struct Visible {
     bool isVisible;
 };
 
+struct MainCharacter {
+    bool isMainCharacter;
+};
+
 struct BoundingBox {
     //AABB
 

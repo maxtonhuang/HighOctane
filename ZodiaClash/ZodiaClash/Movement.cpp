@@ -6,17 +6,16 @@
 
 extern Mail mail;
 extern float g_dt;
+//extern Architecture::ECS ecs;
 
-//int keyInput;
 
 void UpdateMovement(Transform & transform) {	
 	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
-	
-	//int keyInput = 11;
-	
+		
 	for (Postcard msg : mail.mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_DOWN) {
-			
+			//Entity 
+			//Transform tr = ecs.GetComponent<Transform>(entity);
 			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { transform.velocity.y += 200.f * g_dt; }
 			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { transform.velocity.y += -200.f * g_dt; }
 			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { transform.velocity.x += -200.f * g_dt; }
@@ -30,7 +29,7 @@ void UpdateMovement(Transform & transform) {
 
 void UpdateModel(Transform & transform) {
 	
-	transform.position += transform.velocity;
+	//transform.position += transform.velocity;
 
 
 
