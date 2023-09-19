@@ -61,15 +61,15 @@ namespace debuglog {
 			void error(const std::string &message);
 			void fatal(const std::string &message);
 
-			void rotateLogFile(size_t maxFileSize);
+			void RotateLogFile(size_t maxFileSize);
 
-			void setLevel(LOG_LEVEL level);
-			void setLoggingEnabled(bool toggle);
+			void SetLevel(LOG_LEVEL level);
+			void SetLoggingEnabled(bool toggle);
 
-			std::string getLevel(LOG_LEVEL level);
-			std::string getTimeStamp();
-			std::streampos getLogFileSize();
-			bool getLoggingEnabled();
+			std::string GetLevel(LOG_LEVEL level);
+			std::string GetTimeStamp();
+			std::streampos GetLogFileSize();
+			bool GetLoggingEnabled();
 
 
 

@@ -33,6 +33,9 @@
     <Filter Include="File">
       <UniqueIdentifier>{0ea2baaa-0796-4b0d-8400-6baeaae4ad96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{11604d9b-055c-49fe-8915-7e618d4eba4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -117,11 +120,50 @@
     <ClInclude Include="Components.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugProfile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="GraphicConstants.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiLib.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIManager.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,7 +231,32 @@
     <ClCompile Include="File.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="DebugProfile.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="GUIManager.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">

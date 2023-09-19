@@ -11,6 +11,8 @@
 #include "VMath.h"
 #include <Windows.h>
 #include <chrono>
+#include "GUIManager.h"
+#include "debugdiagnostic.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -108,13 +110,15 @@ namespace Architecture {
 			physicsSystem->Update();
 
 			//UpdateModel();
-
+			
 			graphics.Update(g_dt);
 			graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
 
+			//Performance();
+			//gui.Update(graphics.window);
 		}
 	}
 

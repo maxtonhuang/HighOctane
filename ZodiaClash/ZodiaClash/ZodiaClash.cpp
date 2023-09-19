@@ -61,7 +61,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    debuglog::logger.setLevel(debuglog::LOG_LEVEL::Trace);
+    debuglog::logger.SetLevel(debuglog::LOG_LEVEL::Trace);
 
     debuglog::logger.trace("This is a test trace message");
     debuglog::logger.debug("This is a test debug message");

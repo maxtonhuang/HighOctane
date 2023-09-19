@@ -1,3 +1,4 @@
+#include "GUIManager.h"
 #include "Graphics.h"
 #include "Input.h"
 #include "graphlib.h"
@@ -91,7 +92,10 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
-    Draw();
+    glfwSwapInterval(0);
+
+    guiManager.Init(window);
+    //Draw();
 }
 
 void GraphicsManager::Update(float dt) {
@@ -118,10 +122,7 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
 
     test_model.Update();
     test_model.Draw();
-    test_model.DrawOutline();
-
-    textureRenderer.Draw();
-
+    guiManager.Update(window);
     glfwSwapBuffers(window);
 }
 
