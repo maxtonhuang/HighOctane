@@ -16,6 +16,8 @@ namespace Architecture {
 
 	extern ECS ecs;
 
+
+
 	std::unordered_map<std::string, Entity> masterEntitiesList;
 
 	void LoadMasterModel() {
@@ -31,8 +33,8 @@ namespace Architecture {
 			ecs.AddComponent(entity, Tex{ texList.Add("cat.png") });
 			ecs.AddComponent(entity, Matrix{ glm::mat3{ 1,0,0,0,1,0,0,0,1 } });
 			ecs.AddComponent(entity, Visible{ false });
-			Tex t = ecs.GetComponent<Tex>(entity);
-			ecs.AddComponent(entity, Size{ static_cast<float>(t.tex->GetWidth()), static_cast<float>(t.tex->GetHeight()) });
+			//Tex t = ecs.GetComponent<Tex>(entity);
+			ecs.AddComponent(entity, Size{ static_cast<float>(100), static_cast<float>(100) }); //t.tex->GetWidth()), static_cast<float>(t.tex->GetHeight()) });
 		}
 	}
 
