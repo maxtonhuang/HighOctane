@@ -76,20 +76,7 @@ namespace Architecture {
 			ecs.SetSystemSignature<MovementSystem>(signature);
 		}
 
-
-		//ecs.SetSystemSignature<PhysicsSystem>(signature);
-
-		//std::vector<Entity> entities(MAX_ENTITIES, 0);
-
-		// need to change
-		//for (Entity entity : entities) {
-		//	entity = ecs.CreateEntity();
-
-		//	ecs.AddComponent(entity, Transform{ Vec2(0.f, 0.f), Vec2(0.f, 0.f), Vec2(0.f, 0.f) });
-		//	ecs.AddComponent(entity, Vel{ Vec2(0.f, 0.f) });
-		//	// Add components here
-		//}
-		///------
+		
 
 		LoadMasterModel();
 
@@ -98,6 +85,7 @@ namespace Architecture {
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
 
+		// Create Main Character
 		LoadModels(1, true);
 
 		//LoadModels(MAX_MODELS);
@@ -124,6 +112,11 @@ namespace Architecture {
 			mail.SendMails(); // 3
 
 			movementSystem->Update();
+			//PhysicaSystem->Update();
+
+			//for (System& i : systemlist) {
+			//	i.Update();
+			//}
 
 			//physicsSystem->Update();
 

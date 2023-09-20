@@ -135,6 +135,9 @@ namespace Architecture {
 
     class System {
     public:
+
+        virtual void Update() = 0;
+
         std::set<Entity> m_Entities;
     };
 
