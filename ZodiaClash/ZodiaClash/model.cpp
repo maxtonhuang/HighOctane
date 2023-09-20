@@ -11,6 +11,7 @@
 const float pi = 3.14159265358979323846;
 extern float g_dt;
 extern Mail mail;
+extern ECS ecs;
 
 std::vector<Model> modelList;
 Model test_circle1;
