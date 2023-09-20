@@ -22,6 +22,7 @@ namespace Architecture {
 
 	EngineCore* CORE;
 	ECS ecs;
+	std::vector<std::shared_ptr<System>> systemList;
 	
 	const uint32_t MAX_MODELS = 5000;
 	
@@ -50,9 +51,16 @@ namespace Architecture {
 		ecs.RegisterComponent<Tex>();
 		ecs.RegisterComponent<MainCharacter>();
 
-		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
-		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
+		systemList.emplace_back(movementSystem);
+		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
+		systemList.emplace_back(physicsSystem);
+		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
+		systemList.emplace_back(modelSystem);
+		std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
+		systemList.emplace_back(GraphicsSystem);
+
+
 		{
 			Signature signature;
 			signature.set(ecs.GetComponentType<Transform>());
@@ -76,7 +84,19 @@ namespace Architecture {
 			ecs.SetSystemSignature<MovementSystem>(signature);
 		}
 
-		
+		{
+			Signature signature;
+			signature.set(ecs.GetComponentType<Transform>());
+			signature.set(ecs.GetComponentType<Color>());
+			signature.set(ecs.GetComponentType<Matrix>());
+			signature.set(ecs.GetComponentType<Texture>());
+			signature.set(ecs.GetComponentType<Size>());
+			signature.set(ecs.GetComponentType<Visible>());
+			signature.set(ecs.GetComponentType<Tex>());
+			//signature.set(ecs.GetComponentType<MainCharacter>());
+
+			ecs.SetSystemSignature<GraphicsSystem>(signature);
+		}
 
 		LoadMasterModel();
 
@@ -111,12 +131,12 @@ namespace Architecture {
 
 			mail.SendMails(); // 3
 
-			movementSystem->Update();
+			//movementSystem->Update();
 			//PhysicaSystem->Update();
 
-			//for (System& i : systemlist) {
-			//	i.Update();
-			//}
+			for (std::shared_ptr<System> & sys : systemList) {
+				sys->Update();
+			}
 
 			//physicsSystem->Update();
 

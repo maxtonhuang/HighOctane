@@ -135,9 +135,7 @@ namespace Architecture {
 
     class System {
     public:
-
         virtual void Update() = 0;
-
         std::set<Entity> m_Entities;
     };
 
@@ -207,20 +205,21 @@ namespace Architecture {
 
     class PhysicsSystem : public System {
     public:
-        void Update();
+        void Update() override;
 
     };
 
     class MovementSystem : public System {
     public:
-        void Update();
+        void Update() override;
 
     };
 
     class ModelSystem : public System {
     public:
-        void Update();
+        void Update() override;
     };
 
+    
 }
 

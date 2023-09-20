@@ -43,7 +43,7 @@ namespace Architecture {
 	}
 
 	void ModelSystem::Update() {
-
+		//
 	}
 
 
