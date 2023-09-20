@@ -16,10 +16,10 @@ GUIManager::~GUIManager()
 
 void GUIManager::Init(GLFWwindow* window)
 {
-    // GL 3.0 + GLSL 130
+    //// GL 3.0 + GLSL 130
     const char* glsl_version = "#version 450";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 
@@ -28,8 +28,8 @@ void GUIManager::Init(GLFWwindow* window)
     if (window == NULL) {
         Assert(false, "Failed to create GUI window");
     }*/
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); // Enable vsync
+    //glfwMakeContextCurrent(window);
+    //glfwSwapInterval(1); // Enable vsync
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -61,7 +61,7 @@ void GUIManager::Update(GLFWwindow* window)
        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-    glfwPollEvents();
+    //glfwPollEvents();
 
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
@@ -109,7 +109,7 @@ void GUIManager::Update(GLFWwindow* window)
     ImGui::Render();
     int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
+    //glViewport(0, 0, display_w, display_h);
    // glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
    // glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

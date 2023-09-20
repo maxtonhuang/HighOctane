@@ -29,6 +29,9 @@ struct Color {
 
 struct Tex {
     Texture* tex;
+    uint32_t rows;
+    uint32_t cols;
+    uint32_t spritenum;
 };
 
 struct Visible {
@@ -39,7 +42,25 @@ struct MainCharacter {
     bool isMainCharacter;
 };
 
-struct BoundingBox {
-    //AABB
+struct Circle {
+    float radius;
+};
 
+struct AABB {
+    Vec2 min;
+    Vec2 max;
+    Vec2 extents;
+};
+
+struct Animation {
+    enum ANIMATION_TYPE {
+        ANIMATION_NONE,
+        ANIMATION_TIME_BASED,
+        ANIMATION_EVENT_BASED,
+        // PARTICLE
+    };
+    ANIMATION_TYPE animationType;
+    uint32_t frameIndex{}; //animation in Model class
+    float frameTimeElapsed{};
+    float frameDisplayDuration{};
 };

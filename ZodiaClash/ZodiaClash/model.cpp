@@ -7,6 +7,13 @@ const float pi = 3.14159265358979323846;
 
 std::vector<Model> modelList;
 
+Model test_circle1;
+Model test_circle2;
+Model test_circle3;
+Model test_rect1;
+Model test_rect2;
+Model test_rect3;
+
 Model::Model() { // Use this
 	color = glm::vec4{ 1,1,1,1 }; //done
 	pos = glm::vec2{ 0,0 }; //done
@@ -106,18 +113,37 @@ void Model::Draw() {
 
 	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
 	*/
-	if (textureRenderer.GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
-		textureRenderer.Draw();
+	Renderer* renderer;
+	if (tex != nullptr) {
+		renderer = &textureRenderer;
 	}
-	textureRenderer.AddVertex(Vertex{ botleft,color, tex->GetTexCoords(animation,0), (float)tex->GetID() - 1});
-	textureRenderer.AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
-	textureRenderer.AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
-	textureRenderer.AddVertex(Vertex{ topright,color, tex->GetTexCoords(animation,3), (float)tex->GetID() - 1 });
-	textureRenderer.AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
-	textureRenderer.AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+	else {
+		renderer = &flatRenderer;
+	}
+	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
+		renderer->Draw();
+	}
+	if (tex != nullptr) {
+		renderer->AddVertex(Vertex{ botleft,color, tex->GetTexCoords(animation,0), (float)tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ topright,color, tex->GetTexCoords(animation,3), (float)tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+	}
+	else {
+		renderer->AddVertex(Vertex{ botleft,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+		renderer->AddVertex(Vertex{ topright,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+	}
+	
 }
 
 void Model::DrawOutline() {
+	flatRenderer.Draw();
 	flatRenderer.AddVertex(Vertex{ botleft, glm::vec3{1,1,1} });
 	flatRenderer.AddVertex(Vertex{ botright, glm::vec3{1,1,1} });
 	flatRenderer.AddVertex(Vertex{ topright, glm::vec3{1,1,1} });
@@ -129,6 +155,12 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
+void Model::SetDim(float w, float h, float r) {
+	width = w;
+	height = h;
+	SetRot(r);
+}
+
 void Model::AttachTexture(Texture& input) {
 	tex = &input;
 	width = (float)tex->GetWidth();
@@ -137,7 +169,7 @@ void Model::AttachTexture(Texture& input) {
 
 void Model::AttachTexture(char const* input) {
 	tex = texList.Add(input);
-	if (tex->IsActive()) {
+	if (tex != nullptr) {
 		width = (float)tex->GetWidth();
 		height = (float)tex->GetHeight();
 	}

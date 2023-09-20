@@ -51,6 +51,9 @@ namespace Architecture {
 		ecs.RegisterComponent<Visible>();
 		ecs.RegisterComponent<Tex>();
 		ecs.RegisterComponent<MainCharacter>();
+		ecs.RegisterComponent<Circle>();
+		ecs.RegisterComponent<AABB>();
+		ecs.RegisterComponent<Animation>();
 
 
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
@@ -59,8 +62,8 @@ namespace Architecture {
 		systemList.emplace_back(physicsSystem);
 		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
 		systemList.emplace_back(modelSystem);
-		std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
-		systemList.emplace_back(GraphicsSystem);
+		std::shared_ptr<GraphicsManager> graphicsSystem = ecs.RegisterSystem<GraphicsManager>();
+		systemList.emplace_back(graphicsSystem);
 
 
 		{
@@ -73,6 +76,9 @@ namespace Architecture {
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
 			signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Circle>());
+			signature.set(ecs.GetComponentType<AABB>());
+			signature.set(ecs.GetComponentType<Animation>());
 
 			ecs.SetSystemSignature<ModelSystem>(signature);
 		}
@@ -96,8 +102,10 @@ namespace Architecture {
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
 			//signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Circle>());
+			signature.set(ecs.GetComponentType<AABB>());
 
-			ecs.SetSystemSignature<GraphicsSystem>(signature);
+			ecs.SetSystemSignature<GraphicsManager>(signature);
 		}
 
 		LoadMasterModel();
@@ -147,7 +155,7 @@ namespace Architecture {
 
 			//UpdateModel();
 			
-			graphics.Update(g_dt); // Put into ECS to update and draw Entities <<<--------
+			graphics.Update(); // Put into ECS to update and draw Entities <<<--------
 			graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
