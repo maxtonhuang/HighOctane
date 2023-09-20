@@ -80,11 +80,13 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     test_model.AttachTexture("duck.png");
 
+    guiManager.Init(window);
+
     //TEMP
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, width);
     std::uniform_real_distribution<float> rand_height(0, height);
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 0; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width / 2, rand_height(rng) - height / 2);
@@ -92,9 +94,7 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
-    glfwSwapInterval(0);
-
-    guiManager.Init(window);
+    //glfwSwapInterval(0);
     //Draw();
 }
 
@@ -120,8 +120,25 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
         m.Draw();
     }
 
+    test_circle1.Update();
+    test_circle2.Update();
+    test_circle3.Update();
+    test_circle1.Draw();
+    test_circle2.Draw();
+    test_circle3.Draw();
+    test_rect1.Update();
+    test_rect2.Update();
+    test_rect3.Update();
+    test_rect1.Draw();
+    test_rect2.Draw();
+    test_rect3.Draw();
+
     test_model.Update();
     test_model.Draw();
+    test_model.DrawOutline();
+
+    textureRenderer.Draw();
+    
     guiManager.Update(window);
     glfwSwapBuffers(window);
 }
