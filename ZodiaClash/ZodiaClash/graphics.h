@@ -2,6 +2,8 @@
 #include "Shaders.h"
 #include "Model.h"
 #include "System.h"
+#include "MMath.h"
+#include "Renderer.h"
 
 class GraphicsManager /*: virtual public Architecture::ISystem*/ { // need to change
 public:
@@ -13,31 +15,21 @@ public:
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
 
+	void DrawPoint(float x, float y, float pointsize = 10.f);
+	void DrawLine(float x1, float y1, float x2, float y2);
+
 	//VAO info for draw functions in other classes
 	struct VAOInfo {
 		GLenum primitivetype;
 		GLuint id;
 		GLuint drawcnt;
 	};
-	const VAOInfo& GetVAOInfo(); //get vao info (for other class graphics use)
-	const Shader& GetShader();
-	double GetWidth();
-	double GetHeight();
-
+	float GetWidth();
+	float GetHeight();
 private:
-	//Vertex struct for creating VAO with
-	struct Vertex {
-		glm::vec2 pos; //Vertex coordinates
-		glm::vec3 col; //RGB colour
-		glm::vec2 tex; //Texture coordinates
-	};
-	void CreateVAO();
-
 	GLFWwindow* window;
 	int width;
 	int height;
-	Shader shaderprogram;
-	VAOInfo vao;
 };
 
 extern GraphicsManager graphics;
@@ -45,3 +37,5 @@ extern GraphicsManager graphics;
 extern Model test_model;
 extern Texture test_tex;
 
+extern Renderer flatRenderer;
+extern Renderer textureRenderer;

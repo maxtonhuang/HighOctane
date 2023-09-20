@@ -262,8 +262,8 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
-    cursorposX = xpos * 2 - graphics.GetWidth();
-    cursorposY = -ypos * 2 + graphics.GetHeight();
+    cursorposX = xpos - GRAPHICS::w;
+    cursorposY = -ypos + GRAPHICS::h;
 
     test_model.SetPos(cursorposX, cursorposY);
 }

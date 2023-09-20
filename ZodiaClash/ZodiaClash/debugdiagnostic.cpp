@@ -32,7 +32,7 @@ namespace debug {
      * \param ... Additional arguments for formatting the debug message.
      * 
      */
-	void printDebugHandler(const char* message, ...) {
+	void PrintDebugHandler(const char* message, ...) {
 
         // Create a variable argument list
         va_list args;
@@ -52,7 +52,7 @@ namespace debug {
         fprintf(stderr, "%s\n", buffer);
 
         // Log it into the file
-        debuglog::logger.info(buffer);
+        //debuglog::logger.info(buffer);
     }
 
 
@@ -70,7 +70,7 @@ namespace debug {
      * \param ... Additional arguments for formatting the custom message (if provided).
      *
      */
-    void assertDebugHandler(bool condition, const char* file, int line, const char* message, ...) {
+    void AssertDebugHandler(bool condition, const char* file, int line, const char* message, ...) {
         do {
 
             // If the condition is true, then we don't need to do anything
@@ -116,7 +116,7 @@ namespace debug {
 
 
     // Creates the console
-    void consoleInitHandler() {
+    void ConsoleInitHandler() {
         // Allocate a new console for the calling process
         AllocConsole();
 
@@ -137,7 +137,7 @@ namespace debug {
     }
 
     // Function to print out the memory usage
-    void performanceDataHandler() {
+    void PerformanceDataHandler() {
 
         PROCESS_MEMORY_COUNTERS pmc;
 
@@ -146,7 +146,7 @@ namespace debug {
         performanceTime++;
 
         // Prints it out once at intervals
-        if (performanceTime > 300) {
+        if (performanceTime > 10) {
 			performanceTime = 0;
 			
             // To get the memory usage in bytes

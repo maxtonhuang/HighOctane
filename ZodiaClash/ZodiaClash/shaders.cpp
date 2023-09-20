@@ -7,7 +7,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	if (handle <= 0) {
 		handle = glCreateProgram();
 	}
-	
+
 	for (auto& p : vec) {
 		std::ifstream shaderfile(p.second, std::ifstream::in);
 		if (!shaderfile) {
@@ -30,6 +30,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 			shaderhandle = glCreateShader(GL_FRAGMENT_SHADER);
 			break;
 		default:
+			std::cout << "Not valid shader type!\n";
 			return false;
 		}
 
@@ -40,6 +41,11 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 		glGetShaderiv(shaderhandle, GL_COMPILE_STATUS, &compileresult);
 		if (compileresult == GL_FALSE) {
 			std::cout << "Shader compilation failed!\n";
+			GLchar* errorLog = new GLchar[1024];
+			int length;
+			glGetShaderInfoLog(shaderhandle, 1024, &length, &errorLog[0]);
+			std::cout << errorLog << "\n";
+			delete[] errorLog;
 			return false;
 		}
 
@@ -77,6 +83,12 @@ void Shader::DeleteShader() {
 void Shader::Use() {
 	if (handle > 0) {
 		glUseProgram(handle);
+		if (glGetError() == GL_INVALID_VALUE) {
+			//std::cout << "Invalid program!\n";
+		}
+	}
+	else {
+		std::cout << "Unable to use shader program!\n";
 	}
 }
 

@@ -20,7 +20,7 @@ namespace Architecture {
     using Entity = std::uint32_t;
 
     // Used to define the size of arrays later on
-    const Entity MAX_ENTITIES = 1'000;
+    const Entity MAX_ENTITIES = 1'000'000;
 
     // A simple type alias
     using ComponentType = std::uint8_t;
@@ -135,6 +135,7 @@ namespace Architecture {
 
     class System {
     public:
+        virtual void Update() = 0;
         std::set<Entity> m_Entities;
     };
 
@@ -204,10 +205,21 @@ namespace Architecture {
 
     class PhysicsSystem : public System {
     public:
-        void Update(float g_dt);
+        void Update() override;
 
     };
 
+    class MovementSystem : public System {
+    public:
+        void Update() override;
 
+    };
+
+    class ModelSystem : public System {
+    public:
+        void Update() override;
+    };
+
+    
 }
 
