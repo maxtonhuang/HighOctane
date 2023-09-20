@@ -7,6 +7,13 @@ const float pi = 3.14159265358979323846;
 
 std::vector<Model> modelList;
 
+Model test_circle1;
+Model test_circle2;
+Model test_circle3;
+Model test_rect1;
+Model test_rect2;
+Model test_rect3;
+
 Model::Model() { // Use this
 	color = glm::vec4{ 1,1,1,1 }; //done
 	pos = glm::vec2{ 0,0 }; //done

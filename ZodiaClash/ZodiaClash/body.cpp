@@ -16,11 +16,13 @@ namespace physics {
 				bodyShape(nullptr)
 	{}
 
-	void Body::SetPosition(Vector2 pos) {
+	void Body::SetPosition(Vector2 pos) 
+	{
 		position = pos;
 	}
 
-	void Body::SetVelocity(Vector2 vel) {
+	void Body::SetVelocity(Vector2 vel) 
+	{
 		velocity = vel;
 	}
 }

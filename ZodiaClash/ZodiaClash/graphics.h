@@ -2,15 +2,18 @@
 #include "Shaders.h"
 #include "Model.h"
 #include "System.h"
+#include "ECS.h"
 #include "MMath.h"
 #include "Renderer.h"
 
-class GraphicsManager /*: virtual public Architecture::ISystem*/ { // need to change
+extern float g_dt;
+
+class GraphicsManager : public Architecture::System /*: virtual public Architecture::ISystem*/ { // need to change
 public:
 	GraphicsManager();
 	~GraphicsManager();
 	void Initialize(int w, int h); //initialise graphics manager at start of program
-	void Update(float g_dt);
+	void Update();
 	void Draw(); //draw the screen, to be called every frame
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false

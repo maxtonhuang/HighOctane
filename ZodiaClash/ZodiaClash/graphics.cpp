@@ -80,6 +80,8 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     test_model.AttachTexture("duck.png");
 
+    guiManager.Init(window);
+
     //TEMP
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, width);
@@ -92,21 +94,19 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
-    glfwSwapInterval(0);
-
-    guiManager.Init(window);
+    //glfwSwapInterval(0);
     //Draw();
 }
 
-void GraphicsManager::Update(float dt) {
+void GraphicsManager::Update() {
     static float fpsInterval = 1.f;
     static int count = 0;
-    fpsInterval += dt;
+    fpsInterval += g_dt;
     ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
         title << "ZodiaClash " << count;
-        glfwSetWindowTitle(window, title.str().c_str());
+        //glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
         count = 0;
     }
@@ -135,6 +135,10 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
 
     test_model.Update();
     test_model.Draw();
+    test_model.DrawOutline();
+
+    textureRenderer.Draw();
+    
     guiManager.Update(window);
     glfwSwapBuffers(window);
 }
