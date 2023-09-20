@@ -94,7 +94,10 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
-    Draw();
+    glfwSwapInterval(0);
+
+    guiManager.Init(window);
+    //Draw();
 }
 
 void GraphicsManager::Update(float dt) {
@@ -111,7 +114,7 @@ void GraphicsManager::Update(float dt) {
     }
 }
 
-void GraphicsManager::Draw() {
+void GraphicsManager::Draw() { // ------------- Can this go into ECS? ------------------------------//
     glClear(GL_COLOR_BUFFER_BIT);
 
     for (Model& m : modelList) {
@@ -139,7 +142,6 @@ void GraphicsManager::Draw() {
     textureRenderer.Draw();
     
     guiManager.Update(window);
-
     glfwSwapBuffers(window);
 }
 

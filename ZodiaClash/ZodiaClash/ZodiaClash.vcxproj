@@ -141,6 +141,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
