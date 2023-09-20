@@ -127,6 +127,18 @@ std::shared_ptr<T> SystemManager::RegisterSystem() {
     return system;
 }
 
+/*template<typename T>
+std::shared_ptr<T> SystemManager::RegisterSystem(T& input) {
+    const char* typeName = typeid(T).name();
+
+    Assert(m_Systems.find(typeName) != m_Systems.end(), "Registering system more than once.");
+
+    // Create a pointer to the system and return it so it can be used externally
+    std::shared_ptr<T> system = std::shared_ptr<T>(&input);
+    m_Systems.insert({ typeName, system });
+    return system;
+}*/
+
 template<typename T>
 void SystemManager::SetSignature(Signature signature) {
     const char* typeName = typeid(T).name();
@@ -184,6 +196,11 @@ ComponentType ECS::GetComponentType() {
 template<typename T>
 std::shared_ptr<T> ECS::RegisterSystem() {
     return m_SystemManager->RegisterSystem<T>();
+}
+
+template<typename T>
+std::shared_ptr<T> ECS::RegisterSystem(T& input) {
+    return m_SystemManager->RegisterSystem<T>(input);
 }
 
 template<typename T>

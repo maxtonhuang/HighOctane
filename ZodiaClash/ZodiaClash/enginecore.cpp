@@ -13,6 +13,7 @@
 #include <chrono>
 #include "GUIManager.h"
 #include "debugdiagnostic.h"
+#include "DebugProfile.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -22,7 +23,9 @@ namespace Architecture {
 
 	EngineCore* CORE;
 	ECS ecs;
+	std::vector<std::shared_ptr<System>> systemList;
 	
+	const uint32_t MAX_MODELS = 5000;
 	
 	EngineCore::EngineCore() {
 		m_previousTime = 0;
@@ -35,47 +38,99 @@ namespace Architecture {
 	}
 
 	void EngineCore::Run() {
+
+		debugprofile::DebugSystems debug_p;
 		
 		////////// INITIALIZE //////////
 		ecs.Init();
 		ecs.RegisterComponent<Transform>();
-		ecs.RegisterComponent<Vel>();
+		ecs.RegisterComponent<Color>();
+		ecs.RegisterComponent<Matrix>();
+		ecs.RegisterComponent<Texture>();
+		ecs.RegisterComponent<Size>();
+		ecs.RegisterComponent<Visible>();
+		ecs.RegisterComponent<Tex>();
+		ecs.RegisterComponent<MainCharacter>();
+		ecs.RegisterComponent<Circle>();
+		ecs.RegisterComponent<AABB>();
+		ecs.RegisterComponent<Animation>();
 
+
+		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
+		systemList.emplace_back(movementSystem);
 		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
+		systemList.emplace_back(physicsSystem);
+		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
+		systemList.emplace_back(modelSystem);
+		std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
+		systemList.emplace_back(graphicsSystem);
 
-		Signature signature;
-		signature.set(ecs.GetComponentType<Transform>());
-		signature.set(ecs.GetComponentType<Vel>());
+		//graphicsSystem->Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
-		ecs.SetSystemSignature<PhysicsSystem>(signature);
+		{
+			Signature signature;
+			signature.set(ecs.GetComponentType<Transform>());
+			signature.set(ecs.GetComponentType<Color>());
+			signature.set(ecs.GetComponentType<Matrix>());
+			signature.set(ecs.GetComponentType<Texture>());
+			signature.set(ecs.GetComponentType<Size>());
+			signature.set(ecs.GetComponentType<Visible>());
+			signature.set(ecs.GetComponentType<Tex>());
+			signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Circle>());
+			signature.set(ecs.GetComponentType<AABB>());
+			signature.set(ecs.GetComponentType<Animation>());
 
-		std::vector<Entity> entities(MAX_ENTITIES);
-
-		for (Entity entity : entities) {
-			entity = ecs.CreateEntity();
-
-			ecs.AddComponent(entity, Transform{ Vec2(0.f, 0.f), Vec2(0.f, 0.f), Vec2(0.f, 0.f) });
-			ecs.AddComponent(entity, Vel{ Vec2(0.f, 0.f) });
-			// Add components here
+			ecs.SetSystemSignature<ModelSystem>(signature);
 		}
 
-		LoadPreFabs();
+		{
+			Signature signature;
+			signature.set(ecs.GetComponentType<Transform>());
+			signature.set(ecs.GetComponentType<Visible>());
+			signature.set(ecs.GetComponentType<MainCharacter>());
+
+			ecs.SetSystemSignature<MovementSystem>(signature);
+		}
+
+		{
+			Signature signature;
+			signature.set(ecs.GetComponentType<Transform>());
+			signature.set(ecs.GetComponentType<Color>());
+			signature.set(ecs.GetComponentType<Matrix>());
+			signature.set(ecs.GetComponentType<Texture>());
+			signature.set(ecs.GetComponentType<Size>());
+			signature.set(ecs.GetComponentType<Visible>());
+			signature.set(ecs.GetComponentType<Tex>());
+			signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Circle>());
+			signature.set(ecs.GetComponentType<AABB>());
+
+			ecs.SetSystemSignature<GraphicsSystem>(signature);
+		}
+
+		graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+		LoadMasterModel();
 
 		Serializer::SerializeCSV((FilePath::FilePathDir("ZodiaClashCharacters",FileType::CSV)));
 	
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
-		
-	
+
+		// Create Main Character
+		LoadModels(1, true);
+
+		//LoadModels(MAX_MODELS);
 
 		////////// GAME LOOP //////////
 
+		// update time calculations
 		m_previousTime = GetTime();
 
 		while (gameActive) {
 
 			uint64_t l_currentTime = GetTime();
-			g_dt = (l_currentTime - m_previousTime) / 1000.f; // dt is in milliseconds
+			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
 			m_previousTime = l_currentTime;
 
 			mail.SendMails(); // 1
@@ -88,12 +143,24 @@ namespace Architecture {
 
 			mail.SendMails(); // 3
 
-			physicsSystem->Update(g_dt);
+			//movementSystem->Update();
+			//PhysicaSystem->Update();
+
+			for (std::shared_ptr<System> & sys : systemList) {
+				//debug_p.
+				//debugprofiling.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
+				sys->Update();
+
+			}
+
+			//physicsSystem->Update();
 
 			//UpdateModel();
 			
-			graphics.Update(g_dt);
 			graphics.Draw();
+
+			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
+			//graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
@@ -104,8 +171,7 @@ namespace Architecture {
 	}
 
 	uint64_t EngineCore::GetTime() {
-		return std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
+		return (std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count()) - m_initialTime;
 	}
-
 
 }

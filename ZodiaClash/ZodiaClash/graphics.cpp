@@ -80,11 +80,13 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     test_model.AttachTexture("duck.png");
 
+    guiManager.Init(window);
+
     //TEMP
     std::default_random_engine rng;
     std::uniform_real_distribution<float> rand_width(0, width);
     std::uniform_real_distribution<float> rand_height(0, height);
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 0; i++) {
         Model mdl;
         mdl.AttachTexture("cat.png");
         mdl.SetPos(rand_width(rng) - width / 2, rand_height(rng) - height / 2);
@@ -92,27 +94,48 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
-    glfwSwapInterval(0);
+    //DEBUG GRAPHIC MODELS FOR COLLISION TESTING
+    test_circle1.AttachTexture("circle.png");
+    test_circle2.AttachTexture("circle.png");
+    test_circle3.AttachTexture("circle.png");
 
-    guiManager.Init(window);
+    test_circle1.SetDim(100, 100);
+    test_circle1.SetPos(100, 100);
+
+    test_circle2.SetDim(100, 100);
+    test_circle2.SetPos(200, 200);
+
+    test_circle3.SetDim(100, 100);
+    test_circle3.SetPos(300, 300);
+
+    test_rect1.SetDim(100, 100);
+    test_rect1.SetPos(-100, -100);
+
+    test_rect2.SetDim(200, 100);
+    test_rect2.SetPos(-200, -200);
+
+    test_rect3.SetDim(100, 200, 50);
+    test_rect3.SetPos(-300, -300);
+
+    //glfwSwapInterval(0);
     //Draw();
 }
 
-void GraphicsManager::Update(float dt) {
+void GraphicsManager::Update() {
     static float fpsInterval = 1.f;
     static int count = 0;
-    fpsInterval += dt;
+    fpsInterval += g_dt;
     ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
         title << "ZodiaClash " << count;
-        glfwSetWindowTitle(window, title.str().c_str());
+        //glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
         count = 0;
     }
 }
 
-void GraphicsManager::Draw() {
+void GraphicsManager::Draw() { // ------------- Can this go into ECS? ------------------------------//
     glClear(GL_COLOR_BUFFER_BIT);
 
     for (Model& m : modelList) {
@@ -120,8 +143,25 @@ void GraphicsManager::Draw() {
         m.Draw();
     }
 
+    test_circle1.Update();
+    test_circle2.Update();
+    test_circle3.Update();
+    test_circle1.Draw();
+    test_circle2.Draw();
+    test_circle3.Draw();
+    test_rect1.Update();
+    test_rect2.Update();
+    test_rect3.Update();
+    test_rect1.Draw();
+    test_rect2.Draw();
+    test_rect3.Draw();
+
     test_model.Update();
     test_model.Draw();
+    test_model.DrawOutline();
+
+    textureRenderer.Draw();
+    
     guiManager.Update(window);
     glfwSwapBuffers(window);
 }

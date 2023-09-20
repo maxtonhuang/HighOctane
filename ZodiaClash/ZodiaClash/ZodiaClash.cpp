@@ -16,6 +16,7 @@
 #include "ECS.h"
 #include "Components.h"
 #include <filesystem>
+#include "AudioManager.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -72,7 +73,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
-    graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+    //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+    audio.Initialize();
+    audio.AddSound("../Assets/Sound/ping.wav");
     debuglog::logger.info("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
@@ -80,29 +83,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Assert(x <= 0, "x must be more than 0");
 
-    // Max
+    // Max --------
 
     EngineCore* engine = new EngineCore();
         
     engine->Run();
 
-
-
-    /*MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }*/
-
-    //// Main message loop:
-    //while (GetMessage(&msg, nullptr, 0, 0))
-    //{
-    //    if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-    //    {
-    //        TranslateMessage(&msg);
-    //        DispatchMessage(&msg);
-    //    }
-    //}
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
 
