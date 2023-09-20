@@ -127,31 +127,16 @@ void Model::Draw() {
 
 void Model::Draw(Entity const& entity) {
 	Renderer* renderer;
-	if (tex != nullptr) {
-		renderer = &textureRenderer;
-	}
-	else {
-		renderer = &flatRenderer;
-	}
-	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
+	renderer = &textureRenderer;
+	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) { 
 		renderer->Draw();
 	}
-	if (tex != nullptr) {
-		renderer->AddVertex(Vertex{ botleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,0), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ topright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,3), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	}
-	else {
-		renderer->AddVertex(Vertex{ botleft,color });
-		renderer->AddVertex(Vertex{ botright,color });
-		renderer->AddVertex(Vertex{ topleft,color });
-		renderer->AddVertex(Vertex{ topright,color });
-		renderer->AddVertex(Vertex{ botright,color });
-		renderer->AddVertex(Vertex{ topleft,color });
-	}
+	renderer->AddVertex(Vertex{ botleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,0), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	renderer->AddVertex(Vertex{ topright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,3), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
 }
 
 void Model::DrawOutline() {

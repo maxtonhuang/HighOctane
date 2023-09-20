@@ -98,6 +98,10 @@ int Texture::GetHeight() {
 	return height;
 }
 
+std::string Texture::GetName() {
+	return name;
+}
+
 int Texture::GetSheetSize() {
 	return texcoords.size();
 }
