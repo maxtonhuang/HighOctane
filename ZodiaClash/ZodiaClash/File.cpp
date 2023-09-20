@@ -34,3 +34,27 @@ std::string FilePath::GetFilePathWithNewExtension(const std::string& newExtensio
 {
 	return FullDirectory + FileName + newExtension;
 }
+
+std::string FilePath::FilePathDir(std::string fileName, FileType fileType) {
+	std::string retFile{"../Assets/"};
+	
+	switch (fileType) {
+	case FileType::CSV:
+		retFile += "CSV/" + fileName + ".csv";
+		return retFile;
+
+	case FileType::Vert:
+		retFile += "Shaders/" + fileName + ".vert";
+		return retFile;
+
+	case FileType::Frag:
+		retFile += "Shaders/" + fileName + ".frag";
+		return retFile;
+
+	case FileType::Textures:
+		retFile += "Textures/" + fileName + ".png";
+		return retFile;
+
+	}
+
+}

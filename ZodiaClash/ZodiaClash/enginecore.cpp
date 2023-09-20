@@ -61,7 +61,7 @@ namespace Architecture {
 
 		LoadPreFabs();
 
-		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
+		Serializer::SerializeCSV((FilePath::FilePathDir("ZodiaClashCharacters",FileType::CSV)));
 	
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);

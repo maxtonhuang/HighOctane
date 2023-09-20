@@ -1,6 +1,15 @@
 #pragma once
 #include <string>
 #include <cctype>
+
+enum class FileType {
+	CSV,
+	Vert,
+	Frag,
+	Textures
+};
+
+
 class FilePath {
 public:
 	FilePath() {};
@@ -11,6 +20,8 @@ public:
 	};
 	void SetFilePath(std::string file);
 	std::string GetFilePathWithNewExtension(const std::string& newExtension);
+
+	static std::string FilePathDir(std::string fileName, FileType fileType);
 
 	std::string Extension;
 	std::string FileName;
