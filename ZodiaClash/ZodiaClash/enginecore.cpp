@@ -72,7 +72,7 @@ float g_dt;
 			signature.set(ecs.GetComponentType<Transform>());
 			signature.set(ecs.GetComponentType<Color>());
 			signature.set(ecs.GetComponentType<Matrix>());
-			signature.set(ecs.GetComponentType<Texture>());
+			//signature.set(ecs.GetComponentType<Texture>());
 			signature.set(ecs.GetComponentType<Size>());
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
@@ -98,13 +98,13 @@ float g_dt;
 			signature.set(ecs.GetComponentType<Transform>());
 			signature.set(ecs.GetComponentType<Color>());
 			signature.set(ecs.GetComponentType<Matrix>());
-			signature.set(ecs.GetComponentType<Texture>());
+			//signature.set(ecs.GetComponentType<Texture>());
 			signature.set(ecs.GetComponentType<Size>());
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
-			signature.set(ecs.GetComponentType<MainCharacter>());
-			signature.set(ecs.GetComponentType<Circle>());
-			signature.set(ecs.GetComponentType<AABB>());
+			//signature.set(ecs.GetComponentType<MainCharacter>());
+			//signature.set(ecs.GetComponentType<Circle>());
+			//signature.set(ecs.GetComponentType<AABB>());
 
 			ecs.SetSystemSignature<GraphicsSystem>(signature);
 		}

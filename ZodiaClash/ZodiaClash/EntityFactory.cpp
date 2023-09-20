@@ -51,6 +51,8 @@
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
 		ecs.AddComponent(entity, MainCharacter{ isMainCharacter });
 		ecs.AddComponent(entity, Model{});
+		//ecs.AddComponent(entity, Animation{ ANIMATION::NONE, })
+		
 	}
 
 	void LoadModels(uint32_t amount, bool isMainCharacter) {
