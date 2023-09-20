@@ -7,7 +7,6 @@
 
 
 
-namespace Architecture {
 	
 	//void PhysicsSystem::Update(float g_dt);
 
@@ -33,4 +32,3 @@ namespace Architecture {
 
 	//};
 
-}

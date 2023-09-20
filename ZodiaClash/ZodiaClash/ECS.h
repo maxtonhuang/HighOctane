@@ -14,7 +14,6 @@
 #include "Components.h"
 
 
-namespace Architecture {
 
     // A simple type alias
     using Entity = std::uint32_t;
@@ -144,6 +143,8 @@ namespace Architecture {
     public:
         template<typename T>
         std::shared_ptr<T> RegisterSystem();
+        //template<typename T>
+        //std::shared_ptr<T> RegisterSystem(T& input);
 
         template<typename T>
         void SetSignature(Signature signature);
@@ -191,6 +192,8 @@ namespace Architecture {
         // System methods ------------------------------
         template<typename T>
         std::shared_ptr<T> RegisterSystem();
+        template<typename T>
+        std::shared_ptr<T> RegisterSystem(T& input);
 
         template<typename T>
         void SetSystemSignature(Signature signature);
@@ -220,6 +223,10 @@ namespace Architecture {
         void Update() override;
     };
 
+    class GraphicsSystem : public System {
+    public:
+        void Update() override;
+    };
+
     
-}
 

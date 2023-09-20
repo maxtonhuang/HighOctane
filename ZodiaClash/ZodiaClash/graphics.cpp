@@ -94,6 +94,29 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
+    //DEBUG GRAPHIC MODELS FOR COLLISION TESTING
+    test_circle1.AttachTexture("circle.png");
+    test_circle2.AttachTexture("circle.png");
+    test_circle3.AttachTexture("circle.png");
+
+    test_circle1.SetDim(100, 100);
+    test_circle1.SetPos(100, 100);
+
+    test_circle2.SetDim(100, 100);
+    test_circle2.SetPos(200, 200);
+
+    test_circle3.SetDim(100, 100);
+    test_circle3.SetPos(300, 300);
+
+    test_rect1.SetDim(100, 100);
+    test_rect1.SetPos(-100, -100);
+
+    test_rect2.SetDim(200, 100);
+    test_rect2.SetPos(-200, -200);
+
+    test_rect3.SetDim(100, 200, 50);
+    test_rect3.SetPos(-300, -300);
+
     //glfwSwapInterval(0);
     //Draw();
 }

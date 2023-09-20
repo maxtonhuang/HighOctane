@@ -7,7 +7,6 @@
 
 
 
-namespace Architecture {
 
 	class EngineCore {
 	public:
@@ -33,4 +32,3 @@ namespace Architecture {
 
 
 
-}

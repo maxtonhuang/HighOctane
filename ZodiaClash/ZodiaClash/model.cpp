@@ -1,11 +1,18 @@
 #include "Model.h"
 #include "Graphics.h"
+#include "Components.h"
+#include "ECS.h"
+#include "EngineCore.h"
+
 #include <glm-0.9.9.8/glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 const float pi = 3.14159265358979323846;
 
 std::vector<Model> modelList;
+extern ECS ecs;
+
+//extern ECS ecs;
 
 Model test_circle1;
 Model test_circle2;
@@ -73,46 +80,23 @@ void Model::Update() {
 	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
+void Model::Update(Entity const& entity) {
+	float x = ecs.GetComponent<Transform>(entity).scale.x * ecs.GetComponent<Size>(entity).width;
+	float y = ecs.GetComponent<Transform>(entity).scale.y * ecs.GetComponent<Size>(entity).height;
+	matrix = glm::mat3{ cos(rotationRadians) * x / GRAPHICS::defaultWidthF ,-sin(rotationRadians) * x / GRAPHICS::defaultHeightF,0,
+		sin(rotationRadians) * y / GRAPHICS::defaultWidthF , cos(rotationRadians) * y / GRAPHICS::defaultHeightF,0,
+		ecs.GetComponent<Transform>(entity).position.x / GRAPHICS::w,ecs.GetComponent<Transform>(entity).position.y / GRAPHICS::h,1 };
+	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
+	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
+	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
+	glm::vec3 topright3 = matrix * glm::vec3{ 1,1,1 };
+	botleft = glm::vec2{ bottomleft3.x,bottomleft3.y };
+	botright = glm::vec2{ bottomright3.x,bottomright3.y };
+	topleft = glm::vec2{ topleft3.x,topleft3.y };
+	topright = glm::vec2{ topright3.x,topright3.y };
+}
+
 void Model::Draw() {
-	/*
-	if (tex != nullptr) {
-		glBindTextureUnit(1, tex->GetID());
-		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-		glTextureParameteri(tex->GetID(), GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-	}
-	else {
-		glBindTextureUnit(1, 0);
-	}
-
-	glBindVertexArray(graphics.GetVAOInfo().id);
-
-	//Pass matrix to shader
-	GLint uniform_var_matrix = glGetUniformLocation(
-		graphics.GetShader().GetHandle(), "uModelToNDC");
-	if (uniform_var_matrix >= 0) {
-		glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-	}
-
-	GLint uniform_var_texmatrix = glGetUniformLocation(
-		graphics.GetShader().GetHandle(), "uTexCoord");
-	if (uniform_var_matrix >= 0) {
-		glUniformMatrix3fv(uniform_var_texmatrix, 1, GL_FALSE, glm::value_ptr(tex->GetSheetMatrix(animation)));
-	}
-
-	GLint uniform_var_color = glGetUniformLocation(
-		graphics.GetShader().GetHandle(), "uColor");
-	if (uniform_var_color >= 0) {
-		glUniform4fv(uniform_var_color, 1, glm::value_ptr(color));
-	}
-
-	GLint uniform_var_tex = glGetUniformLocation(
-		graphics.GetShader().GetHandle(), "uTex2d");
-	if (uniform_var_tex >= 0) {
-		glUniform1i(uniform_var_tex, 1);
-	}
-
-	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
-	*/
 	Renderer* renderer;
 	if (tex != nullptr) {
 		renderer = &textureRenderer;
@@ -139,7 +123,35 @@ void Model::Draw() {
 		renderer->AddVertex(Vertex{ botright,color });
 		renderer->AddVertex(Vertex{ topleft,color });
 	}
-	
+}
+
+void Model::Draw(Entity const& entity) {
+	Renderer* renderer;
+	if (tex != nullptr) {
+		renderer = &textureRenderer;
+	}
+	else {
+		renderer = &flatRenderer;
+	}
+	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
+		renderer->Draw();
+	}
+	if (tex != nullptr) {
+		renderer->AddVertex(Vertex{ botleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,0), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ topright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,3), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+		renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	}
+	else {
+		renderer->AddVertex(Vertex{ botleft,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+		renderer->AddVertex(Vertex{ topright,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+	}
 }
 
 void Model::DrawOutline() {
@@ -149,10 +161,10 @@ void Model::DrawOutline() {
 	flatRenderer.AddVertex(Vertex{ topright, glm::vec3{1,1,1} });
 	flatRenderer.AddVertex(Vertex{ topleft, glm::vec3{1,1,1} });
 	flatRenderer.Draw(GL_LINE_LOOP);
-	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
-	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
-	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
-	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
+	//graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
+	//graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
+	//graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
+	//graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
 void Model::SetDim(float w, float h, float r) {

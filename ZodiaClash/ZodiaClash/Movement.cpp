@@ -6,7 +6,7 @@
 
 extern Mail mail;
 extern float g_dt;
-//extern Architecture::ECS ecs;
+//extern ECS ecs;
 
 
 void UpdateMovement(Transform & transform) {	
@@ -21,7 +21,9 @@ void UpdateMovement(Transform & transform) {
 			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { transform.velocity.x += -200.f * g_dt; }
 			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { transform.velocity.x += 200.f * g_dt; }
 		}
+
 	}
+	transform.position += transform.velocity;
 	mail.mailbox[ADDRESS::MOVEMENT].clear();
 
 
