@@ -144,6 +144,8 @@ namespace Architecture {
     public:
         template<typename T>
         std::shared_ptr<T> RegisterSystem();
+        //template<typename T>
+        //std::shared_ptr<T> RegisterSystem(T& input);
 
         template<typename T>
         void SetSignature(Signature signature);
@@ -191,6 +193,8 @@ namespace Architecture {
         // System methods ------------------------------
         template<typename T>
         std::shared_ptr<T> RegisterSystem();
+        template<typename T>
+        std::shared_ptr<T> RegisterSystem(T& input);
 
         template<typename T>
         void SetSystemSignature(Signature signature);
@@ -216,6 +220,11 @@ namespace Architecture {
     };
 
     class ModelSystem : public System {
+    public:
+        void Update() override;
+    };
+
+    class GraphicsSystem : public System {
     public:
         void Update() override;
     };

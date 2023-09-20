@@ -62,10 +62,10 @@ namespace Architecture {
 		systemList.emplace_back(physicsSystem);
 		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
 		systemList.emplace_back(modelSystem);
-		std::shared_ptr<GraphicsManager> graphicsSystem = ecs.RegisterSystem<GraphicsManager>();
+		std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
 		systemList.emplace_back(graphicsSystem);
 
-		graphicsSystem->Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+		//graphicsSystem->Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
 		{
 			Signature signature;
@@ -102,13 +102,14 @@ namespace Architecture {
 			signature.set(ecs.GetComponentType<Size>());
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
-			//signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<MainCharacter>());
 			signature.set(ecs.GetComponentType<Circle>());
 			signature.set(ecs.GetComponentType<AABB>());
 
-			ecs.SetSystemSignature<GraphicsManager>(signature);
+			ecs.SetSystemSignature<GraphicsSystem>(signature);
 		}
 
+		graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 		LoadMasterModel();
 
 		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
@@ -146,7 +147,7 @@ namespace Architecture {
 			//PhysicaSystem->Update();
 
 			for (std::shared_ptr<System> & sys : systemList) {
-				debug_p.
+				//debug_p.
 				//debugprofiling.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
 				sys->Update();
 
@@ -156,11 +157,11 @@ namespace Architecture {
 
 			//UpdateModel();
 			
-			graphicsSystem->Draw();
+			graphics.Draw();
 
 			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
 			//graphics.Draw();
-			if (graphicsSystem->WindowClosed()) {
+			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
 

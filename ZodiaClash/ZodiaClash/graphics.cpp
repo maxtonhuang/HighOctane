@@ -10,7 +10,7 @@
 
 Model test_model;
 Texture test_tex;
-//GraphicsManager graphics;
+GraphicsManager graphics;
 
 Renderer flatRenderer;
 Renderer textureRenderer;

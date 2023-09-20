@@ -35,7 +35,7 @@ private:
 	int height;
 };
 
-//extern GraphicsManager graphics;
+extern GraphicsManager graphics;
 
 extern Model test_model;
 extern Texture test_tex;

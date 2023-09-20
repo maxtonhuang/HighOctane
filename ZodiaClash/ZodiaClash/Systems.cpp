@@ -43,9 +43,12 @@ namespace Architecture {
 	}
 
 	void ModelSystem::Update() {
-		//
+		//Animation an = ecs.GetComponent<Animation>(entity)
 	}
 
+	void GraphicsSystem::Update() {
+
+	}
 
 }
 
