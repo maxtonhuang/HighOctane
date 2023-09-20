@@ -24,14 +24,14 @@ namespace physics {
         const float timeStep = 1.0f / 60.0f; // 60 updates per second
 
         // When physics simulation is not in step mode (eg.running continuously)
-        if (!stepModeActive) {
-
+        if (!stepModeActive) 
+        {
             // Keeps track of the passed time
             timeAccumulation += deltaTime;
 
             // If the accumulated time has reached or exceeded the time step
-            if (timeAccumulation > timeStep) {
-
+            if (timeAccumulation > timeStep) 
+            {
                 // Subtract the time step from the accumulated time
                 timeAccumulation -= timeStep;
 
@@ -45,7 +45,8 @@ namespace physics {
         timeAccumulation = 0.0f;
 
         // If a step update is requested
-        if (advanceStep) {
+        if (advanceStep) 
+        {
 
             // Perform the physics calculations for this time step
             Step(timeStep);
@@ -55,11 +56,13 @@ namespace physics {
         }
     }
 
-    void PhysicsManager::AddEntity(Architecture::Entity entity) {
+    void PhysicsManager::AddEntity(Architecture::Entity entity) 
+    {
         m_Entities.push_back(entity);
     }
 
-    void PhysicsManager::Integrate(Body& body, float deltaTime) {
+    void PhysicsManager::Integrate(Body& body, float deltaTime) 
+    {
         // If the body is static, we don't want to update its position or velocity.
         if (body.isStatic) return;
 
@@ -77,7 +80,8 @@ namespace physics {
         body.velocity += newAcceleration * deltaTime;
 
         // Ensure the velocity doesn't exceed a maximum value for numerical stability.
-        if (Vector2::dot(body.velocity, body.velocity) > PHYSICS->maxVelocitySq) {
+        if (Vector2::dot(body.velocity, body.velocity) > PHYSICS->maxVelocitySq) 
+        {
             body.velocity.normalize();  // Make the velocity a unit vector
             body.velocity *= PHYSICS->maxVelocity;  // Scale it to the maximum allowed velocity
         }
@@ -86,14 +90,16 @@ namespace physics {
         body.accumulatedForce = Vector2(0, 0);
     }
 
-    void PhysicsManager::AddForce(Body& body, Vector2 force) {
+    void PhysicsManager::AddForce(Body& body, Vector2 force) 
+    {
         body.accumulatedForce += force;
     }
 
 
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
-        for (const auto& entity : m_Entities) {
+        for (const auto& entity : m_Entities) 
+        {
             auto& body = m_ecs.GetComponent<physics::Body>(entity);
 
             // Integrate the body.
