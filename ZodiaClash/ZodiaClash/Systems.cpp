@@ -68,11 +68,12 @@
 			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
 			if (mc.isMainCharacter) {
 			    
-				Model m = ecs.GetComponent<Model>(entity);
-				m.Update();
-				m.Draw();
+				
 				//UpdateMovement(ecs.GetComponent<Transform>(entity));
 			}
+			Model m = ecs.GetComponent<Model>(entity);
+			m.Update(entity);
+			m.Draw(entity);
 			//ecs.GetComponent<Model>(entity).Update(entity);
 			//ecs.GetComponent<Model>(entity).Draw(entity);
 		}

@@ -119,8 +119,7 @@ float g_dt;
 		mail.RegisterMailbox(ADDRESS::INPUT);
 		mail.RegisterMailbox(ADDRESS::MODEL);
 
-		LoadModels(1, true);
-
+		LoadModels(2, true);
 		//LoadModels(MAX_MODELS);
 
 		debugprofile::DebugProfiling debugSysProfile;

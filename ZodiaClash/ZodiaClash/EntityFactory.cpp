@@ -35,22 +35,32 @@
 			Tex t = ecs.GetComponent<Tex>(entity);
 			ecs.AddComponent(entity, Size{ static_cast<float>(t.tex->GetWidth()), static_cast<float>(t.tex->GetHeight()) });
 			ecs.AddComponent(entity, MainCharacter{ false });
+			ecs.AddComponent(entity, Model{});
 		}
 	}
 
 	void CloneMasterModel(float rW, float rH, bool isMainCharacter) {
+		/*
+		SUGGESTION:
+		Maybe make a for loop that checks each component type.
+		for (each component type) {
+			if master entity contains component type
+			add component to clone with master entity data
+		}
+		at end of for loop, change necessary parameters.
+		*/
 		Entity entity = ecs.CreateEntity();
 		Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
 		ecs.AddComponent(entity, Color{ ecs.GetComponent<Color>(masterEntity) });
 		ecs.AddComponent(entity, Transform{ ecs.GetComponent<Transform>(masterEntity) });
-		Transform tr = ecs.GetComponent<Transform>(entity);
-		tr.position = { rW, rH };
+		ecs.GetComponent<Transform>(entity).position = {rW, rH};
+		//tr.position = { rW, rH };
 		ecs.AddComponent(entity, Tex{ ecs.GetComponent<Tex>(masterEntity) });
 		ecs.AddComponent(entity, Matrix{ ecs.GetComponent<Matrix>(masterEntity) });
 		ecs.AddComponent(entity, Visible{ true });
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
 		ecs.AddComponent(entity, MainCharacter{ isMainCharacter });
-		ecs.AddComponent(entity, Model{});
+		ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
 		//ecs.AddComponent(entity, Animation{ ANIMATION::NONE, })
 		
 	}
@@ -58,8 +68,8 @@
 	void LoadModels(uint32_t amount, bool isMainCharacter) {
 
 		std::default_random_engine rng;
-		std::uniform_real_distribution<float> rand_width(0, GRAPHICS::defaultWidthF);
-		std::uniform_real_distribution<float> rand_height(0, GRAPHICS::defaultHeightF);
+		std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
+		std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
 		
 		for (uint32_t i = 0; i < amount; ++i) {
 			CloneMasterModel(rand_width(rng), rand_height(rng), isMainCharacter);
