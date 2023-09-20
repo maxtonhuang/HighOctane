@@ -16,7 +16,7 @@ GUIManager::~GUIManager()
 
 void GUIManager::Init(GLFWwindow* window)
 {
-    // GL 3.0 + GLSL 130
+    //// GL 3.0 + GLSL 130
     const char* glsl_version = "#version 450";
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);

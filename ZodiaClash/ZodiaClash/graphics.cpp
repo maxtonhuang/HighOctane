@@ -94,9 +94,7 @@ void GraphicsManager::Initialize(int w, int h) {
         modelList.emplace_back(mdl);
     }
 
-    glfwSwapInterval(0);
-
-    guiManager.Init(window);
+    //glfwSwapInterval(0);
     //Draw();
 }
 
