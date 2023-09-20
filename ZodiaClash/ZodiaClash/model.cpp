@@ -1,3 +1,4 @@
+#include "message.h"
 #include "Model.h"
 #include "Graphics.h"
 #include "Components.h"
@@ -8,12 +9,11 @@
 #include <iostream>
 
 const float pi = 3.14159265358979323846;
-
-std::vector<Model> modelList;
+extern float g_dt;
+extern Mail mail;
 extern ECS ecs;
 
-//extern ECS ecs;
-
+std::vector<Model> modelList;
 Model test_circle1;
 Model test_circle2;
 Model test_circle3;
@@ -218,13 +218,33 @@ void Model::SetScale(float x, float y) {
 	scale.y = y;
 }
 
-void Model::SetAnimation(int index) {
-	animation = index;
+void Model::SetAnimation(Animation& data, int index) {
+	data.frameIndex = index;
 }
 
-void Model::AdvanceAnimation() {
-	++animation;
-	if (animation >= tex->GetSheetSize()) {
-		animation = 0;
+void Model::AdvanceAnimation(Animation& data) {
+	data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
+}
+
+//TODO: determine texture set based on direction?
+
+void Model::AnimateOnInterval(Animation& data) {
+	if (tex != nullptr) {
+		data.frameTimeElapsed += g_dt;
+		if (data.frameTimeElapsed > data.frameDisplayDuration) {
+			AdvanceAnimation(data);
+			data.frameTimeElapsed = 0.f;
+		}
 	}
+}
+
+void Model::AnimateOnKeyPress(Animation& data) {
+	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE);
+
+	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_DOWN) {
+			if (msg.info == INFO::KEY_P) { AdvanceAnimation(data); }
+		}
+	}
+	mail.mailbox[ADDRESS::MODEL].clear();
 }

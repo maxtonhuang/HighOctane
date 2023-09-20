@@ -27,114 +27,130 @@ PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 #include <iostream>
 #include "enginecore.h"
 
+extern float g_dt;
+
 namespace debugprofile {
 
     enum class DebugSystems {
+        GameLoop,
         Physics,
         Graphics,
         count
     };
 
+
     struct ProfileResult {
-        DebugSystems name;
-        float duration;
-        float percentage;
-        int callCount;
+        std::shared_ptr<System> name{};
+        float duration{};
+        float percentage{};
     };
 
     class DebugProfiling {
-
     public:
+
+        //DebugProfiling() {
+        //    currentSessionName = DebugSystems::count;
+        //    results.reserve(static_cast<size_t>(DebugSystems::count));
+        //    loopCount = 0;
+        //    totalFrameTimeMillis = 0.0f;
+        //}
+
+        //void BeginSession(DebugSystems SessionInput) {
+        //    currentSessionName = SessionInput;
+        //    profileSessionActive = true;
+        //    loopCount = 0;
+        //    totalFrameTimeMillis = 0.0f;
+        //}
+
+        //void EndSession() {
+        //    profileSessionActive = false;
+        //}
+
+        //void StartTimer(DebugSystems systemInput) {
+        //    if (!profileSessionActive) return;
+        //    timers[systemInput] = std::chrono::high_resolution_clock::now();
+        //}
+
+        //void StopTimer(DebugSystems systemInput) {
+        //    if (!profileSessionActive) return;
+        //    auto startTime = timers[systemInput];
+        //    auto endTime = std::chrono::high_resolution_clock::now();
+        //    auto duration = endTime - startTime;
+        //    ProfileResult result{};
+        //    result.name = systemInput;
+        //    result.durationMillis = std::chrono::duration<float, std::milli>(duration).count();
+        //    results.push_back(result);
+        //}
+
+        //void BeginFrame() {
+        //    if (!profileSessionActive) return;
+        //    frameStartTime = std::chrono::high_resolution_clock::now();
+        //}
+
+        //void EndFrame() {
+        //    if (!profileSessionActive) return;
+        //    loopCount++;
+        //    auto frameEndTime = std::chrono::high_resolution_clock::now();
+        //    auto frameDuration = frameEndTime - frameStartTime;
+        //    float frameTimeMillis = std::chrono::duration<float, std::milli>(frameDuration).count();
+        //    totalFrameTimeMillis += frameTimeMillis;
+
+        //    // Calculate and store the percentage for each system
+        //    for (auto& result : results) {
+        //        result.percentage = (result.durationMillis / totalFrameTimeMillis) * 100.0f;
+        //    }
+        //}
+
+        //ProfileResult GetResult(DebugSystems systemInput) {
+        //    for (auto& result : results) {
+        //        if (result.name == systemInput) {
+        //            return result;
+        //        }
+        //    }
+        //    return ProfileResult();
+        //}
+
+
         DebugProfiling() {
-            
-            // Reserve so that the vector has enough space
+            //currentSessionName = DebugSystems::count;
             results.reserve(static_cast<size_t>(DebugSystems::count));
         }
 
-        void BeginSession(std::string sessionInput) {
-            // Initialize a new profiling session
-            currentSessionName = sessionInput;
-            profileSessionActive = true;
 
-            //std::cout << "Begin profiling session start" << std::endl;
-        }
+        void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
+            timers[systemInput] = startTimeInput;
+		}
 
-        void EndSession() {
-            // Finalize the profiling session
-            profileSessionActive = false;
+        void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
+            auto startTime = timers[systemInput];
+            auto duration = static_cast<float>(endTimeInput - startTime) / 1000.0f;
 
-            //std::cout << "End profiling session" << std::endl;
-        }
-
-        void StartTimer(DebugSystems systemInput, uint64_t timeStart) {
-            if (!profileSessionActive) return;
-
-            // Start a timer for a specific profiling event
-            timers[systemInput] = timeStart;
-
-            //callCounts[systemInput]++;
-            //std::cout << "Start timer\n";
-        }
-
-        void StopTimer(DebugSystems systemInput, uint64_t timeEnd) {
-            if (!profileSessionActive) return;
-
-            // Stop the timer and record the duration
-            uint64_t startTime = timers[systemInput];
-            uint64_t duration = timeEnd - startTime;
-
-            // Record the profiling event
             ProfileResult result{};
             result.name = systemInput;
-            result.duration = static_cast<float>(duration) / 1000000.f;
+            result.duration = duration;
 
-            //result.percentage = (duration / totalFrameTime) * 100;
-            //result.callCount = callCounts[timerName];
             results.push_back(result);
-
-            //std::cout << "Stop timer: " << timerName << std::endl;
-            //std::cout << "Stop timer: " << timerName << " (Call Count: " << callCounts[timerName] << ")" << std::endl;
         }
 
-        void BeginFrame() {
-            if (!profileSessionActive) return;
-
-            // Start tracking frame time
-            frameStartTime = std::chrono::high_resolution_clock::now();
-
-            //std::cout << "Begin frame" << std::endl;
-        }
-
-        void EndFrame() {
-            if (!profileSessionActive) return;
-
-            // Calculate the total frame time
-            auto frameEndTime = std::chrono::high_resolution_clock::now();
-            totalFrameTime = std::chrono::duration<float>(frameEndTime - frameStartTime).count();
-
-            //std::cout << "End frame" << std::endl;
-        }
-
-        ProfileResult GetResult(DebugSystems systemInput) {
-			// Return the result of a specific profiling event
+        ProfileResult GetResult(std::shared_ptr<System> systemInput) {
             for (auto& result : results) {
                 if (result.name == systemInput) {
-					return result;
-				}
-			}
-			return ProfileResult();
+                    result.percentage = (result.duration / (g_dt * 1000.f) * 100.f);
+                    return result;
+                }
+            }
+            return ProfileResult();
+        }
+
+        void clear() {
+			results.clear();
 		}
 
     private:
         std::vector<ProfileResult> results;
-        std::string currentSessionName;
-        bool profileSessionActive = false;
-        std::unordered_map<DebugSystems , uint64_t> timers;
-        //std::unordered_map<std::string, int> callCounts; // Keep track of callCount globally
-        float totalFrameTime = 0.0f;
-        std::chrono::time_point<std::chrono::high_resolution_clock> frameStartTime;
-        //uint64_t startTime;
-        //uint64_t endTime;
+        std::shared_ptr<System> currentSessionName;
+        std::unordered_map<std::shared_ptr<System>, uint64_t> timers;
+
     };
 
 } // namespace debugprofile
