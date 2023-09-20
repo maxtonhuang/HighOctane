@@ -118,10 +118,13 @@ float g_dt;
 		mail.RegisterMailbox(ADDRESS::INPUT);
 		mail.RegisterMailbox(ADDRESS::MODEL);
 
-		// Create Main Character
 		LoadModels(1, true);
 
 		//LoadModels(MAX_MODELS);
+
+		debugprofile::DebugProfiling debugSysProfile;
+		
+		
 
 		////////// GAME LOOP //////////
 
@@ -132,6 +135,14 @@ float g_dt;
 
 			uint64_t l_currentTime = GetTime();
 			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
+
+			// Testing this thing first
+			for (std::shared_ptr<System>& sys : systemList) {
+				std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << std::endl;
+
+			}
+
+			debugSysProfile.clear();
 			m_previousTime = l_currentTime;
 
 			mail.SendMails(); // 1
@@ -145,20 +156,35 @@ float g_dt;
 			mail.SendMails(); // 3
 
 			//movementSystem->Update();
-			//PhysicaSystem->Update();
+
+			///////////// MOVEMENT /////////////
+
+
+			//debugSysProfile.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
+			///////////// PHYSICS /////////////
 
 			for (std::shared_ptr<System> & sys : systemList) {
 				//debug_p.
-				//debugprofiling.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
+				debugSysProfile.StartTimer(sys, GetTime());
 				sys->Update();
+				debugSysProfile.StopTimer(sys, GetTime());
 
 			}
 
 			//physicsSystem->Update();
+			
+			///////////// PHYSICS /////////////
+			//debugSysProfile.StopTimer(debugprofile::DebugSystems::Physics, GetTime());
+
+			//debugSysProfile.EndSession();
 
 			//UpdateModel();
 			
 			//graphics.Draw();
+
+
+			//debugSysProfile.StartTimer(debugprofile::DebugSystems::Graphics, GetTime());
+			///////////// GRAPHICS /////////////
 
 			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
 			//graphics.Draw();
@@ -166,8 +192,15 @@ float g_dt;
 				gameActive = false;
 			}
 
+			///////////// GRAPHICS /////////////
+			//debugSysProfile.StopTimer(debugprofile::DebugSystems::Graphics, GetTime());
+
 			//Performance();
 			//gui.Update(graphics.window);
+
+
+			//DebugPrint("Total Frame Time: %f milliseconds", g_dt * 1'000.f);
+
 		}
 	}
 
