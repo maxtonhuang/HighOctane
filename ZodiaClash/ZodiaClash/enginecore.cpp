@@ -54,6 +54,7 @@ namespace Architecture {
 		ecs.RegisterComponent<Circle>();
 		ecs.RegisterComponent<AABB>();
 		ecs.RegisterComponent<Animation>();
+		//ecs.RegisterComponent<ModelPtr>();
 
 
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
@@ -143,13 +144,12 @@ namespace Architecture {
 
 			mail.SendMails(); // 3
 
-			//movementSystem->Update();
-			//PhysicaSystem->Update();
 
 			for (std::shared_ptr<System> & sys : systemList) {
 				//debug_p.
 				//debugprofiling.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
 				sys->Update();
+				mail.SendMails();
 
 			}
 

@@ -47,7 +47,13 @@ namespace Architecture {
 	}
 
 	void GraphicsSystem::Update() {
+		for (Entity const& entity : m_Entities) {
+			
+			Transform tr = ecs.GetComponent<Transform>(entity);
 
+			//GraphicsManager::Model.Update(tr);
+			
+		}
 	}
 
 }
