@@ -13,6 +13,7 @@
 #include <chrono>
 #include "GUIManager.h"
 #include "debugdiagnostic.h"
+#include "DebugProfile.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -38,7 +39,7 @@ namespace Architecture {
 
 	void EngineCore::Run() {
 
-		
+		debugprofile::DebugSystems debug_p;
 		
 		////////// INITIALIZE //////////
 		ecs.Init();
@@ -50,6 +51,7 @@ namespace Architecture {
 		ecs.RegisterComponent<Visible>();
 		ecs.RegisterComponent<Tex>();
 		ecs.RegisterComponent<MainCharacter>();
+
 
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
 		systemList.emplace_back(movementSystem);
@@ -135,7 +137,10 @@ namespace Architecture {
 			//PhysicaSystem->Update();
 
 			for (std::shared_ptr<System> & sys : systemList) {
+				debug_p.
+				//debugprofiling.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
 				sys->Update();
+
 			}
 
 			//physicsSystem->Update();

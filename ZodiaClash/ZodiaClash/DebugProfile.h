@@ -133,6 +133,23 @@ namespace debugprofile {
         //std::unordered_map<std::string, int> callCounts; // Keep track of callCount globally
         float totalFrameTime = 0.0f;
         std::chrono::time_point<std::chrono::high_resolution_clock> frameStartTime;
+        //uint64_t startTime;
+        //uint64_t endTime;
     };
 
 } // namespace debugprofile
+
+
+
+/*
+
+startTime = 1000;
+endTime = 1000000;
+
+timeTaken = static_cast<float>(endTime - startTime) / 1'000.f
+std::cout << "Time Taken for System :" << timeTaken << " ms." << std::endl;
+std::cout << "Percentage of Loop Time: " << (timeTaken / (g_dt * 1'000)) << std::endl;
+
+
+*/
+
