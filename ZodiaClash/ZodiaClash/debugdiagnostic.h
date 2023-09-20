@@ -108,11 +108,11 @@ namespace debug {
 #endif
 // Else, we will just ignore the debug printing function
 #else
-#define DebugPrint(...) ((void)0)
+#define DebugPrint(...) ((void)0);
 
-#define Assert(condition, ...) ((void)0)
+#define Assert(condition, ...) ((void)0);
 
-#define Console(...) ((void)0)
+#define Console(...) ((void)0);
 
-#define Performance(...) ((void)0)
+#define Performance(...) ((void)0);
 #endif
