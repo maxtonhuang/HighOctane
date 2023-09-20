@@ -136,8 +136,6 @@ void GraphicsManager::Update() {
 }
 
 void GraphicsManager::Draw() { // ------------- Can this go into ECS? ------------------------------//
-    glClear(GL_COLOR_BUFFER_BIT);
-
     for (Model& m : modelList) {
         m.Update();
         m.Draw();
@@ -164,6 +162,7 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
     
     guiManager.Update(window);
     glfwSwapBuffers(window);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void GraphicsManager::DrawPoint(float x, float y, float pointsize) {
