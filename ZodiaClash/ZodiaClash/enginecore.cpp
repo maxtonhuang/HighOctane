@@ -50,6 +50,9 @@ namespace Architecture {
 		ecs.RegisterComponent<Visible>();
 		ecs.RegisterComponent<Tex>();
 		ecs.RegisterComponent<MainCharacter>();
+		ecs.RegisterComponent<Circle>();
+		ecs.RegisterComponent<AABB>();
+		ecs.RegisterComponent<Animation>();
 
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
 		systemList.emplace_back(movementSystem);
@@ -71,6 +74,9 @@ namespace Architecture {
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
 			signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Circle>());
+			signature.set(ecs.GetComponentType<AABB>());
+			signature.set(ecs.GetComponentType<Animation>());
 
 			ecs.SetSystemSignature<ModelSystem>(signature);
 		}
@@ -94,6 +100,8 @@ namespace Architecture {
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
 			//signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Circle>());
+			signature.set(ecs.GetComponentType<AABB>());
 
 			ecs.SetSystemSignature<GraphicsManager>(signature);
 		}
