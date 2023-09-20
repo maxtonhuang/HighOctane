@@ -16,6 +16,8 @@ namespace Architecture {
 
 	extern ECS ecs;
 
+
+
 	std::unordered_map<std::string, Entity> masterEntitiesList;
 
 	void LoadMasterModel() {
@@ -33,10 +35,11 @@ namespace Architecture {
 			ecs.AddComponent(entity, Visible{ false });
 			Tex t = ecs.GetComponent<Tex>(entity);
 			ecs.AddComponent(entity, Size{ static_cast<float>(t.tex->GetWidth()), static_cast<float>(t.tex->GetHeight()) });
+			ecs.AddComponent(entity, MainCharacter{ false });
 		}
 	}
 
-	void CloneMasterModel(float rW, float rH) {
+	void CloneMasterModel(float rW, float rH, bool isMainCharacter) {
 		Entity entity = ecs.CreateEntity();
 		Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
 		ecs.AddComponent(entity, Color{ ecs.GetComponent<Color>(masterEntity) });
@@ -47,18 +50,18 @@ namespace Architecture {
 		ecs.AddComponent(entity, Matrix{ ecs.GetComponent<Matrix>(masterEntity) });
 		ecs.AddComponent(entity, Visible{ true });
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
-		
+		ecs.AddComponent(entity, MainCharacter{ isMainCharacter });
 
 	}
 
-	void LoadModels(uint32_t amount) {
+	void LoadModels(uint32_t amount, bool isMainCharacter) {
 
 		std::default_random_engine rng;
 		std::uniform_real_distribution<float> rand_width(0, graphics.GetWidth());
 		std::uniform_real_distribution<float> rand_height(0, graphics.GetHeight());
 		
 		for (uint32_t i = 0; i < amount; ++i) {
-			CloneMasterModel(rand_width(rng), rand_height(rng));
+			CloneMasterModel(rand_width(rng), rand_height(rng), isMainCharacter);
 		}
 	}
 

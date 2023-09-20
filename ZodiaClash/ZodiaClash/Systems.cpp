@@ -34,7 +34,12 @@ namespace Architecture {
 	
 	// Movement System
 	void MovementSystem::Update() {
-	
+		for (Entity const& entity : m_Entities) {
+			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
+			if (mc.isMainCharacter) {
+				UpdateMovement(ecs.GetComponent<Transform>(entity));
+			}
+		}
 	}
 
 	void ModelSystem::Update() {

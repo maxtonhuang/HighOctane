@@ -20,7 +20,7 @@ namespace Architecture {
     using Entity = std::uint32_t;
 
     // Used to define the size of arrays later on
-    const Entity MAX_ENTITIES = 10'000;
+    const Entity MAX_ENTITIES = 1'000'000;
 
     // A simple type alias
     using ComponentType = std::uint8_t;
