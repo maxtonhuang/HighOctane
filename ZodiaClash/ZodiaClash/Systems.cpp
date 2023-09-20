@@ -1,9 +1,9 @@
 #include "ECS.h"
 #include "Components.h"
 #include "Movement.h"
+#include "graphics.h"
+#include "model.h"
 
-
-namespace Architecture {
 
 	extern ECS ecs;
 	
@@ -48,13 +48,16 @@ namespace Architecture {
 
 	void GraphicsSystem::Update() {
 		for (Entity const& entity : m_Entities) {
-			
-			Transform tr = ecs.GetComponent<Transform>(entity);
-
-			//GraphicsManager::Model.Update(tr);
-			
+			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
+			if (mc.isMainCharacter) {
+			    
+				//ecs.GetComponent<Model>(entity).Update()
+				//UpdateMovement(ecs.GetComponent<Transform>(entity));
+			}
+			ecs.GetComponent<Model>(entity).Update(entity);
+			ecs.GetComponent<Model>(entity).Draw(entity);
 		}
+		graphics.Draw();
 	}
 
-}
 

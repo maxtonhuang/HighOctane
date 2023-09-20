@@ -12,7 +12,6 @@
 
 
 
-namespace Architecture {
 
 	extern ECS ecs;
 
@@ -51,7 +50,7 @@ namespace Architecture {
 		ecs.AddComponent(entity, Visible{ true });
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
 		ecs.AddComponent(entity, MainCharacter{ isMainCharacter });
-
+		ecs.AddComponent(entity, Model{});
 	}
 
 	void LoadModels(uint32_t amount, bool isMainCharacter) {
@@ -66,4 +65,3 @@ namespace Architecture {
 	}
 
 
-}
