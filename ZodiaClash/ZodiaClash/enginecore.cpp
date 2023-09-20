@@ -102,6 +102,7 @@ float g_dt;
 			signature.set(ecs.GetComponentType<Size>());
 			signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<Tex>());
+			signature.set(ecs.GetComponentType<Model>());
 			//signature.set(ecs.GetComponentType<MainCharacter>());
 			//signature.set(ecs.GetComponentType<Circle>());
 			//signature.set(ecs.GetComponentType<AABB>());
