@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Components.h"
 #include "GraphLib.h"
 #include "Texture.h"
 #include "Renderer.h"
@@ -33,8 +34,11 @@ public:
 
 	void SetScale(float x, float y);
 
-	void SetAnimation(int index);
-	void AdvanceAnimation();
+	void SetAnimation(Animation& data, int index);
+	void AdvanceAnimation(Animation& data);
+
+	void AnimateOnInterval(Animation& data);
+	void AnimateOnKeyPress(Animation& data);
 
 private:
 	glm::vec2 pos{}; //Position in screen coordinates

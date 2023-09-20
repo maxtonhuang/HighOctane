@@ -116,6 +116,7 @@ float g_dt;
 	
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
+		mail.RegisterMailbox(ADDRESS::MODEL);
 
 		// Create Main Character
 		LoadModels(1, true);

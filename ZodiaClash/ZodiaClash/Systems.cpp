@@ -43,7 +43,22 @@
 	}
 
 	void ModelSystem::Update() {
-		//Animation an = ecs.GetComponent<Animation>(entity)
+		for (Entity const& entity : m_Entities) {
+			Animation animate = ecs.GetComponent<Animation>(entity);
+			//update animation
+			switch (animate.animationType) {
+			case(Animation::ANIMATION_NONE):
+				break;
+			case(Animation::ANIMATION_TIME_BASED):
+				ecs.GetComponent<Model>(entity).AnimateOnInterval(animate);
+				break;
+			case(Animation::ANIMATION_EVENT_BASED):
+				ecs.GetComponent<Model>(entity).AnimateOnKeyPress(animate);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	void GraphicsSystem::Update() {
