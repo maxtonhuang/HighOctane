@@ -114,6 +114,10 @@
 
         void EntityDestroyed(Entity entity);
 
+        template<typename T>
+        bool isComponentTypeRegistered(); // new
+
+
     private:
         // Map from type string pointer to a component type
         std::unordered_map<const char*, ComponentType> m_ComponentTypes{};
@@ -188,6 +192,9 @@
 
         template<typename T>
         ComponentType GetComponentType();
+
+        template<typename T>
+        bool isComponentTypeRegistered();
 
         // System methods ------------------------------
         template<typename T>

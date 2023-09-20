@@ -56,6 +56,7 @@
     ////////// COMPONENT //////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+
     // ---------- Component Manager ---------- //
 
     void ComponentManager::EntityDestroyed(Entity entity) {
@@ -67,6 +68,7 @@
             component->EntityDestroyed(entity);
         }
     }
+
 
 
 
