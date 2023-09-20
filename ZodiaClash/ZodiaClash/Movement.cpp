@@ -6,7 +6,7 @@
 
 extern Mail mail;
 extern float g_dt;
-//extern Architecture::ECS ecs;
+//extern ECS ecs;
 
 
 void UpdateMovement(Transform & transform) {	

@@ -13,9 +13,9 @@ struct Body; //forward declaration
 namespace physics {
     class PhysicsManager {
     public:
-        PhysicsManager(Architecture::ECS& ecs);
+        PhysicsManager(ECS& ecs);
         void Update(float deltaTime);
-        void AddEntity(Architecture::Entity entity);
+        void AddEntity(Entity entity);
         void Integrate(Body& body, float deltaTime);
         void AddForce(Body& body, Vector2 force);
 
@@ -24,8 +24,8 @@ namespace physics {
         void Step(float deltaTime);
         void DebugDraw();
 
-        Architecture::ECS& m_ecs; // Reference to the ECS instance
-        std::vector<Architecture::Entity> m_Entities;
+        ECS& m_ecs; // Reference to the ECS instance
+        std::vector<Entity> m_Entities;
 
         Vector2 gravity{};
         float maxVelocity{};

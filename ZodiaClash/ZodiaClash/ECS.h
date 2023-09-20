@@ -14,7 +14,6 @@
 #include "Components.h"
 
 
-namespace Architecture {
 
     // A simple type alias
     using Entity = std::uint32_t;
@@ -230,5 +229,4 @@ namespace Architecture {
     };
 
     
-}
 

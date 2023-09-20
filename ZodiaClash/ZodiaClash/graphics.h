@@ -8,7 +8,7 @@
 
 extern float g_dt;
 
-class GraphicsManager : public Architecture::System /*: virtual public Architecture::ISystem*/ { // need to change
+class GraphicsManager : public System /*: virtual public ISystem*/ { // need to change
 public:
 	GraphicsManager();
 	~GraphicsManager();

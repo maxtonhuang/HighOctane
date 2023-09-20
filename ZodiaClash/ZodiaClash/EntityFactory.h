@@ -1,7 +1,6 @@
 #pragma once
 
 
-namespace Architecture {
 
 	void LoadModels(uint32_t amount, bool isMainCharacter);
 
@@ -10,4 +9,3 @@ namespace Architecture {
 	void LoadMasterModel();
 
 
-}

@@ -19,7 +19,6 @@ using Vec2 = vmath::Vector2;
 
 float g_dt;
 
-namespace Architecture {
 
 	EngineCore* CORE;
 	ECS ecs;
@@ -54,6 +53,7 @@ namespace Architecture {
 		ecs.RegisterComponent<Circle>();
 		ecs.RegisterComponent<AABB>();
 		ecs.RegisterComponent<Animation>();
+		ecs.RegisterComponent<Model>();
 
 
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
@@ -157,7 +157,7 @@ namespace Architecture {
 
 			//UpdateModel();
 			
-			graphics.Draw();
+			//graphics.Draw();
 
 			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
 			//graphics.Draw();
@@ -174,4 +174,3 @@ namespace Architecture {
 		return (std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count()) - m_initialTime;
 	}
 
-}
