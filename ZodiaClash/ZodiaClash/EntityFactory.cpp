@@ -57,8 +57,8 @@ namespace Architecture {
 	void LoadModels(uint32_t amount, bool isMainCharacter) {
 
 		std::default_random_engine rng;
-		std::uniform_real_distribution<float> rand_width(0, graphics.GetWidth());
-		std::uniform_real_distribution<float> rand_height(0, graphics.GetHeight());
+		std::uniform_real_distribution<float> rand_width(0, GRAPHICS::defaultWidthF);
+		std::uniform_real_distribution<float> rand_height(0, GRAPHICS::defaultHeightF);
 		
 		for (uint32_t i = 0; i < amount; ++i) {
 			CloneMasterModel(rand_width(rng), rand_height(rng), isMainCharacter);

@@ -60,6 +60,7 @@ namespace Architecture {
 		std::shared_ptr<GraphicsManager> graphicsSystem = ecs.RegisterSystem<GraphicsManager>();
 		systemList.emplace_back(graphicsSystem);
 
+		graphicsSystem->Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
 		{
 			Signature signature;
@@ -142,9 +143,11 @@ namespace Architecture {
 
 			//UpdateModel();
 			
-			graphics.Update(); // Put into ECS to update and draw Entities <<<--------
-			graphics.Draw();
-			if (graphics.WindowClosed()) {
+			graphicsSystem->Draw();
+
+			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
+			//graphics.Draw();
+			if (graphicsSystem->WindowClosed()) {
 				gameActive = false;
 			}
 
