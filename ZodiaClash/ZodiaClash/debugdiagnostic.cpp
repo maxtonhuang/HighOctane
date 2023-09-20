@@ -90,7 +90,7 @@ namespace debug {
                 }
 
                 // Create the logging file only when needed
-                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace, true);
+                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
 
                 // Print an error message with just the file name and line number
                 std::cerr << "Assertion failed in " << fileName << " line " << line << ": ";

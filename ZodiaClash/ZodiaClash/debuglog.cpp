@@ -33,13 +33,6 @@ Dynamically change the log level during run time
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <ctime>
-#include "debugdiagnostic.h"
-#include <filesystem>
-#include <exception>
 
 constexpr size_t MAX_FILE_SIZE {1024 * 1024}; // 1MB
 
@@ -55,31 +48,29 @@ namespace debuglog {
 	Logger::Logger() {
 		currentLogFileName = "consolelog.log";
 		this->currentLogLevel = LOG_LEVEL::Trace;
-		this->loggingEnabled = true;
 
 		// Open the file
 		logFile.open(currentLogFileName, std::ios::out | std::ios::app);
 
 		// If logfile cannot open for some reason
 		if (!logFile) {
-			Assert(!logFile, "Error opening file");
+			throw std::runtime_error("File cannot be opened");
 			exit(1);
 		}
 	}
 
 	// Logger
-	Logger::Logger(const std::string& logFileName, LOG_LEVEL level, bool loggingEnabled) {
+	Logger::Logger(const std::string& logFileName, LOG_LEVEL level) {
 
 		currentLogFileName = logFileName;
 		this->currentLogLevel = level;
-		this->loggingEnabled = loggingEnabled;
 
 		// Open the file
 		logFile.open(logFileName, std::ios::out | std::ios::app);
 
 		// If logfile cannot open for some reason
 		if (!logFile) {
-			Assert(!logFile, "Error opening file");
+			throw std::runtime_error("File cannot be opened");
 			exit(1);
 		}
 	}
@@ -130,7 +121,7 @@ namespace debuglog {
 		}
 
 		// If the logging is enabled and current log level is lower than the level set
-		if (loggingEnabled && static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
+		if (static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
 
 			// Get the time
 			std::string timeStamp = GetTimeStamp();
@@ -149,7 +140,7 @@ namespace debuglog {
 		// Change back to default colour
 		SetConsoleTextAttribute(hConsole, textColour );
 
-		RotateLogFile(MAX_FILE_SIZE);
+		ROTATELOGFILE(MAX_FILE_SIZE);
 	}
 
 
@@ -217,7 +208,7 @@ namespace debuglog {
 			// Reopen the log file
 			logFile.open(currentLogFileName, std::ios::out | std::ios::app);
 			if (!logFile.is_open()) {
-				Assert(!logFile, "Cannot open file");
+				throw std::runtime_error("File cannot be opened");
 			}
 
 			// Remove the old file
@@ -228,11 +219,6 @@ namespace debuglog {
 	// Set the log level
 	void Logger::SetLevel(LOG_LEVEL level) {
 		currentLogLevel = level;
-	}
-
-	// Set the logging enabling
-	void Logger::SetLoggingEnabled(bool toggle) {
-		loggingEnabled = toggle;
 	}
 
 	// Get the log level
@@ -301,12 +287,9 @@ namespace debuglog {
 
 	}
 
-	// Get the toggling enable
-	bool Logger::GetLoggingEnabled(void) {
-		return loggingEnabled;
-	}
-
-	// For debugging
-	Logger logger("consoletest.log", debuglog::LOG_LEVEL::Trace, ENABLE_DEBUG_DIAG);
+	#if ENABLE_DEBUG_DIAG
+		// For debugging
+		Logger logger("consoletest.log", debuglog::LOG_LEVEL::Trace);
+	#endif
 }
 
