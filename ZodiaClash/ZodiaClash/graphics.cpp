@@ -98,15 +98,15 @@ void GraphicsManager::Initialize(int w, int h) {
     //Draw();
 }
 
-void GraphicsManager::Update(float dt) {
+void GraphicsManager::Update() {
     static float fpsInterval = 1.f;
     static int count = 0;
-    fpsInterval += dt;
+    fpsInterval += g_dt;
     ++count;
     if (fpsInterval > 1) {
         std::stringstream title;
         title << "ZodiaClash " << count;
-        glfwSetWindowTitle(window, title.str().c_str());
+        //glfwSetWindowTitle(window, title.str().c_str());
         fpsInterval -= 1;
         count = 0;
     }
