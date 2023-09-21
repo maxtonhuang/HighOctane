@@ -84,9 +84,6 @@ namespace debug {
 	// Console init
 	void ConsoleInitHandler();
 
-	// Performance data
-	void PerformanceDataHandler();
-
 	void CustomTerminateHandler();
 }
 
@@ -99,13 +96,6 @@ namespace debug {
 
 #define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
 
-#if _WIN32
-#define Performance(...) debug::PerformanceDataHandler(__VA_ARGS__);
-
-#else
-#define Performance(...) ((void)0)
-
-#endif
 // Else, we will just ignore the debug printing function
 #else
 #define DebugPrint(...) ((void)0);
@@ -114,5 +104,5 @@ namespace debug {
 
 #define Console(...) ((void)0);
 
-#define Performance(...) ((void)0);
+
 #endif

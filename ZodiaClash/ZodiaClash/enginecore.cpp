@@ -132,15 +132,20 @@ float g_dt;
 			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
 
 			// Debugging
+			
+			// Print out only once every 5 seconds
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-				for (std::shared_ptr<System>& sys : systemList) {
-					std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+				static uint64_t l_lastTime = 0;
+				if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
+					l_lastTime = l_currentTime;
+					for (std::shared_ptr<System>& sys : systemList) {
+						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+					}
+					std::cout << std::endl;
+
+					debugSysProfile.clear();
 				}
-				std::cout << std::endl;
-
-				debugSysProfile.clear();
-			#endif // 
-
+			#endif
 			m_previousTime = l_currentTime;
 
 			mail.SendMails(); // 1
@@ -193,8 +198,9 @@ float g_dt;
 			}
 
 			///////////// GRAPHICS /////////////
-
-			//Performance();
+			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+				Performance(GetTime());
+			#endif //
 			//gui.Update(graphics.window);
 
 

@@ -24,7 +24,11 @@ Add the macro to run only in debug mode
 
 
 // ENABLE/DISABLE DEBUG DIAGNOSTICS
-#define ENABLE_DEBUG_PROFILE 0
+#define ENABLE_DEBUG_PROFILE 1
+
+// Print interval in milliseconds
+#define PRINT_INTERVAL 5'000'000
+
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 extern float g_dt;
@@ -59,4 +63,17 @@ extern float g_dt;
         std::unordered_map<std::shared_ptr<System>, uint64_t> timers;
 
     };
+
+    // Performance data
+    void PerformanceDataHandler(uint64_t time);
+
+#if _WIN32
+#define Performance(time) PerformanceDataHandler(time);
+
+#else
+#define Performance(time) ((void)0)
+#endif
+
+#else
+#define Performance(time) ((void)0);
 #endif

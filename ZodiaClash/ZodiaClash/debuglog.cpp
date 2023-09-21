@@ -34,7 +34,7 @@ Dynamically change the log level during run time
 
 #include "DebugLog.h"
 
-constexpr size_t MAX_FILE_SIZE {1024 * 1024}; // 1MB
+
 
 namespace debuglog {
 
@@ -55,7 +55,6 @@ namespace debuglog {
 		// If logfile cannot open for some reason
 		if (!logFile) {
 			throw std::runtime_error("File cannot be opened");
-			exit(1);
 		}
 	}
 
@@ -71,7 +70,6 @@ namespace debuglog {
 		// If logfile cannot open for some reason
 		if (!logFile) {
 			throw std::runtime_error("File cannot be opened");
-			exit(1);
 		}
 	}
 
@@ -140,7 +138,7 @@ namespace debuglog {
 		// Change back to default colour
 		SetConsoleTextAttribute(hConsole, textColour );
 
-		ROTATELOGFILE(MAX_FILE_SIZE);
+		ROTATELOGFILEL(MAX_FILE_SIZE);
 	}
 
 

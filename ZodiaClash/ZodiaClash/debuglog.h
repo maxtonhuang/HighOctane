@@ -20,9 +20,6 @@
 #include <fstream>
 #include "VMath.h"
 #include <chrono>	
-#include <iostream>
-#include <string>
-#include <fstream>
 #include <ctime>
 #include <filesystem>
 #include <exception>
@@ -41,6 +38,8 @@
 #       define ENABLE_DEBUG_DIAG 0
 #   endif
 #endif
+
+constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 namespace debuglog {
 
@@ -91,39 +90,39 @@ namespace debuglog {
 // If debug diagnostics is enabled, then we will use the debug printing function
 #if ENABLE_DEBUG_DIAG
 
-#define TRACE(message) debuglog::logger.trace(message);
+#define TRACEL(message) debuglog::logger.trace(message);
 
-#define DEBUG(message) debuglog::logger.debug(message);
+#define DEBUGL(message) debuglog::logger.debug(message);
 
-#define INFO(message) debuglog::logger.info(message);
+#define INFOL(message) debuglog::logger.info(message);
 
-#define WARNING(message) debuglog::logger.warning(message);
+#define WARNINGL(message) debuglog::logger.warning(message);
 
-#define ERROR(message) debuglog::logger.error(message);
+#define ERRORL(message) debuglog::logger.error(message);
 
-#define FATAL(message) debuglog::logger.fatal(message);
+#define FATALL(message) debuglog::logger.fatal(message);
 
-#define ROTATELOGFILE(maxFileSize) debuglog::logger.RotateLogFile(maxFileSize);
+#define ROTATELOGFILEL(maxFileSize) debuglog::logger.RotateLogFile(maxFileSize);
 
-#define SETLEVEL(level) debuglog::logger.SetLevel(level);
+#define SETLEVELL(level) debuglog::logger.SetLevel(level);
 
 
 // Else, we will just ignore the debug printing function
 #else
-#define TRACE(message) ((void)0);
+#define TRACEL(message) ((void)0);
 
-#define DEBUG(message) ((void)0);
+#define DEBUGL(message) ((void)0);
 
-#define INFO(message) ((void)0);
+#define INFOL(message) ((void)0);
 
-#define WARNING(message) ((void)0);
+#define WARNINGL(message) ((void)0);
 
-#define ERROR(message) ((void)0);
+#define ERRORL(message) ((void)0);
 
-#define FATAL(message) ((void)0);
+#define FATALL(message) ((void)0);
 
-#define ROTATELOGFILE(maxFileSize) ((void)0);
+#define ROTATELOGFILEL(maxFileSize) ((void)0);
 
-#define SETLEVEL(level) ((void)0);
+#define SETLEVELL(level) ((void)0);
 
 #endif

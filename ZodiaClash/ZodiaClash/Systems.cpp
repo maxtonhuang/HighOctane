@@ -34,7 +34,7 @@
 	
 	// Movement System
 	void MovementSystem::Update() {
-		std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+		// std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 		for (Entity const& entity : m_Entities) {
 			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
 			if (mc.isMainCharacter) {
@@ -63,7 +63,7 @@
 	}
 
 	void GraphicsSystem::Update() {
-		std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+		// std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 		for (Entity const& entity : m_Entities) {
 			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
 			if (mc.isMainCharacter) {

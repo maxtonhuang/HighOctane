@@ -53,24 +53,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // To enable the console
     Console();
-    INFO("Program started");
+    INFOL("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    SETLEVEL(debuglog::LOG_LEVEL::Trace);
+    SETLEVELL(debuglog::LOG_LEVEL::Trace);
 
-    TRACE("This is a test trace message");
-    DEBUG("This is a test debug message");
-    INFO("This is a test info message");
-    WARNING("This is a test warning message");
-    ERROR("This is a test error message");
-    FATAL("This is a test fatal message");
+    TRACEL("This is a test trace message");
+    DEBUGL("This is a test debug message");
+    INFOL("This is a test info message");
+    WARNINGL("This is a test warning message");
+    ERRORL("This is a test error message");
+    FATALL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
     audio.AddSound("../Assets/Sound/ping.wav");
-    INFO("Graphics started");
+    INFOL("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;
