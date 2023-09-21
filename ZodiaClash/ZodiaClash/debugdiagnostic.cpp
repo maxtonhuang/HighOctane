@@ -101,19 +101,55 @@ namespace debug {
                     va_start(args, message);
                     vfprintf(stderr, message, args);
                     va_end(args);
-
                 }
-
+                
                 std::cerr << std::endl;
 
                 // Log the crash into the crash file
                 crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line));
-
-                std::abort();
+               
+                // Display a message box to the user
+                int testing = CustomMessageBox(fileName, line, message);
             }
         } while (false);
     }
 
+    // For the message in a box to use in assert
+    int CustomMessageBox(const char* file, int line, const char* message) {
+
+        // Convert the const char* to LPCWSTR
+        std::wstring wideFile = std::wstring(file, file + strlen(file));
+        std::wstring wideMessage = std::wstring(message, message + strlen(message));
+
+        LPCWSTR wideFilePtr = wideFile.c_str();
+        LPCWSTR wideMessagePtr = wideMessage.c_str();
+
+        // Creating the custom message
+        std::wstring customMsg = L"In file: " + std::wstring(wideFilePtr) + L" line: " + std::to_wstring(line)\
+            + L"\n\nYes to quit\n\nNo to continue"\
+            + L"\nWARNING: PROGRAM MAY NOT WORK PROPERLY";
+        std::wstring customTitle = +L"Quit program?";
+
+        // Display a message box to the user
+        int msgboxID = MessageBox(
+            NULL,
+            customMsg.c_str(),
+            customTitle.c_str(),
+            MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
+        );
+
+        switch (msgboxID)
+        {
+        case IDYES:
+            ExitProcess(0);
+            break;
+        case IDNO:
+            // Continue on with the code
+            break;
+        }
+
+        return msgboxID;
+    }
 
     // Creates the console
     void ConsoleInitHandler() {

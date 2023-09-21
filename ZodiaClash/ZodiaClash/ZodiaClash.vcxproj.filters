@@ -150,9 +150,6 @@
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="DebugProfile.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicConstants.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -164,6 +161,12 @@
     </ClInclude>
     <ClInclude Include="GUIManager.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugProfile.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -231,7 +234,6 @@
     <ClCompile Include="File.cpp">
       <Filter>File</Filter>
     </ClCompile>
-    <ClCompile Include="DebugProfile.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="GUIManager.cpp">
       <Filter>ImGui</Filter>
@@ -256,6 +258,10 @@
     </ClCompile>
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="DebugProfile.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

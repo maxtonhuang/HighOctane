@@ -77,17 +77,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Assert(x <= 0, "x must be more than 0");
 
+    //int y = -1;
+
+    //Assert(y <= 0, "x must be more than 0");
+
     // Max --------
 
     EngineCore engine; // = new EngineCore();
         
     engine.Run();
-
-
-    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-
-
-    //_CrtDumpMemoryLeaks();
 
     /*return (int) msg.wParam;*/
     
