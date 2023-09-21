@@ -15,10 +15,19 @@
 
 
 TODO :
-PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
+DEFINE IN CPP FILE
+Add the macro to run only in debug mode
 
 *//*______________________________________________________________________*/
 #pragma once
+#include "debuglog.h"
+
+
+// ENABLE/DISABLE DEBUG DIAGNOSTICS
+#define ENABLE_DEBUG_PROFILE 0
+
+#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+extern float g_dt;
 
 #include <vector>
 #include <string>
@@ -26,18 +35,6 @@ PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 #include <unordered_map>
 #include <iostream>
 #include "enginecore.h"
-
-extern float g_dt;
-
-namespace debugprofile {
-
-    enum class DebugSystems {
-        GameLoop,
-        Physics,
-        Graphics,
-        count
-    };
-
 
     struct ProfileResult {
         std::shared_ptr<System> name{};
@@ -48,103 +45,13 @@ namespace debugprofile {
     class DebugProfiling {
     public:
 
-        //DebugProfiling() {
-        //    currentSessionName = DebugSystems::count;
-        //    results.reserve(static_cast<size_t>(DebugSystems::count));
-        //    loopCount = 0;
-        //    totalFrameTimeMillis = 0.0f;
-        //}
+        void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput);
 
-        //void BeginSession(DebugSystems SessionInput) {
-        //    currentSessionName = SessionInput;
-        //    profileSessionActive = true;
-        //    loopCount = 0;
-        //    totalFrameTimeMillis = 0.0f;
-        //}
+        void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput);
 
-        //void EndSession() {
-        //    profileSessionActive = false;
-        //}
+        ProfileResult GetResult(std::shared_ptr<System> systemInput);
 
-        //void StartTimer(DebugSystems systemInput) {
-        //    if (!profileSessionActive) return;
-        //    timers[systemInput] = std::chrono::high_resolution_clock::now();
-        //}
-
-        //void StopTimer(DebugSystems systemInput) {
-        //    if (!profileSessionActive) return;
-        //    auto startTime = timers[systemInput];
-        //    auto endTime = std::chrono::high_resolution_clock::now();
-        //    auto duration = endTime - startTime;
-        //    ProfileResult result{};
-        //    result.name = systemInput;
-        //    result.durationMillis = std::chrono::duration<float, std::milli>(duration).count();
-        //    results.push_back(result);
-        //}
-
-        //void BeginFrame() {
-        //    if (!profileSessionActive) return;
-        //    frameStartTime = std::chrono::high_resolution_clock::now();
-        //}
-
-        //void EndFrame() {
-        //    if (!profileSessionActive) return;
-        //    loopCount++;
-        //    auto frameEndTime = std::chrono::high_resolution_clock::now();
-        //    auto frameDuration = frameEndTime - frameStartTime;
-        //    float frameTimeMillis = std::chrono::duration<float, std::milli>(frameDuration).count();
-        //    totalFrameTimeMillis += frameTimeMillis;
-
-        //    // Calculate and store the percentage for each system
-        //    for (auto& result : results) {
-        //        result.percentage = (result.durationMillis / totalFrameTimeMillis) * 100.0f;
-        //    }
-        //}
-
-        //ProfileResult GetResult(DebugSystems systemInput) {
-        //    for (auto& result : results) {
-        //        if (result.name == systemInput) {
-        //            return result;
-        //        }
-        //    }
-        //    return ProfileResult();
-        //}
-
-
-        DebugProfiling() {
-            //currentSessionName = DebugSystems::count;
-            results.reserve(static_cast<size_t>(DebugSystems::count));
-        }
-
-
-        void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
-            timers[systemInput] = startTimeInput;
-		}
-
-        void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
-            auto startTime = timers[systemInput];
-            auto duration = static_cast<float>(endTimeInput - startTime) / 1000.0f;
-
-            ProfileResult result{};
-            result.name = systemInput;
-            result.duration = duration;
-
-            results.push_back(result);
-        }
-
-        ProfileResult GetResult(std::shared_ptr<System> systemInput) {
-            for (auto& result : results) {
-                if (result.name == systemInput) {
-                    result.percentage = (result.duration / (g_dt * 1000.f) * 100.f);
-                    return result;
-                }
-            }
-            return ProfileResult();
-        }
-
-        void clear() {
-			results.clear();
-		}
+        void clear();
 
     private:
         std::vector<ProfileResult> results;
@@ -152,20 +59,4 @@ namespace debugprofile {
         std::unordered_map<std::shared_ptr<System>, uint64_t> timers;
 
     };
-
-} // namespace debugprofile
-
-
-
-/*
-
-startTime = 1000;
-endTime = 1000000;
-
-timeTaken = static_cast<float>(endTime - startTime) / 1'000.f
-std::cout << "Time Taken for System :" << timeTaken << " ms." << std::endl;
-std::cout << "Percentage of Loop Time: " << (timeTaken / (g_dt * 1'000)) << std::endl;
-
-
-*/
-
+#endif

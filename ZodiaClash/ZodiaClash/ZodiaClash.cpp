@@ -44,38 +44,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     // Enable run-time memory check for debug builds.
-    #if defined(DEBUG) | defined(_DEBUG)
+    #if (_DEBUG)
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     #endif
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    
-    
-
     // To enable the console
     Console();
-    debuglog::logger.info("Program started");
-
-    
+    INFO("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    debuglog::logger.SetLevel(debuglog::LOG_LEVEL::Trace);
+    SETLEVEL(debuglog::LOG_LEVEL::Trace);
 
-    debuglog::logger.trace("This is a test trace message");
-    debuglog::logger.debug("This is a test debug message");
-    debuglog::logger.info("This is a test info message");
-    debuglog::logger.warning("This is a test warning message");
-    debuglog::logger.error("This is a test error message");
-    debuglog::logger.fatal("This is a test fatal message");
+    TRACE("This is a test trace message");
+    DEBUG("This is a test debug message");
+    INFO("This is a test info message");
+    WARNING("This is a test warning message");
+    ERROR("This is a test error message");
+    FATAL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
     audio.AddSound("../Assets/Sound/ping.wav");
-    debuglog::logger.info("Graphics started");
+    INFO("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;

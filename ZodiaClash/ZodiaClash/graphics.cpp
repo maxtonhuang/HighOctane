@@ -156,9 +156,9 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
 
     test_model.Update();
     test_model.Draw();
-    test_model.DrawOutline();
 
     textureRenderer.Draw();
+    test_model.DrawOutline();
     
     guiManager.Update(window);
     glfwSwapBuffers(window);

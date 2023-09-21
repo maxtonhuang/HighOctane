@@ -19,6 +19,9 @@ using Vec2 = vmath::Vector2;
 
 float g_dt;
 
+	#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+		DebugProfiling debugSysProfile;
+	#endif // 
 
 	//EngineCore* CORE;
 	ECS ecs;
@@ -34,8 +37,6 @@ float g_dt;
 
 	void EngineCore::Run() {
 
-		debugprofile::DebugSystems debug_p;
-		
 		////////// INITIALIZE //////////
 		ecs.Init();
 		ecs.RegisterComponent<Transform>();
@@ -115,13 +116,10 @@ float g_dt;
 		mail.RegisterMailbox(ADDRESS::INPUT);
 		mail.RegisterMailbox(ADDRESS::MODEL);
 
-		LoadModels(1, true);
-
+		LoadModels(2, true);
 		//LoadModels(MAX_MODELS);
 
-		debugprofile::DebugProfiling debugSysProfile;
-		
-		
+
 
 		////////// GAME LOOP //////////
 
@@ -133,13 +131,16 @@ float g_dt;
 			uint64_t l_currentTime = GetTime();
 			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
 
-			// Testing this thing first
-			for (std::shared_ptr<System>& sys : systemList) {
-				std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << std::endl;
+			// Debugging
+			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+				for (std::shared_ptr<System>& sys : systemList) {
+					std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+				}
+				std::cout << std::endl;
 
-			}
+				debugSysProfile.clear();
+			#endif // 
 
-			debugSysProfile.clear();
 			m_previousTime = l_currentTime;
 
 			mail.SendMails(); // 1
@@ -156,15 +157,20 @@ float g_dt;
 
 			///////////// MOVEMENT /////////////
 
-
-			//debugSysProfile.StartTimer(debugprofile::DebugSystems::Physics, GetTime());
 			///////////// PHYSICS /////////////
 
 			for (std::shared_ptr<System> & sys : systemList) {
-				//debug_p.
-				debugSysProfile.StartTimer(sys, GetTime());
+
+				#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+					debugSysProfile.StartTimer(sys, GetTime());
+				#endif // 
+				
 				sys->Update();
-				debugSysProfile.StopTimer(sys, GetTime());
+
+				#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+					debugSysProfile.StopTimer(sys, GetTime());
+				#endif // 
+				
 				mail.SendMails();
 
 			}
@@ -172,16 +178,12 @@ float g_dt;
 			//physicsSystem->Update();
 			
 			///////////// PHYSICS /////////////
-			//debugSysProfile.StopTimer(debugprofile::DebugSystems::Physics, GetTime());
-
-			//debugSysProfile.EndSession();
 
 			//UpdateModel();
 			
 			//graphics.Draw();
 
 
-			//debugSysProfile.StartTimer(debugprofile::DebugSystems::Graphics, GetTime());
 			///////////// GRAPHICS /////////////
 
 			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
@@ -191,7 +193,6 @@ float g_dt;
 			}
 
 			///////////// GRAPHICS /////////////
-			//debugSysProfile.StopTimer(debugprofile::DebugSystems::Graphics, GetTime());
 
 			//Performance();
 			//gui.Update(graphics.window);

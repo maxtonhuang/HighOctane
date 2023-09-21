@@ -146,10 +146,10 @@ void Model::DrawOutline() {
 	flatRenderer.AddVertex(Vertex{ topright, glm::vec3{1,1,1} });
 	flatRenderer.AddVertex(Vertex{ topleft, glm::vec3{1,1,1} });
 	flatRenderer.Draw(GL_LINE_LOOP);
-	//graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
-	//graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
-	//graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
-	//graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
+	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
 void Model::SetDim(float w, float h, float r) {

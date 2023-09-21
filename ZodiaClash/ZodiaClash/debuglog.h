@@ -20,7 +20,12 @@
 #include <fstream>
 #include "VMath.h"
 #include <chrono>	
-
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <ctime>
+#include <filesystem>
+#include <exception>
 
 // Move this together with the bottom code please thank you to either engine or graphics
 #include "Framework.h"
@@ -51,7 +56,7 @@ namespace debuglog {
 	class Logger {
 		public:
 			Logger();
-			Logger(const std::string &logFileName = "testlog.txt", LOG_LEVEL level = LOG_LEVEL::Trace, bool loggingEnabled = true);
+			Logger(const std::string &logFileName = "testlog.txt", LOG_LEVEL level = LOG_LEVEL::Trace);
 			~Logger();
 			
 			void trace(const std::string& message);
@@ -64,13 +69,10 @@ namespace debuglog {
 			void RotateLogFile(size_t maxFileSize);
 
 			void SetLevel(LOG_LEVEL level);
-			void SetLoggingEnabled(bool toggle);
 
 			std::string GetLevel(LOG_LEVEL level);
 			std::string GetTimeStamp();
 			std::streampos GetLogFileSize();
-			bool GetLoggingEnabled();
-
 
 
 		private:
@@ -80,14 +82,48 @@ namespace debuglog {
 			std::ofstream logFile;
 			std::string currentLogFileName;
 			LOG_LEVEL currentLogLevel;
-
-			bool loggingEnabled;
 	};
 
 	// Extern declarations
 	extern Logger logger;
-
-	extern Logger crashLogger;
-
-
 }
+
+// If debug diagnostics is enabled, then we will use the debug printing function
+#if ENABLE_DEBUG_DIAG
+
+#define TRACE(message) debuglog::logger.trace(message);
+
+#define DEBUG(message) debuglog::logger.debug(message);
+
+#define INFO(message) debuglog::logger.info(message);
+
+#define WARNING(message) debuglog::logger.warning(message);
+
+#define ERROR(message) debuglog::logger.error(message);
+
+#define FATAL(message) debuglog::logger.fatal(message);
+
+#define ROTATELOGFILE(maxFileSize) debuglog::logger.RotateLogFile(maxFileSize);
+
+#define SETLEVEL(level) debuglog::logger.SetLevel(level);
+
+
+// Else, we will just ignore the debug printing function
+#else
+#define TRACE(message) ((void)0);
+
+#define DEBUG(message) ((void)0);
+
+#define INFO(message) ((void)0);
+
+#define WARNING(message) ((void)0);
+
+#define ERROR(message) ((void)0);
+
+#define FATAL(message) ((void)0);
+
+#define ROTATELOGFILE(maxFileSize) ((void)0);
+
+#define SETLEVEL(level) ((void)0);
+
+#endif

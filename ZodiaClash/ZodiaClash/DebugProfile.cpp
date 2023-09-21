@@ -15,10 +15,36 @@
 
 
 *//*______________________________________________________________________*/
+#include "DebugProfile.h"
 
-namespace debugprofile {
 
-	class DebugProfiling {
+#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+    void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
+        timers[systemInput] = startTimeInput;
+    }
 
-	};
-}
+    void DebugProfiling::StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
+        auto startTime = timers[systemInput];
+        auto duration = static_cast<float>(endTimeInput - startTime) / 1000.0f;
+
+        ProfileResult result{};
+        result.name = systemInput;
+        result.duration = duration;
+
+        results.emplace_back(result);
+    }
+
+    ProfileResult DebugProfiling::GetResult(std::shared_ptr<System> systemInput) {
+        for (auto& result : results) {
+            if (result.name == systemInput) {
+                result.percentage = (result.duration / (g_dt * 1000.f) * 100.f);
+                return result;
+            }
+    }
+    return ProfileResult();
+    }
+
+    void DebugProfiling::clear() {
+        results.clear();
+    }
+#endif
