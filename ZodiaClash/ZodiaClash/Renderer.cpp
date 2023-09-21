@@ -29,6 +29,9 @@ void Renderer::AddVertex(Vertex input) {
 }
 
 void Renderer::Draw(GLenum drawtype) {
+    if (drawcount <= 0) {
+        return;
+    }
     int uTex[GRAPHICS::MAXTEXTURES];
     for (int i = 0; i < GRAPHICS::MAXTEXTURES; ++i) {
         uTex[i] = i;

@@ -80,12 +80,12 @@ void Model::Update() {
 	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
-void Model::Update(Entity const& entity) {
-	float x = ecs.GetComponent<Transform>(entity).scale.x * ecs.GetComponent<Size>(entity).width;
-	float y = ecs.GetComponent<Transform>(entity).scale.y * ecs.GetComponent<Size>(entity).height;
-	matrix = glm::mat3{ cos(rotationRadians) * x / GRAPHICS::defaultWidthF ,-sin(rotationRadians) * x / GRAPHICS::defaultHeightF,0,
-		sin(rotationRadians) * y / GRAPHICS::defaultWidthF , cos(rotationRadians) * y / GRAPHICS::defaultHeightF,0,
-		ecs.GetComponent<Transform>(entity).position.x / GRAPHICS::w,ecs.GetComponent<Transform>(entity).position.y / GRAPHICS::h,1 };
+void Model::Update(Transform const& entity, Size const& size) {
+	float x = entity.scale.x * size.width;
+	float y = entity.scale.y * size.height;
+	matrix = glm::mat3{ cos(entity.rotation) * x / GRAPHICS::defaultWidthF ,-sin(entity.rotation) * x / GRAPHICS::defaultHeightF,0,
+		sin(entity.rotation) * y / GRAPHICS::defaultWidthF , cos(entity.rotation) * y / GRAPHICS::defaultHeightF,0,
+		entity.position.x / GRAPHICS::w,entity.position.y / GRAPHICS::h,1 };
 	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
 	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
 	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
@@ -125,18 +125,33 @@ void Model::Draw() {
 	}
 }
 
-void Model::Draw(Entity const& entity) {
+void Model::Draw(Tex const& entity, Animation const& ani) {
 	Renderer* renderer;
-	renderer = &textureRenderer;
-	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) { 
+	if (entity.tex != nullptr) {
+		renderer = &textureRenderer;
+	}
+	else {
+		renderer = &flatRenderer;
+	}
+	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
 		renderer->Draw();
 	}
-	renderer->AddVertex(Vertex{ botleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,0), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ topright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,3), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
+	if (entity.tex != nullptr) {
+		renderer->AddVertex(Vertex{ botleft,color, entity.tex->GetTexCoords(ani.frameIndex,0), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(ani.frameIndex,3), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
+	}
+	else {
+		renderer->AddVertex(Vertex{ botleft,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+		renderer->AddVertex(Vertex{ topright,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+	}
 }
 
 void Model::DrawOutline() {
@@ -207,28 +222,28 @@ void Model::SetAnimation(Animation& data, int index) {
 	data.frameIndex = index;
 }
 
-void Model::AdvanceAnimation(Animation& data) {
-	data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
+void Model::AdvanceAnimation(Animation& data, Tex& tex) {
+	//data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
+	data.frameIndex = (data.frameIndex + 1) % tex.tex->GetSheetSize();
 }
 
 //TODO: determine texture set based on direction?
 
-void Model::AnimateOnInterval(Animation& data) {
-	if (tex != nullptr) {
-		data.frameTimeElapsed += g_dt;
-		if (data.frameTimeElapsed > data.frameDisplayDuration) {
-			AdvanceAnimation(data);
-			data.frameTimeElapsed = 0.f;
-		}
+void Model::AnimateOnInterval(Animation& data, Tex& tex) {
+	data.frameTimeElapsed += g_dt;
+	//std::cout << data.frameTimeElapsed << "\n";
+	if (data.frameTimeElapsed > data.frameDisplayDuration) {
+		AdvanceAnimation(data, tex);
+		data.frameTimeElapsed = 0.f;
 	}
 }
 
-void Model::AnimateOnKeyPress(Animation& data) {
+void Model::AnimateOnKeyPress(Animation& data, Tex& tex) {
 	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE);
 
 	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_DOWN) {
-			if (msg.info == INFO::KEY_P) { AdvanceAnimation(data); }
+			if (msg.info == INFO::KEY_P) { AdvanceAnimation(data, tex); }
 		}
 	}
 	mail.mailbox[ADDRESS::MODEL].clear();

@@ -45,16 +45,16 @@
 
 	void ModelSystem::Update() {
 		for (Entity const& entity : m_Entities) {
-			Animation animate = ecs.GetComponent<Animation>(entity);
+			Animation* animate = &ecs.GetComponent<Animation>(entity);
 			//update animation
-			switch (animate.animationType) {
+			switch (animate->animationType) {
 			case(Animation::ANIMATION_NONE):
 				break;
 			case(Animation::ANIMATION_TIME_BASED):
-				ecs.GetComponent<Model>(entity).AnimateOnInterval(animate);
+				ecs.GetComponent<Model>(entity).AnimateOnInterval(*animate, ecs.GetComponent<Tex>(entity));
 				break;
 			case(Animation::ANIMATION_EVENT_BASED):
-				ecs.GetComponent<Model>(entity).AnimateOnKeyPress(animate);
+				ecs.GetComponent<Model>(entity).AnimateOnKeyPress(*animate, ecs.GetComponent<Tex>(entity));
 				break;
 			default:
 				break;
@@ -62,18 +62,36 @@
 		}
 	}
 
+	void GraphicsSystem::Initialize() {
+		for (Entity const& entity : m_Entities) {
+			//MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
+			//if (mc.isMainCharacter) {
+
+
+				//UpdateMovement(ecs.GetComponent<Transform>(entity));
+			//}
+			Model* m = &ecs.GetComponent<Model>(entity);
+			m->Update(ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
+		}
+	}
+
 	void GraphicsSystem::Update() {
 		// std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 		for (Entity const& entity : m_Entities) {
-			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
-			if (mc.isMainCharacter) {
+			//MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
+			//if (mc.isMainCharacter) {
 			    
 				
 				//UpdateMovement(ecs.GetComponent<Transform>(entity));
+			//}
+			if (ecs.GetComponent<Visible>(entity).isVisible) {
+				Model* m = &ecs.GetComponent<Model>(entity);
+				m->Update(ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
+				m->Draw(ecs.GetComponent<Tex>(entity), ecs.GetComponent<Animation>(entity));
 			}
-			Model m = ecs.GetComponent<Model>(entity);
-			m.Update(entity);
-			m.Draw(entity);
+			//m->Draw(Tex{});
+			//m.Update(entity);
+			//m.Draw(entity);
 			//ecs.GetComponent<Model>(entity).Update(entity);
 			//ecs.GetComponent<Model>(entity).Draw(entity);
 		}

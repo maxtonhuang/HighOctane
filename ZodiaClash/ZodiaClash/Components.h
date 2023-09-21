@@ -14,10 +14,6 @@ struct Transform {
     Vec2 velocity;
 };
 
-struct Matrix {
-    glm::mat3 matrix;
-};
-
 struct Size {
     float width;
     float height;

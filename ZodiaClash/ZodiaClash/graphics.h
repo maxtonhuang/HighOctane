@@ -18,8 +18,12 @@ public:
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
 
+	//DEBUG DRAW FUNCTIONS
 	void DrawPoint(float x, float y, float pointsize = 10.f);
 	void DrawLine(float x1, float y1, float x2, float y2);
+	void DrawCircle(float x, float y, float radius);
+	void DrawRect(float x1, float y1, float x2, float y2); //x1,y1 are bottom left. x2,y2 are top right
+	void DrawOutline(float x1, float y1, float x2, float y2); //x1,y1 are bottom left. x2,y2 are top right
 
 	//VAO info for draw functions in other classes
 	struct VAOInfo {

@@ -16,9 +16,9 @@ public:
 	Model(char const*);
 
 	void Update();
-	void Update(Entity const& entity);
+	void Update(Transform const& entity, Size const& size);
 	void Draw(); //Draw the texture of the model
-	void Draw(Entity const& entity);
+	void Draw(Tex const& entity, Animation const& ani);
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
 	void AttachTexture(Texture&);
@@ -35,10 +35,10 @@ public:
 	void SetScale(float x, float y);
 
 	void SetAnimation(Animation& data, int index);
-	void AdvanceAnimation(Animation& data);
+	void AdvanceAnimation(Animation& data, Tex& tex);
 
-	void AnimateOnInterval(Animation& data);
-	void AnimateOnKeyPress(Animation& data);
+	void AnimateOnInterval(Animation& data, Tex& tex);
+	void AnimateOnKeyPress(Animation& data, Tex& tex);
 
 private:
 	glm::vec2 pos{}; //Position in screen coordinates

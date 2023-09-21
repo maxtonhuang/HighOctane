@@ -41,7 +41,6 @@ float g_dt;
 		ecs.Init();
 		ecs.RegisterComponent<Transform>();
 		ecs.RegisterComponent<Color>();
-		ecs.RegisterComponent<Matrix>();
 		ecs.RegisterComponent<Texture>();
 		ecs.RegisterComponent<Size>();
 		ecs.RegisterComponent<Visible>();
@@ -66,17 +65,17 @@ float g_dt;
 
 		{
 			Signature signature;
-			signature.set(ecs.GetComponentType<Transform>());
-			signature.set(ecs.GetComponentType<Color>());
-			signature.set(ecs.GetComponentType<Matrix>());
+			//signature.set(ecs.GetComponentType<Transform>());
+			//signature.set(ecs.GetComponentType<Color>());
 			//signature.set(ecs.GetComponentType<Texture>());
-			signature.set(ecs.GetComponentType<Size>());
-			signature.set(ecs.GetComponentType<Visible>());
-			signature.set(ecs.GetComponentType<Tex>());
-			signature.set(ecs.GetComponentType<MainCharacter>());
-			signature.set(ecs.GetComponentType<Circle>());
-			signature.set(ecs.GetComponentType<AABB>());
+			//signature.set(ecs.GetComponentType<Size>());
+			//signature.set(ecs.GetComponentType<Visible>());
+			//signature.set(ecs.GetComponentType<Tex>());
+			//signature.set(ecs.GetComponentType<MainCharacter>());
+			//signature.set(ecs.GetComponentType<Circle>());
+			//signature.set(ecs.GetComponentType<AABB>());
 			signature.set(ecs.GetComponentType<Animation>());
+			//signature.set(ecs.GetComponentType<Model>());
 
 			ecs.SetSystemSignature<ModelSystem>(signature);
 		}
@@ -92,14 +91,13 @@ float g_dt;
 
 		{
 			Signature signature;
-			signature.set(ecs.GetComponentType<Transform>());
-			signature.set(ecs.GetComponentType<Color>());
-			signature.set(ecs.GetComponentType<Matrix>());
+			//signature.set(ecs.GetComponentType<Transform>());
+			//signature.set(ecs.GetComponentType<Color>());
 			//signature.set(ecs.GetComponentType<Texture>());
-			signature.set(ecs.GetComponentType<Size>());
-			signature.set(ecs.GetComponentType<Visible>());
-			signature.set(ecs.GetComponentType<Tex>());
-			signature.set(ecs.GetComponentType<MainCharacter>());
+			//signature.set(ecs.GetComponentType<Size>());
+			//signature.set(ecs.GetComponentType<Visible>());
+			//signature.set(ecs.GetComponentType<Tex>());
+			//signature.set(ecs.GetComponentType<MainCharacter>());
 			signature.set(ecs.GetComponentType<Model>());
 			//signature.set(ecs.GetComponentType<Circle>());
 			//signature.set(ecs.GetComponentType<AABB>());
@@ -111,12 +109,26 @@ float g_dt;
 		LoadMasterModel();
 
 		Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
-	
+
 		mail.RegisterMailbox(ADDRESS::MOVEMENT);
 		mail.RegisterMailbox(ADDRESS::INPUT);
 		mail.RegisterMailbox(ADDRESS::MODEL);
 
-		LoadModels(2, true);
+		Entity background = CreateModel();
+		ecs.GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
+		ecs.GetComponent<Size>(background).width = (float)ecs.GetComponent<Tex>(background).tex->GetWidth();
+		ecs.GetComponent<Size>(background).height = (float)ecs.GetComponent<Tex>(background).tex->GetHeight();
+		 
+		LoadModels(1, true);
+
+		Entity duck = CreateModel();
+		ecs.GetComponent<Tex>(duck).tex = texList.Add("duck.png");
+		ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
+		ecs.GetComponent<Animation>(duck).frameDisplayDuration = 0.3f;
+		ecs.GetComponent<Size>(duck).width = (float)ecs.GetComponent<Tex>(duck).tex->GetWidth();
+		ecs.GetComponent<Size>(duck).height = (float)ecs.GetComponent<Tex>(duck).tex->GetHeight();
+		
+		graphicsSystem->Initialize();
 		//LoadModels(MAX_MODELS);
 
 

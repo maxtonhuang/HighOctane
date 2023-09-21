@@ -153,17 +153,20 @@
     <ClInclude Include="DebugProfile.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicConstants.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiLib.h">
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="GUIManager.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicConstants.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -232,7 +235,6 @@
       <Filter>File</Filter>
     </ClCompile>
     <ClCompile Include="DebugProfile.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="GUIManager.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -256,6 +258,10 @@
     </ClCompile>
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -117,7 +117,7 @@ void GraphicsManager::Initialize(int w, int h) {
     test_rect3.SetDim(100, 200, 50);
     test_rect3.SetPos(-300, -300);
 
-    //glfwSwapInterval(0);
+    glfwSwapInterval(0);
     //Draw();
 }
 
@@ -160,21 +160,56 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
     textureRenderer.Draw();
     test_model.DrawOutline();
     
+    DrawCircle(100, -100, 20);
+    //DrawRect(0, 0, 50, 50);
+    //DrawOutline(-50, -50, 0, 0);
+
     guiManager.Update(window);
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void GraphicsManager::DrawPoint(float x, float y, float pointsize) {
+    flatRenderer.Draw();
     glPointSize(pointsize);
     flatRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{1,1,1} });
     flatRenderer.Draw(GL_POINTS);
 }
 
 void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2) {
+    flatRenderer.Draw();
     flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
     flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
     flatRenderer.Draw(GL_LINES);
+}
+
+void GraphicsManager::DrawCircle(float x, float y, float radius) {
+    const float PI = 3.141592653589793238463;
+    const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
+    flatRenderer.Draw();
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{1,1,1} });
+    for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
+        flatRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec3{1,1,1}});
+    }
+    flatRenderer.Draw(GL_TRIANGLE_FAN);
+}
+
+void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2) {
+    flatRenderer.Draw();
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.Draw(GL_TRIANGLE_STRIP);
+}
+
+void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2) {
+    flatRenderer.Draw();
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1}});
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+    flatRenderer.Draw(GL_LINE_LOOP);
 }
 
 std::string GraphicsManager::GetName() {

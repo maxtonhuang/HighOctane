@@ -232,6 +232,7 @@
 
     class GraphicsSystem : public System {
     public:
+        void Initialize();
         void Update() override;
     };
 
