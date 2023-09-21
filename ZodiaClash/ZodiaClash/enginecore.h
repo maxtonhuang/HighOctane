@@ -11,11 +11,8 @@
 	class EngineCore {
 	public:
 		EngineCore();
-		~EngineCore();
-
 
 		void Run();
-
 
 		uint64_t GetTime();
 

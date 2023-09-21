@@ -20,7 +20,7 @@ using Vec2 = vmath::Vector2;
 float g_dt;
 
 
-	EngineCore* CORE;
+	//EngineCore* CORE;
 	ECS ecs;
 	std::vector<std::shared_ptr<System>> systemList;
 	
@@ -29,11 +29,7 @@ float g_dt;
 	EngineCore::EngineCore() {
 		m_previousTime = 0;
 		gameActive = true;
-		CORE = this;
-	}
-
-	EngineCore::~EngineCore() {
-		// empty by design
+		//CORE = this;
 	}
 
 	void EngineCore::Run() {

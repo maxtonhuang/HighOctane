@@ -84,9 +84,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Max --------
 
-    EngineCore* engine = new EngineCore();
+    EngineCore engine; // = new EngineCore();
         
-    engine->Run();
+    engine.Run();
 
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
@@ -96,7 +96,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     /*return (int) msg.wParam;*/
     
-    delete engine;
+    //delete engine;
     
     return 0;
 }
