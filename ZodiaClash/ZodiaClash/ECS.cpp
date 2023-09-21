@@ -122,6 +122,10 @@
         return m_EntityManager->CreateEntity();
     }
 
+    ComponentManager& ECS::GetComponentManager() {
+        return *m_ComponentManager;
+    }
+
     void ECS::DestroyEntity(Entity entity) {
         m_EntityManager->DestroyEntity(entity);
 

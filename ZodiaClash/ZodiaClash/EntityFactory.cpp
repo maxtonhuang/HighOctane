@@ -33,7 +33,7 @@
 			ecs.AddComponent(entity, Visible{ false });
 			Tex t = ecs.GetComponent<Tex>(entity);
 			ecs.AddComponent(entity, Size{ static_cast<float>(t.tex->GetWidth()), static_cast<float>(t.tex->GetHeight()) });
-			ecs.AddComponent(entity, MainCharacter{ false });
+			//ecs.AddComponent(entity, MainCharacter{});
 			ecs.AddComponent(entity, Model{});
 		}
 	}
@@ -57,9 +57,12 @@
 		ecs.AddComponent(entity, Tex{ ecs.GetComponent<Tex>(masterEntity) });
 		ecs.AddComponent(entity, Visible{ true });
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
-		ecs.AddComponent(entity, MainCharacter{ isMainCharacter });
+		if (isMainCharacter) {
+			ecs.AddComponent(entity, MainCharacter{});
+		}		
 		ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
 		ecs.AddComponent(entity, Animation{});
+		ecs.AddComponent(entity, Clone{});
 		
 	}
 
@@ -84,7 +87,7 @@
 		ecs.AddComponent(entity, Tex{ ecs.GetComponent<Tex>(masterEntity) });
 		ecs.AddComponent(entity, Visible{ true });
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
-		ecs.AddComponent(entity, MainCharacter{ false });
+		ecs.AddComponent(entity, MainCharacter{});
 		ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
 		ecs.AddComponent(entity, Animation{});
 		return entity;

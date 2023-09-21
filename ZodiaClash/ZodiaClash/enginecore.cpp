@@ -50,14 +50,15 @@ float g_dt;
 		ecs.RegisterComponent<AABB>();
 		ecs.RegisterComponent<Animation>();
 		ecs.RegisterComponent<Model>();
+		ecs.RegisterComponent<Clone>();
 
 
 		std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
 		systemList.emplace_back(movementSystem);
 		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
-		systemList.emplace_back(physicsSystem);
+		//systemList.emplace_back(physicsSystem);
 		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
-		systemList.emplace_back(modelSystem);
+		//systemList.emplace_back(modelSystem);
 		std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
 		systemList.emplace_back(graphicsSystem);
 
@@ -83,8 +84,9 @@ float g_dt;
 		{
 			Signature signature;
 			signature.set(ecs.GetComponentType<Transform>());
-			signature.set(ecs.GetComponentType<Visible>());
+			//signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<MainCharacter>());
+			signature.set(ecs.GetComponentType<Clone>());
 
 			ecs.SetSystemSignature<MovementSystem>(signature);
 		}
@@ -99,6 +101,7 @@ float g_dt;
 			//signature.set(ecs.GetComponentType<Tex>());
 			//signature.set(ecs.GetComponentType<MainCharacter>());
 			signature.set(ecs.GetComponentType<Model>());
+			signature.set(ecs.GetComponentType<Clone>());
 			//signature.set(ecs.GetComponentType<Circle>());
 			//signature.set(ecs.GetComponentType<AABB>());
 
@@ -119,6 +122,8 @@ float g_dt;
 		ecs.GetComponent<Size>(background).width = (float)ecs.GetComponent<Tex>(background).tex->GetWidth();
 		ecs.GetComponent<Size>(background).height = (float)ecs.GetComponent<Tex>(background).tex->GetHeight();
 		 
+		LoadModels(2500, false);
+
 		LoadModels(1, true);
 
 		Entity duck = CreateModel();
@@ -160,7 +165,7 @@ float g_dt;
 			#endif
 			m_previousTime = l_currentTime;
 
-			mail.SendMails(); // 1
+			//mail.SendMails(); // 1
 
 			glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
@@ -176,6 +181,9 @@ float g_dt;
 
 			///////////// PHYSICS /////////////
 
+			//graphicsSystem->Update();
+
+			
 			for (std::shared_ptr<System> & sys : systemList) {
 
 				#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
@@ -188,10 +196,10 @@ float g_dt;
 					debugSysProfile.StopTimer(sys, GetTime());
 				#endif // 
 				
-				mail.SendMails();
+				//mail.SendMails();
 
 			}
-
+			
 			//physicsSystem->Update();
 			
 			///////////// PHYSICS /////////////

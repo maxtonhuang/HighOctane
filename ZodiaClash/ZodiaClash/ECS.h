@@ -117,6 +117,13 @@
         template<typename T>
         bool isComponentTypeRegistered(); // new
 
+        template<typename T>
+        ComponentArray<T>& GetComponentArrayRef() { // to shift to .t
+            const char* typeName = typeid(T).name();
+            Assert(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
+            return *static_cast<ComponentArray<T>*>(m_ComponentArrays[typeName].get());
+        }
+
 
     private:
         // Map from type string pointer to a component type
@@ -204,6 +211,8 @@
 
         template<typename T>
         void SetSystemSignature(Signature signature);
+
+        ComponentManager& GetComponentManager();
 
     private:
         std::unique_ptr<ComponentManager> m_ComponentManager;

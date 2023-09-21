@@ -35,7 +35,7 @@ struct Visible {
 };
 
 struct MainCharacter {
-    bool isMainCharacter;
+    
 };
 
 struct Circle {
@@ -59,6 +59,10 @@ struct Animation {
     uint32_t frameIndex{}; //animation in Model class
     float frameTimeElapsed{};
     float frameDisplayDuration{};
+};
+
+struct Clone {
+
 };
 
 class Model;

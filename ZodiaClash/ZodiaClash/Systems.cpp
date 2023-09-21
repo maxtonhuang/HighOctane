@@ -36,10 +36,7 @@
 	void MovementSystem::Update() {
 		// std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 		for (Entity const& entity : m_Entities) {
-			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
-			if (mc.isMainCharacter) {
 				UpdateMovement(ecs.GetComponent<Transform>(entity));
-			}
 		}
 	}
 
@@ -76,24 +73,22 @@
 	}
 
 	void GraphicsSystem::Update() {
-		// std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+		//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+		
+		// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ecs.GetComponentManager();
+
+		// Access component arrays through the ComponentManager
+		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+		auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+
 		for (Entity const& entity : m_Entities) {
-			//MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
-			//if (mc.isMainCharacter) {
-			    
-				
-				//UpdateMovement(ecs.GetComponent<Transform>(entity));
-			//}
-			if (ecs.GetComponent<Visible>(entity).isVisible) {
-				Model* m = &ecs.GetComponent<Model>(entity);
-				m->Update(ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
-				m->Draw(ecs.GetComponent<Tex>(entity), ecs.GetComponent<Animation>(entity));
-			}
-			//m->Draw(Tex{});
-			//m.Update(entity);
-			//m.Draw(entity);
-			//ecs.GetComponent<Model>(entity).Update(entity);
-			//ecs.GetComponent<Model>(entity).Draw(entity);
+			Model m = modelArray.GetData(entity);
+			m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));	// ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
+			m.Draw(texArray.GetData(entity), animationArray.GetData(entity));	// ecs.GetComponent<Tex>(entity), ecs.GetComponent<Animation>(entity));
 		}
 		graphics.Draw();
 	}
