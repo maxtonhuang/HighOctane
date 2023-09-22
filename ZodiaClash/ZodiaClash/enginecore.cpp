@@ -153,7 +153,7 @@ float g_dt;
 		while (gameActive) {
 			//debugSysProfile.StartTimer(systemList[0], GetTime());
 			uint64_t l_currentTime = GetTime();
-			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
+			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 
 			// Debugging
 			
@@ -163,7 +163,7 @@ float g_dt;
 				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
 					//l_lastTime = l_currentTime;
 					for (std::shared_ptr<System>& sys : systemList) {
-						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << "millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
 					}
 					std::cout << std::endl;
 
@@ -207,23 +207,13 @@ float g_dt;
 					//}
 				#endif // 
 				
-				//mail.SendMails();
-
 			}
-			
-			//physicsSystem->Update();
-			
+						
 			///////////// PHYSICS /////////////
-
-			//UpdateModel();
-			
-			//graphics.Draw();
 
 
 			///////////// GRAPHICS /////////////
 
-			//graphics.Update(); // Put into ECS to update and draw Entities <<<--------
-			//graphics.Draw();
 			if (graphics.WindowClosed()) {
 				gameActive = false;
 			}
@@ -232,9 +222,8 @@ float g_dt;
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 				Performance(GetTime());
 			#endif //
-			//gui.Update(graphics.window);
 
-			//std::cout << g_dt << std::endl;
+			std::cout << g_dt << std::endl;
 			//DebugPrint("Total Frame Time: %f milliseconds", g_dt * 1'000.f);
 			//debugSysProfile.StopTimer(systemList[0], GetTime());
 		}

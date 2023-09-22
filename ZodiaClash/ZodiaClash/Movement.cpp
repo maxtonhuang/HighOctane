@@ -13,7 +13,8 @@ void UpdateMovement(Transform & transform) {
 	//mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
 		
 	for (Postcard msg : mail.mailbox[ADDRESS::MOVEMENT]) {
-		if (msg.type == TYPE::KEY_DOWN) {
+		switch (msg.type) {
+		case TYPE::KEY_DOWN:
 			//Entity 
 			//Transform tr = ecs.GetComponent<Transform>(entity);
 			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { transform.velocity.y += 200.f * g_dt; }
@@ -26,6 +27,9 @@ void UpdateMovement(Transform & transform) {
 			if (msg.info == INFO::KEY_P) { transform.scale.x -= 10.f * g_dt; transform.scale.y -= 10.f * g_dt; }
 			if (msg.info == INFO::KEY_Q) { transform.rotation -= 1.f * g_dt; }
 			if (msg.info == INFO::KEY_E) { transform.rotation += 1.f * g_dt; }
+			break;
+		case TYPE::MOUSE_MOVE:
+			transform.position = { msg.posX, msg.posY };
 		}
 
 	}

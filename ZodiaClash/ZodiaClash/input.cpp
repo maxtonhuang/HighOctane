@@ -11,14 +11,14 @@
 
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
-GLboolean InputManager::keyStateW{ GL_FALSE };
-GLboolean InputManager::keyStateA{ GL_FALSE };
-GLboolean InputManager::keyStateS{ GL_FALSE };
-GLboolean InputManager::keyStateD{ GL_FALSE };
-GLboolean InputManager::mouseClickL{ GL_FALSE };
-GLboolean InputManager::mouseClickR{ GL_FALSE };
-double InputManager::cursorposX;
-double InputManager::cursorposY;
+//GLboolean InputManager::keyStateW{ GL_FALSE };
+//GLboolean InputManager::keyStateA{ GL_FALSE };
+//GLboolean InputManager::keyStateS{ GL_FALSE };
+//GLboolean InputManager::keyStateD{ GL_FALSE };
+//GLboolean InputManager::mouseClickL{ GL_FALSE };
+//GLboolean InputManager::mouseClickR{ GL_FALSE };
+//double InputManager::cursorposX;
+//double InputManager::cursorposY;
 
 std::unordered_map<int, INFO> keyStatus;
 
@@ -54,7 +54,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
-        mail.CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key));
+        mail.CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
@@ -64,7 +64,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;
-        mail.CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key));
+        mail.CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
         break;
     default:
         break;
@@ -74,7 +74,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 void InputManager::KeyCheck() {
     for (std::pair<int,INFO> val : keyStatus) {
         if (val.second != INFO::NONE) {
-            mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second);
+            mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
         }
     }
 }
@@ -108,10 +108,10 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
         }*/
         switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
-            mouseClickL = GL_TRUE;
+            mail.CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
-            mouseClickR = GL_TRUE;
+            mail.CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
             break;
         }
     }
@@ -135,8 +135,12 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
-    cursorposX = xpos - GRAPHICS::w;
-    cursorposY = -ypos + GRAPHICS::h;
+    
+    mail.CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, (static_cast<float>(xpos) - GRAPHICS::w), (-static_cast<float>(ypos) + GRAPHICS::h));
+    
+    //cursorposX = ;
+    //cursorposY = -static_cast<float>(ypos) + GRAPHICS::h;
 
-    test_model.SetPos(cursorposX, cursorposY);
+    //test_model.SetPos(cursorposX, cursorposY);
 }
+

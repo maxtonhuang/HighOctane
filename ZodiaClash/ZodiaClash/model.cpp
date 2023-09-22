@@ -239,7 +239,7 @@ void Model::AnimateOnInterval(Animation& data, Tex& tex) {
 }
 
 void Model::AnimateOnKeyPress(Animation& data, Tex& tex) {
-	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE);
+	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
 	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_DOWN) {

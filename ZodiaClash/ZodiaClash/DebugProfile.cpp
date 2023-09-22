@@ -28,7 +28,7 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
 
     void DebugProfiling::StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
         auto startTime = timers[systemInput];
-        auto duration = static_cast<float>(endTimeInput - startTime) / 1000000.0f;
+        auto duration = static_cast<float>(endTimeInput - startTime) / 1000.0f;
 
         ProfileResult result{};
         result.name = systemInput;
@@ -40,7 +40,7 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
     ProfileResult DebugProfiling::GetResult(std::shared_ptr<System> systemInput) {
         for (auto& result : results) {
             if (result.name == systemInput) {
-                result.percentage = (result.duration / (g_dt ) * 100.f);
+                result.percentage = (result.duration / (g_dt * 1000.f ) * 100.f);
                 return result;
             }
     }

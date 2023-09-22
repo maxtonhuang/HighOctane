@@ -8,7 +8,7 @@
 
 
 
-const size_t MAILBOX_RESERVE_CAP = 64;
+const size_t MAILBOX_RESERVE_CAP = 4092;
 
     
 // Define message types
@@ -24,6 +24,7 @@ enum class TYPE {
 	KEY_UP,
 	KEY_CHECK,
 	MOUSE_CLICK,
+	MOUSE_MOVE,
 	WINDOW_RESIZE,
 	CUSTOM_EVENT,
 	QUIT
@@ -86,6 +87,8 @@ enum class INFO {
 	KEY_LEFT,
 	KEY_DOWN,
 	KEY_UP,
+	MOUSE_LEFT = 501,
+	MOUSE_RIGHT,
 	NONE = 999
 };
 
@@ -93,6 +96,8 @@ struct Postcard {
 	TYPE type;
 	ADDRESS from;
 	INFO info;
+	float posX;
+	float posY;
 };
 
 class Mail {
@@ -106,7 +111,7 @@ public:
 
 	void SendMails();
 
-	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info);
+	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX, float posY);
 
 	//void ConvertWindowsEventToPostcard(unsigned int uMsg);
 
