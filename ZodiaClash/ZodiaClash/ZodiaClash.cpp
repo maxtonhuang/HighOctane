@@ -24,7 +24,6 @@ using Vec2 = vmath::Vector2;
 
 extern Mail mail;
 
-using namespace Architecture;
 
 // Global Variables:
 //HINSTANCE hInst;                                // current instance
@@ -45,38 +44,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     // Enable run-time memory check for debug builds.
-    #if defined(DEBUG) | defined(_DEBUG)
+    #if (_DEBUG)
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     #endif
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    
-    
-
     // To enable the console
     Console();
-    debuglog::logger.info("Program started");
-
-    
+    INFOL("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    debuglog::logger.SetLevel(debuglog::LOG_LEVEL::Trace);
+    SETLEVELL(debuglog::LOG_LEVEL::Trace);
 
-    debuglog::logger.trace("This is a test trace message");
-    debuglog::logger.debug("This is a test debug message");
-    debuglog::logger.info("This is a test info message");
-    debuglog::logger.warning("This is a test warning message");
-    debuglog::logger.error("This is a test error message");
-    debuglog::logger.fatal("This is a test fatal message");
+    TRACEL("This is a test trace message");
+    DEBUGL("This is a test debug message");
+    INFOL("This is a test info message");
+    WARNINGL("This is a test warning message");
+    ERRORL("This is a test error message");
+    FATALL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
 
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
     audio.AddSound("../Assets/Sound/ping.wav");
-    debuglog::logger.info("Graphics started");
+    INFOL("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;
@@ -85,9 +79,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Max --------
 
-    EngineCore* engine = new EngineCore();
+    EngineCore engine; // = new EngineCore();
         
-    engine->Run();
+    engine.Run();
 
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
@@ -97,7 +91,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     /*return (int) msg.wParam;*/
     
-    delete engine;
+    //delete engine;
     
     return 0;
 }

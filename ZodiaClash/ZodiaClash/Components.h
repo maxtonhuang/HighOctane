@@ -64,3 +64,5 @@ struct Animation {
     float frameTimeElapsed{};
     float frameDisplayDuration{};
 };
+
+class Model;

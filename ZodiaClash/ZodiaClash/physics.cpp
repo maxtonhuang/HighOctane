@@ -5,7 +5,7 @@ namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
 
-    PhysicsManager::PhysicsManager(Architecture::ECS& ecs) : m_ecs(ecs)
+    PhysicsManager::PhysicsManager(ECS& ecs) : m_ecs(ecs)
     {
         PHYSICS = this;
         gravity = Vector2(0, -400);
@@ -56,7 +56,7 @@ namespace physics {
         }
     }
 
-    void PhysicsManager::AddEntity(Architecture::Entity entity) 
+    void PhysicsManager::AddEntity(Entity entity) 
     {
         m_Entities.push_back(entity);
     }

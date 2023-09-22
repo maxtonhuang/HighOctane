@@ -26,6 +26,7 @@ public:
 
 	int GetWidth();
 	int GetHeight();
+	std::string GetName();
 
 	glm::vec2 GetTexCoords(int index, int pos);
 	int GetSheetSize();

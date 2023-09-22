@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Components.h"
 #include "GraphLib.h"
 #include "Texture.h"
 #include "Renderer.h"
+#include "ECS.h"
 #include <vector>
 
 class Texture;
@@ -14,7 +16,9 @@ public:
 	Model(char const*);
 
 	void Update();
+	void Update(Entity const& entity);
 	void Draw(); //Draw the texture of the model
+	void Draw(Entity const& entity);
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
 	void AttachTexture(Texture&);
@@ -30,8 +34,11 @@ public:
 
 	void SetScale(float x, float y);
 
-	void SetAnimation(int index);
-	void AdvanceAnimation();
+	void SetAnimation(Animation& data, int index);
+	void AdvanceAnimation(Animation& data);
+
+	void AnimateOnInterval(Animation& data);
+	void AnimateOnKeyPress(Animation& data);
 
 private:
 	glm::vec2 pos{}; //Position in screen coordinates

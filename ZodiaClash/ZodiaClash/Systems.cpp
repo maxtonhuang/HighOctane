@@ -1,9 +1,9 @@
 #include "ECS.h"
 #include "Components.h"
 #include "Movement.h"
+#include "graphics.h"
+#include "model.h"
 
-
-namespace Architecture {
 
 	extern ECS ecs;
 	
@@ -34,6 +34,7 @@ namespace Architecture {
 	
 	// Movement System
 	void MovementSystem::Update() {
+		// std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 		for (Entity const& entity : m_Entities) {
 			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
 			if (mc.isMainCharacter) {
@@ -43,12 +44,40 @@ namespace Architecture {
 	}
 
 	void ModelSystem::Update() {
-		//Animation an = ecs.GetComponent<Animation>(entity)
+		for (Entity const& entity : m_Entities) {
+			Animation animate = ecs.GetComponent<Animation>(entity);
+			//update animation
+			switch (animate.animationType) {
+			case(Animation::ANIMATION_NONE):
+				break;
+			case(Animation::ANIMATION_TIME_BASED):
+				ecs.GetComponent<Model>(entity).AnimateOnInterval(animate);
+				break;
+			case(Animation::ANIMATION_EVENT_BASED):
+				ecs.GetComponent<Model>(entity).AnimateOnKeyPress(animate);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	void GraphicsSystem::Update() {
-
+		// std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+		for (Entity const& entity : m_Entities) {
+			MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
+			if (mc.isMainCharacter) {
+			    
+				
+				//UpdateMovement(ecs.GetComponent<Transform>(entity));
+			}
+			Model m = ecs.GetComponent<Model>(entity);
+			m.Update(entity);
+			m.Draw(entity);
+			//ecs.GetComponent<Model>(entity).Update(entity);
+			//ecs.GetComponent<Model>(entity).Draw(entity);
+		}
+		graphics.Draw();
 	}
 
-}
 

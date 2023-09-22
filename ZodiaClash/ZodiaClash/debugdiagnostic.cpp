@@ -90,7 +90,7 @@ namespace debug {
                 }
 
                 // Create the logging file only when needed
-                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace, true);
+                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
 
                 // Print an error message with just the file name and line number
                 std::cerr << "Assertion failed in " << fileName << " line " << line << ": ";
@@ -134,50 +134,6 @@ namespace debug {
         // Just for fun
         std::cout << "ZodiaClash Engine Version 0.1\n";
 
-    }
-
-    // Function to print out the memory usage
-    void PerformanceDataHandler() {
-
-        PROCESS_MEMORY_COUNTERS pmc;
-
-        // For the CPU usage
-        FILETIME idleTime, kernelTime, userTime;
-        performanceTime++;
-
-        // Prints it out once at intervals
-        if (performanceTime > 10) {
-			performanceTime = 0;
-			
-            // To get the memory usage in bytes
-            if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
-                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
-                // Working set size in bytes
-                SIZE_T usedMemory = pmc.WorkingSetSize;
-                std::cout << "Used memory: " << usedMemory / (1024 * 1024) << " MB" << std::endl;
-                
-            }
-
-            // To get the CPU percentage usage
-            if (GetSystemTimes(&idleTime, &kernelTime, &userTime)) {
-                ULARGE_INTEGER idle, kernel, user;
-                idle.LowPart = idleTime.dwLowDateTime;
-                idle.HighPart = idleTime.dwHighDateTime;
-                kernel.LowPart = kernelTime.dwLowDateTime;
-                kernel.HighPart = kernelTime.dwHighDateTime;
-                user.LowPart = userTime.dwLowDateTime;
-                user.HighPart = userTime.dwHighDateTime;
-
-                // Calculate CPU usage percentage
-                double total = static_cast<double>(kernel.QuadPart + user.QuadPart);
-                double idlePercent = (static_cast<double>(idle.QuadPart) / total) * 100.0;
-                double usagePercent = 100.0 - idlePercent;
-                std::cout << "CPU Usage: " << usagePercent << "%" << std::endl;
-
-                // If CPU usage is more than 50%
-                Assert(usagePercent > 50.f, "CPU usage is more than 50%!");
-            }  
-        }
     }
 
     void CustomTerminateHandler() {

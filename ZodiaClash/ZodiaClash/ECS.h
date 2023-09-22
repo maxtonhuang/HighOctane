@@ -14,7 +14,6 @@
 #include "Components.h"
 
 
-namespace Architecture {
 
     // A simple type alias
     using Entity = std::uint32_t;
@@ -26,7 +25,7 @@ namespace Architecture {
     using ComponentType = std::uint8_t;
 
     // Used to define the size of arrays later on
-    const ComponentType MAX_COMPONENTS = 16;
+    const ComponentType MAX_COMPONENTS = 100;
 
     // A simple type alias
     using Signature = std::bitset<MAX_COMPONENTS>;
@@ -115,6 +114,10 @@ namespace Architecture {
 
         void EntityDestroyed(Entity entity);
 
+        template<typename T>
+        bool isComponentTypeRegistered(); // new
+
+
     private:
         // Map from type string pointer to a component type
         std::unordered_map<const char*, ComponentType> m_ComponentTypes{};
@@ -190,6 +193,9 @@ namespace Architecture {
         template<typename T>
         ComponentType GetComponentType();
 
+        template<typename T>
+        bool isComponentTypeRegistered();
+
         // System methods ------------------------------
         template<typename T>
         std::shared_ptr<T> RegisterSystem();
@@ -230,5 +236,4 @@ namespace Architecture {
     };
 
     
-}
 

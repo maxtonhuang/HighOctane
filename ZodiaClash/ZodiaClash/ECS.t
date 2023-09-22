@@ -54,6 +54,7 @@ void ComponentArray<T>::EntityDestroyed(Entity entity) {
 }
 
 
+
 // ---------- Component Manager ---------- //
 
 template<typename T>
@@ -107,6 +108,12 @@ std::shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray() {
     Assert(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
 
     return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
+}
+
+template<typename T>
+bool ComponentManager::isComponentTypeRegistered() {
+    const char* typeName = typeid(T).name();
+    return m_ComponentTypes.find(typeName) != m_ComponentTypes.end();
 }
 
 
@@ -189,6 +196,11 @@ T& ECS::GetComponent(Entity entity) {
 template<typename T>
 ComponentType ECS::GetComponentType() {
     return m_ComponentManager->GetComponentType<T>();
+}
+
+template<typename T>
+bool ECS::isComponentTypeRegistered() {
+    return m_ComponentManager->isComponentTypeRegistered<T>();
 }
 
 

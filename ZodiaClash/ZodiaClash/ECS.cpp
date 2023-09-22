@@ -2,7 +2,6 @@
 #include "Components.h"
 
 
-namespace Architecture {
 
     ///////////////////////////////////////////////////////////////////////////
     ////////// ENTITY /////////////////////////////////////////////////////////
@@ -57,6 +56,7 @@ namespace Architecture {
     ////////// COMPONENT //////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+
     // ---------- Component Manager ---------- //
 
     void ComponentManager::EntityDestroyed(Entity entity) {
@@ -68,6 +68,7 @@ namespace Architecture {
             component->EntityDestroyed(entity);
         }
     }
+
 
 
 
@@ -129,5 +130,4 @@ namespace Architecture {
         m_SystemManager->EntityDestroyed(entity);
     }
 
-}
 
