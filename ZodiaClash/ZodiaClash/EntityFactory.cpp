@@ -87,8 +87,8 @@
 		ecs.AddComponent(entity, Tex{ ecs.GetComponent<Tex>(masterEntity) });
 		ecs.AddComponent(entity, Visible{ true });
 		ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
-		ecs.AddComponent(entity, MainCharacter{});
 		ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
 		ecs.AddComponent(entity, Animation{});
+		ecs.AddComponent(entity, Clone{});
 		return entity;
 	}

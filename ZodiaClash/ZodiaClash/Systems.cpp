@@ -41,17 +41,24 @@
 	}
 
 	void ModelSystem::Update() {
+		// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ecs.GetComponentManager();
+		// Access component arrays through the ComponentManager
+		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+		auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+
 		for (Entity const& entity : m_Entities) {
-			Animation* animate = &ecs.GetComponent<Animation>(entity);
+			Animation* animate = &animationArray.GetData(entity);
 			//update animation
 			switch (animate->animationType) {
 			case(Animation::ANIMATION_NONE):
 				break;
 			case(Animation::ANIMATION_TIME_BASED):
-				ecs.GetComponent<Model>(entity).AnimateOnInterval(*animate, ecs.GetComponent<Tex>(entity));
+				modelArray.GetData(entity).AnimateOnInterval(*animate, texArray.GetData(entity));
 				break;
 			case(Animation::ANIMATION_EVENT_BASED):
-				ecs.GetComponent<Model>(entity).AnimateOnKeyPress(*animate, ecs.GetComponent<Tex>(entity));
+				modelArray.GetData(entity).AnimateOnKeyPress(*animate, texArray.GetData(entity));
 				break;
 			default:
 				break;
@@ -87,7 +94,7 @@
 
 		for (Entity const& entity : m_Entities) {
 			Model m = modelArray.GetData(entity);
-			m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));	// ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
+			//m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));	// ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
 			m.Draw(texArray.GetData(entity), animationArray.GetData(entity));	// ecs.GetComponent<Tex>(entity), ecs.GetComponent<Animation>(entity));
 		}
 		graphics.Draw();
