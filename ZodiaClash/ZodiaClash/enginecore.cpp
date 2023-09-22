@@ -163,7 +163,7 @@ float g_dt;
 				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
 					//l_lastTime = l_currentTime;
 					for (std::shared_ptr<System>& sys : systemList) {
-						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << "millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
 					}
 					std::cout << std::endl;
 
