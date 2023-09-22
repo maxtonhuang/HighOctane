@@ -46,6 +46,10 @@ extern float g_dt;
         float percentage{};
     };
 
+    struct FPSResult {
+        float fps{};
+    };
+
     class DebugProfiling {
     public:
 
@@ -54,7 +58,6 @@ extern float g_dt;
         void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput);
 
         ProfileResult GetResult(std::shared_ptr<System> systemInput);
-
         void clear();
 
     private:

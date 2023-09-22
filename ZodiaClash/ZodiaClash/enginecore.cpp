@@ -161,7 +161,7 @@ float g_dt;
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 				static uint64_t l_lastTime = 0;
 				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
-					l_lastTime = l_currentTime;
+					//l_lastTime = l_currentTime;
 					for (std::shared_ptr<System>& sys : systemList) {
 						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
 					}
@@ -194,13 +194,17 @@ float g_dt;
 			for (std::shared_ptr<System> & sys : systemList) {
 
 				#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-					debugSysProfile.StartTimer(sys, GetTime());
+					//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
+						debugSysProfile.StartTimer(sys, GetTime());
+					//}
 				#endif // 
 				
 				sys->Update();
 
 				#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-					debugSysProfile.StopTimer(sys, GetTime());
+					//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
+						debugSysProfile.StopTimer(sys, GetTime());
+					//}
 				#endif // 
 				
 				//mail.SendMails();
@@ -230,7 +234,7 @@ float g_dt;
 			#endif //
 			//gui.Update(graphics.window);
 
-			std::cout << g_dt << std::endl;
+			//std::cout << g_dt << std::endl;
 			//DebugPrint("Total Frame Time: %f milliseconds", g_dt * 1'000.f);
 			//debugSysProfile.StopTimer(systemList[0], GetTime());
 		}

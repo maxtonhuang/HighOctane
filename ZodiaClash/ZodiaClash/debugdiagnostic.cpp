@@ -89,9 +89,6 @@ namespace debug {
                     fileName++;
                 }
 
-                // Create the logging file only when needed
-                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
-
                 // Print an error message with just the file name and line number
                 std::cerr << "Assertion failed in " << fileName << " line " << line << ": ";
 
@@ -105,15 +102,11 @@ namespace debug {
                 
                 std::cerr << std::endl;
 
-                // Log the crash into the crash file
-                crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line));
-               
                 // Display a message box to the user
                 int testing = CustomMessageBox(fileName, line, message);
             }
         } while (false);
     }
-
 
     // For the message in a box to use in assert
     int CustomMessageBox(const char* file, int line, const char* message) {
@@ -127,6 +120,7 @@ namespace debug {
 
         // Creating the custom message
         std::wstring customMsg = L"In file: " + std::wstring(wideFilePtr) + L" line: " + std::to_wstring(line)\
+            + L"\n\nAssert triggered: " + std::wstring(wideMessagePtr)\
             + L"\n\nYes to quit\n\nNo to continue"\
             + L"\nWARNING: PROGRAM MAY NOT WORK PROPERLY";
         std::wstring customTitle = +L"Quit program?";
@@ -138,13 +132,19 @@ namespace debug {
             customTitle.c_str(),
             MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
         );
-
+        // Create the logging file only when needed
+        debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
         switch (msgboxID)
         {
         case IDYES:
+            // Log the crash into the crash file
+            crashLogger.error("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to terminate");
             ExitProcess(0);
             break;
         case IDNO:
+            crashLogger.error("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to continue");
             // Continue on with the code
             break;
         }
