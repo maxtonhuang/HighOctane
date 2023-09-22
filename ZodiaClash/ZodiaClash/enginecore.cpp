@@ -45,6 +45,8 @@
 #include "GUIManager.h"
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
+#include "GraphicConstants.h"
+
 #include <random>
 #include <Windows.h>
 #include <chrono>
@@ -152,15 +154,18 @@ void EngineCore::Run() {
 	ecs.GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ecs.GetComponent<Size>(background).width = (float)ecs.GetComponent<Tex>(background).tex->GetWidth();
 	ecs.GetComponent<Size>(background).height = (float)ecs.GetComponent<Tex>(background).tex->GetHeight();
-		 
+
 	//LoadModels(2500, false);
 	std::default_random_engine rng;
 	std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
 	std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
 	for (int i = 0; i < 2500; ++i) {
 		Entity duck = CreateModel();
-		ecs.GetComponent<Tex>(duck).tex = texList.Add("duck.png");
-		ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
+		ecs.GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck.png"));
+		ecs.GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck2.png"));
+		ecs.GetComponent<Tex>(duck).tex = ecs.GetComponent<Tex>(duck).texVariants[0];
+		ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_EVENT_BASED;
+		//ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
 		ecs.GetComponent<Animation>(duck).frameDisplayDuration = 0.3f;
 		ecs.GetComponent<Size>(duck).width = (float)ecs.GetComponent<Tex>(duck).tex->GetWidth();
 		ecs.GetComponent<Size>(duck).height = (float)ecs.GetComponent<Tex>(duck).tex->GetHeight();

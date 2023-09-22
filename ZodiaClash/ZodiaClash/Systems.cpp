@@ -48,38 +48,58 @@ void PhysicsSystem::Update() {
 }
 	
 // Movement System
+// For MainCharacter
 void MovementSystem::Update() {
-	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() <<std::endl;
+
+	//// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ecs.GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	//auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+
 	for (Entity const& entity : m_Entities) {
-			UpdateMovement(ecs.GetComponent<Transform>(entity));
+		UpdateMovement(ecs.GetComponent<Transform>(entity));
+
+		/*Model modelData = modelArray.GetData(entity);
+		Animation* aniData = &animationArray.GetData(entity);
+		Tex* texData = &texArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);*/
+
+		Model modelData = ecs.GetComponent<Model>(entity);
+		Animation* aniData = &ecs.GetComponent<Animation>(entity);
+		Tex* texData = &ecs.GetComponent<Tex>(entity);
+		Size* sizeData = &ecs.GetComponent<Size>(entity);
+
+		modelData.UpdateAnimationMC(modelData, *aniData, *texData, *sizeData);
 	}
 	mail.mailbox[ADDRESS::MOVEMENT].clear();
 }
 
 void ModelSystem::Update() {
+
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ecs.GetComponentManager();
+
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+
 
 	for (Entity const& entity : m_Entities) {
-		Animation* animate = &animationArray.GetData(entity);
-		//update animation
-		switch (animate->animationType) {
-		case(Animation::ANIMATION_NONE):
-			break;
-		case(Animation::ANIMATION_TIME_BASED):
-			modelArray.GetData(entity).AnimateOnInterval(*animate, texArray.GetData(entity));
-			break;
-		case(Animation::ANIMATION_EVENT_BASED):
-			modelArray.GetData(entity).AnimateOnKeyPress(*animate, texArray.GetData(entity));
-			break;
-		default:
-			break;
-		}
+		Model modelData = modelArray.GetData(entity);
+		Animation* aniData = &animationArray.GetData(entity);
+		Tex* texData = &texArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+		
+		modelData.UpdateAnimationNPC(modelData, *aniData, *texData, *sizeData);
 	}
+	mail.mailbox[ADDRESS::MODEL].clear();
 }
 
 void GraphicsSystem::Initialize() {

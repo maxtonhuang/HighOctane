@@ -47,12 +47,14 @@ void Mail::SendMails() {
         switch (msg.type) {
         case TYPE::KEY_TRIGGERED:
         //    mailbox[ADDRESS::INPUT].emplace_back(msg);
+            mailbox[ADDRESS::MODEL].emplace_back(msg);
         break;
         case TYPE::KEY_DOWN:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
+            //mailbox[ADDRESS::MODEL].emplace_back(msg);
             break;
         case TYPE::KEY_UP:
-            mailbox[ADDRESS::MODEL].emplace_back(msg);
+            //mailbox[ADDRESS::MODEL].emplace_back(msg);
             break;
         case TYPE::MOUSE_MOVE:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);

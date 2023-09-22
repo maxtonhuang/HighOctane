@@ -10,8 +10,8 @@
 
 const float pi = 3.14159265358979323846;
 extern float g_dt;
-extern Mail mail;
 extern ECS ecs;
+extern Mail mail;
 
 std::vector<Model> modelList;
 Model test_circle1;
@@ -218,33 +218,94 @@ void Model::SetScale(float x, float y) {
 	scale.y = y;
 }
 
-void Model::SetAnimation(Animation& data, int index) {
-	data.frameIndex = index;
+void Model::SetAnimation(Animation& aniData, int index) {
+	aniData.frameIndex = index;
 }
 
-void Model::AdvanceAnimation(Animation& data, Tex& tex) {
+void Model::AdvanceAnimation(Animation& aniData, Tex& texData) {
 	//data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
-	data.frameIndex = (data.frameIndex + 1) % tex.tex->GetSheetSize();
+	aniData.frameIndex = (aniData.frameIndex + 1) % texData.tex->GetSheetSize();
 }
 
-//TODO: determine texture set based on direction?
+void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
+	// Update sprite
+	texData.texVariantIndex = (texData.texVariantIndex + 1) % texData.texVariants.size();
+	texData.tex = texData.texVariants.at(texData.texVariantIndex);
+}
 
-void Model::AnimateOnInterval(Animation& data, Tex& tex) {
-	data.frameTimeElapsed += g_dt;
+void Model::ResizeOnChange(Tex& texData, Size& sizeData) {
+	sizeData.width = texData.tex->GetWidth();
+	sizeData.height = texData.tex->GetHeight();
+}
+
+void Model::AnimateOnInterval(Animation& aniData, Tex& texData) {
+	aniData.frameTimeElapsed += g_dt;
 	//std::cout << data.frameTimeElapsed << "\n";
-	if (data.frameTimeElapsed > data.frameDisplayDuration) {
-		AdvanceAnimation(data, tex);
-		data.frameTimeElapsed = 0.f;
+	if (aniData.frameTimeElapsed > aniData.frameDisplayDuration) {
+		AdvanceAnimation(aniData, texData);
+		aniData.frameTimeElapsed = 0.f;
 	}
 }
 
-void Model::AnimateOnKeyPress(Animation& data, Tex& tex) {
+void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
+	AdvanceAnimation(aniData, texData);
+}
+
+
+/********************************************************************************
+* 2 kinds of key input handling:
+* - KEY_C --> AnimationChange()
+*	>> Note: isMsgAnimationChange == 1
+*	>> Note: ONLY for main character entities!
+* - KEY_V --> AnimateOnKeyPress()
+*	>> Note: (animationType == ANIMATION_EVENT_BASED) && (isMsgAnimateNext == 1)
+*	>> Note: for ALL entities!
+********************************************************************************/
+
+void Model::UpdateAnimationNPC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData) {
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+
+	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
+		modelData.AnimateOnInterval(aniData, texData); 
+		//return; 
+	}
+
+	// Check mailbox for input triggers
 	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
 	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
-		if (msg.type == TYPE::KEY_DOWN) {
-			if (msg.info == INFO::KEY_P) { AdvanceAnimation(data, tex); }
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			/*if (msg.info == INFO::KEY_C) { 
+				modelData.ChangeAnimation(aniData, texData);
+				modelData.ResizeOnChange(texData, sizeData);
+			}*/
+			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				modelData.AnimateOnKeyPress(aniData, texData);
+			}
 		}
 	}
-	mail.mailbox[ADDRESS::MODEL].clear();
+}
+
+void Model::UpdateAnimationMC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData) {
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+
+	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
+		modelData.AnimateOnInterval(aniData, texData);
+		//return;
+	}
+
+	// Check mailbox for input triggers
+	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+
+	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			if (msg.info == INFO::KEY_C) {
+				modelData.ChangeAnimation(aniData, texData);
+				modelData.ResizeOnChange(texData, sizeData);
+			}
+			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				modelData.AnimateOnKeyPress(aniData, texData);
+			}
+		}
+	}
 }

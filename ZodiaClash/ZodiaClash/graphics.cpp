@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <random>
 
-Model test_model;
+//Model test_model;
 Texture test_tex;
 GraphicsManager graphics;
 
@@ -78,7 +78,8 @@ void GraphicsManager::Initialize(int w, int h) {
     textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag");
 
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
-    test_model.AttachTexture("duck.png");
+    texList.AddSpriteSheet("duck2.png", 1, 6, 6);
+    //test_model.AttachTexture("duck.png");
 
     guiManager.Init(window);
 
@@ -154,11 +155,11 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
     test_rect2.Draw();
     test_rect3.Draw();
 
-    test_model.Update();
-    test_model.Draw();
+    /*test_model.Update();
+    test_model.Draw();*/
 
     textureRenderer.Draw();
-    test_model.DrawOutline();
+    //test_model.DrawOutline();
     
     DrawCircle(100, -100, 20);
     //DrawRect(0, 0, 50, 50);

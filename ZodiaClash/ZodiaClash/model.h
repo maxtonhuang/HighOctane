@@ -34,11 +34,16 @@ public:
 
 	void SetScale(float x, float y);
 
-	void SetAnimation(Animation& data, int index);
-	void AdvanceAnimation(Animation& data, Tex& tex);
+	void SetAnimation(Animation& aniData, int index);
+	void AdvanceAnimation(Animation& aniData, Tex& texData);
+	void ChangeAnimation(Animation& aniData, Tex& texData);
+	void ResizeOnChange(Tex& texData, Size& sizeData);
 
-	void AnimateOnInterval(Animation& data, Tex& tex);
-	void AnimateOnKeyPress(Animation& data, Tex& tex);
+	void AnimateOnInterval(Animation& aniData, Tex& texData);
+	void AnimateOnKeyPress(Animation& aniData, Tex& texData);
+
+	void UpdateAnimationNPC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData);
+	void UpdateAnimationMC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData);
 
 private:
 	glm::vec2 pos{}; //Position in screen coordinates

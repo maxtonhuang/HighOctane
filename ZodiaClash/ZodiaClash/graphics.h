@@ -40,7 +40,7 @@ private:
 
 extern GraphicsManager graphics;
 
-extern Model test_model;
+//extern Model test_model;
 extern Texture test_tex;
 
 extern Renderer flatRenderer;
