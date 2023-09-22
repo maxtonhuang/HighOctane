@@ -76,7 +76,7 @@ When the ESC key is pressed, the close flag of the window is set.
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
     switch (action) {
     case GLFW_PRESS:
-        keyStatus[key] = KeyConversion(key);
+        keyStatus[key] = static_cast<INFO>(key);
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
@@ -119,6 +119,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;
+        mail.CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key));
         //switch (key) {
         //case GLFW_KEY_ESCAPE:
         //    glfwSetWindowShouldClose(pwin, GLFW_TRUE);
@@ -159,18 +160,19 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 
 void InputManager::KeyCheck() {
     
-    for (Postcard msg : mail.mailbox[ADDRESS::INPUT]) {
-        if (msg.type == TYPE::KEY_CHECK) {
+    //for (Postcard msg : mail.mailbox[ADDRESS::INPUT]) {
+    //   if (msg.type == TYPE::KEY_CHECK) {
             for (std::pair<int,INFO> val : keyStatus) {
                 if (val.second != INFO::NONE) {
                     mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second);
                 }
             }
-        }
-    }
-    mail.mailbox[ADDRESS::INPUT].clear();
+    //    }
+    //}
+    //mail.mailbox[ADDRESS::INPUT].clear();
 }
 
+/*
 INFO InputManager::KeyConversion(int key) {
     switch (key) {
     case GLFW_KEY_A: return INFO::KEY_A;
@@ -206,10 +208,11 @@ INFO InputManager::KeyConversion(int key) {
     case GLFW_KEY_SPACE: return INFO::KEY_SPACE;
     case GLFW_KEY_ENTER: return INFO::KEY_ENTER;
     case GLFW_KEY_ESCAPE: return INFO::KEY_ESC;
+    case GLFW_KEY_0:
     default:return INFO::NONE;
     }
 }
-
+*/
 /*  _________________________________________________________________________*/
 /*! MouseButtonCallback
 

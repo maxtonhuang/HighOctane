@@ -10,7 +10,7 @@ extern float g_dt;
 
 
 void UpdateMovement(Transform & transform) {	
-	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
+	//mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
 		
 	for (Postcard msg : mail.mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_DOWN) {

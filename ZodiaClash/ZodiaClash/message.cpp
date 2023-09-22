@@ -14,16 +14,16 @@ void Mail::SendMails() {
         switch (msg.type) {
         case TYPE::KEY_CHECK:
             mailbox[ADDRESS::INPUT].emplace_back(msg);
+            break;
         case TYPE::KEY_DOWN:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             break;
+        case TYPE::KEY_UP:
+            mailbox[ADDRESS::MODEL].emplace_back(msg);
+            break;
         default:
             break;
-        }
-
-
-
-        
+        }        
     }
     mailQueue.clear();
 
