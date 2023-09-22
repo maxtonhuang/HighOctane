@@ -101,9 +101,6 @@
     <ClInclude Include="Message.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
-      <Filter>EngineArchitecture</Filter>
-    </ClInclude>
     <ClInclude Include="ZodiaClash.h" />
     <ClInclude Include="Movement.h">
       <Filter>Physics</Filter>

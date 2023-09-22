@@ -1,21 +1,48 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Message.h
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Messaging System for all systems to communicate with each other
+*
+*	This file contains the Enums used for the Postcards (messages) information.
+*	It also contains the Struct for a Postcard (message) and also the Class for
+*	the Mail system itself.
+*
+******************************************************************************/
+
 #pragma once
 
 #include <Windows.h>
-//#include <list>
 #include <vector>
 #include <unordered_map>
 #include <string>
 
-
-
 const size_t MAILBOX_RESERVE_CAP = 4092;
 
-    
-// Define message types
 enum class TYPE {
 
-	// to add more message types
-
+	// feel free to add more message types as required
 	COLLISION,
 	INPUT,
 	GAME_EVENT,
@@ -28,10 +55,10 @@ enum class TYPE {
 	WINDOW_RESIZE,
 	CUSTOM_EVENT,
 	QUIT
-
 };
 
-enum class ADDRESS {
+// Mailbox addresses
+enum class ADDRESS { 
 	INPUT,
 	MOVEMENT,
 	COLLISION,
@@ -43,6 +70,7 @@ enum class ADDRESS {
 	NONE
 };
 
+// Follows numbering system of the GLFW Library
 enum class INFO {
 	KEY_SPACE = 32,
 	KEY_0 = 48,
@@ -93,11 +121,11 @@ enum class INFO {
 };
 
 struct Postcard {
-	TYPE type;
-	ADDRESS from;
-	INFO info;
-	float posX;
-	float posY;
+	TYPE	type;
+	ADDRESS from;	// who sent the message
+	INFO	info;
+	float	posX;		// used for mouse positions
+	float	posY;		// used for mouse positions
 };
 
 class Mail {
@@ -113,8 +141,6 @@ public:
 
 	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX, float posY);
 
-	//void ConvertWindowsEventToPostcard(unsigned int uMsg);
-
 	std::unordered_map<ADDRESS, std::vector<Postcard>> mailbox;
 
 private:
@@ -122,6 +148,3 @@ private:
 	std::vector<Postcard> mailQueue;
 
 };
-
-extern Mail mail;
-

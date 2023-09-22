@@ -197,7 +197,6 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
-    <ClInclude Include="System.h" />
     <ClInclude Include="TargetVer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VMath.h" />

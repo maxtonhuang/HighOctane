@@ -1,7 +1,6 @@
 #pragma once
 #include "Shaders.h"
 #include "Model.h"
-#include "System.h"
 #include "ECS.h"
 #include "MMath.h"
 #include "Renderer.h"

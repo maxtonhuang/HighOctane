@@ -1,3 +1,37 @@
+/******************************************************************************
+* 
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+* 
+* *****************************************************************************
+* 
+*	@file		Systems.cpp
+* 
+*	@author		Maxton Huang Xinghua
+* 
+*	@email		m.huang\@digipen.edu
+* 
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+* 
+*	@section	Section A
+* 
+*	@date		22 September 2023
+* 
+* *****************************************************************************
+* 
+*	@brief		Systems running on underlying ECS Architecture
+*
+*	This file contains the system functions running on the underlying ECS
+*	Architecture. It will call other functions in their respective source
+*	files, and pass the required Entity information to them.
+* 
+******************************************************************************/
+
+
 #include "ECS.h"
 #include "Components.h"
 #include "Movement.h"
@@ -6,102 +40,71 @@
 #include "message.h"
 
 
-	extern ECS ecs;
-
-	extern Mail mail;
+extern ECS ecs;
+extern Mail mail;
 	
-	void PhysicsSystem::Update() {
-		//int i = 0;
-		//for (Entity const & entity1 : m_Entities) { // this m_Entities belongs to the PhysicsSystem only.
-		//	for (Entity const& entity2 : m_Entities) {
-		//		if (entity1 == entity2) {
-		//			continue;
-		//		}
-		//		else {
-		//			BoundingBox bbox1 = ecs.GetComponent<BoundingBox>(entity1);
-		//			BoundingBox bbox2 = ecs.GetComponent<BoundingBox>(entity2);
-		//			Transform trans1 = ecs.GetComponent<Transform>(entity1);
+void PhysicsSystem::Update() {
 
-		//			//Collision::CheckCollision(bbox1, bbox2, trans1, trans2);//check collision...
-		//		}
-		//	}
-		//	//Vel movement = ecs.GetComponent<Vel>(entity);
-		//	//Transform transform = ecs.GetComponent<Transform>(entity);
-		//
-		//	//UpdateMovement(movement);
-		//	//UpdateModel(transform, movement);
-		//	PhysicsManager ... (transform);
-		//
-		//}
-	}
+}
 	
-	// Movement System
-	void MovementSystem::Update() {
-		//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
-		for (Entity const& entity : m_Entities) {
-				UpdateMovement(ecs.GetComponent<Transform>(entity));
-		}
-		mail.mailbox[ADDRESS::MOVEMENT].clear();
+// Movement System
+void MovementSystem::Update() {
+	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+	for (Entity const& entity : m_Entities) {
+			UpdateMovement(ecs.GetComponent<Transform>(entity));
 	}
+	mail.mailbox[ADDRESS::MOVEMENT].clear();
+}
 
-	void ModelSystem::Update() {
-		// Access the ComponentManager through the ECS class
-		ComponentManager& componentManager = ecs.GetComponentManager();
-		// Access component arrays through the ComponentManager
-		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-		auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
-		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+void ModelSystem::Update() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ecs.GetComponentManager();
+	// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 
-		for (Entity const& entity : m_Entities) {
-			Animation* animate = &animationArray.GetData(entity);
-			//update animation
-			switch (animate->animationType) {
-			case(Animation::ANIMATION_NONE):
-				break;
-			case(Animation::ANIMATION_TIME_BASED):
-				modelArray.GetData(entity).AnimateOnInterval(*animate, texArray.GetData(entity));
-				break;
-			case(Animation::ANIMATION_EVENT_BASED):
-				modelArray.GetData(entity).AnimateOnKeyPress(*animate, texArray.GetData(entity));
-				break;
-			default:
-				break;
-			}
-		}
-	}
-
-	void GraphicsSystem::Initialize() {
-		for (Entity const& entity : m_Entities) {
-			//MainCharacter mc = ecs.GetComponent<MainCharacter>(entity);
-			//if (mc.isMainCharacter) {
-
-
-				//UpdateMovement(ecs.GetComponent<Transform>(entity));
-			//}
-			Model* m = &ecs.GetComponent<Model>(entity);
-			m->Update(ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
+	for (Entity const& entity : m_Entities) {
+		Animation* animate = &animationArray.GetData(entity);
+		//update animation
+		switch (animate->animationType) {
+		case(Animation::ANIMATION_NONE):
+			break;
+		case(Animation::ANIMATION_TIME_BASED):
+			modelArray.GetData(entity).AnimateOnInterval(*animate, texArray.GetData(entity));
+			break;
+		case(Animation::ANIMATION_EVENT_BASED):
+			modelArray.GetData(entity).AnimateOnKeyPress(*animate, texArray.GetData(entity));
+			break;
+		default:
+			break;
 		}
 	}
+}
 
-	void GraphicsSystem::Update() {
-		//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
-		
-		// Access the ComponentManager through the ECS class
-		ComponentManager& componentManager = ecs.GetComponentManager();
-
-		// Access component arrays through the ComponentManager
-		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-		auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
-
-		for (Entity const& entity : m_Entities) {
-			Model m = modelArray.GetData(entity);
-			m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));	// ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
-			m.Draw(texArray.GetData(entity), animationArray.GetData(entity));	// ecs.GetComponent<Tex>(entity), ecs.GetComponent<Animation>(entity));
-		}
-		graphics.Draw();
+void GraphicsSystem::Initialize() {
+	for (Entity const& entity : m_Entities) {
+		Model* m = &ecs.GetComponent<Model>(entity);
+		m->Update(ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
 	}
+}
 
+void GraphicsSystem::Update() {
+	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ecs.GetComponentManager();
 
+	// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+
+	for (Entity const& entity : m_Entities) {
+		Model m = modelArray.GetData(entity);
+		m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));
+		m.Draw(texArray.GetData(entity), animationArray.GetData(entity));
+	}
+	graphics.Draw();
+}

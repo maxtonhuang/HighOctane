@@ -1,3 +1,34 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Components.h
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		All the Structs of individual components available for the ECS
+*
+*	-
+*
+******************************************************************************/
+
 #pragma once
 
 #include "ECS.h"
@@ -8,44 +39,44 @@
 using Vec2 = vmath::Vector2;
 
 struct Transform {
-    Vec2 position;
-    float rotation;
-    Vec2 scale;
-    Vec2 velocity;
+    Vec2        position;
+    float       rotation;
+    Vec2        scale;
+    Vec2        velocity;
 };
 
 struct Size {
-    float width;
-    float height;
+    float       width;
+    float       height;
 };
 
 struct Color {
-    glm::vec4 color;
+    glm::vec4   color;
 };
 
 struct Tex {
-    Texture* tex;
-    uint32_t rows;
-    uint32_t cols;
-    uint32_t spritenum;
+    Texture*    tex;
+    uint32_t    rows;
+    uint32_t    cols;
+    uint32_t    spritenum;
 };
 
 struct Visible {
-    bool isVisible;
+    bool        isVisible;
 };
 
 struct MainCharacter {
-    
+    // empty by design
 };
 
 struct Circle {
-    float radius;
+    float       radius;
 };
 
 struct AABB {
-    Vec2 min;
-    Vec2 max;
-    Vec2 extents;
+    Vec2        min;
+    Vec2        max;
+    Vec2        extents;
 };
 
 struct Animation {
@@ -55,14 +86,12 @@ struct Animation {
         ANIMATION_EVENT_BASED,
         // PARTICLE
     };
-    ANIMATION_TYPE animationType;
-    uint32_t frameIndex{}; //animation in Model class
-    float frameTimeElapsed{};
-    float frameDisplayDuration{};
+    ANIMATION_TYPE  animationType;
+    uint32_t        frameIndex{}; //animation in Model class
+    float           frameTimeElapsed{};
+    float           frameDisplayDuration{};
 };
 
 struct Clone {
-
+    // empty by design
 };
-
-class Model;

@@ -20,6 +20,8 @@
 //double InputManager::cursorposX;
 //double InputManager::cursorposY;
 
+
+
 std::unordered_map<int, INFO> keyStatus;
 
 extern Mail mail;
@@ -68,14 +70,6 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         break;
     default:
         break;
-    }
-}
-
-void InputManager::KeyCheck() {
-    for (std::pair<int,INFO> val : keyStatus) {
-        if (val.second != INFO::NONE) {
-            mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
-        }
     }
 }
 
@@ -136,11 +130,28 @@ relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
     
-    mail.CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, (static_cast<float>(xpos) - GRAPHICS::w), (-static_cast<float>(ypos) + GRAPHICS::h));
+    static int previousPosX = 0;
+    static int previousPosY = 0;
     
+    int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
+    int currPosY = static_cast<int>(-static_cast<float>(ypos) + GRAPHICS::h);
+    
+    if (currPosX != previousPosX || currPosY != previousPosY) {
+        mail.CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
+    }
+
+    previousPosX = currPosX;
+    previousPosY = currPosY;
     //cursorposX = ;
     //cursorposY = -static_cast<float>(ypos) + GRAPHICS::h;
 
     //test_model.SetPos(cursorposX, cursorposY);
 }
 
+void InputManager::KeyCheck() {
+    for (std::pair<int, INFO> val : keyStatus) {
+        if (val.second != INFO::NONE) {
+            mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
+        }
+    }
+}
