@@ -169,7 +169,7 @@ float g_dt;
 
 			glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
-			mail.SendMails(); // 2
+			//mail.SendMails(); // 2
 
 			InputManager::KeyCheck();
 

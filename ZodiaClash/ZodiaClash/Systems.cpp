@@ -3,6 +3,7 @@
 #include "Movement.h"
 #include "graphics.h"
 #include "model.h"
+//#include <future>
 
 
 	extern ECS ecs;
@@ -74,7 +75,7 @@
 
 	void GraphicsSystem::Update() {
 		//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
-		
+		//std::vector<std::future<void>> asyncResults;
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ecs.GetComponentManager();
 
@@ -87,9 +88,21 @@
 
 		for (Entity const& entity : m_Entities) {
 			Model m = modelArray.GetData(entity);
-			m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));	// ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
-			m.Draw(texArray.GetData(entity), animationArray.GetData(entity));	// ecs.GetComponent<Tex>(entity), ecs.GetComponent<Animation>(entity));
+
+
+			m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));
+			
+			//auto future = std::async(std::launch::async, [&entity, &m, &texArray, &animationArray]() {
+				m.Draw(texArray.GetData(entity), animationArray.GetData(entity));
+			//	});
+
+			//asyncResults.emplace_back(std::move(future));
 		}
+
+		//for (auto& future : asyncResults) {
+		//	future.wait();
+		//}
+
 		graphics.Draw();
 	}
 

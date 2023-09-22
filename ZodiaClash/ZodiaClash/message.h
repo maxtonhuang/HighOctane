@@ -21,7 +21,7 @@ enum class TYPE {
 	GAME_EVENT,
 	KEY_DOWN,
 	//KEY_HOLD,
-	//KEY_UP,
+	KEY_UP,
 	KEY_CHECK,
 	MOUSE_CLICK,
 	WINDOW_RESIZE,
@@ -43,8 +43,18 @@ enum class ADDRESS {
 };
 
 enum class INFO {
-
-	KEY_A,
+	KEY_SPACE = 32,
+	KEY_0 = 48,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+	KEY_8,
+	KEY_9,
+	KEY_A = 65,
 	KEY_B,
 	KEY_C,
 	KEY_D,
@@ -70,24 +80,13 @@ enum class INFO {
 	KEY_X,
 	KEY_Y,
 	KEY_Z,
-	KEY_1,
-	KEY_2,
-	KEY_3,
-	KEY_4,
-	KEY_5,
-	KEY_6,
-	KEY_7,
-	KEY_8,
-	KEY_9,
-	KEY_0,
-	KEY_UP,
-	KEY_DOWN,
-	KEY_LEFT,
-	KEY_RIGHT,
-	KEY_ESC,
+	KEY_ESC = 256,
 	KEY_ENTER,
-	KEY_SPACE,
-	NONE
+	KEY_RIGHT = 262,
+	KEY_LEFT,
+	KEY_DOWN,
+	KEY_UP,
+	NONE = 999
 };
 
 struct Postcard {
