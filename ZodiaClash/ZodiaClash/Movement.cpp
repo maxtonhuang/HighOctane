@@ -31,7 +31,7 @@ void UpdateMovement(Transform & transform) {
 	}
 	transform.position += transform.velocity;
 	transform.velocity = {0,0};
-	mail.mailbox[ADDRESS::MOVEMENT].clear();
+	
 
 
 }

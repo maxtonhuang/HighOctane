@@ -3,9 +3,12 @@
 #include "Movement.h"
 #include "graphics.h"
 #include "model.h"
+#include "message.h"
 
 
 	extern ECS ecs;
+
+	extern Mail mail;
 	
 	void PhysicsSystem::Update() {
 		//int i = 0;
@@ -34,10 +37,11 @@
 	
 	// Movement System
 	void MovementSystem::Update() {
-		// std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+		//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 		for (Entity const& entity : m_Entities) {
 				UpdateMovement(ecs.GetComponent<Transform>(entity));
 		}
+		mail.mailbox[ADDRESS::MOVEMENT].clear();
 	}
 
 	void ModelSystem::Update() {

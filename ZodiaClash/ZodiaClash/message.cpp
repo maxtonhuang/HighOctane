@@ -12,9 +12,9 @@ void Mail::SendMails() {
     // Send out all mail.
     for (Postcard msg : mailQueue) {
         switch (msg.type) {
-        //case TYPE::KEY_CHECK:
+        case TYPE::KEY_TRIGGERED:
         //    mailbox[ADDRESS::INPUT].emplace_back(msg);
-        //    break;
+        break;
         case TYPE::KEY_DOWN:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             break;

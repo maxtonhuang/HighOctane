@@ -280,7 +280,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ECS.t">
+    <None Include="ECS.hpp">
       <Filter>EngineArchitecture</Filter>
     </None>
   </ItemGroup>

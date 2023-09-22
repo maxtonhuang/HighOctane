@@ -54,6 +54,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
+        mail.CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key));
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
