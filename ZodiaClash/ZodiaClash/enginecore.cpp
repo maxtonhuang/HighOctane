@@ -15,6 +15,8 @@
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
 
+#include <random>
+
 using Vec2 = vmath::Vector2;
 
 float g_dt;
@@ -58,7 +60,7 @@ float g_dt;
 		std::shared_ptr<PhysicsSystem> physicsSystem = ecs.RegisterSystem<PhysicsSystem>();
 		//systemList.emplace_back(physicsSystem);
 		std::shared_ptr<ModelSystem> modelSystem = ecs.RegisterSystem<ModelSystem>();
-		//systemList.emplace_back(modelSystem);
+		systemList.emplace_back(modelSystem);
 		std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
 		systemList.emplace_back(graphicsSystem);
 
@@ -83,7 +85,7 @@ float g_dt;
 
 		{
 			Signature signature;
-			signature.set(ecs.GetComponentType<Transform>());
+			//signature.set(ecs.GetComponentType<Transform>());
 			//signature.set(ecs.GetComponentType<Visible>());
 			signature.set(ecs.GetComponentType<MainCharacter>());
 			signature.set(ecs.GetComponentType<Clone>());
@@ -122,17 +124,22 @@ float g_dt;
 		ecs.GetComponent<Size>(background).width = (float)ecs.GetComponent<Tex>(background).tex->GetWidth();
 		ecs.GetComponent<Size>(background).height = (float)ecs.GetComponent<Tex>(background).tex->GetHeight();
 		 
-		LoadModels(2500, false);
+		//LoadModels(2500, false);
+		std::default_random_engine rng;
+		std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
+		std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
+		for (int i = 0; i < 2500; ++i) {
+			Entity duck = CreateModel();
+			ecs.GetComponent<Tex>(duck).tex = texList.Add("duck.png");
+			ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
+			ecs.GetComponent<Animation>(duck).frameDisplayDuration = 0.3f;
+			ecs.GetComponent<Size>(duck).width = (float)ecs.GetComponent<Tex>(duck).tex->GetWidth();
+			ecs.GetComponent<Size>(duck).height = (float)ecs.GetComponent<Tex>(duck).tex->GetHeight();
+			ecs.GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
+		}
 
 		LoadModels(1, true);
 
-		Entity duck = CreateModel();
-		ecs.GetComponent<Tex>(duck).tex = texList.Add("duck.png");
-		ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
-		ecs.GetComponent<Animation>(duck).frameDisplayDuration = 0.3f;
-		ecs.GetComponent<Size>(duck).width = (float)ecs.GetComponent<Tex>(duck).tex->GetWidth();
-		ecs.GetComponent<Size>(duck).height = (float)ecs.GetComponent<Tex>(duck).tex->GetHeight();
-		
 		graphicsSystem->Initialize();
 		//LoadModels(MAX_MODELS);
 
