@@ -114,6 +114,7 @@ namespace debug {
         } while (false);
     }
 
+
     // For the message in a box to use in assert
     int CustomMessageBox(const char* file, int line, const char* message) {
 

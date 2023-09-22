@@ -144,7 +144,7 @@ float g_dt;
 		m_previousTime = GetTime();
 
 		while (gameActive) {
-
+			//debugSysProfile.StartTimer(systemList[0], GetTime());
 			uint64_t l_currentTime = GetTime();
 			g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in microseconds
 
@@ -153,7 +153,7 @@ float g_dt;
 			// Print out only once every 5 seconds
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 				static uint64_t l_lastTime = 0;
-				if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
+				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
 					l_lastTime = l_currentTime;
 					for (std::shared_ptr<System>& sys : systemList) {
 						std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << ", Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
@@ -161,7 +161,7 @@ float g_dt;
 					std::cout << std::endl;
 
 					debugSysProfile.clear();
-				}
+				//}
 			#endif
 			m_previousTime = l_currentTime;
 
@@ -223,9 +223,9 @@ float g_dt;
 			#endif //
 			//gui.Update(graphics.window);
 
-
+			std::cout << g_dt << std::endl;
 			//DebugPrint("Total Frame Time: %f milliseconds", g_dt * 1'000.f);
-
+			//debugSysProfile.StopTimer(systemList[0], GetTime());
 		}
 	}
 
