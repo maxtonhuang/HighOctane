@@ -2,6 +2,7 @@
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
 #include "enginecore.h"
+#include "debuglog.h"
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     extern std::vector<std::shared_ptr<System>> systemList;
@@ -22,8 +23,24 @@ GUIManager::~GUIManager()
     ImGui::DestroyContext();
 }
 
+
+// Our state
+bool show_demo_window;
+bool show_another_window;
+
+bool usageWindow;
+bool debugWindow;
+
 void GUIManager::Init(GLFWwindow* window)
 {
+    show_demo_window = true;
+    show_another_window = true;
+
+    #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+        usageWindow = true;
+        debugWindow = true;
+    #endif
+
     //// GL 3.0 + GLSL 130
     const char* glsl_version = "#version 450";
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -60,13 +77,9 @@ void GUIManager::Init(GLFWwindow* window)
 
 void GUIManager::Update(GLFWwindow* window)
 {
-    // Our state
-    bool show_demo_window = true;
-    bool show_another_window = true;
 
-    #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-        bool debugWindow = true;
-    #endif
+
+
     //ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     // Poll and handle events (inputs, window resize, etc.)
        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -118,21 +131,21 @@ void GUIManager::Update(GLFWwindow* window)
     }
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-    if (debugWindow) {
+    if (usageWindow) {
         // Number of data points
-        int valuesCount = systemList.size();
+        size_t valuesCount = systemList.size();
         float progressbarHeight = 30.0f;
 
-        ImVec2 windowSize(300.f, valuesCount * 75.f);
+        ImVec2 windowSize(300.f, valuesCount * 80.f);
         //ImVec2 windowPos(100, 100);
 
         // For setting a fixed size for the window
         //ImGui::SetNextWindowPos(windowPos, 0); // Set the position
         ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
-        ImGui::Begin("Percent Usage", NULL, ImGuiWindowFlags_NoResize);
+        ImGui::Begin("Percent Usage", &usageWindow, ImGuiWindowFlags_NoResize);
 
         // For the plotting of the horizontal histogram
-        for (int i = 0; i < valuesCount; ++i) {
+        for (size_t i = 0; i < valuesCount; ++i) {
             float percentage = debugSysProfile.GetPercentage(systemList[i]);
 
             // Change this to system name in the future when max implemented it
@@ -157,7 +170,7 @@ void GUIManager::Update(GLFWwindow* window)
 
             // Horizontal histogram
             ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
-            ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, 30.0f), "");
+            ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, progressbarHeight), "");
             ImGui::PopStyleColor();
 
             // For the position of the percentage text
@@ -169,11 +182,38 @@ void GUIManager::Update(GLFWwindow* window)
             // End the group
             ImGui::EndGroup();
 
-            // Separate each histogram with a vertical spacing
+            // Separate each bar with a separator
             if (i < valuesCount - 1) {
-                ImGui::Separator();
+                ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
+                // For customising the separator's appearance
+                ImGuiStyle& style = ImGui::GetStyle();
+                style.ItemSpacing.y = 10.0f;
             }
         }
+        ImGui::End();
+    }
+
+    // Debug window
+    if (debugWindow) {
+
+        // For opening and closing the window
+        ImGui::Begin("Debug Window", &debugWindow);
+
+        ImGui::Text("This is a debugging windows for all the debugging needs");
+
+        // Buttons
+        if (ImGui::Button("Open/Close performance window"))
+			usageWindow = !usageWindow;
+
+        // Example log messages
+        ImGui::Text("This is a regular log message.");
+        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "This is an error message in red.");
+        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "This is a warning message in yellow.");
+        
+        ImGui::TextDisabled("This is a disabled text.");
+
+        //ImGui::TextUnformatted(debuglog::logger.GetLogContent().c_str());
 
         ImGui::End();
     }

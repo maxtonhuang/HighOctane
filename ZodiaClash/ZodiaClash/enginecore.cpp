@@ -48,6 +48,7 @@
 #include <random>
 #include <Windows.h>
 #include <chrono>
+#include "GUIManager.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -189,6 +190,7 @@ void EngineCore::Run() {
 		g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		m_previousTime = l_currentTime;
 		
+		//DebugPrint("FPS: %.2f", 1.0f / g_dt);
 			// Debugging	
 			//Print out only once every 5 seconds
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
