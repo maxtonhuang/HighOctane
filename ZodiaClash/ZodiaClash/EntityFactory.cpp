@@ -64,17 +64,17 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 
 			//add tex component, init tex with duck sprite (init tex with nullptr produces white square instead)
 			ecs.AddComponent(entity, Tex{ texList.Add("duck.png") });
-			Tex t = ecs.GetComponent<Tex>(entity);
-			t.texVariants.push_back(texList.Add("duck.png"));
-			t.texVariants.push_back(texList.Add("duck2.png"));
+			Tex* t = &ecs.GetComponent<Tex>(entity);
+			t->texVariants.push_back(texList.Add("duck.png"));
+			t->texVariants.push_back(texList.Add("duck2.png"));
 			//setting tex to texVariants[1] (duck2) still shows duck tex but with duck2 dims?
-			t.tex = t.texVariants.at(0);
+			t->tex = t->texVariants.at(0);
 			ecs.AddComponent(entity, Animation{});
-			Animation a = ecs.GetComponent<Animation>(entity);
-			a.animationType = Animation::ANIMATION_TIME_BASED;
-			//a.animationType = Animation::ANIMATION_EVENT_BASED;
-			a.frameDisplayDuration = 0.3f;
-			ecs.AddComponent(entity, Size{ static_cast<float>(t.tex->GetWidth()), static_cast<float>(t.tex->GetHeight()) });
+			Animation* a = &ecs.GetComponent<Animation>(entity);
+			//a.animationType = Animation::ANIMATION_TIME_BASED;
+			a->animationType = Animation::ANIMATION_EVENT_BASED;
+			a->frameDisplayDuration = 0.3f;
+			ecs.AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 			//ecs.AddComponent(entity, MainCharacter{});
 			ecs.AddComponent(entity, Model{});
 		}
@@ -93,9 +93,8 @@ void CloneMasterModel(float rW, float rH, bool isMainCharacter) {
 		ecs.AddComponent(entity, MainCharacter{});
 	}		
 	ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
-	ecs.AddComponent(entity, Animation{});
+	ecs.AddComponent(entity, Animation{ ecs.GetComponent<Animation>(masterEntity)});
 	ecs.AddComponent(entity, Clone{});
-		
 }
 
 void LoadModels(uint32_t amount, bool isMainCharacter) {

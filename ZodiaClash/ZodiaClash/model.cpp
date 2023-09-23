@@ -229,6 +229,9 @@ void Model::AdvanceAnimation(Animation& aniData, Tex& texData) {
 
 void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
 	// Update sprite
+	if (texData.texVariants.size() == 0) {
+		return;
+	}
 	texData.texVariantIndex = (texData.texVariantIndex + 1) % texData.texVariants.size();
 	texData.tex = texData.texVariants.at(texData.texVariantIndex);
 }
@@ -262,35 +265,35 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 *	>> Note: for ALL entities!
 ********************************************************************************/
 
-void Model::UpdateAnimationNPC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData) {
+void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
-	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
-		modelData.AnimateOnInterval(aniData, texData); 
+	//if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
+		//AnimateOnInterval(aniData, texData); 
 		//return; 
-	}
+	//}
 
 	// Check mailbox for input triggers
 	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
 	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
-			/*if (msg.info == INFO::KEY_C) { 
-				modelData.ChangeAnimation(aniData, texData);
-				modelData.ResizeOnChange(texData, sizeData);
-			}*/
-			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				modelData.AnimateOnKeyPress(aniData, texData);
+			if (msg.info == INFO::KEY_C) {
+				ChangeAnimation(aniData, texData);
+				ResizeOnChange(texData, sizeData);
 			}
+			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				//AnimateOnKeyPress(aniData, texData);
+			//}
 		}
 	}
 }
 
-void Model::UpdateAnimationMC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData) {
+void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
 	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
-		modelData.AnimateOnInterval(aniData, texData);
+		AnimateOnInterval(aniData, texData);
 		//return;
 	}
 
@@ -299,12 +302,12 @@ void Model::UpdateAnimationMC(Model modelData, Animation& aniData, Tex& texData,
 
 	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
-			if (msg.info == INFO::KEY_C) {
-				modelData.ChangeAnimation(aniData, texData);
-				modelData.ResizeOnChange(texData, sizeData);
-			}
+			//if (msg.info == INFO::KEY_C) {
+				//ChangeAnimation(aniData, texData);
+				//ResizeOnChange(texData, sizeData);
+			//}
 			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				modelData.AnimateOnKeyPress(aniData, texData);
+				AnimateOnKeyPress(aniData, texData);
 			}
 		}
 	}

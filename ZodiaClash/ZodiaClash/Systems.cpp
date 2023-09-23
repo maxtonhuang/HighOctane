@@ -69,12 +69,12 @@ void MovementSystem::Update() {
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);*/
 
-		Model modelData = ecs.GetComponent<Model>(entity);
+		Model* modelData = &ecs.GetComponent<Model>(entity);
 		Animation* aniData = &ecs.GetComponent<Animation>(entity);
 		Tex* texData = &ecs.GetComponent<Tex>(entity);
 		Size* sizeData = &ecs.GetComponent<Size>(entity);
 
-		modelData.UpdateAnimationMC(modelData, *aniData, *texData, *sizeData);
+		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
 	}
 	mail.mailbox[ADDRESS::MOVEMENT].clear();
 }
@@ -90,14 +90,13 @@ void ModelSystem::Update() {
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
-
 	for (Entity const& entity : m_Entities) {
-		Model modelData = modelArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
-		
-		modelData.UpdateAnimationNPC(modelData, *aniData, *texData, *sizeData);
+
+		modelData->UpdateAnimationNPC(*aniData, *texData, *sizeData);
 	}
 	mail.mailbox[ADDRESS::MODEL].clear();
 }

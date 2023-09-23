@@ -159,7 +159,8 @@ void EngineCore::Run() {
 	std::default_random_engine rng;
 	std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
 	std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
-	for (int i = 0; i < 2500; ++i) {
+	Entity tmp;
+	for (int i = 0; i < 0; ++i) {
 		Entity duck = CreateModel();
 		ecs.GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck.png"));
 		ecs.GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck2.png"));
@@ -170,10 +171,9 @@ void EngineCore::Run() {
 		ecs.GetComponent<Size>(duck).width = (float)ecs.GetComponent<Tex>(duck).tex->GetWidth();
 		ecs.GetComponent<Size>(duck).height = (float)ecs.GetComponent<Tex>(duck).tex->GetHeight();
 		ecs.GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
+		tmp = duck;
 	}
-
 	LoadModels(1, true);
-
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
 
@@ -191,7 +191,7 @@ void EngineCore::Run() {
 		g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		m_previousTime = l_currentTime;
 		// Debugging
-			
+
 		// Print out only once every 5 seconds
 		#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 			static uint64_t l_lastTime = 0;

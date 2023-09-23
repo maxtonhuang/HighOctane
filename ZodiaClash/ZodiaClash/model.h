@@ -42,8 +42,8 @@ public:
 	void AnimateOnInterval(Animation& aniData, Tex& texData);
 	void AnimateOnKeyPress(Animation& aniData, Tex& texData);
 
-	void UpdateAnimationNPC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData);
-	void UpdateAnimationMC(Model modelData, Animation& aniData, Tex& texData, Size& sizeData);
+	void UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData);
+	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData);
 
 private:
 	glm::vec2 pos{}; //Position in screen coordinates
