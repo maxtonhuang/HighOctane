@@ -22,8 +22,6 @@
 
 using Vec2 = vmath::Vector2;
 
-extern Mail mail;
-
 
 // Global Variables:
 //HINSTANCE hInst;                                // current instance

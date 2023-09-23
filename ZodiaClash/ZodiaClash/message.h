@@ -131,8 +131,14 @@ struct Postcard {
 class Mail {
 public:
 
-	Mail() {
-		mailQueue.reserve(MAILBOX_RESERVE_CAP);
+	// Disallow copying to prevent creation of more than one instance
+	Mail(const Mail &) = delete;
+	Mail & operator=(const Mail &) = delete;
+
+	// Public accessor for the Singleton instance
+	static Mail & mail() {
+		static Mail postOffice;
+		return postOffice;
 	}
 
 	void RegisterMailbox(ADDRESS system);
@@ -146,5 +152,9 @@ public:
 private:
 
 	std::vector<Postcard> mailQueue;
+	
+	Mail() {
+		mailQueue.reserve(MAILBOX_RESERVE_CAP);
+	}
 
 };

@@ -3,16 +3,12 @@
 #include "Enginecore.h"
 #include "DebugDiagnostic.h"
 #include "ECS.h"
-
-extern Mail mail;
-extern float g_dt;
-//extern ECS ecs;
-
+#include "Global.h"
 
 void UpdateMovement(Transform & transform) {	
-	//mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
+	//Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
 		
-	for (Postcard msg : mail.mailbox[ADDRESS::MOVEMENT]) {
+	for (Postcard msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 		switch (msg.type) {
 		case TYPE::KEY_DOWN:
 			//Entity 

@@ -4,8 +4,7 @@
 #include "ECS.h"
 #include "MMath.h"
 #include "Renderer.h"
-
-extern float g_dt;
+#include "Global.h"
 
 class GraphicsManager : public System /*: virtual public ISystem*/ { // need to change
 public:

@@ -36,6 +36,7 @@
 class EngineCore {
 
 public:
+
 	EngineCore();
 
 	void Run();

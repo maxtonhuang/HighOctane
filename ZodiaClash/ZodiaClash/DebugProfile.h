@@ -22,6 +22,7 @@ Add the macro to run only in debug mode
 #pragma once
 #include "debuglog.h"
 #include "ECS.h"
+#include "Global.h"
 
 
 // ENABLE/DISABLE DEBUG DIAGNOSTICS
@@ -32,7 +33,6 @@ Add the macro to run only in debug mode
 
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-extern float g_dt;
 
 #include <vector>
 #include <string>

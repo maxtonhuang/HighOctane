@@ -4,7 +4,7 @@
 #include "enginecore.h"
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-    extern std::vector<std::shared_ptr<System>> systemList;
+    extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
     extern DebugProfiling debugSysProfile;
 #endif
 
@@ -133,7 +133,7 @@ void GUIManager::Update(GLFWwindow* window)
 
         // For the plotting of the horizontal histogram
         for (int i = 0; i < valuesCount; ++i) {
-            float percentage = debugSysProfile.GetPercentage(systemList[i]);
+            float percentage = debugSysProfile.GetPercentage(systemList[i].first);
 
             // Change this to system name in the future when max implemented it
             std::string histogramName = "System " + std::to_string(i);

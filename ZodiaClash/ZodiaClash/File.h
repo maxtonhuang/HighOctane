@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <cctype>
+
 class FilePath {
 public:
 	FilePath() {};

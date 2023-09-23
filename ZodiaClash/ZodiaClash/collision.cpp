@@ -1,7 +1,6 @@
 #include "Collision.h"
 #include "Physics.h"
-
-extern float g_dt;
+#include "Global.h"
 
 namespace physics {
 
