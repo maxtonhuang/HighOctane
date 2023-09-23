@@ -9,6 +9,8 @@
     extern DebugProfiling debugSysProfile;
 #endif
 
+
+
 GUIManager guiManager;
 GUIManager::GUIManager()
 {
@@ -29,16 +31,19 @@ bool show_demo_window;
 bool show_another_window;
 
 bool usageWindow;
-bool debugWindow;
+bool consoleWindow;
+
+bool autoScroll;
 
 void GUIManager::Init(GLFWwindow* window)
 {
+    autoScroll = false;
     show_demo_window = true;
     show_another_window = true;
 
     #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
         usageWindow = true;
-        debugWindow = true;
+        consoleWindow = true;
     #endif
 
     //// GL 3.0 + GLSL 130
@@ -194,29 +199,48 @@ void GUIManager::Update(GLFWwindow* window)
         ImGui::End();
     }
 
+#endif
+
+#if ENABLE_DEBUG_DIAG
+    // Change the colour for my console window
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
+
     // Debug window
-    if (debugWindow) {
+    if (consoleWindow) {
 
-        // For opening and closing the window
-        ImGui::Begin("Debug Window", &debugWindow);
+        if (ImGui::Begin("Console")) {
+            // Create a scrolling region for the content
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
-        ImGui::Text("This is a debugging windows for all the debugging needs");
+            // Display the captured output in an ImGui Text Box or Text Area
+            ImGui::TextUnformatted(imguiOutputBuffer.GetBuffer().c_str());
 
-        // Buttons
-        if (ImGui::Button("Open/Close performance window"))
-			usageWindow = !usageWindow;
+            // Automatically scroll to the bottom if auto-scroll is enabled
+            if (autoScroll) {
+                ImGui::SetScrollHereY(1.0f); // Scroll to the bottom
+            }
 
-        // Example log messages
-        ImGui::Text("This is a regular log message.");
-        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "This is an error message in red.");
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "This is a warning message in yellow.");
-        
-        ImGui::TextDisabled("This is a disabled text.");
+            // End the scrolling region
+            ImGui::EndChild();
 
-        //ImGui::TextUnformatted(debuglog::logger.GetLogContent().c_str());
+            // Toggle auto-scroll button(s) at the bottom
+            ImGui::Separator();
+            if (ImGui::Button(autoScroll ? "Auto-Scroll On" : "Auto-Scroll Off")) {
+                autoScroll = !autoScroll; // Toggle the auto-scroll state
+            }
+            ImGui::Separator();
 
-        ImGui::End();
+            // Optionally, you can add a button to clear the buffer
+            if (ImGui::Button("Clear")) {
+                imguiOutputBuffer.ClearBuffer();
+            }
+
+            ImGui::End();
+        }
     }
+
+    // Stops changing the colour
+    ImGui::PopStyleColor();
 
 #endif
 
@@ -231,3 +255,28 @@ void GUIManager::Update(GLFWwindow* window)
 
    // glfwSwapBuffers(window);
 }
+
+/*******************************************************************/
+// ALL THESE IS FOR DEBUGGING PLEASE DO NOT TOUCH AT ALL
+int ImGuiOutputBuffer::overflow(int c) {
+    if (c != EOF) {
+        // Append the character to a buffer
+        buffer += static_cast<char>(c);
+    }
+    return c;
+}
+
+const std::string& ImGuiOutputBuffer::GetBuffer() const {
+    return buffer;
+}
+
+void ImGuiOutputBuffer::ClearBuffer() {
+    buffer.clear();
+}
+
+// Define the instance
+ImGuiOutputBuffer imguiOutputBuffer;
+
+// Redirect std::cout to use the custom stream buffer
+std::ostream imguiCout(&imguiOutputBuffer);
+std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
