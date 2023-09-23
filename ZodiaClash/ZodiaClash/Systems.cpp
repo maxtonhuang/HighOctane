@@ -55,7 +55,7 @@ void PhysicsSystem::Update() {
 		Body* bodyData = &bodyArray.GetData(entity);
 		Collider* collideData = &colliderArray.GetData(entity);
 	}
-	mail.mailbox[ADDRESS::PHYSICS].clear();
+	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
 	
 // Movement System
