@@ -35,7 +35,7 @@
 #include "VMath.h"
 #include "GraphLib.h"
 #include "Texture.h"
-#include "physics.h"
+//#include "physics.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -97,25 +97,4 @@ struct Animation {
 
 struct Clone {
     // empty by design
-};
-
-
-struct Body {
-    Vec2                    prevPosition{};
-    Vec2                    acceleration{};
-    Vec2                    accumulatedForce{};
-    bool                    isStatic{};
-    Vec2                    rotation;
-    Vec2                    position;
-    Vec2                    scale;
-    Vec2                    velocity;
-
-};
-
-struct Collider {
-    Shape*                  shape;
-    //if true, don't perform physical response, just notify that theres collision
-    bool                    isTrigger;  
-    //list of entities this collider is in contact with
-    std::vector<Entity*>    collidedEntities;  
 };

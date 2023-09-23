@@ -38,11 +38,11 @@
 #include "graphics.h"
 #include "model.h"
 #include "message.h"
-
+#include "physics.h"
 
 extern ECS ecs;
 extern Mail mail;
-	
+
 void PhysicsSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ecs.GetComponentManager();

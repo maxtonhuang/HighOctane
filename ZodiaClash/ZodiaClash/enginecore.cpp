@@ -48,6 +48,7 @@
 #include <random>
 #include <Windows.h>
 #include <chrono>
+#include "physics.h"
 #include "GUIManager.h"
 
 using Vec2 = vmath::Vector2;
@@ -85,6 +86,8 @@ void EngineCore::Run() {
 	ecs.RegisterComponent<Animation>();
 	ecs.RegisterComponent<Model>();
 	ecs.RegisterComponent<Clone>();
+	ecs.RegisterComponent<Body>();
+	ecs.RegisterComponent<Collider>();
 
 
 	std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
