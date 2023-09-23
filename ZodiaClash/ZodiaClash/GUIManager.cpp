@@ -1,5 +1,13 @@
 #include "GUIManager.h"
 #include "debugdiagnostic.h"
+#include "DebugProfile.h"
+#include "enginecore.h"
+
+#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+    extern std::vector<std::shared_ptr<System>> systemList;
+    extern DebugProfiling debugSysProfile;
+#endif
+
 GUIManager guiManager;
 GUIManager::GUIManager()
 {
@@ -55,6 +63,10 @@ void GUIManager::Update(GLFWwindow* window)
     // Our state
     bool show_demo_window = true;
     bool show_another_window = true;
+
+    #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+        bool debugWindow = true;
+    #endif
     //ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     // Poll and handle events (inputs, window resize, etc.)
        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -104,6 +116,51 @@ void GUIManager::Update(GLFWwindow* window)
             show_another_window = false;
         ImGui::End();
     }
+
+#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+    if (debugWindow) {
+
+        // Number of data points
+        int valuesCount = systemList.size();
+
+        ImVec2 windowSize(400.f, static_cast<float>(valuesCount) * 125.f);
+        //ImVec2 windowPos(100, 100);
+
+        // For setting a fixed size for the window
+        //ImGui::SetNextWindowPos(windowPos, 0); // Set the position
+        ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
+        ImGui::Begin("Percent Usage", NULL, ImGuiWindowFlags_NoResize);
+
+        // For the plotting of the histogram
+        for (int i = 0; i < valuesCount; ++i) {
+
+            float percentage = debugSysProfile.GetPercentage(systemList[i]);
+            //float duration = debugSysProfile.GetDuration(systemList[i]);
+
+            //std::cout << "Duration: " << duration << " millisec, Percentage: " << percentage << "%" << std::endl;
+            /******************************************************************/
+            // Change this to system name in the future when max implemented it
+            /******************************************************************/
+            std::string histogramName = "System " + std::to_string(i);
+
+            // Create a group to hold the histogram and text side by side
+            ImGui::BeginGroup();
+            ImGui::PlotHistogram(histogramName.c_str(), &percentage, 1, 0, "Percentage per loop", 0.f, 100.f, ImVec2(0.f, 100.f));
+
+            // For the position of the percentage text
+            ImGui::SameLine();
+            ImGui::SetCursorPos(ImVec2(20.f, ImGui::GetCursorPosY()));
+
+            // For the percentage text
+            ImGui::Text("%.2f%%", percentage);
+
+            // End the group
+            ImGui::EndGroup();
+        }
+
+        ImGui::End();
+    }
+#endif
 
     // Rendering
     ImGui::Render();

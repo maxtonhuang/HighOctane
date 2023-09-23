@@ -21,10 +21,11 @@ Add the macro to run only in debug mode
 *//*______________________________________________________________________*/
 #pragma once
 #include "debuglog.h"
+#include "ECS.h"
 
 
 // ENABLE/DISABLE DEBUG DIAGNOSTICS
-#define ENABLE_DEBUG_PROFILE 0
+#define ENABLE_DEBUG_PROFILE 1
 
 // Print interval in milliseconds
 #define PRINT_INTERVAL 5'000'000
@@ -40,32 +41,25 @@ extern float g_dt;
 #include <iostream>
 #include "enginecore.h"
 
-    struct ProfileResult {
-        std::shared_ptr<System> name{};
-        float duration{};
-        float percentage{};
-    };
-
-    struct FPSResult {
-        float fps{};
-    };
-
     class DebugProfiling {
     public:
 
         void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput);
 
         void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput);
-
-        ProfileResult GetResult(std::shared_ptr<System> systemInput);
-        void clear();
+        float GetPercentage(std::shared_ptr<System> systemInput);
+        float GetDuration(std::shared_ptr<System> systemInput);
 
     private:
-        std::vector<ProfileResult> results;
         std::shared_ptr<System> currentSessionName;
         std::unordered_map<std::shared_ptr<System>, uint64_t> timers;
+        std::unordered_map<std::shared_ptr<System>, float> startTimers;
+        std::unordered_map<std::shared_ptr<System>, float> endTimers;
+        std::unordered_map<std::shared_ptr<System>, float> percentages;
 
     };
+
+    extern DebugProfiling debugSysProfile;
 
     // Performance data
     void PerformanceDataHandler(uint64_t time);

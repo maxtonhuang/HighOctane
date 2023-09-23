@@ -23,33 +23,20 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
-        timers[systemInput] = startTimeInput;
+        startTimers[systemInput] = startTimeInput;
     }
 
     void DebugProfiling::StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
-        auto startTime = timers[systemInput];
-        auto duration = static_cast<float>(endTimeInput - startTime) / 1000.0f;
-
-        ProfileResult result{};
-        result.name = systemInput;
-        result.duration = duration;
-
-        results.emplace_back(result);
+        endTimers[systemInput] = static_cast<float>(endTimeInput - startTimers[systemInput]) / 1000.0f;
     }
 
-    ProfileResult DebugProfiling::GetResult(std::shared_ptr<System> systemInput) {
-        for (auto& result : results) {
-            if (result.name == systemInput) {
-                result.percentage = (result.duration / (g_dt * 1000.f ) * 100.f);
-                return result;
-            }
-    }
-    return ProfileResult();
-    }
+    float DebugProfiling::GetPercentage(std::shared_ptr<System> systemInput) {
+        return percentages[systemInput] = (endTimers[systemInput] / (g_dt * 1000.f) * 100.f);
+	}
 
-    void DebugProfiling::clear() {
-        results.clear();
-    }
+    float DebugProfiling::GetDuration(std::shared_ptr<System> systemInput) {
+        return endTimers[systemInput];
+	}
 
     // Function to print out the memory usage
     void PerformanceDataHandler(uint64_t time) {
