@@ -44,6 +44,7 @@
 #include "GraphLib.h"
 #include "Texture.h"
 #include "Graphics.h"
+#include "physics.h"
 
 extern ECS ecs;
 
@@ -77,6 +78,10 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 			ecs.AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 			//ecs.AddComponent(entity, MainCharacter{});
 			ecs.AddComponent(entity, Model{});
+
+			//add physics component
+			ecs.AddComponent<Body>(entity, Body{});
+			ecs.AddComponent<Collider>(entity, Collider{});  
 		}
 	}
 

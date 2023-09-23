@@ -44,7 +44,20 @@ extern ECS ecs;
 extern Mail mail;
 	
 void PhysicsSystem::Update() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ecs.GetComponentManager();
 
+	// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& bodyArray = componentManager.GetComponentArrayRef<Body>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform* transData = &transformArray.GetData(entity);
+		Body* bodyData = &bodyArray.GetData(entity);
+		Collider* collideData = &colliderArray.GetData(entity);
+	}
+	mail.mailbox[ADDRESS::PHYSICS].clear();
 }
 	
 // Movement System

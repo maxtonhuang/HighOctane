@@ -13,7 +13,7 @@ struct Body; //forward declaration
 namespace physics {
     class PhysicsManager {
     public:
-        PhysicsManager(ECS& ecs);
+        PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
         void Update(float deltaTime);
         void AddEntity(Entity entity);
         void Integrate(Body& body, float deltaTime);
@@ -26,8 +26,6 @@ namespace physics {
 
         ECS& m_ecs; // Reference to the ECS instance
         std::vector<Entity> m_Entities;
-
-        Vector2 gravity{};
         float maxVelocity{};
         float maxVelocitySq{};
         bool advanceStep{};
@@ -36,6 +34,7 @@ namespace physics {
         float penetrationEpsilon{};
         float penetrationResolvePercentage{};
         bool DebugDrawingActive{};
+        GraphicsManager& graphics; 
     };
 
 	// global pointer declaration

@@ -5,10 +5,9 @@ namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
 
-    PhysicsManager::PhysicsManager(ECS& ecs) : m_ecs(ecs)
+    PhysicsManager::PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem) : m_ecs(ecs), graphics(graphicsSystem)
     {
         PHYSICS = this;
-        gravity = Vector2(0, -400);
         maxVelocity = 1000;
         maxVelocitySq = maxVelocity * maxVelocity;
         advanceStep = false;
@@ -54,6 +53,7 @@ namespace physics {
             // Reset the step request flag
             advanceStep = false;
         }
+        DebugDraw();
     }
 
     void PhysicsManager::AddEntity(Entity entity) 
@@ -73,7 +73,6 @@ namespace physics {
         body.position += body.velocity * deltaTime;
 
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
-        body.acceleration = PHYSICS->gravity;
         Vector2 newAcceleration = body.accumulatedForce + body.acceleration;
 
         // Update the velocity using the newly computed acceleration.
@@ -119,9 +118,20 @@ namespace physics {
         //DetectCollision(deltaTime);
     }
 
-    void DebugDraw()
+    void PhysicsManager::DebugDraw()
     {
+        if (!DebugDrawingActive) return;
+        for (const auto& entity : m_Entities)
+        {
+            auto& body = m_ecs.GetComponent<physics::Body>(entity);
 
+            //draw the position/center of the body as a point
+            graphics.DrawPoint(body.position.x, body.position.y, 5.0f);
+
+            //draw velocity as a line
+            Vector2 endPosition = body.position + body.velocity;
+            graphics.DrawLine(body.position.x, body.position.y, endPosition.x, endPosition.y);
+        }
     }
 
 
