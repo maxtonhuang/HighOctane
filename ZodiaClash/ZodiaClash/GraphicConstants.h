@@ -1,3 +1,6 @@
+/*
+This file contains constants used by the graphics system and related functions
+*/
 #pragma once
 
 namespace GRAPHICS {

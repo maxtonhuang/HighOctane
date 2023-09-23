@@ -75,6 +75,7 @@ void MovementSystem::Update() {
 		Size* sizeData = &ecs.GetComponent<Size>(entity);
 
 		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
+		modelData->DrawOutline();
 	}
 	mail.mailbox[ADDRESS::MOVEMENT].clear();
 }
@@ -121,9 +122,9 @@ void GraphicsSystem::Update() {
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
 
 	for (Entity const& entity : m_Entities) {
-		Model m = modelArray.GetData(entity);
-		m.Update(transformArray.GetData(entity), sizeArray.GetData(entity));
-		m.Draw(texArray.GetData(entity), animationArray.GetData(entity));
+		Model* m = &modelArray.GetData(entity);
+		m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
+		m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
 	}
 	graphics.Draw();
 }

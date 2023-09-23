@@ -1,3 +1,37 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Texture.h
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Texture class and texture manager
+*
+*	Texture class to store texture information such as texture id in OpenGL storage
+*	as well as texture coordinates for sprite sheets
+*
+*	Texture manager loads and unloads all textures as well as stores them in a central map
+*
+******************************************************************************/
+
 #pragma once
 #include "GraphLib.h"
 #include <string>

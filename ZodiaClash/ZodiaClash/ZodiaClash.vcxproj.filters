@@ -36,6 +36,9 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{11604d9b-055c-49fe-8915-7e618d4eba4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{2d3e5f48-1648-4210-94d5-bfc49b4dfd17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -153,9 +156,6 @@
     <ClInclude Include="GUIManager.h">
       <Filter>ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicConstants.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -164,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="DebugProfile.h">
       <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -255,12 +258,14 @@
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Renderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="DebugProfile.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

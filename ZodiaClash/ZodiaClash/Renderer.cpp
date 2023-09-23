@@ -1,3 +1,36 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Renderer.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Renderer class to render for different shaders and draw types
+*
+*	Renderer to store vertices for each shader and draw type
+*	Draw function to be called at the end of each frame to draw all vertices
+*	to the screen
+*
+******************************************************************************/
+
 #include "Renderer.h"
 #include "debugdiagnostic.h"
 
@@ -9,7 +42,7 @@ Renderer::~Renderer() {
     delete[] data;
 }
 
-void Renderer::Initialize(char const* vertexshader, char const* fragmentshader) {
+void Renderer::Initialize(char const* vertexshader, char const* fragmentshader, GLenum type) {
     //Compile shaders
     bool compile_status;
     std::vector<std::pair<GLenum, std::string>> shadervector{
@@ -21,6 +54,17 @@ void Renderer::Initialize(char const* vertexshader, char const* fragmentshader) 
     Assert(!compile_status, "Unable to compile shader program!\n");
 
     CreateVAO();
+    drawtype = type;
+}
+
+void Renderer::Initialize(Shader shader, GLenum type) {
+    shaderprogram = shader;
+    CreateVAO();
+    drawtype = type;
+}
+
+Shader& Renderer::ShaderProgram() {
+    return shaderprogram;
 }
 
 void Renderer::AddVertex(Vertex input) {
@@ -28,7 +72,7 @@ void Renderer::AddVertex(Vertex input) {
     ++drawcount;
 }
 
-void Renderer::Draw(GLenum drawtype) {
+void Renderer::Draw() {
     if (drawcount <= 0) {
         return;
     }
