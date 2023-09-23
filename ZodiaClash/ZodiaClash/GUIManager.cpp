@@ -119,11 +119,11 @@ void GUIManager::Update(GLFWwindow* window)
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     if (debugWindow) {
-
         // Number of data points
         int valuesCount = systemList.size();
+        float progressbarHeight = 30.0f;
 
-        ImVec2 windowSize(400.f, static_cast<float>(valuesCount) * 125.f);
+        ImVec2 windowSize(300.f, valuesCount * 75.f);
         //ImVec2 windowPos(100, 100);
 
         // For setting a fixed size for the window
@@ -131,35 +131,53 @@ void GUIManager::Update(GLFWwindow* window)
         ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
         ImGui::Begin("Percent Usage", NULL, ImGuiWindowFlags_NoResize);
 
-        // For the plotting of the histogram
+        // For the plotting of the horizontal histogram
         for (int i = 0; i < valuesCount; ++i) {
-
             float percentage = debugSysProfile.GetPercentage(systemList[i]);
-            //float duration = debugSysProfile.GetDuration(systemList[i]);
 
-            //std::cout << "Duration: " << duration << " millisec, Percentage: " << percentage << "%" << std::endl;
-            /******************************************************************/
             // Change this to system name in the future when max implemented it
-            /******************************************************************/
             std::string histogramName = "System " + std::to_string(i);
 
-            // Create a group to hold the histogram and text side by side
+            // Create a group to hold the horizontal histogram and text side by side
             ImGui::BeginGroup();
-            ImGui::PlotHistogram(histogramName.c_str(), &percentage, 1, 0, "Percentage per loop", 0.f, 100.f, ImVec2(0.f, 100.f));
+
+            // For calculating the colour
+            // Default to green
+            ImVec4 progressBarColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+            if (percentage > 70.0f) {
+
+                // Red if > 70%
+                progressBarColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+            }
+            else if (percentage > 30.0f) {
+
+                // Yellow if > 30%
+                progressBarColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+            }
+
+            // Horizontal histogram
+            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
+            ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, 30.0f), "");
+            ImGui::PopStyleColor();
 
             // For the position of the percentage text
-            ImGui::SameLine();
             ImGui::SetCursorPos(ImVec2(20.f, ImGui::GetCursorPosY()));
 
             // For the percentage text
-            ImGui::Text("%.2f%%", percentage);
+            ImGui::Text("%s %.2f%%", histogramName.c_str(), percentage);
 
             // End the group
             ImGui::EndGroup();
+
+            // Separate each histogram with a vertical spacing
+            if (i < valuesCount - 1) {
+                ImGui::Separator();
+            }
         }
 
         ImGui::End();
     }
+
 #endif
 
     // Rendering

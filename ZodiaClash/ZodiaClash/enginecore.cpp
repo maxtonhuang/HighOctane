@@ -192,16 +192,16 @@ void EngineCore::Run() {
 			// Debugging	
 			//Print out only once every 5 seconds
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-			//	static uint64_t l_lastTime = 0;
-			//	if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
-			//		l_lastTime = l_currentTime;
-			//		for (std::shared_ptr<System>& sys : systemList) {
-			//			//std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
-			//			std::cout << "Durations: " << debugSysProfile.GetDuration(sys) << " millisec, Percentages: " << debugSysProfile.GetPercentage(sys) << "%" << std::endl;
-			//			//std::cout << g_dt * 1000 << " in millisec"<< std::endl;
-			//		}
+				//static uint64_t l_lastTime = 0;
+				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
+				//	l_lastTime = l_currentTime;
+					//for (std::shared_ptr<System>& sys : systemList) {
+					//	//std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+					//	DebugPrint("Durations: %.2f millisec, Percentages: %.2f%%", debugSysProfile.GetDuration(sys), debugSysProfile.GetPercentage(sys));
+					//	DebugPrint("%.2f in millisec", g_dt * 1000);
+					//}
 
-			//		std::cout << std::endl;
+					//std::cout << std::endl;
 			//}
 		#endif
 			
