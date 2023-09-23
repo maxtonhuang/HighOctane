@@ -160,9 +160,12 @@ void EngineCore::Run() {
 	Entity tmp;
 	for (int i = 0; i < 0; ++i) {
 		Entity duck = CreateModel();
-		ecs.GetComponent<Tex>(duck).tex = texList.Add("duck.png");
-		ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
-		ecs.GetComponent<Animation>(duck).frameDisplayDuration = 0.3f;
+		ecs.GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck.png"));
+		ecs.GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck2.png"));
+		ecs.GetComponent<Tex>(duck).tex = ecs.GetComponent<Tex>(duck).texVariants[0];
+		ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_EVENT_BASED;
+		//ecs.GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
+		ecs.GetComponent<Animation>(duck).frameDisplayDuration = 0.2f;
 		ecs.GetComponent<Size>(duck).width = (float)ecs.GetComponent<Tex>(duck).tex->GetWidth();
 		ecs.GetComponent<Size>(duck).height = (float)ecs.GetComponent<Tex>(duck).tex->GetHeight();
 		ecs.GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
