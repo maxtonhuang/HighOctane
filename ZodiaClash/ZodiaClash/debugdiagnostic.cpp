@@ -15,6 +15,7 @@
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
+#include "GUIManager.h"
 
 namespace debug {
 
@@ -48,8 +49,12 @@ namespace debug {
         // Clean up the variable argument list
         va_end(args);
 
+
+        // Redirects it to ImGui
+        imguiOutputBuffer.buffer += buffer;
+        imguiOutputBuffer.buffer += "\n";
         // Print the formatted message to the standard error stream
-        fprintf(stderr, "%s\n", buffer);
+        //fprintf(stderr, "%s\n", buffer);
 
         // Log it into the file
         //debuglog::logger.info(buffer);

@@ -6,7 +6,7 @@
 #include "Renderer.h"
 #include "Global.h"
 
-class GraphicsManager : public System /*: virtual public ISystem*/ { // need to change
+class GraphicsManager /*: virtual public ISystem*/ { // need to change
 public:
 	GraphicsManager();
 	~GraphicsManager();

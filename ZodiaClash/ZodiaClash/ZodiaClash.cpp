@@ -63,7 +63,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ERRORL("This is a test error message");
     FATALL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
-
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
