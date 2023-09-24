@@ -29,6 +29,12 @@ void UpdateMovement(Transform & transform) {
 		}
 
 	}
+	if (transform.scale.x < 0.f) {
+		transform.scale.x = 0.f;
+	}
+	if (transform.scale.y < 0.f) {
+		transform.scale.y = 0.f;
+	}
 	transform.position += transform.velocity;
 	transform.velocity = {0,0};
 	

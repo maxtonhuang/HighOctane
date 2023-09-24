@@ -126,7 +126,7 @@ namespace physics {
             auto& body = m_ecs.GetComponent<physics::Body>(entity);
 
             //draw the position/center of the body as a point
-            graphics.DrawPoint(body.position.x, body.position.y, 5.0f);
+            graphics.DrawPoint(body.position.x, body.position.y);
 
             //draw velocity as a line
             Vector2 endPosition = body.position + body.velocity;
