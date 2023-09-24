@@ -193,6 +193,7 @@ void EngineCore::Run() {
 		m_previousTime = l_currentTime;
 		
 		//DebugPrint("FPS: %.2f", 1.0f / g_dt);
+		//std::cout << "FPS: " << 1.0f / g_dt;
 			// Debugging	
 			//Print out only once every 5 seconds
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE

@@ -1,3 +1,4 @@
+#pragma once
 /******************************************************************************
 *
 *	\copyright
@@ -8,7 +9,7 @@
 *
 * *****************************************************************************
 *
-*	@file		Body.cpp
+*	@file		CollsionResolution.h
 *
 *	@author		Liu Wan Ting
 *
@@ -25,36 +26,16 @@
 *
 *	@brief		Body system of the engine
 *
-*	This file contains functions used in the main body system of the engine
+*	This file contains functions used for collision response
 *
 ******************************************************************************/
 
-#include "Body.h"
-#include "Physics.h"
+#pragma once
+#include "body.h"
+#include "collision.h"
 
 namespace physics {
-
-	Body::Body(): 
-				position(0, 0),
-				prevPosition(0, 0),
-				velocity(0, 0),
-				acceleration(0, 0),
-				accumulatedForce(0, 0),
-				mass(0.0f),
-				restitution(0.0f),
-				halfDimensions{width/2.f, height/2.f},
-				friction(0.2f),
-				isStatic(false),
-				bodyShape(nullptr)
-	{}
-
-	void Body::SetPosition(Vector2 pos) 
-	{
-		position = pos;
-	}
-
-	void Body::SetVelocity(Vector2 vel) 
-	{
-		velocity = vel;
-	}
+    void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody);
+    void DynamicDynamicResponse(Body& bodyA, Body& bodyB);
+    void HandleCollisionResponse(Body& alpha, Body& beta);
 }

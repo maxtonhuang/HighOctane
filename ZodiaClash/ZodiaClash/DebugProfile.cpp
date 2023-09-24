@@ -23,7 +23,7 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
-        startTimers[systemInput] = startTimeInput;
+        startTimers[systemInput] = static_cast<float>(startTimeInput);
     }
 
     void DebugProfiling::StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
@@ -47,12 +47,15 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
         FILETIME idleTime, kernelTime, userTime;
 
         static uint64_t lLastTime = 0;
+
         // Prints it out once at intervals
         if (time - lLastTime > PRINT_INTERVAL) {
             lLastTime = time;
+        
             // To get the memory usage in bytes
             if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
                 Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
+                
                 // Working set size in bytes
                 SIZE_T usedMemory = pmc.WorkingSetSize;
                 std::cout << "Used memory: " << usedMemory / (MAX_FILE_SIZE) << " MB" << std::endl;
@@ -61,7 +64,7 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
 
             // To get the CPU percentage usage
             if (GetSystemTimes(&idleTime, &kernelTime, &userTime)) {
-                ULARGE_INTEGER idle, kernel, user;
+                ULARGE_INTEGER idle{}, kernel{}, user{};
                 idle.LowPart = idleTime.dwLowDateTime;
                 idle.HighPart = idleTime.dwHighDateTime;
                 kernel.LowPart = kernelTime.dwLowDateTime;

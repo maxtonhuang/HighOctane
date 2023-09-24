@@ -1,5 +1,35 @@
-#pragma once
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Physics.h
+*
+*	@author		Liu Wan Ting
+*
+*	@email		wanting.liu@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		24 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Physics system of the engine
+*
+*	This file contains functions used in the main physics system of the engine
+*
+******************************************************************************/
 
+#pragma once
 #include <vector>
 #include "vmath.h"
 #include "ECS.h" // will include the Body component definition
@@ -43,16 +73,18 @@ namespace physics {
 	extern PhysicsManager* PHYSICS;
 }
 
+//for ECS
 struct Body {
     Vector2                    prevPosition{};
     Vector2                    acceleration{};
     Vector2                    accumulatedForce{};
-    bool                    isStatic{};
+    bool                       isStatic{};
     Vector2                    rotation;
     Vector2                    position;
     Vector2                    scale;
     Vector2                    velocity;
-
+    float                      width;
+    float                      height;
 };
 
 struct Collider {

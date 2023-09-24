@@ -180,16 +180,13 @@
     <ClInclude Include="AudioManager.h">
       <Filter>Audio</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionResolution.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mmath.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="physics.cpp">
       <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="vmath.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="EntityFactory.cpp">
       <Filter>EngineArchitecture</Filter>
@@ -284,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="CollsionResolution.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

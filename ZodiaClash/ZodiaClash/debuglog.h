@@ -56,7 +56,7 @@ namespace debuglog {
 	class Logger {
 		public:
 			Logger();
-			Logger(const std::string &logFileName = "testlog.txt", LOG_LEVEL level = LOG_LEVEL::Trace);
+			Logger(const std::string &logFileName, LOG_LEVEL level = LOG_LEVEL::Trace);
 			~Logger();
 			
 			void trace(const std::string& message);
