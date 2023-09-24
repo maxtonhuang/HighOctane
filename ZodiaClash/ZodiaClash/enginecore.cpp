@@ -199,10 +199,11 @@ void EngineCore::Run() {
 				//static uint64_t l_lastTime = 0;
 				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
 				//	l_lastTime = l_currentTime;
-					//for (std::shared_ptr<System>& sys : systemList) {
-					//	//std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
-					//	DebugPrint("Durations: %.2f millisec, Percentages: %.2f%%", debugSysProfile.GetDuration(sys), debugSysProfile.GetPercentage(sys));
-					//	DebugPrint("%.2f in millisec", g_dt * 1000);
+					//for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
+						//std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
+						//DebugPrint("Durations: %.2f millisec, Percentages: %.2f%%", debugSysProfile.GetDuration(sys.first), debugSysProfile.GetPercentage(sys.first));
+						//std::cout << sys.second << " Duration: " << debugSysProfile.GetDuration(sys.first) << " millisec, Percentage: " << debugSysProfile.GetPercentage(sys.first) << "%" << std::endl;
+						//DebugPrint("%.2f in millisec", g_dt * 1000);
 					//}
 
 					//std::cout << std::endl;
@@ -214,7 +215,7 @@ void EngineCore::Run() {
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
 
-			
+			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE

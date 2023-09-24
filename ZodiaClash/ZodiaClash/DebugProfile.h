@@ -45,8 +45,8 @@ Add the macro to run only in debug mode
     public:
 
         void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput);
-
         void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput);
+
         float GetPercentage(std::shared_ptr<System> systemInput);
         float GetDuration(std::shared_ptr<System> systemInput);
 
