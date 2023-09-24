@@ -51,6 +51,8 @@ This function is called when keyboard buttons are pressed.
 When the ESC key is pressed, the close flag of the window is set.
 */
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
+    mod = mod; //unused variable
+    scancode = scancode; //unused variable
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
@@ -94,6 +96,8 @@ were held down
 This function is called when mouse buttons are pressed.
 */
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
+    mod = mod; //unused variable
+    pwin = pwin; // unused variable;
     if (GLFW_PRESS == action) {
         /*if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
@@ -127,7 +131,8 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
-    
+    pwin = pwin; //unused variable
+
     static int previousPosX = 0;
     static int previousPosY = 0;
     

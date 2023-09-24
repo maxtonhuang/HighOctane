@@ -40,7 +40,7 @@
 
 #include <iostream>
 
-const float pi = 3.14159265358979323846;
+const float pi = 3.14159265358979323846f;
 
 Model::Model() { 
 	color = glm::vec4{ 1,1,1,1 };
@@ -116,6 +116,7 @@ void Model::AdvanceAnimation(Animation& aniData, Tex& texData) {
 }
 
 void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
+	aniData = aniData; //unused variable
 	// Update sprite
 	if (texData.texVariants.size() == 0) {
 		return;
@@ -164,7 +165,7 @@ void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData)
 	// Check mailbox for input triggers
 	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
-	for (Postcard msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			if (msg.info == INFO::KEY_C) {
 				ChangeAnimation(aniData, texData);
@@ -178,6 +179,8 @@ void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData)
 }
 
 void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
+	sizeData = sizeData; //unused variable
+
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
 	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
@@ -188,7 +191,7 @@ void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) 
 	// Check mailbox for input triggers
 	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
-	for (Postcard msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			//if (msg.info == INFO::KEY_C) {
 				//ChangeAnimation(aniData, texData);

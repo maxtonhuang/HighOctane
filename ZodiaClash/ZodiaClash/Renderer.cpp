@@ -82,7 +82,6 @@ void Renderer::Draw() {
     }
     glNamedBufferSubData(vbo, 0, sizeof(Vertex) * GRAPHICS::vertexBufferSize, data);
     shaderprogram.Use();
-    int count = 0;
     for (auto& t : texList.data) {
         glBindTextureUnit(t.second.GetID() - 1, t.second.GetID());
     }

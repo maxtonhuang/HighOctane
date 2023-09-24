@@ -44,12 +44,12 @@ class Texture;
 class Model {
 public:
 	Model();
-	void Update(Transform const& entity, Size const& size);
-	void Draw(Tex const& entity, Animation const& ani);
+	void Update(Transform const& entity, Size const& size); //Update transforms for the model
+	void Draw(Tex const& entity, Animation const& ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
-	void SetAnimation(Animation& aniData, int index);
-	void AdvanceAnimation(Animation& aniData, Tex& texData);
+	void SetAnimation(Animation& aniData, int index);		 //Set animation to frame of input index
+	void AdvanceAnimation(Animation& aniData, Tex& texData); //Advance animation to next frame
 	void ChangeAnimation(Animation& aniData, Tex& texData);
 	void ResizeOnChange(Tex& texData, Size& sizeData);
 

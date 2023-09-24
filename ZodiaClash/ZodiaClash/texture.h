@@ -51,12 +51,12 @@ class Texture {
 public:
 	Texture();
 	~Texture();
-	void Init(char const*);
-	void FreeTexture();
+	void Init(char const*); //Initialise a texture using the texture file path as input
+	void FreeTexture();		//Free the texture from OpenGL memory
 
-	GLuint GetID();
-	bool IsActive();
-	void CreateSpriteSheet(int row, int column, int spritenum);
+	GLuint GetID();			//Get texture ID of texture
+	bool IsActive();		//Does the texture object have a texture saved in OpenGL
+	void CreateSpriteSheet(int row, int column, int spritenum); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
 
 	int GetWidth();
 	int GetHeight();
@@ -77,8 +77,8 @@ class TextureManager {
 public:
 	~TextureManager();
 	void Initialize();
-	Texture* Add(char const* texname);
-	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum);
+	Texture* Add(char const* texname); //Create a texture using the texture file path as input. If texture already exists, return the texture instead.
+	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
 	void Clear();
 	std::unordered_map<std::string, Texture> data;
 	GLuint arrayid;

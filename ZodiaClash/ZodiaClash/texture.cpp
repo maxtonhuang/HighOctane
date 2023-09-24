@@ -89,8 +89,8 @@ void Texture::CreateSpriteSheet(int row, int column, int spritenum) {
 	std::vector<Texcoords> newtexcoords;
 	float colDist = 1.f / column;
 	float rowDist = 1.f / row;
-	width *= colDist;
-	height *= rowDist;
+	width = (int)((float) width * colDist);
+	height = (int)((float)height * rowDist);
 	for (int i = 0; i < row; ++i) {
 		for (int t = 0; t < column; ++t) {
 			Texcoords spriteCoords;
