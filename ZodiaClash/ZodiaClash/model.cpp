@@ -1,75 +1,58 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Model.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Model component used by graphics system
+*
+*	Model containing draw functions to add vertices to the graphics system to
+*	draw at the end of the frame
+*
+******************************************************************************/
+
 #include "message.h"
 #include "Model.h"
 #include "Graphics.h"
 #include "Components.h"
 #include "ECS.h"
 #include "EngineCore.h"
+#include "Global.h"
 
-#include <glm-0.9.9.8/glm/gtc/type_ptr.hpp>
 #include <iostream>
 
-const float pi = 3.14159265358979323846;
-extern float g_dt;
-extern Mail mail;
-extern ECS ecs;
+const float pi = 3.14159265358979323846f;
 
-std::vector<Model> modelList;
-Model test_circle1;
-Model test_circle2;
-Model test_circle3;
-Model test_rect1;
-Model test_rect2;
-Model test_rect3;
-
-Model::Model() { // Use this
-	color = glm::vec4{ 1,1,1,1 }; //done
-	pos = glm::vec2{ 0,0 }; //done
-	tex = nullptr; //done
-	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	scale = glm::vec2{ 1,1 };
-	width = 0;
-	height = 0;
-}
-
-Model::Model(Texture& input) {
+Model::Model() { 
 	color = glm::vec4{ 1,1,1,1 };
-	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	pos = glm::vec2{ 0,0 };
-	scale = glm::vec2{ 1,1 };
-	if (input.IsActive()) {
-		tex = &input;
-		width = (float)tex->GetWidth();
-		height = (float)tex->GetHeight();
-	}
-	else {
-		tex = nullptr;
-		width = 0;
-		height = 0;
-	}
+	matrix = glm::mat3{ 1,0,0,0,1,0,0,0,1 };
 }
 
-Model::Model(char const* input) {
-	color = glm::vec4{ 1,1,1,1 };
-	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	pos = glm::vec2{ 0,0 };
-	scale = glm::vec2{ 1,1 };
-	tex = texList.Add(input);
-	if (tex->IsActive()) {
-		width = (float)tex->GetWidth();
-		height = (float)tex->GetHeight();
-	}
-	else {
-		width = 0;
-		height = 0;
-	}
-}
-
-void Model::Update() {
-	float x = scale.x * width;
-	float y = scale.y * height;
-	matrix = glm::mat3{ cos(rotationRadians) * x / GRAPHICS::defaultWidthF ,-sin(rotationRadians) * x / GRAPHICS::defaultHeightF,0,
-		sin(rotationRadians) * y / GRAPHICS::defaultWidthF , cos(rotationRadians) * y / GRAPHICS::defaultHeightF,0,
-		pos.x / GRAPHICS::w,pos.y / GRAPHICS::h,1 };
+void Model::Update(Transform const& entity, Size const& size) {
+	float x = entity.scale.x * size.width;
+	float y = entity.scale.y * size.height;
+	matrix = glm::mat3{ cos(entity.rotation) * x / GRAPHICS::defaultWidthF ,-sin(entity.rotation) * x / GRAPHICS::defaultHeightF,0,
+		sin(entity.rotation) * y / GRAPHICS::defaultWidthF , cos(entity.rotation) * y / GRAPHICS::defaultHeightF,0,
+		entity.position.x / GRAPHICS::w,entity.position.y / GRAPHICS::h,1 };
 	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
 	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
 	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
@@ -80,25 +63,9 @@ void Model::Update() {
 	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
-void Model::Update(Entity const& entity) {
-	float x = ecs.GetComponent<Transform>(entity).scale.x * ecs.GetComponent<Size>(entity).width;
-	float y = ecs.GetComponent<Transform>(entity).scale.y * ecs.GetComponent<Size>(entity).height;
-	matrix = glm::mat3{ cos(rotationRadians) * x / GRAPHICS::defaultWidthF ,-sin(rotationRadians) * x / GRAPHICS::defaultHeightF,0,
-		sin(rotationRadians) * y / GRAPHICS::defaultWidthF , cos(rotationRadians) * y / GRAPHICS::defaultHeightF,0,
-		ecs.GetComponent<Transform>(entity).position.x / GRAPHICS::w,ecs.GetComponent<Transform>(entity).position.y / GRAPHICS::h,1 };
-	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
-	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
-	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
-	glm::vec3 topright3 = matrix * glm::vec3{ 1,1,1 };
-	botleft = glm::vec2{ bottomleft3.x,bottomleft3.y };
-	botright = glm::vec2{ bottomright3.x,bottomright3.y };
-	topleft = glm::vec2{ topleft3.x,topleft3.y };
-	topright = glm::vec2{ topright3.x,topright3.y };
-}
-
-void Model::Draw() {
+void Model::Draw(Tex const& entity, Animation const& ani) {
 	Renderer* renderer;
-	if (tex != nullptr) {
+	if (entity.tex != nullptr) {
 		renderer = &textureRenderer;
 	}
 	else {
@@ -107,13 +74,13 @@ void Model::Draw() {
 	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
 		renderer->Draw();
 	}
-	if (tex != nullptr) {
-		renderer->AddVertex(Vertex{ botleft,color, tex->GetTexCoords(animation,0), (float)tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ topright,color, tex->GetTexCoords(animation,3), (float)tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ botright,color, tex->GetTexCoords(animation,1), (float)tex->GetID() - 1 });
-		renderer->AddVertex(Vertex{ topleft,color, tex->GetTexCoords(animation,2), (float)tex->GetID() - 1 });
+	if (entity.tex != nullptr) {
+		renderer->AddVertex(Vertex{ botleft,color, entity.tex->GetTexCoords(ani.frameIndex,0), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(ani.frameIndex,3), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
 	}
 	else {
 		renderer->AddVertex(Vertex{ botleft,color });
@@ -125,111 +92,114 @@ void Model::Draw() {
 	}
 }
 
-void Model::Draw(Entity const& entity) {
-	Renderer* renderer;
-	renderer = &textureRenderer;
-	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) { 
-		renderer->Draw();
-	}
-	renderer->AddVertex(Vertex{ botleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,0), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ topright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,3), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ botright,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,1), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-	renderer->AddVertex(Vertex{ topleft,color, ecs.GetComponent<Tex>(entity).tex->GetTexCoords(animation,2), (float)ecs.GetComponent<Tex>(entity).tex->GetID() - 1 });
-}
-
 void Model::DrawOutline() {
-	flatRenderer.Draw();
-	flatRenderer.AddVertex(Vertex{ botleft, glm::vec3{1,1,1} });
-	flatRenderer.AddVertex(Vertex{ botright, glm::vec3{1,1,1} });
-	flatRenderer.AddVertex(Vertex{ topright, glm::vec3{1,1,1} });
-	flatRenderer.AddVertex(Vertex{ topleft, glm::vec3{1,1,1} });
-	flatRenderer.Draw(GL_LINE_LOOP);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
 	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
 	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
-void Model::SetDim(float w, float h, float r) {
-	width = w;
-	height = h;
-	SetRot(r);
+/* ----------------------------------------------------------------------------
+THE FOLLOWING FUNCTIONS ARE TO BE MOVED INTO A DIFFERENT ANIMATOR CLASS
+---------------------------------------------------------------------------- */
+void Model::SetAnimation(Animation& aniData, int index) {
+	aniData.frameIndex = index;
 }
 
-void Model::AttachTexture(Texture& input) {
-	tex = &input;
-	width = (float)tex->GetWidth();
-	height = (float)tex->GetHeight();
+void Model::AdvanceAnimation(Animation& aniData, Tex& texData) {
+	//data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
+	aniData.frameIndex = (aniData.frameIndex + 1) % texData.tex->GetSheetSize();
 }
 
-void Model::AttachTexture(char const* input) {
-	tex = texList.Add(input);
-	if (tex != nullptr) {
-		width = (float)tex->GetWidth();
-		height = (float)tex->GetHeight();
+void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
+	aniData = aniData; //unused variable
+	// Update sprite
+	if (texData.texVariants.size() == 0) {
+		return;
+	}
+	texData.texVariantIndex = (texData.texVariantIndex + 1) % texData.texVariants.size();
+	texData.tex = texData.texVariants.at(texData.texVariantIndex);
+}
+
+void Model::ResizeOnChange(Tex& texData, Size& sizeData) {
+	sizeData.width = (float)texData.tex->GetWidth();
+	sizeData.height = (float)texData.tex->GetHeight();
+}
+
+void Model::AnimateOnInterval(Animation& aniData, Tex& texData) {
+	aniData.frameTimeElapsed += g_dt;
+	//std::cout << data.frameTimeElapsed << "\n";
+	if (aniData.frameTimeElapsed > aniData.frameDisplayDuration) {
+		AdvanceAnimation(aniData, texData);
+		aniData.frameTimeElapsed = 0.f;
 	}
 }
 
-void Model::SetPos(float x, float y) {
-	pos.x = x;
-	pos.y = y;
+void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
+	AdvanceAnimation(aniData, texData);
 }
 
-void Model::AddPos(float x, float y) {
-	pos.x += x;
-	pos.y += y;
-}
 
-void Model::SetRot(float rot) {
-	rotation = rot;
-	rotationRadians = rotation * pi / 180;
-}
+/********************************************************************************
+* 2 kinds of key input handling:
+* - KEY_C --> AnimationChange()
+*	>> Note: isMsgAnimationChange == 1
+*	>> Note: ONLY for main character entities!
+* - KEY_V --> AnimateOnKeyPress()
+*	>> Note: (animationType == ANIMATION_EVENT_BASED) && (isMsgAnimateNext == 1)
+*	>> Note: for ALL entities!
+********************************************************************************/
 
-void Model::AddRot(float rot) {
-	rotation += rot;
-	if (rotation > 360) {
-		rotation -= 360;
-	}
-	if (rotation < 0) {
-		rotation += 360;
-	}
-	rotationRadians = rotation * pi / 180;
-}
+void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData) {
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
-void Model::SetScale(float x, float y) {
-	scale.x = x;
-	scale.y = y;
-}
+	//if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
+		//AnimateOnInterval(aniData, texData); 
+		//return; 
+	//}
 
-void Model::SetAnimation(Animation& data, int index) {
-	data.frameIndex = index;
-}
+	// Check mailbox for input triggers
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
-void Model::AdvanceAnimation(Animation& data) {
-	data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
-}
-
-//TODO: determine texture set based on direction?
-
-void Model::AnimateOnInterval(Animation& data) {
-	if (tex != nullptr) {
-		data.frameTimeElapsed += g_dt;
-		if (data.frameTimeElapsed > data.frameDisplayDuration) {
-			AdvanceAnimation(data);
-			data.frameTimeElapsed = 0.f;
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			if (msg.info == INFO::KEY_C) {
+				ChangeAnimation(aniData, texData);
+				ResizeOnChange(texData, sizeData);
+			}
+			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				//AnimateOnKeyPress(aniData, texData);
+			//}
 		}
 	}
 }
 
-void Model::AnimateOnKeyPress(Animation& data) {
-	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE);
+void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
+	sizeData = sizeData; //unused variable
 
-	for (Postcard msg : mail.mailbox[ADDRESS::MODEL]) {
-		if (msg.type == TYPE::KEY_DOWN) {
-			if (msg.info == INFO::KEY_P) { AdvanceAnimation(data); }
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+
+	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
+		AnimateOnInterval(aniData, texData);
+		//return;
+	}
+
+	// Check mailbox for input triggers
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			//if (msg.info == INFO::KEY_C) {
+				//ChangeAnimation(aniData, texData);
+				//ResizeOnChange(texData, sizeData);
+			//}
+			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				AnimateOnKeyPress(aniData, texData);
+			}
 		}
 	}
-	mail.mailbox[ADDRESS::MODEL].clear();
 }

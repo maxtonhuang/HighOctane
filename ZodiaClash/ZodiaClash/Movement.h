@@ -16,5 +16,3 @@ enum OBJECT_DIRECTION {
 };
 
 void UpdateMovement(Transform & transform);
-
-void UpdateModel(Transform & transform);

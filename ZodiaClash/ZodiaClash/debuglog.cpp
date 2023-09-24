@@ -33,6 +33,7 @@ Dynamically change the log level during run time
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
+#include "GUIManager.h"
 
 
 
@@ -46,7 +47,7 @@ namespace debuglog {
 
 	// Constructor
 	Logger::Logger() {
-		currentLogFileName = "consolelog.log";
+		currentLogFileName = "console.log";
 		this->currentLogLevel = LOG_LEVEL::Trace;
 
 		// Open the file
@@ -127,7 +128,6 @@ namespace debuglog {
 			// Get the current level
 			std::string levels = GetLevel(level);
 
-			logFile << timeStamp << " [" << levels << "] " << message << "\n";
 
 			// Flush the buffer to write immediately, if not, need to interact with the graphics
 			logFile.flush();
@@ -184,16 +184,6 @@ namespace debuglog {
 		if (static_cast<size_t>(GetLogFileSize()) >= maxFileSize) {
 			// Close the current log file
 			logFile.close();
-			
-			// C++14
-			//std::string newFileName = currentLogFileName;
-			//newFileName.erase(newFileName.size() - 4); // Remove the .txt extension
-			//newFileName += "Old.txt"; 
-
-			//// If cannot rename
-			//if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
-			//	Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot rename file");
-			//}
 
             std::filesystem::path currentPath(currentLogFileName);
             std::filesystem::path newPath = currentPath.stem();
@@ -224,19 +214,19 @@ namespace debuglog {
 		switch (level) {
 
 		case LOG_LEVEL::Trace:
-			return "T";
+			return "Trace";
 		case LOG_LEVEL::Debug:
-			return "D";
+			return "Debug";
 		case LOG_LEVEL::Info:
-			return "I";
+			return "Info";
 		case LOG_LEVEL::Warning:
-			return "W";
+			return "Warning";
 		case LOG_LEVEL::Error:
-			return "E";
+			return "Error";
 		case LOG_LEVEL::Fatal:
-			return "F";
+			return "Fatal";
 		default:
-			return "U";
+			return "Unknown";
 		}
 	}
 	
@@ -287,7 +277,7 @@ namespace debuglog {
 
 	#if ENABLE_DEBUG_DIAG
 		// For debugging
-		Logger logger("consoletest.log", debuglog::LOG_LEVEL::Trace);
+	Logger logger;
 	#endif
 }
 

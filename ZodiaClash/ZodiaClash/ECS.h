@@ -1,9 +1,65 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ECS.h
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		The underlying ECS Architecture of the game
+*
+*	This file contains all the function declarations of the ECS Architecture.
+*   The parts of the ECS Architecture include:
+* 
+*   [1] ENTITY -
+*    -  Entity Manager - Manages the Entity IDs and keeps track of how
+                             many entities ther are currently.
+
+*   [2] COMPONENT -
+*    -  Component Array - Arrays that store data of each individual component
+*                         (struct). Arrays must be packed without empty slots,
+*                         and the Component Array achieves this by moving the
+*                         last component in the array to an empty slot created
+*                         by destroying a component.
+*    -  Component Manager - Updates all the Component Arrays when a component
+*                           is added or removed. Returns arrays and their
+*                           corresponding data when needed.
+* 
+*   [3] SYSTEM -
+*    -  System Manager - Maintains all registered systems and their
+*                        corresponding system signatures. Adds the appropriate
+*                        entities to each system's array of entities. If an
+*                        entity's signature changes (components added or
+*                        removed) or the entity is destroyed, the system's
+*                        array of entities will be updated accordingly.
+* 
+*   [4] COORDINATOR
+*    -  Coordinator - Acts as an interface to access and modify all the other
+*                     managers in the ECS. It may slow down access so should
+*                     only be used during non-time-critical updates such as
+*                     initializatoin, or used sparingly in the game loops.
+*
+******************************************************************************/
+
 #pragma once
 
-//#include <iostream>
-//#include <vector>
-//#include <array>
-//#include <string>
 #include <array>
 #include <bitset>
 #include <queue>
@@ -13,227 +69,236 @@
 #include "debugdiagnostic.h"
 #include "Components.h"
 
+using Entity = std::uint32_t;
+
+// Maximum number of entities
+const Entity MAX_ENTITIES = 1'000'000;
+
+using ComponentType = std::uint8_t;
+
+// Maximum number of components
+const ComponentType MAX_COMPONENTS = 64;
+
+using Signature = std::bitset<MAX_COMPONENTS>;
 
 
-    // A simple type alias
-    using Entity = std::uint32_t;
+////////// ENTITY /////////////////////////////////////////////////////////
 
-    // Used to define the size of arrays later on
-    const Entity MAX_ENTITIES = 1'000'000;
+class EntityManager {
+public:
+    EntityManager();
 
-    // A simple type alias
-    using ComponentType = std::uint8_t;
+    Entity CreateEntity();
 
-    // Used to define the size of arrays later on
-    const ComponentType MAX_COMPONENTS = 100;
+    void DestroyEntity(Entity entity);
 
-    // A simple type alias
-    using Signature = std::bitset<MAX_COMPONENTS>;
+    void SetSignature(Entity entity, Signature signature);
 
+    Signature GetSignature(Entity entity);
 
-    ////////// ENTITY /////////////////////////////////////////////////////////
+private:
+    // Queue of unused entity IDs
+    std::queue<Entity> m_AvailableEntities{};
 
-    class EntityManager {
-    public:
-        EntityManager();
+    // Array of signatures where the index corresponds to the entity ID
+    std::array<Signature, MAX_ENTITIES> m_Signatures{};
 
-        Entity CreateEntity();
-
-        void DestroyEntity(Entity entity);
-
-        void SetSignature(Entity entity, Signature signature);
-
-        Signature GetSignature(Entity entity);
-
-    private:
-        // Queue of unused entity IDs
-        std::queue<Entity> m_AvailableEntities{};
-
-        // Array of signatures where the index corresponds to the entity ID
-        std::array<Signature, MAX_ENTITIES> m_Signatures{};
-
-        // Total living entities - used to keep limits on how many exist
-        uint32_t m_LivingEntityCount{};
-    };
+    // Total living entities - used to keep limits on how many exist
+    uint32_t m_LivingEntityCount{};
+};
 
 
-    ////////// COMPONENT //////////////////////////////////////////////////////
+////////// COMPONENT //////////////////////////////////////////////////////
 
-    class IComponentArray {
-    public:
-        virtual ~IComponentArray() = default;
-        virtual void EntityDestroyed(Entity entity) = 0;
-    };
+class IComponentArray {
+public:
+    virtual ~IComponentArray() = default;
+    virtual void EntityDestroyed(Entity entity) = 0;
+};
 
+
+template<typename T>
+class ComponentArray : public IComponentArray {
+public:
+    void InsertData(Entity entity, T component);
+
+    void RemoveData(Entity entity);
+        
+    T& GetData(Entity entity);
+
+    void EntityDestroyed(Entity entity) override;
+
+private:
+    // The packed array of components (of generic type T),
+    // set to a specified maximum amount, matching the maximum number
+    // of entities allowed to exist simultaneously, so that each entity
+    // has a unique spot.
+    std::array<T, MAX_ENTITIES> m_ComponentArray;
+
+    // Map from an entity ID to an array index.
+    std::unordered_map<Entity, size_t> m_EntityToIndexMap;
+
+    // Map from an array index to an entity ID.
+    std::unordered_map<size_t, Entity> m_IndexToEntityMap;
+
+    // Total size of valid entries in the array.
+    size_t m_Size;
+};
+
+
+class ComponentManager {
+public:
+    template<typename T>
+    void RegisterComponent();
 
     template<typename T>
-    class ComponentArray : public IComponentArray {
-    public:
-        void InsertData(Entity entity, T component);
+    ComponentType GetComponentType();
 
-        void RemoveData(Entity entity);
-        
-        T& GetData(Entity entity);
+    template<typename T>
+    void AddComponent(Entity entity, T component);
 
-        void EntityDestroyed(Entity entity) override;
+    template<typename T>
+    void RemoveComponent(Entity entity);
 
-    private:
-        // The packed array of components (of generic type T),
-        // set to a specified maximum amount, matching the maximum number
-        // of entities allowed to exist simultaneously, so that each entity
-        // has a unique spot.
-        std::array<T, MAX_ENTITIES> m_ComponentArray;
+    template<typename T>
+    T& GetComponent(Entity entity);
 
-        // Map from an entity ID to an array index.
-        std::unordered_map<Entity, size_t> m_EntityToIndexMap;
+    void EntityDestroyed(Entity entity);
 
-        // Map from an array index to an entity ID.
-        std::unordered_map<size_t, Entity> m_IndexToEntityMap;
+    template<typename T>
+    bool isComponentTypeRegistered(); // new
 
-        // Total size of valid entries in the array.
-        size_t m_Size;
-    };
+    template<typename T>
+    ComponentArray<T>& GetComponentArrayRef();
 
 
-    class ComponentManager {
-    public:
-        template<typename T>
-        void RegisterComponent();
+private:
+    // Map from type string pointer to a component type
+    std::unordered_map<const char*, ComponentType> m_ComponentTypes{};
 
-        template<typename T>
-        ComponentType GetComponentType();
+    // Map from type string pointer to a component array
+    std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays{};
 
-        template<typename T>
-        void AddComponent(Entity entity, T component);
+    // The component type to be assigned to the next registered component - starting at 0
+    ComponentType m_NextComponentType{};
 
-        template<typename T>
-        void RemoveComponent(Entity entity);
-
-        template<typename T>
-        T& GetComponent(Entity entity);
-
-        void EntityDestroyed(Entity entity);
-
-        template<typename T>
-        bool isComponentTypeRegistered(); // new
+    // Convenience function to get the statically casted pointer to the ComponentArray of type T.
+    template<typename T>
+    std::shared_ptr<ComponentArray<T>> GetComponentArray();
+};
 
 
-    private:
-        // Map from type string pointer to a component type
-        std::unordered_map<const char*, ComponentType> m_ComponentTypes{};
+////////// SYSTEM /////////////////////////////////////////////////////////
 
-        // Map from type string pointer to a component array
-        std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays{};
-
-        // The component type to be assigned to the next registered component - starting at 0
-        ComponentType m_NextComponentType{};
-
-        // Convenience function to get the statically casted pointer to the ComponentArray of type T.
-        template<typename T>
-        std::shared_ptr<ComponentArray<T>> GetComponentArray();
-    };
+class System {
+public:
+    virtual void Update() = 0;
+    std::set<Entity> m_Entities;
+};
 
 
-    ////////// SYSTEM /////////////////////////////////////////////////////////
+class SystemManager {
+public:
+    template<typename T>
+    std::shared_ptr<T> RegisterSystem();
 
-    class System {
-    public:
-        virtual void Update() = 0;
-        std::set<Entity> m_Entities;
-    };
+    template<typename T>
+    void SetSignature(Signature signature);
 
+    void EntityDestroyed(Entity entity);
 
-    class SystemManager {
-    public:
-        template<typename T>
-        std::shared_ptr<T> RegisterSystem();
-        //template<typename T>
-        //std::shared_ptr<T> RegisterSystem(T& input);
+    void EntitySignatureChanged(Entity entity, Signature entitySignature);
 
-        template<typename T>
-        void SetSignature(Signature signature);
+private:
+    // Map from system type string pointer to a signature
+    std::unordered_map<const char*, Signature> m_Signatures{};
 
-        void EntityDestroyed(Entity entity);
-
-        void EntitySignatureChanged(Entity entity, Signature entitySignature);
-
-    private:
-        // Map from system type string pointer to a signature
-        std::unordered_map<const char*, Signature> m_Signatures{};
-
-        // Map from system type string pointer to a system pointer
-        std::unordered_map<const char*, std::shared_ptr<System>> m_Systems{};
-    };
+    // Map from system type string pointer to a system pointer
+    std::unordered_map<const char*, std::shared_ptr<System>> m_Systems{};
+};
 
 
-    ////////// ECS COORDINATOR ////////////////////////////////////////////////
+////////// ECS COORDINATOR ////////////////////////////////////////////////
 
-    class ECS {
-    public:
-        void Init();
+class ECS {
+public:
+    void Init();
 
-        // Entity methods ------------------------------
-        Entity CreateEntity();
+    // Disallow copying to prevent creation of more than one instance
+    ECS(const ECS &) = delete;
+    ECS & operator=(const ECS &) = delete;
 
-        void DestroyEntity(Entity entity);
+    // Public accessor for the Singleton instance
+    static ECS & ecs() {
+        static ECS entityComponentSystem;
+        return entityComponentSystem;
+    }
 
-        // Component methods ---------------------------
-        template<typename T>
-        void RegisterComponent();
+    // Entity methods ------------------------------
+    Entity CreateEntity();
 
-        template<typename T>
-        void AddComponent(Entity entity, T component);
+    void DestroyEntity(Entity entity);
 
-        template<typename T>
-        void RemoveComponent(Entity entity);
+    // Component methods ---------------------------
+    template<typename T>
+    void RegisterComponent();
 
-        template<typename T>
-        T& GetComponent(Entity entity);
+    template<typename T>
+    void AddComponent(Entity entity, T component);
 
-        template<typename T>
-        ComponentType GetComponentType();
+    template<typename T>
+    void RemoveComponent(Entity entity);
 
-        template<typename T>
-        bool isComponentTypeRegistered();
+    template<typename T>
+    T& GetComponent(Entity entity);
 
-        // System methods ------------------------------
-        template<typename T>
-        std::shared_ptr<T> RegisterSystem();
-        template<typename T>
-        std::shared_ptr<T> RegisterSystem(T& input);
+    template<typename T>
+    ComponentType GetComponentType();
 
-        template<typename T>
-        void SetSystemSignature(Signature signature);
+    template<typename T>
+    bool isComponentTypeRegistered();
 
-    private:
-        std::unique_ptr<ComponentManager> m_ComponentManager;
-        std::unique_ptr<EntityManager> m_EntityManager;
-        std::unique_ptr<SystemManager> m_SystemManager;
-    };
+    // System methods ------------------------------
+    template<typename T>
+    std::shared_ptr<T> RegisterSystem();
+    template<typename T>
+    std::shared_ptr<T> RegisterSystem(T& input);
 
-    #include "ECS.t" // for template functions of ECS
+    template<typename T>
+    void SetSystemSignature(Signature signature);
 
-    class PhysicsSystem : public System {
-    public:
-        void Update() override;
+    ComponentManager& GetComponentManager();
 
-    };
+private:
 
-    class MovementSystem : public System {
-    public:
-        void Update() override;
+    ECS() {}
 
-    };
+    std::unique_ptr<ComponentManager> m_ComponentManager;
+    std::unique_ptr<EntityManager> m_EntityManager;
+    std::unique_ptr<SystemManager> m_SystemManager;
+};
 
-    class ModelSystem : public System {
-    public:
-        void Update() override;
-    };
+#include "ECS.hpp" // for template functions of ECS
 
-    class GraphicsSystem : public System {
-    public:
-        void Update() override;
-    };
+class PhysicsSystem : public System {
+public:
+    void Update() override;
 
-    
+};
 
+class MovementSystem : public System {
+public:
+    void Update() override;
+
+};
+
+class ModelSystem : public System {
+public:
+    void Update() override;
+};
+
+class GraphicsSystem : public System {
+public:
+    void Initialize();
+    void Update() override;
+};

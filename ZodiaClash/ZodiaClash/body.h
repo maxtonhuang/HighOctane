@@ -1,3 +1,34 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Body.h
+*
+*	@author		Liu Wan Ting
+*
+*	@email		wanting.liu@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		24 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Body system of the engine
+*
+*	This file contains functions used in the main body system of the engine
+*
+******************************************************************************/
+
 #pragma once
 #include "vmath.h"
 #include "Collision.h"
@@ -5,7 +36,7 @@
 
 using namespace vmath;
 
-class Shape; //forward declaration
+//class Shape; //forward declaration
 
 namespace physics {
 
@@ -17,6 +48,9 @@ namespace physics {
 		Vector2 velocity{};
 		Vector2 acceleration{};
 		Vector2 accumulatedForce{};
+		float width{};
+		float height{};
+		Vector2 halfDimensions; // Half-width and half-height of the AABB
 		float mass{};
 		float restitution{};
 		float friction{ 0.2f };

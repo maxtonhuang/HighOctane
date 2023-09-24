@@ -1,3 +1,6 @@
+/*
+This file contains constants used by the graphics system and related functions
+*/
 #pragma once
 
 namespace GRAPHICS {
@@ -9,4 +12,5 @@ namespace GRAPHICS {
 	const float h = defaultHeightF / 2;
 	const int vertexBufferSize = 6000; //number of vertices to buffer
 	const int MAXTEXTURES = 10;
+	const int CIRCLE_SLICES = 100; //number of triangles in a circle
 }

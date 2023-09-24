@@ -85,6 +85,8 @@ namespace debug {
 	void ConsoleInitHandler();
 
 	void CustomTerminateHandler();
+
+	int CustomMessageBox(const char* file, int line, const char* message);
 }
 
 // If debug diagnostics is enabled, then we will use the debug printing function
@@ -96,6 +98,9 @@ namespace debug {
 
 #define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
 
+#define CustomTerminate(...) debug::CustomTerminateHandler(__VA_ARGS__);
+
+
 // Else, we will just ignore the debug printing function
 #else
 #define DebugPrint(...) ((void)0);
@@ -104,5 +109,6 @@ namespace debug {
 
 #define Console(...) ((void)0);
 
+#define CustomTerminate(...) ((void)0);
 
 #endif

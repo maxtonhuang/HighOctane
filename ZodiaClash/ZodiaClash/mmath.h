@@ -33,6 +33,8 @@ TO DO maybe
 ' normalize() ' normalize
 *//*______________________________________________________________________*/
 #pragma once
+// Suppress warning : nonstandard extension used : nameless struct/union
+#pragma warning( disable : 4201 )
 
 #include "CommonHeaderFileList.h"
 #include "VMath.h"

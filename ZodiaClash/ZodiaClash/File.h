@@ -2,14 +2,6 @@
 #include <string>
 #include <cctype>
 
-enum class FileType {
-	CSV,
-	Vert,
-	Frag,
-	Textures
-};
-
-
 class FilePath {
 public:
 	FilePath() {};

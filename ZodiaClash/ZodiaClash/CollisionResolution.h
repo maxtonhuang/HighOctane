@@ -1,3 +1,4 @@
+#pragma once
 /******************************************************************************
 *
 *	\copyright
@@ -8,47 +9,33 @@
 *
 * *****************************************************************************
 *
-*	@file		EngineCore.h
+*	@file		CollsionResolution.h
 *
-*	@author		Maxton Huang Xinghua
+*	@author		Liu Wan Ting
 *
-*	@email		m.huang\@digipen.edu
+*	@email		wanting.liu@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
-*	@date		22 September 2023
+*	@date		24 September 2023
 *
 * *****************************************************************************
 *
-*	@brief		The Class of the Engine Core
+*	@brief		Body system of the engine
 *
-*	-
+*	This file contains functions used for collision response
 *
 ******************************************************************************/
 
 #pragma once
+#include "body.h"
+#include "collision.h"
 
-#include <chrono>
-
-class EngineCore {
-
-public:
-
-	EngineCore();
-
-	void Run();
-
-	uint64_t GetTime();
-
-private:
-
-	const uint64_t m_initialTime = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
-		
-	uint64_t m_previousTime;
-
-	bool gameActive;
-
-};
+namespace physics {
+    void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody);
+    void DynamicDynamicResponse(Body& bodyA, Body& bodyB);
+    void HandleCollisionResponse(Body& alpha, Body& beta);
+}
