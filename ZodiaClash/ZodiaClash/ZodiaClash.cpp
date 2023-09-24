@@ -69,6 +69,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
     audio.AddSound("../Assets/Sound/ping.wav");
+    audio.AddSound("../Assets/Sound/bonk.wav");
     INFOL("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging

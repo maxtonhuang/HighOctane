@@ -63,6 +63,9 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_M == key) {
             audio.PlaySounds("../Assets/Sound/ping.wav");
         }
+        if (GLFW_KEY_N == key) {
+            audio.PlaySounds("../Assets/Sound/bonk.wav");
+        }
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;
