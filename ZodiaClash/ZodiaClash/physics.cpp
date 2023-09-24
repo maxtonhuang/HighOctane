@@ -133,11 +133,7 @@ namespace physics {
             auto& body = m_ecs.GetComponent<physics::Body>(entity);
 
             // Integrate the body.
-            if (!body.isStatic)
-            {
-                body.velocity += body.acceleration * deltaTime;
-                body.position += body.velocity * deltaTime;
-            }
+            Integrate(body, deltaTime); // Using Integrate function to avoid code duplication
         }
     }
 
@@ -162,6 +158,11 @@ namespace physics {
             //draw velocity as a line
             Vector2 endPosition = body.position + body.velocity;
             graphics.DrawLine(body.position.x, body.position.y, endPosition.x, endPosition.y);
+
+            //draw AABB box
+            Vector2 bottomLeft = body.position - body.halfDimensions;
+            Vector2 topRight = body.position + body.halfDimensions;
+            graphics.DrawRect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
         }
     }
 }

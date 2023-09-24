@@ -36,13 +36,15 @@ namespace physics {
 
     //handle the collision response between a dynamic body and a static body
     //dynamicBody is the moving object, while staticBody remains stationary
-    void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody) {
+    void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody) 
+    {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
         dynamicBody.velocity = (dynamicBody.velocity)*(-1);
     }
 
     //to handle the collision response between two dynamic bodies
-    void DynamicDynamicResponse(Body& bodyA, Body& bodyB) {
+    void DynamicDynamicResponse(Body& bodyA, Body& bodyB) 
+    {
         Vector2 tempVelocity = bodyA.velocity;
         //swap the velocities, causing them to exchange their velocities upon collision
         //bounce off each other
@@ -50,11 +52,14 @@ namespace physics {
         bodyB.velocity = tempVelocity;
     }
 
-    void HandleCollisionResponse(Body& alpha, Body& beta) {
-        if (beta.isStatic) {
+    void HandleCollisionResponse(Body& alpha, Body& beta) 
+    {
+        if (beta.isStatic) 
+        {
             DynamicStaticResponse(alpha, beta);
         }
-        else {
+        else 
+        {
             DynamicDynamicResponse(alpha, beta);
         }
     }

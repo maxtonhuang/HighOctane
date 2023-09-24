@@ -73,16 +73,18 @@ namespace physics {
 	extern PhysicsManager* PHYSICS;
 }
 
+//for ECS
 struct Body {
     Vector2                    prevPosition{};
     Vector2                    acceleration{};
     Vector2                    accumulatedForce{};
-    bool                    isStatic{};
+    bool                       isStatic{};
     Vector2                    rotation;
     Vector2                    position;
     Vector2                    scale;
     Vector2                    velocity;
-
+    float                      width;
+    float                      height;
 };
 
 struct Collider {

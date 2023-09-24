@@ -42,6 +42,7 @@ namespace physics {
 				accumulatedForce(0, 0),
 				mass(0.0f),
 				restitution(0.0f),
+				halfDimensions{width/2.f, height/2.f},
 				friction(0.2f),
 				isStatic(false),
 				bodyShape(nullptr)
