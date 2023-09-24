@@ -36,13 +36,11 @@
 #include "Components.h"
 #include "ECS.h"
 #include "EngineCore.h"
+#include "Global.h"
 
 #include <iostream>
 
-const float pi = 3.14159265358979323846f;
-extern float g_dt;
-extern ECS ecs;
-extern Mail mail;
+const float pi = 3.14159265358979323846;
 
 Model::Model() { 
 	color = glm::vec4{ 1,1,1,1 };
@@ -164,9 +162,9 @@ void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData)
 	//}
 
 	// Check mailbox for input triggers
-	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
-	for (Postcard const& msg : mail.mailbox[ADDRESS::MODEL]) {
+	for (Postcard msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			if (msg.info == INFO::KEY_C) {
 				ChangeAnimation(aniData, texData);
@@ -188,9 +186,9 @@ void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) 
 	}
 
 	// Check mailbox for input triggers
-	mail.CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
-	for (Postcard const& msg : mail.mailbox[ADDRESS::MODEL]) {
+	for (Postcard msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			//if (msg.info == INFO::KEY_C) {
 				//ChangeAnimation(aniData, texData);

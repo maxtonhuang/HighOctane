@@ -44,8 +44,9 @@
 #include "GraphLib.h"
 #include "Texture.h"
 #include "Graphics.h"
+#include "physics.h"
 
-extern ECS ecs;
+
 
 std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -54,47 +55,51 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 		// REMOVE HARDCODING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 		{
-			Entity entity = ecs.CreateEntity();
+			Entity entity = ECS::ecs().CreateEntity();
 			masterEntitiesList["CAT"] = entity;
-			ecs.AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
-			//ecs.AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
-			ecs.AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
-			ecs.AddComponent(entity, Visible{ false });
-			//ecs.AddComponent(entity, Tex{ texList.Add("cat.png") });
+			ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
+			//ECS::ecs().AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
+			ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
+			ECS::ecs().AddComponent(entity, Visible{ false });
+			//ECS::ecs().AddComponent(entity, Tex{ texList.Add("cat.png") });
 
 			//add tex component, init tex with duck sprite (init tex with nullptr produces white square instead)
-			ecs.AddComponent(entity, Tex{ texList.Add("duck.png") });
-			Tex* t = &ecs.GetComponent<Tex>(entity);
+			ECS::ecs().AddComponent(entity, Tex{ texList.Add("duck.png") });
+			Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
 			t->texVariants.push_back(texList.Add("duck.png"));
 			t->texVariants.push_back(texList.Add("duck2.png"));
 			//setting tex to texVariants[1] (duck2) still shows duck tex but with duck2 dims?
 			t->tex = t->texVariants.at(0);
-			ecs.AddComponent(entity, Animation{});
-			Animation* a = &ecs.GetComponent<Animation>(entity);
+			ECS::ecs().AddComponent(entity, Animation{});
+			Animation* a = &ECS::ecs().GetComponent<Animation>(entity);
 			a->animationType = Animation::ANIMATION_TIME_BASED;
 			//a->animationType = Animation::ANIMATION_EVENT_BASED;
 			a->frameDisplayDuration = 0.1f;
-			ecs.AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-			//ecs.AddComponent(entity, MainCharacter{});
-			ecs.AddComponent(entity, Model{});
+			ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+			//ECS::ecs().AddComponent(entity, MainCharacter{});
+			ECS::ecs().AddComponent(entity, Model{});
+
+			//add physics component
+			ECS::ecs().AddComponent<Body>(entity, Body{});
+			ECS::ecs().AddComponent<Collider>(entity, Collider{});
 		}
 	}
 
 void CloneMasterModel(float rW, float rH, bool isMainCharacter) {
-	Entity entity = ecs.CreateEntity();
+	Entity entity = ECS::ecs().CreateEntity();
 	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
-	ecs.AddComponent(entity, Color{ ecs.GetComponent<Color>(masterEntity) });
-	ecs.AddComponent(entity, Transform{ ecs.GetComponent<Transform>(masterEntity) });
-	ecs.GetComponent<Transform>(entity).position = {rW, rH};
-	ecs.AddComponent(entity, Tex{ ecs.GetComponent<Tex>(masterEntity) });
-	ecs.AddComponent(entity, Visible{ true });
-	ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
+	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Visible{ true });
+	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 	if (isMainCharacter) {
-		ecs.AddComponent(entity, MainCharacter{});
+		ECS::ecs().AddComponent(entity, MainCharacter{});
 	}		
-	ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
-	ecs.AddComponent(entity, Animation{ ecs.GetComponent<Animation>(masterEntity)});
-	ecs.AddComponent(entity, Clone{});
+	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
+	ECS::ecs().AddComponent(entity, Clone{});
 }
 
 void LoadModels(uint32_t amount, bool isMainCharacter) {
@@ -111,15 +116,15 @@ void LoadModels(uint32_t amount, bool isMainCharacter) {
 
 //FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
 Entity CreateModel() {
-	Entity entity = ecs.CreateEntity();
+	Entity entity = ECS::ecs().CreateEntity();
 	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
-	ecs.AddComponent(entity, Color{ ecs.GetComponent<Color>(masterEntity) });
-	ecs.AddComponent(entity, Transform{ ecs.GetComponent<Transform>(masterEntity) });
-	ecs.AddComponent(entity, Tex{ ecs.GetComponent<Tex>(masterEntity) });
-	ecs.AddComponent(entity, Visible{ true });
-	ecs.AddComponent(entity, Size{ ecs.GetComponent<Size>(masterEntity) });
-	ecs.AddComponent(entity, Model{ ecs.GetComponent<Model>(masterEntity) });
-	ecs.AddComponent(entity, Animation{});
-	ecs.AddComponent(entity, Clone{});
+	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Visible{ true });
+	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Animation{});
+	ECS::ecs().AddComponent(entity, Clone{});
 	return entity;
 }

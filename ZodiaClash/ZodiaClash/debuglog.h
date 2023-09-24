@@ -24,6 +24,7 @@
 #include <filesystem>
 #include <exception>
 
+
 // Move this together with the bottom code please thank you to either engine or graphics
 #include "Framework.h"
 
@@ -72,11 +73,11 @@ namespace debuglog {
 			std::string GetLevel(LOG_LEVEL level);
 			std::string GetTimeStamp();
 			std::streampos GetLogFileSize();
-
+			void log(LOG_LEVEL level, const std::string& message);
 
 		private:
 
-			void log(LOG_LEVEL level, const std::string& message);
+
 
 			std::ofstream logFile;
 			std::string currentLogFileName;

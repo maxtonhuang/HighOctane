@@ -37,6 +37,7 @@
 #include "ECS.h"
 #include "MMath.h"
 #include "Renderer.h"
+#include "Global.h"
 
 extern float g_dt;
 

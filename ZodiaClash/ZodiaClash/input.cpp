@@ -24,8 +24,6 @@
 
 std::unordered_map<int, INFO> keyStatus;
 
-extern Mail mail;
-
 /*  _________________________________________________________________________*/
 /*! KeyCallback
 
@@ -56,7 +54,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
-        mail.CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
+        Mail::mail().CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
@@ -66,7 +64,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;
-        mail.CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
+        Mail::mail().CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
         break;
     default:
         break;
@@ -102,10 +100,10 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
         }*/
         switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
-            mail.CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
+            Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
-            mail.CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
+            Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
             break;
         }
     }
@@ -137,7 +135,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     int currPosY = static_cast<int>(-static_cast<float>(ypos) + GRAPHICS::h);
     
     if (currPosX != previousPosX || currPosY != previousPosY) {
-        mail.CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
+        Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
     }
 
     previousPosX = currPosX;
@@ -151,7 +149,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 void InputManager::KeyCheck() {
     for (std::pair<int, INFO> val : keyStatus) {
         if (val.second != INFO::NONE) {
-            mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
+            Mail::mail().CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
         }
     }
 }

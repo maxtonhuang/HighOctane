@@ -5,9 +5,14 @@
 #include "debuglog.h"
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-    extern std::vector<std::shared_ptr<System>> systemList;
+    extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
     extern DebugProfiling debugSysProfile;
+
+    static bool autoScroll;
+
 #endif
+
+
 
 GUIManager guiManager;
 GUIManager::GUIManager()
@@ -29,16 +34,21 @@ bool show_demo_window;
 bool show_another_window;
 
 bool usageWindow;
+bool consoleWindow;
 bool debugWindow;
 
 void GUIManager::Init(GLFWwindow* window)
 {
+    
     show_demo_window = true;
     show_another_window = true;
 
     #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
         usageWindow = true;
+        consoleWindow = true;
         debugWindow = true;
+
+        autoScroll = false;
     #endif
 
     //// GL 3.0 + GLSL 130
@@ -131,6 +141,51 @@ void GUIManager::Update(GLFWwindow* window)
     }
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+    if (debugWindow) {
+        ImGui::Begin("Debug Window", &debugWindow);
+
+        // For creating a tab bar
+        if (ImGui::BeginTabBar("DebugTabs")) {
+
+            /************** TAB 1 ***************/
+            if (ImGui::BeginTabItem("Console Tab")) {
+
+                // Button to toggle the console window
+                if (ImGui::Button(consoleWindow ? "Console On" : "Console Off")) {
+                    consoleWindow = !consoleWindow;
+                }
+
+                if (ImGui::Button("Clear")) {
+                    imguiOutputBuffer.ClearBuffer();
+                }
+
+                ImGui::EndTabItem();
+            }
+            /************** TAB 1 ***************/
+
+            /************** TAB 2 ***************/
+            if (ImGui::BeginTabItem("Usage Tab")) {
+
+                if (ImGui::Button(usageWindow ? "Usage On" : "Usage Off")) {
+					usageWindow = !usageWindow;
+				}
+            ImGui::Text("Real-time Input:");
+            
+            // Display real-time input values
+            float inputValue = 0.0f;  // Replace with your actual input value
+            ImGui::Text("Input Value: %.2f", inputValue);
+
+            ImGui::EndTabItem();
+            }
+            /************** TAB 2 ***************/
+
+            // End the tab bar
+            ImGui::EndTabBar();
+        }
+
+        ImGui::End();
+    }
+
     if (usageWindow) {
         // Number of data points
         size_t valuesCount = systemList.size();
@@ -145,11 +200,11 @@ void GUIManager::Update(GLFWwindow* window)
         ImGui::Begin("Percent Usage", &usageWindow, ImGuiWindowFlags_NoResize);
 
         // For the plotting of the horizontal histogram
-        for (size_t i = 0; i < valuesCount; ++i) {
-            float percentage = debugSysProfile.GetPercentage(systemList[i]);
+        for (int i = 0; i < valuesCount; ++i) {
+            float percentage = debugSysProfile.GetPercentage(systemList[i].first);
 
             // Change this to system name in the future when max implemented it
-            std::string histogramName = "System " + std::to_string(i);
+            std::string histogramName = systemList[i].second;
 
             // Create a group to hold the horizontal histogram and text side by side
             ImGui::BeginGroup();
@@ -194,29 +249,82 @@ void GUIManager::Update(GLFWwindow* window)
         ImGui::End();
     }
 
+#endif
+
+#if ENABLE_DEBUG_DIAG
+
+    // For the filter buffer for the console window
+    static char filterBuffer[256] = "";
+
+    // Change the colour for my console window
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
+
     // Debug window
-    if (debugWindow) {
+    if (consoleWindow) {
+        if (ImGui::Begin("Console")) {
 
-        // For opening and closing the window
-        ImGui::Begin("Debug Window", &debugWindow);
+            // Add an input field for the filter
+            ImGui::InputText("Filter", filterBuffer, IM_ARRAYSIZE(filterBuffer));
 
-        ImGui::Text("This is a debugging windows for all the debugging needs");
+            ImGui::Separator();
 
-        // Buttons
-        if (ImGui::Button("Open/Close performance window"))
-			usageWindow = !usageWindow;
 
-        // Example log messages
-        ImGui::Text("This is a regular log message.");
-        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "This is an error message in red.");
-        ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "This is a warning message in yellow.");
-        
-        ImGui::TextDisabled("This is a disabled text.");
+            // Create a scrolling region for the content
+            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
-        //ImGui::TextUnformatted(debuglog::logger.GetLogContent().c_str());
+            // Display the captured output in the text box
+            const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
+            size_t pos = 0;
+            while (pos < logBuffer.size()) {
+                size_t newlinePos = logBuffer.find('\n', pos);
+                if (newlinePos != std::string::npos) {
+                    std::string logEntry = logBuffer.substr(pos, newlinePos - pos);
 
-        ImGui::End();
+                    // Check if the log entry contains the filter string (case-insensitive)
+                    std::string logEntryLowerCase = logEntry;
+                    std::string filterLowerCase = filterBuffer;
+
+                    // Convert both strings to lower case
+                    std::transform(logEntryLowerCase.begin(), logEntryLowerCase.end(), logEntryLowerCase.begin(), ::tolower);
+                    std::transform(filterLowerCase.begin(), filterLowerCase.end(), filterLowerCase.begin(), ::tolower);
+
+                    // If the log entry contains the filter string, display it
+                    if (logEntryLowerCase.find(filterLowerCase) != std::string::npos) {
+                        ImGui::TextUnformatted(logEntry.c_str());
+                    }
+                    pos = newlinePos + 1;
+                }
+                else {
+                    break;
+                }
+            }
+
+            // Automatically scroll to the bottom if auto-scroll is enabled
+            if (autoScroll) {
+                ImGui::SetScrollHereY(1.0f);
+            }
+
+            // End the scrolling region
+            ImGui::EndChild();
+
+            // Toggle auto-scroll button(s) at the bottom
+            ImGui::Separator();
+            if (ImGui::Button(autoScroll ? "Auto-Scroll On" : "Auto-Scroll Off")) {
+                autoScroll = !autoScroll;
+            }
+            ImGui::Separator();
+
+            // For clearing buffer
+            if (ImGui::Button("Clear")) {
+                imguiOutputBuffer.ClearBuffer();
+            }
+
+            ImGui::End();
+        }
     }
+
+    // Stops changing the colour
+    ImGui::PopStyleColor();
 
 #endif
 
@@ -231,3 +339,28 @@ void GUIManager::Update(GLFWwindow* window)
 
    // glfwSwapBuffers(window);
 }
+
+/*******************************************************************/
+// ALL THESE IS FOR DEBUGGING PLEASE DO NOT TOUCH AT ALL
+int ImGuiOutputBuffer::overflow(int c) {
+    if (c != EOF) {
+        // Append the character to a buffer
+        buffer += static_cast<char>(c);
+    }
+    return c;
+}
+
+const std::string& ImGuiOutputBuffer::GetBuffer() const {
+    return buffer;
+}
+
+void ImGuiOutputBuffer::ClearBuffer() {
+    buffer.clear();
+}
+
+// Define the instance
+ImGuiOutputBuffer imguiOutputBuffer;
+
+// Redirect std::cout to use the custom stream buffer
+std::ostream imguiCout(&imguiOutputBuffer);
+std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());

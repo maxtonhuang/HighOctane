@@ -27,6 +27,7 @@
 *
 *	This file contains all the function declarations of the ECS Architecture.
 *   The parts of the ECS Architecture include:
+* 
 *   [1] ENTITY -
 *    -  Entity Manager - Manages the Entity IDs and keeps track of how
                              many entities ther are currently.
@@ -223,6 +224,16 @@ class ECS {
 public:
     void Init();
 
+    // Disallow copying to prevent creation of more than one instance
+    ECS(const ECS &) = delete;
+    ECS & operator=(const ECS &) = delete;
+
+    // Public accessor for the Singleton instance
+    static ECS & ecs() {
+        static ECS entityComponentSystem;
+        return entityComponentSystem;
+    }
+
     // Entity methods ------------------------------
     Entity CreateEntity();
 
@@ -259,6 +270,9 @@ public:
     ComponentManager& GetComponentManager();
 
 private:
+
+    ECS() {}
+
     std::unique_ptr<ComponentManager> m_ComponentManager;
     std::unique_ptr<EntityManager> m_EntityManager;
     std::unique_ptr<SystemManager> m_SystemManager;

@@ -36,8 +36,11 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{11604d9b-055c-49fe-8915-7e618d4eba4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audio">
-      <UniqueIdentifier>{2d3e5f48-1648-4210-94d5-bfc49b4dfd17}</UniqueIdentifier>
+    <Filter Include="Game">
+      <UniqueIdentifier>{2c07571d-6034-463f-84d4-a5f0b6b54f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Miscellaneous">
+      <UniqueIdentifier>{64f3ec1d-4a5c-4edb-819c-f75866ce5880}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +159,9 @@
     <ClInclude Include="GUIManager.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="GraphicConstants.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -165,8 +171,11 @@
     <ClInclude Include="DebugProfile.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Audio</Filter>
+    <ClInclude Include="Battle.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,14 +267,18 @@
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Renderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="DebugProfile.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Audio</Filter>
+    <ClCompile Include="Battle.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

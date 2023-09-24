@@ -38,13 +38,24 @@
 #include "graphics.h"
 #include "model.h"
 #include "message.h"
+#include "physics.h"
 
-
-extern ECS ecs;
-extern Mail mail;
 	
 void PhysicsSystem::Update() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
+	// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& bodyArray = componentManager.GetComponentArrayRef<Body>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform* transData = &transformArray.GetData(entity);
+		Body* bodyData = &bodyArray.GetData(entity);
+		Collider* collideData = &colliderArray.GetData(entity);
+	}
+	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
 	
 // Movement System
@@ -62,28 +73,28 @@ void MovementSystem::Update() {
 	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
-		UpdateMovement(ecs.GetComponent<Transform>(entity));
+		UpdateMovement(ECS::ecs().GetComponent<Transform>(entity));
 
 		/*Model modelData = modelArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);*/
 
-		Model* modelData = &ecs.GetComponent<Model>(entity);
-		Animation* aniData = &ecs.GetComponent<Animation>(entity);
-		Tex* texData = &ecs.GetComponent<Tex>(entity);
-		Size* sizeData = &ecs.GetComponent<Size>(entity);
+		Model* modelData = &ECS::ecs().GetComponent<Model>(entity);
+		Animation* aniData = &ECS::ecs().GetComponent<Animation>(entity);
+		Tex* texData = &ECS::ecs().GetComponent<Tex>(entity);
+		Size* sizeData = &ECS::ecs().GetComponent<Size>(entity);
 
 		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
 		modelData->DrawOutline();
 	}
-	mail.mailbox[ADDRESS::MOVEMENT].clear();
+	Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
 
 void ModelSystem::Update() {
 
 	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ecs.GetComponentManager();
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
@@ -99,20 +110,20 @@ void ModelSystem::Update() {
 
 		modelData->UpdateAnimationNPC(*aniData, *texData, *sizeData);
 	}
-	mail.mailbox[ADDRESS::MODEL].clear();
+	Mail::mail().mailbox[ADDRESS::MODEL].clear();
 }
 
 void GraphicsSystem::Initialize() {
 	for (Entity const& entity : m_Entities) {
-		Model* m = &ecs.GetComponent<Model>(entity);
-		m->Update(ecs.GetComponent<Transform>(entity), ecs.GetComponent<Size>(entity));
+		Model* m = &ECS::ecs().GetComponent<Model>(entity);
+		m->Update(ECS::ecs().GetComponent<Transform>(entity), ECS::ecs().GetComponent<Size>(entity));
 	}
 }
 
 void GraphicsSystem::Update() {
 	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ecs.GetComponentManager();
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();

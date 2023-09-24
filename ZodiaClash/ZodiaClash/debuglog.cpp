@@ -33,6 +33,7 @@ Dynamically change the log level during run time
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
+#include "GUIManager.h"
 
 
 
@@ -224,19 +225,19 @@ namespace debuglog {
 		switch (level) {
 
 		case LOG_LEVEL::Trace:
-			return "T";
+			return "Trace";
 		case LOG_LEVEL::Debug:
-			return "D";
+			return "Debug";
 		case LOG_LEVEL::Info:
-			return "I";
+			return "Info";
 		case LOG_LEVEL::Warning:
-			return "W";
+			return "Warning";
 		case LOG_LEVEL::Error:
-			return "E";
+			return "Error";
 		case LOG_LEVEL::Fatal:
-			return "F";
+			return "Fatal";
 		default:
-			return "U";
+			return "Unknown";
 		}
 	}
 	

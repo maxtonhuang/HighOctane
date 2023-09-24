@@ -5,7 +5,7 @@
 
 using namespace vmath;
 
-class Shape; //forward declaration
+//class Shape; //forward declaration
 
 namespace physics {
 

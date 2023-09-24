@@ -22,8 +22,6 @@
 
 using Vec2 = vmath::Vector2;
 
-extern Mail mail;
-
 
 // Global Variables:
 //HINSTANCE hInst;                                // current instance
@@ -52,7 +50,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // To enable the console
-    Console();
+    //Console();
     INFOL("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
@@ -65,7 +63,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ERRORL("This is a test error message");
     FATALL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
-
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
