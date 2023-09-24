@@ -81,16 +81,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Assert(y <= 0, "x must be more than 0");
 
-    // Max --------
-
-    EngineCore engine; // = new EngineCore();
-        
+    ////////// Run Game //////////
+    EngineCore engine;
     engine.Run();
-
-    /*return (int) msg.wParam;*/
-    
-    //delete engine;
     
     return 0;
 }
-

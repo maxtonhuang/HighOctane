@@ -62,7 +62,7 @@ std::vector<float> testingVec;
 
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 	
-const uint32_t MAX_MODELS = 50'000;
+//const uint32_t MAX_MODELS = 50'000;
 	
 EngineCore::EngineCore() {
 	m_previousTime = 0;
@@ -189,7 +189,7 @@ void EngineCore::Run() {
 	while (gameActive) {
 		//debugSysProfile.StartTimer(systemList[0], GetTime());
 		uint64_t l_currentTime = GetTime();
-		g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
+		g_dt = static_cast<float>(l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		m_previousTime = l_currentTime;
 		
 		//DebugPrint("FPS: %.2f", 1.0f / g_dt);
