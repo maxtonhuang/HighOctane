@@ -47,7 +47,7 @@ namespace debuglog {
 
 	// Constructor
 	Logger::Logger() {
-		currentLogFileName = "consolelog.log";
+		currentLogFileName = "console.log";
 		this->currentLogLevel = LOG_LEVEL::Trace;
 
 		// Open the file
@@ -128,7 +128,6 @@ namespace debuglog {
 			// Get the current level
 			std::string levels = GetLevel(level);
 
-			logFile << timeStamp << " [" << levels << "] " << message << "\n";
 
 			// Flush the buffer to write immediately, if not, need to interact with the graphics
 			logFile.flush();
@@ -185,16 +184,6 @@ namespace debuglog {
 		if (static_cast<size_t>(GetLogFileSize()) >= maxFileSize) {
 			// Close the current log file
 			logFile.close();
-			
-			// C++14
-			//std::string newFileName = currentLogFileName;
-			//newFileName.erase(newFileName.size() - 4); // Remove the .txt extension
-			//newFileName += "Old.txt"; 
-
-			//// If cannot rename
-			//if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
-			//	Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot rename file");
-			//}
 
             std::filesystem::path currentPath(currentLogFileName);
             std::filesystem::path newPath = currentPath.stem();
@@ -288,7 +277,7 @@ namespace debuglog {
 
 	#if ENABLE_DEBUG_DIAG
 		// For debugging
-		Logger logger("consoletest.log", debuglog::LOG_LEVEL::Trace);
+	Logger logger;
 	#endif
 }
 

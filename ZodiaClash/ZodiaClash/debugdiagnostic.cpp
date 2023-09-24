@@ -108,7 +108,7 @@ namespace debug {
                 std::cerr << std::endl;
 
                 // Display a message box to the user
-                int testing = CustomMessageBox(fileName, line, message);
+                CustomMessageBox(fileName, line, message);
             }
         } while (false);
     }

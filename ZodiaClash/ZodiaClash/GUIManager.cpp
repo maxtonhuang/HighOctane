@@ -8,7 +8,7 @@
     extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
     extern DebugProfiling debugSysProfile;
 
-    static bool autoScroll;
+
 
 #endif
 
@@ -48,7 +48,6 @@ void GUIManager::Init(GLFWwindow* window)
         consoleWindow = true;
         debugWindow = true;
 
-        autoScroll = false;
     #endif
 
     //// GL 3.0 + GLSL 130
@@ -169,13 +168,6 @@ void GUIManager::Update(GLFWwindow* window)
                 if (ImGui::Button(usageWindow ? "Usage On" : "Usage Off")) {
 					usageWindow = !usageWindow;
 				}
-            ImGui::Text("Real-time Input:");
-            
-            // Display real-time input values
-            float inputValue = 0.0f;  // Replace with your actual input value
-            ImGui::Text("Input Value: %.2f", inputValue);
-
-            ImGui::EndTabItem();
             }
             /************** TAB 2 ***************/
 
@@ -255,7 +247,8 @@ void GUIManager::Update(GLFWwindow* window)
 
     // For the filter buffer for the console window
     static char filterBuffer[256] = "";
-
+    static char fileNameBuffer[31] = "";
+    static bool autoScroll = false;
     // Change the colour for my console window
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
 
@@ -263,11 +256,48 @@ void GUIManager::Update(GLFWwindow* window)
     if (consoleWindow) {
         if (ImGui::Begin("Console")) {
 
-            // Add an input field for the filter
-            ImGui::InputText("Filter", filterBuffer, IM_ARRAYSIZE(filterBuffer));
+            // Push the width of the input text box
+            ImGui::PushItemWidth(200);
 
+            /********FILE INPUT TEXT*********/
+            ImGui::InputText("File Name", fileNameBuffer, IM_ARRAYSIZE(fileNameBuffer), ImGuiInputTextFlags_CharsNoBlank);
+            ImGui::SameLine();
+            ImGui::TextDisabled("(?)"); // Label text
+            if (ImGui::IsItemHovered()) {
+                ImGui::SetTooltip("Enter name of file. Eg. 'Good' will create a file called 'Good.log' ");
+            }
+            /********FILE INPUT TEXT*********/
+
+            // Export to file button
+            ImGui::SameLine();
+            if (ImGui::Button("Export to File")) {
+                // Call a function to export the console content to a file
+                ExportConsoleToFile(fileNameBuffer);
+            }
             ImGui::Separator();
 
+            /********FILTER INPUT TEXT*********/
+            ImGui::InputText("Filter", filterBuffer, IM_ARRAYSIZE(filterBuffer));
+            ImGui::SameLine();
+            ImGui::TextDisabled("(?)"); // Label text
+            if (ImGui::IsItemHovered()) {
+                ImGui::SetTooltip("Filters console. Is case-insensitive");
+            }
+            /********FILTER INPUT TEXT*********/
+
+            // Pop the input text box width
+            ImGui::PopItemWidth();
+            ImGui::Separator();
+
+            // Checkbox for the auto scroll
+            ImGui::Checkbox("Auto-Scroll", &autoScroll);
+            ImGui::Separator();
+
+            // For clearing buffer
+            if (ImGui::Button("Clear")) {
+                imguiOutputBuffer.ClearBuffer();
+            }
+            ImGui::Separator();
 
             // Create a scrolling region for the content
             ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
@@ -288,9 +318,33 @@ void GUIManager::Update(GLFWwindow* window)
                     std::transform(logEntryLowerCase.begin(), logEntryLowerCase.end(), logEntryLowerCase.begin(), ::tolower);
                     std::transform(filterLowerCase.begin(), filterLowerCase.end(), filterLowerCase.begin(), ::tolower);
 
-                    // If the log entry contains the filter string, display it
+                    /********CUSTOM COLLOUR OUTPUT*********/
+                    ImVec4 textColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);  // Default to white text color
+
+                    if (logEntryLowerCase.find("[trace]") != std::string::npos) {
+                        textColor = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);  // Grey for trace messages
+                    }
+                    else if (logEntryLowerCase.find("[debug]") != std::string::npos) {
+                        textColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);  // Yellow for debug messages
+                    }
+                    else if (logEntryLowerCase.find("[info]") != std::string::npos) {
+                        textColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);  // Blue for info messages
+                    }
+                    else if (logEntryLowerCase.find("[warning]") != std::string::npos) {
+                        textColor = ImVec4(1.0f, 0.5f, 0.0f, 1.0f);  // Orange for warning messages
+                    }
+                    else if (logEntryLowerCase.find("[error]") != std::string::npos) {
+                        textColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);  // Red for error messages
+                    }
+                    else if (logEntryLowerCase.find("[fatal]") != std::string::npos) {
+                        textColor = ImVec4(1.0f, 0.2f, 0.2f, 1.0f);  // Bright red for fatal messages
+                    }
+                    /********CUSTOM COLLOUR OUTPUT*********/
+
+                    // Set the text color
                     if (logEntryLowerCase.find(filterLowerCase) != std::string::npos) {
-                        ImGui::TextUnformatted(logEntry.c_str());
+                        //ImGui::TextUnformatted(logEntry.c_str());
+                        ImGui::TextColored(textColor, logEntry.c_str());
                     }
                     pos = newlinePos + 1;
                 }
@@ -299,7 +353,7 @@ void GUIManager::Update(GLFWwindow* window)
                 }
             }
 
-            // Automatically scroll to the bottom if auto-scroll is enabled
+            // For automatically scrolling if the auto-scroll checkbox is ticked
             if (autoScroll) {
                 ImGui::SetScrollHereY(1.0f);
             }
@@ -307,19 +361,9 @@ void GUIManager::Update(GLFWwindow* window)
             // End the scrolling region
             ImGui::EndChild();
 
-            // Toggle auto-scroll button(s) at the bottom
-            ImGui::Separator();
-            if (ImGui::Button(autoScroll ? "Auto-Scroll On" : "Auto-Scroll Off")) {
-                autoScroll = !autoScroll;
-            }
-            ImGui::Separator();
-
-            // For clearing buffer
-            if (ImGui::Button("Clear")) {
-                imguiOutputBuffer.ClearBuffer();
-            }
-
+            // End the console window
             ImGui::End();
+
         }
     }
 
@@ -364,3 +408,26 @@ ImGuiOutputBuffer imguiOutputBuffer;
 // Redirect std::cout to use the custom stream buffer
 std::ostream imguiCout(&imguiOutputBuffer);
 std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
+
+void ExportConsoleToFile(const char* fileName) {
+    std::string fullFileName;
+
+    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";;
+
+    std::ofstream outputFile(fullFileName);
+
+    Assert(!outputFile.is_open(), "Unable to open file");
+
+    // Get the console content and write it to the file
+    const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
+    outputFile << logBuffer;
+
+    // Close the file
+    outputFile.close();
+
+    // Optionally, clear the console content after exporting
+    imguiOutputBuffer.ClearBuffer();
+
+    // Optionally, display a success message
+    std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
+}
