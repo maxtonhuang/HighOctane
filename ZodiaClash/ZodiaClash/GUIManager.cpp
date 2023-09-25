@@ -168,6 +168,8 @@ void GUIManager::Update(GLFWwindow* window)
                 if (ImGui::Button(usageWindow ? "Usage On" : "Usage Off")) {
 					usageWindow = !usageWindow;
 				}
+
+                ImGui::EndTabItem();
             }
             /************** TAB 2 ***************/
 
@@ -360,11 +362,9 @@ void GUIManager::Update(GLFWwindow* window)
 
             // End the scrolling region
             ImGui::EndChild();
-
-            // End the console window
-            ImGui::End();
-
         }
+        // End the console window
+        ImGui::End();
     }
 
     // Stops changing the colour
