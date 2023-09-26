@@ -15,6 +15,7 @@
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
+#include "GUIManager.h"
 
 namespace debug {
 
@@ -32,7 +33,7 @@ namespace debug {
      * \param ... Additional arguments for formatting the debug message.
      * 
      */
-	void printDebugHandler(const char* message, ...) {
+	void PrintDebugHandler(const char* message, ...) {
 
         // Create a variable argument list
         va_list args;
@@ -48,11 +49,15 @@ namespace debug {
         // Clean up the variable argument list
         va_end(args);
 
+
+        // Redirects it to ImGui
+        imguiOutputBuffer.buffer += buffer;
+        imguiOutputBuffer.buffer += "\n";
         // Print the formatted message to the standard error stream
-        fprintf(stderr, "%s\n", buffer);
+        //fprintf(stderr, "%s\n", buffer);
 
         // Log it into the file
-        debuglog::logger.info(buffer);
+        //debuglog::logger.info(buffer);
     }
 
 
@@ -70,7 +75,7 @@ namespace debug {
      * \param ... Additional arguments for formatting the custom message (if provided).
      *
      */
-    void assertDebugHandler(bool condition, const char* file, int line, const char* message, ...) {
+    void AssertDebugHandler(bool condition, const char* file, int line, const char* message, ...) {
         do {
 
             // If the condition is true, then we don't need to do anything
@@ -89,9 +94,6 @@ namespace debug {
                     fileName++;
                 }
 
-                // Create the logging file only when needed
-                debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace, true);
-
                 // Print an error message with just the file name and line number
                 std::cerr << "Assertion failed in " << fileName << " line " << line << ": ";
 
@@ -101,22 +103,62 @@ namespace debug {
                     va_start(args, message);
                     vfprintf(stderr, message, args);
                     va_end(args);
-
                 }
-
+                
                 std::cerr << std::endl;
 
-                // Log the crash into the crash file
-                crashLogger.error("Assertion failed in " + std::string(fileName) + " line " + std::to_string(line));
-
-                std::abort();
+                // Display a message box to the user
+                CustomMessageBox(fileName, line, message);
             }
         } while (false);
     }
 
+    // For the message in a box to use in assert
+    int CustomMessageBox(const char* file, int line, const char* message) {
+
+        // Convert the const char* to LPCWSTR
+        std::wstring wideFile = std::wstring(file, file + strlen(file));
+        std::wstring wideMessage = std::wstring(message, message + strlen(message));
+
+        LPCWSTR wideFilePtr = wideFile.c_str();
+        LPCWSTR wideMessagePtr = wideMessage.c_str();
+
+        // Creating the custom message
+        std::wstring customMsg = L"In file: " + std::wstring(wideFilePtr) + L" line: " + std::to_wstring(line)\
+            + L"\n\nAssert triggered: " + std::wstring(wideMessagePtr)\
+            + L"\n\nYes to quit\n\nNo to continue"\
+            + L"\nWARNING: PROGRAM MAY NOT WORK PROPERLY";
+        std::wstring customTitle = +L"Quit program?";
+
+        // Display a message box to the user
+        int msgboxID = MessageBox(
+            NULL,
+            customMsg.c_str(),
+            customTitle.c_str(),
+            MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
+        );
+        // Create the logging file only when needed
+        debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
+        switch (msgboxID)
+        {
+        case IDYES:
+            // Log the crash into the crash file
+            crashLogger.error("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to terminate");
+            ExitProcess(0);
+            break;
+        case IDNO:
+            crashLogger.error("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to continue");
+            // Continue on with the code
+            break;
+        }
+
+        return msgboxID;
+    }
 
     // Creates the console
-    void consoleInitHandler() {
+    void ConsoleInitHandler() {
         // Allocate a new console for the calling process
         AllocConsole();
 
@@ -134,50 +176,6 @@ namespace debug {
         // Just for fun
         std::cout << "ZodiaClash Engine Version 0.1\n";
 
-    }
-
-    // Function to print out the memory usage
-    void performanceDataHandler() {
-
-        PROCESS_MEMORY_COUNTERS pmc;
-
-        // For the CPU usage
-        FILETIME idleTime, kernelTime, userTime;
-        performanceTime++;
-
-        // Prints it out once at intervals
-        if (performanceTime > 300) {
-			performanceTime = 0;
-			
-            // To get the memory usage in bytes
-            if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
-                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
-                // Working set size in bytes
-                SIZE_T usedMemory = pmc.WorkingSetSize;
-                std::cout << "Used memory: " << usedMemory / (1024 * 1024) << " MB" << std::endl;
-                
-            }
-
-            // To get the CPU percentage usage
-            if (GetSystemTimes(&idleTime, &kernelTime, &userTime)) {
-                ULARGE_INTEGER idle, kernel, user;
-                idle.LowPart = idleTime.dwLowDateTime;
-                idle.HighPart = idleTime.dwHighDateTime;
-                kernel.LowPart = kernelTime.dwLowDateTime;
-                kernel.HighPart = kernelTime.dwHighDateTime;
-                user.LowPart = userTime.dwLowDateTime;
-                user.HighPart = userTime.dwHighDateTime;
-
-                // Calculate CPU usage percentage
-                double total = static_cast<double>(kernel.QuadPart + user.QuadPart);
-                double idlePercent = (static_cast<double>(idle.QuadPart) / total) * 100.0;
-                double usagePercent = 100.0 - idlePercent;
-                std::cout << "CPU Usage: " << usagePercent << "%" << std::endl;
-
-                // If CPU usage is more than 50%
-                Assert(usagePercent > 50.f, "CPU usage is more than 50%!");
-            }  
-        }
     }
 
     void CustomTerminateHandler() {

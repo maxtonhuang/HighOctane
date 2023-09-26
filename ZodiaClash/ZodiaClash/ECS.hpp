@@ -1,3 +1,35 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ECS.hpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		The underlying ECS Architecture of the game
+*
+*	This file contains the templte definitions of all the different functions
+*   of the ECS. For more information, please refer to "ECS.h".
+*
+******************************************************************************/
+
 
 ///////////////////////////////////////////////////////////////////////////
 ////////// COMPONENT //////////////////////////////////////////////////////
@@ -52,6 +84,7 @@ void ComponentArray<T>::EntityDestroyed(Entity entity) {
         RemoveData(entity);
     }
 }
+
 
 
 // ---------- Component Manager ---------- //
@@ -109,6 +142,19 @@ std::shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray() {
     return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
 }
 
+template<typename T>
+bool ComponentManager::isComponentTypeRegistered() {
+    const char* typeName = typeid(T).name();
+    return m_ComponentTypes.find(typeName) != m_ComponentTypes.end();
+}
+
+template<typename T>
+ComponentArray<T>& ComponentManager::GetComponentArrayRef() {
+    const char* typeName = typeid(T).name();
+    Assert(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
+    return *static_cast<ComponentArray<T>*>(m_ComponentArrays[typeName].get());
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -126,6 +172,18 @@ std::shared_ptr<T> SystemManager::RegisterSystem() {
     m_Systems.insert({ typeName, system });
     return system;
 }
+
+/*template<typename T>
+std::shared_ptr<T> SystemManager::RegisterSystem(T& input) {
+    const char* typeName = typeid(T).name();
+
+    Assert(m_Systems.find(typeName) != m_Systems.end(), "Registering system more than once.");
+
+    // Create a pointer to the system and return it so it can be used externally
+    std::shared_ptr<T> system = std::shared_ptr<T>(&input);
+    m_Systems.insert({ typeName, system });
+    return system;
+}*/
 
 template<typename T>
 void SystemManager::SetSignature(Signature signature) {
@@ -179,11 +237,21 @@ ComponentType ECS::GetComponentType() {
     return m_ComponentManager->GetComponentType<T>();
 }
 
+template<typename T>
+bool ECS::isComponentTypeRegistered() {
+    return m_ComponentManager->isComponentTypeRegistered<T>();
+}
+
 
 // System methods
 template<typename T>
 std::shared_ptr<T> ECS::RegisterSystem() {
     return m_SystemManager->RegisterSystem<T>();
+}
+
+template<typename T>
+std::shared_ptr<T> ECS::RegisterSystem(T& input) {
+    return m_SystemManager->RegisterSystem<T>(input);
 }
 
 template<typename T>

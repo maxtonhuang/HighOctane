@@ -15,6 +15,4 @@ enum OBJECT_DIRECTION {
 	NEUTRAL_DIRECTION = 11,
 };
 
-void UpdateMovement(Vel & movement);
-
-void UpdateModel(Transform & transform, Vel & movement);
+void UpdateMovement(Transform & transform);

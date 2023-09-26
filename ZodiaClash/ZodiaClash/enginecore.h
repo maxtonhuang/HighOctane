@@ -1,47 +1,54 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		EngineCore.h
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		The Class of the Engine Core
+*
+*	-
+*
+******************************************************************************/
+
 #pragma once
 
-#include "System.h"
-#include "graphics.h"
-#include <vector>
+#include <chrono>
 
+class EngineCore {
 
+public:
 
-namespace Architecture {
+	EngineCore();
 
-	class EngineCore {
-	public:
-		EngineCore();
-		~EngineCore();
+	void Run();
 
-		//void LoadPreFabs();
+	uint64_t GetTime();
 
-		void Run();
+private:
 
-		//void Initialize();
-
-		//void GameLoop();
+	const uint64_t m_initialTime = static_cast<uint64_t>(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count());
 		
-		// remove
-		//void DestroySystems();
-		
-		//remove
-		//void AddSystem(ISystem* system);
+	uint64_t m_previousTime;
 
-		uint64_t GetTime();
+	bool gameActive;
 
-	private:
-
-		// remove
-		//std::vector<ISystem*> Systems;
-
-		uint64_t m_previousTime;
-
-		bool gameActive;
-
-
-	};
-
-
-
-
-}
+};

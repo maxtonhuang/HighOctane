@@ -1,151 +1,205 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Model.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Model component used by graphics system
+*
+*	Model containing draw functions to add vertices to the graphics system to
+*	draw at the end of the frame
+*
+******************************************************************************/
+
+#include "message.h"
 #include "Model.h"
 #include "Graphics.h"
-#include <glm-0.9.9.8/glm/gtc/type_ptr.hpp> //for value_ptr
+#include "Components.h"
+#include "ECS.h"
+#include "EngineCore.h"
+#include "Global.h"
+
 #include <iostream>
 
-const float pi = 3.14159265358979323846;
+const float pi = 3.14159265358979323846f;
 
-std::vector<Model> modelList;
-
-Model::Model() {
+Model::Model() { 
 	color = glm::vec4{ 1,1,1,1 };
-	pos = glm::vec2{ 0,0 };
-	tex = nullptr;
-	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	scale = glm::vec2{ 1,1 };
-	width = 0;
-	height = 0;
+	matrix = glm::mat3{ 1,0,0,0,1,0,0,0,1 };
 }
 
-Model::Model(Texture& input) {
-	color = glm::vec4{ 1,1,1,1 };
-	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	pos = glm::vec2{ 0,0 };
-	scale = glm::vec2{ 1,1 };
-	if (input.IsActive()) {
-		tex = &input;
-		width = (double)tex->GetWidth();
-		height = (double)tex->GetHeight();
+void Model::Update(Transform const& entity, Size const& size) {
+	float x = entity.scale.x * size.width;
+	float y = entity.scale.y * size.height;
+	matrix = glm::mat3{ cos(entity.rotation) * x / GRAPHICS::defaultWidthF ,-sin(entity.rotation) * x / GRAPHICS::defaultHeightF,0,
+		sin(entity.rotation) * y / GRAPHICS::defaultWidthF , cos(entity.rotation) * y / GRAPHICS::defaultHeightF,0,
+		entity.position.x / GRAPHICS::w,entity.position.y / GRAPHICS::h,1 };
+	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
+	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
+	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };
+	glm::vec3 topright3 = matrix * glm::vec3{ 1,1,1 };
+	botleft = glm::vec2{ bottomleft3.x,bottomleft3.y };
+	botright = glm::vec2{ bottomright3.x,bottomright3.y };
+	topleft = glm::vec2{ topleft3.x,topleft3.y };
+	topright = glm::vec2{ topright3.x,topright3.y };
+}
+
+void Model::Draw(Tex const& entity, Animation const& ani) {
+	Renderer* renderer;
+	if (entity.tex != nullptr) {
+		renderer = &textureRenderer;
 	}
 	else {
-		tex = nullptr;
-		width = 0;
-		height = 0;
+		renderer = &flatRenderer;
 	}
-}
-
-Model::Model(char const* input) {
-	color = glm::vec4{ 1,1,1,1 };
-	matrix = glm::mat3{ 0.8,0,0,0,0.5,0,0.2,0,1 };
-	pos = glm::vec2{ 0,0 };
-	scale = glm::vec2{ 1,1 };
-	tex = texList.Add(input);
-	if (tex->IsActive()) {
-		width = (double)tex->GetWidth();
-		height = (double)tex->GetHeight();
+	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
+		renderer->Draw();
+	}
+	if (entity.tex != nullptr) {
+		renderer->AddVertex(Vertex{ botleft,color, entity.tex->GetTexCoords(ani.frameIndex,0), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(ani.frameIndex,3), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
 	}
 	else {
-		width = 0;
-		height = 0;
+		renderer->AddVertex(Vertex{ botleft,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
+		renderer->AddVertex(Vertex{ topright,color });
+		renderer->AddVertex(Vertex{ botright,color });
+		renderer->AddVertex(Vertex{ topleft,color });
 	}
 }
 
-void Model::Update() {
-	double x = scale.x * width / graphics.GetWidth();
-	double y = scale.y * height / graphics.GetHeight();
-	matrix = glm::mat3{ cos(rotationRadians) * x,-sin(rotationRadians) * x,0,
-		sin(rotationRadians) * y, cos(rotationRadians) * y,0,
-		pos.x / graphics.GetWidth(),pos.y / graphics.GetHeight(),1 };
-	//matrix = glm::mat3{0.5,0,0,0,0.5,0,0,0,1};
+void Model::DrawOutline() {
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
+	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
 }
 
-void Model::Draw() {
-	if (tex != nullptr) {
-		glBindTexture(GL_TEXTURE_2D, tex->GetID());
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		//glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	}
-	
-	glBindVertexArray(graphics.GetVAOInfo().id);
-
-	//Pass matrix to shader
-	GLint uniform_var_matrix = glGetUniformLocation(
-		(graphics.GetShader()).GetHandle(), "uModelToNDC");
-	if (uniform_var_matrix >= 0) {
-		glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
-	}
-	else {
-		std::cout << "Uniform variable uModelToNDC doesn't exist!\n";
-		std::cout << "Please check vertex shader!\n";
-		std::exit(EXIT_FAILURE);
-	}
-
-	GLint uniform_var_color = glGetUniformLocation(
-		(graphics.GetShader()).GetHandle(), "uColor");
-	if (uniform_var_color >= 0) {
-		glUniform4fv(uniform_var_color, 1, glm::value_ptr(color));
-	}
-	else {
-		std::cout << "Uniform variable uColor doesn't exist!\n";
-		std::cout << "Please check fragment shader!\n";
-		std::exit(EXIT_FAILURE);
-	}
-
-	GLint uniform_var_tex = glGetUniformLocation(
-		(graphics.GetShader()).GetHandle(), "uTex2d");
-	if (uniform_var_tex >= 0) {
-		glUniform3fv(uniform_var_tex, 1, glm::value_ptr(color));
-	}
-	else {
-		std::cout << "Uniform variable uColor doesn't exist!\n";
-		std::cout << "Please check fragment shader!\n";
-		std::exit(EXIT_FAILURE);
-	}
-
-	glDrawElements(graphics.GetVAOInfo().primitivetype, graphics.GetVAOInfo().drawcnt, GL_UNSIGNED_SHORT, NULL);
+/* ----------------------------------------------------------------------------
+THE FOLLOWING FUNCTIONS ARE TO BE MOVED INTO A DIFFERENT ANIMATOR CLASS
+---------------------------------------------------------------------------- */
+void Model::SetAnimation(Animation& aniData, int index) {
+	aniData.frameIndex = index;
 }
 
-void Model::AttachTexture(Texture& input) {
-	tex = &input;
-	width = (double)tex->GetWidth();
-	height = (double)tex->GetHeight();
+void Model::AdvanceAnimation(Animation& aniData, Tex& texData) {
+	//data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
+	aniData.frameIndex = (aniData.frameIndex + 1) % texData.tex->GetSheetSize();
 }
 
-void Model::AttachTexture(char const* input) {
-	tex = texList.Add(input);
-	if (tex->IsActive()) {
-		width = (double)tex->GetWidth();
-		height = (double)tex->GetHeight();
+void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
+	aniData = aniData; //unused variable
+	// Update sprite
+	if (texData.texVariants.size() == 0) {
+		return;
+	}
+	texData.texVariantIndex = (texData.texVariantIndex + 1) % texData.texVariants.size();
+	texData.tex = texData.texVariants.at(texData.texVariantIndex);
+}
+
+void Model::ResizeOnChange(Tex& texData, Size& sizeData) {
+	sizeData.width = (float)texData.tex->GetWidth();
+	sizeData.height = (float)texData.tex->GetHeight();
+}
+
+void Model::AnimateOnInterval(Animation& aniData, Tex& texData) {
+	aniData.frameTimeElapsed += g_dt;
+	//std::cout << data.frameTimeElapsed << "\n";
+	if (aniData.frameTimeElapsed > aniData.frameDisplayDuration) {
+		AdvanceAnimation(aniData, texData);
+		aniData.frameTimeElapsed = 0.f;
 	}
 }
 
-void Model::SetPos(double x, double y) {
-	pos.x = x;
-	pos.y = y;
+void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
+	AdvanceAnimation(aniData, texData);
 }
 
-void Model::AddPos(double x, double y) {
-	pos.x += x;
-	pos.y += y;
-}
 
-void Model::SetRot(double rot) {
-	rotation = rot;
-	rotationRadians = rotation * pi / 180;
-}
+/********************************************************************************
+* 2 kinds of key input handling:
+* - KEY_C --> AnimationChange()
+*	>> Note: isMsgAnimationChange == 1
+*	>> Note: ONLY for main character entities!
+* - KEY_V --> AnimateOnKeyPress()
+*	>> Note: (animationType == ANIMATION_EVENT_BASED) && (isMsgAnimateNext == 1)
+*	>> Note: for ALL entities!
+********************************************************************************/
 
-void Model::AddRot(double rot) {
-	rotation += rot;
-	if (rotation > 360) {
-		rotation -= 360;
+void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData) {
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+
+	//if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
+		//AnimateOnInterval(aniData, texData); 
+		//return; 
+	//}
+
+	// Check mailbox for input triggers
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			if (msg.info == INFO::KEY_C) {
+				ChangeAnimation(aniData, texData);
+				ResizeOnChange(texData, sizeData);
+			}
+			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				//AnimateOnKeyPress(aniData, texData);
+			//}
+		}
 	}
-	if (rotation < 0) {
-		rotation += 360;
-	}
-	rotationRadians = rotation * pi / 180;
 }
 
-void Model::SetScale(double x, double y) {
-	scale.x = x;
-	scale.y = y;
+void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
+	sizeData = sizeData; //unused variable
+
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+
+	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
+		AnimateOnInterval(aniData, texData);
+		//return;
+	}
+
+	// Check mailbox for input triggers
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			//if (msg.info == INFO::KEY_C) {
+				//ChangeAnimation(aniData, texData);
+				//ResizeOnChange(texData, sizeData);
+			//}
+			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				AnimateOnKeyPress(aniData, texData);
+			}
+		}
+	}
 }

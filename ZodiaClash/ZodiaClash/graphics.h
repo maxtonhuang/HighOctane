@@ -1,17 +1,62 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Graphics.h
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Graphics system of the engine
+*
+*	This file contains functions used in the main graphic system of the engine
+*   This includes the initialisation and destruction of the graphics system as well
+*   as the main draw call of the system
+*
+******************************************************************************/
+
 #pragma once
 #include "Shaders.h"
 #include "Model.h"
-#include "System.h"
+#include "ECS.h"
+#include "MMath.h"
+#include "Renderer.h"
+#include "Global.h"
 
-class GraphicsManager /*: virtual public Architecture::ISystem*/ { // need to change
+extern float g_dt;
+
+class GraphicsManager {
 public:
 	GraphicsManager();
 	~GraphicsManager();
 	void Initialize(int w, int h); //initialise graphics manager at start of program
-	void Update(float g_dt);
+	void Update();
 	void Draw(); //draw the screen, to be called every frame
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
+
+	//DEBUG DRAW FUNCTIONS
+	void DrawPoint(float x, float y);
+	void DrawLine(float x1, float y1, float x2, float y2);
+	void DrawCircle(float x, float y, float radius);
+	void DrawRect(float x1, float y1, float x2, float y2); //x1,y1 are bottom left. x2,y2 are top right
+	void DrawOutline(float x1, float y1, float x2, float y2); //x1,y1 are bottom left. x2,y2 are top right
 
 	//VAO info for draw functions in other classes
 	struct VAOInfo {
@@ -19,29 +64,26 @@ public:
 		GLuint id;
 		GLuint drawcnt;
 	};
-	const VAOInfo& GetVAOInfo(); //get vao info (for other class graphics use)
-	const Shader& GetShader();
-	double GetWidth();
-	double GetHeight();
-
+	float GetWidth();
+	float GetHeight();
 private:
-	//Vertex struct for creating VAO with
-	struct Vertex {
-		glm::vec2 pos; //Vertex coordinates
-		glm::vec3 col; //RGB colour
-		glm::vec2 tex; //Texture coordinates
-	};
-	void CreateVAO();
-
 	GLFWwindow* window;
 	int width;
 	int height;
-	Shader shaderprogram;
-	VAOInfo vao;
 };
 
 extern GraphicsManager graphics;
 
-extern Model test_model;
+//extern Model test_model;
 extern Texture test_tex;
 
+//main renderer of the engine
+extern Renderer textureRenderer;
+
+//DEBUG RENDERERS
+extern Renderer flatRenderer;
+extern Renderer pointRenderer;
+extern Renderer lineRenderer;
+extern Renderer lineloopRenderer;
+extern Renderer rectRenderer;
+extern Renderer circleRenderer;

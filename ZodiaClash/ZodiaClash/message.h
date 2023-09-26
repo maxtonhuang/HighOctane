@@ -1,36 +1,64 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Message.h
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Messaging System for all systems to communicate with each other
+*
+*	This file contains the Enums used for the Postcards (messages) information.
+*	It also contains the Struct for a Postcard (message) and also the Class for
+*	the Mail system itself.
+*
+******************************************************************************/
+
 #pragma once
 
 #include <Windows.h>
-//#include <list>
 #include <vector>
 #include <unordered_map>
 #include <string>
 
+const size_t MAILBOX_RESERVE_CAP = 4092;
 
-
-const size_t MAILBOX_RESERVE_CAP = 64;
-
-    
-// Define message types
 enum class TYPE {
 
-	// to add more message types
-
+	// feel free to add more message types as required
 	COLLISION,
 	INPUT,
 	GAME_EVENT,
+	KEY_TRIGGERED,
 	KEY_DOWN,
-	//KEY_HOLD,
-	//KEY_UP,
+	KEY_UP,
 	KEY_CHECK,
 	MOUSE_CLICK,
+	MOUSE_MOVE,
 	WINDOW_RESIZE,
 	CUSTOM_EVENT,
 	QUIT
-
 };
 
-enum class ADDRESS {
+// Mailbox addresses
+enum class ADDRESS { 
 	INPUT,
 	MOVEMENT,
 	COLLISION,
@@ -38,12 +66,24 @@ enum class ADDRESS {
 	GRAPHICS,
 	CORE,
 	WINDOWS,
+	MODEL,
 	NONE
 };
 
+// Follows numbering system of the GLFW Library
 enum class INFO {
-
-	KEY_A,
+	KEY_SPACE = 32,
+	KEY_0 = 48,
+	KEY_1,
+	KEY_2,
+	KEY_3,
+	KEY_4,
+	KEY_5,
+	KEY_6,
+	KEY_7,
+	KEY_8,
+	KEY_9,
+	KEY_A = 65,
 	KEY_B,
 	KEY_C,
 	KEY_D,
@@ -69,54 +109,52 @@ enum class INFO {
 	KEY_X,
 	KEY_Y,
 	KEY_Z,
-	KEY_1,
-	KEY_2,
-	KEY_3,
-	KEY_4,
-	KEY_5,
-	KEY_6,
-	KEY_7,
-	KEY_8,
-	KEY_9,
-	KEY_0,
-	KEY_UP,
-	KEY_DOWN,
-	KEY_LEFT,
-	KEY_RIGHT,
-	KEY_ESC,
+	KEY_ESC = 256,
 	KEY_ENTER,
-	KEY_SPACE,
-	NONE
+	KEY_RIGHT = 262,
+	KEY_LEFT,
+	KEY_DOWN,
+	KEY_UP,
+	MOUSE_LEFT = 501,
+	MOUSE_RIGHT,
+	NONE = 999
 };
 
 struct Postcard {
-	TYPE type;
-	ADDRESS from;
-	INFO info;
+	TYPE	type;
+	ADDRESS from;	// who sent the message
+	INFO	info;
+	float	posX;		// used for mouse positions
+	float	posY;		// used for mouse positions
 };
 
 class Mail {
 public:
 
-	Mail() {
-		mailQueue.reserve(MAILBOX_RESERVE_CAP);
+	// Disallow copying to prevent creation of more than one instance
+	Mail(const Mail &) = delete;
+	Mail & operator=(const Mail &) = delete;
+
+	// Public accessor for the Singleton instance
+	static Mail & mail() {
+		static Mail postOffice;
+		return postOffice;
 	}
 
 	void RegisterMailbox(ADDRESS system);
 
 	void SendMails();
 
-	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info);
-
-	//void ConvertWindowsEventToPostcard(unsigned int uMsg);
+	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX, float posY);
 
 	std::unordered_map<ADDRESS, std::vector<Postcard>> mailbox;
 
 private:
 
 	std::vector<Postcard> mailQueue;
+	
+	Mail() {
+		mailQueue.reserve(MAILBOX_RESERVE_CAP);
+	}
 
 };
-
-extern Mail mail;
-

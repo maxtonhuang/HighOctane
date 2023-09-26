@@ -79,43 +79,39 @@ PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 namespace debug {
 
 	// Is to print debug messages
-	void printDebugHandler(const char* message, ...);
+	void PrintDebugHandler(const char* message, ...);
 
 	// Is to assert debug messages
-	void assertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
+	void AssertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
 
 	// Console init
-	void consoleInitHandler();
-
-	// Performance data
-	void performanceDataHandler();
+	void ConsoleInitHandler();
 
 	void CustomTerminateHandler();
+
+	int CustomMessageBox(const char* file, int line, const char* message);
 }
 
 // If debug diagnostics is enabled, then we will use the debug printing function
 #if ENABLE_DEBUG_DIAG
 
-#define DebugPrint(...) debug::printDebugHandler(__VA_ARGS__);
+#define DebugPrint(...) debug::PrintDebugHandler(__VA_ARGS__);
 
-#define Assert(condition, ...) debug::assertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
+#define Assert(condition, ...) debug::AssertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
 
-#define Console(...) debug::consoleInitHandler(__VA_ARGS__);
+#define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
 
-#if _WIN32
-#define Performance(...) debug::performanceDataHandler(__VA_ARGS__);
+#define CustomTerminate(...) debug::CustomTerminateHandler(__VA_ARGS__);
 
-#else
-#define Performance(...) ((void)0)
 
-#endif
 // Else, we will just ignore the debug printing function
 #else
-#define DebugPrint(...) ((void)0)
+#define DebugPrint(...) ((void)0);
 
-#define Assert(condition, ...) ((void)0)
+#define Assert(condition, ...) ((void)0);
 
-#define Console(...) ((void)0)
+#define Console(...) ((void)0);
 
-#define Performance(...) ((void)0)
+#define CustomTerminate(...) ((void)0);
+
 #endif

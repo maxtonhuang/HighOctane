@@ -1,3 +1,34 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Shaders.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Functions for shader class
+*
+*	Shader class to compile and store shader information
+*
+******************************************************************************/
+
 #include "Shaders.h"
 #include <fstream>
 #include <sstream>
@@ -7,7 +38,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	if (handle <= 0) {
 		handle = glCreateProgram();
 	}
-	
+
 	for (auto& p : vec) {
 		std::ifstream shaderfile(p.second, std::ifstream::in);
 		if (!shaderfile) {
@@ -30,6 +61,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 			shaderhandle = glCreateShader(GL_FRAGMENT_SHADER);
 			break;
 		default:
+			std::cout << "Not valid shader type!\n";
 			return false;
 		}
 
@@ -40,6 +72,11 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 		glGetShaderiv(shaderhandle, GL_COMPILE_STATUS, &compileresult);
 		if (compileresult == GL_FALSE) {
 			std::cout << "Shader compilation failed!\n";
+			GLchar* errorLog = new GLchar[1024];
+			int length;
+			glGetShaderInfoLog(shaderhandle, 1024, &length, &errorLog[0]);
+			std::cout << errorLog << "\n";
+			delete[] errorLog;
 			return false;
 		}
 
@@ -56,7 +93,6 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	}
 
 	//Validate the program
-	//glLinkProgram(handle);
 	glValidateProgram(handle);
 	int validateresult;
 	glGetShaderiv(handle, GL_VALIDATE_STATUS, &validateresult);
@@ -77,6 +113,12 @@ void Shader::DeleteShader() {
 void Shader::Use() {
 	if (handle > 0) {
 		glUseProgram(handle);
+		if (glGetError() == GL_INVALID_VALUE) {
+			//std::cout << "Invalid program!\n";
+		}
+	}
+	else {
+		std::cout << "Unable to use shader program!\n";
 	}
 }
 
