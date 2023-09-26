@@ -174,6 +174,7 @@ void EngineCore::Run() {
 		ECS::ecs().GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
 		tmp = duck;
 	}
+	//LoadModels(2500, false);
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);

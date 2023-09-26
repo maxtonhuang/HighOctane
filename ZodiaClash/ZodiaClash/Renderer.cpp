@@ -68,6 +68,9 @@ Shader& Renderer::ShaderProgram() {
 }
 
 void Renderer::AddVertex(Vertex input) {
+    if (drawcount >= GRAPHICS::vertexBufferSize) {
+        Draw();
+    }
     data[drawcount] = input;
     ++drawcount;
 }

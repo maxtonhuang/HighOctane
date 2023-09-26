@@ -64,26 +64,29 @@ void MovementSystem::Update() {
 	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() <<std::endl;
 
 	//// Access the ComponentManager through the ECS class
-	//ComponentManager& componentManager = ecs.GetComponentManager();
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	//auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
-	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
-		UpdateMovement(ECS::ecs().GetComponent<Transform>(entity));
-
-		/*Model modelData = modelArray.GetData(entity);
+		Transform* transformData = &transformArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);*/
+		Size* sizeData = &sizeArray.GetData(entity);
 
-		Model* modelData = &ECS::ecs().GetComponent<Model>(entity);
-		Animation* aniData = &ECS::ecs().GetComponent<Animation>(entity);
-		Tex* texData = &ECS::ecs().GetComponent<Tex>(entity);
-		Size* sizeData = &ECS::ecs().GetComponent<Size>(entity);
+		//UpdateMovement(ECS::ecs().GetComponent<Transform>(entity));
+		UpdateMovement(*transformData);
+
+		//Model* modelData = &ECS::ecs().GetComponent<Model>(entity);
+		//Animation* aniData = &ECS::ecs().GetComponent<Animation>(entity);
+		//Tex* texData = &ECS::ecs().GetComponent<Tex>(entity);
+		//Size* sizeData = &ECS::ecs().GetComponent<Size>(entity);
 
 		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
 		modelData->DrawOutline();

@@ -6,6 +6,7 @@
 #include "Message.h"
 #include "DebugDiagnostic.h"
 #include "AudioManager.h"
+#include "EntityFactory.h"
 #include <iostream>
 #include <unordered_map>
 
@@ -65,6 +66,13 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         }
         if (GLFW_KEY_N == key) {
             audio.PlaySounds("../Assets/Sound/bonk.wav");
+        }
+        if (GLFW_KEY_Y == key) {
+            static bool pressed = false;
+            if (pressed == false) {
+                LoadModels(2500, false);
+                pressed = true;
+            }
         }
         break;
     case GLFW_RELEASE:
