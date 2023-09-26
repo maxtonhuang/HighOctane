@@ -17,7 +17,6 @@
 #include "Components.h"
 #include <filesystem>
 #include "AudioManager.h"
-#include "test.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -51,8 +50,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
-    //test();
 
     // To enable the console
     Console();

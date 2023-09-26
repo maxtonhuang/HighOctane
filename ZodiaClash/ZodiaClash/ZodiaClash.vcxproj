@@ -201,8 +201,6 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="TargetVer.h" />
-    <ClInclude Include="test.h" />
-    <ClInclude Include="testShader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VMath.h" />
     <ClInclude Include="ZodiaClash.h" />
@@ -238,7 +236,6 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Systems.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VMath.cpp" />
     <ClCompile Include="Physics.cpp" />
