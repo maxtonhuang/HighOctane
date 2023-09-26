@@ -167,13 +167,13 @@ void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData)
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
-			if (msg.info == INFO::KEY_C) {
-				ChangeAnimation(aniData, texData);
-				ResizeOnChange(texData, sizeData);
-			}
-			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				//AnimateOnKeyPress(aniData, texData);
+			//if (msg.info == INFO::KEY_C) {
+			//	ChangeAnimation(aniData, texData);
+			//	ResizeOnChange(texData, sizeData);
 			//}
+			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				AnimateOnKeyPress(aniData, texData);
+			}
 		}
 	}
 }
@@ -193,13 +193,13 @@ void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) 
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
-			//if (msg.info == INFO::KEY_C) {
-				//ChangeAnimation(aniData, texData);
-				//ResizeOnChange(texData, sizeData);
-			//}
-			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				AnimateOnKeyPress(aniData, texData);
+			if (msg.info == INFO::KEY_C) {
+				ChangeAnimation(aniData, texData);
+				ResizeOnChange(texData, sizeData);
 			}
+			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+			//	AnimateOnKeyPress(aniData, texData);
+			//}
 		}
 	}
 }
