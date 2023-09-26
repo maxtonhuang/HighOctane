@@ -35,3 +35,5 @@ private:
 };
 
 extern FontManager fonts;
+extern GLuint font_vaoid;
+extern GLuint font_vboid;

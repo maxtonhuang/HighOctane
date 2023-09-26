@@ -177,6 +177,12 @@
     <ClInclude Include="FontLib.h">
       <Filter>Font</Filter>
     </ClInclude>
+    <ClInclude Include="testShader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -277,6 +283,7 @@
     <ClCompile Include="Font.cpp">
       <Filter>Font</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">

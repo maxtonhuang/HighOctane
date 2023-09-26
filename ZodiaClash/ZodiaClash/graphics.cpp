@@ -71,8 +71,8 @@ void GraphicsManager::Initialize(int w, int h) {
     glewInit();
 
     //Enable alpha
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //Initialize renderers
     flatRenderer.Initialize("../Assets/Shaders/FlatVertexShader2.vert", "../Assets/Shaders/FlatFragmentShader2.frag");
@@ -82,6 +82,15 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     texList.AddSpriteSheet("duck2.png", 1, 6, 6);
     //test_model.AttachTexture("duck.png");
+
+    fonts.Initialize();
+    fonts.LoadFont("Danto Lite Normal.ttf");
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
+    fontRenderer.shaderprogram.Use();
+    std::cout << fontRenderer.shaderprogram.GetHandle() << "\n";
+    std::cout << glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection") << "\n";
+    std::cout << glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "textColor") << "\n";
+    //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     guiManager.Init(window);
 
@@ -121,8 +130,6 @@ void GraphicsManager::Initialize(int w, int h) {
     test_rect3.SetPos(-300, -300);
 
     glfwSwapInterval(0);
-    fonts.Initialize();
-    fonts.LoadFont("Danto Lite Normal.ttf");
     //Draw();
 }
 
@@ -163,12 +170,13 @@ void GraphicsManager::Draw() { // ------------- Can this go into ECS? ----------
     test_model.Draw();*/
 
     // TODO: do drawing of text here?
-    DrawLabel("Hello your face", "Danto Lite Normal.ttf", 0.5f, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } }, Color{ glm::vec4{ 1,1,1,1 } });
 
     textureRenderer.Draw();
     fontRenderer.Draw();
     //test_model.DrawOutline();
     
+    DrawLabel("AAA", "Danto Lite Normal.ttf", 0.5f, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } }, Color{ glm::vec4{ 1,1,1,1 } });
+
     DrawCircle(100, -100, 20);
     //DrawRect(0, 0, 50, 50);
     //DrawOutline(-50, -50, 0, 0);
@@ -237,26 +245,10 @@ float GraphicsManager::GetHeight() {
     return (float)height;
 }
 
-GLuint VAO, VBO;
 void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float scale, Transform transData, Color colorData) {
     
     Font fontData = fonts.GetFont(fontName);
     // TODO some sort of non null checking for fontData?
-
-    //// activate corresponding render state (ref)	
-    //shader.use();
-    //glUniform3f(glGetUniformLocation(fontRenderer.vao, "textColor"), 0.f, 0.f, 0.f);
-    //glActiveTexture(GL_TEXTURE0);
-    //glBindVertexArray(VAO);
-
-    // activate corresponding render state	
-    //textureRenderer.Draw();
-    //glUniform3f(glGetUniformLocation(fontRenderer.vao, "textColor"), colorData.color.x, colorData.color.y, colorData.color.z);
-    //glActiveTexture(GL_TEXTURE0);
-    //glBindVertexArray(fontRenderer.vao); // called in Renderer::Draw(GLenum drawtype)   
-
-    
-
     // iterate through all characters 
     std::string::const_iterator c;
     for (c = labelText.begin(); c != labelText.end(); c++)
@@ -268,31 +260,6 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, flo
 
         float w = ch.Size.x * scale;
         float h = ch.Size.y * scale;
-        /*
-        // update VBO for each character
-        float vertices[6][4] = {
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos,     ypos,       0.0f, 1.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
-
-            { xpos,     ypos + h,   0.0f, 0.0f },
-            { xpos + w, ypos,       1.0f, 1.0f },
-            { xpos + w, ypos + h,   1.0f, 0.0f }
-        };
-        // render glyph texture over quad
-        glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        // update content of VBO memory
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
-
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        // render quad
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-        transData.position.x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-        */
-        //std::cout << xpos << " " << w << "\n";
-        //std::cout << ch.TextureID << "\n";
         glm::vec3 color(1.f, 1.f, 1.f);
         glm::vec2 botleft{ xpos / GRAPHICS::w, ypos / GRAPHICS::h };
         glm::vec2 botright{ (xpos + w) / GRAPHICS::w, ypos / GRAPHICS::h };
@@ -304,16 +271,7 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, flo
         fontRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)ch.TextureID - 1 });
         fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.TextureID - 1 });
         fontRenderer.AddVertex(Vertex{ topleft,color, glm::vec2{0,0}, (float)ch.TextureID - 1 });
-        /*
-        textureRenderer.AddVertex(Vertex{ botleft,color, glm::vec2{0,1}, (float)1 });
-        textureRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)1 });
-        textureRenderer.AddVertex(Vertex{ topleft,color, glm::vec2{0,0}, (float)1 });
-        textureRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)1 });
-        textureRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)1 });
-        textureRenderer.AddVertex(Vertex{ topleft,color, glm::vec2{0,0}, (float)1 });
-        */
+        fontRenderer.FontDraw(ch.TextureID);
         transData.position.x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
     }
-    //glBindVertexArray(0);
-    //glBindTexture(GL_TEXTURE_2D, 0);
 }

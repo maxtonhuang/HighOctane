@@ -3,6 +3,9 @@
 
 FontManager fonts;
 
+GLuint font_vaoid;
+GLuint font_vboid;
+
 FontManager::FontManager() {
 	
 }
@@ -18,6 +21,16 @@ void FontManager::Initialize() {
     FT_Error err;
     err = FT_Init_FreeType(&fontLibrary);
     Assert(err, "Failed to initialise FreeType!");
+
+    glGenVertexArrays(1, &font_vaoid);
+    glGenBuffers(1, &font_vboid);
+    glBindVertexArray(font_vaoid);
+    glBindBuffer(GL_ARRAY_BUFFER, font_vboid);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void FontManager::Update() {
@@ -60,37 +73,15 @@ void FontManager::LoadChar(Font& font) {
         }
         // generate texture
         unsigned int texture;
-        //std::cout << font.fontFace->glyph->bitmap.buffer << "\n";
-        /*
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(
-            GL_TEXTURE_2D,
-            0,
-            GL_RED,
-            font.fontFace->glyph->bitmap.width,
-            font.fontFace->glyph->bitmap.rows,
-            0,
-            GL_RED,
-            GL_UNSIGNED_BYTE,
-            font.fontFace->glyph->bitmap.buffer
-        );
-        // set texture options
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        */
-        // now store character for later use
         glCreateTextures(GL_TEXTURE_2D, 1, &texture);
-        glTextureStorage2D(texture, 1, GL_RED, font.fontFace->glyph->bitmap.width,
+        glTextureStorage2D(texture, 1, GL_R8, font.fontFace->glyph->bitmap.width,
             font.fontFace->glyph->bitmap.rows);
         glTextureSubImage2D(texture, 0, 0, 0, font.fontFace->glyph->bitmap.width,
             font.fontFace->glyph->bitmap.rows,
             GL_RED,
             GL_UNSIGNED_BYTE,
             font.fontFace->glyph->bitmap.buffer);
-        std::cout << c << " " << texture << "\n";
+           
         Character character = {
             texture,
             glm::ivec2(font.fontFace->glyph->bitmap.width, font.fontFace->glyph->bitmap.rows),
@@ -98,6 +89,7 @@ void FontManager::LoadChar(Font& font) {
             font.fontFace->glyph->advance.x
         };
         font.Characters.insert(std::pair<char, Character>(c, character));
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
 

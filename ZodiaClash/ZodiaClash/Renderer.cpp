@@ -50,6 +50,20 @@ void Renderer::Draw(GLenum drawtype) {
     glBindVertexArray(vao);
     glDrawArrays(drawtype, 0, drawcount);
     drawcount = 0;
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer::FontDraw(GLuint texID) {
+    if (drawcount <= 0) {
+        return;
+    }
+    glActiveTexture(GL_TEXTURE0);
+    glNamedBufferSubData(vbo, 0, sizeof(Vertex) * GRAPHICS::vertexBufferSize, data);
+    shaderprogram.Use();
+    glBindVertexArray(vao);
+    glBindTexture(GL_TEXTURE_2D, texID);
+    glDrawArrays(GL_TRIANGLES, 0, drawcount);
+    drawcount = 0;
 }
 
 void Renderer::CreateVAO() {

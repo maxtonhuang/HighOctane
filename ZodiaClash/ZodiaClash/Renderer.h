@@ -20,14 +20,15 @@ public:
 
 	void AddVertex(Vertex);
 	void Draw(GLenum = GL_TRIANGLES);
+	void FontDraw(GLuint texID);
 
 	GLuint GetDrawCount();
 	void CreateVAO();
 	GLuint vao{};
 	GLuint vbo{};
+	Shader shaderprogram{};
 private:
 	
 	GLuint drawcount{};
 	Vertex* data{};
-	Shader shaderprogram{};
 };
