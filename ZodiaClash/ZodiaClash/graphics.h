@@ -2,8 +2,10 @@
 #include "Shaders.h"
 #include "Model.h"
 #include "ECS.h"
+#include "VMath.h"
 #include "MMath.h"
 #include "Renderer.h"
+#include "Font.h"
 
 extern float g_dt;
 
@@ -23,6 +25,8 @@ public:
 	void DrawCircle(float x, float y, float radius);
 	void DrawRect(float x1, float y1, float x2, float y2); //x1,y1 are bottom left. x2,y2 are top right
 	void DrawOutline(float x1, float y1, float x2, float y2); //x1,y1 are bottom left. x2,y2 are top right
+
+	void DrawLabel(std::string labelText, std::string fontName, float scale, Transform transData, Color colorData);
 
 	//VAO info for draw functions in other classes
 	struct VAOInfo {

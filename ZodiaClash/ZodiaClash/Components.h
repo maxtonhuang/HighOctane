@@ -34,6 +34,7 @@
 #include "ECS.h"
 #include "VMath.h"
 #include "GraphLib.h"
+#include "FontLib.h"
 #include "Texture.h"
 
 using Vec2 = vmath::Vector2;
@@ -97,3 +98,5 @@ struct Animation {
 struct Clone {
     // empty by design
 };
+
+

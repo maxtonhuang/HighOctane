@@ -288,3 +288,8 @@ public:
     void Initialize();
     void Update() override;
 };
+
+class FontSystem : public System {
+    void Initialize();
+    void Update() override;
+};

@@ -62,12 +62,11 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 			ecs.AddComponent(entity, Visible{ false });
 			//ecs.AddComponent(entity, Tex{ texList.Add("cat.png") });
 
-			//add tex component, init tex with duck sprite (init tex with nullptr produces white square instead)
+			//add tex component, init tex with duck sprite
 			ecs.AddComponent(entity, Tex{ texList.Add("duck.png") });
 			Tex* t = &ecs.GetComponent<Tex>(entity);
 			t->texVariants.push_back(texList.Add("duck.png"));
 			t->texVariants.push_back(texList.Add("duck2.png"));
-			//setting tex to texVariants[1] (duck2) still shows duck tex but with duck2 dims?
 			t->tex = t->texVariants.at(0);
 			ecs.AddComponent(entity, Animation{});
 			Animation* a = &ecs.GetComponent<Animation>(entity);

@@ -36,6 +36,9 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{11604d9b-055c-49fe-8915-7e618d4eba4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Font">
+      <UniqueIdentifier>{b31fa77c-8b71-4ff9-b319-6f61d14b9aeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -165,6 +168,15 @@
     <ClInclude Include="DebugProfile.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="FontLib.h">
+      <Filter>Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mmath.cpp">
@@ -261,6 +273,9 @@
     </ClCompile>
     <ClCompile Include="DebugProfile.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

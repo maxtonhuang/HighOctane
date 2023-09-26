@@ -23,9 +23,10 @@ public:
 
 	GLuint GetDrawCount();
 	void CreateVAO();
-private:
 	GLuint vao{};
 	GLuint vbo{};
+private:
+	
 	GLuint drawcount{};
 	Vertex* data{};
 	Shader shaderprogram{};

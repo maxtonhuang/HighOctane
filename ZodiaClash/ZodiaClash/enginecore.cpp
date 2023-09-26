@@ -49,6 +49,7 @@
 #include <Windows.h>
 #include <chrono>
 #include "GUIManager.h"
+#include "Font.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -85,6 +86,8 @@ void EngineCore::Run() {
 	ecs.RegisterComponent<Animation>();
 	ecs.RegisterComponent<Model>();
 	ecs.RegisterComponent<Clone>();
+	ecs.RegisterComponent<Character>();
+	ecs.RegisterComponent<Font>();
 
 
 	std::shared_ptr<MovementSystem> movementSystem = ecs.RegisterSystem<MovementSystem>();
@@ -95,6 +98,8 @@ void EngineCore::Run() {
 	systemList.emplace_back(modelSystem);
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ecs.RegisterSystem<GraphicsSystem>();
 	systemList.emplace_back(graphicsSystem);
+	//std::shared_ptr<FontSystem> fontSystem = ecs.RegisterSystem<FontSystem>();
+	//systemList.emplace_back(fontSystem);
 
 	{
 		Signature signature;
@@ -140,7 +145,16 @@ void EngineCore::Run() {
 		ecs.SetSystemSignature<GraphicsSystem>(signature);
 	}
 
+	//{
+	//	Signature signature;
+	//	signature.set(ecs.GetComponentType<Character>());
+	//	signature.set(ecs.GetComponentType<Font>());
+
+	//	ecs.SetSystemSignature<FontSystem>(signature);
+	//}
+
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	//fonts.Initialize();
 	LoadMasterModel();
 
 	Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
@@ -175,6 +189,11 @@ void EngineCore::Run() {
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
+
+	
+	//Process fonts
+	//Entity fontSys = CreateModel();
+	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
 
 
 	//////////////////////////////////////////////
