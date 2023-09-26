@@ -12,12 +12,16 @@
 
 #endif
 
+    int bar_data[11] = { 20, 45, 70, 15, 90, 30, 50, 80, 35, 65, 25 };
+    float x_data[10] = { 0.2f, 0.5f, 0.8f, 0.1f, 0.9f, 0.3f, 0.6f, 0.7f, 0.4f, 0.25f };
+    float y_data[10] = { 0.4f, 0.1f, 0.7f, 0.9f, 0.2f, 0.6f, 0.3f, 0.8f, 0.5f, 0.75f };
 
 
 GUIManager guiManager;
 GUIManager::GUIManager()
 {
 	ImGui::CreateContext();
+    ImPlot::CreateContext();
     //GUIWindow = nullptr;
 }
 
@@ -26,6 +30,7 @@ GUIManager::~GUIManager()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    ImPlot::CreateContext();
 }
 
 
@@ -36,6 +41,7 @@ bool show_another_window;
 bool usageWindow;
 bool consoleWindow;
 bool debugWindow;
+bool plotWindow;
 
 void GUIManager::Init(GLFWwindow* window)
 {
@@ -47,6 +53,7 @@ void GUIManager::Init(GLFWwindow* window)
         usageWindow = true;
         consoleWindow = true;
         debugWindow = true;
+        plotWindow = true;
 
     #endif
 
@@ -370,6 +377,15 @@ void GUIManager::Update(GLFWwindow* window)
     // Stops changing the colour
     ImGui::PopStyleColor();
 
+    if (plotWindow) {
+        ImGui::Begin("My Window");
+        if (ImPlot::BeginPlot("My Plot")) {
+            ImPlot::PlotBars("My Bar Plot", bar_data, 11);
+            ImPlot::PlotLine("My Line Plot", x_data, y_data, 1000);
+            ImPlot::EndPlot();
+        }
+        ImGui::End();
+    }
 #endif
 
     // Rendering

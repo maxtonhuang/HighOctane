@@ -178,6 +178,8 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
+    <ClInclude Include="..\Extern\implot-master\implot.h" />
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
     <ClInclude Include="Body.h" />
@@ -223,6 +225,9 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Body.cpp" />

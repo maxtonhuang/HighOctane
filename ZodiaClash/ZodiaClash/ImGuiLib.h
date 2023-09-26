@@ -11,3 +11,5 @@
 #include "graphlib.h"
 #include "glfw3.h"
 #include "glfw3native.h"
+#include <implot-master/implot.h>
+#include <implot-master/implot_internal.h>
