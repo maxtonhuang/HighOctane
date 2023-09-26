@@ -201,7 +201,9 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphLib.h" />
     <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="ImGuiConsole.h" />
     <ClInclude Include="ImGuiLib.h" />
+    <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MMath.h" />
@@ -244,6 +246,8 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIManager.cpp" />
+    <ClCompile Include="ImGuiConsole.cpp" />
+    <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Model.cpp" />

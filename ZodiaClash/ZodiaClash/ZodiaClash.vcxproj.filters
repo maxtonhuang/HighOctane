@@ -189,6 +189,12 @@
     <ClInclude Include="..\Extern\implot-master\implot_internal.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuiConsole.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiPerformance.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -298,6 +304,12 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiConsole.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiPerformance.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
