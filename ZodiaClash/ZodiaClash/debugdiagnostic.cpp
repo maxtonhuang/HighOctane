@@ -92,7 +92,7 @@ namespace debug {
                 else {
                     fileName++;
                 }
-                //debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
+
                 // Print an error message with just the file name and line number
                 std::cerr << "Assertion failed in " << fileName << " line " << line << ": ";
 
@@ -105,14 +105,9 @@ namespace debug {
                 }
                 
                 std::cerr << std::endl;
-                //LOG_CRASH("testing");
+
                 // Display a message box to the user if the log level is higher
                 CustomMessageBox(fileName, line, message);
-
-                //// Logs it into the console
-                //if (message != nullptr) {
-                //    LOG_CRASH(message);
-                //}
             }
         } while (false);
     }
@@ -150,19 +145,20 @@ namespace debug {
         switch (msgboxID)
         {
         case IDYES:
-            LOG_CRASH("-----------CRASH LOG-----------");
+            LOG_CRASH("-----------CRASH LOG START-----------\n");
             LOG_CRASH(limitedLog);
+
             // Log the crash into the crash file
             LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
             + ". User chose to terminate\n");
             // Logs the console into the crash file
- 
+            LOG_CRASH("------------CRASH LOG END------------\n");
             ExitProcess(0);
             break;
         case IDNO:
             
-            LOG_FATAL("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
-            + ". User chose to continue");
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to continue\n");
             // Continue on with the code
             break;
         }
