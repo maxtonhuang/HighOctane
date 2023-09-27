@@ -26,7 +26,8 @@
 *	@brief		Audio manager
 *
 *   Contains functions to play audio
-*	Audio manager loads and unloads all audio files as well as stores them in a central map
+*	Audio manager loads and unloads all audio files as well as
+*   stores them in a central map
 *
 ******************************************************************************/
 

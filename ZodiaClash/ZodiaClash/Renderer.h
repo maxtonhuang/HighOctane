@@ -50,20 +50,20 @@ public:
 	~Renderer();
 
 	void Initialize(char const* vertexshader, char const* fragmentshader, GLenum type);
-	void Initialize(Shader shader, GLenum typ);
+	void Initialize(Shader shader, GLenum type);
 
-	Shader& ShaderProgram();
+	Shader& ShaderProgram(); //returns shader program
 
-	void AddVertex(Vertex);
-	void Draw();
+	void AddVertex(Vertex); //Add vertex to the buffer
+	void Draw(); //To be called at end of every frame or if buffer is filled
 
-	GLuint GetDrawCount();
-	void CreateVAO();
+	GLuint GetDrawCount(); //Gets current amount of vertices in the buffer
+	void CreateVAO(); //Creates VAO and buffers for storage
 private:
 	GLuint vao{};
 	GLuint vbo{};
 	GLuint drawcount{};
-	Vertex* data{};
+	Vertex* data{}; //storage of vertices
 	GLenum drawtype{};
 	Shader shaderprogram{};
 };

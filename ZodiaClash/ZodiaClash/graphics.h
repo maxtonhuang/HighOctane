@@ -58,12 +58,6 @@ public:
 	void DrawRect(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f); //x1,y1 are bottom left. x2,y2 are top right
 	void DrawOutline(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f); //x1,y1 are bottom left. x2,y2 are top right
 
-	//VAO info for draw functions in other classes
-	struct VAOInfo {
-		GLenum primitivetype;
-		GLuint id;
-		GLuint drawcnt;
-	};
 	float GetWidth();
 	float GetHeight();
 private:
