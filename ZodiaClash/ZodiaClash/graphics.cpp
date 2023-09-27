@@ -40,6 +40,7 @@
 #include <sstream>
 #include <iomanip>
 #include <random>
+#include "physics.h"
 
 //Model test_model;
 Texture test_tex;
@@ -154,10 +155,14 @@ void GraphicsManager::Draw() {
     lineRenderer.Draw();
     pointRenderer.Draw();
 
+<<<<<<< HEAD
     fontRenderer.Draw();
     //test_model.DrawOutline();
     
     DrawLabel("AAA", "Danto Lite Normal.ttf", 0.5f, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } }, Color{ glm::vec4{ 1,1,1,1 } });
+=======
+    //physics::PHYSICS->DebugDraw();
+>>>>>>> wt-branch
 
     guiManager.Update(window);
     glfwSwapBuffers(window);
@@ -193,11 +198,10 @@ void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, 
 }
 
 void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b}});
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineloopRenderer.Draw();
+    DrawLine(x1, y1, x1, y2, r, g, b);
+    DrawLine(x1, y1, x2, y1, r, g, b);
+    DrawLine(x2, y2, x2, y1, r, g, b);
+    DrawLine(x2, y2, x1, y2, r, g, b);
 }
 
 std::string GraphicsManager::GetName() {
