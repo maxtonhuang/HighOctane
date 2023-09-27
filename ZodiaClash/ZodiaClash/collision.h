@@ -13,7 +13,7 @@ namespace physics {
 	*/
 
 	// bring in Body class
-	class Body;
+	struct Body;
 
 	
 	// basic line, shape data

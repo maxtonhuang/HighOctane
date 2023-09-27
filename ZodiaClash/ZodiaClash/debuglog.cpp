@@ -33,20 +33,15 @@ Dynamically change the log level during run time
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
+#include "GUIManager.h"
 
 
 
 namespace debuglog {
 
-	// Variables
-	HANDLE hConsole;
-
-	// Set the text colour to white
-	WORD textColour = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN;
-
 	// Constructor
 	Logger::Logger() {
-		currentLogFileName = "consolelog.log";
+		currentLogFileName = "console.log";
 		this->currentLogLevel = LOG_LEVEL::Trace;
 
 		// Open the file
@@ -83,41 +78,6 @@ namespace debuglog {
 	// Log into the file
 	void Logger::log(LOG_LEVEL level, const std::string& message) {
 
-		// Change the colour of the console
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		switch (level) {
-		case LOG_LEVEL::Trace:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
-			break;
-
-		case LOG_LEVEL::Debug:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
-			break;
-
-		case LOG_LEVEL::Info:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN);
-			break;
-
-		case LOG_LEVEL::Warning:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_RED);
-			break;
-
-		case LOG_LEVEL::Error:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
-			break;
-
-		case LOG_LEVEL::Fatal:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED);
-			break;
-		}
-
 		// If the logging is enabled and current log level is lower than the level set
 		if (static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
 
@@ -127,18 +87,11 @@ namespace debuglog {
 			// Get the current level
 			std::string levels = GetLevel(level);
 
-			logFile << timeStamp << " [" << levels << "] " << message << "\n";
-
-			// Flush the buffer to write immediately, if not, need to interact with the graphics
-			logFile.flush();
-
-			std::cout << timeStamp << " [" << levels << "] " << message << "\n";
+			// Write to the console
+			std::cout << timeStamp << " [" << levels << "] " << message << std::endl;
 		}
 
-		// Change back to default colour
-		SetConsoleTextAttribute(hConsole, textColour );
-
-		ROTATELOGFILEL(MAX_FILE_SIZE);
+		//ROTATELOGFILEL(MAX_FILE_SIZE);
 	}
 
 
@@ -184,16 +137,6 @@ namespace debuglog {
 		if (static_cast<size_t>(GetLogFileSize()) >= maxFileSize) {
 			// Close the current log file
 			logFile.close();
-			
-			// C++14
-			//std::string newFileName = currentLogFileName;
-			//newFileName.erase(newFileName.size() - 4); // Remove the .txt extension
-			//newFileName += "Old.txt"; 
-
-			//// If cannot rename
-			//if (std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0) {
-			//	Assert(!(std::rename(currentLogFileName.c_str(), newFileName.c_str()) != 0), "Cannot rename file");
-			//}
 
             std::filesystem::path currentPath(currentLogFileName);
             std::filesystem::path newPath = currentPath.stem();
@@ -224,19 +167,19 @@ namespace debuglog {
 		switch (level) {
 
 		case LOG_LEVEL::Trace:
-			return "T";
+			return "Trace";
 		case LOG_LEVEL::Debug:
-			return "D";
+			return "Debug";
 		case LOG_LEVEL::Info:
-			return "I";
+			return "Info";
 		case LOG_LEVEL::Warning:
-			return "W";
+			return "Warning";
 		case LOG_LEVEL::Error:
-			return "E";
+			return "Error";
 		case LOG_LEVEL::Fatal:
-			return "F";
+			return "Fatal";
 		default:
-			return "U";
+			return "Unknown";
 		}
 	}
 	
@@ -259,35 +202,14 @@ namespace debuglog {
 	}
 
 	// Get log file size
-	std::streampos Logger::GetLogFileSize(void) {
-
-		// C++14
-		//logFile.seekp(0, std::ios::end);
-		//return logFile.tellp();
-		
-		// C++17
-		// Get the path of the log file
-		std::filesystem::path filePath(currentLogFileName);
-		
-		// Get the error code
-		std::error_code ec;
-
-		// Get the file size
-		std::uintmax_t fileSize = std::filesystem::file_size(filePath, ec);
-
-		// If there is no error
-		if (!ec) {
-			return fileSize;
-		}
-		else {
-			return -1;
-		}
-
+	std::streampos Logger::GetLogFileSize() {
+		return std::filesystem::file_size(currentLogFileName);
 	}
+
 
 	#if ENABLE_DEBUG_DIAG
 		// For debugging
-		Logger logger("consoletest.log", debuglog::LOG_LEVEL::Trace);
+	Logger logger;
 	#endif
 }
 

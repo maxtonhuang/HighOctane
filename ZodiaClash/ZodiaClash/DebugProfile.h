@@ -22,6 +22,7 @@ Add the macro to run only in debug mode
 #pragma once
 #include "debuglog.h"
 #include "ECS.h"
+#include "Global.h"
 
 
 // ENABLE/DISABLE DEBUG DIAGNOSTICS
@@ -32,7 +33,6 @@ Add the macro to run only in debug mode
 
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-extern float g_dt;
 
 #include <vector>
 #include <string>
@@ -45,8 +45,8 @@ extern float g_dt;
     public:
 
         void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput);
-
         void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput);
+
         float GetPercentage(std::shared_ptr<System> systemInput);
         float GetDuration(std::shared_ptr<System> systemInput);
 

@@ -35,19 +35,19 @@
 #include "Input.h"
 #include "DebugDiagnostic.h"
 
-Mail mail;
-
 void Mail::RegisterMailbox(ADDRESS system) {
     mailbox[system].reserve(MAILBOX_RESERVE_CAP);
 }
 
 void Mail::SendMails() {
-    // Send out all mail.
+    // Send out all mail
     for (Postcard msg : mailQueue) {
         switch (msg.type) {
         case TYPE::KEY_TRIGGERED:
-        //    mailbox[ADDRESS::INPUT].emplace_back(msg);
+            mailbox[ADDRESS::INPUT].emplace_back(msg);
             mailbox[ADDRESS::MODEL].emplace_back(msg);
+            mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
+            mailbox[ADDRESS::PHYSICS].emplace_back(msg);
         break;
         case TYPE::KEY_DOWN:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
@@ -64,7 +64,6 @@ void Mail::SendMails() {
         }        
     }
     mailQueue.clear();
-
 }
 
 void Mail::CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX, float posY) {

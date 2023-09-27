@@ -1,7 +1,6 @@
 #include "Collision.h"
 #include "Physics.h"
-
-extern float g_dt;
+#include "Global.h"
 
 namespace physics {
 
@@ -249,39 +248,6 @@ namespace physics {
 			return 1;
 		**/
 	}
-
-
-	// SECTION: COLLISION DETECTION
-	void OnCollideSnap(Body& alpha) {
-		// snap colliding object's position such that it touches nicely against a non-colliding object body
-		// to test: prevPos may still have some gap w to be colliding obj
-		//alpha.position = alpha.prevPosition;
-
-		// 1. calc remaining distance
-		vmath::Vector2 dir = alpha.position - alpha.prevPosition;
-		float dist = dir.magnitude();
-
-		// 2. set interpolation factor
-		float interpolateSpd = 0.1f;
-
-		// 3. apply linear interpolation
-		alpha.prevPosition = alpha.position;
-		alpha.position = alpha.position + (dir * interpolateSpd);
-
-		// 4. check dist again
-		if (dist < 0.01f) {
-			alpha.position = alpha.prevPosition;
-		}
-
-	}
-
-	void OnCollideDestroy(Body& alpha) {
-		// remove this shape from vector bodies
-		// note: to confirm if its safe to delete here!!
-		
-		//most likely done in Body destructor?
-	}
-
 
     CollisionManager::CollisionManager() {
         

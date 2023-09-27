@@ -6,6 +6,7 @@
 #include "Message.h"
 #include "DebugDiagnostic.h"
 #include "AudioManager.h"
+#include "EntityFactory.h"
 #include <iostream>
 #include <unordered_map>
 
@@ -23,8 +24,6 @@
 
 
 std::unordered_map<int, INFO> keyStatus;
-
-extern Mail mail;
 
 /*  _________________________________________________________________________*/
 /*! KeyCallback
@@ -53,20 +52,49 @@ This function is called when keyboard buttons are pressed.
 When the ESC key is pressed, the close flag of the window is set.
 */
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
+    mod = mod; //unused variable
+    scancode = scancode; //unused variable
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
-        mail.CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
+        Mail::mail().CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
         if (GLFW_KEY_M == key) {
             audio.PlaySounds("../Assets/Sound/ping.wav");
         }
+        if (GLFW_KEY_N == key) {
+            audio.PlaySounds("../Assets/Sound/bonk.wav");
+        }
+
+        // key input for toggling mass rendering
+        if (GLFW_KEY_Y == key) {
+            static bool pressed = false;
+            static bool created = false;
+            if (!pressed) {
+                if (!created) {
+                    std::vector<const char*> spritesheets;
+                    spritesheets.push_back("duck.png");
+                    spritesheets.push_back("duck2.png");
+                    LoadModels(2500, false, spritesheets);
+                    // after initial creation of models, to stay true throughout runtime
+                    created = true;
+                }
+                else {
+                    ReapplyMassRendering();
+                }
+                pressed = true;
+            }
+            else {
+                RemoveMassRendering();
+                pressed = false;
+            }
+        }
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;
-        mail.CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
+        Mail::mail().CreatePostcard(TYPE::KEY_UP, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
         break;
     default:
         break;
@@ -96,16 +124,18 @@ were held down
 This function is called when mouse buttons are pressed.
 */
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
+    mod = mod; //unused variable
+    pwin = pwin; // unused variable;
     if (GLFW_PRESS == action) {
         /*if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }*/
         switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
-            mail.CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
+            Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
             break;
         case GLFW_MOUSE_BUTTON_RIGHT:
-            mail.CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
+            Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
             break;
         }
     }
@@ -129,7 +159,8 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 */
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
-    
+    pwin = pwin; //unused variable
+
     static int previousPosX = 0;
     static int previousPosY = 0;
     
@@ -137,7 +168,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     int currPosY = static_cast<int>(-static_cast<float>(ypos) + GRAPHICS::h);
     
     if (currPosX != previousPosX || currPosY != previousPosY) {
-        mail.CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
+        Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
     }
 
     previousPosX = currPosX;
@@ -151,7 +182,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 void InputManager::KeyCheck() {
     for (std::pair<int, INFO> val : keyStatus) {
         if (val.second != INFO::NONE) {
-            mail.CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
+            Mail::mail().CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
         }
     }
 }

@@ -120,6 +120,12 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,6 +148,11 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,9 +180,13 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
+    <ClInclude Include="..\Extern\implot-master\implot.h" />
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Battle.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionResolution.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="DebugDiagnostic.h" />
     <ClInclude Include="DebugLog.h" />
@@ -185,11 +200,14 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="CommonHeaderFileList.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicConstants.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphLib.h" />
     <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="ImGuiConsole.h" />
     <ClInclude Include="ImGuiLib.h" />
+    <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MMath.h" />
@@ -213,9 +231,14 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollsionResolution.cpp" />
     <ClCompile Include="DebugDiagnostic.cpp" />
     <ClCompile Include="DebugLog.cpp" />
     <ClCompile Include="DebugProfile.cpp" />
@@ -225,11 +248,13 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIManager.cpp" />
+    <ClCompile Include="ImGuiConsole.cpp" />
+    <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Message.cpp" />
-    <ClCompile Include="MMath.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -237,7 +262,6 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Systems.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="VMath.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>

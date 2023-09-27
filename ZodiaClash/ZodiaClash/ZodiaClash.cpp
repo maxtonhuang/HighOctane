@@ -22,8 +22,6 @@
 
 using Vec2 = vmath::Vector2;
 
-extern Mail mail;
-
 
 // Global Variables:
 //HINSTANCE hInst;                                // current instance
@@ -43,6 +41,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
+    nCmdShow = nCmdShow; //unused variable
+    hInstance = hInstance; //unused variable
     // Enable run-time memory check for debug builds.
     #if (_DEBUG)
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -52,7 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // To enable the console
-    Console();
+    //Console();
     INFOL("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
@@ -65,11 +65,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ERRORL("This is a test error message");
     FATALL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
-
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
     audio.AddSound("../Assets/Sound/ping.wav");
+    audio.AddSound("../Assets/Sound/bonk.wav");
     INFOL("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
@@ -81,16 +81,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Assert(y <= 0, "x must be more than 0");
 
-    // Max --------
-
-    EngineCore engine; // = new EngineCore();
-        
+    ////////// Run Game //////////
+    EngineCore engine;
     engine.Run();
-
-    /*return (int) msg.wParam;*/
-    
-    //delete engine;
     
     return 0;
 }
-
