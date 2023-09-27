@@ -56,7 +56,7 @@ public:
 	void AnimateOnInterval(Animation& aniData, Tex& texData);
 	void AnimateOnKeyPress(Animation& aniData, Tex& texData);
 
-	void UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData);
+	void UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData);
 	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData);
 
 private:

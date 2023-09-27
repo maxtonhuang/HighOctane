@@ -149,7 +149,7 @@ void ModelSystem::Update() {
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
-		modelData->UpdateAnimationNPC(*aniData, *texData, *sizeData);
+		modelData->UpdateAnimation(*aniData, *texData, *sizeData);
 	}
 	Mail::mail().mailbox[ADDRESS::MODEL].clear();
 }
