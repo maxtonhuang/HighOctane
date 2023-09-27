@@ -33,12 +33,17 @@
 
 #include "ECS.h"
 
-	void LoadModels(uint32_t amount, bool isMainCharacter);
+	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
 
-	void CloneMasterModel(float rW, float rH, bool isMainCharacter);
+	void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
 	void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();
 	extern std::unordered_map<std::string, Entity> masterEntitiesList;
 	//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
 	Entity CreateModel();
+
+
+	//FUNCTIONS FOR MASS RENDERING - SUBJECT TO APPROVAL
+	void RemoveMassRendering();
+	void ReapplyMassRendering();

@@ -13,6 +13,7 @@
 *	@author		Foong Pun Yuen Nigel
 *
 *	@email		p.foong@digipen.edu
+* 
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -56,7 +57,7 @@ public:
 	void AnimateOnInterval(Animation& aniData, Tex& texData);
 	void AnimateOnKeyPress(Animation& aniData, Tex& texData);
 
-	void UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData);
+	void UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData);
 	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData);
 
 private:

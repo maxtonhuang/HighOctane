@@ -53,44 +53,37 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // To enable the console
     //Console();
-    INFOL("Program started");
+    LOG_INFO("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    SETLEVELL(debuglog::LOG_LEVEL::Trace);
+    LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
 
-    TRACEL("This is a test trace message");
-    DEBUGL("This is a test debug message");
-    INFOL("This is a test info message");
-    WARNINGL("This is a test warning message");
-    ERRORL("This is a test error message");
-    FATALL("This is a test fatal message");
+    LOG_TRACE("This is a test trace message");
+    LOG_DEBUG("This is a test debug message");
+    LOG_INFO("This is a test info message");
+    LOG_WARNING("This is a test warning message");
+    LOG_ERROR("This is a test error message");
+    LOG_FATAL("This is a test fatal message");
     /*---------------------------------------------------------------------------------------------*/
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
     audio.Initialize();
     audio.AddSound("../Assets/Sound/ping.wav");
     audio.AddSound("../Assets/Sound/bonk.wav");
-    INFOL("Graphics started");
+    LOG_INFO("Graphics started");
 
     // For Wen Yuan to test his assert functions and logging
     //int x = -1;
 
-    //Assert(x <= 0, "x must be more than 0");
+    //ASSERT(x <= 0, "x must be more than 0");
 
     //int y = -1;
 
-    //Assert(y <= 0, "x must be more than 0");
+    //ASSERT(y <= 0, "x must be more than 0");
 
-    // Max --------
-
-    EngineCore engine; // = new EngineCore();
-        
+    ////////// Run Game //////////
+    EngineCore engine;
     engine.Run();
-
-    /*return (int) msg.wParam;*/
-    
-    //delete engine;
     
     return 0;
 }
-

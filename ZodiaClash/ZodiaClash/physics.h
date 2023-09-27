@@ -23,7 +23,7 @@
 *
 * *****************************************************************************
 *
-*	@brief		Physics system of the engine
+*	@brief		Basic 2D iterative impulse physics engine.
 *
 *	This file contains functions used in the main physics system of the engine
 *
@@ -40,7 +40,7 @@
 using namespace vmath;
 
 class GraphicsManager;
-struct Body; //forward declaration
+//struct Body; //forward declaration
 
 namespace physics {
     class PhysicsManager {
@@ -48,7 +48,7 @@ namespace physics {
         PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
         void Update(float deltaTime);
         void AddEntity(Entity entity);
-        void Integrate(Body& body, float deltaTime);
+        void Integrate(Body& body, float deltaTime, Transform& transform);
         void AddForce(Body& body, Vector2 force);
 
     private:
@@ -74,18 +74,9 @@ namespace physics {
 }
 
 //for ECS
-struct Body {
-    Vector2                    prevPosition{};
-    Vector2                    acceleration{};
-    Vector2                    accumulatedForce{};
-    bool                       isStatic{};
-    Vector2                    rotation;
-    Vector2                    position;
-    Vector2                    scale;
-    Vector2                    velocity;
-    float                      width;
-    float                      height;
-};
+namespace physics {
+    struct Body;
+}
 
 struct Collider {
     physics::Shape* shape;

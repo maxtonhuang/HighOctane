@@ -51,6 +51,7 @@
 #include <chrono>
 #include "physics.h"
 #include "GUIManager.h"
+#include "Font.h"
 
 
 using Vec2 = vmath::Vector2;
@@ -62,7 +63,7 @@ std::vector<float> testingVec;
 
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 	
-const uint32_t MAX_MODELS = 50'000;
+//const uint32_t MAX_MODELS = 50'000;
 	
 EngineCore::EngineCore() {
 	m_previousTime = 0;
@@ -85,14 +86,14 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Animation>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
-	ECS::ecs().RegisterComponent<Body>();
+	ECS::ecs().RegisterComponent<physics::Body>();
 	ECS::ecs().RegisterComponent<Collider>();
 
 
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
 	systemList.emplace_back(movementSystem, "Movement System");
-	//std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
-	//systemList.emplace_back(physicsSystem);
+	std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
+	systemList.emplace_back(physicsSystem, "Physics System");
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	systemList.emplace_back(modelSystem, "Model System");
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
@@ -113,6 +114,16 @@ void EngineCore::Run() {
 		//signature.set(ECS::ecs().GetComponentType<Model>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<physics::Body>());
+		signature.set(ECS::ecs().GetComponentType<Collider>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+
+		ECS::ecs().SetSystemSignature<PhysicsSystem>(signature);
+
 	}
 
 	{
@@ -142,7 +153,10 @@ void EngineCore::Run() {
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
 
+	physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
+
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	//fonts.Initialize();
 	LoadMasterModel();
 
 	Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
@@ -155,30 +169,17 @@ void EngineCore::Run() {
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
-		 
-	//LoadModels(2500, false);
-	std::default_random_engine rng;
-	std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
-	std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
-	Entity tmp;
-	for (int i = 0; i < 0; ++i) {
-		Entity duck = CreateModel();
-		ECS::ecs().GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck.png"));
-		ECS::ecs().GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck2.png"));
-		ECS::ecs().GetComponent<Tex>(duck).tex = ECS::ecs().GetComponent<Tex>(duck).texVariants[0];
-		ECS::ecs().GetComponent<Animation>(duck).animationType = Animation::ANIMATION_EVENT_BASED;
-		//ECS::ecs().GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
-		ECS::ecs().GetComponent<Animation>(duck).frameDisplayDuration = 0.2f;
-		ECS::ecs().GetComponent<Size>(duck).width = (float)ECS::ecs().GetComponent<Tex>(duck).tex->GetWidth();
-		ECS::ecs().GetComponent<Size>(duck).height = (float)ECS::ecs().GetComponent<Tex>(duck).tex->GetHeight();
-		ECS::ecs().GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
-		tmp = duck;
-	}
-	//LoadModels(1, true);
+
+	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
-	//Serializer::SaveEntityToJson("duck.json", tmp);
-	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
+
+	
+	//Process fonts
+	//Entity fontSys = CreateModel();
+	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
+
+
 	//////////////////////////////////////////////
 	///////////////// GAME LOOP //////////////////
 	//////////////////////////////////////////////
@@ -189,10 +190,10 @@ void EngineCore::Run() {
 	while (gameActive) {
 		//debugSysProfile.StartTimer(systemList[0], GetTime());
 		uint64_t l_currentTime = GetTime();
-		g_dt = (l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
+		g_dt = static_cast<float>(l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		m_previousTime = l_currentTime;
 		
-		//DebugPrint("FPS: %.2f", 1.0f / g_dt);
+		//DEBUG_PRINT("FPS: %.2f", 1.0f / g_dt);
 		//std::cout << "FPS: " << 1.0f / g_dt;
 			// Debugging	
 			//Print out only once every 5 seconds
@@ -202,9 +203,9 @@ void EngineCore::Run() {
 				//	l_lastTime = l_currentTime;
 					//for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 						//std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
-						//DebugPrint("Durations: %.2f millisec, Percentages: %.2f%%", debugSysProfile.GetDuration(sys.first), debugSysProfile.GetPercentage(sys.first));
+						//DEBUG_PRINT("Durations: %.2f millisec, Percentages: %.2f%%", debugSysProfile.GetDuration(sys.first), debugSysProfile.GetPercentage(sys.first));
 						//std::cout << sys.second << " Duration: " << debugSysProfile.GetDuration(sys.first) << " millisec, Percentage: " << debugSysProfile.GetPercentage(sys.first) << "%" << std::endl;
-						//DebugPrint("%.2f in millisec", g_dt * 1000);
+						//DEBUG_PRINT("%.2f in millisec", g_dt * 1000);
 					//}
 
 					//std::cout << std::endl;

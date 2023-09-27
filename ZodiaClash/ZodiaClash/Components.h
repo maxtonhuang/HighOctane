@@ -34,6 +34,7 @@
 #include "ECS.h"
 #include "VMath.h"
 #include "GraphLib.h"
+#include "FontLib.h"
 #include "Texture.h"
 //#include "physics.h"
 
@@ -51,6 +52,7 @@ struct Size {
     float                   height;
 };
 
+//NOT NEEDED, TO STORE IN MODEL COMPONENT
 struct Color {
     glm::vec4               color;
 };
@@ -98,3 +100,5 @@ struct Animation {
 struct Clone {
     // empty by design
 };
+
+

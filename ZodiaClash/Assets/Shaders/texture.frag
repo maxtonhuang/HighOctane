@@ -6,7 +6,7 @@ layout (location=2) in float vIndex;
 
 layout (location=0) out vec4 fFragColor;
 
-uniform sampler2D[10] uTex2d;
+uniform sampler2D[150] uTex2d;
 
 void main () {
 fFragColor = texture2D(uTex2d[int(vIndex)],vTex) * vec4(vColor, 1.0);

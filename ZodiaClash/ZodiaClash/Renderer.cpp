@@ -51,7 +51,7 @@ void Renderer::Initialize(char const* vertexshader, char const* fragmentshader, 
     };
 
     compile_status = shaderprogram.Compile(shadervector);
-    Assert(!compile_status, "Unable to compile shader program!\n");
+    ASSERT(!compile_status, "Unable to compile shader program!\n");
 
     CreateVAO();
     drawtype = type;
@@ -68,6 +68,9 @@ Shader& Renderer::ShaderProgram() {
 }
 
 void Renderer::AddVertex(Vertex input) {
+    if (drawcount >= GRAPHICS::vertexBufferSize) {
+        Draw();
+    }
     data[drawcount] = input;
     ++drawcount;
 }
@@ -92,6 +95,20 @@ void Renderer::Draw() {
     }
     glBindVertexArray(vao);
     glDrawArrays(drawtype, 0, drawcount);
+    drawcount = 0;
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer::FontDraw(GLuint texID) {
+    if (drawcount <= 0) {
+        return;
+    }
+    glActiveTexture(GL_TEXTURE0);
+    glNamedBufferSubData(vbo, 0, sizeof(Vertex) * GRAPHICS::vertexBufferSize, data);
+    shaderprogram.Use();
+    glBindVertexArray(vao);
+    glBindTexture(GL_TEXTURE_2D, texID);
+    glDrawArrays(GL_TRIANGLES, 0, drawcount);
     drawcount = 0;
 }
 

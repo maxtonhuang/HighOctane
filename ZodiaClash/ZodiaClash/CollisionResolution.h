@@ -24,9 +24,8 @@
 *
 * *****************************************************************************
 *
-*	@brief		Body system of the engine
+*	@brief		Iterative impulse collision resolution system.
 *
-*	This file contains functions used for collision response
 *
 ******************************************************************************/
 

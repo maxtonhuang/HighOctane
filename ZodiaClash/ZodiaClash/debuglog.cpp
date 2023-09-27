@@ -30,6 +30,8 @@ Delete the files by time and number of log file created
 
 WHEN IMGUI IS DONE
 Dynamically change the log level during run time
+
+Open file and then keeps logging in whatever into the file, in another thread
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"
@@ -38,12 +40,6 @@ Dynamically change the log level during run time
 
 
 namespace debuglog {
-
-	// Variables
-	HANDLE hConsole;
-
-	// Set the text colour to white
-	WORD textColour = FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN;
 
 	// Constructor
 	Logger::Logger() {
@@ -84,41 +80,6 @@ namespace debuglog {
 	// Log into the file
 	void Logger::log(LOG_LEVEL level, const std::string& message) {
 
-		// Change the colour of the console
-		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
-		switch (level) {
-		case LOG_LEVEL::Trace:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
-			break;
-
-		case LOG_LEVEL::Debug:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY);
-			break;
-
-		case LOG_LEVEL::Info:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN);
-			break;
-
-		case LOG_LEVEL::Warning:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_GREEN | BACKGROUND_RED);
-			break;
-
-		case LOG_LEVEL::Error:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED | BACKGROUND_INTENSITY);
-			break;
-
-		case LOG_LEVEL::Fatal:
-			// Change the console colour
-			SetConsoleTextAttribute(hConsole, textColour | FOREGROUND_INTENSITY | BACKGROUND_RED);
-			break;
-		}
-
 		// If the logging is enabled and current log level is lower than the level set
 		if (static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
 
@@ -128,17 +89,11 @@ namespace debuglog {
 			// Get the current level
 			std::string levels = GetLevel(level);
 
-
-			// Flush the buffer to write immediately, if not, need to interact with the graphics
-			logFile.flush();
-
-			std::cout << timeStamp << " [" << levels << "] " << message << "\n";
+			// Write to the console
+			std::cout << timeStamp << " [" << levels << "] " << message << std::endl;
 		}
 
-		// Change back to default colour
-		SetConsoleTextAttribute(hConsole, textColour );
-
-		ROTATELOGFILEL(MAX_FILE_SIZE);
+		//ROTATELOGFILEL(MAX_FILE_SIZE);
 	}
 
 
@@ -249,31 +204,10 @@ namespace debuglog {
 	}
 
 	// Get log file size
-	std::streampos Logger::GetLogFileSize(void) {
-
-		// C++14
-		//logFile.seekp(0, std::ios::end);
-		//return logFile.tellp();
-		
-		// C++17
-		// Get the path of the log file
-		std::filesystem::path filePath(currentLogFileName);
-		
-		// Get the error code
-		std::error_code ec;
-
-		// Get the file size
-		std::uintmax_t fileSize = std::filesystem::file_size(filePath, ec);
-
-		// If there is no error
-		if (!ec) {
-			return fileSize;
-		}
-		else {
-			return -1;
-		}
-
+	std::streampos Logger::GetLogFileSize() {
+		return std::filesystem::file_size(currentLogFileName);
 	}
+
 
 	#if ENABLE_DEBUG_DIAG
 		// For debugging

@@ -6,11 +6,11 @@
 */
 /*!
 @file		vmath.h
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
+@author		Liu Wan Ting
+@Email		wanting.liu@digipen.edu
 @course		CSD 2401
 @section	Section A
-@date		30 August 2023
+@date		26/ 9/ 2023
 @brief		This file contains the overloading of the vectors 2 and 3
 
 IF ANYTHING IS CALCULATED WRONGLY PLEASE LET ME KNOW THANK YOU VERY MUCH

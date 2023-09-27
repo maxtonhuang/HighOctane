@@ -30,8 +30,8 @@
 * 
 *   [1] ENTITY -
 *    -  Entity Manager - Manages the Entity IDs and keeps track of how
-                             many entities ther are currently.
-
+*                        many entities ther are currently.
+*
 *   [2] COMPONENT -
 *    -  Component Array - Arrays that store data of each individual component
 *                         (struct). Arrays must be packed without empty slots,
@@ -310,6 +310,11 @@ public:
 
 class GraphicsSystem : public System {
 public:
+    void Initialize();
+    void Update() override;
+};
+
+class FontSystem : public System {
     void Initialize();
     void Update() override;
 };

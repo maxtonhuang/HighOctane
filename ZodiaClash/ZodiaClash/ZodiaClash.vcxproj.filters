@@ -45,6 +45,9 @@
     <Filter Include="Audio">
       <UniqueIdentifier>{e8afb2ea-92de-413a-9315-a3f3c9d1227b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Font">
+      <UniqueIdentifier>{b31fa77c-8b71-4ff9-b319-6f61d14b9aeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -183,6 +186,24 @@
     <ClInclude Include="CollisionResolution.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiConsole.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiPerformance.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="FontLib.h">
+      <Filter>Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -284,6 +305,24 @@
     </ClCompile>
     <ClCompile Include="CollsionResolution.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiConsole.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiPerformance.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

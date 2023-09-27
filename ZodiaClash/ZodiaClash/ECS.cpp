@@ -46,7 +46,7 @@ EntityManager::EntityManager() {
 }
 
 Entity EntityManager::CreateEntity() {
-    Assert(m_LivingEntityCount >= MAX_ENTITIES, "Too many entities in existence.");
+    ASSERT(m_LivingEntityCount >= MAX_ENTITIES, "Too many entities in existence.");
 
     // Take an ID from the front of the queue
     Entity id = m_AvailableEntities.front();
@@ -57,7 +57,7 @@ Entity EntityManager::CreateEntity() {
 }
 
 void EntityManager::DestroyEntity(Entity entity) {
-    Assert(entity >= MAX_ENTITIES, "Entity out of range.");
+    ASSERT(entity >= MAX_ENTITIES, "Entity out of range.");
 
     // Invalidate the destroyed entity's signature
     m_Signatures[entity].reset();
@@ -68,14 +68,14 @@ void EntityManager::DestroyEntity(Entity entity) {
 }
 
 void EntityManager::SetSignature(Entity entity, Signature signature) {
-    Assert(entity >= MAX_ENTITIES, "Entity out of range.");
+    ASSERT(entity >= MAX_ENTITIES, "Entity out of range.");
 
     // Put this entity's signature into the array
     m_Signatures[entity] = signature;
 }
 
 Signature EntityManager::GetSignature(Entity entity) {
-    Assert(entity >= MAX_ENTITIES, "Entity out of range.");
+    ASSERT(entity >= MAX_ENTITIES, "Entity out of range.");
 
     // Get this entity's signature from the array
     return m_Signatures[entity];

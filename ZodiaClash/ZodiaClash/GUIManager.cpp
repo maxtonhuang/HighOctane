@@ -9,23 +9,66 @@
 #include "physics.h"
 #include "Serialization.h"
 #include "EntityFactory.h"
+#include "ImGuiConsole.h"
+#include "ImGuiPerformance.h"
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-    extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
-    extern DebugProfiling debugSysProfile;
+    //extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
+    //extern DebugProfiling debugSysProfile;
 
 
 
 #endif
 
-  //  std::unordered_map<std::string, Entity> masterEntitiesList;
+    //int bar_data[11] = { 20, 45, 70, 15, 90, 30, 50, 80, 35, 65, 25 };
+    //float x_data[10] = { 0.2f, 0.5f, 0.8f, 0.1f, 0.9f, 0.3f, 0.6f, 0.7f, 0.4f, 0.25f };
+    //float y_data[10] = { 0.4f, 0.1f, 0.7f, 0.9f, 0.2f, 0.6f, 0.3f, 0.8f, 0.5f, 0.75f };
+    //struct ScrollingBuffer {
+    //    int MaxSize;
+    //    int Offset;
+    //    ImVector<ImVec2> Data;
+    //    ScrollingBuffer(int max_size = 2000) {
+    //        MaxSize = max_size;
+    //        Offset = 0;
+    //        Data.reserve(MaxSize);
+    //    }
+    //    void AddPoint(float x, float y) {
+    //        if (Data.size() < MaxSize)
+    //            Data.push_back(ImVec2(x, y));
+    //        else {
+    //            Data[Offset] = ImVec2(x, y);
+    //            Offset = (Offset + 1) % MaxSize;
+    //        }
+    //    }
+    //    void Erase() {
+    //        if (Data.size() > 0) {
+    //            Data.shrink(0);
+    //            Offset = 0;
+    //        }
+    //    }
+    //};
 
-
+    //// utility structure for realtime plot
+    //struct RollingBuffer {
+    //    float Span;
+    //    ImVector<ImVec2> Data;
+    //    RollingBuffer() {
+    //        Span = 10.0f;
+    //        Data.reserve(2000);
+    //    }
+    //    void AddPoint(float x, float y) {
+    //        float xmod = fmodf(x, Span);
+    //        if (!Data.empty() && xmod < Data.back().x)
+    //            Data.shrink(0);
+    //        Data.push_back(ImVec2(xmod, y));
+    //    }
+    //};
 
 GUIManager guiManager;
 GUIManager::GUIManager()
 {
 	ImGui::CreateContext();
+    ImPlot::CreateContext();
     //GUIWindow = nullptr;
 }
 
@@ -34,25 +77,25 @@ GUIManager::~GUIManager()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    ImPlot::DestroyContext();
 }
 
 
 // Our state
 bool show_demo_window;
 
-bool usageWindow;
-bool consoleWindow;
 bool debugWindow;
+bool plotWindow;
 
 void GUIManager::Init(GLFWwindow* window)
 {
-    
+
+
     show_demo_window = true;
 
     #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-        usageWindow = true;
-        consoleWindow = true;
         debugWindow = true;
+        plotWindow = true;
 
     #endif
         
@@ -65,7 +108,7 @@ void GUIManager::Init(GLFWwindow* window)
     // Create window with graphics context
     /*window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
     if (window == NULL) {
-        Assert(false, "Failed to create GUI window");
+        ASSERT(false, "Failed to create GUI window");
     }*/
     //glfwMakeContextCurrent(window);
     //glfwSwapInterval(1); // Enable vsync
@@ -87,12 +130,20 @@ void GUIManager::Init(GLFWwindow* window)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
+    // Init console window
+    InitConsole(window);
+
+#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+    // Init performance window
+    InitPerformance(window);
+#endif
+
 }
 
 void GUIManager::Update(GLFWwindow* window)
 {
-
-
+    //debugUpdate(window);
+    
 
     //ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     // Poll and handle events (inputs, window resize, etc.)
@@ -167,298 +218,112 @@ void GUIManager::Update(GLFWwindow* window)
         }
         ImGui::SameLine();
 
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
         ImGui::End();
     }
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-    if (debugWindow) {
-        ImGui::Begin("Debug Window", &debugWindow);
-
-        // For creating a tab bar
-        if (ImGui::BeginTabBar("DebugTabs")) {
-
-            /************** TAB 1 ***************/
-            if (ImGui::BeginTabItem("Console Tab")) {
-
-                // Button to toggle the console window
-                if (ImGui::Button(consoleWindow ? "Console On" : "Console Off")) {
-                    consoleWindow = !consoleWindow;
-                }
-
-                if (ImGui::Button("Clear")) {
-                    imguiOutputBuffer.ClearBuffer();
-                }
-
-                ImGui::EndTabItem();
-            }
-            /************** TAB 1 ***************/
-
-            /************** TAB 2 ***************/
-            if (ImGui::BeginTabItem("Usage Tab")) {
-
-                if (ImGui::Button(usageWindow ? "Usage On" : "Usage Off")) {
-					usageWindow = !usageWindow;
-				}
-            }
-            /************** TAB 2 ***************/
-
-            // End the tab bar
-            ImGui::EndTabBar();
-        }
-
-        ImGui::End();
-    }
-
-    if (usageWindow) {
-        // Number of data points
-        size_t valuesCount = systemList.size();
-        float progressbarHeight = 30.0f;
-
-        ImVec2 windowSize(300.f, valuesCount * 80.f);
-        //ImVec2 windowPos(100, 100);
-
-        // For setting a fixed size for the window
-        //ImGui::SetNextWindowPos(windowPos, 0); // Set the position
-        ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
-        ImGui::Begin("Percent Usage", &usageWindow, ImGuiWindowFlags_NoResize);
-
-        // For the plotting of the horizontal histogram
-        for (int i = 0; i < valuesCount; ++i) {
-            float percentage = debugSysProfile.GetPercentage(systemList[i].first);
-
-            // Change this to system name in the future when max implemented it
-            std::string histogramName = systemList[i].second;
-
-            // Create a group to hold the horizontal histogram and text side by side
-            ImGui::BeginGroup();
-
-            // For calculating the colour
-            // Default to green
-            ImVec4 progressBarColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
-            if (percentage > 70.0f) {
-
-                // Red if > 70%
-                progressBarColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
-            }
-            else if (percentage > 30.0f) {
-
-                // Yellow if > 30%
-                progressBarColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
-            }
-
-            // Horizontal histogram
-            ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
-            ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, progressbarHeight), "");
-            ImGui::PopStyleColor();
-
-            // For the position of the percentage text
-            ImGui::SetCursorPos(ImVec2(20.f, ImGui::GetCursorPosY()));
-
-            // For the percentage text
-            ImGui::Text("%s %.2f%%", histogramName.c_str(), percentage);
-
-            // End the group
-            ImGui::EndGroup();
-
-            // Separate each bar with a separator
-            if (i < valuesCount - 1) {
-                ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
-
-                // For customising the separator's appearance
-                ImGuiStyle& style = ImGui::GetStyle();
-                style.ItemSpacing.y = 10.0f;
-            }
-        }
-        ImGui::End();
-    }
-
+    // Update the performance console
+    UpdatePerformance(window);
 #endif
 
-#if ENABLE_DEBUG_DIAG
 
-    // For the filter buffer for the console window
-    static char filterBuffer[256] = "";
-    static char fileNameBuffer[31] = "";
-    static bool autoScroll = false;
-    // Change the colour for my console window
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
-
-    // Debug window
-    if (consoleWindow) {
-        if (ImGui::Begin("Console")) {
-
-            // Push the width of the input text box
-            ImGui::PushItemWidth(200);
-
-            /********FILE INPUT TEXT*********/
-            ImGui::InputText("File Name", fileNameBuffer, IM_ARRAYSIZE(fileNameBuffer), ImGuiInputTextFlags_CharsNoBlank);
-            ImGui::SameLine();
-            ImGui::TextDisabled("(?)"); // Label text
-            if (ImGui::IsItemHovered()) {
-                ImGui::SetTooltip("Enter name of file. Eg. 'Good' will create a file called 'Good.log' ");
-            }
-            /********FILE INPUT TEXT*********/
-
-            // Export to file button
-            ImGui::SameLine();
-            if (ImGui::Button("Export to File")) {
-                // Call a function to export the console content to a file
-                ExportConsoleToFile(fileNameBuffer);
-            }
-            ImGui::Separator();
-
-            /********FILTER INPUT TEXT*********/
-            ImGui::InputText("Filter", filterBuffer, IM_ARRAYSIZE(filterBuffer));
-            ImGui::SameLine();
-            ImGui::TextDisabled("(?)"); // Label text
-            if (ImGui::IsItemHovered()) {
-                ImGui::SetTooltip("Filters console. Is case-insensitive");
-            }
-            /********FILTER INPUT TEXT*********/
-
-            // Pop the input text box width
-            ImGui::PopItemWidth();
-            ImGui::Separator();
-
-            // Checkbox for the auto scroll
-            ImGui::Checkbox("Auto-Scroll", &autoScroll);
-            ImGui::Separator();
-
-            // For clearing buffer
-            if (ImGui::Button("Clear")) {
-                imguiOutputBuffer.ClearBuffer();
-            }
-            ImGui::Separator();
-
-            // Create a scrolling region for the content
-            ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
-
-            // Display the captured output in the text box
-            const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
-            size_t pos = 0;
-            while (pos < logBuffer.size()) {
-                size_t newlinePos = logBuffer.find('\n', pos);
-                if (newlinePos != std::string::npos) {
-                    std::string logEntry = logBuffer.substr(pos, newlinePos - pos);
-
-                    // Check if the log entry contains the filter string (case-insensitive)
-                    std::string logEntryLowerCase = logEntry;
-                    std::string filterLowerCase = filterBuffer;
-
-                    // Convert both strings to lower case
-                    std::transform(logEntryLowerCase.begin(), logEntryLowerCase.end(), logEntryLowerCase.begin(), ::tolower);
-                    std::transform(filterLowerCase.begin(), filterLowerCase.end(), filterLowerCase.begin(), ::tolower);
-
-                    /********CUSTOM COLLOUR OUTPUT*********/
-                    ImVec4 textColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);  // Default to white text color
-
-                    if (logEntryLowerCase.find("[trace]") != std::string::npos) {
-                        textColor = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);  // Grey for trace messages
-                    }
-                    else if (logEntryLowerCase.find("[debug]") != std::string::npos) {
-                        textColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);  // Yellow for debug messages
-                    }
-                    else if (logEntryLowerCase.find("[info]") != std::string::npos) {
-                        textColor = ImVec4(0.0f, 0.5f, 1.0f, 1.0f);  // Blue for info messages
-                    }
-                    else if (logEntryLowerCase.find("[warning]") != std::string::npos) {
-                        textColor = ImVec4(1.0f, 0.5f, 0.0f, 1.0f);  // Orange for warning messages
-                    }
-                    else if (logEntryLowerCase.find("[error]") != std::string::npos) {
-                        textColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);  // Red for error messages
-                    }
-                    else if (logEntryLowerCase.find("[fatal]") != std::string::npos) {
-                        textColor = ImVec4(1.0f, 0.2f, 0.2f, 1.0f);  // Bright red for fatal messages
-                    }
-                    /********CUSTOM COLLOUR OUTPUT*********/
-
-                    // Set the text color
-                    if (logEntryLowerCase.find(filterLowerCase) != std::string::npos) {
-                        //ImGui::TextUnformatted(logEntry.c_str());
-                        ImGui::TextColored(textColor, logEntry.c_str());
-                    }
-                    pos = newlinePos + 1;
-                }
-                else {
-                    break;
-                }
-            }
-
-            // For automatically scrolling if the auto-scroll checkbox is ticked
-            if (autoScroll) {
-                ImGui::SetScrollHereY(1.0f);
-            }
-
-            // End the scrolling region
-            ImGui::EndChild();
-
-            // End the console window
-            ImGui::End();
-
-        }
-    }
-
-    // Stops changing the colour
-    ImGui::PopStyleColor();
-
-#endif
-
+//#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+//    if (debugWindow) {
+//        ImGui::Begin("Debug Window", &debugWindow);
+//
+//        // For creating a tab bar
+//        if (ImGui::BeginTabBar("DebugTabs")) {
+//
+//            /************** TAB 1 ***************/
+//            if (ImGui::BeginTabItem("Console Tab")) {
+//
+//                // Button to toggle the console window
+//                if (ImGui::Button(consoleWindow ? "Console On" : "Console Off")) {
+//                    consoleWindow = !consoleWindow;
+//                }
+//
+//                if (ImGui::Button("Clear")) {
+//                    imguiOutputBuffer.ClearBuffer();
+//                }
+//
+//                ImGui::EndTabItem();
+//            }
+//            /************** TAB 1 ***************/
+//
+//            /************** TAB 2 ***************/
+//            if (ImGui::BeginTabItem("Usage Tab")) {
+//
+//                if (ImGui::Button(usageWindow ? "Usage On" : "Usage Off")) {
+//					usageWindow = !usageWindow;
+//				}
+//
+//                ImGui::EndTabItem();
+//            }
+//            /************** TAB 2 ***************/
+//
+//            // End the tab bar
+//            ImGui::EndTabBar();
+//        }
+//
+//        ImGui::End();
+//    }
+//
+//#endif
+//
+//#if ENABLE_DEBUG_DIAG
+//
+//    // Plot window
+//    //if (plotWindow) {
+//        //ImGui::BulletText("Move your mouse to change the data!");
+//        //ImGui::BulletText("This example assumes 60 FPS. Higher FPS requires larger buffer size.");
+//
+//        //static ScrollingBuffer sdata1, sdata2;
+//        //static RollingBuffer   rdata1, rdata2;
+//        //ImVec2 mouse = ImGui::GetMousePos();
+//        //static float t = 0;
+//        //t += ImGui::GetIO().DeltaTime;
+//        //sdata1.AddPoint(t, mouse.x * 0.0005f);
+//        //rdata1.AddPoint(t, mouse.x * 0.0005f);
+//        //sdata2.AddPoint(t, mouse.y * 0.0005f);
+//        //rdata2.AddPoint(t, mouse.y * 0.0005f);
+//
+//        //static float history = 10.0f;
+//        //ImGui::SliderFloat("History", &history, 1, 30, "%.1f s");
+//        //rdata1.Span = history;
+//        //rdata2.Span = history;
+//
+//        //static ImPlotAxisFlags flags = ImPlotAxisFlags_NoTickLabels;
+//
+//        //if (ImPlot::BeginPlot("##Scrolling", ImVec2(-1, 150))) {
+//        //    ImPlot::SetupAxes(nullptr, nullptr, flags, flags);
+//        //    ImPlot::SetupAxisLimits(ImAxis_X1, t - history, t, ImGuiCond_Always);
+//        //    ImPlot::SetupAxisLimits(ImAxis_Y1, 0, 1);
+//        //    ImPlot::SetNextFillStyle(IMPLOT_AUTO_COL, 0.5f);
+//        //    ImPlot::PlotShaded("Mouse X", &sdata1.Data[0].x, &sdata1.Data[0].y, sdata1.Data.size(), -INFINITY, 0, sdata1.Offset, 2 * sizeof(float));
+//        //    ImPlot::PlotLine("Mouse Y", &sdata2.Data[0].x, &sdata2.Data[0].y, sdata2.Data.size(), 0, sdata2.Offset, 2 * sizeof(float));
+//        //    ImPlot::EndPlot();
+//        //}
+//        //if (ImPlot::BeginPlot("##Rolling", ImVec2(-1, 150))) {
+//        //    ImPlot::SetupAxes(nullptr, nullptr, flags, flags);
+//        //    ImPlot::SetupAxisLimits(ImAxis_X1, 0, history, ImGuiCond_Always);
+//        //    ImPlot::SetupAxisLimits(ImAxis_Y1, 0, 1);
+//        //    ImPlot::PlotLine("Mouse X", &rdata1.Data[0].x, &rdata1.Data[0].y, rdata1.Data.size(), 0, 0, 2 * sizeof(float));
+//        //    ImPlot::PlotLine("Mouse Y", &rdata2.Data[0].x, &rdata2.Data[0].y, rdata2.Data.size(), 0, 0, 2 * sizeof(float));
+//        //    ImPlot::EndPlot();
+//        //}
+//        //ImPlot::ShowDemoWindow();
+//    //}
+//#endif
+//
     // Rendering
     ImGui::Render();
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    //glViewport(0, 0, display_w, display_h);
-   // glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-   // glClear(GL_COLOR_BUFFER_BIT);
+int display_w, display_h;
+glfwGetFramebufferSize(window, &display_w, &display_h);
+//    //glViewport(0, 0, display_w, display_h);
+//   // glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+//   // glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+//
+//   // glfwSwapBuffers(window);
 
-   // glfwSwapBuffers(window);
-}
-
-/*******************************************************************/
-// ALL THESE IS FOR DEBUGGING PLEASE DO NOT TOUCH AT ALL
-int ImGuiOutputBuffer::overflow(int c) {
-    if (c != EOF) {
-        // Append the character to a buffer
-        buffer += static_cast<char>(c);
-    }
-    return c;
-}
-
-const std::string& ImGuiOutputBuffer::GetBuffer() const {
-    return buffer;
-}
-
-void ImGuiOutputBuffer::ClearBuffer() {
-    buffer.clear();
-}
-
-// Define the instance
-ImGuiOutputBuffer imguiOutputBuffer;
-
-// Redirect std::cout to use the custom stream buffer
-std::ostream imguiCout(&imguiOutputBuffer);
-std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
-
-void ExportConsoleToFile(const char* fileName) {
-    std::string fullFileName;
-
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";;
-
-    std::ofstream outputFile(fullFileName);
-
-    Assert(!outputFile.is_open(), "Unable to open file");
-
-    // Get the console content and write it to the file
-    const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
-    outputFile << logBuffer;
-
-    // Close the file
-    outputFile.close();
-
-    // Optionally, clear the console content after exporting
-    imguiOutputBuffer.ClearBuffer();
-
-    // Optionally, display a success message
-    std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
 }
