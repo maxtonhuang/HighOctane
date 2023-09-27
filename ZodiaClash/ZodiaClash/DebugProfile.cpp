@@ -79,7 +79,7 @@
             float usagePercent = 100.0 - idlePercent;
 
             // If CPU usage is more than 50%
-            ASSERT(usagePercent > 50.f, "CPU usage is more than 50%!");
+            ASSERT(usagePercent < 50.f, "CPU usage is more than 50%!");
             return usagePercent;
         }
         return 0.f;

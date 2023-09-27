@@ -59,6 +59,8 @@ constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 #define LOG_ROTATE_FILE(maxFileSize) debuglog::logger.RotateLogFile(maxFileSize);
 
+#define LOG_CRASH(message) debuglog::crashLogger.CrashLog(debuglog::LOG_LEVEL::Fatal, message);
+ 
 #define LOG_SET_LEVEL(level) debuglog::logger.SetLevel(level);
 
 #define LOG_GET_LEVEL(level) debuglog::logger.GetLevel(level);
@@ -118,7 +120,7 @@ namespace debuglog {
 			std::string GetTimeStamp();
 			std::streampos GetLogFileSize();
 			void log(LOG_LEVEL level, const std::string& message);
-
+			void CrashLog(LOG_LEVEL level, const std::string& message);
 		private:
 
 			std::ofstream logFile;
@@ -128,5 +130,6 @@ namespace debuglog {
 
 	// Extern declarations
 	extern Logger logger;
+	extern Logger crashLogger;
 }
 
