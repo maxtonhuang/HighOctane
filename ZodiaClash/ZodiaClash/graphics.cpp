@@ -115,7 +115,7 @@ void GraphicsManager::Initialize(int w, int h) {
     lineloopRenderer.Initialize(flatRenderer.ShaderProgram(), GL_LINE_LOOP);
     rectRenderer.Initialize(flatRenderer.ShaderProgram(), GL_TRIANGLE_STRIP);
     circleRenderer.Initialize(flatRenderer.ShaderProgram(), GL_TRIANGLE_FAN);
-    fontRenderer.Initialize("../Assets/Shaders/font.vert", "../Assets/Shaders/font.frag");
+    fontRenderer.Initialize("../Assets/Shaders/font.vert", "../Assets/Shaders/font.frag",GL_TRIANGLES);
 
     texList.AddSpriteSheet("duck.png", 1, 6, 6);
     texList.AddSpriteSheet("duck2.png", 1, 6, 6);
@@ -123,10 +123,6 @@ void GraphicsManager::Initialize(int w, int h) {
     fonts.Initialize();
     fonts.LoadFont("Danto Lite Normal.ttf");
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
-    fontRenderer.shaderprogram.Use();
-    std::cout << fontRenderer.shaderprogram.GetHandle() << "\n";
-    std::cout << glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection") << "\n";
-    std::cout << glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "textColor") << "\n";
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     guiManager.Init(window);
