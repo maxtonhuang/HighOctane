@@ -57,7 +57,6 @@
 
 using Vec2 = vmath::Vector2;
 
-std::vector<float> testingVec;
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 	DebugProfiling debugSysProfile;
 #endif // 
@@ -201,29 +200,9 @@ void EngineCore::Run() {
 	m_previousTime = GetTime();
 	//SaveEntityToJson("testEntity.json", tmp);
 	while (gameActive) {
-		//debugSysProfile.StartTimer(systemList[0], GetTime());
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		m_previousTime = l_currentTime;
-		
-		//DEBUG_PRINT("FPS: %.2f", 1.0f / g_dt);
-		//std::cout << "FPS: " << 1.0f / g_dt;
-			// Debugging	
-			//Print out only once every 5 seconds
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-				//static uint64_t l_lastTime = 0;
-				//if (l_currentTime - l_lastTime > PRINT_INTERVAL) {
-				//	l_lastTime = l_currentTime;
-					//for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
-						//std::cout << "Duration: " << debugSysProfile.GetResult(sys).duration << " millisec, Percentage: " << debugSysProfile.GetResult(sys).percentage << "%" << std::endl;
-						//DEBUG_PRINT("Durations: %.2f millisec, Percentages: %.2f%%", debugSysProfile.GetDuration(sys.first), debugSysProfile.GetPercentage(sys.first));
-						//std::cout << sys.second << " Duration: " << debugSysProfile.GetDuration(sys.first) << " millisec, Percentage: " << debugSysProfile.GetPercentage(sys.first) << "%" << std::endl;
-						//DEBUG_PRINT("%.2f in millisec", g_dt * 1000);
-					//}
-
-					//std::cout << std::endl;
-			//}
-		#endif
 			
 		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
@@ -254,16 +233,9 @@ void EngineCore::Run() {
 
 		std::cout << num[23] << "," << num[34] << "," << num[69] << std::endl;*/
 
-
 		if (graphics.WindowClosed()) {
 			gameActive = false;
 		}
-
-		#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-			Performance(GetTime());
-		#endif
-
-		//debugSysProfile.StopTimer(systemList[0], GetTime());
 		}
 	}
 
