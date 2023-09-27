@@ -41,6 +41,7 @@
 #include "physics.h"
 #include "MultiThreading.h"
 #include "Global.h"
+#include "GUIManager.h"
 
 	
 void PhysicsSystem::Update() {

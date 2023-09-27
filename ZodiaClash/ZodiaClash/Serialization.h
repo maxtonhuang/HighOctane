@@ -4,6 +4,14 @@
 #include <sstream>
 #include <string>
 #include "debugdiagnostic.h"
+#include "EntityFactory.h"
+#include "Components.h"
+#include "ECS.h"
+#include "Message.h"
+#include "EngineCore.h"
+#include "VMath.h"
+#include "GraphLib.h"
+#include "Texture.h"
 
 class Serializer {
 public:
@@ -14,6 +22,7 @@ public:
 	void ReadFloat(float& f);
 	void ReadString(std::string& str);
 	static void SerializeCSV(const std::string& file);
+	static void SerializeBuild(const std::string& file);
 	Serializer& operator>>( int i) {
 		stream >> i;
 		return *this;
@@ -30,6 +39,8 @@ public:
 		stream >> c;
 		return *this;
 	};
+	static void SaveEntityToJson(const std::string& fileName, const Entity& entity);
+	static bool LoadEntityFromJson(const std::string& fileName);
 
 };
 
@@ -41,4 +52,14 @@ public:
 	float attack{};
 	float defence{};
 	float speed{};
+};
+
+enum class CharacterComponents {
+	COLOR,
+	TRANSFORM,
+	TEXTURE,
+	MATRIX,
+	VISIBLE,
+	SIZE,
+	MAINCHARACTER
 };

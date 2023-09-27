@@ -13,18 +13,17 @@
 @date		23 September 2023
 @brief		This file contains the functions definitions for performance window in ImGui
 
+TODO : Put the frame rate in performance there
 *//*______________________________________________________________________*/
 
 #include "ImGuiPerformance.h"
 #include "enginecore.h"
 
-
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
 
-void InitPerformance(GLFWwindow* window) {
-    const char* glsl_version = "#version 450";
+void InitPerformance() {
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -36,10 +35,16 @@ void InitPerformance(GLFWwindow* window) {
 
 }
 
-void UpdatePerformance(GLFWwindow* window) {
+void UpdatePerformance() {
     ImVec2 windowSize(300.f, systemList.size() * 80.f);
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");
+
+    // Now, create your text with the larger font size
+    ImGui::Text("Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
 
     for (const auto& [system, name] : systemList) {
         float percentage = debugSysProfile.GetPercentage(system);

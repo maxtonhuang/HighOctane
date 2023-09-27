@@ -96,6 +96,10 @@ public:
 
     Signature GetSignature(Entity entity);
 
+    uint32_t GetEntityCount() {
+        return m_LivingEntityCount;
+    }
+
 private:
     // Queue of unused entity IDs
     std::queue<Entity> m_AvailableEntities{};
@@ -239,6 +243,9 @@ public:
 
     void DestroyEntity(Entity entity);
 
+    template<typename T>
+    bool HasComponent(Entity entity);
+
     // Component methods ---------------------------
     template<typename T>
     void RegisterComponent();
@@ -257,6 +264,10 @@ public:
 
     template<typename T>
     bool isComponentTypeRegistered();
+
+    uint32_t GetEntityCount() {
+        return m_EntityManager->GetEntityCount();
+    }
 
     // System methods ------------------------------
     template<typename T>
@@ -299,6 +310,11 @@ public:
 
 class GraphicsSystem : public System {
 public:
+    void Initialize();
+    void Update() override;
+};
+
+class FontSystem : public System {
     void Initialize();
     void Update() override;
 };

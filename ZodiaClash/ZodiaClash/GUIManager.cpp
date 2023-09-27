@@ -3,6 +3,12 @@
 #include "DebugProfile.h"
 #include "enginecore.h"
 #include "debuglog.h"
+#include "ECS.h"
+#include "Components.h"
+#include "EntityFactory.h"
+#include "physics.h"
+#include "Serialization.h"
+#include "EntityFactory.h"
 #include "ImGuiConsole.h"
 #include "ImGuiPerformance.h"
 #include "MultiThreading.h"
@@ -78,7 +84,6 @@ GUIManager::~GUIManager()
 
 // Our state
 bool show_demo_window;
-bool show_another_window;
 
 bool debugWindow;
 bool plotWindow;
@@ -88,15 +93,13 @@ void GUIManager::Init(GLFWwindow* window)
 
 
     show_demo_window = true;
-    show_another_window = true;
 
     #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
         debugWindow = true;
         plotWindow = true;
 
     #endif
-
-    //// GL 3.0 + GLSL 130
+        
     const char* glsl_version = "#version 450";
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -106,7 +109,7 @@ void GUIManager::Init(GLFWwindow* window)
     // Create window with graphics context
     /*window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
     if (window == NULL) {
-        Assert(false, "Failed to create GUI window");
+        ASSERT(false, "Failed to create GUI window");
     }*/
     //glfwMakeContextCurrent(window);
     //glfwSwapInterval(1); // Enable vsync
@@ -117,7 +120,7 @@ void GUIManager::Init(GLFWwindow* window)
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-   // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -129,11 +132,11 @@ void GUIManager::Init(GLFWwindow* window)
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Init console window
-    InitConsole(window);
+    InitConsole();
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     // Init performance window
-    InitPerformance(window);
+    InitPerformance();
 #endif
 
 }
@@ -162,52 +165,68 @@ void GUIManager::Update(GLFWwindow* window)
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
     {
-        static float f = 0.0f;
         static int counter = 0;
+        static bool entityAddedFlag = false;
+        ImGui::Begin("Creating Entity");                         
 
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        //Entity testEntity;
+            Entity testEntity;			
+        if (ImGui::Button("Create Entity")) {
+            testEntity = ECS::ecs().CreateEntity();
+            masterEntitiesList["CatTest"] = testEntity;
+            ECS::ecs().AddComponent(testEntity, Color{ glm::vec4{ 1,1,1,1 } });
+            ECS::ecs().AddComponent(testEntity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
+            ECS::ecs().AddComponent(testEntity, Visible{ false });
+            ECS::ecs().AddComponent(testEntity, Tex{ texList.Add("cat.png") });
+            Tex* t = &ECS::ecs().GetComponent<Tex>(testEntity);
+            t->texVariants.push_back(texList.Add("cat.png"));
+            t->texVariants.push_back(texList.Add("cat.png"));
+            t->tex = t->texVariants.at(0);
+            ECS::ecs().AddComponent(testEntity, Animation{});
+            Animation* a = &ECS::ecs().GetComponent<Animation>(testEntity);
+            a->animationType = Animation::ANIMATION_TIME_BASED;
+            a->frameDisplayDuration = 0.1f;
+            ECS::ecs().AddComponent(testEntity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+            ECS::ecs().AddComponent(testEntity, Model{});
+            ECS::ecs().AddComponent<physics::Body>(testEntity, physics::Body{});
+            ECS::ecs().AddComponent<Collider>(testEntity, Collider{});
+            entityAddedFlag = true;
             counter++;
+            DEBUG_PRINT("entity ID: %i",testEntity)
+        }
+        ImGui::Text("Entities added = %d", counter);
+        if (ImGui::Button("Clone Entity")) {
+            if (!entityAddedFlag) {
+                ASSERT(!entityAddedFlag, "Entity has not been added.");
+            }
+            else {
+                CloneMasterModel2(0.f, 0.f, true);
+            }
+        } 
+        if (ImGui::Button("Save my Cat")) {
+            if (!entityAddedFlag) {
+                ASSERT(!entityAddedFlag, "Entity has not been added.");
+            }
+            else {
+                Serializer::SaveEntityToJson("../Assets/CatTestEntity.json", masterEntitiesList["CatTest"]);
+            }
+        }
+        if (ImGui::Button("Load my Cat")) {
+            Serializer::LoadEntityFromJson("../Assets/CatTestEntity.json");
+            entityAddedFlag = true;
+            
+        }
         ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
 
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
         ImGui::End();
-    }
-
-    // 3. Show another simple window.
-    if (show_another_window)
-    {
-        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me"))
-            show_another_window = false;
-        ImGui::End();
-    }
-
-    
-            // Update the console
-            UpdateConsole(window);
-
-
-
-    
-
-
-
-
+    // Update the console
+    UpdateConsole();
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     // Update the performance console
-    UpdatePerformance(window);
+    UpdatePerformance();
 #endif
 
 

@@ -54,7 +54,7 @@ std::vector<Entity> massRenderEntitiesList;
 	void LoadMasterModel() {
 
 		// REMOVE HARDCODING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+		
 		{
 			Entity entity = ECS::ecs().CreateEntity();
 			masterEntitiesList["CAT"] = entity;
@@ -121,6 +121,23 @@ void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vecto
 		//// for mass rendering - add this entity to vector
 		massRenderEntitiesList.push_back(entity);
 	}
+}
+
+void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
+	Entity entity = ECS::ecs().CreateEntity();
+	Entity masterEntity = (masterEntitiesList.find("CatTest"))->second;
+	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
+	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Visible{ true });
+	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+	if (isMainCharacter) {
+		ECS::ecs().AddComponent(entity, MainCharacter{});
+	}		
+	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
+	ECS::ecs().AddComponent(entity, Clone{});
 }
 
 void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& spritesheets) {

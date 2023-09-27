@@ -18,7 +18,7 @@ HOW TO USE THE FUNCTIONS
 1. Include this header file in the file you want to use the functions
 
 2.	\code{.cpp}
-		DebugPrint("Debug message: %s %d", "Value:", 42);
+		DEBUG_PRINT("Debug message: %s %d", "Value:", 42);
 	\endcode
 
 	This will print out the following message to the standard error stream:
@@ -26,7 +26,7 @@ HOW TO USE THE FUNCTIONS
 
 3.	\code{.cpp}
 		int x = -1;
-		Assert(x > 0, "x must be more than 0");
+		ASSERT(x > 0, "x must be more than 0");
 	\endcode
 
 	This will print out and (log to error file?) the following message to the standard error stream:
@@ -69,9 +69,29 @@ PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
 #define PATH_SEPARATOR "/"
 #endif
 
+// If debug diagnostics is enabled, then we will use the debug printing function
+#if ENABLE_DEBUG_DIAG
+
+#define DEBUG_PRINT(...) debug::PrintDebugHandler(__VA_ARGS__);
+
+#define ASSERT(condition, ...) debug::AssertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
+
+#define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
+
+#define CustomTerminate(...) debug::CustomTerminateHandler(__VA_ARGS__);
 
 
+// Else, we will just ignore the debug printing function
+#else
+#define DEBUG_PRINT(...) ((void)0);
 
+#define ASSERT(condition, ...) ((void)0);
+
+#define Console(...) ((void)0);
+
+#define CustomTerminate(...) ((void)0);
+
+#endif
 
 namespace debug {
 
@@ -89,26 +109,4 @@ namespace debug {
 	int CustomMessageBox(const char* file, int line, const char* message);
 }
 
-// If debug diagnostics is enabled, then we will use the debug printing function
-#if ENABLE_DEBUG_DIAG
 
-#define DebugPrint(...) debug::PrintDebugHandler(__VA_ARGS__);
-
-#define Assert(condition, ...) debug::AssertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
-
-#define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
-
-#define CustomTerminate(...) debug::CustomTerminateHandler(__VA_ARGS__);
-
-
-// Else, we will just ignore the debug printing function
-#else
-#define DebugPrint(...) ((void)0);
-
-#define Assert(condition, ...) ((void)0);
-
-#define Console(...) ((void)0);
-
-#define CustomTerminate(...) ((void)0);
-
-#endif

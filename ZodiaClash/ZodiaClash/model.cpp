@@ -53,6 +53,8 @@ void Model::Update(Transform const& entity, Size const& size) {
 	matrix = glm::mat3{ cos(entity.rotation) * x / GRAPHICS::defaultWidthF ,-sin(entity.rotation) * x / GRAPHICS::defaultHeightF,0,
 		sin(entity.rotation) * y / GRAPHICS::defaultWidthF , cos(entity.rotation) * y / GRAPHICS::defaultHeightF,0,
 		entity.position.x / GRAPHICS::w,entity.position.y / GRAPHICS::h,1 };
+
+	//vec3s are standard values for each corner of a 2x2 square
 	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
 	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
 	glm::vec3 topleft3 = matrix * glm::vec3{ -1,1,1 };

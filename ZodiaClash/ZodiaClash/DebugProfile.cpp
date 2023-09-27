@@ -22,7 +22,7 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
 
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
-    void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {\
+    void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
 
         // To get the time taken for each system
         startTimers[systemInput] = static_cast<float>(startTimeInput);
@@ -62,12 +62,12 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
         
             // To get the memory usage in bytes
             if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc))) {
-                Assert(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
+                ASSERT(!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)), "Unable to get memory");
                 
                 // Working set size in bytes
                 SIZE_T usedMemory = pmc.WorkingSetSize;
                 double usedMemoryMB = static_cast<double>(usedMemory) / (1024 * 1024); // Convert bytes to megabytes
-                DebugPrint("Used memory %.2f MB", usedMemoryMB);
+                DEBUG_PRINT("Used memory %.2f MB", usedMemoryMB);
             }
 
             // To get the CPU percentage usage
@@ -87,7 +87,7 @@ PERCENTAGE AND THE TIME GOT PROBLEM WHEN FPS IS UNCAPPED
                 std::cout << "CPU Usage: " << usagePercent << "%" << std::endl;
 
                 // If CPU usage is more than 50%
-                Assert(usagePercent > 50.f, "CPU usage is more than 50%!");
+                ASSERT(usagePercent > 50.f, "CPU usage is more than 50%!");
             }
         }
     }
