@@ -13,6 +13,7 @@
 @date		23 September 2023
 @brief		This file contains the functions declaration for performance window in ImGui
 
+TODO Detect the 'console logged to' and delete
 *//*______________________________________________________________________*/
 #include "ImGuiConsole.h"
 #include "GUIManager.h"
@@ -182,11 +183,11 @@ void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName;
 
     // If the file name is empty, use the default file name
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";;
+    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
 
     std::ofstream outputFile(fullFileName);
 
-    Assert(!outputFile.is_open(), "Unable to open file");
+    ASSERT(!outputFile.is_open(), "Unable to open file");
 
     // Get the console content and write it to the file
     const std::string& logBuffer = imguiOutputBuffer.GetBuffer();

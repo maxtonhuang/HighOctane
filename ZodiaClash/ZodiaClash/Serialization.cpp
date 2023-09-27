@@ -51,7 +51,7 @@ void StreamRead(Serializer& stream, std::string& str)
 void Serializer::SerializeCSV(const std::string& file) {
 	Serializer stream;
 	bool isFileOpen = stream.Open(file);
-	Assert(!isFileOpen, "Unable to open file");
+	ASSERT(!isFileOpen, "Unable to open file");
 	std::string line, header;
 	PseudoCharacter characterStats;
 	std::getline(stream.stream, header);  // Read the header line and discard it
@@ -86,7 +86,7 @@ void Serializer::SerializeCSV(const std::string& file) {
 				characterStats.speed = std::stof(field);
 			}
 		}
-		//DebugPrint("ID:%d Name:%s  Health:%f  Attack:%f  Defence:%f  Speed:%f", characterStats.id, characterStats.name.c_str(), characterStats.health, characterStats.attack, characterStats.defence, characterStats.speed);
+		//DEBUG_PRINT("ID:%d Name:%s  Health:%f  Attack:%f  Defence:%f  Speed:%f", characterStats.id, characterStats.name.c_str(), characterStats.health, characterStats.attack, characterStats.defence, characterStats.speed);
 
 		// Check for newline to indicate the end of a line
 		if (c == '\n' || stream.stream.eof()) {

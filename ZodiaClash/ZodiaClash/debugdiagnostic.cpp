@@ -12,6 +12,9 @@
 @section	Section A
 @date		30 August 2023
 @brief		This file contains the functions definition for debugging
+
+TO DO: SAVE EVERYTHING BEFORE CRASHING INTO CRASH.LOG
+
 *//*______________________________________________________________________*/
 
 #include "DebugDiagnostic.h"
@@ -107,8 +110,11 @@ namespace debug {
                 
                 std::cerr << std::endl;
 
-                // Display a message box to the user
+                // Display a message box to the user if the log level is higher
                 CustomMessageBox(fileName, line, message);
+
+                // Logs it into the console
+                LOG_FATAL(message);
             }
         } while (false);
     }
@@ -143,12 +149,12 @@ namespace debug {
         {
         case IDYES:
             // Log the crash into the crash file
-            crashLogger.error("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            LOG_INFO("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
             + ". User chose to terminate");
             ExitProcess(0);
             break;
         case IDNO:
-            crashLogger.error("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            LOG_INFO("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
             + ". User chose to continue");
             // Continue on with the code
             break;
@@ -182,7 +188,7 @@ namespace debug {
     void CustomTerminateHandler() {
         // Log the unhandled exception information
 
-        Assert(true, "Unhandled exception occurred");
+        ASSERT(true, "Unhandled exception occurred");
         // Terminate the program
         std::abort();
     }

@@ -13,6 +13,7 @@
 @date		23 September 2023
 @brief		This file contains the functions definitions for performance window in ImGui
 
+TODO : Put the frame rate in performance there
 *//*______________________________________________________________________*/
 
 #include "ImGuiPerformance.h"
@@ -40,6 +41,12 @@ void UpdatePerformance(GLFWwindow* window) {
     ImVec2 windowSize(300.f, systemList.size() * 80.f);
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");
+
+    // Now, create your text with the larger font size
+    ImGui::Text("Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
 
     for (const auto& [system, name] : systemList) {
         float percentage = debugSysProfile.GetPercentage(system);

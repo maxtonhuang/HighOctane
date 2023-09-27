@@ -30,6 +30,8 @@ Delete the files by time and number of log file created
 
 WHEN IMGUI IS DONE
 Dynamically change the log level during run time
+
+Open file and then keeps logging in whatever into the file, in another thread
 *//*______________________________________________________________________*/
 
 #include "DebugLog.h"

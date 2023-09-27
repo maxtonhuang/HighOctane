@@ -105,7 +105,7 @@ void GUIManager::Init(GLFWwindow* window)
     // Create window with graphics context
     /*window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
     if (window == NULL) {
-        Assert(false, "Failed to create GUI window");
+        ASSERT(false, "Failed to create GUI window");
     }*/
     //glfwMakeContextCurrent(window);
     //glfwSwapInterval(1); // Enable vsync
@@ -178,7 +178,7 @@ void GUIManager::Update(GLFWwindow* window)
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
         ImGui::End();
     }
 
