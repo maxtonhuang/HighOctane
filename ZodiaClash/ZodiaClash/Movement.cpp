@@ -4,6 +4,8 @@
 #include "DebugDiagnostic.h"
 #include "ECS.h"
 #include "Global.h"
+#include "model.h"
+#include "body.h"
 
 void UpdateMovement(Transform & transform) {	
 	//Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
@@ -24,8 +26,11 @@ void UpdateMovement(Transform & transform) {
 			if (msg.info == INFO::KEY_Q) { transform.rotation -= 1.f * g_dt; }
 			if (msg.info == INFO::KEY_E) { transform.rotation += 1.f * g_dt; }
 			break;
+
 		case TYPE::MOUSE_MOVE:
 			transform.position = { msg.posX, msg.posY };
+			break;
+
 		}
 
 	}

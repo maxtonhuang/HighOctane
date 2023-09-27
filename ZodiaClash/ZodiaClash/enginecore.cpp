@@ -92,8 +92,8 @@ void EngineCore::Run() {
 
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
 	systemList.emplace_back(movementSystem, "Movement System");
-	//std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
-	//systemList.emplace_back(physicsSystem);
+	std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
+	systemList.emplace_back(physicsSystem, "Physics System");
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	systemList.emplace_back(modelSystem, "Model System");
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
@@ -114,6 +114,16 @@ void EngineCore::Run() {
 		//signature.set(ECS::ecs().GetComponentType<Model>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Body>());
+		signature.set(ECS::ecs().GetComponentType<Collider>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+
+		ECS::ecs().SetSystemSignature<PhysicsSystem>(signature);
+
 	}
 
 	{
@@ -175,6 +185,7 @@ void EngineCore::Run() {
 		ECS::ecs().GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
 		tmp = duck;
 	}
+	//LoadModels(2500, false);
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);

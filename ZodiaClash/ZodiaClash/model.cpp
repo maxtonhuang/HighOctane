@@ -93,14 +93,14 @@ void Model::Draw(Tex const& entity, Animation const& ani) {
 }
 
 void Model::DrawOutline() {
-	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
-	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h);
-	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h);
-	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
-	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h);
-	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h);
-	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h);
-	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 }
 
 /* ----------------------------------------------------------------------------
@@ -157,9 +157,35 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
-	//if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
-		//AnimateOnInterval(aniData, texData); 
+	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
+		AnimateOnInterval(aniData, texData); 
 		//return; 
+	}
+
+	// Check mailbox for input triggers
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			//if (msg.info == INFO::KEY_C) {
+			//	ChangeAnimation(aniData, texData);
+			//	ResizeOnChange(texData, sizeData);
+			//}
+			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
+				AnimateOnKeyPress(aniData, texData);
+			}
+		}
+	}
+}
+
+void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
+	sizeData = sizeData; //unused variable
+
+	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+
+	//if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
+		//AnimateOnInterval(aniData, texData);
+		//return;
 	//}
 
 	// Check mailbox for input triggers
@@ -172,34 +198,8 @@ void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData)
 				ResizeOnChange(texData, sizeData);
 			}
 			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				//AnimateOnKeyPress(aniData, texData);
+			//	AnimateOnKeyPress(aniData, texData);
 			//}
-		}
-	}
-}
-
-void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
-	sizeData = sizeData; //unused variable
-
-	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
-
-	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
-		AnimateOnInterval(aniData, texData);
-		//return;
-	}
-
-	// Check mailbox for input triggers
-	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
-
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
-		if (msg.type == TYPE::KEY_TRIGGERED) {
-			//if (msg.info == INFO::KEY_C) {
-				//ChangeAnimation(aniData, texData);
-				//ResizeOnChange(texData, sizeData);
-			//}
-			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				AnimateOnKeyPress(aniData, texData);
-			}
 		}
 	}
 }

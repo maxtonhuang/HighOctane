@@ -107,7 +107,7 @@ void GraphicsManager::Initialize(int w, int h) {
     glEnable(GL_BLEND);
 
     //Initialize renderers
-    flatRenderer.Initialize("../Assets/Shaders/FlatVertexShader2.vert", "../Assets/Shaders/FlatFragmentShader2.frag",GL_TRIANGLES);
+    flatRenderer.Initialize("../Assets/Shaders/flat.vert", "../Assets/Shaders/flat.frag",GL_TRIANGLES);
     textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag",GL_TRIANGLES);
     pointRenderer.Initialize(flatRenderer.ShaderProgram(), GL_POINTS);
     lineRenderer.Initialize(flatRenderer.ShaderProgram(), GL_LINES);
@@ -156,38 +156,38 @@ void GraphicsManager::Draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void GraphicsManager::DrawPoint(float x, float y) {
-    pointRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{1,1,1} });
+void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b) {
+    pointRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{r,g,b} });
 }
 
-void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2) {
-    lineRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
-    lineRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b) {
+    lineRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
+    lineRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
 }
 
-void GraphicsManager::DrawCircle(float x, float y, float radius) {
+void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b) {
     const float PI = 3.141592653589793238463f;
     const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
-    circleRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{1,1,1} });
+    circleRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{r,g,b} });
     for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
-        circleRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec3{1,1,1}});
+        circleRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec3{r,g,b}});
     }
     circleRenderer.Draw();
 }
 
-void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2) {
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b) {
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
     rectRenderer.Draw();
 }
 
-void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2) {
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1}});
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{1,1,1} });
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{1,1,1} });
+void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b) {
+    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b}});
+    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
+    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
+    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
     lineloopRenderer.Draw();
 }
 

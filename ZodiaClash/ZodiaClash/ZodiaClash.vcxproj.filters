@@ -183,6 +183,18 @@
     <ClInclude Include="CollisionResolution.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiConsole.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiPerformance.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="MultiThreading.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
@@ -287,6 +299,21 @@
     </ClCompile>
     <ClCompile Include="CollsionResolution.cpp">
       <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiConsole.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiPerformance.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="MultiThreading.cpp">
       <Filter>Miscellaneous</Filter>
