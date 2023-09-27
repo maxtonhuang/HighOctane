@@ -154,15 +154,11 @@ void GraphicsManager::Draw() {
     lineloopRenderer.Draw();
     lineRenderer.Draw();
     pointRenderer.Draw();
-
-<<<<<<< HEAD
     fontRenderer.Draw();
     //test_model.DrawOutline();
     
     DrawLabel("AAA", "Danto Lite Normal.ttf", 0.5f, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } }, Color{ glm::vec4{ 1,1,1,1 } });
-=======
     //physics::PHYSICS->DebugDraw();
->>>>>>> wt-branch
 
     guiManager.Update(window);
     glfwSwapBuffers(window);

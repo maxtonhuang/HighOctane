@@ -136,9 +136,7 @@ void EngineCore::Run() {
 
 	{
 		Signature signature;
-<<<<<<< HEAD
 		signature.set(ECS::ecs().GetComponentType<Transform>());
-=======
 		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
@@ -151,7 +149,6 @@ void EngineCore::Run() {
 	{
 		Signature signature;
 		//signature.set(ECS::ecs().GetComponentType<Transform>());
->>>>>>> wt-branch
 		//signature.set(ECS::ecs().GetComponentType<Visible>());
 		signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());

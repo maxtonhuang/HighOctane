@@ -88,6 +88,16 @@ struct Animation {
     float                   frameDisplayDuration{};
 };
 
+struct Circle {
+    float                   radius;
+};
+
+struct AABB {
+    Vec2                    min;
+    Vec2                    max;
+    Vec2                    extents;
+};
+
 struct Clone {
     // empty by design
 };

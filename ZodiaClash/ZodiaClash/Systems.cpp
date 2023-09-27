@@ -39,13 +39,10 @@
 #include "model.h"
 #include "message.h"
 #include "physics.h"
-<<<<<<< HEAD
 #include "MultiThreading.h"
 #include "Global.h"
 #include "GUIManager.h"
-=======
 #include "CollisionResolution.h"
->>>>>>> wt-branch
 
 	
 void PhysicsSystem::Update() {
