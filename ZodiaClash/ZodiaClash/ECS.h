@@ -297,6 +297,12 @@ public:
 
 };
 
+class CollisionSystem : public System {
+public:
+    void Update() override;
+
+};
+
 class MovementSystem : public System {
 public:
     void Update() override;
