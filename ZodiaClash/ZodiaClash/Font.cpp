@@ -20,7 +20,7 @@ FontManager::~FontManager() {
 void FontManager::Initialize() {
     FT_Error err;
     err = FT_Init_FreeType(&fontLibrary);
-    Assert(err, "Failed to initialise FreeType!");
+    ASSERT(err, "Failed to initialise FreeType!");
 
     glGenVertexArrays(1, &font_vaoid);
     glGenBuffers(1, &font_vboid);
@@ -44,10 +44,10 @@ void FontManager::LoadFont(const std::string& fontPath) {
     std::string fontFilePath = "../Assets/Fonts/" + fontPath;
 	err = FT_New_Face(fontLibrary, fontFilePath.c_str(), 0, &font.fontFace);
 	if (err == FT_Err_Unknown_File_Format) {
-		DebugPrint("ERROR::FONT: Able to open and read font, but font format is unsupported");
+		DEBUG_PRINT("ERROR::FONT: Able to open and read font, but font format is unsupported");
 	}
 	else if (err) {
-		DebugPrint("ERROR::FONT: Font file cannot be open or read!");
+        DEBUG_PRINT("ERROR::FONT: Font file cannot be open or read!");
 	}
     else {
         // Define pixel font size
@@ -68,7 +68,7 @@ void FontManager::LoadChar(Font& font) {
         // load character glyph
         if (FT_Load_Char(font.fontFace, c, FT_LOAD_RENDER))
         {
-            DebugPrint("ERROR::FONT: Failed to load Glyph");
+            DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
             continue;
         }
         // generate texture
