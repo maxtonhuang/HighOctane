@@ -61,8 +61,9 @@ Add the macro to run only in debug mode
 
     extern DebugProfiling debugSysProfile;
 
-    // Performance data
-    void PerformanceDataHandler(uint64_t time);
+    float GetMemoryUsage(uint64_t time);
+
+    float GetCPUUsage(uint64_t time);
 
 #if _WIN32
 #define Performance(time) PerformanceDataHandler(time);

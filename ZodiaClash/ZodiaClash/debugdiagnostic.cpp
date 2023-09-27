@@ -52,15 +52,9 @@ namespace debug {
         // Clean up the variable argument list
         va_end(args);
 
-
         // Redirects it to ImGui
         imguiOutputBuffer.buffer += buffer;
         imguiOutputBuffer.buffer += "\n";
-        // Print the formatted message to the standard error stream
-        //fprintf(stderr, "%s\n", buffer);
-
-        // Log it into the file
-        //debuglog::logger.info(buffer);
     }
 
 
@@ -114,7 +108,9 @@ namespace debug {
                 CustomMessageBox(fileName, line, message);
 
                 // Logs it into the console
-                LOG_FATAL(message);
+                if (message != nullptr) {
+                    LOG_FATAL(message);
+                }
             }
         } while (false);
     }

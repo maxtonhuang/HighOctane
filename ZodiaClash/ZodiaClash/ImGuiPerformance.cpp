@@ -13,7 +13,6 @@
 @date		23 September 2023
 @brief		This file contains the functions definitions for performance window in ImGui
 
-TODO : Put the frame rate in performance there
 *//*______________________________________________________________________*/
 
 #include "ImGuiPerformance.h"
@@ -40,16 +39,21 @@ void UpdatePerformance() {
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");
 
-    // Now, create your text with the larger font size
+    /************** FPS ***************/
     ImGui::Text("Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    /************** FPS ***************/
 
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
+    /************** PERFORMANCE USAGE ***************/
+    ImGui::Text("CPU usage: %.3f %%", GetCPUUsage(GetTime()));
+    ImGui::Text("Memory usage: %.3f MB", GetMemoryUsage(GetTime()));
+    /************** PERFORMANCE USAGE ***************/
 
     for (const auto& [system, name] : systemList) {
         float percentage = debugSysProfile.GetPercentage(system);
 
-        // Change this to system name in the future when max implemented it
+        // Name of the histogram
         std::string histogramName = name;
 
         // Create a group to hold the horizontal histogram and text side by side
