@@ -125,6 +125,7 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<PhysicsSystem>(signature);
 

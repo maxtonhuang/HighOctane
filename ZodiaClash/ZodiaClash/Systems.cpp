@@ -92,6 +92,7 @@ void PhysicsSystem::Update() {
 		Collider* collideData = &colliderArray.GetData(entity);
 		
 		physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
+		physics::PHYSICS->DebugDraw(*bodyData,*transData);
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
@@ -146,7 +147,6 @@ void CollisionSystem::Update() {
 
 	//std::cout << m_Entities.size() << "\n";
 	for (Entity const& entity1 : m_Entities) {
-		std::cout << "Test\n";
 		Transform* transData1 = &transformArray.GetData(entity1);
 		physics::Body* bodyData1 = &bodyArray.GetData(entity1);
 		Collider* collideData1 = &colliderArray.GetData(entity1);
@@ -198,7 +198,7 @@ void MovementSystem::Update() {
 		//Size* sizeData = &ECS::ecs().GetComponent<Size>(entity);
 
 		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
-		modelData->DrawOutline();
+		//modelData->DrawOutline();
 	}
 	Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }

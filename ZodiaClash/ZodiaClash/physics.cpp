@@ -69,7 +69,6 @@ namespace physics {
                 Step(timeStep);
             }
         }
-
         // When physics simulation is in step mode (it updates one step at a time)
         // Reset the accumulated time 
         timeAccumulation = 0.0f;
@@ -83,7 +82,6 @@ namespace physics {
             // Reset the step request flag
             advanceStep = false;
         }
-        DebugDraw();
     }
 
     void PhysicsManager::AddEntity(Entity entity) 
@@ -147,24 +145,19 @@ namespace physics {
         //DetectCollision(deltaTime);
     }
 
-    void PhysicsManager::DebugDraw()
+    void PhysicsManager::DebugDraw(physics::Body& body,Transform& transform)
     {
-        if (!DebugDrawingActive) return;
-        for (const auto& entity : m_Entities)
-        {
-            auto& body = m_ecs.GetComponent<physics::Body>(entity);
+        //if (!DebugDrawingActive) return;
+        //draw the position/center of the body as a point
+        graphics.DrawPoint(transform.position.x, transform.position.y, 0.f, 1.f, 0.f);
 
-            //draw the position/center of the body as a point
-            graphics.DrawPoint(body.position.x, body.position.y);
+        //draw velocity as a line
+        Vector2 endPosition = transform.position + transform.velocity;
+        graphics.DrawLine(transform.position.x, transform.position.y, endPosition.x, endPosition.y, 0.f, 0.f, 1.f);
 
-            //draw velocity as a line
-            Vector2 endPosition = body.position + body.velocity;
-            graphics.DrawLine(body.position.x, body.position.y, endPosition.x, endPosition.y);
-
-            //draw AABB box
-            Vector2 bottomLeft = body.position - body.halfDimensions;
-            Vector2 topRight = body.position + body.halfDimensions;
-            graphics.DrawRect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
-        }
+        //draw AABB box
+        Vector2 bottomLeft = transform.position - body.halfDimensions;
+        Vector2 topRight = transform.position + body.halfDimensions;
+        graphics.DrawOutline(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y, 0.f, 0.f, 1.f);
     }
 }

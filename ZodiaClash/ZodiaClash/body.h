@@ -48,8 +48,8 @@ namespace physics {
 		Vector2 velocity{};
 		Vector2 acceleration{};
 		Vector2 accumulatedForce{};
-		float width{};
-		float height{};
+		float width{50};
+		float height{50};
 		Vector2 halfDimensions; // Half-width and half-height of the AABB
 		float mass{};
 		float restitution{};

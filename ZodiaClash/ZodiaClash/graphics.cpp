@@ -40,6 +40,7 @@
 #include <sstream>
 #include <iomanip>
 #include <random>
+#include "physics.h"
 
 //Model test_model;
 Texture test_tex;
@@ -147,9 +148,7 @@ void GraphicsManager::Draw() {
     lineRenderer.Draw();
     pointRenderer.Draw();
 
-    DrawCircle(100, -100, 20);
-    DrawRect(0, 0, 50, 50);
-    DrawOutline(-50, -50, 0, 0);
+    //physics::PHYSICS->DebugDraw();
 
     guiManager.Update(window);
     glfwSwapBuffers(window);
@@ -184,11 +183,10 @@ void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, 
 }
 
 void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b}});
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineloopRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineloopRenderer.Draw();
+    DrawLine(x1, y1, x1, y2, r, g, b);
+    DrawLine(x1, y1, x2, y1, r, g, b);
+    DrawLine(x2, y2, x2, y1, r, g, b);
+    DrawLine(x2, y2, x1, y2, r, g, b);
 }
 
 std::string GraphicsManager::GetName() {
