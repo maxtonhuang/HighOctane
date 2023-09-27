@@ -39,6 +39,7 @@
 #include "model.h"
 #include "message.h"
 #include "physics.h"
+#include "GUIManager.h"
 
 	
 void PhysicsSystem::Update() {

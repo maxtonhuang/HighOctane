@@ -242,7 +242,11 @@ bool ECS::isComponentTypeRegistered() {
     return m_ComponentManager->isComponentTypeRegistered<T>();
 }
 
-
+template<typename T>
+bool ECS::HasComponent(Entity entity) {
+    return m_ComponentManager->isComponentTypeRegistered<T>() &&
+        m_EntityManager->GetSignature(entity).test(m_ComponentManager->GetComponentType<T>());
+}
 // System methods
 template<typename T>
 std::shared_ptr<T> ECS::RegisterSystem() {

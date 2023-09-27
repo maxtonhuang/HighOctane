@@ -1,4 +1,13 @@
 #include "Serialization.h"
+#include <rapidjson-master/include/rapidjson/document.h>
+#include <rapidjson-master/include/rapidjson/writer.h>
+#include <rapidjson-master/include/rapidjson/prettywriter.h>
+#include <rapidjson-master/include/rapidjson/stringbuffer.h>
+#include <rapidjson-master/include/rapidjson/istreamwrapper.h>
+#include "EntityFactory.h"
+#include "model.h"
+
+//extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
 bool Serializer::Open(const std::string& file)
 {
@@ -25,12 +34,6 @@ void Serializer::ReadString(std::string& str)
 {
 	stream >> str;
 }
-
-//template<typename T>
-//void StreamRead(Serializer& stream, T& typeInstance)
-//{
-//	typeInstance.Serialize(stream);
-//}
 
 
 void StreamRead(Serializer& stream, float& f)
@@ -94,4 +97,308 @@ void Serializer::SerializeCSV(const std::string& file) {
 			characterStats = PseudoCharacter();
 		}
 	}
+}
+
+
+rapidjson::Value SerializeTransform(const Transform& transform, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value transformObject(rapidjson::kObjectType);
+	transformObject.AddMember("position_x", transform.position.x, allocator);
+	transformObject.AddMember("position_y", transform.position.y, allocator);
+	transformObject.AddMember("rotation", transform.rotation, allocator);
+	transformObject.AddMember("scale_x", transform.scale.x, allocator);
+	transformObject.AddMember("scale_y", transform.scale.y, allocator);
+	transformObject.AddMember("velocity_x", transform.velocity.x, allocator);
+	transformObject.AddMember("velocity_y", transform.velocity.y, allocator);
+	return transformObject;
+}
+
+rapidjson::Value SerializeSize(const Size& size, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value sizeObject(rapidjson::kObjectType);
+	sizeObject.AddMember("width", size.width, allocator);
+	sizeObject.AddMember("height", size.height, allocator);
+	return sizeObject;
+}
+
+rapidjson::Value SerializeColor(const Color& color, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value colorObject(rapidjson::kObjectType);
+	colorObject.AddMember("r", color.color.r, allocator);
+	colorObject.AddMember("g", color.color.g, allocator);
+	colorObject.AddMember("b", color.color.b, allocator);
+	colorObject.AddMember("a", color.color.a, allocator);
+	return colorObject;
+}
+
+
+
+rapidjson::Value SerializeTex(const Tex& tex, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value texObject(rapidjson::kObjectType);
+	texObject.AddMember("Texture Index", tex.texVariantIndex, allocator);
+	texObject.AddMember("Rows", tex.rows, allocator);
+	texObject.AddMember("Columns", tex.cols, allocator);
+	texObject.AddMember("Sprite Number", tex.spritenum, allocator);
+	rapidjson::Value filePathValue;
+	filePathValue.SetString(tex.tex->GetName().c_str(), static_cast<rapidjson::SizeType>(tex.tex->GetName().length()), allocator);
+	texObject.AddMember("Texture File Path", filePathValue, allocator);
+	return texObject;
+}
+
+
+rapidjson::Value SerializeVisible(const Visible& visible, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value visibleObject(rapidjson::kObjectType);
+	visibleObject.AddMember("isVisible", visible.isVisible, allocator);
+	return visibleObject;
+}
+
+rapidjson::Value SerializeMainCharacter(const MainCharacter& /* mainCharacter */, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value MCObject(rapidjson::kObjectType);
+	MCObject.AddMember("isMainCharacter", true, allocator);
+	return MCObject;
+}
+
+rapidjson::Value SerializeCircle(const Circle& circle, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value circleObject(rapidjson::kObjectType);
+	circleObject.AddMember("radius", circle.radius, allocator);
+	return circleObject;
+}
+rapidjson::Value SerializeAABB(const AABB& aabb, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value aabbObject(rapidjson::kObjectType);
+	aabbObject.AddMember("Min X", aabb.min.x, allocator);
+	aabbObject.AddMember("Min Y", aabb.min.y, allocator);
+	aabbObject.AddMember("Max X", aabb.max.x, allocator);
+	aabbObject.AddMember("Max Y", aabb.max.y, allocator);
+	aabbObject.AddMember("Extent X", aabb.extents.x, allocator);
+	aabbObject.AddMember("Extent Y", aabb.extents.y, allocator);
+	return aabbObject;
+}
+rapidjson::Value SerializeAnimation(const Animation& anim, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value animObject(rapidjson::kObjectType);
+	animObject.AddMember("Animation Type", (int)anim.animationType, allocator);
+	animObject.AddMember("Frame Index", anim.frameIndex, allocator);
+	animObject.AddMember("Frame Time Elapsed", anim.frameTimeElapsed, allocator);
+	animObject.AddMember("Frame Display Duration", anim.frameDisplayDuration, allocator);
+	return animObject;
+}
+
+void Serializer::SaveEntityToJson(const std::string& fileName, const Entity& entity) {
+	// Create a JSON document
+	rapidjson::Document document;
+	document.SetObject();
+	rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
+
+	Color* color = nullptr;
+	Transform* transform = nullptr;
+	Tex* tex = nullptr;
+	Visible* visible = nullptr;
+	Size* size = nullptr;
+	MainCharacter* mainCharacter = nullptr;
+	Circle* circle = nullptr;
+	AABB* aabb = nullptr;
+	Animation* anim = nullptr;
+	//document.AddMember("ID", entity.id)
+	if (ECS::ecs().HasComponent<Color>(entity)) {
+		color = &ECS::ecs().GetComponent<Color>(entity);
+		rapidjson::Value colorObject = SerializeColor(*color, allocator);
+		document.AddMember("Color", colorObject, allocator);
+
+	}
+	if (ECS::ecs().HasComponent<Transform>(entity)) {
+		transform = &ECS::ecs().GetComponent<Transform>(entity);
+		rapidjson::Value transformObject = SerializeTransform(*transform, allocator);
+		document.AddMember("Transform", transformObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<Tex>(entity)) {
+		tex = &ECS::ecs().GetComponent<Tex>(entity);
+		rapidjson::Value textureObject = SerializeTex(*tex, allocator);
+		document.AddMember("Texture", textureObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<Visible>(entity)) {
+		visible = &ECS::ecs().GetComponent<Visible>(entity);
+		rapidjson::Value visibleObject = SerializeVisible(*visible, allocator);
+		document.AddMember("Visible", visibleObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<Size>(entity)) {
+		size = &ECS::ecs().GetComponent<Size>(entity);
+		rapidjson::Value sizeObject = SerializeSize(*size, allocator);
+		document.AddMember("Size", sizeObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
+		mainCharacter = &ECS::ecs().GetComponent<MainCharacter>(entity);
+		rapidjson::Value MCObject = SerializeMainCharacter(*mainCharacter, allocator);
+		document.AddMember("MainCharacter", MCObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<Circle>(entity)) {
+		circle = &ECS::ecs().GetComponent<Circle>(entity);
+		rapidjson::Value circleObject = SerializeCircle(*circle, allocator);
+		document.AddMember("Circle", circleObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<AABB>(entity)) {
+		aabb = &ECS::ecs().GetComponent<AABB>(entity);
+		rapidjson::Value aabbObject = SerializeAABB(*aabb, allocator);
+		document.AddMember("Collision", aabbObject, allocator);
+	}
+	if (ECS::ecs().HasComponent<Animation>(entity)) {
+		anim = &ECS::ecs().GetComponent<Animation>(entity);
+		rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
+		document.AddMember("Animation", animationObject, allocator);
+	}
+	
+	// Save the JSON document to a file
+	std::ofstream ofs(fileName);
+	if (ofs.is_open()) {
+		rapidjson::StringBuffer buffer;
+		rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+		document.Accept(writer);
+		ofs << buffer.GetString();
+		ofs.close();
+		std::cout << "Entity saved to " << fileName << std::endl;
+	}
+	else {
+		std::cerr << "Failed to open file: " << fileName << std::endl;
+	}
+}
+
+bool Serializer::LoadEntityFromJson(const std::string& fileName) {
+	rapidjson::Document data;
+	std::ifstream file(fileName);
+	if (!file.is_open()) {
+		std::cerr << "Failed to open file: " << fileName << std::endl;
+		//Assert("Failed to open .json file %s", fileName);
+		return false;
+	}
+	rapidjson::IStreamWrapper isw(file);
+	data.ParseStream(isw);
+
+	if (data.HasParseError()) {
+		std::cerr << "Failed to parse .json file: " << fileName << std::endl;
+	}
+
+	/*if (!data.HasMember("Color") || !data.HasMember("Transform") || 
+		!data.HasMember("Texture") || !data.HasMember("Visible") || 
+		!data.HasMember("Size") || !data.HasMember("Animation"))
+		return false;*/
+
+	// Extract and deserialize the components from the JSON document
+	Color color{};
+	Transform transform;
+	Tex tex;
+	Visible visible{};
+	Size size{};
+	Circle circle{};
+	AABB aabb;
+	Animation anim;
+	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
+	//Initialize entity
+	Entity entity = ECS::ecs().CreateEntity();
+
+	masterEntitiesList["CatTest"] = entity;
+	
+	if (data.HasMember("Color")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Color>()) ? "Color is registered" : "Color is not registered") << std::endl;
+		const rapidjson::Value& colorObject = data["Color"];
+		color.color.r = colorObject["r"].GetFloat();
+		color.color.g = colorObject["g"].GetFloat();
+		color.color.b = colorObject["b"].GetFloat();
+		color.color.a = colorObject["a"].GetFloat();
+		ECS::ecs().AddComponent<Color>(entity, color);
+	}
+
+	if (data.HasMember("Transform")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Transform>()) ? "Transform is registered" : "Transform is not registered") << std::endl;
+		const rapidjson::Value& transformObject = data["Transform"];
+		transform.position.x = transformObject["position_x"].GetFloat();
+		transform.position.y = transformObject["position_y"].GetFloat();
+		transform.rotation = transformObject["rotation"].GetFloat();
+		transform.scale.x = transformObject["scale_x"].GetFloat();
+		transform.scale.y = transformObject["scale_y"].GetFloat();
+		transform.velocity.x = transformObject["velocity_x"].GetFloat();
+		transform.velocity.y = transformObject["velocity_y"].GetFloat();
+		ECS::ecs().AddComponent<Transform>(entity, transform);
+	}
+
+	if (data.HasMember("Texture")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Tex>()) ? "Tex is registered" : "Tex is not registered") << std::endl;
+		const rapidjson::Value& texObject = data["Texture"];
+		tex.texVariantIndex = texObject["Texture Index"].GetUint();
+		tex.rows = texObject["Rows"].GetUint();
+		tex.cols = texObject["Columns"].GetUint();
+		tex.spritenum = texObject["Sprite Number"].GetUint();
+		//tex.tex->Init(texObject["Texture File Path"].GetString()); 
+
+		// Get the file path from JSON
+		const char* filePath = texObject["Texture File Path"].GetString();
+
+		// Attempt to add or retrieve the Texture from the TextureManager
+		Texture* texture = texList.Add(filePath);
+
+		if (texture) {
+			tex.tex = texture;
+		}
+
+		ECS::ecs().AddComponent<Tex>(entity, tex);
+	}
+
+	if (data.HasMember("Visible")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Visible>()) ? "Visible is registered" : "Visible is not registered") << std::endl;
+		const rapidjson::Value& visibleObject = data["Visible"];
+		visible.isVisible = visibleObject["isVisible"].GetBool();
+		ECS::ecs().AddComponent<Visible>(entity, visible);
+	}
+
+	if (data.HasMember("Size")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Size>()) ? "Size is registered" : "Size is not registered") << std::endl;
+		const rapidjson::Value& sizeObject = data["Size"];
+		size.width = sizeObject["width"].GetFloat();
+		size.height = sizeObject["height"].GetFloat();
+		ECS::ecs().AddComponent<Size>(entity, size);
+	}
+
+	if (data.HasMember("Circle")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Circle>()) ? "Circle is registered" : "Circle is not registered") << std::endl;
+		const rapidjson::Value& circleObject = data["Ciricle"];
+		circle.radius = circleObject["radius"].GetFloat();
+		ECS::ecs().AddComponent<Circle>(entity, circle);
+	}
+
+	if (data.HasMember("Collision")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<AABB>()) ? "Collision is registered" : "Collision is not registered") << std::endl;
+		const rapidjson::Value& aabbObject = data["Collision"];
+		aabb.min.x = aabbObject["Min X"].GetFloat();
+		aabb.min.y = aabbObject["Min Y"].GetFloat();
+		aabb.max.x = aabbObject["Max X"].GetFloat();
+		aabb.max.y = aabbObject["Max Y"].GetFloat();
+		aabb.extents.x = aabbObject["Extent X"].GetFloat();
+		aabb.extents.y = aabbObject["Extent Y"].GetFloat();
+		ECS::ecs().AddComponent<AABB>(entity, aabb);
+	}
+
+	if (data.HasMember("Animation")) {
+		std::cout << ((ECS::ecs().isComponentTypeRegistered<Animation>()) ? "Anim is registered" : "Anim is not registered") << std::endl;
+		const rapidjson::Value& animObject = data["Animation"];
+		anim.animationType = static_cast<Animation::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
+		anim.frameIndex = animObject["Frame Index"].GetUint();
+		anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
+		anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
+		ECS::ecs().AddComponent<Animation>(entity, anim);
+	}
+
+	ECS::ecs().AddComponent(entity, Model{});
+	ECS::ecs().AddComponent(entity, MainCharacter{});
+	// Now that you have deserialized all the components, you can create an entity and add these components to it.
+	//Entity entity = ECS::ecs().CreateEntity();
+
+	// Add the components to the entity
+	/*ECS::ecs().AddComponent<Color>(entity, color);
+	ECS::ecs().AddComponent<Transform>(entity, transform);
+	ECS::ecs().AddComponent<Tex>(entity, tex);
+	ECS::ecs().AddComponent<Visible>(entity, visible);
+	ECS::ecs().AddComponent<Size>(entity, size);
+	ECS::ecs().AddComponent<Circle>(entity, circle);
+	ECS::ecs().AddComponent<AABB>(entity, aabb);
+	ECS::ecs().AddComponent<Animation>(entity, anim);*/
+
+	// Entity is now fully populated with components from the JSON file
+
+	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
+
+	return true;
 }

@@ -174,18 +174,18 @@ void EngineCore::Run() {
 		ECS::ecs().GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
 		tmp = duck;
 	}
-	LoadModels(1, true);
+	//LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
-
-
+	//Serializer::SaveEntityToJson("duck.json", tmp);
+	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
 	//////////////////////////////////////////////
 	///////////////// GAME LOOP //////////////////
 	//////////////////////////////////////////////
 
 	// update time calculations
 	m_previousTime = GetTime();
-
+	//SaveEntityToJson("testEntity.json", tmp);
 	while (gameActive) {
 		//debugSysProfile.StartTimer(systemList[0], GetTime());
 		uint64_t l_currentTime = GetTime();

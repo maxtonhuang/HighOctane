@@ -36,8 +36,9 @@
 	void LoadModels(uint32_t amount, bool isMainCharacter);
 
 	void CloneMasterModel(float rW, float rH, bool isMainCharacter);
+	void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();
-
+	extern std::unordered_map<std::string, Entity> masterEntitiesList;
 	//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
 	Entity CreateModel();

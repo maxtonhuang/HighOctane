@@ -154,6 +154,7 @@ void GraphicsManager::Draw() {
     guiManager.Update(window);
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
+
 }
 
 void GraphicsManager::DrawPoint(float x, float y) {

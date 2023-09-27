@@ -1,0 +1,8 @@
+﻿character,cat,,,,,,,,
+color,1,1,1,1,,,,,
+transform,0,0,0,1,1,0,0,,
+texture,cat.png,,,,,,,,
+matrix,1,0,0,0,1,0,0,0,1
+visible,FALSE,,,,,,,,
+size,512,512,,,,,,,
+maincharacter,FALSE,,,,,,,,
