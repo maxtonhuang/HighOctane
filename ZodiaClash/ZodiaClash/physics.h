@@ -51,7 +51,8 @@ namespace physics {
         void Integrate(Body& body, float deltaTime, Transform& transform);
         void AddForce(Body& body, Vector2 force);
         void DebugDraw(physics::Body& body, Transform& transform);
-
+        void ToggleStepMode();
+        void RequestStep();
     private:
         void IntegrateBodies(float deltaTime);
         void Step(float deltaTime);
@@ -60,12 +61,12 @@ namespace physics {
         std::vector<Entity> m_Entities;
         float maxVelocity{};
         float maxVelocitySq{};
-        bool advanceStep{};
-        bool stepModeActive{};
         float timeAccumulation{};
         float penetrationEpsilon{};
         float penetrationResolvePercentage{};
         bool DebugDrawingActive{};
+        bool advanceStep{};
+        bool stepModeActive{};
         GraphicsManager& graphics; 
     };
 
