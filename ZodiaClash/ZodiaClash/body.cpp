@@ -23,9 +23,8 @@
 *
 * *****************************************************************************
 *
-*	@brief		Body system of the engine
+*	@brief		Define Body GameComponent
 *
-*	This file contains functions used in the main body system of the engine
 *
 ******************************************************************************/
 
@@ -35,9 +34,7 @@
 namespace physics {
 
 	Body::Body(): 
-				position(0, 0),
 				prevPosition(0, 0),
-				velocity(0, 0),
 				acceleration(0, 0),
 				accumulatedForce(0, 0),
 				mass(0.0f),

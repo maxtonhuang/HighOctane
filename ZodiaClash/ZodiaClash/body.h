@@ -23,9 +23,8 @@
 *
 * *****************************************************************************
 *
-*	@brief		Body system of the engine
+*	@brief		Define Body GameComponent
 *
-*	This file contains functions used in the main body system of the engine
 *
 ******************************************************************************/
 

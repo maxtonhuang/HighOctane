@@ -156,7 +156,7 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 *	>> Note: for ALL entities!
 ********************************************************************************/
 
-void Model::UpdateAnimationNPC(Animation& aniData, Tex& texData, Size& sizeData) {
+void Model::UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
 	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
@@ -185,20 +185,27 @@ void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) 
 
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
-	//if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
-		//AnimateOnInterval(aniData, texData);
-		//return;
-	//}
-
 	// Check mailbox for input triggers
 	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MODEL, INFO::NONE, 0.f, 0.f);
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
+			if (msg.info == INFO::KEY_X) {
+				switch (aniData.animationType) {
+				case(Animation::ANIMATION_TIME_BASED):
+					aniData.animationType = Animation::ANIMATION_EVENT_BASED;
+					break;
+				case(Animation::ANIMATION_EVENT_BASED):
+					aniData.animationType = Animation::ANIMATION_TIME_BASED;
+					break;
+				}
+			}
 			if (msg.info == INFO::KEY_C) {
 				ChangeAnimation(aniData, texData);
 				ResizeOnChange(texData, sizeData);
 			}
+
+			//not in use - input will be registered under generic UpdateAnimation
 			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
 			//	AnimateOnKeyPress(aniData, texData);
 			//}

@@ -178,6 +178,7 @@ namespace debug {
 
     }
 
+    // Custom Terminate Handler
     void CustomTerminateHandler() {
         // Log the unhandled exception information
 

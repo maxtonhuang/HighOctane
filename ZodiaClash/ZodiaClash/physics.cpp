@@ -23,7 +23,7 @@
 *
 * *****************************************************************************
 *
-*	@brief		Physics system of the engine
+*	@brief		Basic 2D iterative impulse physics engine.
 *
 *	This file contains functions used in the main physics system of the engine
 *
@@ -77,7 +77,6 @@ namespace physics {
         // If a step update is requested
         if (advanceStep) 
         {
-
             // Perform the physics calculations for this time step
             Step(timeStep);
 
@@ -92,29 +91,31 @@ namespace physics {
         m_Entities.push_back(entity);
     }
 
-    void PhysicsManager::Integrate(Body& body, float deltaTime) 
+    void PhysicsManager::Integrate(Body& body, float deltaTime, Transform& transform) 
     {
         // If the body is static, we don't want to update its position or velocity.
         if (body.isStatic) return;
 
         // Store the current position as the previous position
-        body.prevPosition = body.position;
+        //body.prevPosition = body.position;
+        body.prevPosition = transform.position;
 
         // Update the position based on deltaTime
-        body.position += body.velocity * deltaTime;
+        transform.position += transform.velocity * deltaTime;
 
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
-        Vector2 newAcceleration = body.accumulatedForce + body.acceleration;
+        Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1;
 
         // Update the velocity using the newly computed acceleration.
-        body.velocity += newAcceleration * deltaTime;
-
-        // Ensure the velocity doesn't exceed a maximum value for numerical stability.
-        if (Vector2::dot(body.velocity, body.velocity) > PHYSICS->maxVelocitySq) 
+        transform.velocity += newAcceleration * deltaTime;
+        
+        //// Ensure the velocity doesn't exceed a maximum value for numerical stability.
+        if (Vector2::dot(transform.velocity, transform.velocity) > maxVelocitySq)
         {
-            body.velocity.normalize();  // Make the velocity a unit vector
-            body.velocity *= PHYSICS->maxVelocity;  // Scale it to the maximum allowed velocity
+            transform.velocity.normalize();  // Make the velocity a unit vector
+            transform.velocity *= maxVelocity;  // Scale it to the maximum allowed velocity
         }
+        transform.velocity *= .99f;
 
         // Reset the accumulated force to zero for the next frame
         body.accumulatedForce = Vector2(0, 0);
@@ -133,7 +134,8 @@ namespace physics {
             auto& body = m_ecs.GetComponent<physics::Body>(entity);
 
             // Integrate the body.
-            Integrate(body, deltaTime); // Using Integrate function to avoid code duplication
+            Transform test{};
+            Integrate(body, deltaTime, test); // Using Integrate function to avoid code duplication
         }
     }
 
