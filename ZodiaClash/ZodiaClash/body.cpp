@@ -46,6 +46,18 @@ namespace physics {
 				bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
 	{}
 
+	Body::Body(float w, float h) :width{ w }, height{ h },
+		prevPosition(0, 0),
+		acceleration(0, 0),
+		accumulatedForce(0, 0),
+		mass(0.0f),
+		restitution(0.0f),
+		halfDimensions{ width / 2.f, height / 2.f },
+		friction(0.2f),
+		isStatic(false),
+		bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
+	{}
+
 	void Body::SetPosition(Vector2 pos) 
 	{
 		position = pos;

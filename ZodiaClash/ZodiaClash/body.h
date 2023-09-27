@@ -48,8 +48,8 @@ namespace physics {
 		Vector2 velocity{};
 		Vector2 acceleration{};
 		Vector2 accumulatedForce{};
-		float width{50};
-		float height{50};
+		float width{};
+		float height{};
 		Vector2 halfDimensions; // Half-width and half-height of the AABB
 		float mass{};
 		float restitution{};
@@ -59,6 +59,7 @@ namespace physics {
 
 		// Constructors, if needed, can remain
 		Body();
+		Body(float width, float height);
 
 		// These setters might stay if you find them useful, but in pure ECS they might not be here.
 		void SetPosition(Vector2 pos);

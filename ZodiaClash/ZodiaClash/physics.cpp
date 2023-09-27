@@ -48,6 +48,32 @@ namespace physics {
         penetrationResolvePercentage = 0.8f;
     }
 
+    /*  _________________________________________________________________________*/
+/*! KeyCallback
+
+@param GLFWwindow*
+Handle to window that is receiving event
+
+@param int
+the keyboard key that was pressed or released
+
+@parm int
+Platform-specific scancode of the key
+
+@parm int
+GLFW_PRESS, GLFW_REPEAT or GLFW_RELEASE
+action will be GLFW_KEY_UNKNOWN if GLFW lacks a key token for it,
+for example E-mail and Play keys.
+
+@parm int
+bit-field describing which modifier keys (shift, alt, control)
+were held down
+
+@return none
+
+This function is called when keyboard buttons are pressed.
+When the ESC key is pressed, the close flag of the window is set.
+*/
     void PhysicsManager::Update(float deltaTime)
     {
         // Define a constant time step (fixed interval at which physics calculations will be performed)
@@ -95,11 +121,11 @@ namespace physics {
         if (body.isStatic) return;
 
         // Store the current position as the previous position
-        //body.prevPosition = body.position;
         body.prevPosition = transform.position;
 
         // Update the position based on deltaTime
         transform.position += transform.velocity * deltaTime;
+        body.position = transform.position;
 
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
         Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1f;
@@ -107,6 +133,7 @@ namespace physics {
         // Update the velocity using the newly computed acceleration.
         transform.velocity += newAcceleration * deltaTime;
         
+
         //// Ensure the velocity doesn't exceed a maximum value for numerical stability.
         if (Vector2::dot(transform.velocity, transform.velocity) > maxVelocitySq)
         {
@@ -158,6 +185,6 @@ namespace physics {
         //draw AABB box
         Vector2 bottomLeft = transform.position - body.halfDimensions;
         Vector2 topRight = transform.position + body.halfDimensions;
-        graphics.DrawOutline(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y, 0.f, 0.f, 1.f);
+        graphics.DrawOutline(bottomLeft.x, bottomLeft.y, topRight.x , topRight.y, 0.f, 0.f, 1.f);
     }
 }

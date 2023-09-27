@@ -80,7 +80,7 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 			ECS::ecs().AddComponent(entity, Model{});
 
 			//add physics component
-			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
+			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 			ECS::ecs().AddComponent<Collider>(entity, Collider{});
 		}
 	}

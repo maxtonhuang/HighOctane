@@ -75,7 +75,7 @@ void PhysicsSystem::Update() {
 				//ECS::ecs().AddComponent(entity, MainCharacter{});
 
 				//add physics component
-				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
+				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())});
 				ECS::ecs().AddComponent<Collider>(entity, Collider{});
 			}
 			break;
