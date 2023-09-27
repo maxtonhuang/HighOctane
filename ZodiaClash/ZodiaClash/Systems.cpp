@@ -194,3 +194,10 @@ void GraphicsSystem::Update() {
 	}
 	graphics.Draw();
 }
+
+void SerializationSystem::Update() {
+	for (Entity const& entity : m_Entities) {
+		//Serialize(entity);
+	}
+
+}

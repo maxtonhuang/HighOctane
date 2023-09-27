@@ -99,6 +99,8 @@ void EngineCore::Run() {
 	systemList.emplace_back(modelSystem, "Model System");
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	systemList.emplace_back(graphicsSystem, "Graphics System");
+	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
+
 
 	{
 		Signature signature;
@@ -157,6 +159,11 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<Animation>());
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		ECS::ecs().SetSystemSignature<SerializationSystem>(signature);
 	}
 
 	physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
@@ -223,6 +230,7 @@ void EngineCore::Run() {
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
 
+		serializationSystem->Update();
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
