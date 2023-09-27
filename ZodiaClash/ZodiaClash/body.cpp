@@ -30,6 +30,7 @@
 
 #include "Body.h"
 #include "Physics.h"
+#include <memory>
 
 namespace physics {
 
@@ -42,7 +43,7 @@ namespace physics {
 				halfDimensions{width/2.f, height/2.f},
 				friction(0.2f),
 				isStatic(false),
-				bodyShape(nullptr)
+				bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
 	{}
 
 	void Body::SetPosition(Vector2 pos) 

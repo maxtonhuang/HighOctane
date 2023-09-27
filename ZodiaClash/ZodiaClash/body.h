@@ -32,6 +32,7 @@
 #include "vmath.h"
 #include "Collision.h"
 #include "Physics.h"
+#include <memory>
 
 using namespace vmath;
 
@@ -54,7 +55,7 @@ namespace physics {
 		float restitution{};
 		float friction{ 0.2f };
 		bool isStatic{};
-		Shape* bodyShape;
+		std::shared_ptr<Shape> bodyShape;
 
 		// Constructors, if needed, can remain
 		Body();

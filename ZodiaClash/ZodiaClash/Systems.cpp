@@ -132,8 +132,8 @@ void CollisionSystem::Update() {
 				ECS::ecs().AddComponent<Transform>(entity, Transform{});
 				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
 				ECS::ecs().AddComponent<Collider>(entity, Collider{});
-				ECS::ecs().AddComponent<Circle>(entity, Circle{});
-				ECS::ecs().AddComponent<AABB>(entity, AABB{});
+				//ECS::ecs().AddComponent<Circle>(entity, Circle{});
+				//ECS::ecs().AddComponent<AABB>(entity, AABB{});
 			}
 			break;
 		}
@@ -142,8 +142,6 @@ void CollisionSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
-	auto& circleArray = componentManager.GetComponentArrayRef<Circle>();
-	auto& aabbArray = componentManager.GetComponentArrayRef<AABB>();
 	
 
 	//std::cout << m_Entities.size() << "\n";
@@ -152,15 +150,11 @@ void CollisionSystem::Update() {
 		Transform* transData1 = &transformArray.GetData(entity1);
 		physics::Body* bodyData1 = &bodyArray.GetData(entity1);
 		Collider* collideData1 = &colliderArray.GetData(entity1);
-		Circle* circleData1 = &circleArray.GetData(entity1);
-		AABB* aabbData1 = &aabbArray.GetData(entity1);
 
 		for (Entity const& entity2 : m_Entities) {
 			Transform* transData2 = &transformArray.GetData(entity2);
 			physics::Body* bodyData2 = &bodyArray.GetData(entity2);
 			Collider* collideData2 = &colliderArray.GetData(entity2);
-			Circle* circleData2 = &circleArray.GetData(entity2);
-			AABB* aabbData2 = &aabbArray.GetData(entity2);
 
 			bool collided{};
 			collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);

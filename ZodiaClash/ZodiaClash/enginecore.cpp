@@ -80,8 +80,8 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Visible>();
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
-	ECS::ecs().RegisterComponent<Circle>();
-	ECS::ecs().RegisterComponent<AABB>();
+	//ECS::ecs().RegisterComponent<Circle>();
+	//ECS::ecs().RegisterComponent<AABB>();
 	ECS::ecs().RegisterComponent<Animation>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
