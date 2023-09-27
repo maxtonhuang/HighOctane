@@ -85,7 +85,7 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Animation>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
-	ECS::ecs().RegisterComponent<Body>();
+	ECS::ecs().RegisterComponent<physics::Body>();
 	ECS::ecs().RegisterComponent<Collider>();
 
 
@@ -117,7 +117,7 @@ void EngineCore::Run() {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Body>());
+		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 
@@ -151,6 +151,8 @@ void EngineCore::Run() {
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
+
+	physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 	LoadMasterModel();
