@@ -48,32 +48,6 @@ namespace physics {
         penetrationResolvePercentage = 0.8f;
     }
 
-    /*  _________________________________________________________________________*/
-/*! KeyCallback
-
-@param GLFWwindow*
-Handle to window that is receiving event
-
-@param int
-the keyboard key that was pressed or released
-
-@parm int
-Platform-specific scancode of the key
-
-@parm int
-GLFW_PRESS, GLFW_REPEAT or GLFW_RELEASE
-action will be GLFW_KEY_UNKNOWN if GLFW lacks a key token for it,
-for example E-mail and Play keys.
-
-@parm int
-bit-field describing which modifier keys (shift, alt, control)
-were held down
-
-@return none
-
-This function is called when keyboard buttons are pressed.
-When the ESC key is pressed, the close flag of the window is set.
-*/
     void PhysicsManager::Update(float deltaTime)
     {
         // Define a constant time step (fixed interval at which physics calculations will be performed)
@@ -97,16 +71,20 @@ When the ESC key is pressed, the close flag of the window is set.
         }
         // When physics simulation is in step mode (it updates one step at a time)
         // Reset the accumulated time 
-        timeAccumulation = 0.0f;
-
-        // If a step update is requested
-        if (advanceStep) 
+        else // When physics simulation is in step mode (it updates one step at a time)
         {
-            // Perform the physics calculations for this time step
-            Step(timeStep);
+            // Reset the accumulated time 
+            timeAccumulation = 0.0f;
 
-            // Reset the step request flag
-            advanceStep = false;
+            // If a step update is requested
+            if (advanceStep)
+            {
+                // Perform the physics calculations for this time step
+                Step(timeStep);
+
+                // Reset the step request flag
+                advanceStep = false;
+            }
         }
     }
 
@@ -168,13 +146,21 @@ When the ESC key is pressed, the close flag of the window is set.
     {
         // Integrate forces and velocities to update positions
         IntegrateBodies(deltaTime);
-        // Detect and resolve collisions.
-        //DetectCollision(deltaTime);
+    }
+
+    void PhysicsManager::ToggleStepMode()
+    {
+        stepModeActive = !stepModeActive;
+    }
+
+    void PhysicsManager::RequestStep()
+    {
+        advanceStep = true;
     }
 
     void PhysicsManager::DebugDraw(physics::Body& body,Transform& transform)
     {
-        //if (!DebugDrawingActive) return;
+        if (!DebugDrawingActive) return;
         //draw the position/center of the body as a point
         graphics.DrawPoint(transform.position.x, transform.position.y, 0.f, 1.f, 0.f);
 
