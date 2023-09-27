@@ -104,14 +104,14 @@ void EngineCore::Run() {
 		//signature.set(ECS::ecs().GetComponentType<Transform>());
 		//signature.set(ECS::ecs().GetComponentType<Color>());
 		//signature.set(ECS::ecs().GetComponentType<Texture>());
-		//signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
 		//signature.set(ECS::ecs().GetComponentType<Visible>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Tex>());
 		//signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		//signature.set(ECS::ecs().GetComponentType<Circle>());
 		//signature.set(ECS::ecs().GetComponentType<AABB>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
-		//signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
 	}
@@ -128,27 +128,32 @@ void EngineCore::Run() {
 
 	{
 		Signature signature;
-		//signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
 		//signature.set(ECS::ecs().GetComponentType<Visible>());
 		signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
 
 		ECS::ecs().SetSystemSignature<MovementSystem>(signature);
 	}
 
 	{
 		Signature signature;
-		//signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
 		//signature.set(ECS::ecs().GetComponentType<Color>());
 		//signature.set(ECS::ecs().GetComponentType<Texture>());
-		//signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
 		//signature.set(ECS::ecs().GetComponentType<Visible>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Tex>());
 		//signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		//signature.set(ECS::ecs().GetComponentType<Circle>());
 		//signature.set(ECS::ecs().GetComponentType<AABB>());
+		signature.set(ECS::ecs().GetComponentType<Animation>());
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
