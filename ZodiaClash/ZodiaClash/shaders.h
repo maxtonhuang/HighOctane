@@ -36,7 +36,7 @@
 
 class Shader {
 public:
-	bool Compile(std::vector<std::pair<GLenum, std::string>> vec);
+	bool Compile(std::vector<std::pair<GLenum, std::string>> vec); //returns false if compile failure
 	void DeleteShader();
 	void Use();
 	void UnUse();

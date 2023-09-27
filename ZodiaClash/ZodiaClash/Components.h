@@ -52,6 +52,7 @@ struct Size {
     float                   height;
 };
 
+//NOT NEEDED, TO STORE IN MODEL COMPONENT
 struct Color {
     glm::vec4               color;
 };

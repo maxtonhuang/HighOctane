@@ -159,10 +159,6 @@ void GraphicsManager::Draw() {
     
     DrawLabel("AAA", "Danto Lite Normal.ttf", 0.5f, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } }, Color{ glm::vec4{ 1,1,1,1 } });
 
-    DrawCircle(100, -100, 20);
-    DrawRect(0, 0, 50, 50);
-    DrawOutline(-50, -50, 0, 0);
-
     guiManager.Update(window);
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
