@@ -15,10 +15,10 @@ void UpdateMovement(Transform & transform) {
 		case TYPE::KEY_DOWN:
 			//Entity 
 			//Transform tr = ecs.GetComponent<Transform>(entity);
-			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { transform.velocity.y += 200.f * g_dt; }
-			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { transform.velocity.y += -200.f * g_dt; }
-			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { transform.velocity.x += -200.f * g_dt; }
-			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { transform.velocity.x += 200.f * g_dt; }
+			if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) { transform.velocity.y += 1000.f * g_dt; }
+			if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) { transform.velocity.y += -1000.f * g_dt; }
+			if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) { transform.velocity.x += -1000.f * g_dt; }
+			if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) { transform.velocity.x += 1000.f * g_dt; }
 
 			//THE FOLLOWING FUNCTIONS NEED SOME KIND OF LIMIT CHECK
 			if (msg.info == INFO::KEY_O) { transform.scale.x += 10.f * g_dt; transform.scale.y += 10.f * g_dt; }
@@ -40,8 +40,8 @@ void UpdateMovement(Transform & transform) {
 	if (transform.scale.y < 0.f) {
 		transform.scale.y = 0.f;
 	}
-	transform.position += transform.velocity;
-	transform.velocity = {0,0};
+	//transform.position += transform.velocity;
+	//transform.velocity = {0,0};
 	
 
 
