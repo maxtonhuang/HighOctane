@@ -5,6 +5,7 @@
 #include "debuglog.h"
 #include "ImGuiConsole.h"
 #include "ImGuiPerformance.h"
+#include "MultiThreading.h"
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     //extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
@@ -192,8 +193,17 @@ void GUIManager::Update(GLFWwindow* window)
         ImGui::End();
     }
 
-    // Update the console
-    UpdateConsole(window);
+    
+            // Update the console
+            UpdateConsole(window);
+
+
+
+    
+
+
+
+
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     // Update the performance console

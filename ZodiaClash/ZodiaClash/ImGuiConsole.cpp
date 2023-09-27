@@ -1,6 +1,7 @@
 #include "ImGuiConsole.h"
 #include <iostream>
 #include "GUIManager.h"
+#include "MultiThreading.h"
 
 void InitConsole(GLFWwindow* window) {
     const char* glsl_version = "#version 450";
@@ -71,6 +72,9 @@ void UpdateConsole(GLFWwindow* window) {
         // Create a scrolling region for the content
         ImGui::BeginChild("ScrollingRegion", ImVec2(0, 0), false, ImGuiWindowFlags_HorizontalScrollbar);
 
+        //ThreadPool::threadPool().enqueue([]() {
+            
+
         // Display the captured output in the text box
         const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
         size_t pos = 0;
@@ -121,7 +125,10 @@ void UpdateConsole(GLFWwindow* window) {
                 break;
             }
         }
+            
+        //    });
 
+        //ThreadPool::threadPool().WaitForAllTasks();
         // For automatically scrolling if the auto-scroll checkbox is ticked
         if (autoScroll) {
             ImGui::SetScrollHereY(1.0f);
