@@ -18,6 +18,6 @@
 #include "ImGuiLib.h"
 #include "DebugProfile.h"
 
-void InitPerformance(GLFWwindow* window);
+void InitPerformance();
 
-void UpdatePerformance(GLFWwindow* window);
+void UpdatePerformance();

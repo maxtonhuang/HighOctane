@@ -20,8 +20,8 @@
 #include <fstream>
 #include <string>
 
-void InitConsole(GLFWwindow* window);
-void UpdateConsole(GLFWwindow* window);
+void InitConsole();
+void UpdateConsole();
 
 /*******************************************************************/
 // ALL THESE IS FOR DEBUGGING PLEASE DO NOT TOUCH AT ALL
@@ -39,3 +39,5 @@ private:
 extern ImGuiOutputBuffer imguiOutputBuffer; // Declare as extern for use in other files
 
 void ExportConsoleToFile(const char* fileName);
+
+void DeleteLineFromFile(const char* fileName);

@@ -19,13 +19,11 @@ TODO : Put the frame rate in performance there
 #include "ImGuiPerformance.h"
 #include "enginecore.h"
 
-
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
 
-void InitPerformance(GLFWwindow* window) {
-    const char* glsl_version = "#version 450";
+void InitPerformance() {
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -37,7 +35,7 @@ void InitPerformance(GLFWwindow* window) {
 
 }
 
-void UpdatePerformance(GLFWwindow* window) {
+void UpdatePerformance() {
     ImVec2 windowSize(300.f, systemList.size() * 80.f);
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");

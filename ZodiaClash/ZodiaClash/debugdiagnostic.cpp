@@ -143,6 +143,7 @@ namespace debug {
             customTitle.c_str(),
             MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
         );
+
         // Create the logging file only when needed
         debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
         switch (msgboxID)

@@ -119,7 +119,7 @@ void GUIManager::Init(GLFWwindow* window)
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-   // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    // io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -131,11 +131,11 @@ void GUIManager::Init(GLFWwindow* window)
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Init console window
-    InitConsole(window);
+    InitConsole();
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     // Init performance window
-    InitPerformance(window);
+    InitPerformance();
 #endif
 
 }
@@ -188,16 +188,16 @@ void GUIManager::Update(GLFWwindow* window)
             a->frameDisplayDuration = 0.1f;
             ECS::ecs().AddComponent(testEntity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
             ECS::ecs().AddComponent(testEntity, Model{});
-            ECS::ecs().AddComponent<Body>(testEntity, Body{});
+            ECS::ecs().AddComponent<physics::Body>(testEntity, physics::Body{});
             ECS::ecs().AddComponent<Collider>(testEntity, Collider{});
             entityAddedFlag = true;
             counter++;
-            DebugPrint("entity ID: %i",testEntity)
+            DEBUG_PRINT("entity ID: %i",testEntity)
         }
         ImGui::Text("Entities added = %d", counter);
         if (ImGui::Button("Clone Entity")) {
             if (!entityAddedFlag) {
-                Assert(!entityAddedFlag, "Entity has not been added.");
+                ASSERT(!entityAddedFlag, "Entity has not been added.");
             }
             else {
                 CloneMasterModel2(0.f, 0.f, true);
@@ -205,7 +205,7 @@ void GUIManager::Update(GLFWwindow* window)
         } 
         if (ImGui::Button("Save my Cat")) {
             if (!entityAddedFlag) {
-                Assert(!entityAddedFlag, "Entity has not been added.");
+                ASSERT(!entityAddedFlag, "Entity has not been added.");
             }
             else {
                 Serializer::SaveEntityToJson("../Assets/CatTestEntity.json", masterEntitiesList["CatTest"]);
@@ -218,12 +218,14 @@ void GUIManager::Update(GLFWwindow* window)
         }
         ImGui::SameLine();
 
-
+        }
         ImGui::End();
-    }
+    // Update the console
+    UpdateConsole();
+
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
     // Update the performance console
-    UpdatePerformance(window);
+    UpdatePerformance();
 #endif
 
 

@@ -18,8 +18,7 @@ TODO Detect the 'console logged to' and delete
 #include "ImGuiConsole.h"
 #include "GUIManager.h"
 
-void InitConsole(GLFWwindow* window) {
-    const char* glsl_version = "#version 450";
+void InitConsole() {
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -31,7 +30,7 @@ void InitConsole(GLFWwindow* window) {
 
 }
 
-void UpdateConsole(GLFWwindow* window) { 
+void UpdateConsole() { 
     
     static char filterBuffer[256] = "";
     static char fileNameBuffer[31] = "";
@@ -58,6 +57,7 @@ void UpdateConsole(GLFWwindow* window) {
         if (ImGui::Button("Export to File")) {
             // Call a function to export the console content to a file
             ExportConsoleToFile(fileNameBuffer);
+            DeleteLineFromFile(fileNameBuffer);
         }
         ImGui::Separator();
 
@@ -183,7 +183,7 @@ void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName;
 
     // If the file name is empty, use the default file name
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
+    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : "Console.log";
 
     std::ofstream outputFile(fullFileName);
 
@@ -201,4 +201,30 @@ void ExportConsoleToFile(const char* fileName) {
 
     // Display success message after exporting, optional
     std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
+}
+
+void DeleteLineFromFile(const char* fileName) {
+    std::string fullFileName = std::string(fileName) + ".log";
+    std::ifstream inputFile(fullFileName);
+    ASSERT(!inputFile.is_open(), "Unable to open file to read");
+
+    std::string line;
+    std::string fileContents;
+
+    // Read the entire file into a string, excluding the line to delete
+    while (std::getline(inputFile, line)) {
+        if (line.find("Console content exported to '") == std::string::npos) {
+            fileContents += line + "\n";
+        }
+    }
+
+    inputFile.close();
+
+    // Open the file to write
+    std::ofstream outputFile(fullFileName, std::ios::trunc);
+    ASSERT(!outputFile.is_open(), "Unable to open file to write");
+
+    // Write the string to the file
+    outputFile << fileContents;
+    outputFile.close();
 }
