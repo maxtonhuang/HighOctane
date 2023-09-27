@@ -82,6 +82,8 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 			//add physics component
 			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
 			ECS::ecs().AddComponent<Collider>(entity, Collider{});
+			ECS::ecs().AddComponent<Circle>(entity, Circle{});
+			ECS::ecs().AddComponent<AABB>(entity, AABB{});
 		}
 	}
 
@@ -102,6 +104,8 @@ void CloneMasterModel(float rW, float rH, bool isMainCharacter) {
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
 	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
+	ECS::ecs().AddComponent<Circle>(entity, Circle{});
+	ECS::ecs().AddComponent<AABB>(entity, AABB{});
 }
 
 void LoadModels(uint32_t amount, bool isMainCharacter) {

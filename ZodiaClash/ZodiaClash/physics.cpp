@@ -104,7 +104,7 @@ namespace physics {
         transform.position += transform.velocity * deltaTime;
 
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
-        Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1;
+        Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1f;
 
         // Update the velocity using the newly computed acceleration.
         transform.velocity += newAcceleration * deltaTime;

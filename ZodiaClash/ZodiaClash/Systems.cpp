@@ -39,6 +39,7 @@
 #include "model.h"
 #include "message.h"
 #include "physics.h"
+#include "CollisionResolution.h"
 
 	
 void PhysicsSystem::Update() {
@@ -79,7 +80,6 @@ void PhysicsSystem::Update() {
 			}
 			break;
 		}
-
 	}
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
@@ -94,6 +94,83 @@ void PhysicsSystem::Update() {
 		physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
+}
+
+void CollisionSystem::Update() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::COLLISION]) {
+		switch (msg.type) {
+		case TYPE::KEY_TRIGGERED:
+			if (msg.info == INFO::KEY_G) {
+				Entity entity = ECS::ecs().CreateEntity();
+				ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
+				//ECS::ecs().AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
+				ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
+				ECS::ecs().AddComponent(entity, Visible{ true });
+				//ECS::ecs().AddComponent(entity, Tex{ texList.Add("cat.png") });
+
+				//add tex component, init tex with duck sprite (init tex with nullptr produces white square instead)
+				ECS::ecs().AddComponent(entity, Tex{ texList.Add("duck.png") });
+				Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
+				t->texVariants.push_back(texList.Add("duck.png"));
+				t->texVariants.push_back(texList.Add("duck2.png"));
+				//setting tex to texVariants[1] (duck2) still shows duck tex but with duck2 dims?
+				t->tex = t->texVariants.at(0);
+				ECS::ecs().AddComponent(entity, Animation{});
+				Animation* a = &ECS::ecs().GetComponent<Animation>(entity);
+				a->animationType = Animation::ANIMATION_TIME_BASED;
+				//a->animationType = Animation::ANIMATION_EVENT_BASED;
+				a->frameDisplayDuration = 0.1f;
+				ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+				ECS::ecs().AddComponent(entity, Model{});
+				ECS::ecs().AddComponent(entity, Clone{});
+				//ECS::ecs().AddComponent(entity, MainCharacter{});
+
+				//add collision component
+				ECS::ecs().AddComponent<Transform>(entity, Transform{});
+				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
+				ECS::ecs().AddComponent<Collider>(entity, Collider{});
+				ECS::ecs().AddComponent<Circle>(entity, Circle{});
+				ECS::ecs().AddComponent<AABB>(entity, AABB{});
+			}
+			break;
+		}
+	}
+	// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+	auto& circleArray = componentManager.GetComponentArrayRef<Circle>();
+	auto& aabbArray = componentManager.GetComponentArrayRef<AABB>();
+	
+
+	//std::cout << m_Entities.size() << "\n";
+	for (Entity const& entity1 : m_Entities) {
+		std::cout << "Test\n";
+		Transform* transData1 = &transformArray.GetData(entity1);
+		physics::Body* bodyData1 = &bodyArray.GetData(entity1);
+		Collider* collideData1 = &colliderArray.GetData(entity1);
+		Circle* circleData1 = &circleArray.GetData(entity1);
+		AABB* aabbData1 = &aabbArray.GetData(entity1);
+
+		for (Entity const& entity2 : m_Entities) {
+			Transform* transData2 = &transformArray.GetData(entity2);
+			physics::Body* bodyData2 = &bodyArray.GetData(entity2);
+			Collider* collideData2 = &colliderArray.GetData(entity2);
+			Circle* circleData2 = &circleArray.GetData(entity2);
+			AABB* aabbData2 = &aabbArray.GetData(entity2);
+
+			bool collided{};
+			collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
+			if (collided) {
+				//std::cout << "BOOM!\n";
+				physics::HandleCollisionResponse(*bodyData1, *bodyData2);
+			}
+		}
+	}
+	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
 }
 	
 // Movement System
