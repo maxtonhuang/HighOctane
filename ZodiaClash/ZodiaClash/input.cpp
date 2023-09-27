@@ -67,11 +67,28 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_N == key) {
             audio.PlaySounds("../Assets/Sound/bonk.wav");
         }
+
+        // key input for toggling mass rendering
         if (GLFW_KEY_Y == key) {
             static bool pressed = false;
-            if (pressed == false) {
-                LoadModels(2500, false);
+            static bool created = false;
+            if (!pressed) {
+                if (!created) {
+                    std::vector<const char*> spritesheets;
+                    spritesheets.push_back("duck.png");
+                    spritesheets.push_back("duck2.png");
+                    LoadModels(2500, false, spritesheets);
+                    // after initial creation of models, to stay true throughout runtime
+                    created = true;
+                }
+                else {
+                    ReapplyMassRendering();
+                }
                 pressed = true;
+            }
+            else {
+                RemoveMassRendering();
+                pressed = false;
             }
         }
         break;

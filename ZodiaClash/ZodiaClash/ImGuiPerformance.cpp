@@ -1,9 +1,23 @@
+/*
+\copyright
+        All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+        reserved.Reproduction or disclosure of this file or its contents without the prior
+        written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file		ImGuiPerformance.cpp
+@author		Koh Wen Yuan
+@Email		k.wenyuan@digipen.edu
+@course		CSD 2401
+@section	Section A
+@date		23 September 2023
+@brief		This file contains the functions definitions for performance window in ImGui
+
+*//*______________________________________________________________________*/
+
 #include "ImGuiPerformance.h"
-#include <iostream>
-#include <vector>
 #include "enginecore.h"
-#include "ecs.h"
-#include "DebugProfile.h"
+
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
@@ -23,66 +37,51 @@ void InitPerformance(GLFWwindow* window) {
 }
 
 void UpdatePerformance(GLFWwindow* window) {
-
-    // Number of data points
-    size_t valuesCount = systemList.size();
-    float progressbarHeight = 30.0f;
-    
-    ImVec2 windowSize(300.f, valuesCount * 80.f);
-    //ImVec2 windowPos(100, 100);
-    
-    // For setting a fixed size for the window
-    //ImGui::SetNextWindowPos(windowPos, 0); // Set the position
+    ImVec2 windowSize(300.f, systemList.size() * 80.f);
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");
-    
-    // For the plotting of the horizontal histogram
-    for (int i = 0; i < valuesCount; ++i) {
-        float percentage = debugSysProfile.GetPercentage(systemList[i].first);
-    
+
+    for (const auto& [system, name] : systemList) {
+        float percentage = debugSysProfile.GetPercentage(system);
+
         // Change this to system name in the future when max implemented it
-        std::string histogramName = systemList[i].second;
-    
+        std::string histogramName = name;
+
         // Create a group to hold the horizontal histogram and text side by side
         ImGui::BeginGroup();
-    
-        // For calculating the colour
-        // Default to green
+
+        // Calculate the color
         ImVec4 progressBarColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
         if (percentage > 70.0f) {
-    
-            // Red if > 70%
-            progressBarColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+            progressBarColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f); // Red if > 70%
         }
         else if (percentage > 30.0f) {
-    
-            // Yellow if > 30%
-            progressBarColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+            progressBarColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f); // Yellow if > 30%
         }
-    
+
         // Horizontal histogram
         ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
-        ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, progressbarHeight), "");
+        ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, 30.0f), "");
         ImGui::PopStyleColor();
-    
-        // For the position of the percentage text
+
+        // Position for the percentage text
         ImGui::SetCursorPos(ImVec2(20.f, ImGui::GetCursorPosY()));
-    
-        // For the percentage text
+
+        // Percentage text
         ImGui::Text("%s %.2f%%", histogramName.c_str(), percentage);
-    
+
         // End the group
         ImGui::EndGroup();
-    
+
         // Separate each bar with a separator
-        if (i < valuesCount - 1) {
-            ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
-    
-            // For customising the separator's appearance
-            ImGuiStyle& style = ImGui::GetStyle();
-            style.ItemSpacing.y = 10.0f;
-        }
+        ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
+        // Customize the separator's appearance
+        ImGuiStyle& style = ImGui::GetStyle();
+        style.ItemSpacing.y = 10.0f;
     }
+
     ImGui::End();
 }
+
 #endif

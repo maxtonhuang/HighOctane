@@ -77,8 +77,6 @@ namespace debuglog {
 
 		private:
 
-
-
 			std::ofstream logFile;
 			std::string currentLogFileName;
 			LOG_LEVEL currentLogLevel;

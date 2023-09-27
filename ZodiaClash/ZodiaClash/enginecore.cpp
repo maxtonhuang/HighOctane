@@ -86,7 +86,7 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Animation>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
-	ECS::ecs().RegisterComponent<Body>();
+	ECS::ecs().RegisterComponent<physics::Body>();
 	ECS::ecs().RegisterComponent<Collider>();
 
 
@@ -118,7 +118,7 @@ void EngineCore::Run() {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Body>());
+		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 
@@ -153,6 +153,8 @@ void EngineCore::Run() {
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
 
+	physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
+
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 	LoadMasterModel();
 
@@ -166,26 +168,7 @@ void EngineCore::Run() {
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
-		 
-	//LoadModels(2500, false);
-	std::default_random_engine rng;
-	std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
-	std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
-	Entity tmp;
-	for (int i = 0; i < 2500; ++i) {
-		Entity duck = CreateModel();
-		ECS::ecs().GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck.png"));
-		ECS::ecs().GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck2.png"));
-		ECS::ecs().GetComponent<Tex>(duck).tex = ECS::ecs().GetComponent<Tex>(duck).texVariants[0];
-		ECS::ecs().GetComponent<Animation>(duck).animationType = Animation::ANIMATION_EVENT_BASED;
-		//ECS::ecs().GetComponent<Animation>(duck).animationType = Animation::ANIMATION_TIME_BASED;
-		ECS::ecs().GetComponent<Animation>(duck).frameDisplayDuration = 0.2f;
-		ECS::ecs().GetComponent<Size>(duck).width = (float)ECS::ecs().GetComponent<Tex>(duck).tex->GetWidth();
-		ECS::ecs().GetComponent<Size>(duck).height = (float)ECS::ecs().GetComponent<Tex>(duck).tex->GetHeight();
-		ECS::ecs().GetComponent<Transform>(duck).position = { rand_width(rng), rand_height(rng)};
-		tmp = duck;
-	}
-	//LoadModels(2500, false);
+
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
