@@ -36,6 +36,7 @@ namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
 
+    //Initializer list
     PhysicsManager::PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem) : m_ecs(ecs), graphics(graphicsSystem)
     {
         PHYSICS = this;
@@ -48,6 +49,17 @@ namespace physics {
         penetrationResolvePercentage = 0.8f;
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Updates the physics manager.
+        @param deltaTime Elapsed time since the last frame in seconds.
+
+        This method is responsible for updating the physics system.
+        If in continuous mode, it'll perform physics calculations as long
+        as the accumulated time exceeds a defined time step. In step mode,
+        it'll update one step at a time when a step update is requested.
+     */
+     /**************************************************************************/
     void PhysicsManager::Update(float deltaTime)
     {
         // Define a constant time step (fixed interval at which physics calculations will be performed)
@@ -88,11 +100,32 @@ namespace physics {
         }
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Adds an entity to the physics manager.
+        @param entity The entity to be added.
+
+        This method appends a given entity to the list of entities the
+        physics manager is responsible for.
+     */
+     /**************************************************************************/
     void PhysicsManager::AddEntity(Entity entity) 
     {
         m_Entities.push_back(entity);
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Integrates motion equations for a given body.
+        @param body Reference to the body whose physics will be updated.
+        @param deltaTime Elapsed time since the last frame in seconds.
+        @param transform Reference to the transform component of the body.
+
+        This method updates the position, velocity, and acceleration of
+        the body based on the elapsed time. If the body is static, its
+        properties won't be updated.
+     */
+     /**************************************************************************/
     void PhysicsManager::Integrate(Body& body, float deltaTime, Transform& transform) 
     {
         // If the body is static, we don't want to update its position or velocity.
@@ -124,12 +157,30 @@ namespace physics {
         body.accumulatedForce = Vector2(0, 0);
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Adds a force to a body.
+        @param body Reference to the body the force will be applied to.
+        @param force Vector representing the force to be added.
+
+        This method accumulates the given force to the body's current
+        accumulated force.
+     */
+     /**************************************************************************/
     void PhysicsManager::AddForce(Body& body, Vector2 force) 
     {
         body.accumulatedForce += force;
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Integrates motion equations for all bodies in the physics manager.
+        @param deltaTime Elapsed time since the last frame in seconds.
 
+        This method loops through each entity in the physics manager 
+        and updates its physics using the Integrate function.
+     */
+    /**************************************************************************/
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
         for (const auto& entity : m_Entities) 
@@ -142,22 +193,58 @@ namespace physics {
         }
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Performs physics calculations for a given time step.
+        @param deltaTime Elapsed time since the last frame in seconds.
+
+        This method is called to carry out the main physics calculations
+        for all bodies during the given time interval.
+     */
+     /**************************************************************************/
     void PhysicsManager::Step(float deltaTime)
     {
         // Integrate forces and velocities to update positions
         IntegrateBodies(deltaTime);
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Toggles the step mode in the physics manager.
+
+        This method switches the physics simulation between continuous
+        mode and step-by-step mode.
+     */
+     /**************************************************************************/
     void PhysicsManager::ToggleStepMode()
     {
         stepModeActive = !stepModeActive;
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Requests a single step update in the physics simulation.
+
+        This method is used to trigger a single physics update when
+        the physics manager is in step mode.
+     */
+     /**************************************************************************/
     void PhysicsManager::RequestStep()
     {
         advanceStep = true;
     }
 
+    /**************************************************************************/
+    /*!
+        @brief Draws debugging visuals for a given body and its transform.
+        @param body Reference to the body that needs its debug visuals drawn.
+        @param transform Reference to the transform component of the body.
+
+        This method renders various debug visuals such as the body's
+        position, velocity vector, and bounding box. The visuals will
+        only be rendered if debug drawing is active.
+     */
+     /**************************************************************************/
     void PhysicsManager::DebugDraw(physics::Body& body,Transform& transform)
     {
         if (!DebugDrawingActive) return;

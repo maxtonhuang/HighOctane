@@ -33,7 +33,7 @@
 #include <memory>
 
 namespace physics {
-
+	//default constructor
 	Body::Body(): 
 				prevPosition(0, 0),
 				acceleration(0, 0),
@@ -46,6 +46,7 @@ namespace physics {
 				bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
 	{}
 
+	//non-default constructor
 	Body::Body(float w, float h) :width{ w }, height{ h },
 		prevPosition(0, 0),
 		acceleration(0, 0),
@@ -57,12 +58,20 @@ namespace physics {
 		isStatic(false),
 		bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
 	{}
-
+	/**************************************************************************/
+	/*!
+		Set the body position
+	*/
+	/**************************************************************************/
 	void Body::SetPosition(Vector2 pos) 
 	{
 		position = pos;
 	}
-
+	/**************************************************************************/
+	/*!
+		Set the body velocity
+	*/
+	/**************************************************************************/
 	void Body::SetVelocity(Vector2 vel) 
 	{
 		velocity = vel;

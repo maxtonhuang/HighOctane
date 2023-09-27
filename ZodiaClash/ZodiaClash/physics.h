@@ -32,7 +32,7 @@
 #pragma once
 #include <vector>
 #include "vmath.h"
-#include "ECS.h" // will include the Body component definition
+#include "ECS.h" 
 #include "collision.h"
 #include "body.h"
 #include "graphics.h"
@@ -40,7 +40,6 @@
 using namespace vmath;
 
 class GraphicsManager;
-//struct Body; //forward declaration
 
 namespace physics {
     class PhysicsManager {

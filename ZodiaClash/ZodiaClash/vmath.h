@@ -124,23 +124,39 @@ namespace vmath {
 				return *this;
 			}
 
-			// Negation
+			/**************************************************************************/
+			/*!
+				In this function, it will return the negated vector
+			*/
+			/**************************************************************************/
 			Vector2 negate() const
 			{
 				return Vector2(-x, -y);
 			}
 
-			// Magnitude of the vector
+			/**************************************************************************/
+			/*!
+				In this function, it will return the magnitude of the vector
+			*/
+			/**************************************************************************/
 			float magnitude() const {
 				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2)));
 			}
 			
-			// Dot product
+			/**************************************************************************/
+			/*!
+				This function returns the dot product between 2 vectors
+			*/
+			/**************************************************************************/
 			static float dot(const Vector2& a, const Vector2& b) {
 				return a.x * b.x + a.y * b.y;
 			}
 
-			// Normalize the vector
+			/**************************************************************************/
+			/*!
+				In this function, it will return the unit vector
+			*/
+			/**************************************************************************/
 			Vector2 normalize() const {
 				Vector2 vector;
 				vector.x = this->x / this->magnitude();
@@ -148,7 +164,11 @@ namespace vmath {
 				return vector;
 			}
 
-			// Mid point of two vectors
+			/**************************************************************************/
+			/*!
+				In this function, it will return the midpoint of 2 2D points
+			*/
+			/**************************************************************************/
 			Vector2 midpoint(Vector2& b) const {
 				Vector2 vector;
 				vector.x = (this->x + b.x) / 2;
@@ -156,12 +176,20 @@ namespace vmath {
 				return vector;
 			}
 
-			// Distance between two vectors
+			/**************************************************************************/
+			/*!
+				In this function, it will return the distance between 2 2D points 
+			*/
+			/**************************************************************************/
 			float distance(Vector2& b) const {
 				return static_cast<float>(sqrt(pow(this->x - b.x, 2) + pow(this->y - b.y, 2)));
 			}
 
-			// Test if the vector is in the range of the object
+			/**************************************************************************/
+			/*!
+				Test if the vector is in the range of the object
+			*/
+			/**************************************************************************/
 			bool inRange(Vector2& b, float distRange) const {
 				if (this->distance(b) <= distRange) {
 					return true;
@@ -348,23 +376,39 @@ namespace vmath {
 				return vector;
 			}
 
-			// Negation vector
+			/**************************************************************************/
+			/*!
+				In this function, it will return the negated vector
+			*/
+			/**************************************************************************/
 			Vector3 negate() const
 			{
 				return Vector3(-x, -y, -z);
 			}
 
-			// Dot product
+			/**************************************************************************/
+			/*!
+				This function returns the dot product between 2 vectors
+			*/
+			/**************************************************************************/
 			static float dot(const Vector3& a, const Vector3& b) {
 				return a.x * b.x + a.y * b.y + a.z * b.z;
 			}
 
-			// Magnitude of the vector
+			/**************************************************************************/
+			/*!
+				In this function, it will return the magnitude of the vector
+			*/
+			/**************************************************************************/
 			float magnitude() const {
 				return static_cast<float>(sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
 			}
 
-			// Normalize the vector
+			/**************************************************************************/
+			/*!
+				In this function, it will return the unit vector
+			*/
+			/**************************************************************************/
 			Vector3 normalize() const {
 				Vector3 vector;
 				vector.x = this->x / this->magnitude();
@@ -373,7 +417,11 @@ namespace vmath {
 				return vector;
 			}
 			
-			// Mid point of two vectors
+			/**************************************************************************/
+			/*!
+				In this function, it will return the midpoint of 2 2D points
+			*/
+			/**************************************************************************/
 			Vector3 midpoint(const Vector3& b) const {
 				Vector3 vector;
 				vector.x = (this->x + b.x) / 2;
@@ -382,12 +430,20 @@ namespace vmath {
 				return vector;
 			}
 
-			// Distance between two vectors
+			/**************************************************************************/
+			/*!
+				In this function, it will return the distance between 2 2D points
+			*/
+			/**************************************************************************/
 			float distance(const Vector3& b) const {
 				return static_cast<float>(sqrt(pow(this->x - b.x, 2) + pow(this->y - b.y, 2) + pow(this->z - b.z, 2)));
 			}
 
-			// Test if the vector is in the range of the object
+			/**************************************************************************/
+			/*!
+				Test if the vector is in the range of the object
+			*/
+			/**************************************************************************/
 			bool inRange(const Vector3& b, float range) const {
 				if (this->distance(b) <= range) {
 					return true;
