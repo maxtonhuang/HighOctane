@@ -185,7 +185,7 @@ void EngineCore::Run() {
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
-
+	serializationSystem->Update();
 	
 	//Process fonts
 	//Entity fontSys = CreateModel();
@@ -209,7 +209,7 @@ void EngineCore::Run() {
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
 
-		serializationSystem->Update();
+		
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
