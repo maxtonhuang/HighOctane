@@ -51,6 +51,7 @@
 #include <chrono>
 #include "physics.h"
 #include "GUIManager.h"
+#include "MultiThreading.h"
 
 
 using Vec2 = vmath::Vector2;
@@ -161,7 +162,7 @@ void EngineCore::Run() {
 	std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
 	std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
 	Entity tmp;
-	for (int i = 0; i < 0; ++i) {
+	for (int i = 0; i < 2500; ++i) {
 		Entity duck = CreateModel();
 		ECS::ecs().GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck.png"));
 		ECS::ecs().GetComponent<Tex>(duck).texVariants.push_back(texList.Add("duck2.png"));
@@ -178,7 +179,7 @@ void EngineCore::Run() {
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
 
-
+	
 	//////////////////////////////////////////////
 	///////////////// GAME LOOP //////////////////
 	//////////////////////////////////////////////
@@ -230,6 +231,15 @@ void EngineCore::Run() {
 			#endif
 				
 		}
+		/*int num[100];
+		for (int i = 1; i < 100; ++i) {
+			ThreadPool::threadPool().enqueue([&num, i]() {
+				num[i] = i;
+				});
+		}
+
+		std::cout << num[23] << "," << num[34] << "," << num[69] << std::endl;*/
+
 
 		if (graphics.WindowClosed()) {
 			gameActive = false;

@@ -16,6 +16,7 @@
 #include "ECS.h"
 #include "Components.h"
 #include <filesystem>
+#include <thread>
 #include "AudioManager.h"
 
 //#define MAX_LOADSTRING 100
@@ -81,7 +82,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //Assert(y <= 0, "x must be more than 0");
 
+
+    //////////////////////////////
     ////////// Run Game //////////
+    //////////////////////////////
+
     EngineCore engine;
     engine.Run();
     

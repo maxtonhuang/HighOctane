@@ -39,6 +39,8 @@
 #include "model.h"
 #include "message.h"
 #include "physics.h"
+#include "MultiThreading.h"
+#include "Global.h"
 
 	
 void PhysicsSystem::Update() {
@@ -131,11 +133,22 @@ void GraphicsSystem::Update() {
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
-
+	std::atomic<Model*> m;
+	std::mutex task_mutex;
 	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
-		m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
+
+		ThreadPool::threadPool().enqueue([&m, &task_mutex, &entity, &modelArray, &transformArray, &sizeArray, &texArray, &animationArray]() { // capture cout_mutex by reference
+				{
+					std::lock_guard<std::mutex> lock(task_mutex);
+					Model* m = &modelArray.GetData(entity);
+					m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
+					m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
+
+					//std::cout << "Task " << i << " executed by thread " << std::this_thread::get_id() << std::endl;
+				}
+			}
+		);
+		ThreadPool::threadPool().WaitForAllTasks();
 	}
 	graphics.Draw();
 }
