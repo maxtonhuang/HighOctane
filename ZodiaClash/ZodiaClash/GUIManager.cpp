@@ -17,46 +17,46 @@
     //int bar_data[11] = { 20, 45, 70, 15, 90, 30, 50, 80, 35, 65, 25 };
     //float x_data[10] = { 0.2f, 0.5f, 0.8f, 0.1f, 0.9f, 0.3f, 0.6f, 0.7f, 0.4f, 0.25f };
     //float y_data[10] = { 0.4f, 0.1f, 0.7f, 0.9f, 0.2f, 0.6f, 0.3f, 0.8f, 0.5f, 0.75f };
-    struct ScrollingBuffer {
-        int MaxSize;
-        int Offset;
-        ImVector<ImVec2> Data;
-        ScrollingBuffer(int max_size = 2000) {
-            MaxSize = max_size;
-            Offset = 0;
-            Data.reserve(MaxSize);
-        }
-        void AddPoint(float x, float y) {
-            if (Data.size() < MaxSize)
-                Data.push_back(ImVec2(x, y));
-            else {
-                Data[Offset] = ImVec2(x, y);
-                Offset = (Offset + 1) % MaxSize;
-            }
-        }
-        void Erase() {
-            if (Data.size() > 0) {
-                Data.shrink(0);
-                Offset = 0;
-            }
-        }
-    };
+    //struct ScrollingBuffer {
+    //    int MaxSize;
+    //    int Offset;
+    //    ImVector<ImVec2> Data;
+    //    ScrollingBuffer(int max_size = 2000) {
+    //        MaxSize = max_size;
+    //        Offset = 0;
+    //        Data.reserve(MaxSize);
+    //    }
+    //    void AddPoint(float x, float y) {
+    //        if (Data.size() < MaxSize)
+    //            Data.push_back(ImVec2(x, y));
+    //        else {
+    //            Data[Offset] = ImVec2(x, y);
+    //            Offset = (Offset + 1) % MaxSize;
+    //        }
+    //    }
+    //    void Erase() {
+    //        if (Data.size() > 0) {
+    //            Data.shrink(0);
+    //            Offset = 0;
+    //        }
+    //    }
+    //};
 
-    // utility structure for realtime plot
-    struct RollingBuffer {
-        float Span;
-        ImVector<ImVec2> Data;
-        RollingBuffer() {
-            Span = 10.0f;
-            Data.reserve(2000);
-        }
-        void AddPoint(float x, float y) {
-            float xmod = fmodf(x, Span);
-            if (!Data.empty() && xmod < Data.back().x)
-                Data.shrink(0);
-            Data.push_back(ImVec2(xmod, y));
-        }
-    };
+    //// utility structure for realtime plot
+    //struct RollingBuffer {
+    //    float Span;
+    //    ImVector<ImVec2> Data;
+    //    RollingBuffer() {
+    //        Span = 10.0f;
+    //        Data.reserve(2000);
+    //    }
+    //    void AddPoint(float x, float y) {
+    //        float xmod = fmodf(x, Span);
+    //        if (!Data.empty() && xmod < Data.back().x)
+    //            Data.shrink(0);
+    //        Data.push_back(ImVec2(xmod, y));
+    //    }
+    //};
 
 GUIManager guiManager;
 GUIManager::GUIManager()
@@ -71,7 +71,7 @@ GUIManager::~GUIManager()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    ImPlot::CreateContext();
+    ImPlot::DestroyContext();
 }
 
 
