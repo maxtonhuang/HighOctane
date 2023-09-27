@@ -87,8 +87,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ////////// Run Game //////////
     //////////////////////////////
 
-    EngineCore engine;
-    engine.Run();
+    
+    EngineCore::engineCore().Run();
     
     return 0;
 }

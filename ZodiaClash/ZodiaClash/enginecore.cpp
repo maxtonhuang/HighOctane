@@ -249,17 +249,17 @@ void EngineCore::Run() {
 
 
 
-///////////////////////////////////////////////
-//   _____    _____    __    __    ______    //
-//  |__ __|  |__ __|  |  \  /  |  |  ____|   //
-//    | |      | |    |   \/   |  |  |___    //
-//    | |      | |    | |\  /| |  |  ____|   //
-//    | |     _| |_   | | \/ | |  |  |___    //
-//    |_|    |_____|  |_|    |_|  |______|   //
-//	                                         //
-///////////////////////////////////////////////
+////////////////////////////////////////////////
+//    _____    _____    __    __    ______    //
+//   |__ __|  |__ __|  |  \  /  |  |  ____|   //
+//     | |      | |    |   \/   |  |  |___    //
+//     | |      | |    | |\  /| |  |  ____|   //
+//     | |     _| |_   | | \/ | |  |  |___    //
+//     |_|    |_____|  |_|    |_|  |______|   //
+//                                            //
+////////////////////////////////////////////////
 	
 // Returns the time *SINCE START OF GAME* in MICROSECONDS
-uint64_t EngineCore::GetTime() {
-	return (std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count()) - m_initialTime;
+uint64_t GetTime() {
+	return (std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count()) - EngineCore::engineCore().m_initialTime;
 }

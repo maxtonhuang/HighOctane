@@ -37,13 +37,23 @@ class EngineCore {
 
 public:
 
-	EngineCore();
+	// Disallow copying to prevent creation of more than one instance
+	EngineCore(const EngineCore &) = delete;
+	EngineCore & operator=(const EngineCore &) = delete;
 
+	// Public accessor for the Singleton instance
+	static EngineCore & engineCore() {
+		static EngineCore ec;
+		return ec;
+	}
+	
 	void Run();
 
-	uint64_t GetTime();
+	friend uint64_t GetTime();
 
 private:
+
+	EngineCore();
 
 	const uint64_t m_initialTime = static_cast<uint64_t>(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count());
 		
@@ -52,3 +62,5 @@ private:
 	bool gameActive;
 
 };
+
+uint64_t GetTime();
