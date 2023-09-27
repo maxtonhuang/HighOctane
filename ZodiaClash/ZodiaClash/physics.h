@@ -50,11 +50,11 @@ namespace physics {
         void AddEntity(Entity entity);
         void Integrate(Body& body, float deltaTime, Transform& transform);
         void AddForce(Body& body, Vector2 force);
-        void DebugDraw(physics::Body& body, Transform& transform);
 
     private:
         void IntegrateBodies(float deltaTime);
         void Step(float deltaTime);
+        void DebugDraw();
 
         ECS& m_ecs; // Reference to the ECS instance
         std::vector<Entity> m_Entities;

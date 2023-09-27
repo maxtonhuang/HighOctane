@@ -80,7 +80,7 @@ std::vector<Entity> massRenderEntitiesList;
 			ECS::ecs().AddComponent(entity, Model{});
 
 			//add physics component
-			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
 			ECS::ecs().AddComponent<Collider>(entity, Collider{});
 		}
 	}
@@ -102,7 +102,6 @@ void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vecto
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
 	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
-<<<<<<< HEAD
 
 	// check if any spritesheets have been loaded
 	if (spritesheets.size() > 0) {
@@ -122,10 +121,6 @@ void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vecto
 		//// for mass rendering - add this entity to vector
 		massRenderEntitiesList.push_back(entity);
 	}
-=======
-	//ECS::ecs().AddComponent<Circle>(entity, Circle{});
-	//ECS::ecs().AddComponent<AABB>(entity, AABB{});
->>>>>>> wt-branch
 }
 
 void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {

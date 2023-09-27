@@ -74,6 +74,15 @@ struct MainCharacter {
     // empty by design
 };
 
+struct Circle {
+    float                   radius;
+};
+
+struct AABB {
+    Vec2                    min;
+    Vec2                    max;
+    Vec2                    extents;
+};
 
 struct Animation {
     enum ANIMATION_TYPE {

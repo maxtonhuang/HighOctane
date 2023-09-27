@@ -6,8 +6,8 @@ namespace physics {
 
 	// SECTION: COLLISION DETECTION
     bool CheckCollisionBoxBox(const Body& alpha, const Body& beta) {
-		std::shared_ptr < AABB> aabb1 = std::reinterpret_pointer_cast<AABB>(alpha.bodyShape);
-		std::shared_ptr < AABB> aabb2 = std::reinterpret_pointer_cast<AABB>(beta.bodyShape);
+		AABB* aabb1 = static_cast<AABB*>(alpha.bodyShape);
+		AABB* aabb2 = static_cast<AABB*>(beta.bodyShape);
 
 		//extract min-max
 		aabb1->min = { alpha.position.x - aabb1->extents.x, alpha.position.y - aabb1->extents.y };
@@ -135,8 +135,8 @@ namespace physics {
     }
 
     bool CheckCollisionCircleCircle(const Body& alpha, const Body& beta) {
-		std::shared_ptr<Circle> circle1 = std::reinterpret_pointer_cast<Circle>(alpha.bodyShape);
-		std::shared_ptr<Circle> circle2 = std::reinterpret_pointer_cast<Circle>(beta.bodyShape);
+		Circle* circle1 = static_cast<Circle*>(alpha.bodyShape);
+		Circle* circle2 = static_cast<Circle*>(beta.bodyShape);
 
 		vmath::Vector2 centerA = alpha.position;
 		vmath::Vector2 centerB = beta.position;
@@ -150,8 +150,8 @@ namespace physics {
     }
 
     bool CheckCollisionCircleBox(const Body& alpha, const Body& beta) {
-		std::shared_ptr<Circle> circle = std::reinterpret_pointer_cast<Circle>(alpha.bodyShape);
-		std::shared_ptr <AABB> aabb = std::reinterpret_pointer_cast<AABB>(beta.bodyShape);
+		Circle* circle = static_cast<Circle*>(alpha.bodyShape);
+		AABB* aabb = static_cast<AABB*>(beta.bodyShape);
 
 		vmath::Vector2 circleCenter = alpha.position;
 
@@ -175,7 +175,7 @@ namespace physics {
     }
 
 	bool CheckCollisionBoxBorder(const Body& alpha) {
-		std::shared_ptr<AABB> aabb = std::reinterpret_pointer_cast<AABB>(alpha.bodyShape);
+		AABB* aabb = static_cast<AABB*>(alpha.bodyShape);
 
 		//extract min-max
 		aabb->min = { alpha.position.x - aabb->extents.x, alpha.position.y - aabb->extents.y };
@@ -211,7 +211,7 @@ namespace physics {
 	}
 
 	bool CheckCollisionCircleBorder(const Body& alpha) {
-		std::shared_ptr<Circle> circle = std::reinterpret_pointer_cast<Circle>(alpha.bodyShape);
+		Circle* circle = static_cast<Circle*>(alpha.bodyShape);
 
 		vmath::Vector2 circleCenter = alpha.position;
 

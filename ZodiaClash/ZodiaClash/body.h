@@ -32,7 +32,6 @@
 #include "vmath.h"
 #include "Collision.h"
 #include "Physics.h"
-#include <memory>
 
 using namespace vmath;
 
@@ -55,11 +54,10 @@ namespace physics {
 		float restitution{};
 		float friction{ 0.2f };
 		bool isStatic{};
-		std::shared_ptr<Shape> bodyShape;
+		Shape* bodyShape;
 
 		// Constructors, if needed, can remain
 		Body();
-		Body(float width, float height);
 
 		// These setters might stay if you find them useful, but in pure ECS they might not be here.
 		void SetPosition(Vector2 pos);
