@@ -54,7 +54,7 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #include <cstdlib>
-
+#include <assert.h>
 
 // Do not need to touch this, it is auto
 // If Debug mode, then enable debug diagnostics
@@ -83,7 +83,9 @@
 
 #define ASSERT(condition, ...) debug::AssertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
 
-#define MY_ASSERT(x) if ((x)) { printf("My custom assertion failed: (%s), function %s, file %s, line %d.\n", #x, __func__, __FILE__, __LINE__); abort(); }
+//#define MY_ASSERT(x) if ((x)) { printf("My custom assertion failed: (%s), function %s, file %s, line %d.\n", #x, __func__, __FILE__, __LINE__); abort(); }
+
+#define YOU_ASSERT(_EXPR)            assert(_EXPR)  
 
 #define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
 
