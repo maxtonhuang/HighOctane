@@ -35,7 +35,7 @@ void UpdateConsole() {
     
     static char filterBuffer[256] = "";
     static char fileNameBuffer[31] = "";
-    static bool autoScroll = false;
+    static bool autoScroll = true;
     // Change the colour for my console window
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
 
