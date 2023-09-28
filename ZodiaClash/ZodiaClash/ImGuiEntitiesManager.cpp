@@ -1,4 +1,32 @@
-
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiEntitiesManager.cpp
+*
+*	@author		Kai Alexander Van Adrichem Boogaert
+*
+*	@email		kaialexander.v\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		10 September 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file contains all the definitions for the panel that handles entities and scenes
+******************************************************************************/
 
 #include "ImGuiEntitiesManager.h"
 #include "EntityFactory.h"
@@ -21,8 +49,10 @@ void UpdateEntitiesManager() {
     {
         static int counter = 0;
         static bool entityAddedFlag = false;
+
         ImGui::Begin("Creating Entity");
 
+        /*************************Testing for Serialization and Deserialization*************************************************/
         if (ImGui::Button("Test Loader")) {
             Serializer::LoadEntityFromJson("../Assets/Scenes/SceneEntities.json");
             entityAddedFlag = true;
@@ -35,7 +65,9 @@ void UpdateEntitiesManager() {
             CloneMasterModel(0.f, 0.f, false);
         }
 
-        //Entity testEntity;
+
+
+       /*************************Testing for ImGui creating of entities*************************************************/
         Entity testEntity;
         if (ImGui::Button("Create Entity by Button Test: Cat")) {
             testEntity = ECS::ecs().CreateEntity();
@@ -58,7 +90,7 @@ void UpdateEntitiesManager() {
             ECS::ecs().AddComponent<Collider>(testEntity, Collider{});
             entityAddedFlag = true;
             counter++;
-            DEBUG_PRINT("entity ID: %i", testEntity)
+            DEBUG_PRINT("entity ID: %i", testEntity);
         }
         ImGui::Text("Entities added = %d", counter);
         if (ImGui::Button("Clone Cat Entity")) {

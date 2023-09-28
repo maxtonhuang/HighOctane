@@ -52,29 +52,120 @@
 class Serializer {
 public:
 	std::ifstream stream;
+/*!***********************************************************************
+ \brief
+	Opens stream
+ \return
+	true if stream is open
+ *************************************************************************/
 	bool Open(const std::string& file);
+/*!***********************************************************************
+ \brief
+	Checks if stream is good for serializer class
+ \return
+	true if good
+ *************************************************************************/
 	bool IsGood();
+/*!***********************************************************************
+ \brief
+	Reading function for serializer class type !***To be used in the future***!
+ \param [in] i
+	int
+ *************************************************************************/
 	void ReadInt(int& i);
+/*!***********************************************************************
+ \brief
+	Reading function for serializer class type !***To be used in the future***!
+ \param [in] f
+	float
+ *************************************************************************/
 	void ReadFloat(float& f);
+/*!***********************************************************************
+ \brief
+	Reading function for serializer class type !***To be used in the future***!
+ \param [in] str
+	string
+ *************************************************************************/
 	void ReadString(std::string& str);
+
+/*!***********************************************************************
+ \brief
+	Attempt at creating a csv parser !***Improvements to be made in the future***!
+ \param [in] filename
+	Filepath to load from
+ \return
+	CSV file succesfully loaded
+ *************************************************************************/
 	static void SerializeCSV(const std::string& file);
+
+/*!***********************************************************************
+ \brief
+	>> operator for serializer class to be used by other appropriate seriliazer
+	functions of same data tpye
+ \param [in] i
+	int
+ *************************************************************************/
 	Serializer& operator>>( int i) {
 		stream >> i;
 		return *this;
 	};
+
+/*!***********************************************************************
+ \brief
+	>> operator for serializer class to be used by other appropriate seriliazer 
+	functions of same data tpye
+ \param [in] f
+	float
+ *************************************************************************/
 	Serializer& operator>>( float f) {
 		stream >> f;
 		return *this;
 	};
+
+/*!***********************************************************************
+	\brief
+	>> operator for serializer class to be used by other appropriate seriliazer
+	functions of same data tpye
+	\param [in] str
+	string
+*************************************************************************/
 	Serializer& operator>>(std::string str) {
 		stream >> str;
 		return *this;
 	};
+
+/*!***********************************************************************
+ \brief
+	>> operator for serializer class to be used by other appropriate seriliazer 
+	functions of same data tpye
+ \param [in] c
+	char
+ *************************************************************************/
 	Serializer& operator>>(char c) {
 		stream >> c;
 		return *this;
 	};
+
+/*!***********************************************************************
+ \brief
+	Json Serializer using RapidJson library
+ \param [in] filename
+	Filepath to save to "../Assets/Scenes/"filename".json
+ \param [in] entity
+	Entity or List of entities to save
+ \return
+	Saved json file to set path
+ *************************************************************************/
 	static void SaveEntityToJson(const std::string& fileName, const std::set<Entity>& entity);
+
+/*!***********************************************************************
+ \brief
+	Json deserializer using RapidJson library
+ \param [in] filename
+	Filepath to load from "../Assets/Scenes/"filename".json
+ \return
+	Upon succesful loading of file would return true
+ *************************************************************************/
 	static bool LoadEntityFromJson(const std::string& fileName);
 
 };

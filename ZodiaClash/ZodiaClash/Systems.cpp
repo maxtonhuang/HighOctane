@@ -133,13 +133,13 @@ void CollisionSystem::Update() {
 						physics::HandleCollisionResponse(*bodyData1, *bodyData2);
 						
 					}
-					bodyData1->velocity = { 0.f, 0.f };
-					transData1->velocity = bodyData1->velocity;
 					transData2->velocity = bodyData2->velocity;
-					transData1->position = bodyData1->position;
 					transData2->position = bodyData2->position;
 				}
 			}
+			bodyData1->velocity = { 0.f, 0.f };
+			transData1->velocity = bodyData1->velocity;
+			transData1->position = bodyData1->position;
 		}
 	}
 	Mail::mail().mailbox[ADDRESS::COLLISION].clear();

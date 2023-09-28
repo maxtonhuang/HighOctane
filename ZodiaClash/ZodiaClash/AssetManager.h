@@ -33,7 +33,9 @@
 *
 *   -M1 checkpoint-
 *	- Attempt at a general GetAssets and UnloadAssets functions
-*   - Improve on functionalities look into adding more functions
+*   - Improve on functionalities look into implementing better functions to 
+*     provide more functionalities
+*   - Research more on what an asset manager needs
 ******************************************************************************/
 #pragma once
 #include <iostream>

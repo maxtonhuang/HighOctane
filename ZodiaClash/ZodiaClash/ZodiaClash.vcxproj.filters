@@ -51,6 +51,12 @@
     <Filter Include="AssetsManager">
       <UniqueIdentifier>{fac3e325-f644-4c94-9964-bdfc5bc055c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vendors">
+      <UniqueIdentifier>{5df34908-c48e-483c-984e-163c28359e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendors\ImGui">
+      <UniqueIdentifier>{e08e1b1e-c0c5-48b9-b4e8-193157f84f84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -132,36 +138,6 @@
     <ClInclude Include="Components.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imgui.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiLib.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -189,12 +165,6 @@
     <ClInclude Include="CollisionResolution.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\Extern\implot-master\implot.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Extern\implot-master\implot_internal.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiConsole.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -217,10 +187,46 @@
       <Filter>AssetsManager</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiEntitiesManager.h">
-    <Filter>ImGui</Filter>
+      <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiGraph.h">
       <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
+      <Filter>Vendors\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,27 +291,6 @@
     <ClCompile Include="GUIManager.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -323,15 +308,6 @@
     </ClCompile>
     <ClCompile Include="CollsionResolution.cpp">
       <Filter>Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\implot-master\implot.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
-      <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiConsole.cpp">
       <Filter>ImGui</Filter>
@@ -353,6 +329,36 @@
     </ClCompile>
     <ClCompile Include="ImGuiGraph.cpp">
       <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
+      <Filter>Vendors\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

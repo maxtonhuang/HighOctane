@@ -34,6 +34,7 @@
 *	- Attempt at a general get and unload functions
 *   - Improve on functionalities look into implementing better functions to 
 *     provide more functionalities
+*   - Research more on what an asset manager needs
 ******************************************************************************/
 
 #include "AssetManager.h"

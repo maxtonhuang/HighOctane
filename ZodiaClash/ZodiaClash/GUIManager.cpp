@@ -1,3 +1,33 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		GUIManager.cpp
+*
+*	@author		Kai Alexander Van Adrichem Boogaert
+*
+*	@email		kaialexander.v\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		10 September 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file manages ImGui panels.Each panels will be split into their independant
+*   source files.
+******************************************************************************/
 #include "GUIManager.h"
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
@@ -32,7 +62,7 @@ GUIManager::~GUIManager()
 
 
 // Our state
-bool show_demo_window;
+//bool show_demo_window;
 
 void GUIManager::Init(GLFWwindow* window)
 {
