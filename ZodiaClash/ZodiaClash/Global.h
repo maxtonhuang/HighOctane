@@ -37,3 +37,4 @@
 
 extern float g_dt;
 //extern std::mutex task_mutex;
+extern bool button_clicked;

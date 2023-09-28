@@ -205,7 +205,8 @@ void EngineCore::Run() {
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
-	serializationSystem->Update();
+	/*serializationSystem->Update();*/
+
 	
 
 	//std::vector<long long> vec1(10000, 1);  // Fill with some dummy values
@@ -268,6 +269,11 @@ void EngineCore::Run() {
 					debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 				
+		}
+
+		if (button_clicked) {
+			button_clicked = false;
+			serializationSystem->Update();
 		}
 		/*int num[100];
 		for (int i = 1; i < 100; ++i) {

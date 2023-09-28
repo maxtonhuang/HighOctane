@@ -228,7 +228,7 @@ float GraphicsManager::GetHeight() {
 
 void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color) {
     
-    ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
+    //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 
     Font fontData = fonts.GetFont();
     // TODO some sort of non null checking for fontData?

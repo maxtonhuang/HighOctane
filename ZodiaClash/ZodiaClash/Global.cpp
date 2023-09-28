@@ -36,3 +36,4 @@
 
 float g_dt;
 //std::mutex task_mutex;
+bool button_clicked{ false };
