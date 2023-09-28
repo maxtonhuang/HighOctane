@@ -74,15 +74,6 @@ struct MainCharacter {
     // empty by design
 };
 
-struct Circle {
-    float                   radius;
-};
-
-struct AABB {
-    Vec2                    min;
-    Vec2                    max;
-    Vec2                    extents;
-};
 
 struct Animation {
     enum ANIMATION_TYPE {
@@ -95,6 +86,16 @@ struct Animation {
     uint32_t                frameIndex{};
     float                   frameTimeElapsed{};
     float                   frameDisplayDuration{};
+};
+
+struct Circle {
+    float                   radius;
+};
+
+struct AABB {
+    Vec2                    min;
+    Vec2                    max;
+    Vec2                    extents;
 };
 
 struct Clone {

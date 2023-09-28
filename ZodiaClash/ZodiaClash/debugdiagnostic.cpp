@@ -1,24 +1,38 @@
-/*
-\copyright
-		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-		reserved.Reproduction or disclosure of this file or its contents without the prior
-		written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		debugdiagnostic.cpp
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		30 August 2023
-@brief		This file contains the functions definition for debugging
-
-TO DO: SAVE EVERYTHING BEFORE CRASHING INTO CRASH.LOG
-
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		DebugDiagnostic.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3o August 2023
+*
+* *****************************************************************************
+*
+*	@brief		Calculations of the debug diagnostics
+*
+*	This file contains all the definition of the functions for the diagnostics
+*
+******************************************************************************/
 
 #include "DebugDiagnostic.h"
 #include "GUIManager.h"
+#include "debuglog.h"
+#include <iostream>
 
 namespace debug {
 
@@ -52,15 +66,9 @@ namespace debug {
         // Clean up the variable argument list
         va_end(args);
 
-
         // Redirects it to ImGui
         imguiOutputBuffer.buffer += buffer;
         imguiOutputBuffer.buffer += "\n";
-        // Print the formatted message to the standard error stream
-        //fprintf(stderr, "%s\n", buffer);
-
-        // Log it into the file
-        //debuglog::logger.info(buffer);
     }
 
 
@@ -112,13 +120,22 @@ namespace debug {
 
                 // Display a message box to the user if the log level is higher
                 CustomMessageBox(fileName, line, message);
-
-                // Logs it into the console
-                LOG_FATAL(message);
             }
         } while (false);
     }
 
+
+     /*!
+     * \brief Custom message box that will appear when assert is called
+     *
+     * This function is responsible for the custom box that appeared when assert is called
+     * and the user can choose to continue or quit the program
+     *
+     * \param file The source file path where the assertion occurred.
+     * \param line The line number in the source file where the assertion occurred.
+     * \param message A custom error message (optional) to be included in the output.
+     * 
+     */
     // For the message in a box to use in assert
     int CustomMessageBox(const char* file, int line, const char* message) {
 
@@ -144,19 +161,28 @@ namespace debug {
             MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
         );
 
-        // Create the logging file only when needed
-        debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
+        const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
+        const size_t maxLogSize = 1024;  // Adjust the maximum size as needed
+        std::string limitedLog = logBuffer.substr(0, maxLogSize);
+        
+
         switch (msgboxID)
         {
         case IDYES:
+            LOG_CRASH("-----------CRASH LOG START-----------\n");
+            LOG_CRASH(limitedLog);
+
             // Log the crash into the crash file
-            LOG_INFO("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
-            + ". User chose to terminate");
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to terminate\n");
+            // Logs the console into the crash file
+            LOG_CRASH("------------CRASH LOG END------------\n");
             ExitProcess(0);
             break;
         case IDNO:
-            LOG_INFO("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
-            + ". User chose to continue");
+            
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to continue\n");
             // Continue on with the code
             break;
         }
@@ -164,6 +190,14 @@ namespace debug {
         return msgboxID;
     }
 
+     /*!
+     * \brief Creates a custom console
+     *
+     * This function is responsible for creating a custom console that will
+     * appear. However this is not used in the current version of the engine
+     * as we have a custom console that is created in ImGui
+     *
+     */
     // Creates the console
     void ConsoleInitHandler() {
         // Allocate a new console for the calling process
@@ -185,7 +219,14 @@ namespace debug {
 
     }
 
-    // Custom Terminate Handler
+     /*!
+     * \brief Custom Terminate Handler
+     *
+     * This function is responsible for handling terminate however
+     * it is not in use currently as we are using the other custom terminate
+     * and still deciding on what to do with this
+     *
+     */
     void CustomTerminateHandler() {
         // Log the unhandled exception information
 

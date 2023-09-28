@@ -201,6 +201,9 @@
     <ClInclude Include="ImGuiPerformance.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="MultiThreading.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Font</Filter>
     </ClInclude>
@@ -214,6 +217,7 @@
       <Filter>AssetsManager</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiEntitiesManager.h">
+    <ClInclude Include="ImGuiGraph.h">
       <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -333,6 +337,9 @@
     <ClCompile Include="ImGuiPerformance.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="MultiThreading.cpp">
+      <Filter>Miscellaneous</Filter>
+    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Font</Filter>
     </ClCompile>
@@ -340,6 +347,7 @@
       <Filter>AssetsManager</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiEntitiesManager.cpp">
+    <ClCompile Include="ImGuiGraph.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>

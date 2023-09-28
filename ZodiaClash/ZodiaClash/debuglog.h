@@ -1,18 +1,39 @@
-/*
-\copyright
-		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-		reserved.Reproduction or disclosure of this file or its contents without the prior
-		written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		debug.h
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		30 August 2023
-@brief		This file contains the functions declaration for debugging
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		DebugLog.h
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3o August 2023
+*
+* *****************************************************************************
+*
+*	@brief		This file contains the functions declaration for debugging
+*
+*   1. Include this header file in the file you want to use the functions
+*
+*	2.	\code{.cpp}
+*			LOG_INFO("Program Started");
+*		\endcode
+*
+*	This will print out the following message to the custom console:
+*	"YYYY-MM-DD HH:MM:SS [I] Program started"
+******************************************************************************/
 #pragma once
 
 #include <iostream>
@@ -59,6 +80,8 @@ constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 #define LOG_ROTATE_FILE(maxFileSize) debuglog::logger.RotateLogFile(maxFileSize);
 
+#define LOG_CRASH(message) debuglog::crashLogger.CrashLog(debuglog::LOG_LEVEL::Fatal, message);
+ 
 #define LOG_SET_LEVEL(level) debuglog::logger.SetLevel(level);
 
 #define LOG_GET_LEVEL(level) debuglog::logger.GetLevel(level);
@@ -78,6 +101,8 @@ constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 #define LOG_ERROR(message) ((void)0);
 
 #define LOG_FATAL(message) ((void)0);
+
+#define LOG_CRASH(message) ((void)0);
 
 #define LOG_ROTATE_FILE(maxFileSize) ((void)0);
 
@@ -118,7 +143,7 @@ namespace debuglog {
 			std::string GetTimeStamp();
 			std::streampos GetLogFileSize();
 			void log(LOG_LEVEL level, const std::string& message);
-
+			void CrashLog(LOG_LEVEL level, const std::string& message);
 		private:
 
 			std::ofstream logFile;
@@ -128,5 +153,6 @@ namespace debuglog {
 
 	// Extern declarations
 	extern Logger logger;
+	extern Logger crashLogger;
 }
 

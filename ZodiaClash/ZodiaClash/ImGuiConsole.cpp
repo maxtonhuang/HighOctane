@@ -1,23 +1,46 @@
-/*
-\copyright
-        All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-        reserved.Reproduction or disclosure of this file or its contents without the prior
-        written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		ImGuiPerformance.h
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		23 September 2023
-@brief		This file contains the functions declaration for performance window in ImGui
-
-TODO Detect the 'console logged to' and delete
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiConsole.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Console window for ImGui
+*
+*	This file contains all the definition of the functions for the console window
+*   It also contains the definition of the stream buffer that will be used to 
+*   redirect std::cout to ImGui
+*
+******************************************************************************/
 #include "ImGuiConsole.h"
 #include "GUIManager.h"
+#include "MultiThreading.h"
 
+/*!
+* \brief Init the console window
+*
+* This function is responsible for initialising the console window
+* It will be called in ImGuiManager.cpp
+*
+*/
 void InitConsole() {
 
     // Setup Dear ImGui context
@@ -30,11 +53,18 @@ void InitConsole() {
 
 }
 
+/*!
+* \brief Update the console window
+*
+* This function is responsible for updating the console window
+* It will be called in ImGuiManager.cpp
+*
+*/
 void UpdateConsole() { 
     
     static char filterBuffer[256] = "";
     static char fileNameBuffer[31] = "";
-    static bool autoScroll = false;
+    static bool autoScroll = true;
     // Change the colour for my console window
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
 
@@ -138,7 +168,6 @@ void UpdateConsole() {
             }
         }
 
-        // For automatically scrolling if the auto-scroll checkbox is ticked
         if (autoScroll) {
             ImGui::SetScrollHereY(1.0f);
         }
@@ -154,8 +183,14 @@ void UpdateConsole() {
 }
 
 
-/*******************************************************************/
-// ALL THESE IS FOR DEBUGGING PLEASE DO NOT TOUCH AT ALL
+/*!
+* \brief Stream buffer for ImGui
+*
+* This function is responsible for creating a stream buffer for ImGui
+* It will be used to redirect std::cout to ImGui
+*
+* \param c The character to be appended to the buffer
+*/
 int ImGuiOutputBuffer::overflow(int c) {
     if (c != EOF) {
         // Append the character to a buffer
@@ -164,10 +199,22 @@ int ImGuiOutputBuffer::overflow(int c) {
     return c;
 }
 
+/*!
+* \brief Get the buffer for ImGui
+*
+* This function is responsible for getting the buffer for ImGui
+* 
+*/
 const std::string& ImGuiOutputBuffer::GetBuffer() const {
     return buffer;
 }
 
+/*!
+* \brief Clear the buffer for ImGui
+*
+* This function is responsible for clearing the buffer for ImGui
+* 
+*/
 void ImGuiOutputBuffer::ClearBuffer() {
     buffer.clear();
 }
@@ -179,11 +226,18 @@ ImGuiOutputBuffer imguiOutputBuffer;
 std::ostream imguiCout(&imguiOutputBuffer);
 std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
 
+/*!
+* \brief Export the console content to a file
+*
+* This function is responsible for exporting the console content to a file
+*
+* \param fileName The name of the file to export to
+*/
 void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName;
 
     // If the file name is empty, use the default file name
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : "Console.log";
+    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
 
     std::ofstream outputFile(fullFileName);
 
@@ -203,6 +257,13 @@ void ExportConsoleToFile(const char* fileName) {
     std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
 }
 
+/*!
+* \brief Delete the line from the file
+*
+* This function is responsible for deleting the line from the file
+*
+* \param fileName The name of the file to delete from
+*/
 void DeleteLineFromFile(const char* fileName) {
     std::string fullFileName = std::string(fileName) + ".log";
     std::ifstream inputFile(fullFileName);

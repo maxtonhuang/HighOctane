@@ -1,27 +1,48 @@
-/*
-\copyright
-        All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-        reserved.Reproduction or disclosure of this file or its contents without the prior
-        written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		ImGuiPerformance.cpp
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		23 September 2023
-@brief		This file contains the functions definitions for performance window in ImGui
-
-TODO : Put the frame rate in performance there
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiPerformance.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		23 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Performance window for ImGui
+*
+*	This file contains all the definition of the functions for the performance window
+*
+******************************************************************************/
 
 #include "ImGuiPerformance.h"
 #include "enginecore.h"
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
+
+/*!
+* \brief Init the performance window
+*
+* This function is responsible for initialising the performance window
+* It will be called in ImGuiManager.cpp
+*
+*/
 
 void InitPerformance() {
 
@@ -35,21 +56,33 @@ void InitPerformance() {
 
 }
 
+/*!
+* \brief Update the performance window
+*
+* This function is responsible for updating the performance window
+* It will be called in ImGuiManager.cpp
+*
+*/
 void UpdatePerformance() {
     ImVec2 windowSize(300.f, systemList.size() * 80.f);
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");
 
-    // Now, create your text with the larger font size
+    /************** FPS ***************/
     ImGui::Text("Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    /************** FPS ***************/
 
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
+    /************** PERFORMANCE USAGE ***************/
+    ImGui::Text("CPU usage: %.3f %%", GetCPUUsage());
+    ImGui::Text("Memory usage: %.3f MB", GetMemoryUsage());
+    /************** PERFORMANCE USAGE ***************/
 
     for (const auto& [system, name] : systemList) {
         float percentage = debugSysProfile.GetPercentage(system);
 
-        // Change this to system name in the future when max implemented it
+        // Name of the histogram
         std::string histogramName = name;
 
         // Create a group to hold the horizontal histogram and text side by side

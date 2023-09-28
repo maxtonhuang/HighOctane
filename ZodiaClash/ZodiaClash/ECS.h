@@ -297,10 +297,15 @@ public:
 
 };
 
-class MovementSystem : public System {
+class CollisionSystem : public System {
 public:
     void Update() override;
 
+};
+
+class MovementSystem : public System {
+public:
+    void Update() override;
 };
 
 class ModelSystem : public System {
@@ -315,6 +320,12 @@ public:
 };
 
 class FontSystem : public System {
+public:
     void Initialize();
+    void Update() override;
+};
+
+class SerializationSystem : public System {
+public:
     void Update() override;
 };

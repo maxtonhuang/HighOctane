@@ -129,4 +129,5 @@ namespace physics {
 		//void CollisionResponse(Body& bodyA, Body& bodyB); 
 	};
 
+	extern CollisionManager* COLLISION;
 }

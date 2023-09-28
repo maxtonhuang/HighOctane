@@ -208,6 +208,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="GUIManager.h" />
     <ClInclude Include="ImGuiConsole.h" />
     <ClInclude Include="ImGuiEntitiesManager.h" />
+    <ClInclude Include="ImGuiGraph.h" />
     <ClInclude Include="ImGuiLib.h" />
     <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="Input.h" />
@@ -215,6 +216,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="MMath.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Movement.h" />
+    <ClInclude Include="MultiThreading.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
@@ -256,11 +258,13 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="ImGuiConsole.cpp" />
     <ClCompile Include="ImGuiEntitiesManager.cpp" />
+    <ClCompile Include="ImGuiGraph.cpp" />
     <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Movement.cpp" />
+    <ClCompile Include="MultiThreading.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
