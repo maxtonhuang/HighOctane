@@ -20,19 +20,19 @@
         "Rows": 0,
         "Columns": 0,
         "Sprite Number": 0,
-        "Texture File Path": "cat.png"
+        "Texture File Path": "duck.png"
     },
     "Visible": {
         "isVisible": false
     },
     "Size": {
-        "width": 512.0,
-        "height": 512.0
+        "width": 128.0,
+        "height": 128.0
     },
     "Animation": {
         "Animation Type": 1,
-        "Frame Index": 0,
-        "Frame Time Elapsed": 0.03315500169992447,
+        "Frame Index": 4,
+        "Frame Time Elapsed": 0.0,
         "Frame Display Duration": 0.10000000149011612
     }
 }

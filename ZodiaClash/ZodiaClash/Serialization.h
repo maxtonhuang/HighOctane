@@ -1,3 +1,39 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Serialization.h
+*
+*	@author		Kai Alexander Van Adrichem Boogaert
+*
+*	@email		kaialexander.v\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		10 September 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file contains all the declarations for serializer class
+*	
+*	!--Future Updates--!
+*	
+*	-M1 Checkpoint-
+*	- Attempt at creating a CSV parser
+*	- Create a Json to CSV, Vice versa
+*	- Find better optimization techniques for serialization
+******************************************************************************/
 #pragma once
 #include <fstream>
 #include <istream>
@@ -22,7 +58,6 @@ public:
 	void ReadFloat(float& f);
 	void ReadString(std::string& str);
 	static void SerializeCSV(const std::string& file);
-	static void SerializeBuild(const std::string& file);
 	Serializer& operator>>( int i) {
 		stream >> i;
 		return *this;
@@ -44,6 +79,8 @@ public:
 
 };
 
+
+/***********************************Testing for CSV Parser*******************************************/
 class PseudoCharacter {
 public:
 	int id{};

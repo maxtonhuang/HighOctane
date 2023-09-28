@@ -58,6 +58,7 @@
 using Vec2 = vmath::Vector2;
 
 #if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+
 	DebugProfiling debugSysProfile;
 #endif // 
 
