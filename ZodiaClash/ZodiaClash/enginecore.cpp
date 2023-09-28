@@ -57,11 +57,10 @@
 
 using Vec2 = vmath::Vector2;
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 
 	DebugProfiling debugSysProfile;
 #endif // 
-
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 	
 //const uint32_t MAX_MODELS = 50'000;
