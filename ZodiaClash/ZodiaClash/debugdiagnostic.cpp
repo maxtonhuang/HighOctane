@@ -1,21 +1,33 @@
-/*
-\copyright
-		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-		reserved.Reproduction or disclosure of this file or its contents without the prior
-		written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		debugdiagnostic.cpp
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		30 August 2023
-@brief		This file contains the functions definition for debugging
-
-TO DO: SAVE EVERYTHING BEFORE CRASHING INTO CRASH.LOG
-
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		DebugDiagnostic.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3o August 2023
+*
+* *****************************************************************************
+*
+*	@brief		Calculations of the debug diagnostics
+*
+*	This file contains all the definition of the functions for the diagnostics
+*
+******************************************************************************/
 
 #include "DebugDiagnostic.h"
 #include "GUIManager.h"

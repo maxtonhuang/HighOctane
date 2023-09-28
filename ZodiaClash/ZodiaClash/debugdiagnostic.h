@@ -1,41 +1,47 @@
-/*
-\copyright
-		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-		reserved.Reproduction or disclosure of this file or its contents without the prior
-		written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		debugdiagnostic.h
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		30 August 2023
-@brief		This file contains the functions declaration for debugging
-
-HOW TO USE THE FUNCTIONS
-
-1. Include this header file in the file you want to use the functions
-
-2.	\code{.cpp}
-		DEBUG_PRINT("Debug message: %s %d", "Value:", 42);
-	\endcode
-
-	This will print out the following message to the standard error stream:
-	"Debug message: Value: 42"
-
-3.	\code{.cpp}
-		int x = -1;
-		ASSERT(x > 0, "x must be more than 0");
-	\endcode
-
-	This will print out and (log to error file?) the following message to the standard error stream:
-	Assertion failed in {code.cpp} {line }: x must be more than 0
-
-TODO :
-PUT THE PERFORMANCE() AT THE END OF THE GAME LOOP
-
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		DebugDiagnostic.h
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		30 August 2023
+*
+* *****************************************************************************
+*
+*	@brief		This file contains the functions declaration for debugging
+*
+*   1. Include this header file in the file you want to use the functions
+*
+*	2.	\code{.cpp}
+*			DEBUG_PRINT("Debug message: %s %d", "Value:", 42);
+*		\endcode
+*
+*	This will print out the following message to the standard error stream:
+*	"Debug message: Value: 42"
+*
+*	3.	\code{.cpp}
+*			int x = -1;
+*			ASSERT(x < 0, "x must be more than 0");
+*		\endcode
+*	
+*		This will print out and (log to error file?) the following message to the standard error stream:
+*		Assertion failed in {code.cpp} {line }: x must be more than 0
+******************************************************************************/
 #pragma once
 
 #include "debuglog.h"

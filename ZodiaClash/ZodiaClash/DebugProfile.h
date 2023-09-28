@@ -1,24 +1,33 @@
-/*
-\copyright
-		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-		reserved.Reproduction or disclosure of this file or its contents without the prior
-		written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		DebugProfile.h
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		18 September 2023
-@brief		This file contains the functions declaration for debugging
-
-
-TODO :
-DEFINE IN CPP FILE
-Add the macro to run only in debug mode
-
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		DebugProfile.h
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		18 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Debug profiling of different systems
+* 
+*   This file contains all the declaration of the functions for debug profiling
+*
+******************************************************************************/
 #pragma once
 #include "debuglog.h"
 #include "ECS.h"
@@ -32,7 +41,7 @@ Add the macro to run only in debug mode
 #define PRINT_INTERVAL 5'000'000
 
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 
 #include <vector>
 #include <string>

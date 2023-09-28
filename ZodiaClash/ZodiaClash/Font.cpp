@@ -21,16 +21,6 @@ void FontManager::Initialize() {
     FT_Error err;
     err = FT_Init_FreeType(&fontLibrary);
     ASSERT(err, "Failed to initialise FreeType!");
-
-    glGenVertexArrays(1, &font_vaoid);
-    glGenBuffers(1, &font_vboid);
-    glBindVertexArray(font_vaoid);
-    glBindBuffer(GL_ARRAY_BUFFER, font_vboid);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
 }
 
 void FontManager::Update() {
