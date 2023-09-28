@@ -36,8 +36,6 @@
 
 using namespace vmath;
 
-//class Shape; //forward declaration
-
 enum SHAPE_ID {
 	SHAPE_CIRCLE,
 	SHAPE_BOX,
@@ -46,6 +44,17 @@ enum SHAPE_ID {
 
 namespace physics {
 
+	/**************************************************************************/
+	/*!
+		@struct Body
+		@brief Represents a physical body in the simulation.
+
+		The `Body` struct holds all necessary information for representing
+		a physical entity in a 2D physics simulation. This includes properties
+		related to motion, as well as properties related to its shape and how 
+		it interacts with other bodies.
+	*/
+	/**************************************************************************/
 	struct Body {
 		Body* next{};
 		Body* prev{};
