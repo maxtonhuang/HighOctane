@@ -205,6 +205,7 @@ void EngineCore::Run() {
 	LoadModels(1, true);
 	graphicsSystem->Initialize();
 	//LoadModels(MAX_MODELS);
+	/*serializationSystem->Update();*/
 
 	
 	//Process fonts
@@ -229,7 +230,6 @@ void EngineCore::Run() {
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
 
-		serializationSystem->Update();
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
@@ -243,6 +243,11 @@ void EngineCore::Run() {
 					debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 				
+		}
+
+		if (button_clicked) {
+			button_clicked = false;
+			serializationSystem->Update();
 		}
 		/*int num[100];
 		for (int i = 1; i < 100; ++i) {
