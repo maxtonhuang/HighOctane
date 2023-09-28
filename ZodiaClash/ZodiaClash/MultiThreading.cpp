@@ -42,7 +42,7 @@
 #include <Windows.h>
 
 void ThreadPool::worker_function() {
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
+    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
     while (true) {
         std::function<void()> task;
         {
