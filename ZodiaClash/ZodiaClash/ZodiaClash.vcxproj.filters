@@ -217,6 +217,8 @@
       <Filter>AssetsManager</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiEntitiesManager.h">
+    <Filter>ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="ImGuiGraph.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -347,6 +349,8 @@
       <Filter>AssetsManager</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiEntitiesManager.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="ImGuiGraph.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
