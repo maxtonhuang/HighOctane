@@ -33,8 +33,6 @@
 *
 ******************************************************************************/
 
-
-
 #pragma once
 
 #include <vector>
@@ -45,7 +43,25 @@
 #include <condition_variable>
 
 class ThreadPool {
+
+public:
+
+    // Public accessor for the Singleton
+    static ThreadPool & threadPool() {
+        static ThreadPool tp;
+        return tp;
+    }
+
+    // Add a task to the thread pool
+    void Enqueue(std::function<void()> task);
+
+    // Wait for all tasks to finish in the current cycle
+    void WaitForAllTasks();
+
+    ~ThreadPool();
+
 private:
+
     std::vector<std::thread> workers;
     std::queue<std::function<void()>> tasks;
     std::mutex queue_mutex;
@@ -54,27 +70,11 @@ private:
     std::atomic<int> active_tasks{ 0 };
     bool stop = false;
 
-    void worker_function();
+    void WorkerFunction();
 
     ThreadPool();
-    
-
-public:
-
-    static ThreadPool & threadPool() {
-        static ThreadPool tp;
-        return tp;
-    }
-
-    // Add a task to the thread pool
-    void enqueue(std::function<void()> task);
-
-    // Wait for all tasks to finish in the current cycle
-    void WaitForAllTasks();
-
 
     // Shutdown the thread pool
-    void shutdown();
+    void Shutdown();
 
-    ~ThreadPool();
 };

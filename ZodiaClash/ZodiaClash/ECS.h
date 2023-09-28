@@ -82,7 +82,7 @@ const ComponentType MAX_COMPONENTS = 64;
 using Signature = std::bitset<MAX_COMPONENTS>;
 
 
-////////// ENTITY /////////////////////////////////////////////////////////
+////////// ENTITY /////////////////////////////////////////////////////////////
 
 class EntityManager {
 public:
@@ -112,7 +112,7 @@ private:
 };
 
 
-////////// COMPONENT //////////////////////////////////////////////////////
+////////// COMPONENT //////////////////////////////////////////////////////////
 
 class IComponentArray {
 public:
@@ -192,7 +192,7 @@ private:
 };
 
 
-////////// SYSTEM /////////////////////////////////////////////////////////
+////////// SYSTEM /////////////////////////////////////////////////////////////
 
 class System {
 public:
@@ -222,7 +222,7 @@ private:
 };
 
 
-////////// ECS COORDINATOR ////////////////////////////////////////////////
+////////// ECS COORDINATOR ////////////////////////////////////////////////////
 
 class ECS {
 public:
@@ -238,15 +238,17 @@ public:
         return entityComponentSystem;
     }
 
-    // Entity methods ------------------------------
+    // Entity methods ---------------------------------------------------------
     Entity CreateEntity();
 
     void DestroyEntity(Entity entity);
 
     template<typename T>
     bool HasComponent(Entity entity);
+    
+    uint32_t GetEntityCount();
 
-    // Component methods ---------------------------
+    // Component methods ------------------------------------------------------
     template<typename T>
     void RegisterComponent();
 
@@ -265,20 +267,17 @@ public:
     template<typename T>
     bool isComponentTypeRegistered();
 
-    uint32_t GetEntityCount() {
-        return m_EntityManager->GetEntityCount();
-    }
+    ComponentManager& GetComponentManager();
 
-    // System methods ------------------------------
+    // System methods ---------------------------------------------------------
     template<typename T>
     std::shared_ptr<T> RegisterSystem();
+
     template<typename T>
     std::shared_ptr<T> RegisterSystem(T& input);
 
     template<typename T>
     void SetSystemSignature(Signature signature);
-
-    ComponentManager& GetComponentManager();
 
 private:
 
@@ -291,16 +290,18 @@ private:
 
 #include "ECS.hpp" // for template functions of ECS
 
+
+
+////////// System Declarations ////////////////////////////////////////////////
+
 class PhysicsSystem : public System {
 public:
     void Update() override;
-
 };
 
 class CollisionSystem : public System {
 public:
     void Update() override;
-
 };
 
 class MovementSystem : public System {

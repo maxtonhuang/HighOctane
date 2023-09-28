@@ -55,7 +55,7 @@ private:
 
 	EngineCore();
 
-	const uint64_t m_initialTime = static_cast<uint64_t>(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count());
+	const uint64_t m_initialTime;
 		
 	uint64_t m_previousTime;
 

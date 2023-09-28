@@ -235,5 +235,4 @@ void SerializationSystem::Update() {
 	
 		Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
 	
-
 }

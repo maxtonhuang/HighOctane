@@ -35,10 +35,24 @@
 #include "Input.h"
 #include "DebugDiagnostic.h"
 
+/******************************************************************************
+*
+*	@brief Creates Mailboxes for each system
+*
+*	-
+*
+******************************************************************************/
 void Mail::RegisterMailbox(ADDRESS system) {
     mailbox[system].reserve(MAILBOX_RESERVE_CAP);
 }
 
+/******************************************************************************
+*
+*	@brief Sends out all queued mails to the respective systems
+*
+*	-
+*
+******************************************************************************/
 void Mail::SendMails() {
     // Send out all mail
     for (Postcard msg : mailQueue) {
@@ -66,6 +80,14 @@ void Mail::SendMails() {
     mailQueue.clear();
 }
 
+/******************************************************************************
+*
+*	@brief Creates a Postcard (message)
+*
+*	This function creates a 'Postcard' that contains information about an
+*   event and sends it to the mail outbox queue to be sent out later.
+*
+******************************************************************************/
 void Mail::CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX, float posY) {
     // Sending a message
     Postcard tmp_Msg{};

@@ -1,6 +1,38 @@
-// ZodiaClash.cpp : Defines the entry point for the application.
-//
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ZodiaClash.cpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Main Entry Point of Program
+*
+*	This file contains the main entry point of the program created using the
+*   standard Visual Studio Desktop Application Wizard. A lot of unnecessary
+*   functions that are not applicable for use in our game were removed from the
+*   standard template.
+*
+******************************************************************************/
 
+// ZodiaClash.cpp : Defines the entry point for the application.
 
 ////////// MAIN ///////////
 
@@ -25,15 +57,15 @@ using Vec2 = vmath::Vector2;
 
 
 // Global Variables:
-//HINSTANCE hInst;                                // current instance
-//WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-//WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+// HINSTANCE hInst;                                // current instance
+// WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
+// WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 // Forward declarations of functions included in this code module:
-//ATOM                MyRegisterClass(HINSTANCE hInstance);
-//BOOL                InitInstance(HINSTANCE, int);
-//LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-//INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+// ATOM                MyRegisterClass(HINSTANCE hInstance);
+// BOOL                InitInstance(HINSTANCE, int);
+// LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+// INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 bool gConsoleInitalized = false;
 
@@ -73,11 +105,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     audio.AddSound("../Assets/Sound/bonk.wav");
     LOG_INFO("Graphics started");
 
+
+
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
-
-    
+        
     EngineCore::engineCore().Run();
+
+    //////////////////////////////
+    ////////// End Game //////////
+    //////////////////////////////
+
+
+
     return 0;
 }

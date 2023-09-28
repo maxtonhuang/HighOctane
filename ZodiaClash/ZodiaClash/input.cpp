@@ -44,8 +44,8 @@ std::unordered_map<int, INFO> keyStatus;
 
 
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
-    mod = mod; //unused variable
-    scancode = scancode; //unused variable
+    (void)mod; //unused variable
+    (void)scancode; //unused variable
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
@@ -95,8 +95,8 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 
 
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
-    mod = mod; //unused variable
-    pwin = pwin; // unused variable;
+    (void)mod; //unused variable
+    (void)pwin; // unused variable;
     if (GLFW_PRESS == action) {
         /*if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
@@ -114,7 +114,7 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
 
 
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
-    pwin = pwin; //unused variable
+    (void)pwin; //unused variable
 
     static int previousPosX = 0;
     static int previousPosY = 0;
@@ -128,10 +128,6 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 
     previousPosX = currPosX;
     previousPosY = currPosY;
-    //cursorposX = ;
-    //cursorposY = -static_cast<float>(ypos) + GRAPHICS::h;
-
-    //test_model.SetPos(cursorposX, cursorposY);
 }
 
 void InputManager::KeyCheck() {

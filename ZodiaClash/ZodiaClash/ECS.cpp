@@ -153,10 +153,19 @@ Entity ECS::CreateEntity() {
     return m_EntityManager->CreateEntity();
 }
 
+// Returns the total number of Entities existing
+uint32_t ECS::GetEntityCount() {
+    return m_EntityManager->GetEntityCount();
+}
+
+// Return pointer to Component Manager
+// to access component functions and arrays
+// for faster access to large amounts of data
 ComponentManager& ECS::GetComponentManager() {
     return *m_ComponentManager;
 }
 
+// Destroys the Entity and updates the corresponding arrays
 void ECS::DestroyEntity(Entity entity) {
     m_EntityManager->DestroyEntity(entity);
 

@@ -121,14 +121,17 @@ enum class INFO {
 };
 
 struct Postcard {
-	TYPE	type;
-	ADDRESS from;	// who sent the message
-	INFO	info;
-	float	posX;		// used for mouse positions
-	float	posY;		// used for mouse positions
+
+	TYPE		type;
+	ADDRESS		from;	// who sent the message
+	INFO		info;
+	float		posX;	// used for mouse positions
+	float		posY;	// used for mouse positions
+
 };
 
 class Mail {
+
 public:
 
 	// Disallow copying to prevent creation of more than one instance

@@ -41,7 +41,16 @@
 #include "MultiThreading.h"
 #include <Windows.h>
 
-void ThreadPool::worker_function() {
+/******************************************************************************
+*
+*	@brief Workers to carry out tasks
+*
+*	The workers carry out any available tasks in the task queue, and moves on
+*   to the next task if any, or waits for new tasks if there are no queued
+*   tasks, once the current task is complete.
+*
+******************************************************************************/
+void ThreadPool::WorkerFunction() {
     // SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL); // turned of for now
     while (true) {
         std::function<void()> task;
@@ -66,16 +75,45 @@ void ThreadPool::worker_function() {
     }
 }
 
-
+/******************************************************************************
+*
+*	@brief Sets up Thread Pool
+*
+*	Sets up a pool of threads equal to half the number of logical cores in the
+*   CPU. Usually this is equal to the number of physical cores in modern
+*   systems. Threads will remain open until the Thread pool is terminated or
+*   until the program exits, whichever comes first.
+*
+******************************************************************************/
 ThreadPool::ThreadPool() {
     size_t numThreads = (std::thread::hardware_concurrency() / 2);
     for (size_t i = 0; i < numThreads; ++i) {
-        workers.emplace_back(&ThreadPool::worker_function, this);
+        workers.emplace_back(&ThreadPool::WorkerFunction, this);
     }
 }
 
-// Add a task to the thread pool
-void ThreadPool::enqueue(std::function<void()> task) {
+/******************************************************************************
+*
+*	@brief Places any new tasks in the task queue
+*
+*	Places any new tasks in the task queue. The queue's mutex is lock to
+*   prevent multiple workers from accessing the same task.
+* 
+*   Example Usage:
+*   \code
+*   double sum[3];
+*   double a[3] = { 1.5, 2.5, 3.5 };
+*   double b[3] = { 3.2, 3.3, 3.4 };
+*   for (int i = 0; i < 3; ++i) {
+*       ThreadPool::threadPool().enqueue([i, &sum, &a, &b]() {     // lambda function capture list within []
+*           sum[i] = a[i] + b[i];
+*       });
+*   }
+*   std::cout << "The average value is " << ((sum[0] + sum[1] + sum[2]) / 3.0) << std::endl;
+*   \endcode
+*
+******************************************************************************/
+void ThreadPool::Enqueue(std::function<void()> task) {
     {
         std::unique_lock<std::mutex> lock(queue_mutex);
         tasks.push(task);
@@ -84,6 +122,16 @@ void ThreadPool::enqueue(std::function<void()> task) {
     condition.notify_one(); // Notify a waiting worker thread
 }
 
+/******************************************************************************
+*
+*	@brief Forces main thread to wait for all tasks to complete
+*
+*	Calling this function forces the main thread to wait for all tasks to
+*   complete before moving on from that point in the code. This should only be
+*   called if the next lines fo code require the data that is currently being
+*   processed by the workers.
+*
+******************************************************************************/
 void ThreadPool::WaitForAllTasks() {
     std::unique_lock<std::mutex> lock(queue_mutex);
     main_condition.wait(lock, [this]() {
@@ -91,8 +139,16 @@ void ThreadPool::WaitForAllTasks() {
         });
 }
 
-// Shutdown the thread pool
-void ThreadPool::shutdown() {
+/******************************************************************************
+*
+*	@brief Joins and ends all threads in the Thread Pool
+*
+*	This function is called when the destructor of the Thread Pool is called.
+*   It joins all threads to the main thread, ending all threads in the Thread
+*   Pool.
+*
+******************************************************************************/
+void ThreadPool::Shutdown() {
     {
         std::unique_lock<std::mutex> lock(queue_mutex);
         stop = true;
@@ -106,24 +162,13 @@ void ThreadPool::shutdown() {
     }
 }
 
-ThreadPool::~ThreadPool() {
-    shutdown();
-}
-
-
-
 /******************************************************************************
-
- format for enqueueing thread, with capture variables within [].
- 
- for (int i = 0; i < 2; ++i) {
- ThreadPool::threadPool().enqueue([i, &cout_mutex]() { // capture cout_mutex by reference
-    {
-        std::lock_guard<std::mutex> lock(cout_mutex);
-        std::cout << "Task " << i << " executed by thread " << std::this_thread::get_id() << std::endl;
-    }
-    });
- }
- ThreadPool::threadPool().WaitForAllTasks();
-
+*
+*	@brief Destructor of the Thread Pool
+*
+*	-
+*
 ******************************************************************************/
+ThreadPool::~ThreadPool() {
+    Shutdown();
+}
