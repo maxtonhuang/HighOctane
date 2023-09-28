@@ -58,7 +58,7 @@ public:
 
 	void SetAnimation(Animation& aniData, int index);		 //Set animation to frame of input index
 	void AdvanceAnimation(Animation& aniData, Tex& texData); //Advance animation to next frame
-	void ChangeAnimation(Animation& aniData, Tex& texData);
+	void ChangeAnimation(Tex& texData);
 	void ResizeOnChange(Tex& texData, Size& sizeData);
 
 	void AnimateOnInterval(Animation& aniData, Tex& texData);

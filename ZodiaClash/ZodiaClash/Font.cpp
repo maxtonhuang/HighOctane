@@ -42,14 +42,13 @@ FontManager fonts;
 GLuint font_vaoid;
 GLuint font_vboid;
 
-//FontManager::FontManager() {
-//    FT_Error err;
-//    err = FT_Init_FreeType(&fonts.fontLibrary);
-//    ASSERT(err, "Failed to initialise FreeType!");
-//
-//    fonts.Initialize();
-//}
-
+/*!
+* \brief Destructor
+*
+* This function is automatically called on termination.
+* Frees both the FontFace and FreeType library stored during initialization.
+*
+*/
 FontManager::~FontManager() {
     //FT_Done_Face(fontCollection["Danto Lite Normal.ttf"].fontFace);
     //for (auto& fontPair : fontCollection) {
@@ -59,6 +58,14 @@ FontManager::~FontManager() {
 	FT_Done_FreeType(fonts.fontLibrary);
 }
 
+/*!
+* \brief Initializer
+*
+* This function is called during Graphics initialization.
+* Initializes a new FreeType library object, and passes a string of a font file's
+* filepath into LoadFont function. Font file must be present in Assets/Fonts/.
+*
+*/
 void FontManager::Initialize() {
     FT_Error err;
     err = FT_Init_FreeType(&fonts.fontLibrary);
@@ -66,6 +73,12 @@ void FontManager::Initialize() {
     fonts.LoadFont("Danto Lite Normal.ttf");
 }
 
+/*!
+* \brief Loads a font file
+*
+* Given the font file's filepath, the font file is used to open, read and extract glyphs.
+*
+*/
 void FontManager::LoadFont(const std::string& fontPath) {
 	//Load font face
 	FT_Error err;
@@ -88,6 +101,13 @@ void FontManager::LoadFont(const std::string& fontPath) {
     }	
 }
 
+/*!
+* \brief Loads character glyphs in the font file
+*
+* Each character glyph is loaded to generate a texture, which is then
+* stored in an unordered map for efficient querying access.
+*
+*/
 void FontManager::LoadChar(Font& font) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
     //for all printable characters [32, 127], 169 (copyright) and 174 (registered copyright)
@@ -114,18 +134,25 @@ void FontManager::LoadChar(Font& font) {
             GL_RED,
             GL_UNSIGNED_BYTE,
             font.fontFace->glyph->bitmap.buffer);
-           
+        
+        // store texture in Character map
         Character character = {
             texture,
             glm::ivec2(font.fontFace->glyph->bitmap.width, font.fontFace->glyph->bitmap.rows),
             glm::ivec2(font.fontFace->glyph->bitmap_left, font.fontFace->glyph->bitmap_top),
             static_cast<GLuint>(font.fontFace->glyph->advance.x)
         };
-        font.Characters.insert(std::pair<char, Character>(c, character));
+        font.characters.insert(std::pair<char, Character>(c, character));
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
 
+/*!
+* \brief Font getter
+*
+* Retrieves Font struct object to access character map stored.
+*
+*/
 Font FontManager::GetFont() {
     //auto it = fontCollection.find(fontPath);
 

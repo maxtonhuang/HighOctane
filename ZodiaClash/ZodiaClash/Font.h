@@ -41,22 +41,22 @@
 #include <string>
 #include<map>
 
-
+// character object - stores data of extracted glyph
 struct Character {
-	GLuint		TextureID;  // ID handle of the glyph texture
-	glm::ivec2  Size;       // Size of glyph
-	glm::ivec2	Bearing;    // Offset from baseline to left/top of glyph
-	GLuint		Advance;    // Offset to advance to next glyph
+	GLuint		textureID;  // ID handle of the glyph texture
+	glm::ivec2  size;       // Size of glyph
+	glm::ivec2	bearing;    // Offset from baseline to left/top of glyph
+	GLuint		advance;    // Offset to advance to next glyph
 };
 
+// font object - stores loaded FontFace and the FontFace's extracted glyphs
 struct Font {
 	FT_Face fontFace;
-	std::unordered_map<char, Character> Characters;
+	std::unordered_map<char, Character> characters;
 };
 
 class FontManager {
 public:
-	// to create def init list!
 	FontManager() : fontLibrary{}, ft_font{} {};
 	~FontManager();
 	void Initialize();

@@ -1,16 +1,50 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Collision.cpp
+*
+*	@author		Chua Zhen Rong
+*
+*	@email		c.zhenrong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		05 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Collision detection between 2 entities.
+*
+*   This file contains all the definition of the functions for collision detection
+*
+******************************************************************************/
+
 #include "Collision.h"
 #include "Physics.h"
 #include "Global.h"
 
 namespace physics {
 
-	// SECTION: COLLISION DETECTION
+	/*!
+	 * \brief AABB-AABB collision detection
+	 *
+	 * This function checks for collision between 2 AABB entities. First does STATIC collision detection, then does DYNAMIC collision detection.
+	 *
+	 * \param alpha : The first AABB entity to check collision for.
+	 * \param beta : The second AABB entity to check collision for.
+	 *
+	 */
     bool CheckCollisionBoxBox(const Body& alpha, const Body& beta) {
-		/*AABB* aabb1 = static_cast<AABB*>(alpha.bodyShape);
-		AABB* aabb2 = static_cast<AABB*>(beta.bodyShape);*/
-
-		/*aabb1->extents = alpha.halfDimensions;
-		aabb2->extents = beta.halfDimensions;*/
 
 		//extract min-max
 		Vec2 min1 = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
@@ -137,9 +171,16 @@ namespace physics {
 		}
     }
 
+	/*!
+	 * \brief Circle-Circle collision detection
+	 *
+	 * This function checks for STATIC collision between 2 Circle entities.
+	 *
+	 * \param alpha : The first AABB entity to check collision for.
+	 * \param beta : The second AABB entity to check collision for.
+	 *
+	 */
     bool CheckCollisionCircleCircle(const Body& alpha, const Body& beta) {
-		/*const Circle& circle1 = static_cast<const Circle&>(alpha.bodyShape);
-		const Circle& circle2 = static_cast<const Circle&>(beta.bodyShape);*/
 
 		vmath::Vector2 centerA = alpha.position;
 		vmath::Vector2 centerB = beta.position;
@@ -152,13 +193,18 @@ namespace physics {
 		return (centerDistance <= radiusSum);
     }
 
+	/*!
+	 * \brief Circle-AABB collision detection
+	 *
+	 * This function checks for STATIC collision between 1 Circle entity and 1 AABB entity.
+	 *
+	 * \param alpha : The first AABB entity to check collision for.
+	 * \param beta : The second AABB entity to check collision for.
+	 *
+	 */
     bool CheckCollisionCircleBox(const Body& alpha, const Body& beta) {
-		/*const Circle& circle = static_cast<const Circle&>(alpha.bodyShape);
-		AABB* aabb = static_cast<AABB*>(beta.bodyShape);*/
 
 		vmath::Vector2 circleCenter = alpha.position;
-		/*circle.radius = alpha.radius;
-		aabb->extents = beta.halfDimensions;*/
 
 		//extract min-max
 		Vec2 min = { beta.position.x - beta.halfDimensions.x, beta.position.y - beta.halfDimensions.y };
@@ -175,23 +221,36 @@ namespace physics {
 		return (distance < alpha.radius);
     }
 
+	/*!
+	 * \brief AABB-Circle collision detection
+	 *
+	 * This function checks for STATIC collision between 1 AABB entity and 1 Circle entity.
+	 * Functionality works the same as Circle-AABB collision detection, refer to CheckCollisionCircleBox().
+	 *
+	 * \param alpha : The first AABB entity to check collision for.
+	 * \param beta : The second AABB entity to check collision for.
+	 *
+	 */
     bool CheckCollisionBoxCircle(const Body& alpha, const Body& beta) {
 		return CheckCollisionCircleBox(beta, alpha);
     }
 
+	/*!
+	 * \brief AABB-Border collision detection
+	 *
+	 * This function checks for STATIC collision between 1 AABB entity and screen border.
+	 *
+	 * \param alpha : The AABB entity to check collision for.
+	 *
+	 */
 	bool CheckCollisionBoxBorder(const Body& alpha) {
-		//const AABB& aabb = static_cast<const AABB&>(alpha.bodyShape);
-		//aabb.extents = alpha.halfDimensions;
 
 		//extract min-max
 		Vec2 min = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
 		Vec2 max = { alpha.position.x + alpha.halfDimensions.x, alpha.position.y + alpha.halfDimensions.y };
 
-		float windowWidth = GRAPHICS::defaultWidthF;
-		float windowHeight = GRAPHICS::defaultHeightF;
-
 		//assuming camera is not involved!!
-		if ((max.x < windowWidth) || (max.y < windowHeight)
+		if ((max.x < GRAPHICS::defaultWidthF) || (max.y < GRAPHICS::defaultHeightF)
 			|| (min.x > 0.f) || (min.y > 0.f))
 		{
 			return 0;
@@ -204,8 +263,8 @@ namespace physics {
 		vmath::Vector2 cameraOffset{};
 		float viewportWidth{};
 		float viewportHeight{};
-		if (((aabb.max.x + cameraOffset.x) < viewportWidth) || ((aabb.max.y + cameraOffset.y) < viewportHeight)
-			|| ((aabb.min.x + cameraOffset.x) > 0.f) || ((aabb.min.y + cameraOffset.y) > 0.f))
+		if (((max.x + cameraOffset.x) < viewportWidth) || ((max.y + cameraOffset.y) < viewportHeight)
+			|| ((min.x + cameraOffset.x) > 0.f) || ((min.y + cameraOffset.y) > 0.f))
 		{
 			return 0;
 		}
@@ -215,6 +274,14 @@ namespace physics {
 
 	}
 
+	/*!
+	 * \brief Circle-Border collision detection
+	 *
+	 * This function checks for STATIC collision between 1 Circle entity and screen border.
+	 *
+	 * \param alpha : The Circle entity to check collision for.
+	 *
+	 */
 	bool CheckCollisionCircleBorder(const Body& alpha) {
 		vmath::Vector2 circleCenter = alpha.position;
 
@@ -253,10 +320,16 @@ namespace physics {
 		**/
 	}
 
-    CollisionManager::CollisionManager() {
-        
-    }
-
+	/*!
+	 * \brief Parent Body-Body collision detection
+	 *
+	 * This function is the main connecting function call from Physics.
+	 * By determining the SHAPE_ID of each Body, both identifed Body entities are passed into
+	 * their respective functions for collision checks.
+	 *
+	 * \param alpha : The Circle entity to check collision for.
+	 *
+	 */
 	bool CollisionManager::CheckBodyCollision(const Body& alpha, const Body& beta) {
 		
 		SHAPE_ID alphaShape = alpha.bodyShape;
@@ -285,6 +358,16 @@ namespace physics {
 		//if beta isVulnerable is true, call OnCollideDestroy()
 	}
 
+	/*!
+	 * \brief Parent Body-Border collision detection
+	 *
+	 * This function is the main connecting function call from Physics.
+	 * By determining the SHAPE_ID of Body, the identifed Body entity is passed into
+	 * their respective functions for collision checks.
+	 *
+	 * \param alpha : The Circle entity to check collision for.
+	 *
+	 */
 	bool CollisionManager::CheckBorderCollision(const Body& alpha) {
 		SHAPE_ID alphaShape = alpha.bodyShape;
 		if (alphaShape == SHAPE_BOX) {
