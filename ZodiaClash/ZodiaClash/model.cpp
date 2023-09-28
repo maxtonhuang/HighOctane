@@ -73,9 +73,6 @@ void Model::Draw(Tex const& entity, Animation const& ani) {
 	else {
 		renderer = &flatRenderer;
 	}
-	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
-		renderer->Draw();
-	}
 	if (entity.tex != nullptr) {
 		renderer->AddVertex(Vertex{ botleft,color, entity.tex->GetTexCoords(ani.frameIndex,0), (float)entity.tex->GetID() - 1.f });
 		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
@@ -103,6 +100,14 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+}
+
+bool Model::CheckTransformUpdated(Transform& transform) {
+	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale) {
+		return false;
+	}
+	previous = transform;
+	return true;
 }
 
 /* ----------------------------------------------------------------------------

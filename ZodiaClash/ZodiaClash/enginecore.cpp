@@ -120,6 +120,7 @@ void EngineCore::Run() {
 		//signature.set(ECS::ecs().GetComponentType<AABB>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
 	}

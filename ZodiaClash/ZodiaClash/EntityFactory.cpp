@@ -86,7 +86,7 @@ std::vector<Entity> massRenderEntitiesList;
 		}
 	}
 
-	void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
+	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
 		Entity entity = ECS::ecs().CreateEntity();
 		Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
 		ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
@@ -122,6 +122,7 @@ std::vector<Entity> massRenderEntitiesList;
 			//// for mass rendering - add this entity to vector
 			massRenderEntitiesList.push_back(entity);
 		}
+		return entity;
 	}
 	void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
 		Entity entity = ECS::ecs().CreateEntity();
@@ -149,12 +150,43 @@ std::vector<Entity> massRenderEntitiesList;
 
 void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
 	// generate random positions to spawn models
-	std::default_random_engine rng;
-	std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
-	std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
-		
+	//std::default_random_engine rng;
+	//std::uniform_real_distribution<float> rand_width(-GRAPHICS::w, GRAPHICS::w);
+	//std::uniform_real_distribution<float> rand_height(-GRAPHICS::h, GRAPHICS::h);
+	float column = sqrt(amount / GRAPHICS::ar);
+	float row = column * GRAPHICS::ar;
+	float count_column = 0;
+	float count_row = 0;
+	float gridwidth = GRAPHICS::defaultWidthF / row;
+	float gridheight = GRAPHICS::defaultHeightF / column;
+
 	for (uint32_t i = 0; i < amount; ++i) {
-		CloneMasterModel(rand_width(rng), rand_height(rng), isMainCharacter, spritesheets);
+		float x{};
+		float y{};
+		if (spritesheets.size() > 0) {
+			x = (count_row / row - 0.5f) * GRAPHICS::defaultWidthF * 0.9f;
+			y = (count_column / column - 0.5f) * GRAPHICS::defaultHeightF * 0.9f;
+		}
+		else {
+			x = 0.f;
+			y = 0.f;
+		}
+		Entity entity = CloneMasterModel(x, y, isMainCharacter, spritesheets);
+		if (spritesheets.size() > 0) {
+			ECS::ecs().RemoveComponent<Collider>(entity);
+			if (gridwidth < ECS::ecs().GetComponent<Size>(entity).width) {
+				ECS::ecs().GetComponent<Size>(entity).width = gridwidth;
+			}
+			if (gridheight < ECS::ecs().GetComponent<Size>(entity).height) {
+				ECS::ecs().GetComponent<Size>(entity).height = gridheight;
+			}
+		}
+		++count_column;
+		if (count_column > column) {
+			count_column = 0;
+			++count_row;
+		}
+		//CloneMasterModel(rand_width(rng), rand_height(rng), isMainCharacter, spritesheets);
 	}
 }
 

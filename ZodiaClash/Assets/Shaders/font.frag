@@ -9,5 +9,5 @@ layout (location=0) out vec4 fFragColor;
 uniform sampler2D uTex2d;
 
 void main () {
-fFragColor = vec4(1.0,1.0,1.0,texture2D(uTex2d,vTex).r + 0.1);
+fFragColor = vec4(1.0,1.0,1.0,texture2D(uTex2d,vTex).r);
 }

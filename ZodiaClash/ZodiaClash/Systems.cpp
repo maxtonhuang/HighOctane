@@ -255,8 +255,16 @@ void GraphicsSystem::Update() {
 		//ThreadPool::threadPool().enqueue([/*&m, &task_mutex,*/ &entity, &modelArray, &transformArray, &sizeArray, &texArray, &animationArray]() { // capture cout_mutex by reference
 					//std::lock_guard<std::mutex> lock(task_mutex);
 					Model* m = &modelArray.GetData(entity);
-					m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
-					m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
+					Transform* transform = &transformArray.GetData(entity);
+					Tex* tex = &texArray.GetData(entity);
+					Animation* anim = &animationArray.GetData(entity);
+					if (m->CheckTransformUpdated(*transform)) {
+						Size* size = &sizeArray.GetData(entity);
+						m->Update(*transform, *size);
+					}
+					m->Draw(*tex, *anim);
+					//m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
+					//m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
 
 					//std::cout << "Task " << i << " executed by thread " << std::this_thread::get_id() << std::endl;
 
