@@ -89,8 +89,7 @@ void StreamRead(Serializer& stream, std::string& str)
 
 void Serializer::SerializeCSV(const std::string& file) {
 	Serializer stream;
-	bool isFileOpen = stream.Open(file);
-	ASSERT(!isFileOpen, "Unable to open file");
+	ASSERT(!(stream.Open(file)), "Unable to open file");
 	std::string line, header;
 	PseudoCharacter characterStats;
 	std::getline(stream.stream, header);  // Read the header line and discard it
