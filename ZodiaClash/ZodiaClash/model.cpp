@@ -168,10 +168,9 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 * - KEY_X --> animationType toggling
 *	>> Note: ONLY for main character entities!
 * - KEY_C --> AnimationChange()
-*	>> Note: isMsgAnimationChange == 1
 *	>> Note: ONLY for main character entities!
 * - KEY_V --> AnimateOnKeyPress()
-*	>> Note: (animationType == ANIMATION_EVENT_BASED) && (isMsgAnimateNext == 1)
+*	>> Note: (animationType == ANIMATION_EVENT_BASED)
 *	>> Note: for ALL entities!
 ********************************************************************************/
 

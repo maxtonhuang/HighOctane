@@ -58,14 +58,14 @@ public:
 
 	void SetAnimation(Animation& aniData, int index);		 //Set animation to frame of input index
 	void AdvanceAnimation(Animation& aniData, Tex& texData); //Advance animation to next frame
-	void ChangeAnimation(Tex& texData);
-	void ResizeOnChange(Tex& texData, Size& sizeData);
+	void ChangeAnimation(Tex& texData);	//Changes animation if >1 texVariant stored
+	void ResizeOnChange(Tex& texData, Size& sizeData); //Resizes if ChangeAnimation() is called
 
-	void AnimateOnInterval(Animation& aniData, Tex& texData);
-	void AnimateOnKeyPress(Animation& aniData, Tex& texData);
+	void AnimateOnInterval(Animation& aniData, Tex& texData); //time-based animation
+	void AnimateOnKeyPress(Animation& aniData, Tex& texData); //event-based animation
 
-	void UpdateAnimation(Animation& aniData, Tex& texData);
-	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData);
+	void UpdateAnimation(Animation& aniData, Tex& texData); // for all entities
+	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData); // for MC entities
 
 	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 
