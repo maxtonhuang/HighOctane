@@ -105,12 +105,13 @@ void PhysicsSystem::Update() {
 			Transform* transData = &transformArray.GetData(entity);
 			physics::Body* bodyData = &bodyArray.GetData(entity);
 			physics::PHYSICS->DebugDraw(*bodyData, *transData);
+			transData->velocity *= .95f;
 		}
 		if (reqStep)
 			for (Entity const& entity : m_Entities) {
 				Transform* transData = &transformArray.GetData(entity);
 				physics::Body* bodyData = &bodyArray.GetData(entity);
-				physics::PHYSICS->Integrate(*bodyData, 1.f / 60.f, *transData);
+				physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
 			}
 	}
 	else {
@@ -130,42 +131,7 @@ void CollisionSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::COLLISION]) {
-		switch (msg.type) {
-		case TYPE::KEY_TRIGGERED:
-			if (msg.info == INFO::KEY_G) {
-				//Entity entity = ECS::ecs().CreateEntity();
-				//ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
-				////ECS::ecs().AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
-				//ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
-				//ECS::ecs().AddComponent(entity, Visible{ true });
-				////ECS::ecs().AddComponent(entity, Tex{ texList.Add("cat.png") });
-
-				////add tex component, init tex with duck sprite (init tex with nullptr produces white square instead)
-				//ECS::ecs().AddComponent(entity, Tex{ texList.Add("duck.png") });
-				//Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
-				//t->texVariants.push_back(texList.Add("duck.png"));
-				//t->texVariants.push_back(texList.Add("duck2.png"));
-				////setting tex to texVariants[1] (duck2) still shows duck tex but with duck2 dims?
-				//t->tex = t->texVariants.at(0);
-				//ECS::ecs().AddComponent(entity, Animation{});
-				//Animation* a = &ECS::ecs().GetComponent<Animation>(entity);
-				//a->animationType = Animation::ANIMATION_TIME_BASED;
-				////a->animationType = Animation::ANIMATION_EVENT_BASED;
-				//a->frameDisplayDuration = 0.1f;
-				//ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-				//ECS::ecs().AddComponent(entity, Model{});
-				//ECS::ecs().AddComponent(entity, Clone{});
-				////ECS::ecs().AddComponent(entity, MainCharacter{});
-
-				////add collision component
-				//ECS::ecs().AddComponent<Transform>(entity, Transform{});
-				//ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
-				//ECS::ecs().AddComponent<Collider>(entity, Collider{});
-			}
-			break;
-		}
-	}
+	
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();

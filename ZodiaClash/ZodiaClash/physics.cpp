@@ -151,7 +151,7 @@ namespace physics {
             transform.velocity.normalize();  // Make the velocity a unit vector
             transform.velocity *= maxVelocity;  // Scale it to the maximum allowed velocity
         }
-        transform.velocity *= .99f;
+        transform.velocity *= .95f;
 
         // Reset the accumulated force to zero for the next frame
         body.accumulatedForce = Vector2(0, 0);
