@@ -217,9 +217,16 @@ void GraphicsSystem::Update() {
 	//std::atomic<Model*> m;
 	//std::mutex task_mutex;
 	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
-		m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
+
+					Model* m = &modelArray.GetData(entity);
+					Transform* transform = &transformArray.GetData(entity);
+					Tex* tex = &texArray.GetData(entity);
+					Animation* anim = &animationArray.GetData(entity);
+					if (m->CheckTransformUpdated(*transform)) {
+						Size* size = &sizeArray.GetData(entity);
+						m->Update(*transform, *size);
+					}
+					m->Draw(*tex, *anim);
 	}
 	graphics.Draw();
 }

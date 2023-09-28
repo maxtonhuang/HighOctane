@@ -71,7 +71,7 @@ void Texture::Init(char const* filename) {
 	data = stbi_load(filepath.c_str(), &width, &height, &filechannels, channelnum);
 	if (data == nullptr) {
 		active = false;
-		DEBUG_PRINT("Unable to find texture %s\n", filename);
+		ASSERT("Unable to find texture %s\n", filename);
 		return;
 	}
 	else {

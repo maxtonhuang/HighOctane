@@ -33,6 +33,8 @@
 *
 *	This will print out the following message to the custom console:
 *	"YYYY-MM-DD HH:MM:SS [I] Program started"
+* 
+* ENABLE_DEBUG_CONSOLE is on the works and will replace the macros
 ******************************************************************************/
 #pragma once
 
@@ -64,7 +66,7 @@
 constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 // If debug diagnostics is enabled, then we will use the debug printing function
-#if ENABLE_DEBUG_DIAG
+//#if ENABLE_DEBUG_PROFILE
 
 #define LOG_TRACE(message) debuglog::logger.trace(message);
 
@@ -89,27 +91,27 @@ constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 
 // Else, we will just ignore the debug printing function
-#else
-#define LOG_TRACE(message) ((void)0);
-
-#define LOG_DEBUG(message) ((void)0);
-
-#define LOG_INFO(message) ((void)0);
-
-#define LOG_WARNING(message) ((void)0);
-
-#define LOG_ERROR(message) ((void)0);
-
-#define LOG_FATAL(message) ((void)0);
-
-#define LOG_CRASH(message) ((void)0);
-
-#define LOG_ROTATE_FILE(maxFileSize) ((void)0);
-
-#define LOG_SET_LEVEL(level) ((void)0);
-
-#define LOG_GET_LEVEL(level) ((void)0);
-#endif
+//#else
+//#define LOG_TRACE(message) ((void)0);
+//
+//#define LOG_DEBUG(message) ((void)0);
+//
+//#define LOG_INFO(message) ((void)0);
+//
+//#define LOG_WARNING(message) ((void)0);
+//
+//#define LOG_ERROR(message) ((void)0);
+//
+//#define LOG_FATAL(message) ((void)0);
+//
+//#define LOG_CRASH(message) ((void)0);
+//
+//#define LOG_ROTATE_FILE(maxFileSize) ((void)0);
+//
+//#define LOG_SET_LEVEL(level) ((void)0);
+//
+//#define LOG_GET_LEVEL(level) ((void)0);
+//#endif
 
 namespace debuglog {
 

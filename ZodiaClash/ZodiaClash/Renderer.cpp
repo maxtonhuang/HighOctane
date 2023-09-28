@@ -51,7 +51,7 @@ void Renderer::Initialize(char const* vertexshader, char const* fragmentshader, 
     };
 
     compile_status = shaderprogram.Compile(shadervector);
-    ASSERT(!compile_status, "Unable to compile shader program!\n");
+    ASSERT(!compile_status, "Unable to compile shader program!");
 
     CreateVAO();
     drawtype = type;
@@ -83,6 +83,11 @@ Shader& Renderer::ShaderProgram() {
 
 void Renderer::AddVertex(Vertex input) {
     if (drawcount + objvertsize >= GRAPHICS::vertexBufferSize) {
+        static bool errorprinted = false;
+        if (errorprinted == false) {
+            DEBUG_PRINT("Max vertex size reached! Consider increasing vertex buffer size to prevent possible graphical errors!");
+            errorprinted = true;
+        }
         Draw();
     }
     data[drawcount] = input;

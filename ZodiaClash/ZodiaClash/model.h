@@ -60,6 +60,8 @@ public:
 	void UpdateAnimation(Animation& aniData, Tex& texData);
 	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData);
 
+	bool CheckTransformUpdated(Transform& transform); //Check if transform was updated since last frame, returns true if transform was updated
+
 private:
 	glm::mat3 matrix{};
 	glm::vec4 color{};
@@ -69,4 +71,6 @@ private:
 	glm::vec2 topright{};
 	glm::vec2 botleft{};
 	glm::vec2 botright{};
+
+	Transform previous{}; //used for check if previous is same as current
 };

@@ -57,11 +57,10 @@
 
 using Vec2 = vmath::Vector2;
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 
 	DebugProfiling debugSysProfile;
 #endif // 
-
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 	
 //const uint32_t MAX_MODELS = 50'000;
@@ -120,6 +119,7 @@ void EngineCore::Run() {
 		//signature.set(ECS::ecs().GetComponentType<AABB>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
 	}
@@ -257,14 +257,14 @@ void EngineCore::Run() {
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StartTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 					//if (1 || (sys.second != "Physics System")) { // for 2500 models
 						sys.first->Update();
 					//}
 
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 				
