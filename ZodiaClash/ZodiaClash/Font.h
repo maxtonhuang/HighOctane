@@ -19,6 +19,7 @@ struct Font {
 
 class FontManager {
 public:
+	// to create def init list!
 	FontManager();
 	~FontManager();
 	void Initialize();
@@ -27,11 +28,12 @@ public:
 	void LoadFont(const std::string& fontPath);
 	void LoadChar(Font& font);
 
-	Font GetFont(std::string fontPath);
+	Font GetFont();
 private:
 	FT_Library fontLibrary;
-	FT_Face fontFace;
-	std::unordered_map<std::string, Font> fontCollection;
+	Font ft_font;
+
+	//std::unordered_map<std::string, Font> fontCollection;
 };
 
 extern FontManager fonts;
