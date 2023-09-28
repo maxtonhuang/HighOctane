@@ -35,6 +35,14 @@ std::string FilePath::GetFilePathWithNewExtension(const std::string& newExtensio
 	return FullDirectory + FileName + newExtension;
 }
 
+std::string FilePath::GetFileExtension(const std::string& filePath) {
+	size_t dotPos = filePath.find_last_of(".");
+	if (dotPos != std::string::npos) {
+		return filePath.substr(dotPos);
+	}
+	return ""; // If no dot (.) is found, return an empty string to indicate no extension.
+}
+
 std::string FilePath::FilePathDir(std::string fileName, FileType fileType) {
 	std::string retFile{"../Assets/"};
 	

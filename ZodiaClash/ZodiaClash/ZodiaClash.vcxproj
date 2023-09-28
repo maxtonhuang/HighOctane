@@ -182,6 +182,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
     <ClInclude Include="..\Extern\implot-master\implot.h" />
     <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
     <ClInclude Include="Body.h" />
@@ -206,6 +207,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClInclude Include="GraphLib.h" />
     <ClInclude Include="GUIManager.h" />
     <ClInclude Include="ImGuiConsole.h" />
+    <ClInclude Include="ImGuiEntitiesManager.h" />
     <ClInclude Include="ImGuiLib.h" />
     <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="Input.h" />
@@ -234,6 +236,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="..\Extern\implot-master\implot.cpp" />
     <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
     <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Body.cpp" />
@@ -252,6 +255,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="ImGuiConsole.cpp" />
+    <ClCompile Include="ImGuiEntitiesManager.cpp" />
     <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Message.cpp" />

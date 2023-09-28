@@ -19,8 +19,8 @@ public:
 	};
 	void SetFilePath(std::string file);
 	std::string GetFilePathWithNewExtension(const std::string& newExtension);
-
-	static std::string FilePathDir(std::string fileName, FileType fileType);
+	static std::string GetFileExtension(const std::string& filePath);
+	std::string FilePathDir(std::string fileName, FileType fileType);
 
 	std::string Extension;
 	std::string FileName;
