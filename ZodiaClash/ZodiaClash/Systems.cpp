@@ -43,6 +43,7 @@
 #include "Global.h"
 #include "GUIManager.h"
 #include "CollisionResolution.h"
+#include "Serialization.h"
 
 	
 void PhysicsSystem::Update() {
@@ -232,8 +233,8 @@ void GraphicsSystem::Update() {
 }
 
 void SerializationSystem::Update() {
-	for (Entity const& entity : m_Entities) {
-		//Serialize(entity);
-	}
+	
+		Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
+	
 
 }

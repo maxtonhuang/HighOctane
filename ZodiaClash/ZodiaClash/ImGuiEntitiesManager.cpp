@@ -8,9 +8,14 @@
 //#include "ECS.h"
 //#include "Components.h"
 #include "EntityFactory.h"
+#include "enginecore.h"
 #include "physics.h"
 #include "Serialization.h"
 //#include "EntityFactory.h"
+#include "ECS.h"
+#include "Global.h"
+
+//extern std::shared_ptr<SerializationSystem> serializationSystem;
 
 void InitEntitiesManager() {
     // Setup Dear ImGui context
@@ -30,7 +35,7 @@ void UpdateEntitiesManager() {
 
         //Entity testEntity;
         Entity testEntity;
-        if (ImGui::Button("Create Entity")) {
+        if (ImGui::Button("Create Entity by Button Test")) {
             testEntity = ECS::ecs().CreateEntity();
             masterEntitiesList["CatTest"] = testEntity;
             ECS::ecs().AddComponent(testEntity, Color{ glm::vec4{ 1,1,1,1 } });
@@ -62,18 +67,21 @@ void UpdateEntitiesManager() {
                 CloneMasterModel2(0.f, 0.f, true);
             }
         }
-        if (ImGui::Button("Save my Cat")) {
+        /*if (ImGui::Button("Save Master Entity")) {
             if (!entityAddedFlag) {
                 ASSERT(!entityAddedFlag, "Entity has not been added.");
             }
             else {
-                Serializer::SaveEntityToJson("../Assets/CatTestEntity.json", masterEntitiesList["CatTest"]);
+               Serializer::SaveEntityToJson("../Assets/CatTestEntity.json", masterEntitiesList["CatTest"]);
             }
-        }
-        if (ImGui::Button("Load my Cat")) {
-            Serializer::LoadEntityFromJson("../Assets/CatTestEntity.json");
+        }*/
+        if (ImGui::Button("Load Test")) {
+            Serializer::LoadEntityFromJson("../Assets/Scenes/SceneEntities.json");
             entityAddedFlag = true;
 
+        } 
+        if (ImGui::Button("Save Scene")) {
+            button_clicked = true;
         }
         ImGui::SameLine();
 

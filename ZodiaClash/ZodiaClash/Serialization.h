@@ -74,7 +74,7 @@ public:
 		stream >> c;
 		return *this;
 	};
-	static void SaveEntityToJson(const std::string& fileName, const Entity& entity);
+	static void SaveEntityToJson(const std::string& fileName, const std::set<Entity>& entity);
 	static bool LoadEntityFromJson(const std::string& fileName);
 
 };
