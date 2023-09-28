@@ -32,7 +32,8 @@
 * 
 *   -M1 checkpoint-
 *	- Attempt at a general get and unload functions
-*   - Improve on functionalities look into adding more functions
+*   - Improve on functionalities look into implementing better functions to 
+*     provide more functionalities
 ******************************************************************************/
 
 #include "AssetManager.h"
@@ -64,9 +65,9 @@ void AssetManager::UnloadTexture(const std::string& textureName) {
 
 /**************************************AUDIO**************************************************/
 void AssetManager::LoadAudio(const std::string& audioPath, const std::string& audioName) {
-    AudioManager audio;
-    audio.AddSound(audioPath.c_str());
-    m_audio[audioName] = audio;
+    AudioManager loadAudio;
+    loadAudio.AddSound(audioPath.c_str());
+    m_audio[audioName] = loadAudio;
 }
 
 AudioManager* AssetManager::GetAudio(const std::string& audioName) {
@@ -78,8 +79,8 @@ AudioManager* AssetManager::GetAudio(const std::string& audioName) {
 }
 
 void AssetManager::UnloadAudio(const std::string& audioName) {
-    AudioManager audio;
-    audio.FreeSound(audioName.c_str());
+    AudioManager loadAudio;
+    loadAudio.FreeSound(audioName.c_str());
 }
 
 

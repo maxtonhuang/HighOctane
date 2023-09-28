@@ -210,11 +210,11 @@
     <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiEntitiesManager.h">
-      <Filter>ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="AssetManager.h">
       <Filter>AssetsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiEntitiesManager.h">
+      <Filter>ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -336,11 +336,11 @@
     <ClCompile Include="Font.cpp">
       <Filter>Font</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiEntitiesManager.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="AssetManager.cpp">
       <Filter>AssetsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiEntitiesManager.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
