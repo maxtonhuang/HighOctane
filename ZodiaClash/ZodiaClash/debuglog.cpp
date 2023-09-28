@@ -1,38 +1,41 @@
-/*
-\copyright
-		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-		reserved.Reproduction or disclosure of this file or its contents without the prior
-		written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		debug.cpp
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		30 August 2023
-@brief		This file contains the functions definintion for debugging
-
-Logger() : Constructor
-~Logger() : Destructor
-log() : Log into the file
-RotateLogFile() : Rotate the log file
-SetLevel() : Set the log level
-GetLevel() : Get the log level
-GetTimeStamp() : Get the time stamp
-GetLogFileSize() : Get the log file size
-
-
-TODO :
-Maybe rotating of log file between 3 log files
-Delete the files by time and number of log file created
-
-
-WHEN IMGUI IS DONE
-Dynamically change the log level during run time
-
-Open file and then keeps logging in whatever into the file, in another thread
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		DebugLog.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3o August 2023
+*
+* *****************************************************************************
+*
+*	@brief		This file contains the functions definition for debugging
+*
+*	Logger() : Constructor
+*	~Logger() : Destructor
+*	log() : Log into the file
+*   CrashLog() : Log into the crash file
+*	RotateLogFile() : Rotate the log file
+*	SetLevel() : Set the log level
+*	GetLevel() : Get the log level
+*	GetTimeStamp() : Get the time stamp
+*	GetLogFileSize() : Get the log file size
+*
+******************************************************************************/
 
 #include "DebugLog.h"
 #include "GUIManager.h"

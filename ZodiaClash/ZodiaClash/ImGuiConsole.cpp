@@ -1,20 +1,35 @@
-/*
-\copyright
-        All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
-        reserved.Reproduction or disclosure of this file or its contents without the prior
-        written consent of DigiPen Institute of Technology is prohibited.
-*/
-/*!
-@file		ImGuiPerformance.h
-@author		Koh Wen Yuan
-@Email		k.wenyuan@digipen.edu
-@course		CSD 2401
-@section	Section A
-@date		23 September 2023
-@brief		This file contains the functions declaration for performance window in ImGui
-
-TODO Detect the 'console logged to' and delete
-*//*______________________________________________________________________*/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiConsole.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Console window for ImGui
+*
+*	This file contains all the definition of the functions for the console window
+*   It also contains the definition of the stream buffer that will be used to 
+*   redirect std::cout to ImGui
+*
+******************************************************************************/
 #include "ImGuiConsole.h"
 #include "GUIManager.h"
 #include "MultiThreading.h"
@@ -183,7 +198,7 @@ void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName;
 
     // If the file name is empty, use the default file name
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : "Console.log";
+    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
 
     std::ofstream outputFile(fullFileName);
 
