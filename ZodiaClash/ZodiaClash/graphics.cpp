@@ -41,6 +41,7 @@
 #include <iomanip>
 #include <random>
 #include "physics.h"
+#include <algorithm>
 
 //Model test_model;
 Texture test_tex;

@@ -281,9 +281,9 @@ void EngineCore::Run() {
 		if (graphics.WindowClosed()) {
 			gameActive = false;
 		}
-		}
-	delete physics::PHYSICS; //maybe put this somewhere else
 	}
+	delete physics::PHYSICS; //maybe put this somewhere else
+}
 
 
 
