@@ -61,35 +61,6 @@ void PhysicsSystem::Update() {
 			if (msg.info == INFO::KEY_0) {
 				physics::PHYSICS->ToggleDebugMode();
 			}
-			//if (msg.info == INFO::KEY_G) {
-			//	Entity entity = ECS::ecs().CreateEntity();
-			//	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
-			//	//ECS::ecs().AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
-			//	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
-			//	ECS::ecs().AddComponent(entity, Visible{ true });
-			//	//ECS::ecs().AddComponent(entity, Tex{ texList.Add("cat.png") });
-
-			//	//add tex component, init tex with duck sprite (init tex with nullptr produces white square instead)
-			//	ECS::ecs().AddComponent(entity, Tex{ texList.Add("duck.png") });
-			//	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
-			//	t->texVariants.push_back(texList.Add("duck.png"));
-			//	t->texVariants.push_back(texList.Add("duck2.png"));
-			//	//setting tex to texVariants[1] (duck2) still shows duck tex but with duck2 dims?
-			//	t->tex = t->texVariants.at(0);
-			//	ECS::ecs().AddComponent(entity, Animation{});
-			//	Animation* a = &ECS::ecs().GetComponent<Animation>(entity);
-			//	a->animationType = Animation::ANIMATION_TIME_BASED;
-			//	//a->animationType = Animation::ANIMATION_EVENT_BASED;
-			//	a->frameDisplayDuration = 0.1f;
-			//	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-			//	ECS::ecs().AddComponent(entity, Model{});
-			//	ECS::ecs().AddComponent(entity, Clone{});
-			//	//ECS::ecs().AddComponent(entity, MainCharacter{});
-
-			//	//add physics component
-			//	ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-			//	ECS::ecs().AddComponent<Collider>(entity, Collider{});
-			//}
 			break;
 		}
 	}
@@ -158,9 +129,6 @@ void CollisionSystem::Update() {
 					bool collided{};
 					collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
 					if (collided) {
-						//DEBUG_PRINT("collided");
-						//std::cout << "bodyData1: " << bodyData1->velocity.x << "," << bodyData1->velocity.y << std::endl;
-						//std::cout << "bodyData2: " << bodyData2->velocity.x << "," << bodyData2->velocity.y << std::endl;
 						physics::HandleCollisionResponse(*bodyData1, *bodyData2);
 						
 					}
@@ -198,15 +166,8 @@ void MovementSystem::Update() {
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
-		//UpdateMovement(ECS::ecs().GetComponent<Transform>(entity));
 		UpdateMovement(*transformData);
 		
-
-		//Model* modelData = &ECS::ecs().GetComponent<Model>(entity);
-		//Animation* aniData = &ECS::ecs().GetComponent<Animation>(entity);
-		//Tex* texData = &ECS::ecs().GetComponent<Tex>(entity);
-		//Size* sizeData = &ECS::ecs().GetComponent<Size>(entity);
-
 		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
 		//modelData->DrawOutline();
 	}
@@ -256,17 +217,9 @@ void GraphicsSystem::Update() {
 	//std::atomic<Model*> m;
 	//std::mutex task_mutex;
 	for (Entity const& entity : m_Entities) {
-
-		//ThreadPool::threadPool().enqueue([/*&m, &task_mutex,*/ &entity, &modelArray, &transformArray, &sizeArray, &texArray, &animationArray]() { // capture cout_mutex by reference
-					//std::lock_guard<std::mutex> lock(task_mutex);
-					Model* m = &modelArray.GetData(entity);
-					m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
-					m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
-
-					//std::cout << "Task " << i << " executed by thread " << std::this_thread::get_id() << std::endl;
-
-			//});
-		//ThreadPool::threadPool().WaitForAllTasks();
+		Model* m = &modelArray.GetData(entity);
+		m->Update(transformArray.GetData(entity), sizeArray.GetData(entity));
+		m->Draw(texArray.GetData(entity), animationArray.GetData(entity));
 	}
 	graphics.Draw();
 }
