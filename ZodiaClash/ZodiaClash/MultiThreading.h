@@ -44,8 +44,6 @@
 #include <mutex>
 #include <condition_variable>
 
-/*
-
 class ThreadPool {
 private:
     std::vector<std::thread> workers;
@@ -80,5 +78,3 @@ public:
 
     ~ThreadPool();
 };
-
-*/
