@@ -53,6 +53,7 @@
 #include <memory>
 #include <stdlib.h>
 #include <crtdbg.h>
+#include <cstdlib>
 
 
 // Do not need to touch this, it is auto
@@ -81,6 +82,8 @@
 #define DEBUG_PRINT(...) debug::PrintDebugHandler(__VA_ARGS__);
 
 #define ASSERT(condition, ...) debug::AssertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
+
+#define MY_ASSERT(x) if ((x)) { printf("My custom assertion failed: (%s), function %s, file %s, line %d.\n", #x, __func__, __FILE__, __LINE__); abort(); }
 
 #define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
 
