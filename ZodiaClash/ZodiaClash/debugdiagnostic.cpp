@@ -187,7 +187,7 @@ namespace debug {
             customTitle.clear();
 
             // Exit
-            ExitProcess(0);
+            std::exit(0);
         case IDNO:
 
             LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)
