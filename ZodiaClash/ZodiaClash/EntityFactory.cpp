@@ -80,65 +80,64 @@ std::vector<Entity> massRenderEntitiesList;
 			ECS::ecs().AddComponent(entity, Model{});
 
 			//add physics component
-			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
+			ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 			ECS::ecs().AddComponent<Collider>(entity, Collider{});
 		}
 	}
 
-void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
-	Entity entity = ECS::ecs().CreateEntity();
-	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
-	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
-	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Visible{ true });
-	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
-	if (isMainCharacter) {
-		ECS::ecs().AddComponent(entity, MainCharacter{});
-	}		
-	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
-	ECS::ecs().AddComponent(entity, Clone{});
-	ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
-	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
-
-	// check if any spritesheets have been loaded
-	if (spritesheets.size() > 0) {
-		for (const char* filename : spritesheets) {
-			// add a texVariant
-			ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(texList.Add(filename));
+	void CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
+		Entity entity = ECS::ecs().CreateEntity();
+		Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
+		ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+		ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
+		ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Visible{ true });
+		ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+		if (isMainCharacter) {
+			ECS::ecs().AddComponent(entity, MainCharacter{});
 		}
-		// set default tex to first texVariant
-		ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0];
-		// set default aniType to event-based
-		ECS::ecs().GetComponent<Animation>(entity).animationType = Animation::ANIMATION_TIME_BASED;
-		ECS::ecs().GetComponent<Animation>(entity).frameDisplayDuration = 0.1f;
-		// resize size to tex dimensions
-		ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
-		ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
+		ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Clone{});
+		ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
+		ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
 
-		//// for mass rendering - add this entity to vector
-		massRenderEntitiesList.push_back(entity);
+		// check if any spritesheets have been loaded
+		if (spritesheets.size() > 0) {
+			for (const char* filename : spritesheets) {
+				// add a texVariant
+				ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(texList.Add(filename));
+			}
+			// set default tex to first texVariant
+			ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0];
+			// set default aniType to event-based
+			ECS::ecs().GetComponent<Animation>(entity).animationType = Animation::ANIMATION_TIME_BASED;
+			ECS::ecs().GetComponent<Animation>(entity).frameDisplayDuration = 0.1f;
+			// resize size to tex dimensions
+			ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
+			ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
+
+			//// for mass rendering - add this entity to vector
+			massRenderEntitiesList.push_back(entity);
+		}
 	}
-}
-
-void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
-	Entity entity = ECS::ecs().CreateEntity();
-	Entity masterEntity = (masterEntitiesList.find("CatTest"))->second;
-	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
-	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Visible{ true });
-	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
-	if (isMainCharacter) {
-		ECS::ecs().AddComponent(entity, MainCharacter{});
-	}		
-	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
-	ECS::ecs().AddComponent(entity, Clone{});
-}
+	void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
+		Entity entity = ECS::ecs().CreateEntity();
+		Entity masterEntity = (masterEntitiesList.find("CatTest"))->second;
+		ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+		ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
+		ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Visible{ true });
+		ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+		if (isMainCharacter) {
+			ECS::ecs().AddComponent(entity, MainCharacter{});
+		}		
+		ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+		ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
+		ECS::ecs().AddComponent(entity, Clone{});
+	}
 
 void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
 	// generate random positions to spawn models

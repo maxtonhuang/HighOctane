@@ -81,8 +81,8 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Visible>();
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
-	ECS::ecs().RegisterComponent<Circle>();
-	ECS::ecs().RegisterComponent<AABB>();
+	//ECS::ecs().RegisterComponent<Circle>();
+	//ECS::ecs().RegisterComponent<AABB>();
 	ECS::ecs().RegisterComponent<Animation>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
@@ -92,8 +92,13 @@ void EngineCore::Run() {
 
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
 	systemList.emplace_back(movementSystem, "Movement System");
+
 	std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
 	systemList.emplace_back(physicsSystem, "Physics System");
+
+	std::shared_ptr<CollisionSystem> collisionSystem = ECS::ecs().RegisterSystem<CollisionSystem>();
+	systemList.emplace_back(collisionSystem, "Collison System");
+
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	systemList.emplace_back(modelSystem, "Model System");
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
@@ -123,6 +128,7 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<PhysicsSystem>(signature);
 
@@ -131,6 +137,18 @@ void EngineCore::Run() {
 	{
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<physics::Body>());
+		signature.set(ECS::ecs().GetComponentType<Collider>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		//signature.set(ECS::ecs().GetComponentType<Circle>());
+		//signature.set(ECS::ecs().GetComponentType<AABB>());
+
+		ECS::ecs().SetSystemSignature<CollisionSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		//signature.set(ECS::ecs().GetComponentType<Transform>());
 		//signature.set(ECS::ecs().GetComponentType<Visible>());
 		signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());

@@ -32,7 +32,7 @@
 #pragma once
 #include <vector>
 #include "vmath.h"
-#include "ECS.h" // will include the Body component definition
+#include "ECS.h" 
 #include "collision.h"
 #include "body.h"
 #include "graphics.h"
@@ -40,7 +40,6 @@
 using namespace vmath;
 
 class GraphicsManager;
-//struct Body; //forward declaration
 
 namespace physics {
     class PhysicsManager {
@@ -50,22 +49,26 @@ namespace physics {
         void AddEntity(Entity entity);
         void Integrate(Body& body, float deltaTime, Transform& transform);
         void AddForce(Body& body, Vector2 force);
-
+        void DebugDraw(physics::Body& body, Transform& transform);
+        void ToggleStepMode();
+        void ToggleDebugMode();
+        bool GetDebugDrawActive() { return DebugDrawingActive; }
+        bool GetStepModeActive() { return stepModeActive; }
+        void RequestStep();
     private:
         void IntegrateBodies(float deltaTime);
         void Step(float deltaTime);
-        void DebugDraw();
 
         ECS& m_ecs; // Reference to the ECS instance
         std::vector<Entity> m_Entities;
         float maxVelocity{};
         float maxVelocitySq{};
-        bool advanceStep{};
-        bool stepModeActive{};
         float timeAccumulation{};
         float penetrationEpsilon{};
         float penetrationResolvePercentage{};
         bool DebugDrawingActive{};
+        bool advanceStep{};
+        bool stepModeActive{};
         GraphicsManager& graphics; 
     };
 

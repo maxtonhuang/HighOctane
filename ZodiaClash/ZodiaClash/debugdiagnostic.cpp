@@ -19,6 +19,8 @@ TO DO: SAVE EVERYTHING BEFORE CRASHING INTO CRASH.LOG
 
 #include "DebugDiagnostic.h"
 #include "GUIManager.h"
+#include "debuglog.h"
+#include <iostream>
 
 namespace debug {
 
@@ -106,11 +108,6 @@ namespace debug {
 
                 // Display a message box to the user if the log level is higher
                 CustomMessageBox(fileName, line, message);
-
-                // Logs it into the console
-                if (message != nullptr) {
-                    LOG_FATAL(message);
-                }
             }
         } while (false);
     }
@@ -140,19 +137,28 @@ namespace debug {
             MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
         );
 
-        // Create the logging file only when needed
-        debuglog::Logger crashLogger("crash.log", debuglog::LOG_LEVEL::Trace);
+        const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
+        const size_t maxLogSize = 1024;  // Adjust the maximum size as needed
+        std::string limitedLog = logBuffer.substr(0, maxLogSize);
+        
+
         switch (msgboxID)
         {
         case IDYES:
+            LOG_CRASH("-----------CRASH LOG START-----------\n");
+            LOG_CRASH(limitedLog);
+
             // Log the crash into the crash file
-            LOG_INFO("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
-            + ". User chose to terminate");
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to terminate\n");
+            // Logs the console into the crash file
+            LOG_CRASH("------------CRASH LOG END------------\n");
             ExitProcess(0);
             break;
         case IDNO:
-            LOG_INFO("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
-            + ". User chose to continue");
+            
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
+            + ". User chose to continue\n");
             // Continue on with the code
             break;
         }
