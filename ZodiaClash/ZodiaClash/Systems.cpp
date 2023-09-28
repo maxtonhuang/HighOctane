@@ -100,6 +100,8 @@ void PhysicsSystem::Update() {
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
+	
+
 	if (physics::PHYSICS->GetStepModeActive()) {
 		for (Entity const& entity : m_Entities) {
 			Transform* transData = &transformArray.GetData(entity);
@@ -120,6 +122,8 @@ void PhysicsSystem::Update() {
 			physics::Body* bodyData = &bodyArray.GetData(entity);
 			Collider* collideData = &colliderArray.GetData(entity);
 
+			//bodyData->velocity = transData->velocity;
+
 			physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
 			physics::PHYSICS->DebugDraw(*bodyData, *transData);
 		}
@@ -138,7 +142,7 @@ void CollisionSystem::Update() {
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 	
 
-	std::cout << m_Entities.size() << std::endl;
+	//std::cout << m_Entities.size() << std::endl;
 	for (Entity const& entity1 : m_Entities) {
 		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 			Transform* transData1 = &transformArray.GetData(entity1);
@@ -146,14 +150,25 @@ void CollisionSystem::Update() {
 			Collider* collideData1 = &colliderArray.GetData(entity1);
 
 			for (Entity const& entity2 : m_Entities) {
-				Transform* transData2 = &transformArray.GetData(entity2);
-				physics::Body* bodyData2 = &bodyArray.GetData(entity2);
-				Collider* collideData2 = &colliderArray.GetData(entity2);
+				if (entity1 != entity2) {
+					Transform* transData2 = &transformArray.GetData(entity2);
+					physics::Body* bodyData2 = &bodyArray.GetData(entity2);
+					Collider* collideData2 = &colliderArray.GetData(entity2);
 
-				bool collided{};
-				collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
-				if (collided) {
-					physics::HandleCollisionResponse(*bodyData1, *bodyData2);
+					bool collided{};
+					collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
+					if (collided) {
+						//DEBUG_PRINT("collided");
+						//std::cout << "bodyData1: " << bodyData1->velocity.x << "," << bodyData1->velocity.y << std::endl;
+						//std::cout << "bodyData2: " << bodyData2->velocity.x << "," << bodyData2->velocity.y << std::endl;
+						physics::HandleCollisionResponse(*bodyData1, *bodyData2);
+						
+					}
+					bodyData1->velocity = { 0.f, 0.f };
+					transData1->velocity = bodyData1->velocity;
+					transData2->velocity = bodyData2->velocity;
+					transData1->position = bodyData1->position;
+					transData2->position = bodyData2->position;
 				}
 			}
 		}
@@ -185,6 +200,7 @@ void MovementSystem::Update() {
 
 		//UpdateMovement(ECS::ecs().GetComponent<Transform>(entity));
 		UpdateMovement(*transformData);
+		
 
 		//Model* modelData = &ECS::ecs().GetComponent<Model>(entity);
 		//Animation* aniData = &ECS::ecs().GetComponent<Animation>(entity);

@@ -6,15 +6,18 @@ namespace physics {
 
 	// SECTION: COLLISION DETECTION
     bool CheckCollisionBoxBox(const Body& alpha, const Body& beta) {
-		std::shared_ptr < AABB> aabb1 = std::reinterpret_pointer_cast<AABB>(alpha.bodyShape);
-		std::shared_ptr < AABB> aabb2 = std::reinterpret_pointer_cast<AABB>(beta.bodyShape);
+		/*AABB* aabb1 = static_cast<AABB*>(alpha.bodyShape);
+		AABB* aabb2 = static_cast<AABB*>(beta.bodyShape);*/
+
+		/*aabb1->extents = alpha.halfDimensions;
+		aabb2->extents = beta.halfDimensions;*/
 
 		//extract min-max
-		aabb1->min = { alpha.position.x - aabb1->extents.x, alpha.position.y - aabb1->extents.y };
-		aabb1->max = { alpha.position.x + aabb1->extents.x, alpha.position.y + aabb1->extents.y };
+		Vec2 min1 = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
+		Vec2 max1 = { alpha.position.x + alpha.halfDimensions.x, alpha.position.y + alpha.halfDimensions.y };
 
-		aabb2->min = { beta.position.x - aabb2->extents.x, beta.position.y - aabb2->extents.y };
-		aabb2->max = { beta.position.x + aabb2->extents.x, beta.position.y + aabb2->extents.y };
+		Vec2 min2 = { beta.position.x - beta.halfDimensions.x, beta.position.y - beta.halfDimensions.y };
+		Vec2 max2 = { beta.position.x + beta.halfDimensions.x, beta.position.y + beta.halfDimensions.y };
 
 		//extract velocities
 		vmath::Vector2 vel1 = alpha.velocity;
@@ -26,8 +29,8 @@ namespace physics {
 					If the check returns no overlap you continue with the following next steps (dynamics).
 					Otherwise you return collision true (if all 4 tests fail)
 		*/
-		if ((aabb1->max.x < aabb2->min.x) || (aabb1->max.y < aabb2->min.y)
-			|| (aabb1->min.x > aabb2->max.x) || (aabb1->min.y > aabb2->max.y))
+		if ((max1.x < min2.x) || (max1.y < min2.y)
+			|| (min1.x > max2.x) || (min1.y > max2.y))
 		{
 			return 0;
 		}
@@ -57,35 +60,35 @@ namespace physics {
 			if (vB.x < 0.f)
 			{
 				//case 1
-				if (aabb1->min.x > aabb2->max.x)
+				if (min1.x > max2.x)
 					return 0;
 				//case 4
-				if (aabb1->max.x < aabb2->min.x)
+				if (max1.x < min2.x)
 				{
-					float dFirst = aabb1->max.x - aabb2->min.x;
+					float dFirst = max1.x - min2.x;
 					tFirst = ((dFirst / vB.x) > tFirst) ? (dFirst / vB.x) : tFirst;
 				}
-				if (aabb1->min.x < aabb2->max.x)
+				if (min1.x < max2.x)
 				{
-					float dLast = aabb1->min.x - aabb2->max.x;
+					float dLast = min1.x - max2.x;
 					tLast = ((dLast / vB.x) < tLast) ? (dLast / vB.x) : tLast;
 				}
 			}
 			if (vB.x > 0.f)
 			{
 				//case 2
-				if (aabb1->min.x > aabb2->max.x)
+				if (min1.x > max2.x)
 				{
-					float dFirst = aabb1->min.x - aabb2->max.x;
+					float dFirst = min1.x - max2.x;
 					tFirst = ((dFirst / vB.x) > tFirst) ? (dFirst / vB.x) : tFirst;
 				}
-				if (aabb1->max.x > aabb2->min.x)
+				if (max1.x > min2.x)
 				{
-					float dLast = aabb1->max.x - aabb2->min.x;
+					float dLast = max1.x - min2.x;
 					tLast = ((dLast / vB.x) < tLast) ? (dLast / vB.x) : tLast;
 				}
 				//case 3
-				if (aabb1->max.x < aabb2->min.x)
+				if (max1.x < min2.x)
 					return 0;
 			}
 			if (tFirst > tLast)
@@ -95,35 +98,35 @@ namespace physics {
 			if (vB.y < 0.f)
 			{
 				//case 1
-				if (aabb1->min.y > aabb2->max.y)
+				if (min1.y > max2.y)
 					return 0;
 				//case 4
-				if (aabb1->max.y < aabb2->min.y)
+				if (max1.y < min2.y)
 				{
-					float dFirst = aabb1->max.y - aabb2->min.y;
+					float dFirst = max1.y - min2.y;
 					tFirst = ((dFirst / vB.y) > tFirst) ? (dFirst / vB.y) : tFirst;
 				}
-				if (aabb1->min.y < aabb2->max.y)
+				if (min1.y < max2.y)
 				{
-					float dLast = aabb1->min.y - aabb2->max.y;
+					float dLast = min1.y - max2.y;
 					tFirst = ((dLast / vB.y) < tLast) ? (dLast / vB.y) : tLast;
 				}
 			}
 			if (vB.y > 0.f)
 			{
 				//case 2
-				if (aabb1->min.y > aabb2->max.y)
+				if (min1.y > max2.y)
 				{
-					float dFirst = aabb1->min.y - aabb2->max.y;
+					float dFirst = min1.y - max2.y;
 					tFirst = ((dFirst / vB.y) > tFirst) ? (dFirst / vB.y) : tFirst;
 				}
-				if (aabb1->max.y > aabb2->min.y)
+				if (max1.y > min2.y)
 				{
-					float dLast = aabb1->max.y - aabb2->min.y;
+					float dLast = max1.y - min2.y;
 					tFirst = ((dLast / vB.y) < tLast) ? (dLast / vB.y) : tLast;
 				}
 				//case 3
-				if (aabb1->max.y < aabb2->min.y)
+				if (max1.y < min2.y)
 					return 0;
 			}
 			if (tFirst > tLast)
@@ -135,13 +138,13 @@ namespace physics {
     }
 
     bool CheckCollisionCircleCircle(const Body& alpha, const Body& beta) {
-		std::shared_ptr<Circle> circle1 = std::reinterpret_pointer_cast<Circle>(alpha.bodyShape);
-		std::shared_ptr<Circle> circle2 = std::reinterpret_pointer_cast<Circle>(beta.bodyShape);
+		/*const Circle& circle1 = static_cast<const Circle&>(alpha.bodyShape);
+		const Circle& circle2 = static_cast<const Circle&>(beta.bodyShape);*/
 
 		vmath::Vector2 centerA = alpha.position;
 		vmath::Vector2 centerB = beta.position;
-		float radiusA = circle1->radius;
-		float radiusB = circle2->radius;
+		float radiusA = alpha.radius;
+		float radiusB = beta.radius;
 
 		float radiusSum = radiusA + radiusB;
 		float centerDistance = centerA.distance(centerB);
@@ -150,24 +153,26 @@ namespace physics {
     }
 
     bool CheckCollisionCircleBox(const Body& alpha, const Body& beta) {
-		std::shared_ptr<Circle> circle = std::reinterpret_pointer_cast<Circle>(alpha.bodyShape);
-		std::shared_ptr <AABB> aabb = std::reinterpret_pointer_cast<AABB>(beta.bodyShape);
+		/*const Circle& circle = static_cast<const Circle&>(alpha.bodyShape);
+		AABB* aabb = static_cast<AABB*>(beta.bodyShape);*/
 
 		vmath::Vector2 circleCenter = alpha.position;
+		/*circle.radius = alpha.radius;
+		aabb->extents = beta.halfDimensions;*/
 
 		//extract min-max
-		aabb->min = { beta.position.x - aabb->extents.x, beta.position.y - aabb->extents.y };
-		aabb->max = { beta.position.x + aabb->extents.x, beta.position.y + aabb->extents.y };
+		Vec2 min = { beta.position.x - beta.halfDimensions.x, beta.position.y - beta.halfDimensions.y };
+		Vec2 max = { beta.position.x + beta.halfDimensions.x, beta.position.y + beta.halfDimensions.y };
 		
 		// 1. identify closest sides of AABB to circle
-		float closestX = std::max(aabb->min.x, std::min(circleCenter.x, aabb->max.x));
-		float closestY = std::max(aabb->min.y, std::min(circleCenter.y, aabb->max.y));
+		float closestX = std::max(min.x, std::min(circleCenter.x, max.x));
+		float closestY = std::max(min.y, std::min(circleCenter.y, max.y));
 		vmath::Vector2 closestPoint{ closestX, closestY };
 
 		// 2. compare distance between circle and closest point
 		float distance = circleCenter.distance(closestPoint);
 
-		return (distance < circle->radius);
+		return (distance < alpha.radius);
     }
 
     bool CheckCollisionBoxCircle(const Body& alpha, const Body& beta) {
@@ -175,19 +180,19 @@ namespace physics {
     }
 
 	bool CheckCollisionBoxBorder(const Body& alpha) {
-		std::shared_ptr<AABB> aabb = std::reinterpret_pointer_cast<AABB>(alpha.bodyShape);
+		//const AABB& aabb = static_cast<const AABB&>(alpha.bodyShape);
+		//aabb.extents = alpha.halfDimensions;
 
 		//extract min-max
-		aabb->min = { alpha.position.x - aabb->extents.x, alpha.position.y - aabb->extents.y };
-		aabb->max = { alpha.position.x + aabb->extents.x, alpha.position.y + aabb->extents.y };
+		Vec2 min = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
+		Vec2 max = { alpha.position.x + alpha.halfDimensions.x, alpha.position.y + alpha.halfDimensions.y };
 
-		//hardcoded values, to update with vars
-		float windowWidth = 1000.f;
-		float windowHeight = 1000.f;
+		float windowWidth = GRAPHICS::defaultWidthF;
+		float windowHeight = GRAPHICS::defaultHeightF;
 
 		//assuming camera is not involved!!
-		if ((aabb->max.x < windowWidth) || (aabb->max.y < windowHeight)
-			|| (aabb->min.x > 0.f) || (aabb->min.y > 0.f))
+		if ((max.x < windowWidth) || (max.y < windowHeight)
+			|| (min.x > 0.f) || (min.y > 0.f))
 		{
 			return 0;
 		}
@@ -211,19 +216,18 @@ namespace physics {
 	}
 
 	bool CheckCollisionCircleBorder(const Body& alpha) {
-		std::shared_ptr<Circle> circle = std::reinterpret_pointer_cast<Circle>(alpha.bodyShape);
-
 		vmath::Vector2 circleCenter = alpha.position;
 
-		//hardcoded values, to update with vars
-		float windowWidth = 1000.f;
-		float windowHeight = 1000.f;
+		//circle->radius = alpha.radius;
+
+		float windowWidth = GRAPHICS::defaultWidthF;
+		float windowHeight = GRAPHICS::defaultHeightF;
 
 		//assuming camera is not involved!!
-		if (((circleCenter.x + circle->radius) < windowWidth) 
-		||	((circleCenter.y + circle->radius) < windowHeight)
-		||	((circleCenter.x - circle->radius) > 0.f) 
-		||	((circleCenter.y - circle->radius) > 0.f))
+		if (((circleCenter.x + alpha.radius) < windowWidth) 
+		||	((circleCenter.y + alpha.radius) < windowHeight)
+		||	((circleCenter.x - alpha.radius) > 0.f) 
+		||	((circleCenter.y - alpha.radius) > 0.f))
 		{
 			return 0;
 		}
@@ -255,19 +259,19 @@ namespace physics {
 
 	bool CollisionManager::CheckBodyCollision(const Body& alpha, const Body& beta) {
 		
-		Shape::SHAPE_ID alphaShape = alpha.bodyShape->id;
-		Shape::SHAPE_ID betaShape = beta.bodyShape->id;
+		SHAPE_ID alphaShape = alpha.bodyShape;
+		SHAPE_ID betaShape = beta.bodyShape;
 
-		if ((alphaShape == Shape::SHAPE_BOX) && (betaShape == Shape::SHAPE_BOX)) {
+		if ((alphaShape == SHAPE_BOX) && (betaShape == SHAPE_BOX)) {
 			return CheckCollisionBoxBox(alpha, beta);
 		}
-		else if ((alphaShape == Shape::SHAPE_CIRCLE) && (betaShape == Shape::SHAPE_CIRCLE)) {
+		else if ((alphaShape == SHAPE_CIRCLE) && (betaShape == SHAPE_CIRCLE)) {
 			return CheckCollisionCircleCircle(alpha, beta);
 		}
-		else if ((alphaShape == Shape::SHAPE_CIRCLE) && (betaShape == Shape::SHAPE_BOX)) {
+		else if ((alphaShape == SHAPE_CIRCLE) && (betaShape == SHAPE_BOX)) {
 			return CheckCollisionCircleBox(alpha, beta);
 		}
-		else if ((alphaShape == Shape::SHAPE_BOX) && (betaShape == Shape::SHAPE_CIRCLE)) {
+		else if ((alphaShape == SHAPE_BOX) && (betaShape == SHAPE_CIRCLE)) {
 			return CheckCollisionBoxCircle(alpha, beta);
 		}
 		else
@@ -282,11 +286,11 @@ namespace physics {
 	}
 
 	bool CollisionManager::CheckBorderCollision(const Body& alpha) {
-		Shape::SHAPE_ID alphaShape = alpha.bodyShape->id;
-		if (alphaShape == Shape::SHAPE_BOX) {
+		SHAPE_ID alphaShape = alpha.bodyShape;
+		if (alphaShape == SHAPE_BOX) {
 			return CheckCollisionBoxBorder(alpha);
 		}
-		else if (alphaShape == Shape::SHAPE_CIRCLE) {
+		else if (alphaShape == SHAPE_CIRCLE) {
 			return CheckCollisionCircleBorder(alpha);
 		}
 		else

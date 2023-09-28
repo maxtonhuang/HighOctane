@@ -45,6 +45,7 @@
 #include "Texture.h"
 #include "Graphics.h"
 #include "physics.h"
+#include "collision.h"
 
 
 
@@ -102,7 +103,7 @@ std::vector<Entity> massRenderEntitiesList;
 		ECS::ecs().AddComponent(entity, Clone{});
 		ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
 		ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
-
+		ECS::ecs().GetComponent<physics::Body>(entity).isStatic = true;
 		// check if any spritesheets have been loaded
 		if (spritesheets.size() > 0) {
 			for (const char* filename : spritesheets) {
@@ -132,11 +133,18 @@ std::vector<Entity> massRenderEntitiesList;
 		ECS::ecs().AddComponent(entity, Visible{ true });
 		ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 		if (isMainCharacter) {
-			ECS::ecs().AddComponent(entity, MainCharacter{});
+			//ECS::ecs().AddComponent(entity, MainCharacter{});
 		}		
 		ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
 		ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
 		ECS::ecs().AddComponent(entity, Clone{});
+		ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
+		ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
+		ECS::ecs().GetComponent<physics::Body>(entity).isStatic = true;
+
+
+
+
 	}
 
 void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& spritesheets) {

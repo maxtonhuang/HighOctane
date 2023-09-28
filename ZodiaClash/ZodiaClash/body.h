@@ -38,6 +38,12 @@ using namespace vmath;
 
 //class Shape; //forward declaration
 
+enum SHAPE_ID {
+	SHAPE_CIRCLE,
+	SHAPE_BOX,
+	NUM_OF_SHAPES
+};
+
 namespace physics {
 
 	struct Body {
@@ -52,10 +58,12 @@ namespace physics {
 		float height{};
 		Vector2 halfDimensions; // Half-width and half-height of the AABB
 		float mass{};
+		float radius{};
 		float restitution{};
 		float friction{ 0.2f };
 		bool isStatic{};
-		std::shared_ptr<Shape> bodyShape;
+		//std::shared_ptr<Shape> bodyShape;
+		SHAPE_ID bodyShape;
 
 		// Constructors, if needed, can remain
 		Body();

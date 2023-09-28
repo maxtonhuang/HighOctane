@@ -201,7 +201,7 @@ void GUIManager::Update(GLFWwindow* window)
                 ASSERT(!entityAddedFlag, "Entity has not been added.");
             }
             else {
-                CloneMasterModel2(0.f, 0.f, true);
+                CloneMasterModel(0.f, 0.f, false);
             }
         } 
         if (ImGui::Button("Save my Cat")) {
