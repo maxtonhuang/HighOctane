@@ -36,10 +36,6 @@ bool show_demo_window;
 
 void GUIManager::Init(GLFWwindow* window)
 {
-
-
-   // show_demo_window = true;
-
         
     const char* glsl_version = "#version 450";
 

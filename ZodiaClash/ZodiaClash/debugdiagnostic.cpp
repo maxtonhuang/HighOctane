@@ -177,16 +177,47 @@ namespace debug {
             + ". User chose to terminate\n");
             // Logs the console into the crash file
             LOG_CRASH("------------CRASH LOG END------------\n");
-            ExitProcess(0);
-            break;
+
+            // Free memory for wideFile and wideMessage
+            wideFile.clear();
+            wideMessage.clear();
+
+            // Clear customMsg and customTitle
+            customMsg.clear();
+            customTitle.clear();
+
+            // Exit
+            std::exit(0);
         case IDNO:
-            
-            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)\
-            + ". User chose to continue\n");
+
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)
+                + ". User chose to continue\n");
             // Continue on with the code
+
+            // Free memory for wideFile and wideMessage
+            wideFile.clear();
+            wideMessage.clear();
+
+            // Clear customMsg and customTitle
+            customMsg.clear();
+            customTitle.clear();
+
+            break;
+        default:
+            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)
+                + ". User chose to continue\n");
+            // Continue on with the code
+
+            // Free memory for wideFile and wideMessage
+            wideFile.clear();
+            wideMessage.clear();
+
+            // Clear customMsg and customTitle
+            customMsg.clear();
+            customTitle.clear();
+
             break;
         }
-
         return msgboxID;
     }
 
