@@ -124,6 +124,18 @@ namespace debug {
         } while (false);
     }
 
+
+     /*!
+     * \brief Custom message box that will appear when assert is called
+     *
+     * This function is responsible for the custom box that appeared when assert is called
+     * and the user can choose to continue or quit the program
+     *
+     * \param file The source file path where the assertion occurred.
+     * \param line The line number in the source file where the assertion occurred.
+     * \param message A custom error message (optional) to be included in the output.
+     * 
+     */
     // For the message in a box to use in assert
     int CustomMessageBox(const char* file, int line, const char* message) {
 
@@ -178,6 +190,14 @@ namespace debug {
         return msgboxID;
     }
 
+     /*!
+     * \brief Creates a custom console
+     *
+     * This function is responsible for creating a custom console that will
+     * appear. However this is not used in the current version of the engine
+     * as we have a custom console that is created in ImGui
+     *
+     */
     // Creates the console
     void ConsoleInitHandler() {
         // Allocate a new console for the calling process
@@ -199,7 +219,14 @@ namespace debug {
 
     }
 
-    // Custom Terminate Handler
+     /*!
+     * \brief Custom Terminate Handler
+     *
+     * This function is responsible for handling terminate however
+     * it is not in use currently as we are using the other custom terminate
+     * and still deciding on what to do with this
+     *
+     */
     void CustomTerminateHandler() {
         // Log the unhandled exception information
 

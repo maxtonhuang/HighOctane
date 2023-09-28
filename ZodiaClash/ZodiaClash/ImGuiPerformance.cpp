@@ -36,6 +36,14 @@
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
 
+/*!
+* \brief Init the performance window
+*
+* This function is responsible for initialising the performance window
+* It will be called in ImGuiManager.cpp
+*
+*/
+
 void InitPerformance() {
 
     // Setup Dear ImGui context
@@ -48,6 +56,13 @@ void InitPerformance() {
 
 }
 
+/*!
+* \brief Update the performance window
+*
+* This function is responsible for updating the performance window
+* It will be called in ImGuiManager.cpp
+*
+*/
 void UpdatePerformance() {
     ImVec2 windowSize(300.f, systemList.size() * 80.f);
     ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
@@ -60,8 +75,8 @@ void UpdatePerformance() {
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
     /************** PERFORMANCE USAGE ***************/
-    ImGui::Text("CPU usage: %.3f %%", GetCPUUsage(GetTime()));
-    ImGui::Text("Memory usage: %.3f MB", GetMemoryUsage(GetTime()));
+    ImGui::Text("CPU usage: %.3f %%", GetCPUUsage());
+    ImGui::Text("Memory usage: %.3f MB", GetMemoryUsage());
     /************** PERFORMANCE USAGE ***************/
 
     for (const auto& [system, name] : systemList) {

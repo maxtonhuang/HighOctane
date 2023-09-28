@@ -207,6 +207,12 @@
     <ClInclude Include="FontLib.h">
       <Filter>Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiGraph.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -329,6 +335,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiGraph.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

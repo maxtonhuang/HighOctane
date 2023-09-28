@@ -26,6 +26,10 @@
 *	@brief		Debug profiling of different systems
 * 
 *   This file contains all the declaration of the functions for debug profiling
+* 
+*   ENABLE_DEBUG_PROFILE is a macro that can be used to enable/disable debug,
+*   it will eventually be changed to a macro that controls whether ImGui will
+*   be on in the future
 *
 ******************************************************************************/
 #pragma once
@@ -70,17 +74,17 @@
 
     extern DebugProfiling debugSysProfile;
 
-    float GetMemoryUsage(uint64_t time);
+    float GetMemoryUsage();
 
-    float GetCPUUsage(uint64_t time);
+    float GetCPUUsage();
 
 #if _WIN32
-#define Performance(time) PerformanceDataHandler(time);
+#define Performance() PerformanceDataHandler();
 
 #else
-#define Performance(time) ((void)0)
+#define Performance() ((void)0)
 #endif
 
 #else
-#define Performance(time) ((void)0);
+#define Performance() ((void)0);
 #endif
