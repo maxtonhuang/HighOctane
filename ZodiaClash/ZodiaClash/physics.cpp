@@ -129,15 +129,18 @@ namespace physics {
     void PhysicsManager::Integrate(Body& body, float deltaTime, Transform& transform) 
     {
         // If the body is static, we don't want to update its position or velocity.
-        if (body.isStatic) return;
+        //if (body.isStatic) return;
 
         // Store the current position as the previous position
-        body.prevPosition = transform.position;
+        //body.prevPosition = transform.position;
 
         // Update the position based on deltaTime
-        transform.position += transform.velocity * deltaTime;
+        transform.position += transform.velocity;
+
+        body.velocity = transform.velocity;
         body.position = transform.position;
 
+        /*
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
         Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1f;
 
@@ -151,10 +154,10 @@ namespace physics {
             transform.velocity.normalize();  // Make the velocity a unit vector
             transform.velocity *= maxVelocity;  // Scale it to the maximum allowed velocity
         }
-        transform.velocity *= .99f;
+        transform.velocity *= .95f;
 
         // Reset the accumulated force to zero for the next frame
-        body.accumulatedForce = Vector2(0, 0);
+        body.accumulatedForce = Vector2(0, 0);*/
     }
 
     /**************************************************************************/

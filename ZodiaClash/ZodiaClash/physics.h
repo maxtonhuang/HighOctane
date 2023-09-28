@@ -82,7 +82,7 @@ namespace physics {
 }
 
 struct Collider {
-    physics::Shape* shape;
+    physics::Body* body;
     //if true, don't perform physical response, just notify that theres collision
     bool                    isTrigger;
     //list of entities this collider is in contact with

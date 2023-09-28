@@ -1,5 +1,5 @@
 {
-    "Entity Name": "Duck",
+    "Entity Name": "CatTest",
     "Color": {
         "r": 1.0,
         "g": 1.0,
@@ -32,7 +32,7 @@
     "Animation": {
         "Animation Type": 1,
         "Frame Index": 0,
-        "Frame Time Elapsed": 0.03315500169992447,
+        "Frame Time Elapsed": 0.0724090114235878,
         "Frame Display Duration": 0.10000000149011612
     }
 }

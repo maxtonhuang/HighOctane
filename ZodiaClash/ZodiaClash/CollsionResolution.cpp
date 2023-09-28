@@ -45,7 +45,12 @@ namespace physics {
     void DynamicStaticResponse(Body& dynamicBody) 
     {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
-        dynamicBody.velocity = (dynamicBody.velocity)*(-1);
+        //////
+        std::cout << "DR1: " << dynamicBody.velocity.x << "," << dynamicBody.velocity.y << std::endl;
+       
+
+        dynamicBody.position.x -= dynamicBody.velocity.x * 10.f;//-= dynamicBody.velocity * 10000.f;
+        dynamicBody.position.y -= dynamicBody.velocity.y * 10.f;
     }
 
     /**************************************************************************/
@@ -59,11 +64,16 @@ namespace physics {
      /**************************************************************************/
     void DynamicDynamicResponse(Body& bodyA, Body& bodyB) 
     {
-        Vector2 tempVelocity = bodyA.velocity;
+        //Vector2 tempVelocity = bodyA.velocity;
         //swap the velocities, causing them to exchange their velocities upon collision
         //bounce off each other
-        bodyA.velocity = bodyB.velocity;
-        bodyB.velocity = tempVelocity;
+        //bodyA.velocity = bodyB.velocity;
+        //bodyB.velocity = tempVelocity;
+        std::cout << "DR2: " << bodyA.velocity.x << "," << bodyA.velocity.y << std::endl;
+        bodyA.position.x -= bodyA.velocity.x * 10.f;
+        bodyA.position.y -= bodyA.velocity.y * 10.f;
+        bodyB.position.x -= bodyB.velocity.x * 10.f;
+        bodyB.position.y -= bodyB.velocity.y * 10.f;
     }
 
     /**************************************************************************/

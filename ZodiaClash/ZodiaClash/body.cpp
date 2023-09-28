@@ -41,9 +41,10 @@ namespace physics {
 				mass(0.0f),
 				restitution(0.0f),
 				halfDimensions{width/2.f, height/2.f},
+				radius(5.f),
 				friction(0.2f),
 				isStatic(false),
-				bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
+				bodyShape{SHAPE_CIRCLE}
 	{}
 
 	//non-default constructor
@@ -56,7 +57,7 @@ namespace physics {
 		halfDimensions{ width / 2.f, height / 2.f },
 		friction(0.2f),
 		isStatic(false),
-		bodyShape(std::reinterpret_pointer_cast<Shape>(std::make_shared<AABB>()))
+		bodyShape(SHAPE_BOX)
 	{}
 	/**************************************************************************/
 	/*!

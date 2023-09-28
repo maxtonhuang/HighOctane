@@ -48,6 +48,9 @@
     <Filter Include="Font">
       <UniqueIdentifier>{b31fa77c-8b71-4ff9-b319-6f61d14b9aeb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AssetsManager">
+      <UniqueIdentifier>{fac3e325-f644-4c94-9964-bdfc5bc055c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -207,6 +210,18 @@
     <ClInclude Include="FontLib.h">
       <Filter>Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>AssetsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiEntitiesManager.h">
+    <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiGraph.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -329,6 +344,15 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>AssetsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiEntitiesManager.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiGraph.cpp">
+      <Filter>ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

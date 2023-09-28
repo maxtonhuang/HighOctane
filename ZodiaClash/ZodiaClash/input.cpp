@@ -1,3 +1,33 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Input.cpp
+*
+*	@author		Kai Alexander Van Adrichem Boogaert
+*
+*	@email		kaialexander.v\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		4 September 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file contains the buttons to handle entities within the system.
+*	Such as loading and saving entitites/gameobject from a file
+******************************************************************************/
 
 /*                                                                   includes
 ----------------------------------------------------------------------------- */
@@ -9,18 +39,6 @@
 #include "EntityFactory.h"
 #include <iostream>
 #include <unordered_map>
-
-/*                                                   objects with file scope
------------------------------------------------------------------------------ */
-//GLboolean InputManager::keyStateW{ GL_FALSE };
-//GLboolean InputManager::keyStateA{ GL_FALSE };
-//GLboolean InputManager::keyStateS{ GL_FALSE };
-//GLboolean InputManager::keyStateD{ GL_FALSE };
-//GLboolean InputManager::mouseClickL{ GL_FALSE };
-//GLboolean InputManager::mouseClickR{ GL_FALSE };
-//double InputManager::cursorposX;
-//double InputManager::cursorposY;
-
 
 
 std::unordered_map<int, INFO> keyStatus;

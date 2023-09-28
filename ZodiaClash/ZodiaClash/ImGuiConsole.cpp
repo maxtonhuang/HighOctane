@@ -34,6 +34,13 @@
 #include "GUIManager.h"
 #include "MultiThreading.h"
 
+/*!
+* \brief Init the console window
+*
+* This function is responsible for initialising the console window
+* It will be called in ImGuiManager.cpp
+*
+*/
 void InitConsole() {
 
     // Setup Dear ImGui context
@@ -46,6 +53,13 @@ void InitConsole() {
 
 }
 
+/*!
+* \brief Update the console window
+*
+* This function is responsible for updating the console window
+* It will be called in ImGuiManager.cpp
+*
+*/
 void UpdateConsole() { 
     
     static char filterBuffer[256] = "";
@@ -169,8 +183,14 @@ void UpdateConsole() {
 }
 
 
-/*******************************************************************/
-// ALL THESE IS FOR DEBUGGING PLEASE DO NOT TOUCH AT ALL
+/*!
+* \brief Stream buffer for ImGui
+*
+* This function is responsible for creating a stream buffer for ImGui
+* It will be used to redirect std::cout to ImGui
+*
+* \param c The character to be appended to the buffer
+*/
 int ImGuiOutputBuffer::overflow(int c) {
     if (c != EOF) {
         // Append the character to a buffer
@@ -179,10 +199,22 @@ int ImGuiOutputBuffer::overflow(int c) {
     return c;
 }
 
+/*!
+* \brief Get the buffer for ImGui
+*
+* This function is responsible for getting the buffer for ImGui
+* 
+*/
 const std::string& ImGuiOutputBuffer::GetBuffer() const {
     return buffer;
 }
 
+/*!
+* \brief Clear the buffer for ImGui
+*
+* This function is responsible for clearing the buffer for ImGui
+* 
+*/
 void ImGuiOutputBuffer::ClearBuffer() {
     buffer.clear();
 }
@@ -194,6 +226,13 @@ ImGuiOutputBuffer imguiOutputBuffer;
 std::ostream imguiCout(&imguiOutputBuffer);
 std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
 
+/*!
+* \brief Export the console content to a file
+*
+* This function is responsible for exporting the console content to a file
+*
+* \param fileName The name of the file to export to
+*/
 void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName;
 
@@ -218,6 +257,13 @@ void ExportConsoleToFile(const char* fileName) {
     std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
 }
 
+/*!
+* \brief Delete the line from the file
+*
+* This function is responsible for deleting the line from the file
+*
+* \param fileName The name of the file to delete from
+*/
 void DeleteLineFromFile(const char* fileName) {
     std::string fullFileName = std::string(fileName) + ".log";
     std::ifstream inputFile(fullFileName);
