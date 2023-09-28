@@ -10,7 +10,7 @@
 *
 *	@file		Model.cpp
 *
-*	@author		Foong Pun Yuen Nigel
+*	@author		Foong Pun Yuen Nigel (Initial creation and draw functions)
 *
 *	@email		p.foong\@digipen.edu
 * 

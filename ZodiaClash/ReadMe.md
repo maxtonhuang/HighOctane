@@ -35,6 +35,9 @@ E to rotate main character clockwise
 
 C to change main character animation
 
+M to play sound 1
+N to play sound 2
+
 0 to toggle physics debug drawing
 
 Y to toggle 2500 animated sprite entities

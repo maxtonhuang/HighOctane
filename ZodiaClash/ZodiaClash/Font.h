@@ -14,7 +14,7 @@
 *
 *	@email		c.zhenrong\@digipen.edu
 *
-*	@co-author	Foong Pun Yuen Nigel
+*	@co-author	Foong Pun Yuen Nigel (OpenGL texture creation from fonts)
 *
 *	@email		p.foong\@digipen.edu
 *

@@ -12,7 +12,7 @@
 *
 *	@author		Foong Pun Yuen Nigel
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -160,12 +160,6 @@ glm::vec2 Texture::GetTexCoords(int index, int pos) {
 
 TextureManager::~TextureManager() {
 	this->Clear();
-}
-
-void TextureManager::Initialize() {
-	glGenTextures(1, &arrayid);
-	glBindTexture(GL_TEXTURE_2D_ARRAY, arrayid);
-	glTexStorage3D(GL_TEXTURE_2D_ARRAY, 1, GL_RGBA, GRAPHICS::defaultWidth, GRAPHICS::defaultHeight, GRAPHICS::MAXTEXTURES);
 }
 
 Texture* TextureManager::Add(const char* texname) {

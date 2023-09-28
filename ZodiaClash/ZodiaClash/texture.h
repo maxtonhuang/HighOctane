@@ -12,7 +12,7 @@
 *
 *	@author		Foong Pun Yuen Nigel
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -58,30 +58,35 @@ public:
 	bool IsActive();		//Does the texture object have a texture saved in OpenGL
 	void CreateSpriteSheet(int row, int column, int spritenum); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
 
-	int GetWidth();
-	int GetHeight();
-	std::string GetName();
+	int GetWidth(); //returns width of texture
+	int GetHeight(); //returns height of texture
+	std::string GetName(); //returns name of texture as saved in texture managers data
 
-	glm::vec2 GetTexCoords(int index, int pos);
-	int GetSheetSize();
+	/*
+	Get texture coordinates. Index is the index in the sprite sheet array while position corresponds as follows:
+	pos 0 = bottom left coordinate
+	pos 1 = bottom right coordinate
+	pos 2 = top left coordinate
+	pos 3 = top right coordinate
+	*/
+	glm::vec2 GetTexCoords(int index, int pos); //get texture coordinates. Index is the index in the sprite sheet array while position 
+	int GetSheetSize(); //returns amount of sprites in sprite sheet
 private:
-	std::string name{};
-	GLuint id{};
-	int width{};
-	int height{};
-	bool active{false};
-	std::vector<Texcoords> texcoords;
+	std::string name{}; //name of texture as stored in texture manager
+	GLuint id{}; //texture id as stored in opengl
+	int width{}; //width of individual sprite
+	int height{}; //height of individual sprite
+	bool active{false}; //true if texture has been saved to OpenGL
+	std::vector<Texcoords> texcoords; //array containing sprite coordinates for sprite sheet
 };
 
 class TextureManager {
 public:
-	~TextureManager();
-	void Initialize();
+	~TextureManager(); //Calls Clear, in case of deletion without calling Clear
 	Texture* Add(char const* texname); //Create a texture using the texture file path as input. If texture already exists, return the texture instead.
 	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
-	void Clear();
-	std::unordered_map<std::string, Texture> data;
-	GLuint arrayid;
+	void Clear(); //Removes all textures from OpenGL memory and empties the map
+	std::unordered_map<std::string, Texture> data; //storage of textures
 };
 
 extern TextureManager texList;
