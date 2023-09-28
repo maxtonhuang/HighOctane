@@ -183,15 +183,15 @@ void ModelSystem::Update() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
+		//Size* sizeData = &sizeArray.GetData(entity);
 
-		modelData->UpdateAnimation(*aniData, *texData, *sizeData);
+		modelData->UpdateAnimation(*aniData, *texData);
 	}
 	Mail::mail().mailbox[ADDRESS::MODEL].clear();
 }

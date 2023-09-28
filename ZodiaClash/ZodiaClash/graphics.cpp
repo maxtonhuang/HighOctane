@@ -66,6 +66,7 @@ GraphicsManager::GraphicsManager() {
 
 GraphicsManager::~GraphicsManager() {
     glfwTerminate();
+    //fonts.~FontManager();
 }
 
 void GraphicsManager::Initialize(int w, int h) {
@@ -122,7 +123,7 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck2.png", 1, 6, 6);
 
     fonts.Initialize();
-    fonts.LoadFont("Danto Lite Normal.ttf");
+
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -157,7 +158,16 @@ void GraphicsManager::Draw() {
     fontRenderer.Draw();
     //test_model.DrawOutline();
     
-    DrawLabel("AAA", "Danto Lite Normal.ttf", 0.5f, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } }, Color{ glm::vec4{ 1,1,1,1 } });
+    // note: to draw as entity!
+    std::string labelText = "ZodiaClash v0.1 © 2023 High Octane";
+    float relFontSize = 0.48f;
+    Vec2 relTextPos = { 0.2f, 0.85f };
+    glm::vec3 color = { 1.f, 1.f, 1.f };
+    DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
+
+    labelText = "All content © 2023 DigiPen (SINGAPORE) Corporation, all rights reserved.";
+    relTextPos = { -0.95f, -0.9f };
+    DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 
     guiManager.Update(window);
@@ -216,33 +226,40 @@ float GraphicsManager::GetHeight() {
     return (float)height;
 }
 
-void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float scale, Transform transData, Color colorData) {
+void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color) {
     
-    Font fontData = fonts.GetFont(fontName);
+    //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
+
+    Font fontData = fonts.GetFont();
     // TODO some sort of non null checking for fontData?
     // iterate through all characters 
+    float initPosX = (relTextPos.x * GRAPHICS::w);
+    float initPosY = (relTextPos.y * GRAPHICS::h);
+    float xPos = initPosX;
+    float yPos;
+
     std::string::const_iterator c;
     for (c = labelText.begin(); c != labelText.end(); c++)
     {
         Character ch = fontData.Characters[*c];
 
-        float xpos = (transData.position.x + ch.Bearing.x * scale);
-        float ypos = (transData.position.y - (ch.Size.y - ch.Bearing.y) * scale);
+        xPos = (xPos + ch.Bearing.x * relFontSize);
+        yPos = (initPosY - (ch.Size.y - ch.Bearing.y) * relFontSize);
 
-        float w = ch.Size.x * scale;
-        float h = ch.Size.y * scale;
-        glm::vec3 color(1.f, 1.f, 1.f);
-        glm::vec2 botleft{ xpos / GRAPHICS::w, ypos / GRAPHICS::h };
-        glm::vec2 botright{ (xpos + w) / GRAPHICS::w, ypos / GRAPHICS::h };
-        glm::vec2 topright{ (xpos + w) / GRAPHICS::w, (ypos + h) / GRAPHICS::h };
-        glm::vec2 topleft{ (xpos) / GRAPHICS::w, (ypos + h) / GRAPHICS::h };
-        fontRenderer.AddVertex(Vertex{ botleft,color, glm::vec2{0,1}, (float)ch.TextureID - 1});
+        float w = ch.Size.x * relFontSize;
+        float h = ch.Size.y * relFontSize;
+        //glm::vec3 color(1.f, 1.f, 1.f);
+        glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
+        glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
+        glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+        glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+        fontRenderer.AddVertex(Vertex{ botleft, color, glm::vec2{0,1}, (float)ch.TextureID - 1});
         fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.TextureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topleft,color, glm::vec2{0,0}, (float)ch.TextureID - 1 });
+        fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.TextureID - 1 });
         fontRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)ch.TextureID - 1 });
         fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.TextureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topleft,color, glm::vec2{0,0}, (float)ch.TextureID - 1 });
+        fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.TextureID - 1 });
         fontRenderer.FontDraw(ch.TextureID);
-        transData.position.x += (ch.Advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+        xPos += (ch.Advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
     }
 }
