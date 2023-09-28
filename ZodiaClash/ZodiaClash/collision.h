@@ -24,45 +24,46 @@ namespace physics {
 		vmath::Vector2 normal;
 	};*/
 
+	/*enum SHAPE_ID {
+		SHAPE_CIRCLE,
+		SHAPE_BOX,
+		NUM_OF_SHAPES
+	};*/
 
-	class Shape {
-	public:
-		enum SHAPE_ID {
-			SHAPE_CIRCLE,
-			SHAPE_BOX,
-			NUM_OF_SHAPES
-		};
-		SHAPE_ID id;
-		Body* body;
-		Shape(SHAPE_ID shapeId) : id(shapeId), body(nullptr) {};
-		~Shape() {}
-		//virtual void Draw() = 0;
-		//virtual bool TestPoint(vmath::Vector2) = 0;
-	};
+	//class Shape {
+	//public:
+	//	
+	//	SHAPE_ID id;
+	//	Body* body;
+	//	Shape(SHAPE_ID id) : id{ id } , body(nullptr) {};
+	//	~Shape() {}
+	//	//virtual void Draw() = 0;
+	//	//virtual bool TestPoint(vmath::Vector2) = 0;
+	//};
 
-	// Circle shape.
-	class Circle : public Shape
-	{
-	public:
-		Circle() : Shape(SHAPE_CIRCLE), radius{ 0.1f }, isStatic{}, isVulnerable{} {};
-		float radius;
-		bool isStatic;
-		bool isVulnerable;
-		//virtual void Draw();
-	};
+	//// Circle shape.
+	//class Circle : public Body
+	//{
+	//public:
+	//	Circle() : Shape(SHAPE_CIRCLE), radius{ 0.1f }, isStatic{}, isVulnerable{} {};
+	//	float radius;
+	//	bool isStatic;
+	//	bool isVulnerable;
+	//	//virtual void Draw();
+	//};
 
-	// Axis Aligned Bounding Box Shape
-	class AABB : public Shape
-	{
-	public:
-		AABB() : Shape(SHAPE_BOX), min{ 0.f, 0.f }, max{ 0.f, 0.f }, extents{ 0.f, 0.f }, isStatic{}, isVulnerable{} {};
-		vmath::Vector2 min;
-		vmath::Vector2 max;
-		vmath::Vector2 extents;
-		bool isStatic;
-		bool isVulnerable;
-		//virtual void Draw();
-	};
+	//// Axis Aligned Bounding Box Shape
+	//class AABB : public Body
+	//{
+	//public:
+	//	AABB() : Shape(SHAPE_BOX), min{ 0.f, 0.f }, max{ 0.f, 0.f }, extents{ 0.f, 0.f }, isStatic{}, isVulnerable{} {};
+	//	vmath::Vector2 min;
+	//	vmath::Vector2 max;
+	//	vmath::Vector2 extents;
+	//	bool isStatic;
+	//	bool isVulnerable;
+	//	//virtual void Draw();
+	//};
 
 	/**
 	// --- to check more on physics side!
@@ -100,12 +101,12 @@ namespace physics {
 	**/
 
 	// function pointer for different collision tests
-	typedef bool (*CollisionTest)
-		(Shape* alpha,
-			vmath::Vector2 alphaPos,
-			Shape* beta,
-			vmath::Vector2 betaPos);
-			//ContactSet* c);
+	//typedef bool (*CollisionTest)
+	//	(Shape* alpha,
+	//		vmath::Vector2 alphaPos,
+	//		Shape* beta,
+	//		vmath::Vector2 betaPos);
+	//		//ContactSet* c);
 
 	class CollisionManager
 	{

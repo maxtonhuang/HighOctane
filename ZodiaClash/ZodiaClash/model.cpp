@@ -73,9 +73,6 @@ void Model::Draw(Tex const& entity, Animation const& ani) {
 	else {
 		renderer = &flatRenderer;
 	}
-	if (renderer->GetDrawCount() + 6 >= GRAPHICS::vertexBufferSize) {
-		renderer->Draw();
-	}
 	if (entity.tex != nullptr) {
 		renderer->AddVertex(Vertex{ botleft,color, entity.tex->GetTexCoords(ani.frameIndex,0), (float)entity.tex->GetID() - 1.f });
 		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
@@ -103,6 +100,14 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+}
+
+bool Model::CheckTransformUpdated(Transform& transform) {
+	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale) {
+		return false;
+	}
+	previous = transform;
+	return true;
 }
 
 /* ----------------------------------------------------------------------------
@@ -156,7 +161,7 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 *	>> Note: for ALL entities!
 ********************************************************************************/
 
-void Model::UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData) {
+void Model::UpdateAnimation(Animation& aniData, Tex& texData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
 	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
@@ -169,6 +174,7 @@ void Model::UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData) {
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
+			// not in use - sizeData not needed as only MC can change animation; to reinstate when conditions change
 			//if (msg.info == INFO::KEY_C) {
 			//	ChangeAnimation(aniData, texData);
 			//	ResizeOnChange(texData, sizeData);

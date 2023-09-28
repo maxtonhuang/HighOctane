@@ -57,7 +57,7 @@ private:
     void worker_function();
 
     ThreadPool();
-    ~ThreadPool();
+    
 
 public:
 
@@ -76,5 +76,5 @@ public:
     // Shutdown the thread pool
     void shutdown();
 
-    
+    ~ThreadPool();
 };

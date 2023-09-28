@@ -30,6 +30,7 @@
 ******************************************************************************/
 
 #include "Shaders.h"
+#include "debugdiagnostic.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -42,7 +43,8 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	for (auto& p : vec) {
 		std::ifstream shaderfile(p.second, std::ifstream::in);
 		if (!shaderfile) {
-			std::cout << "Unable to find shader file " << p.second << "!\n";
+			DEBUG_PRINT("Unable to find shader file &s!\n", p.second);
+			//std::cout << "Unable to find shader file " << p.second << "!\n";
 			return false;
 		}
 
@@ -61,7 +63,8 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 			shaderhandle = glCreateShader(GL_FRAGMENT_SHADER);
 			break;
 		default:
-			std::cout << "Not valid shader type!\n";
+			DEBUG_PRINT("Not valid shader type!\n");
+			//std::cout << "Not valid shader type!\n";
 			return false;
 		}
 
@@ -75,7 +78,8 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 			GLchar* errorLog = new GLchar[1024];
 			int length;
 			glGetShaderInfoLog(shaderhandle, 1024, &length, &errorLog[0]);
-			std::cout << errorLog << "\n";
+			DEBUG_PRINT("%s\n",errorLog);
+			//std::cout << errorLog << "\n";
 			delete[] errorLog;
 			return false;
 		}
@@ -88,7 +92,8 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	int linkresult;
 	glGetShaderiv(handle, GL_LINK_STATUS, &linkresult);
 	if (linkresult == GL_FALSE) {
-		std::cout << "Unable to link shader!\n";
+		DEBUG_PRINT("Unable to link shader!\n");
+		//std::cout << "Unable to link shader!\n";
 		return false;
 	}
 
@@ -97,7 +102,8 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	int validateresult;
 	glGetShaderiv(handle, GL_VALIDATE_STATUS, &validateresult);
 	if (validateresult == GL_FALSE) {
-		std::cout << "Unable to validate shader!\n";
+		DEBUG_PRINT("Unable to validate shader!\n");
+		//std::cout << "Unable to validate shader!\n";
 		return false;
 	}
 
@@ -113,12 +119,6 @@ void Shader::DeleteShader() {
 void Shader::Use() {
 	if (handle > 0) {
 		glUseProgram(handle);
-		if (glGetError() == GL_INVALID_VALUE) {
-			//std::cout << "Invalid program!\n";
-		}
-	}
-	else {
-		std::cout << "Unable to use shader program!\n";
 	}
 }
 

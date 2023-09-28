@@ -41,6 +41,15 @@ More important overloads
 
 namespace vmath {
 
+	/**************************************************************************/
+	/*!
+		@class Vector2
+		@brief A class representing 2D vectors.
+
+		This class provides utility functions and operators tailored for 2D
+		mathematical vector operations
+	*/
+	/**************************************************************************/
 	class Vector2 {
 		public:
 			float x;
@@ -272,6 +281,15 @@ namespace vmath {
 			}
 	};
 
+	/**************************************************************************/
+	/*!
+		@class Vector3
+		@brief A class representing 3D vectors.
+
+		This class provides utility functions and operators tailored for 3D
+		mathematical vector operations
+	*/
+	/**************************************************************************/
 	class Vector3 {
 		public:
 			float x;

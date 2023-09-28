@@ -53,7 +53,7 @@ public:
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
 
-	void DrawLabel(std::string labelText, std::string fontName, float scale, Transform transData, Color colorData);
+	void DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color);
 
 	//DEBUG DRAW FUNCTIONS
 	void DrawPoint(float x, float y, float r = 1.f, float g = 1.f, float b = 1.f);

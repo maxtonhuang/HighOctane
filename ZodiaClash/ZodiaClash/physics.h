@@ -42,6 +42,19 @@ using namespace vmath;
 class GraphicsManager;
 
 namespace physics {
+
+    /**************************************************************************/
+    /*!
+        @class PhysicsManager
+        @brief Manages physics simulation and provides core physics functionalities.
+
+        This class is responsible for updating physics entities,
+        integrating their motion, handling forces, and rendering debug information.
+        It communicates with an Entity Component System (ECS) to access and
+        modify components of entities. Additionally, it interfaces with the
+        GraphicsManager to render debug visualizations.
+    */
+    /**************************************************************************/
     class PhysicsManager {
     public:
         PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
@@ -58,7 +71,6 @@ namespace physics {
     private:
         void IntegrateBodies(float deltaTime);
         void Step(float deltaTime);
-
         ECS& m_ecs; // Reference to the ECS instance
         std::vector<Entity> m_Entities;
         float maxVelocity{};
@@ -81,8 +93,17 @@ namespace physics {
     struct Body;
 }
 
+/**************************************************************************/
+/*!
+    @struct Collider
+    @brief Represents an object's physical shape for collision detection.
+
+    The struct is used for determining if two objects
+    in a physics simulation are intersecting or colliding. 
+*/
+/**************************************************************************/
 struct Collider {
-    physics::Shape* shape;
+    physics::Body* body;
     //if true, don't perform physical response, just notify that theres collision
     bool                    isTrigger;
     //list of entities this collider is in contact with

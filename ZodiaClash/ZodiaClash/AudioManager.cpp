@@ -32,6 +32,7 @@
 ******************************************************************************/
 
 #include "AudioManager.h"
+#include "DebugDiagnostic.h"
 #include <iostream>
 
 AudioManager audio;
@@ -42,14 +43,14 @@ void AudioManager::Initialize() {
     result = FMOD::System_Create(&system);      // Create the main system object.
     if (result != FMOD_OK)
     {
-        std::cout << "Error!\n";
+        ASSERT(1, "Unable to create FMOD system!");
         //printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
     }
 
     result = system->init(512, FMOD_INIT_NORMAL, 0);    // Initialize FMOD.
     if (result != FMOD_OK)
     {
-        std::cout << "Error!\n";
+        ASSERT(1, "Unable to initialise FMOD system!");
         //printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
     }
 }
@@ -62,12 +63,14 @@ void AudioManager::AddSound(const char* path) {
     FMOD_RESULT result;
     result = system->createSound(path, FMOD_DEFAULT,0,&data[path]);
     if (result != FMOD_OK) {
-        std::cout << "Error creating sound!\n";
+        ASSERT(1, "Error creating sound!");
+        //std::cout << "Error creating sound!\n";
     }
 }
 
 void AudioManager::PlaySounds(const char* sound) {
-    FMOD::Channel* tmp;
+    static FMOD::Channel* tmp;
+    tmp->stop();
     system->playSound(data[sound], 0, false, &tmp);
 }
 

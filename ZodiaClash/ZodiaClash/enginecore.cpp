@@ -57,11 +57,10 @@
 
 using Vec2 = vmath::Vector2;
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 
 	DebugProfiling debugSysProfile;
 #endif // 
-
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 	
 //const uint32_t MAX_MODELS = 50'000;
@@ -120,6 +119,7 @@ void EngineCore::Run() {
 		//signature.set(ECS::ecs().GetComponentType<AABB>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
 	}
@@ -208,9 +208,35 @@ void EngineCore::Run() {
 	/*serializationSystem->Update();*/
 
 	
+
+	//std::vector<long long> vec1(10000, 1);  // Fill with some dummy values
+	//std::vector<long long> vec2(10000, 2);
+
+	//long long sum[8]{ 0 };
+	//for (int x = 0; x < 8; ++x) {
+
+	//	ThreadPool::threadPool().enqueue([x, &sum, &vec1, &vec2]() {
+	//		for (int i = 0; i < 10000; ++i) {
+	//			for (int j = 0; j < 10000; ++j) {
+	//				sum[x] += vec1[i] + vec2[j];
+	//			}
+	//		}
+	//		std::cout << x << ": " << sum[x] << std::endl;
+
+	//		});
+	//	std::cout << "Done." << std::endl;
+	//}
+
+
 	//Process fonts
 	//Entity fontSys = CreateModel();
 	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
+	
+
+
+
+
+
 
 
 	//////////////////////////////////////////////
@@ -229,17 +255,17 @@ void EngineCore::Run() {
 
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
-
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StartTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
-				
-			sys.first->Update();
+					//if (1 || (sys.second != "Physics System")) { // for 2500 models
+						sys.first->Update();
+					//}
 
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 				
