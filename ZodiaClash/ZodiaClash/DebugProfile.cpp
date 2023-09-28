@@ -30,7 +30,7 @@
 ******************************************************************************/
 #include "DebugProfile.h"
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
     void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
 
         // To get the time taken for each system

@@ -41,7 +41,7 @@
 #define PRINT_INTERVAL 5'000'000
 
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 
 #include <vector>
 #include <string>

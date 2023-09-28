@@ -32,7 +32,7 @@
 #include "ImGuiPerformance.h"
 #include "enginecore.h"
 
-#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+#if ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
 

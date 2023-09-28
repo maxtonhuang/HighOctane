@@ -102,6 +102,8 @@ constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 #define LOG_FATAL(message) ((void)0);
 
+#define LOG_CRASH(message) ((void)0);
+
 #define LOG_ROTATE_FILE(maxFileSize) ((void)0);
 
 #define LOG_SET_LEVEL(level) ((void)0);
