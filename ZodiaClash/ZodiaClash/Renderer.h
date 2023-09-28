@@ -63,8 +63,9 @@ public:
 private:
 	GLuint vao{};
 	GLuint vbo{};
-	GLuint drawcount{};
+	GLuint drawcount{}; //amount of vertices currently drawn
 	Vertex* data{}; //storage of vertices
 	GLenum drawtype{};
 	Shader shaderprogram{};
+	GLuint objvertsize{}; //amount of vertices per screen object
 };

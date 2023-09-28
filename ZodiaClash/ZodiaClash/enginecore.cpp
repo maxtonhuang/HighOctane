@@ -142,6 +142,7 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		//signature.set(ECS::ecs().GetComponentType<Circle>());
 		//signature.set(ECS::ecs().GetComponentType<AABB>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<CollisionSystem>(signature);
 	}
@@ -255,6 +256,7 @@ void EngineCore::Run() {
 			gameActive = false;
 		}
 		}
+	delete physics::PHYSICS; //maybe put this somewhere else
 	}
 
 

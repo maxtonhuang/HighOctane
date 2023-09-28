@@ -55,6 +55,20 @@ void Renderer::Initialize(char const* vertexshader, char const* fragmentshader, 
 
     CreateVAO();
     drawtype = type;
+    switch (drawtype) {
+    case GL_POINTS:
+        objvertsize = 1;
+        break;
+    case GL_TRIANGLES:
+        objvertsize = 6;
+        break;
+    case GL_LINES:
+        objvertsize = 2;
+        break;
+
+    default:
+        objvertsize = 0;
+    }
 }
 
 void Renderer::Initialize(Shader shader, GLenum type) {
@@ -68,7 +82,7 @@ Shader& Renderer::ShaderProgram() {
 }
 
 void Renderer::AddVertex(Vertex input) {
-    if (drawcount >= GRAPHICS::vertexBufferSize) {
+    if (drawcount + objvertsize >= GRAPHICS::vertexBufferSize) {
         Draw();
     }
     data[drawcount] = input;

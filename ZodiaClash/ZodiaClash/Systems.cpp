@@ -159,10 +159,14 @@ void CollisionSystem::Update() {
 			physics::Body* bodyData2 = &bodyArray.GetData(entity2);
 			Collider* collideData2 = &colliderArray.GetData(entity2);
 
+			if (entity1 == entity2) {
+				continue;
+			}
+
 			bool collided{};
 			collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
 			if (collided) {
-				//std::cout << "BOOM!\n";
+				std::cout << "BOOM!\n";
 				physics::HandleCollisionResponse(*bodyData1, *bodyData2);
 			}
 		}
