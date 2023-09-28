@@ -39,8 +39,10 @@
 ******************************************************************************/
 
 #include "MultiThreading.h"
+#include <Windows.h>
 
 void ThreadPool::worker_function() {
+    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
     while (true) {
         std::function<void()> task;
         {

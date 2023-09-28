@@ -190,8 +190,7 @@ void EngineCore::Run() {
 	//Process fonts
 	//Entity fontSys = CreateModel();
 	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
-
-
+	
 	//////////////////////////////////////////////
 	///////////////// GAME LOOP //////////////////
 	//////////////////////////////////////////////
@@ -208,16 +207,15 @@ void EngineCore::Run() {
 
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
-
-		
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 					debugSysProfile.StartTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
-				
-			sys.first->Update();
+					//if (1 || (sys.second != "Physics System")) { // for 2500 models
+						sys.first->Update();
+					//}
 
 			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
 					debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
