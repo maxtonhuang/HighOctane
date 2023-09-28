@@ -160,7 +160,7 @@ void GraphicsManager::Draw() {
     
     // note: to draw as entity!
     std::string labelText = "© 2023 High Octane";
-    float relFontSize = 0.48f;
+    float relFontSize = 1.5f;
     Vec2 relTextPos = { 0.55f, 0.85f };
     glm::vec3 color = { 1.f, 1.f, 1.f };
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
@@ -228,8 +228,9 @@ float GraphicsManager::GetHeight() {
 
 void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color) {
     
-    //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
-    // MY_ASSERT((relFontSize < 0.f) || (relFontSize > 1.f));
+    ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
+    //YOU_ASSERT((relFontSize < 0.f) || (relFontSize > 1.f));
+    //MY_ASSERT((relFontSize < 0.f) || (relFontSize > 1.f));
 
     // enforce relFontSize to be in range [0.f, 1.f]
     relFontSize = std::max(0.f, relFontSize);

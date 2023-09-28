@@ -119,7 +119,22 @@ namespace debug {
                 std::cerr << std::endl;
 
                 // Display a message box to the user if the log level is higher
-                CustomMessageBox(fileName, line, message);
+                int retVal = CustomMessageBox(fileName, line, message);
+
+                if (retVal == IDYES) {
+					// Exit
+                    ExitProcess(1);
+                    //std::exit(1);
+                    //std::abort();
+				}
+                else if (retVal == IDNO) {
+					// Continue on with the code
+					break;
+				}
+                else {
+					// Handle other cases (e.g., if the message box is closed without choosing Yes or No)
+					break;
+				}
             }
         } while (false);
     }
@@ -187,7 +202,12 @@ namespace debug {
             customTitle.clear();
 
             // Exit
-            std::exit(0);
+            //std::exit(1);
+            //std::abort();
+            //std::raise(SIGTERM);
+            //ExitProcess(1);
+            //std::terminate();
+            return msgboxID;
         case IDNO:
 
             LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)
@@ -204,9 +224,8 @@ namespace debug {
 
             break;
         default:
-            LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)
-                + ". User chose to continue\n");
-            // Continue on with the code
+        {
+            // Handle other cases (e.g., if the message box is closed without choosing Yes or No)
 
             // Free memory for wideFile and wideMessage
             wideFile.clear();
@@ -216,7 +235,8 @@ namespace debug {
             customMsg.clear();
             customTitle.clear();
 
-            break;
+            return msgboxID;
+        }
         }
         return msgboxID;
     }
