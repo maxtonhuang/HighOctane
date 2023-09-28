@@ -119,22 +119,7 @@ namespace debug {
                 std::cerr << std::endl;
 
                 // Display a message box to the user if the log level is higher
-                int retVal = CustomMessageBox(fileName, line, message);
-
-                if (retVal == IDYES) {
-					// Exit
-                    ExitProcess(1);
-                    //std::exit(1);
-                    //std::abort();
-				}
-                else if (retVal == IDNO) {
-					// Continue on with the code
-					break;
-				}
-                else {
-					// Handle other cases (e.g., if the message box is closed without choosing Yes or No)
-					break;
-				}
+                CustomMessageBox(fileName, line, message);
             }
         } while (false);
     }
@@ -164,7 +149,7 @@ namespace debug {
         // Creating the custom message
         std::wstring customMsg = L"In file: " + std::wstring(wideFilePtr) + L" line: " + std::to_wstring(line)\
             + L"\n\nAssert triggered: " + std::wstring(wideMessagePtr)\
-            + L"\n\nYes to quit\n\nNo to continue"\
+            + L"\n\nYes to quit\nClick 'Abort' on the next prompt\n\nNo to continue"\
             + L"\nWARNING: PROGRAM MAY NOT WORK PROPERLY";
         std::wstring customTitle = +L"Quit program?";
 
@@ -202,12 +187,9 @@ namespace debug {
             customTitle.clear();
 
             // Exit
-            //std::exit(1);
-            //std::abort();
-            //std::raise(SIGTERM);
-            //ExitProcess(1);
-            //std::terminate();
-            return msgboxID;
+            std::abort();
+
+            break;
         case IDNO:
 
             LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)

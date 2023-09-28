@@ -41,6 +41,8 @@
 *	
 *		This will print out and (log to error file?) the following message to the standard error stream:
 *		Assertion failed in {code.cpp} {line }: x must be more than 0
+*		Assert will have a custom message box appear, user have a chance to
+*		choose no to continue on or yes to quit the program and call abort().
 ******************************************************************************/
 #pragma once
 
@@ -82,10 +84,6 @@
 #define DEBUG_PRINT(...) debug::PrintDebugHandler(__VA_ARGS__);
 
 #define ASSERT(condition, ...) debug::AssertDebugHandler(condition, __FILE__, __LINE__, __VA_ARGS__);
-
-//#define MY_ASSERT(x) if ((x)) { printf("My custom assertion failed: (%s), function %s, file %s, line %d.\n", #x, __func__, __FILE__, __LINE__); abort(); }
-
-#define YOU_ASSERT(_EXPR)            assert(_EXPR)  
 
 #define Console(...) debug::ConsoleInitHandler(__VA_ARGS__);
 

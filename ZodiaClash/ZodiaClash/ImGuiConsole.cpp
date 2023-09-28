@@ -130,8 +130,12 @@ void UpdateConsole() {
                 std::string filterLowerCase = filterBuffer;
 
                 // Convert both strings to lower case
-                std::transform(logEntryLowerCase.begin(), logEntryLowerCase.end(), logEntryLowerCase.begin(), ::tolower);
-                std::transform(filterLowerCase.begin(), filterLowerCase.end(), filterLowerCase.begin(), ::tolower);
+                std::transform(logEntryLowerCase.begin(), logEntryLowerCase.end(), logEntryLowerCase.begin(),
+                    [](char c) { return static_cast<char>(std::tolower(static_cast<unsigned char>(c))); });
+
+                std::transform(filterLowerCase.begin(), filterLowerCase.end(), filterLowerCase.begin(),
+                    [](char c) { return static_cast<char>(std::tolower(static_cast<unsigned char>(c))); });
+
 
                 /********CUSTOM COLLOUR OUTPUT*********/
                 ImVec4 textColor = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);  // Default to white text color
