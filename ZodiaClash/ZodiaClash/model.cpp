@@ -102,11 +102,12 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 }
 
-bool Model::CheckTransformUpdated(Transform& transform) {
-	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale) {
+bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
+	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale && size.height == previous_size.height && size.width == previous_size.width) {
 		return false;
 	}
 	previous = transform;
+	previous_size = size;
 	return true;
 }
 

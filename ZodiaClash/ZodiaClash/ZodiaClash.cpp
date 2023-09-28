@@ -89,6 +89,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     
     EngineCore::engineCore().Run();
-    
     return 0;
 }
