@@ -122,17 +122,18 @@ bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
 /* ----------------------------------------------------------------------------
 THE FOLLOWING FUNCTIONS ARE TO BE MOVED INTO A DIFFERENT ANIMATOR CLASS
 ---------------------------------------------------------------------------- */
+// to manually set animation to specified index frame
 void Model::SetAnimation(Animation& aniData, int index) {
 	aniData.frameIndex = index;
 }
 
+// core function to cycle through animation frames
 void Model::AdvanceAnimation(Animation& aniData, Tex& texData) {
-	//data.frameIndex = (data.frameIndex + 1) % (tex->GetSheetSize());
 	aniData.frameIndex = (aniData.frameIndex + 1) % texData.tex->GetSheetSize();
 }
 
-void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
-	aniData = aniData; //unused variable
+// changes animation sprite if model has more than 1 texVariant stored
+void Model::ChangeAnimation(Tex& texData) {
 	// Update sprite
 	if (texData.texVariants.size() == 0) {
 		return;
@@ -141,20 +142,22 @@ void Model::ChangeAnimation(Animation& aniData, Tex& texData) {
 	texData.tex = texData.texVariants.at(texData.texVariantIndex);
 }
 
+// called after ChangeAnimation to account for change in texture dimensions
 void Model::ResizeOnChange(Tex& texData, Size& sizeData) {
 	sizeData.width = (float)texData.tex->GetWidth();
 	sizeData.height = (float)texData.tex->GetHeight();
 }
 
+// called for time-based animations; advances to next frame at set intervals (frameDisplayDuration)
 void Model::AnimateOnInterval(Animation& aniData, Tex& texData) {
 	aniData.frameTimeElapsed += g_dt;
-	//std::cout << data.frameTimeElapsed << "\n";
 	if (aniData.frameTimeElapsed > aniData.frameDisplayDuration) {
 		AdvanceAnimation(aniData, texData);
 		aniData.frameTimeElapsed = 0.f;
 	}
 }
 
+// called for event-based animations; advances on key input
 void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 	AdvanceAnimation(aniData, texData);
 }
@@ -162,16 +165,17 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 
 /********************************************************************************
 * 3 kinds of key input handling:
-* - KEY_X --> animationType togglig
+* - KEY_X --> animationType toggling
 *	>> Note: ONLY for main character entities!
 * - KEY_C --> AnimationChange()
-*	>> Note: isMsgAnimationChange == 1
 *	>> Note: ONLY for main character entities!
 * - KEY_V --> AnimateOnKeyPress()
-*	>> Note: (animationType == ANIMATION_EVENT_BASED) && (isMsgAnimateNext == 1)
+*	>> Note: (animationType == ANIMATION_EVENT_BASED)
 *	>> Note: for ALL entities!
 ********************************************************************************/
 
+// animation update function for all relevant entities
+// called in ModelSystem
 void Model::UpdateAnimation(Animation& aniData, Tex& texData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
@@ -197,8 +201,9 @@ void Model::UpdateAnimation(Animation& aniData, Tex& texData) {
 	}
 }
 
+// animation update function for all relevant MAIN CHARACTER entities
+// called in MovementSystem
 void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
-	sizeData = sizeData; //unused variable
 
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
@@ -218,7 +223,7 @@ void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) 
 				}
 			}
 			if (msg.info == INFO::KEY_C) {
-				ChangeAnimation(aniData, texData);
+				ChangeAnimation(texData);
 				ResizeOnChange(texData, sizeData);
 			}
 
