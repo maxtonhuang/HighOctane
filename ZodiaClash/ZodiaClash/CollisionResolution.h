@@ -34,7 +34,7 @@
 #include "collision.h"
 
 namespace physics {
-    void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody);
+    void DynamicStaticResponse(Body& dynamicBody);
     void DynamicDynamicResponse(Body& bodyA, Body& bodyB);
     void HandleCollisionResponse(Body& alpha, Body& beta);
 }

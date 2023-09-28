@@ -48,10 +48,19 @@
 void PhysicsSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	
+	bool reqStep{ false };
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED:
+			if (msg.info == INFO::KEY_8) {
+				reqStep = true;
+			}
+			if (msg.info == INFO::KEY_9) {
+				physics::PHYSICS->ToggleStepMode();
+			}
+			if (msg.info == INFO::KEY_0) {
+				physics::PHYSICS->ToggleDebugMode();
+			}
 			if (msg.info == INFO::KEY_G) {
 				Entity entity = ECS::ecs().CreateEntity();
 				ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
@@ -78,7 +87,7 @@ void PhysicsSystem::Update() {
 				//ECS::ecs().AddComponent(entity, MainCharacter{});
 
 				//add physics component
-				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())});
+				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 				ECS::ecs().AddComponent<Collider>(entity, Collider{});
 			}
 			break;
@@ -89,13 +98,28 @@ void PhysicsSystem::Update() {
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-	for (Entity const& entity : m_Entities) {
-		Transform* transData = &transformArray.GetData(entity);
-		physics::Body* bodyData = &bodyArray.GetData(entity);
-		Collider* collideData = &colliderArray.GetData(entity);
-		
-		physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
-		physics::PHYSICS->DebugDraw(*bodyData,*transData);
+	if (physics::PHYSICS->GetStepModeActive()) {
+		for (Entity const& entity : m_Entities) {
+			Transform* transData = &transformArray.GetData(entity);
+			physics::Body* bodyData = &bodyArray.GetData(entity);
+			physics::PHYSICS->DebugDraw(*bodyData, *transData);
+		}
+		if (reqStep)
+			for (Entity const& entity : m_Entities) {
+				Transform* transData = &transformArray.GetData(entity);
+				physics::Body* bodyData = &bodyArray.GetData(entity);
+				physics::PHYSICS->Integrate(*bodyData, 1.f / 60.f, *transData);
+			}
+	}
+	else {
+		for (Entity const& entity : m_Entities) {
+			Transform* transData = &transformArray.GetData(entity);
+			physics::Body* bodyData = &bodyArray.GetData(entity);
+			Collider* collideData = &colliderArray.GetData(entity);
+
+			physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
+			physics::PHYSICS->DebugDraw(*bodyData, *transData);
+		}
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
@@ -136,8 +160,6 @@ void CollisionSystem::Update() {
 				ECS::ecs().AddComponent<Transform>(entity, Transform{});
 				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{});
 				ECS::ecs().AddComponent<Collider>(entity, Collider{});
-				//ECS::ecs().AddComponent<Circle>(entity, Circle{});
-				//ECS::ecs().AddComponent<AABB>(entity, AABB{});
 			}
 			break;
 		}
@@ -162,7 +184,6 @@ void CollisionSystem::Update() {
 			bool collided{};
 			collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
 			if (collided) {
-				//std::cout << "BOOM!\n";
 				physics::HandleCollisionResponse(*bodyData1, *bodyData2);
 			}
 		}
