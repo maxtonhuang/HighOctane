@@ -5,9 +5,18 @@
 namespace physics {
 
 	// SECTION: COLLISION DETECTION
+<<<<<<< Updated upstream
     bool CheckCollisionBoxBox(const Body& alpha, const Body& beta) {
 		std::shared_ptr < AABB> aabb1 = std::reinterpret_pointer_cast<AABB>(alpha.bodyShape);
 		std::shared_ptr < AABB> aabb2 = std::reinterpret_pointer_cast<AABB>(beta.bodyShape);
+=======
+    bool CheckCollisionBoxBox(const Body& alpha, const Body& beta, vmath::Vector2 &contactNormal) {
+		/*AABB* aabb1 = static_cast<AABB*>(alpha.bodyShape);
+		AABB* aabb2 = static_cast<AABB*>(beta.bodyShape);*/
+
+		/*aabb1->extents = alpha.halfDimensions;
+		aabb2->extents = beta.halfDimensions;*/
+>>>>>>> Stashed changes
 
 		//extract min-max
 		aabb1->min = { alpha.position.x - aabb1->extents.x, alpha.position.y - aabb1->extents.y };
@@ -64,11 +73,13 @@ namespace physics {
 				{
 					float dFirst = aabb1->max.x - aabb2->min.x;
 					tFirst = ((dFirst / vB.x) > tFirst) ? (dFirst / vB.x) : tFirst;
+					contactNormal.x = 1;
 				}
 				if (aabb1->min.x < aabb2->max.x)
 				{
 					float dLast = aabb1->min.x - aabb2->max.x;
 					tLast = ((dLast / vB.x) < tLast) ? (dLast / vB.x) : tLast;
+					contactNormal.x = -1;
 				}
 			}
 			if (vB.x > 0.f)
@@ -78,11 +89,13 @@ namespace physics {
 				{
 					float dFirst = aabb1->min.x - aabb2->max.x;
 					tFirst = ((dFirst / vB.x) > tFirst) ? (dFirst / vB.x) : tFirst;
+					contactNormal.x = -1;
 				}
 				if (aabb1->max.x > aabb2->min.x)
 				{
 					float dLast = aabb1->max.x - aabb2->min.x;
 					tLast = ((dLast / vB.x) < tLast) ? (dLast / vB.x) : tLast;
+					contactNormal.x = 1;
 				}
 				//case 3
 				if (aabb1->max.x < aabb2->min.x)
@@ -102,11 +115,15 @@ namespace physics {
 				{
 					float dFirst = aabb1->max.y - aabb2->min.y;
 					tFirst = ((dFirst / vB.y) > tFirst) ? (dFirst / vB.y) : tFirst;
+					contactNormal.y = 1;
+
 				}
 				if (aabb1->min.y < aabb2->max.y)
 				{
 					float dLast = aabb1->min.y - aabb2->max.y;
 					tFirst = ((dLast / vB.y) < tLast) ? (dLast / vB.y) : tLast;
+					contactNormal.y = -1;
+
 				}
 			}
 			if (vB.y > 0.f)
@@ -116,11 +133,15 @@ namespace physics {
 				{
 					float dFirst = aabb1->min.y - aabb2->max.y;
 					tFirst = ((dFirst / vB.y) > tFirst) ? (dFirst / vB.y) : tFirst;
+					contactNormal.y = -1;
+
 				}
 				if (aabb1->max.y > aabb2->min.y)
 				{
 					float dLast = aabb1->max.y - aabb2->min.y;
 					tFirst = ((dLast / vB.y) < tLast) ? (dLast / vB.y) : tLast;
+					contactNormal.y = 1;
+
 				}
 				//case 3
 				if (aabb1->max.y < aabb2->min.y)
@@ -253,13 +274,18 @@ namespace physics {
         
     }
 
-	bool CollisionManager::CheckBodyCollision(const Body& alpha, const Body& beta) {
+	bool CollisionManager::CheckBodyCollision(const Body& alpha, const Body& beta, vmath::Vector2 & contactNormal) {
 		
 		Shape::SHAPE_ID alphaShape = alpha.bodyShape->id;
 		Shape::SHAPE_ID betaShape = beta.bodyShape->id;
 
+<<<<<<< Updated upstream
 		if ((alphaShape == Shape::SHAPE_BOX) && (betaShape == Shape::SHAPE_BOX)) {
 			return CheckCollisionBoxBox(alpha, beta);
+=======
+		if ((alphaShape == SHAPE_BOX) && (betaShape == SHAPE_BOX)) {
+			return CheckCollisionBoxBox(alpha, beta, contactNormal);
+>>>>>>> Stashed changes
 		}
 		else if ((alphaShape == Shape::SHAPE_CIRCLE) && (betaShape == Shape::SHAPE_CIRCLE)) {
 			return CheckCollisionCircleCircle(alpha, beta);

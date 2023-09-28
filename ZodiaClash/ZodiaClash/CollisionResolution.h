@@ -34,7 +34,13 @@
 #include "collision.h"
 
 namespace physics {
+<<<<<<< Updated upstream
     void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody);
     void DynamicDynamicResponse(Body& bodyA, Body& bodyB);
     void HandleCollisionResponse(Body& alpha, Body& beta);
+=======
+    void DynamicStaticResponse(Body& dynamicBody);
+    void DynamicDynamicResponse(Body& bodyA, Body& bodyB, vmath::Vector2 const& contactNormal);
+    void HandleCollisionResponse(Body& alpha, Body& beta, vmath::Vector2 const& contactNormal);
+>>>>>>> Stashed changes
 }

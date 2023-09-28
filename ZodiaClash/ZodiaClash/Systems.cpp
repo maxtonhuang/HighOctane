@@ -49,6 +49,18 @@ void PhysicsSystem::Update() {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED:
+<<<<<<< Updated upstream
+=======
+			if (msg.info == INFO::KEY_8) {
+				reqStep = true;
+			}
+			if (msg.info == INFO::KEY_9) {
+				physics::PHYSICS->ToggleStepMode();
+			}
+			if (msg.info == INFO::KEY_0) {
+				physics::PHYSICS->ToggleDebugMode();
+			}
+>>>>>>> Stashed changes
 			if (msg.info == INFO::KEY_G) {
 				Entity entity = ECS::ecs().CreateEntity();
 				ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
@@ -75,7 +87,11 @@ void PhysicsSystem::Update() {
 				//ECS::ecs().AddComponent(entity, MainCharacter{});
 
 				//add physics component
+<<<<<<< Updated upstream
 				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())});
+=======
+				ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+>>>>>>> Stashed changes
 				ECS::ecs().AddComponent<Collider>(entity, Collider{});
 			}
 			break;
@@ -156,11 +172,35 @@ void CollisionSystem::Update() {
 			physics::Body* bodyData2 = &bodyArray.GetData(entity2);
 			Collider* collideData2 = &colliderArray.GetData(entity2);
 
+<<<<<<< Updated upstream
 			bool collided{};
 			collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
 			if (collided) {
 				//std::cout << "BOOM!\n";
 				physics::HandleCollisionResponse(*bodyData1, *bodyData2);
+=======
+					bool collided{};
+					Vector2 contactNormal{};
+					collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2, contactNormal);
+					if (collided) {
+						//DEBUG_PRINT("collided");
+						//std::cout << "bodyData1: " << bodyData1->velocity.x << "," << bodyData1->velocity.y << std::endl;
+						//std::cout << "bodyData2: " << bodyData2->velocity.x << "," << bodyData2->velocity.y << std::endl;
+						bodyData2->velocity = transData2->velocity;
+						bodyData1->velocity = transData1->velocity;
+						physics::HandleCollisionResponse(*bodyData1, *bodyData2, contactNormal);
+
+						contactNormal = contactNormal * 50.f;
+						graphics.DrawLine(bodyData1->position.x, bodyData1->position.y, bodyData1->position.x + contactNormal.x, bodyData1->position.y + contactNormal.y,
+							0.f, 0.f, 1.f);
+					}
+					bodyData1->velocity = { 0.f, 0.f };
+					transData1->velocity = bodyData1->velocity;
+					transData2->velocity = bodyData2->velocity;
+					transData1->position = bodyData1->position;
+					transData2->position = bodyData2->position;
+				}
+>>>>>>> Stashed changes
 			}
 		}
 	}

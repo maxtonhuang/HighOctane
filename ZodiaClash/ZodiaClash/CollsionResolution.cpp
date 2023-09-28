@@ -41,17 +41,51 @@ namespace physics {
         dynamicBody.velocity = (dynamicBody.velocity)*(-1);
     }
 
+<<<<<<< Updated upstream
     //to handle the collision response between two dynamic bodies
     void DynamicDynamicResponse(Body& bodyA, Body& bodyB) 
+=======
+    /**************************************************************************/
+    /*!
+        @brief Handles the collision response between two dynamic bodies.
+        @param bodyA Reference to the first dynamic body involved in the collision.
+        @param bodyB Reference to the second dynamic body involved in the collision.
+
+        Dynamic vs Dynamic Collision response
+     */
+     /**************************************************************************/
+    void DynamicDynamicResponse(Body& bodyA, Body& bodyB, vmath::Vector2 const& contactNormal) 
+>>>>>>> Stashed changes
     {
         Vector2 tempVelocity = bodyA.velocity;
         //swap the velocities, causing them to exchange their velocities upon collision
         //bounce off each other
+<<<<<<< Updated upstream
         bodyA.velocity = bodyB.velocity;
         bodyB.velocity = tempVelocity;
     }
 
     void HandleCollisionResponse(Body& alpha, Body& beta) 
+=======
+        //bodyA.velocity = bodyB.velocity;
+        //bodyB.velocity = tempVelocity;
+        std::cout << "DR2: " << bodyA.velocity.x << "," << bodyA.velocity.y << std::endl;
+        bodyA.velocity = bodyA.velocity - Vector2{ contactNormal.x * bodyA.velocity.x, contactNormal.y * bodyA.velocity.y };
+        bodyB.velocity = bodyB.velocity - Vector2{ contactNormal.x * bodyB.velocity.x, contactNormal.y * bodyB.velocity.y };
+    }
+
+    /**************************************************************************/
+    /*!
+        @brief Handles the collision response between two bodies.
+        @param alpha Reference to the first body involved in the collision.
+        @param beta Reference to the second body involved in the collision.
+
+        Depending on the nature of the bodies involved in the collision, this function
+        will delegate the response to either DynamicStaticResponse or DynamicDynamicResponse.
+     */
+     /**************************************************************************/
+    void HandleCollisionResponse(Body& alpha, Body& beta, vmath::Vector2 const& contactNormal)
+>>>>>>> Stashed changes
     {
         if (beta.isStatic) 
         {
@@ -59,7 +93,7 @@ namespace physics {
         }
         else 
         {
-            DynamicDynamicResponse(alpha, beta);
+            DynamicDynamicResponse(alpha, beta, contactNormal);
         }
     }
 }

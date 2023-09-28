@@ -92,14 +92,15 @@ void EngineCore::Run() {
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
 	systemList.emplace_back(movementSystem, "Movement System");
 
-	std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
-	systemList.emplace_back(physicsSystem, "Physics System");
-
 	std::shared_ptr<CollisionSystem> collisionSystem = ECS::ecs().RegisterSystem<CollisionSystem>();
 	systemList.emplace_back(collisionSystem, "Collison System");
 
+	std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
+	systemList.emplace_back(physicsSystem, "Physics System");
+
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	systemList.emplace_back(modelSystem, "Model System");
+
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 

@@ -119,7 +119,7 @@ namespace physics {
 								Shape* beta,
 								vmath::Vector2 betaPos,
 								ContactSet* c);*/
-		static bool CheckBodyCollision(const Body& alpha, const Body& beta);
+		static bool CheckBodyCollision(const Body& alpha, const Body& beta, vmath::Vector2& contactNormal);
 
 		static bool CheckBorderCollision(const Body& alpha);
 
