@@ -123,7 +123,7 @@ void GraphicsManager::Initialize(int w, int h) {
     texList.AddSpriteSheet("duck2.png", 1, 6, 6);
 
     fonts.Initialize();
-    fonts.LoadFont("Danto Lite Normal.ttf");
+
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -161,14 +161,12 @@ void GraphicsManager::Draw() {
     // note: to draw as entity!
     std::string labelText = "ZodiaClash v0.1 © 2023 High Octane";
     float relFontSize = 0.48f;
-    Vec2 relTextPos = { -0.95f, -0.8f };
+    Vec2 relTextPos = { 0.2f, 0.85f };
     glm::vec3 color = { 1.f, 1.f, 1.f };
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
 
     labelText = "All content © 2023 DigiPen (SINGAPORE) Corporation, all rights reserved.";
-    relFontSize = 0.48f;
     relTextPos = { -0.95f, -0.9f };
-    color = { 1.f, 1.f, 1.f };
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 

@@ -20,10 +20,10 @@ struct Font {
 class FontManager {
 public:
 	// to create def init list!
-	FontManager();
+	FontManager() : fontLibrary{}, ft_font{} {};
 	~FontManager();
 	void Initialize();
-	void Update();
+	//void Update();
 
 	void LoadFont(const std::string& fontPath);
 	void LoadChar(Font& font);

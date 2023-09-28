@@ -156,7 +156,7 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 *	>> Note: for ALL entities!
 ********************************************************************************/
 
-void Model::UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData) {
+void Model::UpdateAnimation(Animation& aniData, Tex& texData) {
 	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
 
 	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) { 
@@ -169,6 +169,7 @@ void Model::UpdateAnimation(Animation& aniData, Tex& texData, Size& sizeData) {
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MODEL]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
+			// not in use - sizeData not needed as only MC can change animation; to reinstate when conditions change
 			//if (msg.info == INFO::KEY_C) {
 			//	ChangeAnimation(aniData, texData);
 			//	ResizeOnChange(texData, sizeData);

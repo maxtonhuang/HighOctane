@@ -6,9 +6,13 @@ FontManager fonts;
 GLuint font_vaoid;
 GLuint font_vboid;
 
-FontManager::FontManager() {
-	
-}
+//FontManager::FontManager() {
+//    FT_Error err;
+//    err = FT_Init_FreeType(&fonts.fontLibrary);
+//    ASSERT(err, "Failed to initialise FreeType!");
+//
+//    fonts.Initialize();
+//}
 
 FontManager::~FontManager() {
     //FT_Done_Face(fontCollection["Danto Lite Normal.ttf"].fontFace);
@@ -23,10 +27,7 @@ void FontManager::Initialize() {
     FT_Error err;
     err = FT_Init_FreeType(&fonts.fontLibrary);
     ASSERT(err, "Failed to initialise FreeType!");
-}
-
-void FontManager::Update() {
-
+    fonts.LoadFont("Danto Lite Normal.ttf");
 }
 
 void FontManager::LoadFont(const std::string& fontPath) {
@@ -88,7 +89,7 @@ void FontManager::LoadChar(Font& font) {
             texture,
             glm::ivec2(font.fontFace->glyph->bitmap.width, font.fontFace->glyph->bitmap.rows),
             glm::ivec2(font.fontFace->glyph->bitmap_left, font.fontFace->glyph->bitmap_top),
-            font.fontFace->glyph->advance.x
+            static_cast<GLuint>(font.fontFace->glyph->advance.x)
         };
         font.Characters.insert(std::pair<char, Character>(c, character));
         glBindTexture(GL_TEXTURE_2D, 0);
