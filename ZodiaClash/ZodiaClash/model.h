@@ -14,13 +14,16 @@
 *
 *	@email		p.foong@digipen.edu
 * 
+*	@co-author	Chua Zhen Rong (animation functions)
+* 
+*	@email		c.zhenrong\@digipen.edu 
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
-*	@date		23 September 2023
+*	@date		04 September 2023
 *
 * *****************************************************************************
 *
@@ -28,6 +31,10 @@
 *
 *	Model containing draw functions to add vertices to the graphics system to
 *	draw at the end of the frame
+* 
+*	Model containing animation functions to update animation frame based on
+*	values set in Animation component. Animation functions will be separated
+*	into another class in M2.
 *
 ******************************************************************************/
 
@@ -60,7 +67,7 @@ public:
 	void UpdateAnimation(Animation& aniData, Tex& texData);
 	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData);
 
-	bool CheckTransformUpdated(Transform& transform); //Check if transform was updated since last frame, returns true if transform was updated
+	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 
 private:
 	glm::mat3 matrix{};
@@ -73,4 +80,5 @@ private:
 	glm::vec2 botright{};
 
 	Transform previous{}; //used for check if previous is same as current
+	Size previous_size{};
 };

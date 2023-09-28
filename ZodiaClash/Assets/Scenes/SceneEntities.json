@@ -32,8 +32,8 @@
         },
         "Animation": {
             "Animation Type": 1,
-            "Frame Index": 4,
-            "Frame Time Elapsed": 0.013322999700903893,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         }
     },
@@ -84,8 +84,207 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -912.0,
-            "position_y": 373.0,
+            "position_x": 72.0,
+            "position_y": -99.0,
+            "rotation": 0.0,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "MainCharacter": {
+            "isMainCharacter": true
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.017407000064849854,
+            "Frame Display Duration": 0.10000000149011612
+        }
+    },
+    {
+        "Entity Name": "Duck",
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 1,
+            "Frame Time Elapsed": 0.017407000064849854,
+            "Frame Display Duration": 0.10000000149011612
+        }
+    },
+    {
+        "Entity Name": "Duck",
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 2,
+            "Frame Time Elapsed": 0.05538400262594223,
+            "Frame Display Duration": 0.10000000149011612
+        }
+    },
+    {
+        "Entity Name": "Duck",
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "MainCharacter": {
+            "isMainCharacter": true
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        }
+    },
+    {
+        "Entity Name": "Duck",
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale_x": 1.0,
+            "scale_y": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "background.jpeg"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 1920.0,
+            "height": 1080.0
+        },
+        "MainCharacter": {
+            "isMainCharacter": true
+        },
+        "Animation": {
+            "Animation Type": 0,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.0
+        }
+    },
+    {
+        "Entity Name": "Duck",
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 220.0,
+            "position_y": -1.0,
             "rotation": 0.0,
             "scale_x": 1.0,
             "scale_y": 1.0,
@@ -112,7 +311,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 4,
-            "Frame Time Elapsed": 0.013322999700903893,
+            "Frame Time Elapsed": 0.05483199656009674,
             "Frame Display Duration": 0.10000000149011612
         }
     }

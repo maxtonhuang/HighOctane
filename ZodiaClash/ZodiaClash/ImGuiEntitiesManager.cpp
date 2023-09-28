@@ -1,29 +1,19 @@
 
 
 #include "ImGuiEntitiesManager.h"
-//#include "debugdiagnostic.h"
-//#include "DebugProfile.h"
-//#include "enginecore.h"
-//#include "debuglog.h"
-//#include "ECS.h"
-//#include "Components.h"
 #include "EntityFactory.h"
 #include "enginecore.h"
 #include "physics.h"
 #include "Serialization.h"
-//#include "EntityFactory.h"
 #include "ECS.h"
 #include "Global.h"
 
-//extern std::shared_ptr<SerializationSystem> serializationSystem;
 
 void InitEntitiesManager() {
-    // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 
-    // Setup Dear ImGui style
     ImGui::StyleColorsDark();
 }
 
@@ -33,9 +23,21 @@ void UpdateEntitiesManager() {
         static bool entityAddedFlag = false;
         ImGui::Begin("Creating Entity");
 
+        if (ImGui::Button("Test Loader")) {
+            Serializer::LoadEntityFromJson("../Assets/Scenes/SceneEntities.json");
+            entityAddedFlag = true;
+
+        } 
+        if (ImGui::Button("Save Scene")) {
+            button_clicked = true;
+        }
+        if (ImGui::Button("Clone Entity")) {
+            CloneMasterModel(0.f, 0.f, false);
+        }
+
         //Entity testEntity;
         Entity testEntity;
-        if (ImGui::Button("Create Entity by Button Test")) {
+        if (ImGui::Button("Create Entity by Button Test: Cat")) {
             testEntity = ECS::ecs().CreateEntity();
             masterEntitiesList["CatTest"] = testEntity;
             ECS::ecs().AddComponent(testEntity, Color{ glm::vec4{ 1,1,1,1 } });
@@ -59,14 +61,15 @@ void UpdateEntitiesManager() {
             DEBUG_PRINT("entity ID: %i", testEntity)
         }
         ImGui::Text("Entities added = %d", counter);
-        if (ImGui::Button("Clone Entity")) {
+        if (ImGui::Button("Clone Cat Entity")) {
             if (!entityAddedFlag) {
-                ASSERT(!entityAddedFlag, "Entity has not been added.");
+                ASSERT(!entityAddedFlag, "Entity has not been added. Click NO and click on: \"Create Entity by Button Test: Cat\" ");
             }
             else {
-                CloneMasterModel2(0.f, 0.f, true);
+                CloneMasterModel2(0.f, 0.f, false);
             }
         }
+        /*******************************Testing Feature: For Future saving of master entities************************************/
         /*if (ImGui::Button("Save Master Entity")) {
             if (!entityAddedFlag) {
                 ASSERT(!entityAddedFlag, "Entity has not been added.");
@@ -75,15 +78,6 @@ void UpdateEntitiesManager() {
                Serializer::SaveEntityToJson("../Assets/CatTestEntity.json", masterEntitiesList["CatTest"]);
             }
         }*/
-        if (ImGui::Button("Load Test")) {
-            Serializer::LoadEntityFromJson("../Assets/Scenes/SceneEntities.json");
-            entityAddedFlag = true;
-
-        } 
-        if (ImGui::Button("Save Scene")) {
-            button_clicked = true;
-        }
-        ImGui::SameLine();
 
     }
     ImGui::End();

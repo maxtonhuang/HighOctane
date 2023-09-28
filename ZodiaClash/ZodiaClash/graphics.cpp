@@ -160,13 +160,13 @@ void GraphicsManager::Draw() {
     //test_model.DrawOutline();
     
     // note: to draw as entity!
-    std::string labelText = "ZodiaClash v0.1 © 2023 High Octane";
+    std::string labelText = "© 2023 High Octane";
     float relFontSize = 0.48f;
-    Vec2 relTextPos = { 0.2f, 0.85f };
+    Vec2 relTextPos = { 0.55f, 0.85f };
     glm::vec3 color = { 1.f, 1.f, 1.f };
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
 
-    labelText = "All content © 2023 DigiPen (SINGAPORE) Corporation, all rights reserved.";
+    labelText = "ZodiaClash v0.1";
     relTextPos = { -0.95f, -0.9f };
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
@@ -230,6 +230,12 @@ float GraphicsManager::GetHeight() {
 void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color) {
     
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
+    //YOU_ASSERT((relFontSize < 0.f) || (relFontSize > 1.f));
+    //MY_ASSERT((relFontSize < 0.f) || (relFontSize > 1.f));
+
+    // enforce relFontSize to be in range [0.f, 1.f]
+    relFontSize = std::max(0.f, relFontSize);
+    relFontSize = std::min(relFontSize, 1.f);
 
     Font fontData = fonts.GetFont();
     // TODO some sort of non null checking for fontData?

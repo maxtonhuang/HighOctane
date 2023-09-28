@@ -5,10 +5,19 @@ ZODIACLASH README
 Game name: ZodiaClash
 Version: v0.1 M1 build
 
-Members:
+Programmers:
+Huang Maxton Xinghua (m.huang@digipen.edu)
+Liu Wanting (wanting.liu@digipen.edu)
 Foong Pun Yuen Nigel (p.foong@digipen.edu)
+Koh Wen Yuen (k.wenyuan@digipen.edu)
+Chua Zhen Rong (c.zhenrong@digipen.edu)
+Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
 
-(do we want to add oliver and zhi ying or just programmers for now)
+Designer:
+Yau Yee Onn Oliver (y.yau@digipen.edu)
+
+Artist:
+Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
 

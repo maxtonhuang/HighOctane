@@ -12,14 +12,18 @@
 *
 *	@author		Foong Pun Yuen Nigel
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
+* 
+*  	@co-author	Chua Zhen Rong (animation functions)
+* 
+*	@email		c.zhenrong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
-*	@date		23 September 2023
+*	@date		04 September 2023
 *
 * *****************************************************************************
 *
@@ -27,6 +31,10 @@
 *
 *	Model containing draw functions to add vertices to the graphics system to
 *	draw at the end of the frame
+* 
+*	Model containing animation functions to update animation frame based on
+*	values set in Animation component. Animation functions will be separated
+*	into another class in M2.
 *
 ******************************************************************************/
 
@@ -102,11 +110,12 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 }
 
-bool Model::CheckTransformUpdated(Transform& transform) {
-	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale) {
+bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
+	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale && size.height == previous_size.height && size.width == previous_size.width) {
 		return false;
 	}
 	previous = transform;
+	previous_size = size;
 	return true;
 }
 
@@ -152,7 +161,9 @@ void Model::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 
 
 /********************************************************************************
-* 2 kinds of key input handling:
+* 3 kinds of key input handling:
+* - KEY_X --> animationType togglig
+*	>> Note: ONLY for main character entities!
 * - KEY_C --> AnimationChange()
 *	>> Note: isMsgAnimationChange == 1
 *	>> Note: ONLY for main character entities!

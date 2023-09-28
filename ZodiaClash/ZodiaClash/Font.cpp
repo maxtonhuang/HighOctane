@@ -1,3 +1,39 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Font.cpp
+*
+*	@author		Chua Zhen Rong (FreeType font library setup)
+*
+*	@email		c.zhenrong\@digipen.edu
+*
+*	@co-author	Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		28 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Font System
+*
+*   This file contains all the functions needed for integrating the
+    font library into the game engine.
+*
+******************************************************************************/
+
 #include "Font.h"
 #include <iostream>
 
@@ -49,12 +85,6 @@ void FontManager::LoadFont(const std::string& fontPath) {
 
         // with textures loaded, add font object to fontCollection
         //fontCollection.emplace(fontPath, font);
-
-
-        /*if (FT_Done_Face(fontCollection[fontPath].fontFace)) {
-            DEBUG_PRINT("font face %s not freed", fontPath.c_str());
-        }
-        DEBUG_PRINT("font face %s freed", fontPath.c_str());*/
     }	
 }
 
