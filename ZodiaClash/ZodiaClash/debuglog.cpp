@@ -346,10 +346,10 @@ namespace debuglog {
 	}
 
 
-	#if ENABLE_DEBUG_DIAG
+	//#if ENABLE_DEBUG_DIAG
 		// For debugging
 	Logger logger;
 	Logger crashLogger;
-	#endif
+	//#endif
 }
 

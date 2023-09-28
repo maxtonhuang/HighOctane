@@ -250,14 +250,14 @@ void EngineCore::Run() {
 			 
 		for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StartTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 					//if (1 || (sys.second != "Physics System")) { // for 2500 models
 						sys.first->Update();
 					//}
 
-			#if ENABLE_DEBUG_DIAG && ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
 			#endif
 				
