@@ -1,3 +1,32 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		File.cpp
+*
+*	@author		Kai Alexander Van Adrichem Boogaert
+*
+*	@email		kaialexander.v\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		6 September 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file contains all the definitions for File I/O functions
+******************************************************************************/
 #include "File.h"
 #include <algorithm>
 char convertCharacters(char d)
@@ -50,19 +79,19 @@ std::string FilePath::FilePathDir(std::string fileName, FileType fileType) {
 	case FileType::CSV:
 		retFile += "CSV/" + fileName + ".csv";
 		return retFile;
-
+		break;
 	case FileType::Vert:
 		retFile += "Shaders/" + fileName + ".vert";
 		return retFile;
-
+		break;
 	case FileType::Frag:
 		retFile += "Shaders/" + fileName + ".frag";
 		return retFile;
-
+		break;
 	case FileType::Textures:
 		retFile += "Textures/" + fileName + ".png";
 		return retFile;
-
+		break;
 	}
-	return nullptr;
+	return retFile;
 }

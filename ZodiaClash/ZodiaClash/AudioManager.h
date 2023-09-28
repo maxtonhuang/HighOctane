@@ -12,7 +12,7 @@
 *
 *	@author		Foong Pun Yuen Nigel
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -37,7 +37,7 @@
 
 class AudioManager {
 public:
-	void Initialize();
+	void Initialize(); //Creates FMOD system
 	void Release(); //DELETES THE AUDIO SYSTEM, ONLY CALL AT END OF PROGRAM
 	void ReleaseAllSounds(); //Releases all sounds from audio manager
 	void AddSound(const char* path); //Add a sound to FMOD and audio manager

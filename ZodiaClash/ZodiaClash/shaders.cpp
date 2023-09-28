@@ -12,7 +12,7 @@
 *
 *	@author		Foong Pun Yuen Nigel
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -104,7 +104,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	if (validateresult == GL_FALSE) {
 		DEBUG_PRINT("Unable to validate shader!\n");
 		//std::cout << "Unable to validate shader!\n";
-		return false;
+		return true;
 	}
 
 	return true;

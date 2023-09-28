@@ -10,9 +10,9 @@
 *
 *	@file		Model.h
 *
-*	@author		Foong Pun Yuen Nigel
+*	@author		Foong Pun Yuen Nigel (Initial creation and draw functions)
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
 * 
 *	@co-author	Chua Zhen Rong (animation functions)
 * 
@@ -51,7 +51,7 @@ class Texture;
 
 class Model {
 public:
-	Model();
+	Model(); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
 	void Draw(Tex const& entity, Animation const& ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
@@ -70,15 +70,15 @@ public:
 	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 
 private:
-	glm::mat3 matrix{};
-	glm::vec4 color{};
+	glm::mat3 matrix{}; //matrix used for computing model verrtices
+	glm::vec4 color{}; //color of the model
 
-	//PRECOMPUTED VALUES
+	//PRECOMPUTED VALUES FOR 4 VERTICES OF RECTANGULAR MODEL
 	glm::vec2 topleft{};
 	glm::vec2 topright{};
 	glm::vec2 botleft{};
 	glm::vec2 botright{};
 
 	Transform previous{}; //used for check if previous is same as current
-	Size previous_size{};
+	Size previous_size{}; //used for check if previous is same as current
 };

@@ -317,15 +317,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		std::cerr << "Failed to parse .json file: " << fileName << std::endl;
 	}
 
-	// Extract and deserialize the components from the JSON document
-	/*Color color{};
-	Transform transform;
-	Tex tex;
-	Visible visible{};
-	Size size{};
-	Circle circle{};
-	AABB aabb;
-	Animation anim;*/
 	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
 
 	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
@@ -341,7 +332,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Color")) {
 			std::cout << ((ECS::ecs().isComponentTypeRegistered<Color>()) ? "Color is registered" : "Color is not registered") << std::endl;
 			const rapidjson::Value& colorObject = entityObject["Color"];
-			Color color;
+			Color color{};
 			color.color.r = colorObject["r"].GetFloat();
 			color.color.g = colorObject["g"].GetFloat();
 			color.color.b = colorObject["b"].GetFloat();
@@ -371,7 +362,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			tex.rows = texObject["Rows"].GetUint();
 			tex.cols = texObject["Columns"].GetUint();
 			tex.spritenum = texObject["Sprite Number"].GetUint();
-			//tex.tex->Init(texObject["Texture File Path"].GetString()); 
 
 			// Get the file path from JSON
 			const char* filePath = texObject["Texture File Path"].GetString();
@@ -389,7 +379,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Visible")) {
 			std::cout << ((ECS::ecs().isComponentTypeRegistered<Visible>()) ? "Visible is registered" : "Visible is not registered") << std::endl;
 			const rapidjson::Value& visibleObject = entityObject["Visible"];
-			Visible visible;
+			Visible visible{};
 			visible.isVisible = visibleObject["isVisible"].GetBool();
 			ECS::ecs().AddComponent<Visible>(entity, visible);
 		}
@@ -397,7 +387,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Size")) {
 			std::cout << ((ECS::ecs().isComponentTypeRegistered<Size>()) ? "Size is registered" : "Size is not registered") << std::endl;
 			const rapidjson::Value& sizeObject = entityObject["Size"];
-			Size size;
+			Size size{};
 			size.width = sizeObject["width"].GetFloat();
 			size.height = sizeObject["height"].GetFloat();
 			ECS::ecs().AddComponent<Size>(entity, size);
@@ -406,7 +396,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Circle")) {
 			std::cout << ((ECS::ecs().isComponentTypeRegistered<Circle>()) ? "Circle is registered" : "Circle is not registered") << std::endl;
 			const rapidjson::Value& circleObject = entityObject["Circle"];
-			Circle circle;
+			Circle circle{};
 			circle.radius = circleObject["radius"].GetFloat();
 			ECS::ecs().AddComponent<Circle>(entity, circle);
 		}

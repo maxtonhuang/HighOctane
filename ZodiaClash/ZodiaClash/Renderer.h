@@ -12,7 +12,7 @@
 *
 *	@author		Foong Pun Yuen Nigel
 *
-*	@email		p.foong@digipen.edu
+*	@email		p.foong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -41,16 +41,16 @@ struct Vertex {
 	glm::vec2 pos; //Vertex coordinates
 	glm::vec3 col; //RGB colour
 	glm::vec2 tex; //Texture coordinates
-	GLfloat index;
+	GLfloat index; //Texture index
 };
 
 class Renderer {
 public:
-	Renderer();
-	~Renderer();
+	Renderer(); //default constructor of Renderer, creates vertex buffer
+	~Renderer();//destroys vertex buffer
 
-	void Initialize(char const* vertexshader, char const* fragmentshader, GLenum type);
-	void Initialize(Shader shader, GLenum type);
+	void Initialize(char const* vertexshader, char const* fragmentshader, GLenum type); //create the renderer using 2 input shader files and an OpenGL draw type
+	void Initialize(Shader shader, GLenum type); //creates the renderer using a compiled shader and an OpenGL draw type
 
 	Shader& ShaderProgram(); //returns shader program
 
@@ -61,11 +61,11 @@ public:
 	GLuint GetDrawCount(); //Gets current amount of vertices in the buffer
 	void CreateVAO(); //Creates VAO and buffers for storage
 private:
-	GLuint vao{};
-	GLuint vbo{};
+	GLuint vao{}; //VAO handle
+	GLuint vbo{}; //VBO handle
 	GLuint drawcount{}; //amount of vertices currently drawn
 	Vertex* data{}; //storage of vertices
-	GLenum drawtype{};
-	Shader shaderprogram{};
+	GLenum drawtype{}; //draw type of the renderer
+	Shader shaderprogram{}; //shader used by renderer
 	GLuint objvertsize{}; //amount of vertices per screen object
 };

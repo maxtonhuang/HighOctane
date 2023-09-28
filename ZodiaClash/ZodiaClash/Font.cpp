@@ -16,7 +16,7 @@
 *
 *	@co-author	Foong Pun Yuen Nigel
 *
-*	@email		p.foong\@digipen.edu
+*	@email		p.foong\@digipen.edu (OpenGL texture creation from fonts)
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4

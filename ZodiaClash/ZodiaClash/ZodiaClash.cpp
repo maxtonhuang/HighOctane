@@ -73,17 +73,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     audio.AddSound("../Assets/Sound/bonk.wav");
     LOG_INFO("Graphics started");
 
-    // For Wen Yuan to test his assert functions and logging
-    //int x = -1;
-
-    //YOU_ASSERT(x > 0, "x must be more than 0");
-    //ASSERT(x <= 0, "x must be more than 0");
-    //MY_ASSERT(x <= 0);
-    //int y = -1;
-
-    //ASSERT(y <= 0, "x must be more than 0");
-
-
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////

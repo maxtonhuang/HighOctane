@@ -35,6 +35,20 @@ E to rotate main character clockwise
 
 C to change main character animation
 
-0 to toggle physics debug drawing
+M to play sound 1
+N to play sound 2
 
-Y to toggle 2500 animated sprite entities
+0 to toggle physics debug drawing ("Clone entity" to test collision)
+
+ImGui Buttons:
+"Test Loader" tests deserialization of entitites from Json file
+
+"Save Scene" tests serialization of all entities in current scene (test with 2500, Json file will save accordingly)
+
+"Clone entity" Render an entity to test collision
+
+"Create Entity by Button Test: Cat" Initial test to just create an entity using ImGui button
+
+"Clone Cat Entity" Render the cat entity created by aforementioned button
+
+ 
