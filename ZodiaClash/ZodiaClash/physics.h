@@ -51,6 +51,9 @@ namespace physics {
         void AddForce(Body& body, Vector2 force);
         void DebugDraw(physics::Body& body, Transform& transform);
         void ToggleStepMode();
+        void ToggleDebugMode();
+        bool GetDebugDrawActive() { return DebugDrawingActive; }
+        bool GetStepModeActive() { return stepModeActive; }
         void RequestStep();
     private:
         void IntegrateBodies(float deltaTime);

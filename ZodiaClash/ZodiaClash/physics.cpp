@@ -223,6 +223,18 @@ namespace physics {
 
     /**************************************************************************/
     /*!
+        @brief Toggles the debug mode in the physics manager.
+
+        This method switches the physics simulation between continuous
+        mode and step-by-step mode.
+     */
+     /**************************************************************************/
+    void PhysicsManager::ToggleDebugMode() {
+        DebugDrawingActive = !DebugDrawingActive;
+
+    }
+    /**************************************************************************/
+    /*!
         @brief Requests a single step update in the physics simulation.
 
         This method is used to trigger a single physics update when

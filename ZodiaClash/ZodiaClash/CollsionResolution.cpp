@@ -42,7 +42,7 @@ namespace physics {
         Static vs Dynamic Collison response
      */
      /**************************************************************************/
-    void DynamicStaticResponse(Body& dynamicBody, const Body& staticBody) 
+    void DynamicStaticResponse(Body& dynamicBody) 
     {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
         dynamicBody.velocity = (dynamicBody.velocity)*(-1);
@@ -80,7 +80,7 @@ namespace physics {
     {
         if (beta.isStatic) 
         {
-            DynamicStaticResponse(alpha, beta);
+            DynamicStaticResponse(alpha);
         }
         else 
         {
