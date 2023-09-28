@@ -30,7 +30,13 @@
 #pragma once
 #include "ImGuiLib.h"
 
-
+/*!***********************************************************************
+ \brief
+    Definition to initialize panel
+ *************************************************************************/
 void InitEntitiesManager();
-
+/*!***********************************************************************
+ \brief
+    Definition of panel to manage entities
+ *************************************************************************/
 void UpdateEntitiesManager();

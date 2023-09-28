@@ -25,8 +25,7 @@
 *
 *	@brief
 *
-*	This file contains the buttons to handle entities within the system.
-*	Such as loading and saving entitites/gameobject from a file
+*	This file contains the definitions of Inputs from keyboard and mouse
 ******************************************************************************/
 
 /*                                                                   includes
@@ -43,32 +42,7 @@
 
 std::unordered_map<int, INFO> keyStatus;
 
-/*  _________________________________________________________________________*/
-/*! KeyCallback
 
-@param GLFWwindow*
-Handle to window that is receiving event
-
-@param int
-the keyboard key that was pressed or released
-
-@parm int
-Platform-specific scancode of the key
-
-@parm int
-GLFW_PRESS, GLFW_REPEAT or GLFW_RELEASE
-action will be GLFW_KEY_UNKNOWN if GLFW lacks a key token for it,
-for example E-mail and Play keys.
-
-@parm int
-bit-field describing which modifier keys (shift, alt, control)
-were held down
-
-@return none
-
-This function is called when keyboard buttons are pressed.
-When the ESC key is pressed, the close flag of the window is set.
-*/
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
     mod = mod; //unused variable
     scancode = scancode; //unused variable
@@ -119,28 +93,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
     }
 }
 
-/*  _________________________________________________________________________*/
-/*! MouseButtonCallback
 
-@param GLFWwindow*
-Handle to window that is receiving event
-
-@param int
-the mouse button that was pressed or released
-GLFW_MOUSE_BUTTON_LEFT and GLFW_MOUSE_BUTTON_RIGHT specifying left and right
-mouse buttons are most useful
-
-@parm int
-action is either GLFW_PRESS or GLFW_RELEASE
-
-@parm int
-bit-field describing which modifier keys (shift, alt, control)
-were held down
-
-@return none
-
-This function is called when mouse buttons are pressed.
-*/
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
     mod = mod; //unused variable
     pwin = pwin; // unused variable;
@@ -159,23 +112,7 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
     }
 }
 
-/*  _________________________________________________________________________*/
-/*! CursorPosCallback
 
-@param GLFWwindow*
-Handle to window that is receiving event
-
-@param double
-new cursor x-coordinate, relative to the left edge of the client area
-
-@param double
-new cursor y-coordinate, relative to the top edge of the client area
-
-@return none
-
-This functions receives the cursor position, measured in screen coordinates but
-relative to the top-left corner of the window client area.
-*/
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
     pwin = pwin; //unused variable
 
