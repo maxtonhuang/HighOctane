@@ -70,7 +70,7 @@ void PhysicsSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
-	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+	//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
 	
 
@@ -85,18 +85,18 @@ void PhysicsSystem::Update() {
 			for (Entity const& entity : m_Entities) {
 				Transform* transData = &transformArray.GetData(entity);
 				physics::Body* bodyData = &bodyArray.GetData(entity);
-				physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
+				physics::PHYSICS->Integrate(*bodyData, *transData);
 			}
 	}
 	else {
 		for (Entity const& entity : m_Entities) {
 			Transform* transData = &transformArray.GetData(entity);
 			physics::Body* bodyData = &bodyArray.GetData(entity);
-			Collider* collideData = &colliderArray.GetData(entity);
+			//Collider* collideData = &colliderArray.GetData(entity);
 
 			//bodyData->velocity = transData->velocity;
 
-			physics::PHYSICS->Integrate(*bodyData, g_dt, *transData);
+			physics::PHYSICS->Integrate(*bodyData, *transData);
 			physics::PHYSICS->DebugDraw(*bodyData, *transData);
 		}
 	}
@@ -111,7 +111,7 @@ void CollisionSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
-	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+	//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 	
 
 	//std::cout << m_Entities.size() << std::endl;
@@ -119,13 +119,13 @@ void CollisionSystem::Update() {
 		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 			Transform* transData1 = &transformArray.GetData(entity1);
 			physics::Body* bodyData1 = &bodyArray.GetData(entity1);
-			Collider* collideData1 = &colliderArray.GetData(entity1);
+			//Collider* collideData1 = &colliderArray.GetData(entity1);
 
 			for (Entity const& entity2 : m_Entities) {
 				if (entity1 != entity2) {
 					Transform* transData2 = &transformArray.GetData(entity2);
 					physics::Body* bodyData2 = &bodyArray.GetData(entity2);
-					Collider* collideData2 = &colliderArray.GetData(entity2);
+					//Collider* collideData2 = &colliderArray.GetData(entity2);
 
 					bool collided{};
 					collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);

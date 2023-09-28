@@ -43,7 +43,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 	for (auto& p : vec) {
 		std::ifstream shaderfile(p.second, std::ifstream::in);
 		if (!shaderfile) {
-			DEBUG_PRINT("Unable to find shader file &s!\n", p.second);
+			DEBUG_PRINT("Unable to find shader file %s!\n", p.second.c_str());
 			//std::cout << "Unable to find shader file " << p.second << "!\n";
 			return false;
 		}

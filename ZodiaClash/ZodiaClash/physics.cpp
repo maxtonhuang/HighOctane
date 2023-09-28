@@ -126,7 +126,7 @@ namespace physics {
         properties won't be updated.
      */
      /**************************************************************************/
-    void PhysicsManager::Integrate(Body& body, float deltaTime, Transform& transform) 
+    void PhysicsManager::Integrate(Body& body, Transform& transform) 
     {
         // If the body is static, we don't want to update its position or velocity.
         //if (body.isStatic) return;
@@ -186,13 +186,14 @@ namespace physics {
     /**************************************************************************/
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
+        (void)deltaTime;
         for (const auto& entity : m_Entities) 
         {
             auto& body = m_ecs.GetComponent<physics::Body>(entity);
 
             // Integrate the body.
             Transform test{};
-            Integrate(body, deltaTime, test); // Using Integrate function to avoid code duplication
+            Integrate(body, test); // Using Integrate function to avoid code duplication
         }
     }
 

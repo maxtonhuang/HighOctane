@@ -60,7 +60,7 @@ namespace physics {
         PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
         void Update(float deltaTime);
         void AddEntity(Entity entity);
-        void Integrate(Body& body, float deltaTime, Transform& transform);
+        void Integrate(Body& body, Transform& transform);
         void AddForce(Body& body, Vector2 force);
         void DebugDraw(physics::Body& body, Transform& transform);
         void ToggleStepMode();
