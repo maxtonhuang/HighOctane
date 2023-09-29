@@ -38,7 +38,13 @@ C to change main character animation
 M to play sound 1
 N to play sound 2
 
-0 to toggle physics debug drawing ("Clone entity" to test collision)
+0 to toggle physics debug drawing mode, showing character position, velocity and AABB box
+9 to toggle step by step mode
+8 to move the character with respect to each frame
+
+To test for Collison:
+1.Press 'G' to spawn a static object 
+2.WASD to move main character(dynamic object) to collide with static object
 
 ImGui Buttons:
 "Test Loader" tests deserialization of entitites from Json file

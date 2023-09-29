@@ -26,8 +26,6 @@ void UpdateMovement(Transform & transform) {
 			if (msg.info == INFO::KEY_P) { transform.scale.x -= 10.f * g_dt; transform.scale.y -= 10.f * g_dt; }
 			if (msg.info == INFO::KEY_Q) { transform.rotation -= 1.f * g_dt; }
 			if (msg.info == INFO::KEY_E) { transform.rotation += 1.f * g_dt; }
-			if (msg.info == INFO::KEY_Z) { physics::PHYSICS->ToggleStepMode(); }
-			if (msg.info == INFO::KEY_X) { physics::PHYSICS->RequestStep(); }
 			break;
 
 		case TYPE::MOUSE_MOVE:
