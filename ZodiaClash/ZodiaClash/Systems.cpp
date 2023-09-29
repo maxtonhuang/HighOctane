@@ -45,7 +45,13 @@
 #include "CollisionResolution.h"
 #include "Serialization.h"
 
-	
+/******************************************************************************
+*
+*	@brief Physics System
+*
+*	-
+*
+******************************************************************************/
 void PhysicsSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
