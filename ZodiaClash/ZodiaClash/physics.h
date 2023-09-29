@@ -103,9 +103,9 @@ namespace physics {
 */
 /**************************************************************************/
 struct Collider {
-    physics::Body* body;
+    physics::Body* body{};
     //if true, don't perform physical response, just notify that theres collision
-    bool                    isTrigger;
+    bool                    isTrigger{ false };
     //list of entities this collider is in contact with
     std::vector<Entity*>    collidedEntities;
 };

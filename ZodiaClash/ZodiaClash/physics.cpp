@@ -268,7 +268,7 @@ namespace physics {
         graphics.DrawPoint(transform.position.x, transform.position.y, 0.f, 1.f, 0.f);
 
         //draw velocity as a line
-        Vector2 endPosition = transform.position + transform.velocity;
+        Vector2 endPosition = transform.position + (transform.velocity * 50.f);
         graphics.DrawLine(transform.position.x, transform.position.y, endPosition.x, endPosition.y, 0.f, 0.f, 1.f);
 
         //draw AABB box
