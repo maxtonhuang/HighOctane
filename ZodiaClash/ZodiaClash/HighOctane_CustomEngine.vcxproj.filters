@@ -360,6 +360,9 @@
     <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
       <Filter>Vendors\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicConstants.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">

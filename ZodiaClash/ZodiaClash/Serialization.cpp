@@ -443,11 +443,16 @@ void LoadConfig() {
 
 	std::string temp;
 
-	// Read and extract the height
-	ifs >> temp >> g_height;
+	int height;
+	int width;
 
 	// Read and extract the width
-	ifs >> temp >> g_width;
+	ifs >> temp >> width;
+
+	// Read and extract the height
+	ifs >> temp >> height;
+
+	GRAPHICS::UpdateConstants(width, height);
 
 	// Close the file
 	ifs.close();

@@ -256,6 +256,7 @@ copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="GraphicConstants.cpp" />
     <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="ImGuiConsole.cpp" />
     <ClCompile Include="ImGuiEntitiesManager.cpp" />
