@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file		vmath.h
+@file		mmath.h
 @author		Koh Wen Yuan
 @Email		k.wenyuan@digipen.edu
 @course		CSD 2401
 @section	Section A
 @date		30 August 2023
-@brief		This file contains the overloading of the vectors 2 and 3
+@brief		This file contains the overloading of the matrices 2 and 3
 
 IF ANYTHING IS CALCULATED WRONGLY PLEASE LET ME KNOW THANK YOU VERY MUCH
 

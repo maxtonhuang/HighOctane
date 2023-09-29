@@ -45,13 +45,19 @@
 #include "CollisionResolution.h"
 #include "Serialization.h"
 
-/******************************************************************************
-*
-*	@brief Physics System
-*
-*	-
-*
-******************************************************************************/
+
+/**************************************************************************/
+/*!
+	@function PhysicsSystem::Update
+	@brief Handles the physics-related updates of entities within the game environment.
+
+	This function handles:
+    1. Reading and processing physics-related mailbox messages.
+    2. Updating physics attributes based on entity size.
+    3. Debug drawing and physics calculations based on stepping mode.
+    4. Clearing the mailbox after processing.
+*/
+/**************************************************************************/
 void PhysicsSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -76,9 +82,19 @@ void PhysicsSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
+	
+	//assumes that there is size component
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-	
+	for (Entity const& entity : m_Entities) {
+		physics::Body bodyData{ bodyArray.GetData(entity) };
+		Size sizeData{ sizeArray.GetData(entity) };
+		bodyData.halfDimensions = {
+			sizeData.width / 2.f, sizeData.height / 2.f
+		};
+
+	}
 
 	if (physics::PHYSICS->GetStepModeActive()) {
 		for (Entity const& entity : m_Entities) {
@@ -109,6 +125,18 @@ void PhysicsSystem::Update() {
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
 
+/**************************************************************************/
+/*!
+	@function CollisionSystem::Update
+	@brief Checks and handles collisions between entities.
+
+	In this function:
+	1. It fetches required components (like Transform and Body).
+	2. Checks for collisions involving the `MainCharacter`.
+	3. Updates entities' positions and velocities after collisions.
+	4. Clears the collision mailbox.
+*/
+/**************************************************************************/
 void CollisionSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
