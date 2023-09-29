@@ -86,7 +86,7 @@ void UpdateEntitiesManager() {
             a->frameDisplayDuration = 0.1f;
             ECS::ecs().AddComponent(testEntity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
             ECS::ecs().AddComponent(testEntity, Model{});
-            ECS::ecs().AddComponent<physics::Body>(testEntity, physics::Body{});
+            ECS::ecs().AddComponent<physics::Body>(testEntity, physics::Body{0,0});
             ECS::ecs().AddComponent<Collider>(testEntity, Collider{});
             entityAddedFlag = true;
             counter++;
