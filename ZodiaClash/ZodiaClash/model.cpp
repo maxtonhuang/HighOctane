@@ -144,6 +144,7 @@ void Model::ChangeAnimation(Tex& texData) {
 
 // called after ChangeAnimation to account for change in texture dimensions
 void Model::ResizeOnChange(Tex& texData, Size& sizeData) {
+
 	sizeData.width = (float)texData.tex->GetWidth();
 	sizeData.height = (float)texData.tex->GetHeight();
 }
@@ -223,6 +224,7 @@ void Model::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) 
 				}
 			}
 			if (msg.info == INFO::KEY_C) {
+
 				ChangeAnimation(texData);
 				ResizeOnChange(texData, sizeData);
 			}
