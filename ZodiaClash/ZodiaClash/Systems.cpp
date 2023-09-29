@@ -277,8 +277,7 @@ void GraphicsSystem::Update() {
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
-	//std::atomic<Model*> m;
-	//std::mutex task_mutex;
+
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);

@@ -45,8 +45,8 @@ namespace physics {
     void DynamicStaticResponse(Body& dynamicBody) 
     {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
-        dynamicBody.position.x -= dynamicBody.velocity.x * 10.f;
-        dynamicBody.position.y -= dynamicBody.velocity.y * 10.f;
+        dynamicBody.position.x -= dynamicBody.velocity.x; // *10.f;
+        dynamicBody.position.y -= dynamicBody.velocity.y; // *10.f;
     }
 
     /**************************************************************************/
@@ -63,10 +63,10 @@ namespace physics {
         //Vector2 tempVelocity = bodyA.velocity;
         //swap the velocities, causing them to exchange their velocities upon collision
         //bounce off each other
-        bodyA.position.x -= bodyA.velocity.x * 10.f;
-        bodyA.position.y -= bodyA.velocity.y * 10.f;
-        bodyB.position.x -= bodyB.velocity.x * 10.f;
-        bodyB.position.y -= bodyB.velocity.y * 10.f;
+        bodyA.position.x -= bodyA.velocity.x; // *50.f;
+        bodyA.position.y -= bodyA.velocity.y; // *50.f;
+        bodyB.position.x -= bodyB.velocity.x; // *50.f;
+        bodyB.position.y -= bodyB.velocity.y; // *50.f;
     }
 
     /**************************************************************************/
