@@ -50,6 +50,7 @@
 #include <filesystem>
 #include <thread>
 #include "AudioManager.h"
+#include "Serialization.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -73,7 +74,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
-{
+{   
+    LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
     // Enable run-time memory check for debug builds.
@@ -87,6 +89,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // To enable the console
     //Console();
     LOG_INFO("Program started");
+
+    // Load Configuration File
+    
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
     LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);

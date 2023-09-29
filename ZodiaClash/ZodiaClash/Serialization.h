@@ -170,6 +170,16 @@ public:
 
 };
 
+/*!***********************************************************************
+ \brief
+	Loads configuration file "Config.txt"
+ \param [in] filename
+	None
+ \return
+	None
+ *************************************************************************/
+void LoadConfig();
+
 
 /***********************************Testing for CSV Parser*******************************************/
 class PseudoCharacter {

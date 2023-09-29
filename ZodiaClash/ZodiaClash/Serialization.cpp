@@ -42,6 +42,7 @@
 #include <rapidjson-master/include/rapidjson/istreamwrapper.h>
 #include "EntityFactory.h"
 #include "model.h"
+#include "Global.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -431,4 +432,23 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
 
 	return true;
+}
+
+void LoadConfig() {
+	// Open the file
+	std::ifstream ifs("Config.txt");
+
+	// Check if the file is open
+		ASSERT(!ifs, "Unable to load Configuration File!");
+
+	std::string temp;
+
+	// Read and extract the height
+	ifs >> temp >> g_height;
+
+	// Read and extract the width
+	ifs >> temp >> g_width;
+
+	// Close the file
+	ifs.close();
 }

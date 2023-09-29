@@ -35,4 +35,6 @@
 // Declare global variables here
 
 float g_dt;
+int g_height;
+int g_width;
 bool button_clicked{ false };

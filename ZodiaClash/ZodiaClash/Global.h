@@ -34,4 +34,6 @@
 #pragma once
 
 extern float g_dt;
+extern int g_height;
+extern int g_width;
 extern bool button_clicked;
