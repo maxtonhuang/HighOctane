@@ -40,33 +40,33 @@
 using Vec2 = vmath::Vector2;
 
 struct Transform {
-    Vec2                    position;
-    float                   rotation;
-    Vec2                    scale;
-    Vec2                    velocity;
+    Vec2                    position{};
+    float                   rotation{};
+    Vec2                    scale{};
+    Vec2                    velocity{};
 };
 
 struct Size {
-    float                   width;
-    float                   height;
+    float                   width{};
+    float                   height{};
 };
 
 //NOT NEEDED, TO STORE IN MODEL COMPONENT
 struct Color {
-    glm::vec4               color;
+    glm::vec4               color{};
 };
 
 struct Tex {
-    Texture*                tex;
-    std::vector<Texture*>   texVariants;
-    uint32_t                texVariantIndex;
-    uint32_t                rows;
-    uint32_t                cols;
-    uint32_t                spritenum;
+    Texture*                tex{};
+    std::vector<Texture*>   texVariants{};
+    uint32_t                texVariantIndex{};
+    uint32_t                rows{};
+    uint32_t                cols{};
+    uint32_t                spritenum{};
 };
 
 struct Visible {
-    bool                    isVisible;
+    bool                    isVisible{};
 };
 
 struct MainCharacter {
@@ -80,20 +80,20 @@ struct Animation {
         ANIMATION_EVENT_BASED,
         // PARTICLE
     };
-    ANIMATION_TYPE          animationType;
+    ANIMATION_TYPE          animationType{};
     uint32_t                frameIndex{};
     float                   frameTimeElapsed{};
     float                   frameDisplayDuration{};
 };
 
 struct Circle {
-    float                   radius;
+    float                   radius{};
 };
 
 struct AABB {
-    Vec2                    min;
-    Vec2                    max;
-    Vec2                    extents;
+    Vec2                    min{};
+    Vec2                    max{};
+    Vec2                    extents{};
 };
 
 struct Clone {
