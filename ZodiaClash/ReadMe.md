@@ -43,8 +43,8 @@ N to play sound 2
 8 to move the character with respect to each frame
 
 To test for Collison:
-1.Press 'G' to spawn a static object 
-2.WASD to move main character(dynamic object) to collide with static object
+1. Click "Clone Entity" button in "Creating Entity" Panel
+2. WASD to move main character(dynamic object) to collide with newly spawned static object
 
 ImGui Buttons:
 "Test Loader" tests deserialization of entitites from Json file
