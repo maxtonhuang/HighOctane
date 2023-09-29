@@ -89,8 +89,9 @@ void PhysicsSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 		physics::Body bodyData{ bodyArray.GetData(entity) };
 		Size sizeData{ sizeArray.GetData(entity) };
-		bodyData.halfDimensions = {
-			sizeData.width / 2.f, sizeData.height / 2.f
+		Transform transformData{ transformArray.GetData(entity) };
+		bodyArray.GetData(entity).halfDimensions = {
+			sizeData.width / 2.f * transformData.scale.x, sizeData.height / 2.f * transformData.scale.y
 		};
 
 	}
