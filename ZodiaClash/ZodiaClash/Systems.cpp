@@ -46,18 +46,17 @@
 #include "Serialization.h"
 
 
-/**************************************************************************/
-/*!
-	@function PhysicsSystem::Update
-	@brief Handles the physics-related updates of entities within the game environment.
-
-	This function handles:
-    1. Reading and processing physics-related mailbox messages.
-    2. Updating physics attributes based on entity size.
-    3. Debug drawing and physics calculations based on stepping mode.
-    4. Clearing the mailbox after processing.
-*/
-/**************************************************************************/
+/******************************************************************************
+*
+*	@brief Handles the physics-related updates of entities
+*
+*	This function handles:
+*   1. Reading and processing physics-related mailbox messages.
+*   2. Updating physics attributes based on entity size.
+*   3. Debug drawing and physics calculations based on stepping mode.
+*   4. Clearing the mailbox after processing.
+*
+******************************************************************************/
 void PhysicsSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -125,18 +124,17 @@ void PhysicsSystem::Update() {
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
 
-/**************************************************************************/
-/*!
-	@function CollisionSystem::Update
-	@brief Checks and handles collisions between entities.
-
-	In this function:
-	1. It fetches required components (like Transform and Body).
-	2. Checks for collisions involving the `MainCharacter`.
-	3. Updates entities' positions and velocities after collisions.
-	4. Clears the collision mailbox.
-*/
-/**************************************************************************/
+/******************************************************************************
+*
+*	@brief Checks and handles collisions between entities.
+*
+*	In this function:
+*	1. It fetches required components (like Transform and Body).
+*	2. Checks for collisions involving the `MainCharacter`.
+*	3. Updates entities' positions and velocities after collisions.
+*	4. Clears the collision mailbox.
+*
+******************************************************************************/
 void CollisionSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -178,9 +176,16 @@ void CollisionSystem::Update() {
 	}
 	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
 }
-	
-// Movement System
-// For MainCharacter
+
+/******************************************************************************
+*
+*	@brief Handles movement of the main character
+*
+*	Calculates the velocity according to key presses and stores it for the
+*	Physics System to handle the update of the position.
+*
+******************************************************************************/
+// For MainCharacter only
 void MovementSystem::Update() {
 	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() <<std::endl;
 
@@ -209,6 +214,14 @@ void MovementSystem::Update() {
 	Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
 
+/******************************************************************************
+*
+*	@brief Handles animation for each entity, if any
+*
+*	Handles the animation for each entity, such as sprite cycling, if an entity
+*	has any animation.
+*
+******************************************************************************/
 void ModelSystem::Update() {
 
 	// Access the ComponentManager through the ECS class
@@ -231,6 +244,13 @@ void ModelSystem::Update() {
 	Mail::mail().mailbox[ADDRESS::MODEL].clear();
 }
 
+/******************************************************************************
+*
+*	@brief Initializes Graphics System
+*
+*	-
+*
+******************************************************************************/
 void GraphicsSystem::Initialize() {
 	for (Entity const& entity : m_Entities) {
 		Model* m = &ECS::ecs().GetComponent<Model>(entity);
@@ -238,6 +258,14 @@ void GraphicsSystem::Initialize() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Sends Entity data to Graphics Manager
+*
+*	Sends the corresponding Entity data to the Graphics Manager (Graphics.cpp)
+*	for rendering and display on screen.
+*
+******************************************************************************/
 void GraphicsSystem::Update() {
 	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 	// Access the ComponentManager through the ECS class
@@ -265,8 +293,16 @@ void GraphicsSystem::Update() {
 	graphics.Draw();
 }
 
+/******************************************************************************
+*
+*	@brief Sends Entity array data to Serializer
+*
+*	Sends the corresponding Entity array data to the Serializer
+*	(Serialization.cpp) for saving into	file.
+*
+******************************************************************************/
 void SerializationSystem::Update() {
 	
-		Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
+	Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
 	
 }
