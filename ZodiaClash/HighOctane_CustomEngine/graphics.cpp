@@ -219,6 +219,17 @@ bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
 }
 
+void GraphicsManager::Fullscreen(bool input) {
+    if (input) {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+    }
+    else {
+        glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0);
+    }
+}
+
 float GraphicsManager::GetWidth() {
     return (float)width;
 }

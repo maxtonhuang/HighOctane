@@ -59,6 +59,16 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_N == key) {
             audio.PlaySounds("../Assets/Sound/bonk.wav");
         }
+        if (GLFW_KEY_F11 == key) {
+            static bool fullscreen = false;
+            if (fullscreen) {
+                fullscreen = false;
+            }
+            else {
+                fullscreen = true;
+            }
+            graphics.Fullscreen(fullscreen);
+        }
 
         // key input for toggling mass rendering
         if (GLFW_KEY_Y == key) {

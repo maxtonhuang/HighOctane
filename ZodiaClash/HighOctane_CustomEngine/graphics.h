@@ -52,6 +52,7 @@ public:
 	void Draw(); //draw the screen, to be called every frame
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
+	void Fullscreen(bool); //true to set fullscreen on, false to set fullscreen off
 
 	void DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec4 color);
 
