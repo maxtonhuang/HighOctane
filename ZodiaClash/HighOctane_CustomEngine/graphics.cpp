@@ -224,9 +224,11 @@ void GraphicsManager::Fullscreen(bool input) {
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        glViewport(0, 0, mode->width, mode->height);
     }
     else {
         glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0);
+        glViewport(0, 0, width, height);
     }
 }
 
