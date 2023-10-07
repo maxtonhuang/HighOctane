@@ -39,7 +39,7 @@
 
 struct Vertex {
 	glm::vec2 pos; //Vertex coordinates
-	glm::vec3 col; //RGB colour
+	glm::vec4 col; //RGB colour
 	glm::vec2 tex; //Texture coordinates
 	GLfloat index; //Texture index
 };

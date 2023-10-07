@@ -53,14 +53,14 @@ public:
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
 
-	void DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color);
+	void DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec4 color);
 
 	//DEBUG DRAW FUNCTIONS
-	void DrawPoint(float x, float y, float r = 1.f, float g = 1.f, float b = 1.f);
-	void DrawLine(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f);
-	void DrawCircle(float x, float y, float radius, float r = 1.f, float g = 1.f, float b = 1.f);
-	void DrawRect(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f); //x1,y1 are bottom left. x2,y2 are top right
-	void DrawOutline(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f); //x1,y1 are bottom left. x2,y2 are top right
+	void DrawPoint(float x, float y, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f);
+	void DrawLine(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f);
+	void DrawCircle(float x, float y, float radius, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f);
+	void DrawRect(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f); //x1,y1 are bottom left. x2,y2 are top right
+	void DrawOutline(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f); //x1,y1 are bottom left. x2,y2 are top right
 
 	float GetWidth();
 	float GetHeight();

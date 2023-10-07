@@ -147,7 +147,7 @@ void Renderer::CreateVAO() {
     //Assign colour positions to shader
     glEnableVertexArrayAttrib(vao, 1);
     glVertexArrayVertexBuffer(vao, 1, vbo, sizeof(Vertex::pos), sizeof(Vertex));
-    glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 0);
+    glVertexArrayAttribFormat(vao, 1, 4, GL_FLOAT, GL_FALSE, 0);
     glVertexArrayAttribBinding(vao, 1, 1);
 
     //Assign texture positions to shader
