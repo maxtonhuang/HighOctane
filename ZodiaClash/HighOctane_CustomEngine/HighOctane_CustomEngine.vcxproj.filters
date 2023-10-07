@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{cfa50472-e1f5-4a19-867d-659604c30d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineArchitecture">
+      <UniqueIdentifier>{593ef4db-c246-4cf2-a48a-5ed5978a9798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{4ea7567e-8477-46e5-a4bc-6d9e19cc4621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{fe79d690-9b36-4c00-b2a0-19db528c224a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{08dfa90f-38db-43b6-b5bc-86e3f0ed33bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{55484882-0643-4957-833c-469c10b928af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Serialization">
+      <UniqueIdentifier>{2aa6d306-c376-4906-a9c2-d1ed9a85d4a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{0ea2baaa-0796-4b0d-8400-6baeaae4ad96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{11604d9b-055c-49fe-8915-7e618d4eba4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{2c07571d-6034-463f-84d4-a5f0b6b54f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Miscellaneous">
+      <UniqueIdentifier>{64f3ec1d-4a5c-4edb-819c-f75866ce5880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{e8afb2ea-92de-413a-9315-a3f3c9d1227b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Font">
+      <UniqueIdentifier>{b31fa77c-8b71-4ff9-b319-6f61d14b9aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssetsManager">
+      <UniqueIdentifier>{fac3e325-f644-4c94-9964-bdfc5bc055c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendors">
+      <UniqueIdentifier>{5df34908-c48e-483c-984e-163c28359e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Vendors\ImGui">
+      <UniqueIdentifier>{e08e1b1e-c0c5-48b9-b4e8-193157f84f84}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="commonheaderfilelist.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFactory.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="gamestatemanager.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="model.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="mmath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="vmath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="graphlib.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDiagnostic.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLog.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineCore.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="ZodiaClash.h" />
+    <ClInclude Include="Movement.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Serialization.h">
+      <Filter>Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiLib.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIManager.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicConstants.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugProfile.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Battle.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResolution.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiConsole.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiPerformance.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiThreading.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="FontLib.h">
+      <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>AssetsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiEntitiesManager.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiGraph.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
+      <Filter>Vendors\ImGui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFactory.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="gamestatemanager.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="model.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="texture.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDiagnostic.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLog.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ECS.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineCore.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Serialization.cpp">
+      <Filter>Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIManager.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugProfile.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Battle.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="CollsionResolution.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiConsole.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiPerformance.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiThreading.cpp">
+      <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>AssetsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiEntitiesManager.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiGraph.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
+      <Filter>Vendors\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicConstants.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZodiaClash.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ZodiaClash.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ECS.hpp">
+      <Filter>EngineArchitecture</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,2 @@
+﻿character,color,transform,texture,matrix,visible,size,maincharacter
+cat,"1,1,1,1","0.f,0.f,0.f,1.f,1.f,0,0",cat.png,"1,0,0,0,1,0,0,0,1",FALSE,"512,512",FALSE
