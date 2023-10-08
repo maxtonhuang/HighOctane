@@ -51,6 +51,7 @@
 #include <thread>
 #include "AudioManager.h"
 #include "Serialization.h"
+#include "Scripting.h"
 
 //#define MAX_LOADSTRING 100
 
@@ -75,6 +76,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {   
+    // Initialize the Mono runtime
+    //mono_jit_init("Test");
+    //mono_jit_cleanup(mono_domain_get());
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable

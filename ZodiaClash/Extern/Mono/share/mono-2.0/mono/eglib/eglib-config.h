@@ -26,7 +26,7 @@
 typedef uintptr_t gsize;
 typedef intptr_t gssize;
 
-#define G_GSIZE_FORMAT   "u"
+#define G_GSIZE_FORMAT   "I64u"
 
 #if defined (HOST_WATCHOS)
 #undef G_BREAKPOINT
