@@ -4,9 +4,9 @@
 
     public class MyScriptClass
     {
-        public void MyScriptMethod()
+        public static void MyScriptMethod()
         {
-            Console.WriteLine("Hello from C# script!");
+            Console.WriteLine("Hello from MyScriptMethod TESTINGGG!");
         }
     }
 

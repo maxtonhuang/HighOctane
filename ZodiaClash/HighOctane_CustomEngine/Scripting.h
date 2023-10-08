@@ -10,3 +10,4 @@
 
 void InitMono();
 
+void LoadCSharpScript();

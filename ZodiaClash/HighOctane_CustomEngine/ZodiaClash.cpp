@@ -77,7 +77,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {   
-    InitMono();
+    //InitMono();
+    try {
+        LoadCSharpScript();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
@@ -129,11 +135,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return 0;
 }
 
+
+// TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
 //int main()
 //{
-
-//	InitMono();
-//	LoadConfig();
+//    LoadCSharpScript();
+//    LoadConfig();
+//
+//    // Enable run-time memory check for debug builds.
+//    #if (_DEBUG)
+//        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//    #endif
+//        
+//    EngineCore::engineCore().Run();
+//
+//    return 0;
+//
 //}
 
 
