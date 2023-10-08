@@ -130,6 +130,8 @@ void GraphicsManager::Initialize(int w, int h) {
 
     guiManager.Init(window);
 
+    camera.Update();
+
     //TEMP
     glPointSize(10.f);
     glLineWidth(3.f);
@@ -227,7 +229,7 @@ void GraphicsManager::Fullscreen(bool input) {
         glViewport(0, 0, mode->width, mode->height);
     }
     else {
-        glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0);
+        glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0); //ypos at 32 as it is window title bar size
         glViewport(0, 0, width, height);
     }
 }

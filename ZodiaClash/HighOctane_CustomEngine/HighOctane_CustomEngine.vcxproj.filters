@@ -228,6 +228,9 @@
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
       <Filter>Vendors\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -361,6 +364,9 @@
       <Filter>Vendors\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="GraphicConstants.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

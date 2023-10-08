@@ -40,6 +40,7 @@
 #include "Renderer.h"
 #include "Global.h"
 #include "Font.h"
+#include "Camera.h"
 
 extern float g_dt;
 
