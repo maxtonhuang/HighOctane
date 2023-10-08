@@ -55,6 +55,7 @@ ImGui Buttons:
 
 "Create Entity by Button Test: Cat" Initial test to just create an entity using ImGui button
 
-"Clone Cat Entity" Render the cat entity created by aforementioned button
+"Clone Cat Entity" Render the cat entity created by aforementioned button. 
+MUST USE AFOREMENTIONED "Create Entity by Button Test: Cat" BUTTON BEFORE CLONING. PROPER ERROR HANDLING HAS BEEN IN PLACED TO ENSURE AN ENTITY MUST BE CREATD BEFORE CLONING. CLICK "NO" IF CLONING IS DONE BEFORE CREATING TO CONTINUE PROGRAM TO CREATE AN ENTITY FIRST AS ASSERT WILL HAPPEN.
 
  
