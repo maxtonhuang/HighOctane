@@ -157,7 +157,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 }
 
 
-// TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
+// // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
 //int main()
 //{
 //    LoadCSharpScript();

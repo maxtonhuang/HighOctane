@@ -231,6 +231,9 @@
     <ClInclude Include="Scripting.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -367,6 +370,7 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Scripting.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">
