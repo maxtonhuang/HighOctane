@@ -51,6 +51,8 @@
 #include <thread>
 #include "AudioManager.h"
 #include "Serialization.h"
+#include "Scripting.h"
+#include <mono/metadata/assembly.h>
 
 //#define MAX_LOADSTRING 100
 
@@ -79,6 +81,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {   
+    //InitMono();
+    try {
+        LoadCSharpScript();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
@@ -95,7 +104,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Program started");
 
     // Load Configuration File
-    
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
     LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
@@ -130,3 +138,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     return 0;
 }
+
+
+// TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
+//int main()
+//{
+//    LoadCSharpScript();
+//    LoadConfig();
+//
+//    // Enable run-time memory check for debug builds.
+//    #if (_DEBUG)
+//        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//    #endif
+//        
+//    EngineCore::engineCore().Run();
+//
+//    return 0;
+//
+//}
+
+
