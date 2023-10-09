@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HighOctane_CustomEngine", "HighOctane_CustomEngine\HighOctane_CustomEngine.vcxproj", "{AA5E8526-B6B8-4766-9C03-4990CD104C45}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B973CE17-F895-4230-9A35-19996D2A17EB} = {B973CE17-F895-4230-9A35-19996D2A17EB}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpScript", "CSharpScript\CSharpScript.csproj", "{B973CE17-F895-4230-9A35-19996D2A17EB}"
 EndProject
