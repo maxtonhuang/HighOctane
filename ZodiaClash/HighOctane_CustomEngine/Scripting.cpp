@@ -90,9 +90,21 @@ void LoadCSharpScript()
     domain = mono_jit_init("testing");
     MonoAssembly* assembly;
 
-
+    
     const char* assemblyPath = "C:\\Users\\wenyu\\OneDrive\\Documents\\GitHub\\HighOctane\\ZodiaClash\\bin\\Debug-x64\\CSharpScript.dll";
-    assembly = mono_domain_assembly_open(domain, assemblyPath);
+
+    // If debug mode
+
+
+    // Relative path to the C# assembly
+    const char* relativeAssemblyPath = "\\Debug-x64\\CSharpScript.dll";
+
+    // Construct the full path by combining the current working directory and the relative path
+    std::string fullAssemblyPath = std::filesystem::current_path().string() + relativeAssemblyPath;
+
+    std::string assemblePathSting = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+    std::cout << assemblePathSting << std::endl;
+    assembly = mono_domain_assembly_open(domain, assemblePathSting.c_str());
 
     if (!assembly)
     {
