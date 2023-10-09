@@ -5,6 +5,7 @@
 #include <mono/metadata/exception.h>
 #include <iostream>
 #include <filesystem>
+#include "debuglog.h"
 
 #pragma once
 
