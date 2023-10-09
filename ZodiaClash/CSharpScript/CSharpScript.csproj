@@ -10,8 +10,4 @@
   <ItemGroup>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy /y &quot;$(TargetDir)CSharpScript.dll&quot; &quot;$(SolutionDir)bin\$(Configuration)-x64\CSharpScript.dll&quot;" />
-  </Target>
-
 </Project>
