@@ -4,10 +4,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HighOctane_CustomEngine\HighOctane_CustomEngine.vcxproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /y &quot;$(TargetDir)CSharpScript.dll&quot; &quot;$(SolutionDir)bin\$(Configuration)-x64\CSharpScript.dll&quot;" />
+  </Target>
 
 </Project>

@@ -7,6 +7,7 @@
         public static void MyScriptMethod()
         {
             Console.WriteLine("Hello from MyScriptMethod TESTINGGG!");
+            
         }
     }
 
