@@ -72,9 +72,26 @@ using Vec2 = vmath::Vector2;
 
 bool gConsoleInitalized = false;
 
+// The following will force the OS to choose Dedicated GPU. //////////
+
+/******************************************************************************
+*
+*	@brief Force Dedicated GPU
+*
+*	The following 2 snippets of code will force the OS to choose Dedicated GPU.
+*
+******************************************************************************/
+
+// NVIDIA Optimus dedicated GPU hint.
 extern "C" {
     _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 }
+
+// AMD PowerXpress high-performance request.
+extern "C" {
+    _declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
