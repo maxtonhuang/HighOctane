@@ -194,6 +194,7 @@ copy "$(SolutionDir)CSharpScript\bin\$(Configuration)\net6.0\CSharpScript.dll" "
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
     <ClInclude Include="Body.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionResolution.h" />
     <ClInclude Include="Components.h" />
@@ -251,6 +252,7 @@ copy "$(SolutionDir)CSharpScript\bin\$(Configuration)\net6.0\CSharpScript.dll" "
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Body.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollsionResolution.cpp" />
     <ClCompile Include="DebugDiagnostic.cpp" />

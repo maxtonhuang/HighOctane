@@ -130,6 +130,8 @@ void GraphicsManager::Initialize(int w, int h) {
 
     guiManager.Init(window);
 
+    camera.Update();
+
     //TEMP
     glPointSize(10.f);
     glLineWidth(3.f);
@@ -163,7 +165,7 @@ void GraphicsManager::Draw() {
     std::string labelText = "© 2023 High Octane";
     float relFontSize = 0.48f;
     Vec2 relTextPos = { 0.55f, 0.85f };
-    glm::vec3 color = { 1.f, 1.f, 1.f };
+    glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
 
     labelText = "ZodiaClash v0.1";
@@ -177,38 +179,38 @@ void GraphicsManager::Draw() {
 
 }
 
-void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b) {
-    pointRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{r,g,b} });
+void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a) {
+    pointRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a} });
 }
 
-void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    lineRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
+void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
+    lineRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    lineRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
 }
 
-void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b) {
+void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b, float a) {
     const float PI = 3.141592653589793238463f;
     const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
-    circleRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{r,g,b} });
+    circleRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a} });
     for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
-        circleRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec3{r,g,b}});
+        circleRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec4{r,g,b,a}});
     }
     circleRenderer.Draw();
 }
 
-void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
+void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
     rectRenderer.Draw();
 }
 
-void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    DrawLine(x1, y1, x1, y2, r, g, b);
-    DrawLine(x1, y1, x2, y1, r, g, b);
-    DrawLine(x2, y2, x2, y1, r, g, b);
-    DrawLine(x2, y2, x1, y2, r, g, b);
+void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
+    DrawLine(x1, y1, x1, y2, r, g, b, a);
+    DrawLine(x1, y1, x2, y1, r, g, b, a);
+    DrawLine(x2, y2, x2, y1, r, g, b, a);
+    DrawLine(x2, y2, x1, y2, r, g, b, a);
 }
 
 std::string GraphicsManager::GetName() {
@@ -219,6 +221,19 @@ bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
 }
 
+void GraphicsManager::Fullscreen(bool input) {
+    if (input) {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        glViewport(0, 0, mode->width, mode->height);
+    }
+    else {
+        glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0); //ypos at 32 as it is window title bar size
+        glViewport(0, 0, width, height);
+    }
+}
+
 float GraphicsManager::GetWidth() {
     return (float)width;
 }
@@ -227,7 +242,7 @@ float GraphicsManager::GetHeight() {
     return (float)height;
 }
 
-void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color) {
+void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 

@@ -39,7 +39,7 @@
 
 struct Vertex {
 	glm::vec2 pos; //Vertex coordinates
-	glm::vec3 col; //RGB colour
+	glm::vec4 col; //RGB colour
 	glm::vec2 tex; //Texture coordinates
 	GLfloat index; //Texture index
 };
@@ -57,6 +57,8 @@ public:
 	void AddVertex(Vertex); //Add vertex to the buffer
 	void Draw(); //To be called at end of every frame or if buffer is filled
 	void FontDraw(GLuint texID);
+	
+	void UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3& matrix); //update uniform matrix for a shader
 
 	GLuint GetDrawCount(); //Gets current amount of vertices in the buffer
 	void CreateVAO(); //Creates VAO and buffers for storage

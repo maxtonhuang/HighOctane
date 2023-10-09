@@ -119,6 +119,26 @@ bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
 	return true;
 }
 
+void Model::SetColor(float r, float g, float b) {
+	color.r = r;
+	color.g = g;
+	color.b = b;
+}
+
+void Model::SetAlpha(float a) {
+	color.a = a;
+}
+
+void Model::AddAlpha(float a) {
+	color.a += a;
+	if (color.a > 1.f) {
+		color.a = 1.f;
+	}
+	if (color.a < 0.f) {
+		color.a = 0.f;
+	}
+}
+
 /* ----------------------------------------------------------------------------
 THE FOLLOWING FUNCTIONS ARE TO BE MOVED INTO A DIFFERENT ANIMATOR CLASS
 ---------------------------------------------------------------------------- */

@@ -56,6 +56,10 @@ public:
 	void Draw(Tex const& entity, Animation const& ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
+	void SetColor(float r, float g, float b); //Set color of model (colour bounds are between 0 and 1)
+	void SetAlpha(float a); //Set alpha of model (alpha bounds are between 0 and 1)
+	void AddAlpha(float a); //Add alpha of model (alpha bounds are between 0 and 1)
+
 	void SetAnimation(Animation& aniData, int index);		 //Set animation to frame of input index
 	void AdvanceAnimation(Animation& aniData, Tex& texData); //Advance animation to next frame
 	void ChangeAnimation(Tex& texData);	//Changes animation if >1 texVariant stored

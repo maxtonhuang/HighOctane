@@ -7,8 +7,9 @@
 #include "model.h"
 #include "body.h"
 #include "physics.h"
+#include "Camera.h"
 
-void UpdateMovement(Transform & transform) {	
+void UpdateMovement(Transform& transform, Model & model) {	
 	//Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
 		
 	for (Postcard msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
@@ -26,6 +27,14 @@ void UpdateMovement(Transform & transform) {
 			if (msg.info == INFO::KEY_P) { transform.scale.x -= 10.f * g_dt; transform.scale.y -= 10.f * g_dt; }
 			if (msg.info == INFO::KEY_Q) { transform.rotation -= 1.f * g_dt; }
 			if (msg.info == INFO::KEY_E) { transform.rotation += 1.f * g_dt; }
+			if (msg.info == INFO::KEY_1) { model.AddAlpha(0.2f * g_dt); }
+			if (msg.info == INFO::KEY_2) { model.AddAlpha(-0.2f * g_dt); }
+			if (msg.info == INFO::KEY_3) { camera.AddZoom(0.1f * g_dt); }
+			if (msg.info == INFO::KEY_4) { camera.AddZoom(-0.1f * g_dt); }
+			if (msg.info == INFO::KEY_I) { camera.AddPos(0.f, 200.f * g_dt); }
+			if (msg.info == INFO::KEY_J) { camera.AddPos(-200.f * g_dt, 0.f); }
+			if (msg.info == INFO::KEY_K) { camera.AddPos(0, -200.f * g_dt); }
+			if (msg.info == INFO::KEY_L) { camera.AddPos(200.f * g_dt, 0.f); }
 			break;
 
 		case TYPE::MOUSE_MOVE:

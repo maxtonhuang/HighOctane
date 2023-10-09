@@ -207,7 +207,7 @@ void MovementSystem::Update() {
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
-		UpdateMovement(*transformData);
+		UpdateMovement(*transformData, *modelData);
 		
 		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
 		//modelData->DrawOutline();
