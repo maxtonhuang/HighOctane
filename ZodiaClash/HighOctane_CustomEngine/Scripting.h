@@ -6,9 +6,23 @@
 #include <iostream>
 #include <filesystem>
 #include "debuglog.h"
+#include "ImGuiLib.h"
 
 #pragma once
 
-void InitMono();
+//void InitMono();
 
-void LoadCSharpScript();
+class CsScript {
+public:
+	CsScript();
+	~CsScript();
+
+private:
+	MonoDomain* domain{};
+	MonoAssembly* assembly{};
+	MonoImage* image{};
+	MonoClass* scriptClass{};
+	MonoObject* scriptInstance{};
+	MonoMethod* scriptMethod{};
+
+};
