@@ -44,8 +44,13 @@
 #include "Viewport.h"
 
 extern float g_dt;
+#ifdef CUSTOMENGINE_EXPORTS
+#define CUSTOMENGINE_API __declspec(dllexport)
+#else 
+#define CUSTOMENGINE_API __declspec(dllimport)
+#endif
 
-class GraphicsManager {
+class CUSTOMENGINE_API GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
 public:

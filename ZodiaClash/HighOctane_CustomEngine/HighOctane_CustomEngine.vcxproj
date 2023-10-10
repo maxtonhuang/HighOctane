@@ -41,13 +41,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -118,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);CUSTOMENGINE_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -127,6 +127,7 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,7 +151,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);CUSTOMENGINE_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -158,6 +159,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
       </PrecompiledHeaderFile>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -178,18 +180,6 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
-    <ClInclude Include="..\Extern\implot-master\implot.h" />
-    <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
@@ -214,12 +204,6 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClInclude Include="GraphicConstants.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphLib.h" />
-    <ClInclude Include="GUIManager.h" />
-    <ClInclude Include="ImGuiConsole.h" />
-    <ClInclude Include="ImGuiEntitiesManager.h" />
-    <ClInclude Include="ImGuiGraph.h" />
-    <ClInclude Include="ImGuiLib.h" />
-    <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MMath.h" />
@@ -239,16 +223,6 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
-    <ClCompile Include="..\Extern\implot-master\implot.cpp" />
-    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
-    <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />
@@ -268,11 +242,6 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GraphicConstants.cpp" />
-    <ClCompile Include="GUIManager.cpp" />
-    <ClCompile Include="ImGuiConsole.cpp" />
-    <ClCompile Include="ImGuiEntitiesManager.cpp" />
-    <ClCompile Include="ImGuiGraph.cpp" />
-    <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Model.cpp" />

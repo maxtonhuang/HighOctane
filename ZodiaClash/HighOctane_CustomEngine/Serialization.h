@@ -49,7 +49,13 @@
 #include "GraphLib.h"
 #include "Texture.h"
 
-class Serializer {
+#ifdef CUSTOMENGINE_EXPORTS
+#define CUSTOMENGINE_API __declspec(dllexport)
+#else 
+#define CUSTOMENGINE_API __declspec(dllimport)
+#endif
+
+class CUSTOMENGINE_API Serializer {
 public:
 	std::ifstream stream;
 /*!***********************************************************************

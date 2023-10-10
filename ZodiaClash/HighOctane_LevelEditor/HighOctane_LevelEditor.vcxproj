@@ -17,7 +17,48 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp" />
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp" />
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp" />
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
+    <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
+    <ClCompile Include="GUIManager.cpp" />
+    <ClCompile Include="ImGuiConsole.cpp" />
+    <ClCompile Include="ImGuiEntitiesManager.cpp" />
+    <ClCompile Include="ImGuiGraph.cpp" />
+    <ClCompile Include="ImGuiPerformance.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imgui.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
+    <ClInclude Include="..\Extern\implot-master\implot.h" />
+    <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
+    <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="ImGuiConsole.h" />
+    <ClInclude Include="ImGuiEntitiesManager.h" />
+    <ClInclude Include="ImGuiGraph.h" />
+    <ClInclude Include="ImGuiLib.h" />
+    <ClInclude Include="ImGuiPerformance.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HighOctane_CustomEngine\HighOctane_CustomEngine.vcxproj">
+      <Project>{aa5e8526-b6b8-4766-9c03-4990cd104c45}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -41,39 +82,42 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared" >
+  <ImportGroup Label="Shared">
   </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-    <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    </ImportGroup>
-
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\Users\kai\Documents\GitHub\HighOctane\ZodiaClash\Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;C:\Users\kai\Documents\GitHub\HighOctane\ZodiaClash\Extern\imgui-1.87;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Users\kai\Documents\GitHub\HighOctane\ZodiaClash\Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;C:\Users\kai\Documents\GitHub\HighOctane\ZodiaClash\Extern\imgui-1.87;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,10 +152,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,16 +168,16 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-
-  <ItemGroup></ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

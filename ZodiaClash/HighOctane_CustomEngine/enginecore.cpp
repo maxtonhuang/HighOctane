@@ -42,7 +42,6 @@
 #include "Components.h"
 #include "VMath.h"
 #include "Graphics.h"
-#include "GUIManager.h"
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
 #include "Global.h"
@@ -50,7 +49,6 @@
 #include <Windows.h>
 #include <chrono>
 #include "physics.h"
-#include "GUIManager.h"
 #include "Font.h"
 #include "MultiThreading.h"
 

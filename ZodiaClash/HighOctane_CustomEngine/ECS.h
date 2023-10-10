@@ -69,6 +69,12 @@
 #include "debugdiagnostic.h"
 #include "Components.h"
 
+#ifdef CUSTOMENGINE_EXPORTS
+#define CUSTOMENGINE_API __declspec(dllexport)
+#else 
+#define CUSTOMENGINE_API __declspec(dllimport)
+#endif
+
 using Entity = std::uint32_t;
 
 // Maximum number of entities
@@ -84,7 +90,7 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 ////////// ENTITY /////////////////////////////////////////////////////////////
 
-class EntityManager {
+class CUSTOMENGINE_API EntityManager {
 public:
     EntityManager();
 
@@ -114,7 +120,7 @@ private:
 
 ////////// COMPONENT //////////////////////////////////////////////////////////
 
-class IComponentArray {
+class CUSTOMENGINE_API IComponentArray {
 public:
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity) = 0;
@@ -122,7 +128,7 @@ public:
 
 
 template<typename T>
-class ComponentArray : public IComponentArray {
+class CUSTOMENGINE_API ComponentArray : public IComponentArray {
 public:
     //template <typename T>
     void InsertData(Entity entity, T component) {
@@ -191,7 +197,7 @@ private:
 };
 
 
-class ComponentManager {
+class CUSTOMENGINE_API ComponentManager {
 public:
     //template<typename T>
     //void RegisterComponent();
@@ -280,14 +286,14 @@ private:
 
 ////////// SYSTEM /////////////////////////////////////////////////////////////
 
-class System {
+class CUSTOMENGINE_API System {
 public:
     virtual void Update() = 0;
     std::set<Entity> m_Entities;
 };
 
 
-class SystemManager {
+class CUSTOMENGINE_API SystemManager {
 public:
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
@@ -326,7 +332,7 @@ private:
 
 ////////// ECS COORDINATOR ////////////////////////////////////////////////////
 
-class ECS {
+class CUSTOMENGINE_API ECS {
 public:
     void Init();
 

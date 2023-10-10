@@ -30,10 +30,16 @@
 ******************************************************************************/
 #pragma once
 #include "ImGuiLib.h"
-#include "graphics.h"
+//#include "graphics.h"
+
+#ifdef LEVELEDITOR_EXPORTS
+#define LEVELEDITOR_API __declspec(dllexport)
+#else 
+#define LEVELEDITOR_API __declspec(dllimport)
+#endif
 
 
-class GUIManager {
+class LEVELEDITOR_API GUIManager {
 public:
         GUIManager();
 

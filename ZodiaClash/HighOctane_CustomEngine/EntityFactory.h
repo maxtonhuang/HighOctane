@@ -32,16 +32,21 @@
 #pragma once
 
 #include "ECS.h"
+#ifdef CUSTOMENGINE_EXPORTS
+#define CUSTOMENGINE_API __declspec(dllexport)
+#else 
+#define CUSTOMENGINE_API __declspec(dllimport)
+#endif
 
-	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
+	CUSTOMENGINE_API void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
 
-	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
-	void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
+	CUSTOMENGINE_API Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
+	CUSTOMENGINE_API void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
-	void LoadMasterModel();
+	CUSTOMENGINE_API void LoadMasterModel();
 	extern std::unordered_map<std::string, Entity> masterEntitiesList;
 	//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
-	Entity CreateModel();
+	CUSTOMENGINE_API Entity CreateModel();
 
 
 	//FUNCTIONS FOR MASS RENDERING - SUBJECT TO APPROVAL
