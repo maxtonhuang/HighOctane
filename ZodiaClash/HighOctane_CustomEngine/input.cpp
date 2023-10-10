@@ -129,6 +129,9 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     static int previousPosX = 0;
     static int previousPosY = 0;
     
+    xpos = (xpos - graphics.viewport.GetX()) / graphics.viewport.GetW() * GRAPHICS::defaultWidthF;
+    ypos = (ypos - graphics.viewport.GetY()) / graphics.viewport.GetH() * GRAPHICS::defaultHeightF;
+
     int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
     int currPosY = static_cast<int>(-static_cast<float>(ypos) + GRAPHICS::h);
     

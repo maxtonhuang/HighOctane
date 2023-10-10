@@ -41,19 +41,24 @@
 #include "Global.h"
 #include "Font.h"
 #include "Camera.h"
+#include "Viewport.h"
 
 extern float g_dt;
 
 class GraphicsManager {
 public:
+	Viewport viewport{}; //viewport class
+public:
 	GraphicsManager();
 	~GraphicsManager();
 	void Initialize(int w, int h); //initialise graphics manager at start of program
 	void Update();
-	void Draw(); //draw the screen, to be called every frame
+	void Draw(); //draw game world to the screen
+	void EndDraw(); //TO BE CALLED AT END OF EVERY FRAME, swaps buffers
 	std::string GetName();
 	bool WindowClosed(); //returns true if window is closed, else false
 	void Fullscreen(bool); //true to set fullscreen on, false to set fullscreen off
+	GLFWwindow* GetWindow(); //returns window of graphics system
 
 	void DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec4 color);
 

@@ -256,6 +256,7 @@ void EngineCore::Run() {
 		if (graphics.WindowClosed()) {
 			gameActive = false;
 		}
+		graphics.EndDraw();
 	}
 	delete physics::PHYSICS; //maybe put this somewhere else
 }
