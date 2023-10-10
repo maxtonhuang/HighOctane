@@ -230,6 +230,9 @@
     <ClInclude Include="Camera.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -372,8 +375,11 @@
     </ClCompile>
     <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="Viewport.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
+  
   <ItemGroup>
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>

@@ -101,7 +101,8 @@ void GraphicsManager::Initialize(int w, int h) {
     glClearColor(1.f, 0.f, 0.f, 1.f);
 
     //Create viewport
-    glViewport(0, 0, width, height);
+    viewport.SetViewport(0, 0, width, height);
+    //glViewport(0, 0, width, height);
 
     //Initialise glew for glew functions
     glewInit();
@@ -174,9 +175,11 @@ void GraphicsManager::Draw() {
     //physics::PHYSICS->DebugDraw();
 
     guiManager.Update(window);
+}
+
+void GraphicsManager::EndDraw() {
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
-
 }
 
 void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a) {
@@ -226,11 +229,11 @@ void GraphicsManager::Fullscreen(bool input) {
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-        glViewport(0, 0, mode->width, mode->height);
+        viewport.SetViewport(0, 0, mode->width, mode->height);
     }
     else {
         glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0); //ypos at 32 as it is window title bar size
-        glViewport(0, 0, width, height);
+        viewport.SetViewport(0, 0, width, height);
     }
 }
 
@@ -240,6 +243,10 @@ float GraphicsManager::GetWidth() {
 
 float GraphicsManager::GetHeight() {
     return (float)height;
+}
+
+GLFWwindow* GraphicsManager::GetWindow() {
+    return window;
 }
 
 void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
