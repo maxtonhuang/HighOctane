@@ -90,7 +90,7 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 ////////// ENTITY /////////////////////////////////////////////////////////////
 
-class CUSTOMENGINE_API EntityManager {
+CUSTOMENGINE_API class EntityManager {
 public:
     EntityManager();
 
@@ -120,7 +120,7 @@ private:
 
 ////////// COMPONENT //////////////////////////////////////////////////////////
 
-class CUSTOMENGINE_API IComponentArray {
+CUSTOMENGINE_API class IComponentArray {
 public:
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity) = 0;
@@ -128,7 +128,7 @@ public:
 
 
 template<typename T>
-class CUSTOMENGINE_API ComponentArray : public IComponentArray {
+class ComponentArray : public IComponentArray {
 public:
     //template <typename T>
     void InsertData(Entity entity, T component) {
@@ -197,7 +197,7 @@ private:
 };
 
 
-class CUSTOMENGINE_API ComponentManager {
+CUSTOMENGINE_API class ComponentManager {
 public:
     //template<typename T>
     //void RegisterComponent();
@@ -246,7 +246,7 @@ public:
         // Get a reference to a component from the array for an entity
         return GetComponentArray<T>()->GetData(entity);
     }
-    void EntityDestroyed(Entity entity);
+    CUSTOMENGINE_API void EntityDestroyed(Entity entity);
 
     template<typename T>
     bool isComponentTypeRegistered() {
@@ -286,14 +286,14 @@ private:
 
 ////////// SYSTEM /////////////////////////////////////////////////////////////
 
-class CUSTOMENGINE_API System {
+CUSTOMENGINE_API class System {
 public:
     virtual void Update() = 0;
     std::set<Entity> m_Entities;
 };
 
 
-class CUSTOMENGINE_API SystemManager {
+CUSTOMENGINE_API class SystemManager {
 public:
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
@@ -332,7 +332,7 @@ private:
 
 ////////// ECS COORDINATOR ////////////////////////////////////////////////////
 
-class CUSTOMENGINE_API ECS {
+CUSTOMENGINE_API class ECS {
 public:
     void Init();
 

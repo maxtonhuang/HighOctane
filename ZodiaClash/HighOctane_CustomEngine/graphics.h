@@ -50,7 +50,7 @@ extern float g_dt;
 #define CUSTOMENGINE_API __declspec(dllimport)
 #endif
 
-class CUSTOMENGINE_API GraphicsManager {
+CUSTOMENGINE_API class GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
 public:
