@@ -287,14 +287,14 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ZodiaClash.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="small.ico" />
     <Image Include="ZodiaClash.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ECS.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZodiaClash.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

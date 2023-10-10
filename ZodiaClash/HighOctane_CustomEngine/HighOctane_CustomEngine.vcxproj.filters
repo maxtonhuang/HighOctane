@@ -65,9 +65,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="commonheaderfilelist.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -122,7 +119,6 @@
     <ClInclude Include="Message.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
-    <ClInclude Include="ZodiaClash.h" />
     <ClInclude Include="Movement.h">
       <Filter>Physics</Filter>
     </ClInclude>
@@ -234,6 +230,12 @@
     <ClInclude Include="Camera.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ZodiaClash.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -260,7 +262,6 @@
     <ClCompile Include="collision.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="ZodiaClash.cpp" />
     <ClCompile Include="texture.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -371,11 +372,7 @@
     </ClCompile>
     <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Camera.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ZodiaClash.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -389,5 +386,10 @@
     <None Include="ECS.hpp">
       <Filter>EngineArchitecture</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZodiaClash.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
