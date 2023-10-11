@@ -86,28 +86,34 @@ void AssetManager::UnloadAudio(const std::string& audioName) {
 
 
 /**************************************FONTS**************************************************/
-void AssetManager::LoadFont(const std::string& fontPath, const std::string& fontName) {
+void AssetManager::LoadFont(const std::string& fontPath) {
     FontManager font;
-    font.LoadFont(fontPath); // Load the font using your FontManager class.
-    m_fonts[fontName] = font;
+    Font newFont;
+    font.LoadNewFont(newFont, fontPath); // Load the font using your FontManager class.
+    //m_fonts[fontName] = font;
 }
 
-FontManager* AssetManager::GetFont(const std::string& fontName) {
-    auto it = m_fonts.find(fontName);
-    if (it != m_fonts.end()) {
-        return &it->second;
-    }
-    return nullptr; // Font not found.
+Font AssetManager::GetFont(const std::string& filename) {
+    //auto it = m_fonts.find(fontName);
+    //if (it != m_fonts.end()) {
+    //    return &it->second;
+    //}
+    //return nullptr; // Font not found.
+    FontManager font;
+    return font.GetFont(filename);
 }
 
-void AssetManager::UnloadFont(const std::string& fontName) {
-    auto it = m_fonts.find(fontName);
-    if (it != m_fonts.end()) {
-        // Release resources related to the font using your FontManager class if necessary.
-        m_fonts.erase(it);
-    }
-}
+// note: might not need, FontManager auto destructs on out of scope
+//void AssetManager::UnloadFont(const std::string& fontName) {
+//    //auto it = m_fonts.find(fontName);
+//    //if (it != m_fonts.end()) {
+//    //    // Release resources related to the font using your FontManager class if necessary.
+//    //    m_fonts.erase(it);
+//    //}
+//}
 
+
+/**********************************GENERIC METHODS*********************************************/
 void AssetManager::LoadAssets(const std::string& assetPath, const std::string& assetName) {
     // Determine the asset type based on the file extension or other criteria
     std::string extension = FilePath::GetFileExtension(assetPath);
@@ -122,7 +128,7 @@ void AssetManager::LoadAssets(const std::string& assetPath, const std::string& a
     }
     else if (extension == ".ttf" || extension == ".otf") {
         // Load as font
-        LoadFont(assetPath, assetName);
+        LoadFont(assetPath);
     }
     else {
         // Error Handling

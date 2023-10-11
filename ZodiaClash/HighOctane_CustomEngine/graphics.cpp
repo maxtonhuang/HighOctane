@@ -249,7 +249,7 @@ GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
-void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
+void GraphicsManager::DrawLabel(std::string labelText, std::string filename, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 
@@ -257,36 +257,40 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, flo
     relFontSize = std::max(0.f, relFontSize);
     relFontSize = std::min(relFontSize, 1.f);
 
-    Font fontData = fonts.GetFont();
     // TODO some sort of non null checking for fontData?
-    // iterate through all characters 
-    float initPosX = (relTextPos.x * GRAPHICS::w);
-    float initPosY = (relTextPos.y * GRAPHICS::h);
-    float xPos = initPosX;
-    float yPos;
+    // find font in fontCollection (null checking included)
+    Font fontData = fonts.GetFont(filename);
 
-    std::string::const_iterator c;
-    for (c = labelText.begin(); c != labelText.end(); c++)
-    {
-        Character ch = fontData.characters[*c];
+    if (fontData.isActive) {
+        // iterate through all characters 
+        float initPosX = (relTextPos.x * GRAPHICS::w);
+        float initPosY = (relTextPos.y * GRAPHICS::h);
+        float xPos = initPosX;
+        float yPos;
 
-        xPos = (xPos + ch.bearing.x * relFontSize);
-        yPos = (initPosY - (ch.size.y - ch.bearing.y) * relFontSize);
+        std::string::const_iterator c;
+        for (c = labelText.begin(); c != labelText.end(); c++)
+        {
+            Character ch = fontData.characters[*c];
 
-        float w = ch.size.x * relFontSize;
-        float h = ch.size.y * relFontSize;
-        //glm::vec3 color(1.f, 1.f, 1.f);
-        glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
-        glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
-        glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-        glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-        fontRenderer.AddVertex(Vertex{ botleft, color, glm::vec2{0,1}, (float)ch.textureID - 1});
-        fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
-        fontRenderer.FontDraw(ch.textureID);
-        xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-    }
+            xPos = (xPos + ch.bearing.x * relFontSize);
+            yPos = (initPosY - (ch.size.y - ch.bearing.y) * relFontSize);
+
+            float w = ch.size.x * relFontSize;
+            float h = ch.size.y * relFontSize;
+            //glm::vec3 color(1.f, 1.f, 1.f);
+            glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
+            glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
+            glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+            glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+            fontRenderer.AddVertex(Vertex{ botleft, color, glm::vec2{0,1}, (float)ch.textureID - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
+            fontRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)ch.textureID - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
+            fontRenderer.FontDraw(ch.textureID);
+            xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+        }
+    }    
 }

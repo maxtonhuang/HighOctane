@@ -38,8 +38,9 @@
 #pragma once
 #include "ECS.h"
 #include "GraphLib.h"
+#include <filesystem>
 #include <string>
-#include<map>
+#include <unordered_map>
 
 // character object - stores data of extracted glyph
 struct Character {
@@ -51,25 +52,52 @@ struct Character {
 
 // font object - stores loaded FontFace and the FontFace's extracted glyphs
 struct Font {
-	FT_Face fontFace;
-	std::unordered_map<char, Character> characters;
+	FT_Face fontFace{};
+	std::unordered_map<char, Character> characters{};
+	bool isActive{};
+
+	//Font() : isActive(0) {};
+};
+
+struct FontInfo {
+	std::string fontFamily{};
+	std::string fontVariant{};
+
+	FontInfo(const std::string& ft_family, const std::string& ft_variant)
+		: fontFamily(ft_family), fontVariant(ft_variant) {}
+};
+
+struct FontEntry {
+	Font font;
+	FontInfo fontInfo;
+
+	FontEntry(const Font& ft_data, const FontInfo& ft_info)
+		: font(ft_data), fontInfo(ft_info) {}
 };
 
 class FontManager {
 public:
-	FontManager() : fontLibrary{}, ft_font{} {};
+	FontManager() : fontLibrary{}/*, ft_font{}*/ {};
 	~FontManager();
 	void Initialize();
 
-	void LoadFont(const std::string& fontPath);
-	void LoadChar(Font& font);
+	void LoadAllFonts();
+	void LoadValidFont(Font& fontData, const std::string& fontFilePath);
+	void LoadChar(Font& fontData);
 
-	Font GetFont();
+	//tmp, to replace once fully integrated
+	// for asset manager? new font file
+	void LoadNewFont(Font& fontData, const std::string& fontPath);
+
+	Font GetFont(const std::string& filename);
+
+	// primary key: filename found in directory
+	std::unordered_map<std::string, FontEntry>* GetFontCollection();
 private:
 	FT_Library fontLibrary;
-	Font ft_font;
+	//Font ft_font; //tmp
 
-	//std::unordered_map<std::string, Font> fontCollection;
+	std::unordered_map<std::string, FontEntry> fontCollection;
 };
 
 extern FontManager fonts;
