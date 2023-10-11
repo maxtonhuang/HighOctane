@@ -94,30 +94,30 @@ void FontManager::LoadAllFonts() {
     for (const auto& dirItem : fileSys::directory_iterator(parentDir)) {
         // capture folder names in parentDir as font family names
         if (fileSys::is_directory(dirItem)) {
-            std::string ft_family = dirItem.path().filename().string();
-            DEBUG_PRINT("DEBUG::FONT: >>> Font family: %s", ft_family.c_str());
+            std::string ftFamily = dirItem.path().filename().string();
+            DEBUG_PRINT("DEBUG::FONT: >>> Font family: %s", ftFamily.c_str());
 
             // reset flag for defaultVariant
             bool isDefaultSet = 0;
 
             //reset variables
-            std::string filename{}, fileExt{}, ft_variant{};
+            std::string ftFilename{}, fileExt{}, ftVariant{};
             size_t foundVarStart{}, foundVarEnd{};
 
             // iterate through file items in one font parent directory
             for (const auto& fileItem : fileSys::directory_iterator(dirItem.path())) {
                 if (fileSys::is_regular_file(fileItem)) {
                     // ignore files that are not font files
-                    filename = fileItem.path().filename().string();
-                    foundVarStart = filename.find_first_of('-');
-                    foundVarEnd = filename.find_last_of('.');
-                    fileExt = (foundVarEnd != std::string::npos) ? filename.substr(foundVarEnd) : "";
+                    ftFilename = fileItem.path().filename().string();
+                    foundVarStart = ftFilename.find_first_of('-');
+                    foundVarEnd = ftFilename.find_last_of('.');
+                    fileExt = (foundVarEnd != std::string::npos) ? ftFilename.substr(foundVarEnd) : "";
 
                     if ((fileExt == ".ttf") || (fileExt == ".otf")) {
-                        ft_variant = (foundVarStart != std::string::npos) ? filename.substr(foundVarStart + 1, foundVarEnd - foundVarStart - 1) : "";
+                        ftVariant = (foundVarStart != std::string::npos) ? ftFilename.substr(foundVarStart + 1, foundVarEnd - foundVarStart - 1) : "";
                     
                         if (!isDefaultSet) {
-                            ft_variant = "Regular";
+                            ftVariant = "Regular";
                             isDefaultSet = 1;
                         }
                         else {
@@ -127,9 +127,9 @@ void FontManager::LoadAllFonts() {
                     
                     
                         // check if all data is present, then proceed extract data for font file
-                        if (!ft_family.empty() && !ft_variant.empty()) {
+                        if (!ftFamily.empty() && !ftVariant.empty()) {
                             // construct font's filepath
-                            std::string fontFilePath = parentDir + ft_family + "/" + filename;
+                            std::string fontFilePath = parentDir + ftFamily + "/" + ftFilename;
                     
                             // init new font obj
                             Font ft_data;
@@ -140,20 +140,23 @@ void FontManager::LoadAllFonts() {
                     
                                 // prepare new entry to load into fontCollection
                                 ft_data.isActive = 1;
-                                FontInfo ft_info(ft_family, ft_variant);
-                                FontEntry ft_entry(ft_data, ft_info);
+                                
+                                //FontInfo ft_info(ft_family, ft_variant);
+                                FontEntry ft_entry(ft_data, ftVariant, ftFilename);
+
+                                // DO DUPLICATION CHECKS!!
                     
                                 // store in fontCollection
-                                fontCollection.emplace(filename, ft_entry);
+                                fontCollection.emplace(ftFamily, ft_entry);
                     
                                 tmpFlag = 1;
                             }
                             
-                            DEBUG_PRINT("DEBUG::FONT: [+] Added to font collection: %s %s", ft_family.c_str(), ft_variant.c_str());
+                            DEBUG_PRINT("DEBUG::FONT: [+] Added to font collection: %s %s", ftFamily.c_str(), ftVariant.c_str());
                         }
                     }
                     else {
-                        DEBUG_PRINT("DEBUG::FONT: Skipped over file: %s", filename.c_str());
+                        DEBUG_PRINT("DEBUG::FONT: Skipped over file: %s", ftFilename.c_str());
                     }
                     
                 }
@@ -270,20 +273,20 @@ void FontManager::LoadChar(Font& fontData) {
 * Retrieves Font struct object to access character map stored.
 *
 */
-Font FontManager::GetFont(const std::string& filename) {
+Font FontManager::GetFont(const std::string& ftFamily, const std::string& ftVariant) {
 
-    std::unordered_map<std::string, FontEntry>::iterator it = fontCollection.find(filename);
+    using fontCollectionType = std::unordered_map<std::string, FontEntry>;
 
-    if (it != fontCollection.end()) {
-        // The font path was found in the map
-        FontEntry& ft_entry = it->second;
-        return ft_entry.font;
+    std::pair <fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
+
+    for (fontCollectionType::iterator it = variantRange.first; it != variantRange.second; it++) {
+        if (it->second.fontVariant == ftVariant) {
+            return it->second.font;
+        }
     }
-    else {
-        Font emptyFont;
-        DEBUG_PRINT("ERROR::FONT: Failed to retrieve requested font!");
-        return emptyFont;
-    }
+
+    DEBUG_PRINT("ERROR::FONT: Failed to retrieve requested font!");
+    return Font{};
 }
 
 std::unordered_map<std::string, FontEntry>* FontManager::GetFontCollection() {

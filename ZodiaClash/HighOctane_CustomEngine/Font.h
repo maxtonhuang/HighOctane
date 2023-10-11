@@ -55,29 +55,28 @@ struct Font {
 	FT_Face fontFace{};
 	std::unordered_map<char, Character> characters{};
 	bool isActive{};
-
-	//Font() : isActive(0) {};
 };
 
-struct FontInfo {
-	std::string fontFamily{};
-	std::string fontVariant{};
-
-	FontInfo(const std::string& ft_family, const std::string& ft_variant)
-		: fontFamily(ft_family), fontVariant(ft_variant) {}
-};
+//struct FontInfo {
+//	std::string fontFamily{};
+//	std::string fontVariant{};
+//
+//	FontInfo(const std::string& ft_family, const std::string& ft_variant)
+//		: fontFamily(ft_family), fontVariant(ft_variant) {}
+//};
 
 struct FontEntry {
 	Font font;
-	FontInfo fontInfo;
+	std::string fontVariant{};
+	std::string filename{};
 
-	FontEntry(const Font& ft_data, const FontInfo& ft_info)
-		: font(ft_data), fontInfo(ft_info) {}
+	FontEntry(const Font& ftData, const std::string& ftVariant, const std::string& ftFilename)
+		: font(ftData), fontVariant(ftVariant), filename(ftFilename) {}
 };
 
 class FontManager {
 public:
-	FontManager() : fontLibrary{}/*, ft_font{}*/ {};
+	FontManager() : fontLibrary{} {};
 	~FontManager();
 	void Initialize();
 
@@ -89,7 +88,7 @@ public:
 	// for asset manager? new font file
 	void LoadNewFont(Font& fontData, const std::string& fontPath);
 
-	Font GetFont(const std::string& filename);
+	Font GetFont(const std::string& ftFamily, const std::string& ftVariant);
 
 	// primary key: filename found in directory
 	std::unordered_map<std::string, FontEntry>* GetFontCollection();

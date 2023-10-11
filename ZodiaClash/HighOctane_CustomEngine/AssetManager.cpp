@@ -93,14 +93,14 @@ void AssetManager::LoadFont(const std::string& fontPath) {
     //m_fonts[fontName] = font;
 }
 
-Font AssetManager::GetFont(const std::string& filename) {
+Font AssetManager::GetFont(const std::string& fontFamily, const std::string& fontVariant) {
     //auto it = m_fonts.find(fontName);
     //if (it != m_fonts.end()) {
     //    return &it->second;
     //}
     //return nullptr; // Font not found.
     FontManager font;
-    return font.GetFont(filename);
+    return font.GetFont(fontFamily, fontVariant);
 }
 
 // note: might not need, FontManager auto destructs on out of scope

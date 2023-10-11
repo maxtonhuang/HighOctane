@@ -167,11 +167,11 @@ void GraphicsManager::Draw() {
     float relFontSize = 0.48f;
     Vec2 relTextPos = { 0.55f, 0.85f };
     glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
-    DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
+    DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
 
     labelText = "ZodiaClash v0.1";
     relTextPos = { -0.95f, -0.9f };
-    DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
+    DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 
     guiManager.Update(window);
@@ -249,7 +249,7 @@ GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
-void GraphicsManager::DrawLabel(std::string labelText, std::string filename, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
+void GraphicsManager::DrawLabel(std::string labelText, std::string fontFamily, std::string fontVariant, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 
@@ -259,7 +259,7 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string filename, flo
 
     // TODO some sort of non null checking for fontData?
     // find font in fontCollection (null checking included)
-    Font fontData = fonts.GetFont(filename);
+    Font fontData = fonts.GetFont(fontFamily, fontVariant);
 
     if (fontData.isActive) {
         // iterate through all characters 
