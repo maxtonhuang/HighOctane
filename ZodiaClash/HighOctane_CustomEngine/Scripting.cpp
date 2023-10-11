@@ -33,12 +33,24 @@ CsScript::CsScript() {
 
                     MonoMethod* scriptStartMethod = mono_class_get_method_from_name(scriptClass, "Start", -1);
                     MonoMethod* scriptStopMethod = mono_class_get_method_from_name(scriptClass, "Stop", -1);
-                    //MonoMethod* scriptTestMethod = mono_class_get_method_from_name(scriptClass, "testtt", -1);
+                    MonoMethod* scriptTestMethod = mono_class_get_method_from_name(scriptClass, "StringTest", -1);
 
 
                     // Calling the function
                     mono_runtime_invoke(scriptStartMethod, scriptInstance, nullptr, nullptr);
                     mono_runtime_invoke(scriptStopMethod, scriptInstance, nullptr, nullptr);
+                    MonoObject* result = mono_runtime_invoke(scriptTestMethod, scriptInstance, nullptr, nullptr);
+                    /*-----------THIS IS A STUPID WAY TO GET THE STRING IN THE CONSOLE-----------*/
+                    // Convert the result to a C string
+                    const char* bufferData = mono_string_to_utf8((MonoString*)result);
+                    // Print or use the bufferData
+                    std::cout << "Buffer Data from C#: " << bufferData << std::endl;
+                    //printf("Buffer Data from C#: %s\n", bufferData);
+                    // Free the memory used by the C string
+                    mono_free((char*)bufferData);
+                    /*-----------THIS IS A STUPID WAY TO GET THE STRING IN THE CONSOLE-----------*/
+
+
                     //mono_runtime_invoke(scriptTestMethod, scriptInstance, nullptr, nullptr);
                 
                 }
