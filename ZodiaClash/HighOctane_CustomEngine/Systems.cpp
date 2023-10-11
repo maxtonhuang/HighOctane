@@ -41,7 +41,7 @@
 #include "physics.h"
 #include "MultiThreading.h"
 #include "Global.h"
-#include "GUIManager.h"
+//#include "GUIManager.h"
 #include "CollisionResolution.h"
 #include "Serialization.h"
 

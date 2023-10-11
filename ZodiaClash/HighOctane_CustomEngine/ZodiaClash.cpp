@@ -117,7 +117,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // To enable the console
-    //Console();
+    Console();
     LOG_INFO("Program started");
 
     // Load Configuration File

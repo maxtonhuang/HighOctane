@@ -55,7 +55,7 @@
 #define CUSTOMENGINE_API __declspec(dllimport)
 #endif
 
-class CUSTOMENGINE_API Serializer {
+CUSTOMENGINE_API class Serializer {
 public:
 	std::ifstream stream;
 /*!***********************************************************************

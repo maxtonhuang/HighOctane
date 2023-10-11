@@ -39,7 +39,7 @@
 #endif
 
 
-class LEVELEDITOR_API GUIManager {
+LEVELEDITOR_API class GUIManager {
 public:
         GUIManager();
 
@@ -63,4 +63,6 @@ private:
   
 
 };
-    extern GUIManager guiManager;
+
+
+    //extern GUIManager guiManager;
