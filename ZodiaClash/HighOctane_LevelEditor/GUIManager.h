@@ -50,14 +50,14 @@ public:
     \param [in] window
     GLFWwindow for ImGui to work on
 *************************************************************************/
-        void Init(GLFWwindow* window);
+        void Init();
 /*!***********************************************************************
  \brief
     Update manager to call ImGui Panels
  \param [in] window
     GLFWwindow for ImGui to work on
  *************************************************************************/
-        void Update(GLFWwindow* window);
+        void Update();
 
 private:
   

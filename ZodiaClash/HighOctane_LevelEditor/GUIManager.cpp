@@ -42,7 +42,10 @@
 #include "ImGuiConsole.h"
 #include "ImGuiPerformance.h"
 #include "ImGuiEntitiesManager.h"
+#include "graphics.h"
+
 GUIManager guiManager;
+
 GUIManager::GUIManager()
 {
 	ImGui::CreateContext();
@@ -62,8 +65,9 @@ GUIManager::~GUIManager()
 // Our state
 //bool show_demo_window;
 
-void GUIManager::Init(GLFWwindow* window)
+void GUIManager::Init()
 {
+    GLFWwindow* window = graphics.GetWindow();
         
     const char* glsl_version = "#version 450";
 
@@ -87,9 +91,9 @@ void GUIManager::Init(GLFWwindow* window)
 
 }
 
-void GUIManager::Update(GLFWwindow* window)
+void GUIManager::Update()
 {
-
+    GLFWwindow* window = graphics.GetWindow();
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
