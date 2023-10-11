@@ -8,7 +8,7 @@
 #include <imstb_truetype.h>
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-//#include "graphlib.h"
+#include "graphlib.h"
 #include "glfw3.h"
 #include "glfw3native.h"
 //#include <implot-master/implot.h>

@@ -129,7 +129,6 @@ void GraphicsManager::Initialize(int w, int h) {
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    guiManager.Init(window);
 
     camera.Update();
 
@@ -174,7 +173,6 @@ void GraphicsManager::Draw() {
     DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 
-    guiManager.Update(window);
 }
 
 void GraphicsManager::EndDraw() {
