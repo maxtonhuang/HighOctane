@@ -90,7 +90,7 @@ public:
 
 	Font GetFont(const std::string& ftFamily, const std::string& ftVariant);
 
-	// primary key: filename found in directory
+	// primary key: font family string
 	std::unordered_map<std::string, FontEntry>* GetFontCollection();
 private:
 	FT_Library fontLibrary;
