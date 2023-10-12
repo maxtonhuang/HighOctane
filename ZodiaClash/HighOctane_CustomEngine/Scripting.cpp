@@ -1,30 +1,41 @@
 #include "Scripting.h"
 
-#define MyFunctions _declspec(dllexport)
-
-extern "C" {
-    MyFunctions int AddNumbers(int a, int b) {
-        return a + b;
-    }
-
-    MyFunctions int SubtractNumbers(int a, int b) {
-		return a - b;
-	}
-}
+//#define MyFunctions _declspec(dllexport)
+//
+//extern "C" {
+//    MyFunctions int AddNumbers(int a, int b) {
+//        return a + b;
+//    }
+//
+//    MyFunctions int SubtractNumbers(int a, int b) {
+//		return a - b;
+//	}
+//}
 void testPrintFunction() {
     std::cout << "this is a test" << std::endl;
 }
 
+void LogManaged(MonoString* managedMessage)
+{
+    // Convert a C# string in to a C++ string
+    char* message = mono_string_to_utf8(managedMessage);
+    // Print message
+    std::cout << message << std::endl;
+
+}
 
 CsScript::CsScript() {
-    std::cout << "this is working\n";
+    std::cout << "Scripting intialized\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
     //std::cout << filePath << std::endl;
 
     mono_set_assemblies_path(filePath.c_str());
     domain = mono_jit_init("testing");
+    
+    // Add to the internal call table
     mono_add_internal_call("CSharpScript.MyScriptClass::Print", (const void*)testPrintFunction);
-
+    mono_add_internal_call("CSharpScript.MyScriptClass::Log", (const void*)LogManaged);
+    
     if (domain) {
         // If debug mode
         #if (ENABLE_DEBUG_DIAG)
@@ -50,27 +61,32 @@ CsScript::CsScript() {
 
                     MonoMethod* scriptStartMethod = mono_class_get_method_from_name(scriptClass, "Start", -1);
                     MonoMethod* scriptStopMethod = mono_class_get_method_from_name(scriptClass, "Stop", -1);
-                    MonoMethod* scriptTestMethod = mono_class_get_method_from_name(scriptClass, "StringTest", -1);
                     MonoMethod* scriptCallMethod = mono_class_get_method_from_name(scriptClass, "PrintFromCSharp", -1);
+
+                    MonoMethod* method = mono_class_get_method_from_name(scriptClass, "TestInterop", 1);
+                    if (!method) return;
+
+                    // Create instance of _class
+                    MonoObject* instance = mono_object_new(mono_domain_get(), scriptClass);
+                    if (!instance) return;
+
+                    // Call constructor of created instance
+                    mono_runtime_object_init(instance);
+
+                    // Call TestInterop method
+                    int input = 100;
+                    void* parameters = { &input }; // Passed parameters are an array of pointers
+
+                    MonoObject* exception = nullptr; // Exception gets stored in this object
+                    mono_runtime_invoke(method, instance, &parameters, &exception);
+                    if (exception)
+                        mono_print_unhandled_exception(exception);
 
 
                     // Calling the function
                     mono_runtime_invoke(scriptStartMethod, scriptInstance, nullptr, nullptr);
                     mono_runtime_invoke(scriptStopMethod, scriptInstance, nullptr, nullptr);
                     mono_runtime_invoke(scriptCallMethod, scriptInstance, nullptr, nullptr);
-                    MonoObject* result = mono_runtime_invoke(scriptTestMethod, scriptInstance, nullptr, nullptr);
-                    /*-----------THIS IS A STUPID WAY TO GET THE STRING IN THE CONSOLE-----------*/
-                    // Convert the result to a C string
-                    const char* bufferData = mono_string_to_utf8((MonoString*)result);
-                    // Print or use the bufferData
-                    std::cout << "Buffer Data from C#: " << bufferData << std::endl;
-                    //printf("Buffer Data from C#: %s\n", bufferData);
-                    // Free the memory used by the C string
-                    mono_free((char*)bufferData);
-                    /*-----------THIS IS A STUPID WAY TO GET THE STRING IN THE CONSOLE-----------*/
-
-
-                    //mono_runtime_invoke(scriptTestMethod, scriptInstance, nullptr, nullptr);
                 
                 }
                 // Else for scriptClass
