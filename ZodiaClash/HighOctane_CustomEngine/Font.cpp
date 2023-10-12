@@ -186,7 +186,8 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
         // Define pixel font size
         // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
         FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
-        LoadChar(fontData);
+        texList.Add(fontData);
+        //LoadChar(fontData);
     }
 }
 
@@ -214,7 +215,8 @@ void FontManager::LoadNewFont(Font& fontData, const std::string& fontPath) {
         // Define pixel font size
         // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
         FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
-        LoadChar(fontData);
+        //LoadChar(fontData);
+        texList.Add(fontData);
 
         // with textures loaded, add font object to fontCollection
         //fontCollection.emplace(fontPath, font);
@@ -228,9 +230,14 @@ void FontManager::LoadNewFont(Font& fontData, const std::string& fontPath) {
 * stored in an unordered map for efficient querying access.
 *
 */
+/*
 void FontManager::LoadChar(Font& fontData) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
     //for all printable characters [32, 127], 169 (copyright) and 174 (registered copyright)
+    unsigned int fontWidth = 0;
+    unsigned int fontHeight = 0;
+    
+    //first pass, get font sprite sheet size
     for (unsigned char c = 32; c < 175; c++)
     {
         //skip over characters not in intended range
@@ -245,6 +252,31 @@ void FontManager::LoadChar(Font& fontData) {
             continue;
         }
         // generate texture
+        if (fontWidth < fontData.fontFace->glyph->bitmap.width) {
+            fontWidth = fontData.fontFace->glyph->bitmap.width;
+        }
+        fontHeight += fontData.fontFace->glyph->bitmap.rows;
+    }
+
+
+    for (unsigned char c = 32; c < 175; c++)
+    {
+        //skip over characters not in intended range
+        if (((c > 127) && (c < 169)) || ((c > 169) && (c < 174))) {
+            continue;
+        }
+
+        // load character glyph
+        if (FT_Load_Char(fontData.fontFace, c, FT_LOAD_RENDER))
+        {
+            DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
+            continue;
+        }
+        // generate texture
+        if (fontWidth < fontData.fontFace->glyph->bitmap.width) {
+            fontWidth = fontData.fontFace->glyph->bitmap.width;
+        }
+        fontHeight += fontData.fontFace->glyph->bitmap.rows;
         unsigned int texture;
         glCreateTextures(GL_TEXTURE_2D, 1, &texture);
         glTextureStorage2D(texture, 1, GL_R8, fontData.fontFace->glyph->bitmap.width,
@@ -266,6 +298,7 @@ void FontManager::LoadChar(Font& fontData) {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
+*/
 
 /*!
 * \brief Font getter

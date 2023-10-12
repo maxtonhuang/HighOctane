@@ -283,13 +283,13 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontFamily, s
             glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
             glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
             glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-            fontRenderer.AddVertex(Vertex{ botleft, color, glm::vec2{0,1}, (float)ch.textureID - 1 });
-            fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
-            fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
-            fontRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)ch.textureID - 1 });
-            fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
-            fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
-            fontRenderer.FontDraw(ch.textureID);
+            fontRenderer.AddVertex(Vertex{ botleft, color, ch.textureID->GetTexCoords(ch.texPos,0), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords(ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords(ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords(ch.texPos,3), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords(ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords(ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            //fontRenderer.FontDraw(ch.textureID->GetID());
             xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
         }
     }    

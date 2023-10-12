@@ -41,13 +41,15 @@
 #include <filesystem>
 #include <string>
 #include <unordered_map>
+#include "texture.h"
 
 // character object - stores data of extracted glyph
 struct Character {
-	GLuint		textureID;  // ID handle of the glyph texture
+	Texture*	textureID;  // Font texture
+	size_t		texPos;		// Position of glyph in font sprite sheet
 	glm::ivec2  size;       // Size of glyph
 	glm::ivec2	bearing;    // Offset from baseline to left/top of glyph
-	GLuint		advance;    // Offset to advance to next glyph
+	size_t		advance;    // Offset to advance to next glyph
 };
 
 // font object - stores loaded FontFace and the FontFace's extracted glyphs
@@ -82,7 +84,7 @@ public:
 
 	void LoadAllFonts();
 	void LoadValidFont(Font& fontData, const std::string& fontFilePath);
-	void LoadChar(Font& fontData);
+	//void LoadChar(Font& fontData); DEPRECATED
 
 	//tmp, to replace once fully integrated
 	// for asset manager? new font file
