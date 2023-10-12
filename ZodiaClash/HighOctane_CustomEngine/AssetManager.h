@@ -47,7 +47,7 @@
 
 class AssetManager {
 public:
-    AssetManager(FontManager fonts) : m_fonts(*fonts.GetFontCollection()) {};
+    AssetManager(FontManager fontManager) : m_fonts(*fontManager.GetFontCollection()) {};
 
     //General methods
     void LoadAssets(const std::string& assetPath, const std::string& assetName);

@@ -34,6 +34,7 @@
 #pragma once
 #include "Shaders.h"
 #include "Model.h"
+#include "Animator.h"
 #include "ECS.h"
 #include "VMath.h"
 #include "MMath.h"

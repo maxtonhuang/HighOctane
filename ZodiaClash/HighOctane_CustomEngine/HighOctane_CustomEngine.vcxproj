@@ -190,6 +190,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
     <ClInclude Include="..\Extern\implot-master\implot.h" />
     <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
@@ -249,6 +250,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClCompile Include="..\Extern\implot-master\implot.cpp" />
     <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
     <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />

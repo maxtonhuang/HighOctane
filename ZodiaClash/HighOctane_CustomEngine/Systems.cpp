@@ -44,6 +44,7 @@
 #include "GUIManager.h"
 #include "CollisionResolution.h"
 #include "Serialization.h"
+#include "Animator.h"
 
 
 /******************************************************************************
@@ -197,19 +198,21 @@ void MovementSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
 		Transform* transformData = &transformArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
+		Animator* animatorData = &animatorArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
 		UpdateMovement(*transformData, *modelData);
 		
-		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
+		animatorData->UpdateAnimationMC(*aniData, *texData, *sizeData);
 		//modelData->DrawOutline();
 	}
 	Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
@@ -231,18 +234,20 @@ void ModelSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
+		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		//Size* sizeData = &sizeArray.GetData(entity);
 
-		modelData->UpdateAnimation(*aniData, *texData);
+		animatorData->UpdateAnimation(*aniData, *texData);
 	}
-	Mail::mail().mailbox[ADDRESS::MODEL].clear();
+	Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
 }
 
 /******************************************************************************

@@ -57,6 +57,9 @@
     <Filter Include="Vendors\ImGui">
       <UniqueIdentifier>{e08e1b1e-c0c5-48b9-b4e8-193157f84f84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Animator">
+      <UniqueIdentifier>{aa0d8dc6-99ea-4506-ae66-2794fcc2954c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -239,6 +242,9 @@
     <ClInclude Include="ZodiaClash.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -378,8 +384,11 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="Animator.cpp">
+      <Filter>Animator</Filter>
+    </ClCompile>
   </ItemGroup>
-  
   <ItemGroup>
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
