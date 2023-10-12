@@ -1,5 +1,21 @@
 #include "Scripting.h"
 
+#define MyFunctions _declspec(dllexport)
+
+extern "C" {
+    MyFunctions int AddNumbers(int a, int b) {
+        return a + b;
+    }
+
+    MyFunctions int SubtractNumbers(int a, int b) {
+		return a - b;
+	}
+}
+void testPrintFunction() {
+    std::cout << "this is a test" << std::endl;
+}
+
+
 CsScript::CsScript() {
     std::cout << "this is working\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
@@ -7,6 +23,7 @@ CsScript::CsScript() {
 
     mono_set_assemblies_path(filePath.c_str());
     domain = mono_jit_init("testing");
+    mono_add_internal_call("CSharpScript.MyScriptClass::Print", (const void*)testPrintFunction);
 
     if (domain) {
         // If debug mode
@@ -34,11 +51,13 @@ CsScript::CsScript() {
                     MonoMethod* scriptStartMethod = mono_class_get_method_from_name(scriptClass, "Start", -1);
                     MonoMethod* scriptStopMethod = mono_class_get_method_from_name(scriptClass, "Stop", -1);
                     MonoMethod* scriptTestMethod = mono_class_get_method_from_name(scriptClass, "StringTest", -1);
+                    MonoMethod* scriptCallMethod = mono_class_get_method_from_name(scriptClass, "PrintFromCSharp", -1);
 
 
                     // Calling the function
                     mono_runtime_invoke(scriptStartMethod, scriptInstance, nullptr, nullptr);
                     mono_runtime_invoke(scriptStopMethod, scriptInstance, nullptr, nullptr);
+                    mono_runtime_invoke(scriptCallMethod, scriptInstance, nullptr, nullptr);
                     MonoObject* result = mono_runtime_invoke(scriptTestMethod, scriptInstance, nullptr, nullptr);
                     /*-----------THIS IS A STUPID WAY TO GET THE STRING IN THE CONSOLE-----------*/
                     // Convert the result to a C string
