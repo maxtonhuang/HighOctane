@@ -53,6 +53,8 @@
 #include "Serialization.h"
 #include "Scripting.h"
 #include <mono/metadata/assembly.h>
+#include "Reflections.h"
+
 
 //#define MAX_LOADSTRING 100
 
@@ -102,7 +104,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // Init Console
     Console();
     CsScript script;
-
+    
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
