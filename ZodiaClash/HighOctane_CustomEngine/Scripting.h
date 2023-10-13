@@ -30,5 +30,5 @@ private:
 
 };
 
-void GetKeyDown();
+bool GetKeyDown();
 void GetKeyDownClear();

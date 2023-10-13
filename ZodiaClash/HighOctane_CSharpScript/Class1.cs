@@ -10,7 +10,20 @@ public static class InternalCalls
     // Adds the print function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal extern static void Print();
+
+    // Adds the Get Key Down function into internal call table
+    //[MethodImplAttribute(MethodImplOptions.InternalCall)]
+    //internal extern static bool GetKeyDown(string key);
 }
+
+public static class Debug
+{
+    public static void Log(string message)
+    {
+        InternalCalls.Log(message);
+    }
+}
+
 public class MyScriptClass
 {
 
@@ -57,8 +70,8 @@ public class MyScriptClass
     public static void TestInterop(int input)
     {
         int output = input * 2;
-        InternalCalls.Log("C# calling C++ code. Your number was " + output);
-        InternalCalls.Log("Hi from oliver");
+        Debug.Log("C# calling C++ code. Your number was " + output);
+        Debug.Log("Hi from oliver");
         Testing();
     }
 

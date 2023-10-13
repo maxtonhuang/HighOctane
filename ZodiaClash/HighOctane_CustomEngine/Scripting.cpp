@@ -23,16 +23,18 @@
 //}
 
 // This is the function that will be called from C#
-void GetKeyDown() {
+bool GetKeyDown() {
 	for (Postcard const &msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED:
             if (msg.info == INFO::KEY_W) {
                 std::cout << "W is pressed from scripting" << std::endl;
+                return true;
             }
 			break;
 		}
 	}
+    return false;
 }
 
 void GetKeyDownClear() {
