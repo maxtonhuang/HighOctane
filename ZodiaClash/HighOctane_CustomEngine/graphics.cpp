@@ -89,6 +89,10 @@ void GraphicsManager::Initialize(int w, int h) {
     //Create window
     window = glfwCreateWindow(width, height, "ZodiaClash", NULL, NULL);
 
+    if (window == nullptr) {
+        ASSERT(1, "Unable to create game window!");
+    }
+
     glfwMakeContextCurrent(window);
 
     //Set functions for input manager
