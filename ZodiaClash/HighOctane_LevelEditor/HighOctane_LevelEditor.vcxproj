@@ -88,7 +88,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -115,12 +115,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;$(SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\freetype-2.13.2\include;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;$(SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)Extern;$(IncludePath)</IncludePath>
-    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(SolutionDir)bin\$(Configuration)-$(Platform)\HighOctane_CustomEngine.lib;$(LibraryPath)</LibraryPath>
@@ -157,10 +157,11 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)Extern</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -175,10 +176,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)Extern</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

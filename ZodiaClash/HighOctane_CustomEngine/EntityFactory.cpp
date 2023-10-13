@@ -48,16 +48,10 @@
 #include "collision.h"
 
 
-#ifdef CUSTOMENGINE_EXPORTS
-#define CUSTOMENGINE_API __declspec(dllexport)
-#else 
-#define CUSTOMENGINE_API __declspec(dllimport)
-#endif
 
+std::unordered_map<std::string, Entity> masterEntitiesList;
 
-CUSTOMENGINE_API std::unordered_map<std::string, Entity> masterEntitiesList;
-
-CUSTOMENGINE_API std::vector<Entity> massRenderEntitiesList;
+std::vector<Entity> massRenderEntitiesList;
 
 
 

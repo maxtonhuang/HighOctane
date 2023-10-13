@@ -53,12 +53,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="commonheaderfilelist.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -173,12 +167,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ZodiaClash.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -273,24 +261,10 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ZodiaClash.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="ZodiaClash.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="ECS.hpp">
       <Filter>EngineArchitecture</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ZodiaClash.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

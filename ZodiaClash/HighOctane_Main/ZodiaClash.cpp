@@ -35,20 +35,20 @@
 // ZodiaClash.cpp : Defines the entry point for the application.
 
 ////////// MAIN ///////////
-
+#include <Windows.h>
 #include "Framework.h"
 #include "ZodiaClash.h"
 #include "Graphics.h"
 #include "DebugLog.h"
 #include "DebugDiagnostic.h"
-#include "Input.h"
+//#include "Input.h"
 #include "EngineCore.h" 
-#include "Message.h"
-#include "Texture.h"
-#include "ECS.h"
-#include "Components.h"
+//#include "Message.h"
+//#include "Texture.h"
+//#include "ECS.h"
+//#include "Components.h"
 #include <filesystem>
-#include <thread>
+//#include <thread>
 #include "AudioManager.h"
 #include "Serialization.h"
 #include "Scripting.h"
