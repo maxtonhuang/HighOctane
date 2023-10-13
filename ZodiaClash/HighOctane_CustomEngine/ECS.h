@@ -69,11 +69,6 @@
 #include "debugdiagnostic.h"
 #include "Components.h"
 
-#ifdef CUSTOMENGINE_EXPORTS
-#define CUSTOMENGINE_API __declspec(dllexport)
-#else 
-#define CUSTOMENGINE_API __declspec(dllimport)
-#endif
 
 using Entity = std::uint32_t;
 
@@ -89,8 +84,7 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 
 ////////// ENTITY /////////////////////////////////////////////////////////////
-
-CUSTOMENGINE_API class EntityManager {
+class EntityManager {
 public:
     EntityManager();
 
@@ -120,7 +114,7 @@ private:
 
 ////////// COMPONENT //////////////////////////////////////////////////////////
 
-CUSTOMENGINE_API class IComponentArray {
+class IComponentArray {
 public:
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity) = 0;
@@ -197,7 +191,7 @@ private:
 };
 
 
-CUSTOMENGINE_API class ComponentManager {
+class ComponentManager {
 public:
     //template<typename T>
     //void RegisterComponent();
@@ -246,7 +240,7 @@ public:
         // Get a reference to a component from the array for an entity
         return GetComponentArray<T>()->GetData(entity);
     }
-    CUSTOMENGINE_API void EntityDestroyed(Entity entity);
+    void EntityDestroyed(Entity entity);
 
     template<typename T>
     bool isComponentTypeRegistered() {
@@ -286,14 +280,14 @@ private:
 
 ////////// SYSTEM /////////////////////////////////////////////////////////////
 
-CUSTOMENGINE_API class System {
+class System {
 public:
     virtual void Update() = 0;
     std::set<Entity> m_Entities;
 };
 
 
-CUSTOMENGINE_API class SystemManager {
+class SystemManager {
 public:
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
@@ -332,7 +326,7 @@ private:
 
 ////////// ECS COORDINATOR ////////////////////////////////////////////////////
 
-CUSTOMENGINE_API class ECS {
+class ECS {
 public:
     void Init();
 
