@@ -97,9 +97,6 @@ void FontManager::LoadAllFonts() {
             std::string ftFamily = dirItem.path().filename().string();
             DEBUG_PRINT("DEBUG::FONT: >>> Font family: %s", ftFamily.c_str());
 
-            // reset flag for defaultVariant
-            bool isDefaultSet = 0;
-
             //reset variables
             std::string ftFilename{}, fileExt{}, ftVariant{};
             size_t foundVarStart{}, foundVarEnd{};
@@ -115,15 +112,17 @@ void FontManager::LoadAllFonts() {
 
                     if ((fileExt == ".ttf") || (fileExt == ".otf")) {
                         ftVariant = (foundVarStart != std::string::npos) ? ftFilename.substr(foundVarStart + 1, foundVarEnd - foundVarStart - 1) : "";
-                    
-                        if (!isDefaultSet && (foundVarStart == std::string::npos)) {
-                            ftVariant = "Regular";
-                            isDefaultSet = 1;
-                        }
 
                         // DO DUPLICATION CHECKS!!
+                        if (foundVarStart == std::string::npos) {
+                            if (CheckVariantName(ftFamily, "Regular")) {
+                                DEBUG_PRINT("ERROR::FONT: Font file with unspecified font variant and \"Regular\" variant already exists. Ensure all variants are properly named!");
+                                continue;
+                            }
+                            ftVariant = "Regular";
+                        }
                         if (CheckVariantName(ftFamily, ftVariant)) {
-                            DEBUG_PRINT("DEBUG::FONT: Duplicate variant found: %s, ensure all variants are properly named!", ftVariant.c_str());
+                            DEBUG_PRINT("ERROR::FONT: Duplicate variant found: %s, ensure all variants are properly named!", ftVariant.c_str());
                             continue;
                         }
                     
