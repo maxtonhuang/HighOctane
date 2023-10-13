@@ -232,14 +232,14 @@ void ModelSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
 	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
-		Model* modelData = &modelArray.GetData(entity);
+		//Model* modelData = &modelArray.GetData(entity);
 		Animation* aniData = &animationArray.GetData(entity);
 		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);

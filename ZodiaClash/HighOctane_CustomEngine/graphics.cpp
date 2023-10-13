@@ -165,9 +165,9 @@ void GraphicsManager::Draw() {
     // note: to draw as entity!
     std::string labelText = "© 2023 High Octane";
     float relFontSize = 0.48f;
-    Vec2 relTextPos = { 0.55f, 0.85f };
+    Vec2 relTextPos = { 0.45f, 0.85f };
     glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
-    DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
+    DrawLabel(labelText, "mikachan", "Regular", relFontSize, relTextPos, color);
 
     labelText = "ZodiaClash v0.1";
     relTextPos = { -0.95f, -0.9f };

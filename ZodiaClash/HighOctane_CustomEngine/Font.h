@@ -90,15 +90,17 @@ public:
 	// for asset manager? new font file
 	void LoadNewFont(Font& fontData, const std::string& fontPath);
 
+	bool CheckVariantName(const std::string& ftFamily, const std::string& ftVariant);
+
 	Font GetFont(const std::string& ftFamily, const std::string& ftVariant);
 
 	// primary key: font family string
-	std::unordered_map<std::string, FontEntry>* GetFontCollection();
+	std::unordered_multimap<std::string, FontEntry>* GetFontCollection();
 private:
 	FT_Library fontLibrary;
 	//Font ft_font; //tmp
 
-	std::unordered_map<std::string, FontEntry> fontCollection;
+	std::unordered_multimap<std::string, FontEntry> fontCollection;
 };
 
 extern FontManager fonts;
