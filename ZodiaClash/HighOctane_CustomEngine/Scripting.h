@@ -7,6 +7,7 @@
 #include <filesystem>
 #include "debuglog.h"
 #include "ImGuiLib.h"
+#include "Message.h"
 
 #pragma once
 
@@ -16,6 +17,8 @@ class CsScript {
 public:
 	CsScript();
 	~CsScript();
+	//void RunScript();
+	static void AddInternalCall(const char* functionName, const void* methodPointer);
 
 private:
 	MonoDomain* domain{};
@@ -26,3 +29,6 @@ private:
 	MonoMethod* scriptMethod{};
 
 };
+
+void GetKeyDown();
+void GetKeyDownClear();

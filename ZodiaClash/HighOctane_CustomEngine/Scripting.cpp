@@ -1,5 +1,15 @@
 #include "Scripting.h"
 
+// String contains function this one is for oliver in the future
+//bool StringContains(std::string const& fullString, std::string const& subString) {
+//    if (fullString.find(subString) != std::string::npos) {
+//		return true;
+//	}
+//    else {
+//		return false;
+//	}
+//}
+
 //#define MyFunctions _declspec(dllexport)
 //
 //extern "C" {
@@ -11,18 +21,43 @@
 //		return a - b;
 //	}
 //}
+
+// This is the function that will be called from C#
+void GetKeyDown() {
+	for (Postcard const &msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
+		switch (msg.type) {
+		case TYPE::KEY_TRIGGERED:
+            if (msg.info == INFO::KEY_W) {
+                std::cout << "W is pressed from scripting" << std::endl;
+            }
+			break;
+		}
+	}
+}
+
+void GetKeyDownClear() {
+    	Mail::mail().mailbox[ADDRESS::SCRIPTING].clear();
+}
+
+
 void testPrintFunction() {
     std::cout << "this is a test" << std::endl;
 }
 
-void LogManaged(MonoString* managedMessage)
+void LogHandler(MonoString* managedMessage)
 {
     // Convert a C# string in to a C++ string
     char* message = mono_string_to_utf8(managedMessage);
     // Print message
     std::cout << message << std::endl;
-
 }
+
+//bool testFunc() {
+//
+//}
+//CsScript::CsScript() {
+//
+//}
 
 CsScript::CsScript() {
     std::cout << "Scripting intialized\n";
@@ -30,86 +65,67 @@ CsScript::CsScript() {
     //std::cout << filePath << std::endl;
 
     mono_set_assemblies_path(filePath.c_str());
-    domain = mono_jit_init("testing");
+    domain = mono_jit_init(filePath.c_str());
     
     // Add to the internal call table
-    mono_add_internal_call("CSharpScript.MyScriptClass::Print", (const void*)testPrintFunction);
-    mono_add_internal_call("CSharpScript.MyScriptClass::Log", (const void*)LogManaged);
-    
-    if (domain) {
-        // If debug mode
-        #if (ENABLE_DEBUG_DIAG)
-        // Relative path to the C# assembly
-                const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
-        #elif (!ENABLE_DEBUG_DIAG)
-                const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
-        #endif
+    //mono_add_internal_call("CSharpScript.MyScriptClass::Print", (const void*)testPrintFunction);
+    ////mono_add_internal_call("HighOctane_CSharpScript.Logging::Log", (const void*)LogHandler);
+    //mono_add_internal_call("CSharpScript.MyScriptClass::Log", (const void*)LogHandler);
 
-        std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
-        //std::cout << fullAssemblyPath << std::endl;
-        assembly = mono_domain_assembly_open(domain, fullAssemblyPath.c_str());
+    AddInternalCall("InternalCalls::Print", (const void*)testPrintFunction);
+    AddInternalCall("InternalCalls::Log", (const void*)LogHandler);
 
-        if (assembly) {
-            image = mono_assembly_get_image(assembly);
+    if (!domain) {
+		std::cout << "Domain is null" << std::endl;
+		return;
+	}
+    // If debug mode
+    #if (ENABLE_DEBUG_DIAG)
+    // Relative path to the C# assembly
+        const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
+    #elif (!ENABLE_DEBUG_DIAG)
+        const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
+    #endif
 
-            if (image) {
-                scriptClass = mono_class_from_name(image, "CSharpScript", "MyScriptClass");
-                
-                if (scriptClass) {
-                    scriptInstance = mono_object_new(domain, scriptClass);
-                    mono_runtime_object_init(scriptInstance);
+    std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+    //std::cout << fullAssemblyPath << std::endl;
+    assembly = mono_domain_assembly_open(domain, fullAssemblyPath.c_str());
 
-                    MonoMethod* scriptStartMethod = mono_class_get_method_from_name(scriptClass, "Start", -1);
-                    MonoMethod* scriptStopMethod = mono_class_get_method_from_name(scriptClass, "Stop", -1);
-                    MonoMethod* scriptCallMethod = mono_class_get_method_from_name(scriptClass, "PrintFromCSharp", -1);
+    if (!assembly) {
+		std::cout << "Cannot open assembly" << std::endl;
+		return;
+	}
 
-                    MonoMethod* method = mono_class_get_method_from_name(scriptClass, "TestInterop", 1);
-                    if (!method) return;
+    image = mono_assembly_get_image(assembly);
 
-                    // Create instance of _class
-                    MonoObject* instance = mono_object_new(mono_domain_get(), scriptClass);
-                    if (!instance) return;
+    scriptClass = mono_class_from_name(image, "", "MyScriptClass");
+    scriptInstance = mono_object_new(domain, scriptClass);
+    mono_runtime_object_init(scriptInstance);
 
-                    // Call constructor of created instance
-                    mono_runtime_object_init(instance);
-
-                    // Call TestInterop method
-                    int input = 100;
-                    void* parameters = { &input }; // Passed parameters are an array of pointers
-
-                    MonoObject* exception = nullptr; // Exception gets stored in this object
-                    mono_runtime_invoke(method, instance, &parameters, &exception);
-                    if (exception)
-                        mono_print_unhandled_exception(exception);
+    MonoMethod* scriptStartMethod = mono_class_get_method_from_name(scriptClass, "Start", -1);
+    MonoMethod* scriptStopMethod = mono_class_get_method_from_name(scriptClass, "Stop", -1);
+    MonoMethod* scriptCallMethod = mono_class_get_method_from_name(scriptClass, "PrintFromCSharp", -1);
+    MonoMethod* method = mono_class_get_method_from_name(scriptClass, "TestInterop", 1);
+    MonoObject* instance = mono_object_new(mono_domain_get(), scriptClass);
+    mono_runtime_object_init(instance);
+    int input = 50;
+    void* parameters = { &input }; // Passed parameters are an array of pointers
+    MonoObject* exception = nullptr; // Exception gets stored in this object
+    mono_runtime_invoke(method, instance, &parameters, &exception);
+    if (exception) mono_print_unhandled_exception(exception);
 
 
-                    // Calling the function
-                    mono_runtime_invoke(scriptStartMethod, scriptInstance, nullptr, nullptr);
-                    mono_runtime_invoke(scriptStopMethod, scriptInstance, nullptr, nullptr);
-                    mono_runtime_invoke(scriptCallMethod, scriptInstance, nullptr, nullptr);
-                
-                }
-                // Else for scriptClass
-                else {
-					std::cout << "ScriptClass is null" << std::endl;
-				}
-            }
-            // Else for image
-            else {
-                std::cout << "Image is null" << std::endl;
-            }
-        }
-        // Else for assembly
-        else {
-            std::cout << "Assembly is null" << std::endl;
-        }
-    }
-    // Else for domain
-    else {
-        std::cout << "Domain is null" << std::endl;
-    }
+    mono_runtime_invoke(scriptStartMethod, scriptInstance, nullptr, nullptr);
+    mono_runtime_invoke(scriptStopMethod, scriptInstance, nullptr, nullptr);
+    mono_runtime_invoke(scriptCallMethod, scriptInstance, nullptr, nullptr);
+}
 
+//void CsScript::RunScript() {
+//
+//}
 
+void CsScript::AddInternalCall(const char* functionName, const void* methodPointer) {
+	mono_add_internal_call(functionName, methodPointer);
 }
 
 CsScript::~CsScript() {

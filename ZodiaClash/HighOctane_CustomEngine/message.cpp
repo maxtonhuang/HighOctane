@@ -62,9 +62,11 @@ void Mail::SendMails() {
             mailbox[ADDRESS::MODEL].emplace_back(msg);
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::PHYSICS].emplace_back(msg);
+            mailbox[ADDRESS::SCRIPTING].emplace_back(msg);
         break;
         case TYPE::KEY_DOWN:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
+            //mailbox[ADDRESS::SCRIPTING].emplace_back(msg);
             //mailbox[ADDRESS::MODEL].emplace_back(msg);
             break;
         case TYPE::KEY_UP:

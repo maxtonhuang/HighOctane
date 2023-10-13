@@ -53,7 +53,7 @@
 #include "GUIManager.h"
 #include "Font.h"
 #include "MultiThreading.h"
-
+#include "Scripting.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -190,6 +190,7 @@ void EngineCore::Run() {
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::MODEL);
+	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
 
 	Entity background = CreateModel();
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
@@ -231,6 +232,8 @@ void EngineCore::Run() {
 		// and inform all relavant systems
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
+		GetKeyDown();
+		GetKeyDownClear();
 
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
