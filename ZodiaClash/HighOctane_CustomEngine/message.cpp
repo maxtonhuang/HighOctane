@@ -72,6 +72,9 @@ void Mail::SendMails() {
         case TYPE::KEY_UP:
             //mailbox[ADDRESS::MODEL].emplace_back(msg);
             break;
+        case TYPE::MOUSE_CLICK:
+            mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
+            break;
         case TYPE::MOUSE_MOVE:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             break;

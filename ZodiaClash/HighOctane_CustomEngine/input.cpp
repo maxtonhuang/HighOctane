@@ -104,6 +104,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 }
 
 
+void InputManager::KeyCheck() {
+    for (std::pair<int, INFO> val : keyStatus) {
+        if (val.second != INFO::NONE) {
+            Mail::mail().CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
+        }
+    }
+}
+
+
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
     (void)mod; //unused variable
     (void)pwin; // unused variable;
@@ -141,12 +150,4 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 
     previousPosX = currPosX;
     previousPosY = currPosY;
-}
-
-void InputManager::KeyCheck() {
-    for (std::pair<int, INFO> val : keyStatus) {
-        if (val.second != INFO::NONE) {
-            Mail::mail().CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
-        }
-    }
 }
