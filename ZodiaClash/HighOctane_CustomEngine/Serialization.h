@@ -48,14 +48,8 @@
 #include "VMath.h"
 #include "GraphLib.h"
 #include "Texture.h"
-
-#ifdef CUSTOMENGINE_EXPORTS
-#define CUSTOMENGINE_API __declspec(dllexport)
-#else 
-#define CUSTOMENGINE_API __declspec(dllimport)
-#endif
-
-CUSTOMENGINE_API class Serializer {
+ 
+class Serializer {
 public:
 	std::ifstream stream;
 /*!***********************************************************************

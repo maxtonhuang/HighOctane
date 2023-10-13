@@ -102,26 +102,21 @@
 
 #endif
 
-#ifdef CUSTOMENGINE_EXPORTS
-#define CUSTOMENGINE_API __declspec(dllexport)
-#else 
-#define CUSTOMENGINE_API __declspec(dllimport)
-#endif
 
 namespace debug {
 	
 	// Is to print debug messages
-	CUSTOMENGINE_API void PrintDebugHandler(const char* message, ...);
+	void PrintDebugHandler(const char* message, ...);
 
 	// Is to assert debug messages
-	CUSTOMENGINE_API void AssertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
+	void AssertDebugHandler(bool condition, const char* file, int line, const char* message, ...);
 
 	// Console init
-	CUSTOMENGINE_API void ConsoleInitHandler();
+	void ConsoleInitHandler();
 
-	CUSTOMENGINE_API void CustomTerminateHandler();
+	void CustomTerminateHandler();
 
-	CUSTOMENGINE_API int CustomMessageBox(const char* file, int line, const char* message);
+	int CustomMessageBox(const char* file, int line, const char* message);
 }
 
 

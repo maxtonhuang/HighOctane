@@ -32,14 +32,7 @@
 #include "ImGuiLib.h"
 //#include "graphics.h"
 
-#ifdef LEVELEDITOR_EXPORTS
-#define LEVELEDITOR_API __declspec(dllexport)
-#else 
-#define LEVELEDITOR_API __declspec(dllimport)
-#endif
-
-
-LEVELEDITOR_API class GUIManager {
+class GUIManager {
 public:
         GUIManager();
 
