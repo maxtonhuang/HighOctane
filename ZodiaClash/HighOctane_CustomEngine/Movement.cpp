@@ -77,11 +77,4 @@ void UpdateMovement(Transform& transform, Model & model) {
 		transform.velocity += direction * 200.f * g_dt;
 	}
 
-	/*if (stepsRemaining) {
-		--stepsRemaining;
-	}
-	else {
-		direction = { 0.f,0.f };
-	}*/
-
 }
