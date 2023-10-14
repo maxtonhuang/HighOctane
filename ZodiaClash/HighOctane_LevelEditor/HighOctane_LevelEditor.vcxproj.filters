@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Vendor">
+      <UniqueIdentifier>{3efa2d97-9e05-4597-a29b-c0f52a2c6566}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImGuiConsole.cpp">
@@ -29,6 +32,27 @@
     </ClCompile>
     <ClCompile Include="GUIManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp">
+      <Filter>Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp">
+      <Filter>Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp">
+      <Filter>Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp">
+      <Filter>Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp">
+      <Filter>Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp">
+      <Filter>Vendor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
+      <Filter>Vendor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +73,39 @@
     </ClInclude>
     <ClInclude Include="GUIManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imconfig.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h">
+      <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
+      <Filter>Vendor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

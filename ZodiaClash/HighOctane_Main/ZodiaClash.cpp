@@ -55,6 +55,7 @@
 #include "Serialization.h"
 #include "Scripting.h"
 #include <mono/metadata/assembly.h>
+#include "GUIManager.h"
 
 
 //#define MAX_LOADSTRING 100
@@ -114,7 +115,8 @@ DebugProfiling debugSysProfile;
 // Stores the list of systems from the ECS that will be used to cycle through
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 
-
+// Create an instance of GUIManager
+GUIManager guiManager;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -292,7 +294,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	if (mode) {
 
 		// LOAD IMGUI HERE !!!!!
-
+		
+		guiManager.Init();
 
 
 
@@ -374,7 +377,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #endif
 
 		}
-
+		guiManager.Update();
 		if (graphics.WindowClosed()) {
 			EngineCore::engineCore().setGameActive(false);
 		}
