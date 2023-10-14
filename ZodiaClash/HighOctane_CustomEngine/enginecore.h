@@ -47,7 +47,7 @@ public:
 		return ec;
 	}
 	
-	void Run();
+	void Run(bool const mode);
 
 	friend uint64_t GetTime();
 

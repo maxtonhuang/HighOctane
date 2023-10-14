@@ -72,6 +72,16 @@ using Vec2 = vmath::Vector2;
 
 bool gConsoleInitalized = false;
 
+const bool GAME_MODE = false;
+const bool EDITOR_MODE = true;
+
+
+////////// Set Loading Mode here. /////////////////////////////////////////////
+
+constexpr bool mode = EDITOR_MODE;
+
+///////////////////////////////////////////////////////////////////////////////
+
 // The following will force the OS to choose Dedicated GPU. //////////
 
 /******************************************************************************
@@ -141,11 +151,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
+
+
+
+
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
         
-    EngineCore::engineCore().Run();
+    EngineCore::engineCore().Run(mode);
 
     //////////////////////////////
     ////////// End Game //////////

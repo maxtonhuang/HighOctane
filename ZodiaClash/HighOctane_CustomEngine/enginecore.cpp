@@ -68,7 +68,7 @@ EngineCore::EngineCore() : m_initialTime{ static_cast<uint64_t>(std::chrono::tim
 	// empty by design
 }
 
-void EngineCore::Run() {
+void EngineCore::Run(bool const mode) {
 
 	////////// INITIALIZE //////////
 
@@ -180,6 +180,23 @@ void EngineCore::Run() {
 	physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+
+
+	if (mode) {
+
+		// LOAD IMGUI HERE !!!!!
+
+
+
+
+
+
+
+
+
+
+	}
+
 	//fonts.Initialize();
 	LoadMasterModel();
 
