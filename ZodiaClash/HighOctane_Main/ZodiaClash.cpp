@@ -168,17 +168,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
+
+    // Instantiate Engine Core   
+    EngineCore::engineCore();
+
+
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
-        
-    EngineCore::engineCore();
-
-    //////////////////////////////
-    ////////// End Game //////////
-    //////////////////////////////
-
-
 
 		////////// INITIALIZE //////////
 
@@ -389,14 +386,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-
-
-
-
-
-
-
-
+    //////////////////////////////
+    ////////// End Game //////////
+    //////////////////////////////
 
     return 0;
 }

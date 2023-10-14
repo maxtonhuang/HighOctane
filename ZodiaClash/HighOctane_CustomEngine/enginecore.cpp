@@ -32,25 +32,25 @@
 ******************************************************************************/
 
 #include "EngineCore.h"
-#include "Movement.h"
-#include "Message.h"
-#include "Input.h"
-#include "Serialization.h"
-#include "File.h"
-#include "ECS.h"
-#include "EntityFactory.h"
-#include "Components.h"
-#include "VMath.h"
-#include "Graphics.h"
-#include "debugdiagnostic.h"
-#include "DebugProfile.h"
-#include "Global.h"
-#include <random>
+//#include "Movement.h"
+//#include "Message.h"
+//#include "Input.h"
+//#include "Serialization.h"
+//#include "File.h"
+//#include "ECS.h"
+//#include "EntityFactory.h"
+//#include "Components.h"
+//#include "VMath.h"
+//#include "Graphics.h"
+//#include "debugdiagnostic.h"
+//#include "DebugProfile.h"
+//#include "Global.h"
+//#include <random>
 #include <Windows.h>
 #include <chrono>
-#include "physics.h"
-#include "Font.h"
-#include "MultiThreading.h"
+//#include "physics.h"
+//#include "Font.h"
+//#include "MultiThreading.h"
 
 
 //using Vec2 = vmath::Vector2;
