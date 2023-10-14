@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
+
 public static class InternalCalls
 {
     // Adds the log function into internal call table
@@ -12,17 +14,11 @@ public static class InternalCalls
     internal extern static void Print();
 
     // Adds the Get Key Down function into internal call table
-    //[MethodImplAttribute(MethodImplOptions.InternalCall)]
-    //internal extern static bool GetKeyDown(string key);
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern bool GetKeyDown(INFO key);
 }
 
-public static class Debug
-{
-    public static void Log(string message)
-    {
-        InternalCalls.Log(message);
-    }
-}
+
 
 public class MyScriptClass
 {
@@ -73,11 +69,29 @@ public class MyScriptClass
         Debug.Log("C# calling C++ code. Your number was " + output);
         Debug.Log("Hi from oliver");
         Testing();
+
+        // This will eventually be moved to a function that is updating every frame
+        // Need to test whether it is working, because I am not sure 
+        
+        if (InternalCalls.GetKeyDown(INFO.KEY_SPACE))
+        {
+            Debug.Log("Space key pressed (From C#)");
+        }
+        // On top here
     }
+
 
     public static void Testing()
     {
-        Console.WriteLine("Hello from Testing method in C#");
+        if (Debug.GetKeyDown(INFO.KEY_SPACE))
+        {
+            Debug.Log("Space key pressed (From C#)");
+        }
+
+        if (Debug.GetKeyDown(INFO.KEY_W))
+        {
+            Debug.Log("W key pressed (From C#)");
+        }
     }
 
     public static void Start()

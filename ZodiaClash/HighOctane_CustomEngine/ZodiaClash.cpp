@@ -103,7 +103,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // Init Console
     Console();
-    CsScript script;
+
     
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable

@@ -232,8 +232,16 @@ void EngineCore::Run() {
 		// and inform all relavant systems
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
-		GetKeyDown();
-		GetKeyDownClear();
+
+		//if (GetKeyDown(INFO::KEY_SPACE)) {
+		//	std::cout << "Spacebar pressed" << std::endl;
+		//}
+		//else if (GetKeyDown(INFO::KEY_1)) {
+		//	std::cout << "1 pressed" << std::endl;
+		//}
+
+		//GetKeyDownClear();
+		script.RunScript();
 
 		// ImGUI button to activate serialization function
 		if (button_clicked) {

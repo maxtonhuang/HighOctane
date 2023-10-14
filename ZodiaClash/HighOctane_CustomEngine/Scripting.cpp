@@ -21,31 +21,34 @@
 //		return a - b;
 //	}
 //}
+CsScript script;
 
-// This is the function that will be called from C#
-bool GetKeyDown() {
-	for (Postcard const &msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
-		switch (msg.type) {
-		case TYPE::KEY_TRIGGERED:
-            if (msg.info == INFO::KEY_W) {
-                std::cout << "W is pressed from scripting" << std::endl;
+// This function is to check whether the key is pressed or not on C# side
+bool GetKeyDown(INFO key) {
+    for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
+        switch (msg.type) {
+        case TYPE::KEY_TRIGGERED:
+            if (msg.info == key) {
                 return true;
             }
-			break;
-		}
-	}
+            break;
+        }
+    }
     return false;
 }
 
+// This function is to clear the key pressed but should be in c++ side
 void GetKeyDownClear() {
-    	Mail::mail().mailbox[ADDRESS::SCRIPTING].clear();
+    Mail::mail().mailbox[ADDRESS::SCRIPTING].clear();
 }
+
 
 
 void testPrintFunction() {
     std::cout << "this is a test" << std::endl;
 }
 
+// This function is to log things into my console on C# side
 void LogHandler(MonoString* managedMessage)
 {
     // Convert a C# string in to a C++ string
@@ -74,8 +77,11 @@ CsScript::CsScript() {
     ////mono_add_internal_call("HighOctane_CSharpScript.Logging::Log", (const void*)LogHandler);
     //mono_add_internal_call("CSharpScript.MyScriptClass::Log", (const void*)LogHandler);
 
+    // This should be moved somewhere else eventually
     AddInternalCall("InternalCalls::Print", (const void*)testPrintFunction);
     AddInternalCall("InternalCalls::Log", (const void*)LogHandler);
+    AddInternalCall("InternalCalls::GetKeyDown", (const void*)GetKeyDown);
+    // This should be moved somewhere else eventually
 
     if (!domain) {
 		std::cout << "Domain is null" << std::endl;
@@ -122,9 +128,13 @@ CsScript::CsScript() {
     mono_runtime_invoke(scriptCallMethod, scriptInstance, nullptr, nullptr);
 }
 
-//void CsScript::RunScript() {
-//
-//}
+void CsScript::RunScript() {
+    MonoMethod* method = mono_class_get_method_from_name(scriptClass, "Testing", -1);
+    mono_runtime_invoke(method, scriptInstance, nullptr, nullptr);
+
+    // Clear the key down afterwards
+    GetKeyDownClear();
+}
 
 void CsScript::AddInternalCall(const char* functionName, const void* methodPointer) {
 	mono_add_internal_call(functionName, methodPointer);

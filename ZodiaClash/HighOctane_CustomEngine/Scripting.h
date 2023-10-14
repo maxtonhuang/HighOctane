@@ -17,7 +17,7 @@ class CsScript {
 public:
 	CsScript();
 	~CsScript();
-	//void RunScript();
+	void RunScript();
 	static void AddInternalCall(const char* functionName, const void* methodPointer);
 
 private:
@@ -30,5 +30,8 @@ private:
 
 };
 
-bool GetKeyDown();
+//bool GetKeyDown();
+bool GetKeyDown(INFO key);
 void GetKeyDownClear();
+
+extern CsScript script;
