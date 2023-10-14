@@ -127,7 +127,7 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -160,7 +160,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
       </PrecompiledHeaderFile>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
