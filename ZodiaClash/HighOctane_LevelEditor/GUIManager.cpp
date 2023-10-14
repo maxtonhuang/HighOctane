@@ -44,7 +44,7 @@
 #include "ImGuiEntitiesManager.h"
 #include "graphics.h"
 
-GUIManager guiManager;
+//GUIManager guiManager;
 
 GUIManager::GUIManager()
 {

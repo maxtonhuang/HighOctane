@@ -70,6 +70,8 @@ EngineCore::EngineCore() : m_initialTime{ static_cast<uint64_t>(std::chrono::tim
 
 void EngineCore::Run(bool const mode) {
 
+	(void)mode;
+
 	//////////// INITIALIZE //////////
 
 	//// Register components to be used in the ECS

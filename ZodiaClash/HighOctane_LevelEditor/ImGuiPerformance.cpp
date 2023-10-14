@@ -30,6 +30,7 @@
 ******************************************************************************/
 
 #include "ImGuiPerformance.h"
+#include "DebugProfile.h"
 //#include "enginecore.h"
 
 #if ENABLE_DEBUG_PROFILE

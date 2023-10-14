@@ -40,8 +40,10 @@
 #include "ZodiaClash.h"
 #include "EngineCore.h"
 #include "Graphics.h"
+#include "GUIManager.h"
 #include "DebugLog.h"
 #include "DebugDiagnostic.h"
+#include "DebugProfile.h"
 #include "Input.h"
 #include "EngineCore.h" 
 #include "Message.h"
@@ -54,8 +56,9 @@
 #include "AudioManager.h"
 #include "Serialization.h"
 #include "Scripting.h"
+#include "ImGuiPerformance.h"
 #include <mono/metadata/assembly.h>
-#include "GUIManager.h"
+
 
 
 //#define MAX_LOADSTRING 100
