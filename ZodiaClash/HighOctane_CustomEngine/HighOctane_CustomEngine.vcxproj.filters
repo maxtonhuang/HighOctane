@@ -167,9 +167,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="GUIManager.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -264,7 +261,6 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GUIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ECS.hpp">

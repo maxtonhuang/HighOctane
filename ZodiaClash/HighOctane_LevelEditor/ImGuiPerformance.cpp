@@ -30,7 +30,7 @@
 ******************************************************************************/
 
 #include "ImGuiPerformance.h"
-#include "enginecore.h"
+//#include "enginecore.h"
 
 #if ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
