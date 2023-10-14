@@ -29,12 +29,12 @@
 ******************************************************************************/
 
 #include "ImGuiEntitiesManager.h"
-//#include "EntityFactory.h"
-//#include "enginecore.h"
-//#include "physics.h"
-//#include "Serialization.h"
-//#include "ECS.h"
-//#include "Global.h"
+#include "EntityFactory.h"
+#include "enginecore.h"
+#include "physics.h"
+#include "Serialization.h"
+#include "ECS.h"
+#include "Global.h"
 
 
 void InitEntitiesManager() {
