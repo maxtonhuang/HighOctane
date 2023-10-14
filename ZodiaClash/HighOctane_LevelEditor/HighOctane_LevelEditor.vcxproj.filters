@@ -48,9 +48,6 @@
     <ClCompile Include="..\Extern\implot-master\implot_items.cpp">
       <Filter>Header Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="GUIManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiConsole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,9 +97,6 @@
     </ClInclude>
     <ClInclude Include="..\Extern\implot-master\implot_internal.h">
       <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIManager.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiConsole.h">
       <Filter>Source Files</Filter>
