@@ -122,9 +122,6 @@
     <ClInclude Include="Movement.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Body.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Serialization.h">
       <Filter>Serialization</Filter>
     </ClInclude>
@@ -291,9 +288,6 @@
     </ClCompile>
     <ClCompile Include="Systems.cpp">
       <Filter>EngineArchitecture</Filter>
-    </ClCompile>
-    <ClCompile Include="Body.cpp">
-      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="Serialization.cpp">
       <Filter>Serialization</Filter>

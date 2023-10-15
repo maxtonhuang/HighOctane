@@ -5,7 +5,6 @@
 #include "ECS.h"
 #include "Global.h"
 #include "model.h"
-#include "body.h"
 #include "physics.h"
 #include "Camera.h"
 

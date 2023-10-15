@@ -34,7 +34,6 @@
 #include "vmath.h"
 #include "ECS.h" 
 #include "collision.h"
-#include "body.h"
 #include "graphics.h"
 
 using namespace vmath;
@@ -60,9 +59,8 @@ namespace physics {
         PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
         void Update(float deltaTime);
         void AddEntity(Entity entity);
-        void Integrate(Body& body, Transform& transform);
-        void AddForce(Body& body, Vector2 force);
-        void DebugDraw(physics::Body& body, Transform& transform);
+        void Integrate(Transform& transform);
+        void DebugDraw(Transform& transform);
         void ToggleStepMode();
         void ToggleDebugMode();
         bool GetDebugDrawActive() { return DebugDrawingActive; }
@@ -87,25 +85,3 @@ namespace physics {
 	// global pointer declaration
 	extern PhysicsManager* PHYSICS;
 }
-
-//for ECS
-namespace physics {
-    struct Body;
-}
-
-/**************************************************************************/
-/*!
-    @struct Collider
-    @brief Represents an object's physical shape for collision detection.
-
-    The struct is used for determining if two objects
-    in a physics simulation are intersecting or colliding. 
-*/
-/**************************************************************************/
-struct Collider {
-    physics::Body* body{};
-    //if true, don't perform physical response, just notify that theres collision
-    bool                    isTrigger{ false };
-    //list of entities this collider is in contact with
-    std::vector<Entity*>    collidedEntities;
-};
