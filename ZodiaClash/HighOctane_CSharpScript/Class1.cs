@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
 
 public static class InternalCalls
 {
@@ -55,7 +55,7 @@ public class MyScriptClass
     //}
 
     //[DllImport("__Internal")]
-
+    
     public static void PrintFromCSharp()
     {
         // Call the C++ function through the C# wrapper
@@ -73,10 +73,6 @@ public class MyScriptClass
         // This will eventually be moved to a function that is updating every frame
         // Need to test whether it is working, because I am not sure 
         
-        if (InternalCalls.GetKeyDown(INFO.KEY_SPACE))
-        {
-            Debug.Log("Space key pressed (From C#)");
-        }
         // On top here
     }
 

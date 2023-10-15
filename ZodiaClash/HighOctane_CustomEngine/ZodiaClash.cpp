@@ -104,7 +104,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // Init Console
     Console();
 
-    
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable

@@ -42,8 +42,6 @@ void GetKeyDownClear() {
     Mail::mail().mailbox[ADDRESS::SCRIPTING].clear();
 }
 
-
-
 void testPrintFunction() {
     std::cout << "this is a test" << std::endl;
 }
@@ -68,6 +66,7 @@ CsScript::CsScript() {
     std::cout << "Scripting intialized\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
     //std::cout << filePath << std::endl;
+
 
     mono_set_assemblies_path(filePath.c_str());
     domain = mono_jit_init(filePath.c_str());
@@ -121,7 +120,6 @@ CsScript::CsScript() {
     MonoObject* exception = nullptr; // Exception gets stored in this object
     mono_runtime_invoke(method, instance, &parameters, &exception);
     if (exception) mono_print_unhandled_exception(exception);
-
 
     mono_runtime_invoke(scriptStartMethod, scriptInstance, nullptr, nullptr);
     mono_runtime_invoke(scriptStopMethod, scriptInstance, nullptr, nullptr);

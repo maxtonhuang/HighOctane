@@ -57,6 +57,9 @@
     <Filter Include="Vendors\ImGui">
       <UniqueIdentifier>{e08e1b1e-c0c5-48b9-b4e8-193157f84f84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{e17cdb35-4ebc-47b8-9616-fe6c97cf967d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -221,9 +224,6 @@
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
       <Filter>Vendors\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -237,6 +237,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Reflections.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="FileWatcher.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -370,13 +376,15 @@
     <ClCompile Include="GraphicConstants.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="ZodiaClash.cpp" />
     <ClCompile Include="Reflections.cpp" />
+    <ClCompile Include="Scripting.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
