@@ -55,6 +55,7 @@
 #include "MultiThreading.h"
 #include "Scripting.h"
 #include "FileWatcher.h"
+#include "Animator.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -85,6 +86,7 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
 	ECS::ecs().RegisterComponent<Animation>();
+	ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
@@ -114,8 +116,9 @@ void EngineCore::Run() {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
@@ -147,6 +150,7 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
 
@@ -189,6 +193,7 @@ void EngineCore::Run() {
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::MODEL);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
+	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 
 	Entity background = CreateModel();
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
