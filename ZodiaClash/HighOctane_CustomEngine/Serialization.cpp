@@ -206,12 +206,12 @@ rapidjson::Value SerializeAABB(const AABB& aabb, rapidjson::Document::AllocatorT
 	aabbObject.AddMember("Extent Y", aabb.extents.y, allocator);
 	return aabbObject;
 }
-rapidjson::Value SerializeAnimation(const Animation& anim, rapidjson::Document::AllocatorType& allocator) {
+rapidjson::Value SerializeAnimation(const Animator& anim, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value animObject(rapidjson::kObjectType);
-	animObject.AddMember("Animation Type", (int)anim.animationType, allocator);
-	animObject.AddMember("Frame Index", anim.frameIndex, allocator);
-	animObject.AddMember("Frame Time Elapsed", anim.frameTimeElapsed, allocator);
-	animObject.AddMember("Frame Display Duration", anim.frameDisplayDuration, allocator);
+	animObject.AddMember("Animation Type", (int)anim.GetAnimationType(), allocator);
+	animObject.AddMember("Frame Index", anim.GetFrameIndex(), allocator);
+	animObject.AddMember("Frame Time Elapsed", anim.GetFrameTimeElapsed(), allocator);
+	animObject.AddMember("Frame Display Duration", anim.GetFrameDisplayDuration() , allocator);
 	return animObject;
 }
 
@@ -229,7 +229,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	MainCharacter* mainCharacter = nullptr;
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
-	Animation* anim = nullptr;
+	Animator* anim = nullptr;
 	
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -278,8 +278,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value aabbObject = SerializeAABB(*aabb, allocator);
 			entityObject.AddMember("Collision", aabbObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Animation>(entity)) {
-			anim = &ECS::ecs().GetComponent<Animation>(entity);
+		if (ECS::ecs().HasComponent<Animator>(entity)) {
+			anim = &ECS::ecs().GetComponent<Animator>(entity);
 			rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
 			entityObject.AddMember("Animation", animationObject, allocator);
 		}
@@ -414,15 +414,17 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent<AABB>(entity, aabb);
 		}
 
-		if (entityObject.HasMember("Animation")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Animation>()) ? "Anim is registered" : "Anim is not registered") << std::endl;
-			const rapidjson::Value& animObject = entityObject["Animation"];
-			Animation anim;
-			anim.animationType = static_cast<Animation::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
-			anim.frameIndex = animObject["Frame Index"].GetUint();
-			anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
-			anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
-			ECS::ecs().AddComponent<Animation>(entity, anim);
+		if (entityObject.HasMember("Animator")) {
+			std::cout << ((ECS::ecs().isComponentTypeRegistered<Animator>()) ? "Anim is registered" : "Anim is not registered") << std::endl;
+			const rapidjson::Value& animObject = entityObject["Animator"];
+			Animator anim{ 
+				static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()), 
+				animObject["Frame Display Duration"].GetFloat() };
+			//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
+			//anim.frameIndex = animObject["Frame Index"].GetUint();
+			//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
+			//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
+			ECS::ecs().AddComponent<Animator>(entity, anim);
 		}
 
 		ECS::ecs().AddComponent(entity, Model{});

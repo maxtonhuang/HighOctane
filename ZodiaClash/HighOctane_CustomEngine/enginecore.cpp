@@ -85,7 +85,6 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Visible>();
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
-	ECS::ecs().RegisterComponent<Animation>();
 	ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
@@ -117,7 +116,6 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
-		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
@@ -149,7 +147,6 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
-		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
@@ -164,7 +161,7 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
-		signature.set(ECS::ecs().GetComponentType<Animation>());
+		//signature.set(ECS::ecs().GetComponentType<Animator>());
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
@@ -191,7 +188,6 @@ void EngineCore::Run() {
 
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
-	Mail::mail().RegisterMailbox(ADDRESS::MODEL);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 

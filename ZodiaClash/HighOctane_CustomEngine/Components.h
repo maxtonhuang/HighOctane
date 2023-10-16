@@ -85,19 +85,6 @@ struct MainCharacter {
     // empty by design
 };
 
-struct Animation {
-    enum ANIMATION_TYPE {
-        ANIMATION_NONE,
-        ANIMATION_TIME_BASED,
-        ANIMATION_EVENT_BASED,
-        // PARTICLE
-    };
-    ANIMATION_TYPE          animationType{};
-    uint32_t                frameIndex{};
-    float                   frameTimeElapsed{};
-    float                   frameDisplayDuration{};
-};
-
 struct Circle {
     float                   radius{};
 };

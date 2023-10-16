@@ -80,10 +80,7 @@ void UpdateEntitiesManager() {
             t->texVariants.push_back(texList.Add("cat.png"));
             t->texVariants.push_back(texList.Add("cat.png"));
             t->tex = t->texVariants.at(0);
-            ECS::ecs().AddComponent(testEntity, Animation{});
-            Animation* a = &ECS::ecs().GetComponent<Animation>(testEntity);
-            a->animationType = Animation::ANIMATION_TIME_BASED;
-            a->frameDisplayDuration = 0.1f;
+            ECS::ecs().AddComponent(testEntity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
             ECS::ecs().AddComponent(testEntity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
             ECS::ecs().AddComponent(testEntity, Model{});
             //ECS::ecs().AddComponent<physics::Body>(testEntity, physics::Body{0,0});

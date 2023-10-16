@@ -41,7 +41,7 @@
 #include "message.h"
 #include "Model.h"
 #include "Graphics.h"
-#include "Components.h"
+//#include "Components.h"
 #include "ECS.h"
 #include "EngineCore.h"
 #include "Global.h"
@@ -73,7 +73,7 @@ void Model::Update(Transform const& entity, Size const& size) {
 	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
-void Model::Draw(Tex const& entity, Animation const& ani) {
+void Model::Draw(Tex const& entity, Animator const& ani) {
 	Renderer* renderer;
 	if (entity.tex != nullptr) {
 		renderer = &textureRenderer;
@@ -82,12 +82,12 @@ void Model::Draw(Tex const& entity, Animation const& ani) {
 		renderer = &flatRenderer;
 	}
 	if (entity.tex != nullptr) {
-		renderer->AddVertex(Vertex{ botleft,color, entity.tex->GetTexCoords(ani.frameIndex,0), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(ani.frameIndex,3), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(ani.frameIndex,1), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topleft,color, entity.tex->GetTexCoords(ani.frameIndex,2), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),0), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),2), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),3), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),1), (float)entity.tex->GetID() - 1.f });
+		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),2), (float)entity.tex->GetID() - 1.f });
 	}
 	else {
 		renderer->AddVertex(Vertex{ botleft,color });
