@@ -60,7 +60,7 @@ namespace physics {
         it'll update one step at a time when a step update is requested.
      */
      /**************************************************************************/
-    void PhysicsManager::Update(float deltaTime)
+    /*void PhysicsManager::Update(float deltaTime)
     {
         // Define a constant time step (fixed interval at which physics calculations will be performed)
         const float timeStep = 1.0f / 60.0f; // 60 updates per second
@@ -98,7 +98,7 @@ namespace physics {
                 advanceStep = false;
             }
         }
-    }
+    }*/
 
     /**************************************************************************/
     /*!
@@ -135,7 +135,9 @@ namespace physics {
         //body.prevPosition = transform.position;
 
         // Update the position based on deltaTime
+        //std::cout << transform.velocity.x << " , " << transform.velocity.y << std::endl;
         transform.position += transform.velocity;
+        //std::cout << transform.position.x << " , " << transform.position.y << std::endl;
         /*
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
         Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1f;

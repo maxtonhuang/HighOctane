@@ -12,19 +12,21 @@ vmath::Vector2 currMousePos{ 0.f, 0.f };
 vmath::Vector2 direction{ 0.f, 0.f };
 vmath::Vector2 finalPos{ 0.f, 0.f };
 
+constexpr float speed = 200.f;
+
 void UpdateMovement(Transform& transform, Model & model) {	
 	//Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
-		
+	transform.velocity = { 0.f, 0.f };
 	for (Postcard const & msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 		switch (msg.type) {
 
 		case TYPE::KEY_DOWN:
 			
 			switch (msg.info) {
-			case INFO::KEY_W:   case INFO::KEY_UP:      direction = { 0.f, 0.f }; transform.velocity.y = 200.f * g_dt;    break;
-			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { 0.f, 0.f }; transform.velocity.y = -200.f * g_dt;   break;
-			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { 0.f, 0.f }; transform.velocity.x = -200.f * g_dt;   break;
-			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { 0.f, 0.f }; transform.velocity.x = 200.f * g_dt;    break;
+			case INFO::KEY_W:   case INFO::KEY_UP:      direction = { 0.f, 0.f }; transform.velocity.y = speed * g_dt;    break;
+			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { 0.f, 0.f }; transform.velocity.y = -speed * g_dt;   break;
+			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { 0.f, 0.f }; transform.velocity.x = -speed * g_dt;   break;
+			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { 0.f, 0.f }; transform.velocity.x = speed * g_dt;    break;
 			case INFO::KEY_O:   transform.scale.x += 10.f * g_dt; transform.scale.y += 10.f * g_dt; break;
 			case INFO::KEY_P:   transform.scale.x -= 10.f * g_dt; transform.scale.y -= 10.f * g_dt; break;
 			case INFO::KEY_Q:   transform.rotation -= 1.f * g_dt;   break;
@@ -71,9 +73,10 @@ void UpdateMovement(Transform& transform, Model & model) {
 	}
 	//transform.position += transform.velocity;
 	//transform.velocity = {0,0};
+	
 
-	if (transform.position.distance(finalPos) > 1) {
-		transform.velocity += direction * 200.f * g_dt;
+	if (transform.position.distance(finalPos) > 2.f) {
+		transform.velocity += direction * speed * g_dt;
 	}
 
 }
