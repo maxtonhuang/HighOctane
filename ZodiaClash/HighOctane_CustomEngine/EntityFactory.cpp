@@ -112,7 +112,10 @@ Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vec
 	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Clone{});
 	//ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
-	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
+	auto collider{ ECS::ecs().GetComponent<Collider>(masterEntity) };
+	collider.bodyShape = Collider::SHAPE_BOX;
+	ECS::ecs().AddComponent<Collider>(entity, collider);
+
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	// check if any spritesheets have been loaded
 	if (spritesheets.size() > 0) {
@@ -157,7 +160,9 @@ void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
 	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
 	ECS::ecs().AddComponent(entity, Clone{});
-	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
+	auto collider{ ECS::ecs().GetComponent<Collider>(masterEntity) };
+	collider.bodyShape = Collider::SHAPE_BOX;
+	ECS::ecs().AddComponent<Collider>(entity, collider);
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 }
 
