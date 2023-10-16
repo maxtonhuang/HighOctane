@@ -30,11 +30,11 @@
 ******************************************************************************/
 
 #pragma once
-#include "body.h"
 #include "collision.h"
+#include "ECS.h" 
 
 namespace physics {
-    void DynamicStaticResponse(Body& dynamicBody);
-    void DynamicDynamicResponse(Body& bodyA, Body& bodyB);
-    void HandleCollisionResponse(Body& alpha, Body& beta);
+    void DynamicStaticResponse(Transform& dynamicBody);
+    /*void DynamicDynamicResponse(Transform& bodyA, Transform& bodyB);
+    void HandleCollisionResponse(Transform& alpha, Transform& beta);*/
 }

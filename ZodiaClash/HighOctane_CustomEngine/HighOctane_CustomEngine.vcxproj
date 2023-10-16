@@ -127,7 +127,7 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -159,7 +159,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
       </PrecompiledHeaderFile>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -193,10 +193,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
     <ClInclude Include="..\Extern\implot-master\implot.h" />
     <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
-    <ClInclude Include="Body.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionResolution.h" />
@@ -208,6 +208,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="EngineCore.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="FileWatcher.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontLib.h" />
     <ClInclude Include="Framework.h" />
@@ -253,10 +254,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="..\Extern\implot-master\implot.cpp" />
     <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
     <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />
-    <ClCompile Include="Body.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollsionResolution.cpp" />

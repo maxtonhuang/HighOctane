@@ -54,6 +54,8 @@
 #include "Font.h"
 #include "MultiThreading.h"
 #include "Scripting.h"
+#include "FileWatcher.h"
+#include "Animator.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -84,9 +86,9 @@ void EngineCore::Run() {
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
 	ECS::ecs().RegisterComponent<Animation>();
+	ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
-	ECS::ecs().RegisterComponent<physics::Body>();
 	ECS::ecs().RegisterComponent<Collider>();
 
 	// Register systems to be used in the ECS
@@ -114,8 +116,9 @@ void EngineCore::Run() {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<Animation>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
@@ -123,7 +126,6 @@ void EngineCore::Run() {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
@@ -135,7 +137,6 @@ void EngineCore::Run() {
 	{
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
-		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
@@ -149,6 +150,7 @@ void EngineCore::Run() {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
 
@@ -191,6 +193,7 @@ void EngineCore::Run() {
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::MODEL);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
+	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 
 	Entity background = CreateModel();
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
@@ -221,7 +224,7 @@ void EngineCore::Run() {
 	//SaveEntityToJson("testEntity.json", tmp);
 	
 	while (gameActive) {
-	
+
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		m_previousTime = l_currentTime;
@@ -233,14 +236,6 @@ void EngineCore::Run() {
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
 
-		//if (GetKeyDown(INFO::KEY_SPACE)) {
-		//	std::cout << "Spacebar pressed" << std::endl;
-		//}
-		//else if (GetKeyDown(INFO::KEY_1)) {
-		//	std::cout << "1 pressed" << std::endl;
-		//}
-
-		//GetKeyDownClear();
 		script.RunScript();
 
 		// ImGUI button to activate serialization function
@@ -268,6 +263,34 @@ void EngineCore::Run() {
 			gameActive = false;
 		}
 		graphics.EndDraw();
+
+		//FileWatcher fw{ "C:\\Users\\wenyu\\OneDrive\\Documents\\GitHub\\HighOctane\\ZodiaClash\\HighOctane_CSharpScript", std::chrono::milliseconds(5000) };
+
+		
+		// Start monitoring a folder for changes and (in case of changes)
+		// run a user provided lambda function
+		//fw.start([](std::string path_to_watch, FileStatus status) -> void {
+		//	
+		//	// Process only regular files, all other file types are ignored
+		//	if (!std::filesystem::is_regular_file(std::filesystem::path(path_to_watch)) && status != FileStatus::erased) {
+		//		return;
+		//	}
+
+		//	switch (status) {
+		//	case FileStatus::created:
+		//		std::cout << "File created: " << path_to_watch << '\n';
+		//		break;
+		//	case FileStatus::modified:
+		//		std::cout << "File modified: " << path_to_watch << '\n';
+		//		break;
+		//	case FileStatus::erased:
+		//		std::cout << "File erased: " << path_to_watch << '\n';
+		//		break;
+		//	default:
+		//		std::cout << "Error! Unknown file status.\n";
+		//	}
+		//	});
+
 	}
 	delete physics::PHYSICS; //maybe put this somewhere else
 }

@@ -68,6 +68,7 @@ enum class ADDRESS {
 	WINDOWS,
 	MODEL,
 	SCRIPTING,
+	ANIMATOR,
 	NONE
 };
 

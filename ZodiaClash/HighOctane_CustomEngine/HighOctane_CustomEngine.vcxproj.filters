@@ -57,6 +57,12 @@
     <Filter Include="Vendors\ImGui">
       <UniqueIdentifier>{e08e1b1e-c0c5-48b9-b4e8-193157f84f84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{e17cdb35-4ebc-47b8-9616-fe6c97cf967d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animator">
+      <UniqueIdentifier>{aa0d8dc6-99ea-4506-ae66-2794fcc2954c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -120,9 +126,6 @@
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
     <ClInclude Include="Movement.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Body.h">
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Serialization.h">
@@ -224,9 +227,6 @@
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
       <Filter>Vendors\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -241,6 +241,15 @@
     </ClInclude>
     <ClInclude Include="Reflections.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="FileWatcher.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -291,9 +300,6 @@
     </ClCompile>
     <ClCompile Include="Systems.cpp">
       <Filter>EngineArchitecture</Filter>
-    </ClCompile>
-    <ClCompile Include="Body.cpp">
-      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="Serialization.cpp">
       <Filter>Serialization</Filter>
@@ -376,13 +382,18 @@
     <ClCompile Include="GraphicConstants.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="ZodiaClash.cpp" />
     <ClCompile Include="Reflections.cpp" />
+    <ClCompile Include="Scripting.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Animator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
