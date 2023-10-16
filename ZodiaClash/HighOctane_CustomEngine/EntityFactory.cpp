@@ -113,7 +113,7 @@ Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vec
 	ECS::ecs().AddComponent(entity, Clone{});
 	//ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
 	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
-	//ECS::ecs().GetComponent<physics::Body>(entity).isStatic = true;
+	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	// check if any spritesheets have been loaded
 	if (spritesheets.size() > 0) {
 		for (const char* filename : spritesheets) {
@@ -158,6 +158,7 @@ void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
 	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
+	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 }
 
 /******************************************************************************
