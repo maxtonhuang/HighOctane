@@ -132,9 +132,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*---------------------------------------------------------------------------------------------*/
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
-    audio.Initialize();
-    audio.AddSound("../Assets/Sound/ping.wav");
-    audio.AddSound("../Assets/Sound/bonk.wav");
     LOG_INFO("Graphics started");
 
 

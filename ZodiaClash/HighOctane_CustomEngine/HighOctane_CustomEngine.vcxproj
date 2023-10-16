@@ -232,6 +232,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClInclude Include="Scripting.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
+    <ClInclude Include="SoundObject.h" />
     <ClInclude Include="TargetVer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Viewport.h" />
@@ -282,6 +283,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="SoundObject.cpp" />
     <ClCompile Include="Systems.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Physics.cpp" />

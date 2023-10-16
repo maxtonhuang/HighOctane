@@ -466,3 +466,8 @@ class SerializationSystem : public System {
 public:
     void Update() override;
 };
+
+class AudioSystem : public System {
+public:
+    void Update() override;
+};

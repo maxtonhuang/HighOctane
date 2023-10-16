@@ -44,34 +44,85 @@ void AudioManager::Initialize() {
     if (result != FMOD_OK)
     {
         ASSERT(1, "Unable to create FMOD system!");
-        //printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
     }
 
     result = system->init(512, FMOD_INIT_NORMAL, 0);    // Initialize FMOD.
     if (result != FMOD_OK)
     {
         ASSERT(1, "Unable to initialise FMOD system!");
-        //printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
     }
+    CreateGroup("SFX");
+    CreateGroup("BGM");
 }
 
 void AudioManager::Release() {
     system->release();
 }
 
-void AudioManager::AddSound(const char* path) {
+FMOD::ChannelGroup* AudioManager::CreateGroup(const char* name) {
+    if (group.count(name)) {
+        return group[name];
+    }
+    FMOD::ChannelGroup* channelgroup;
+    system->createChannelGroup(name, &channelgroup);
+    group[name] = channelgroup;
+    return group[name];
+}
+
+void AudioManager::SetGroupVolume(const char* name, float volume) {
+    group[name]->setVolume(volume);
+}
+
+void AudioManager::StopGroup(const char* name) {
+    group[name]->stop();
+}
+
+void AudioManager::ResumeGroup(const char* name) {
+    group[name]->setPaused(false);
+}
+
+void AudioManager::PauseGroup(const char* name) {
+    group[name]->setPaused(true);
+}
+
+bool AudioManager::IsGroupPaused(const char* name) {
+    bool status;
+    group[name]->getPaused(&status);
+    return status;
+}
+
+FMOD::Sound* AudioManager::AddSound(const char* path) {
+    if (data.count(path)) {
+        return data[path];
+    }
     FMOD_RESULT result;
     result = system->createSound(path, FMOD_DEFAULT,0,&data[path]);
     if (result != FMOD_OK) {
         ASSERT(1, "Error creating sound!");
-        //std::cout << "Error creating sound!\n";
     }
+    return data[path];
 }
 
-void AudioManager::PlaySounds(const char* sound) {
-    static FMOD::Channel* tmp;
-    tmp->stop();
-    system->playSound(data[sound], 0, false, &tmp);
+FMOD::Sound* AudioManager::AddMusic(const char* path) {
+    if (data.count(path)) {
+        return data[path];
+    }
+    FMOD_RESULT result;
+    result = system->createSound(path, FMOD_LOOP_NORMAL, 0, &data[path]);
+    if (result != FMOD_OK) {
+        ASSERT(1, "Error creating music!");
+    }
+    return data[path];
+}
+
+void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
+    FMOD::Channel* tmp;
+    if (channelGroup == nullptr) {
+        system->playSound(data[sound], 0, false, &tmp);
+    }
+    else {
+        system->playSound(data[sound], group[channelGroup], false, &tmp);
+    }
 }
 
 void AudioManager::FreeSound(const char* sound) {
@@ -84,4 +135,8 @@ void AudioManager::ReleaseAllSounds() {
         sound.second->release();
     }
     data.clear();
+}
+
+FMOD::System* AudioManager::GetSystem() {
+    return system;
 }

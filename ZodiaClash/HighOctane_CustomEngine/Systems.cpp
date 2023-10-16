@@ -44,7 +44,7 @@
 #include "GUIManager.h"
 #include "CollisionResolution.h"
 #include "Serialization.h"
-
+#include "AudioManager.h"
 
 /******************************************************************************
 *
@@ -305,4 +305,8 @@ void SerializationSystem::Update() {
 	
 	Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
 	
+}
+
+void AudioSystem::Update() {
+	audio.GetSystem()->update();
 }

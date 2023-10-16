@@ -57,7 +57,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             audio.PlaySounds("../Assets/Sound/ping.wav");
         }
         if (GLFW_KEY_N == key) {
-            audio.PlaySounds("../Assets/Sound/bonk.wav");
+            audio.PlaySounds("../Assets/Sound/bonk.wav", "SFX");
+        }
+        if (GLFW_KEY_F8 == key) {
+            if (audio.IsGroupPaused("BGM")) {
+                audio.ResumeGroup("BGM");
+            }
+            else {
+                audio.PauseGroup("BGM");
+            }
         }
         if (GLFW_KEY_F11 == key) {
             static bool fullscreen = false;

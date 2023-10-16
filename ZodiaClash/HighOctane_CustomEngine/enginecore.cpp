@@ -53,7 +53,7 @@
 #include "GUIManager.h"
 #include "Font.h"
 #include "MultiThreading.h"
-
+#include "AudioManager.h"
 
 using Vec2 = vmath::Vector2;
 
@@ -104,6 +104,9 @@ void EngineCore::Run() {
 
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	systemList.emplace_back(graphicsSystem, "Graphics System");
+
+	std::shared_ptr<AudioSystem> audioSystem = ECS::ecs().RegisterSystem<AudioSystem>();
+	systemList.emplace_back(audioSystem, "Audio System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
@@ -170,6 +173,12 @@ void EngineCore::Run() {
 	{
 		Signature signature;
 
+		ECS::ecs().SetSystemSignature<AudioSystem>(signature);
+	}
+
+	{
+		Signature signature;
+
 		ECS::ecs().SetSystemSignature<SerializationSystem>(signature);
 	}
 
@@ -182,6 +191,16 @@ void EngineCore::Run() {
 	physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+
+	audio.Initialize();
+	audio.AddSound("../Assets/Sound/ping.wav");
+	audio.AddSound("../Assets/Sound/bonk.wav");
+	audio.AddMusic("../Assets/Music/MainMenu1.wav");
+	audio.PauseGroup("BGM");
+	audio.PlaySounds("../Assets/Music/MainMenu1.wav", "BGM");
+	//UNCOMMENT THE FOLLOWING LINE TO TEST MUSIC
+	
+
 	//fonts.Initialize();
 	LoadMasterModel();
 

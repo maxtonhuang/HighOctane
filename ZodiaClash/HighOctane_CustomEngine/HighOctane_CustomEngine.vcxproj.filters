@@ -239,6 +239,9 @@
     <ClInclude Include="ZodiaClash.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="SoundObject.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -378,8 +381,11 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="SoundObject.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
-  
   <ItemGroup>
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
