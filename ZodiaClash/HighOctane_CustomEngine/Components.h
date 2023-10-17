@@ -56,7 +56,7 @@ struct Collider {
         NUM_OF_SHAPES
     };
     SHAPE_ID                bodyShape{};
-    Collider(SHAPE_ID shape = SHAPE_BOX) {};
+    Collider(SHAPE_ID shape = SHAPE_BOX) { (void)shape; };
 };
 
 struct Size {
@@ -113,3 +113,6 @@ struct Clone {
     // empty by design
 };
 
+struct Name {
+    std::string             name{};
+};

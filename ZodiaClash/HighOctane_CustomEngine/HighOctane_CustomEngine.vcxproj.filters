@@ -170,12 +170,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ZodiaClash.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Reflections.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -278,7 +272,6 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ZodiaClash.cpp" />
     <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Scripting.cpp">
       <Filter>Scripting</Filter>
@@ -286,14 +279,6 @@
     <ClCompile Include="Animator.cpp">
       <Filter>Animator</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="ZodiaClash.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="ECS.hpp">

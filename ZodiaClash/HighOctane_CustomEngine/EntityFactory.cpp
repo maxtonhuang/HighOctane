@@ -54,36 +54,22 @@ std::unordered_map<std::string, Entity> masterEntitiesList;
 std::vector<Entity> massRenderEntitiesList;
 
 
+/*
 
-//void LoadMasterModel(std::string name) {
-//	Entity entity = ECS::ecs().CreateEntity();
-//	masterEntitiesList[name] = entity;
-//	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
-//	//ECS::ecs().AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
-//	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
-//	ECS::ecs().AddComponent(entity, Visible{ false });
-//	//ECS::ecs().AddComponent(entity, Tex{ texList.Add("cat.png") });
-//
-//	//add tex component, init tex with duck sprite
-//	ECS::ecs().AddComponent(entity, Tex{ texList.Add("duck.png") });
-//	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
-//	t->texVariants.push_back(texList.Add("duck.png"));
-//	t->texVariants.push_back(texList.Add("duck2.png"));
-//	t->tex = t->texVariants.at(0);
-//	ECS::ecs().AddComponent(entity, Animation{});
-//	Animation* a = &ECS::ecs().GetComponent<Animation>(entity);
-//	a->animationType = Animation::ANIMATION_TIME_BASED;
-//	//a->animationType = Animation::ANIMATION_EVENT_BASED;
-//	a->frameDisplayDuration = 0.1f;
-//	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-//	//ECS::ecs().AddComponent(entity, MainCharacter{});
-//	ECS::ecs().AddComponent(entity, Model{});
-//
-//	//add physics component
-//	ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-//	ECS::ecs().AddComponent<Collider>(entity, Collider{});
-//}
+1. Create default entity
+2. How to change position / size / etc?
 
+1. Load asset into asset library (Change size to fit)
+2. Click and drag from asset library (default properties)
+3. Change properties
+4. Need name for each entity
+
+default name: entity_0001, entity_0002, etc
+
+how to keep track of name?
+Instead of not visible, show in asset library
+
+*/
 
 
 /******************************************************************************
