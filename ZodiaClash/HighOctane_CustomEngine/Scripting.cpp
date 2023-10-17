@@ -42,6 +42,8 @@ void GetKeyDownClear() {
     Mail::mail().mailbox[ADDRESS::SCRIPTING].clear();
 }
 
+// This function is to set active like unity
+
 void testPrintFunction() {
     std::cout << "this is a test" << std::endl;
 }

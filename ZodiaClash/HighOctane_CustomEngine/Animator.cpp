@@ -38,17 +38,40 @@
 //#include "EngineCore.h"
 
 Animator::Animator() {
+	animationType = Animator::ANIMATION_NONE;
+}
 
+Animator::Animator(ANIMATION_TYPE aniType, float displayDur) {
+	animationType = aniType;
+	frameDisplayDuration = displayDur;
+}
+
+Animator::ANIMATION_TYPE Animator::GetAnimationType() const {
+	return animationType;
+}
+
+uint32_t Animator::GetFrameIndex() const {
+	return frameIndex;
+}
+
+float Animator::GetFrameTimeElapsed() const {
+	return frameTimeElapsed;
+}
+
+float Animator::GetFrameDisplayDuration() const {
+	return frameDisplayDuration;
 }
 
 // to manually set animation to specified index frame
-void Animator::SetAnimation(Animation& aniData, int index) {
-	aniData.frameIndex = index;
+void Animator::SetAnimation(int index, Tex& texData) {
+	if (index < texData.tex->GetSheetSize()) {
+		frameIndex = index;
+	}	
 }
 
 // core function to cycle through animation frames
-void Animator::AdvanceAnimation(Animation& aniData, Tex& texData) {
-	aniData.frameIndex = (aniData.frameIndex + 1) % texData.tex->GetSheetSize();
+void Animator::AdvanceAnimation(Tex& texData) {
+	frameIndex = (frameIndex + 1) % texData.tex->GetSheetSize();
 }
 
 // changes animation sprite if model has more than 1 texVariant stored
@@ -69,17 +92,17 @@ void Animator::ResizeOnChange(Tex& texData, Size& sizeData) {
 }
 
 // called for time-based animations; advances to next frame at set intervals (frameDisplayDuration)
-void Animator::AnimateOnInterval(Animation& aniData, Tex& texData) {
-	aniData.frameTimeElapsed += g_dt;
-	if (aniData.frameTimeElapsed > aniData.frameDisplayDuration) {
-		AdvanceAnimation(aniData, texData);
-		aniData.frameTimeElapsed = 0.f;
+void Animator::AnimateOnInterval(Tex& texData) {
+	frameTimeElapsed += g_dt;
+	if (frameTimeElapsed > frameDisplayDuration) {
+		AdvanceAnimation( texData);
+		frameTimeElapsed = 0.f;
 	}
 }
 
 // called for event-based animations; advances on key input
-void Animator::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
-	AdvanceAnimation(aniData, texData);
+void Animator::AnimateOnKeyPress(Tex& texData) {
+	AdvanceAnimation(texData);
 }
 
 
@@ -96,11 +119,11 @@ void Animator::AnimateOnKeyPress(Animation& aniData, Tex& texData) {
 
 // animation update function for all relevant entities
 // called in ModelSystem
-void Animator::UpdateAnimation(Animation& aniData, Tex& texData) {
-	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+void Animator::UpdateAnimation(Tex& texData) {
+	if ((animationType != ANIMATION_TIME_BASED) && (animationType != ANIMATION_EVENT_BASED)) { return; }
 
-	if (aniData.animationType == Animation::ANIMATION_TIME_BASED) {
-		AnimateOnInterval(aniData, texData);
+	if (animationType == ANIMATION_TIME_BASED) {
+		AnimateOnInterval(texData);
 		//return; 
 	}
 
@@ -114,8 +137,8 @@ void Animator::UpdateAnimation(Animation& aniData, Tex& texData) {
 			//	ChangeAnimation(aniData, texData);
 			//	ResizeOnChange(texData, sizeData);
 			//}
-			if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-				AnimateOnKeyPress(aniData, texData);
+			if ((msg.info == INFO::KEY_V) && (animationType == ANIMATION_EVENT_BASED)) {
+				AnimateOnKeyPress(texData);
 			}
 		}
 	}
@@ -123,9 +146,9 @@ void Animator::UpdateAnimation(Animation& aniData, Tex& texData) {
 
 // animation update function for all relevant MAIN CHARACTER entities
 // called in MovementSystem
-void Animator::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData) {
+void Animator::UpdateAnimationMC(Tex& texData, Size& sizeData) {
 
-	if ((aniData.animationType != Animation::ANIMATION_TIME_BASED) && (aniData.animationType != Animation::ANIMATION_EVENT_BASED)) { return; }
+	if ((animationType != ANIMATION_TIME_BASED) && (animationType != ANIMATION_EVENT_BASED)) { return; }
 
 	// Check mailbox for input triggers
 	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::ANIMATOR, INFO::NONE, 0.f, 0.f);
@@ -133,12 +156,12 @@ void Animator::UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeDat
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::ANIMATOR]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			if (msg.info == INFO::KEY_X) {
-				switch (aniData.animationType) {
-				case(Animation::ANIMATION_TIME_BASED):
-					aniData.animationType = Animation::ANIMATION_EVENT_BASED;
+				switch (animationType) {
+				case(ANIMATION_TIME_BASED):
+					animationType = ANIMATION_EVENT_BASED;
 					break;
-				case(Animation::ANIMATION_EVENT_BASED):
-					aniData.animationType = Animation::ANIMATION_TIME_BASED;
+				case(ANIMATION_EVENT_BASED):
+					animationType = ANIMATION_TIME_BASED;
 					break;
 				}
 			}
