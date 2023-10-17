@@ -59,6 +59,10 @@
 #include "ImGuiPerformance.h"
 #include <mono/metadata/assembly.h>
 #include "Animator.h"
+#include "FileWatcher.h"
+
+#include <rttr/registration>
+
 
 
 
@@ -127,6 +131,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {   
+
     //InitMono();
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
@@ -164,11 +169,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-
-
-
-
-
     // Instantiate Engine Core   
     EngineCore::engineCore();
 
@@ -192,6 +192,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
+	ECS::ecs().RegisterComponent<Screen>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -208,6 +209,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	systemList.emplace_back(graphicsSystem, "Graphics System");
+
+	std::shared_ptr<ScriptingSystem> scripingSystem = ECS::ecs().RegisterSystem<ScriptingSystem>();
+	systemList.emplace_back(scripingSystem, "Scripting System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
@@ -271,6 +275,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	{
 		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Screen>());
+
+		ECS::ecs().SetSystemSignature<ScriptingSystem>(signature);
+	}
+
+	{
+		Signature signature;
 
 		ECS::ecs().SetSystemSignature<SerializationSystem>(signature);
 	}
@@ -319,8 +330,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//Process fonts
 	//Entity fontSys = CreateModel();
 	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
+	{
+		Entity entity = ECS::ecs().CreateEntity();
+
+		ECS::ecs().AddComponent(entity, Screen{true});
 
 
+	}
 
 	///////////////////////////////////
 	//////////               //////////
@@ -332,11 +348,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	EngineCore::engineCore().set_m_previousTime(GetTime());
 
 	//SaveEntityToJson("testEntity.json", tmp);
-
 	while (EngineCore::engineCore().getGameActive()) {
-		
 
-		
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
@@ -352,7 +365,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		
 		Mail::mail().SendMails();
 		
-		script.RunScript();
+		
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
 			button_clicked = false;
@@ -363,13 +376,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : systemList) {
 
 #if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StartTimer(sys.second, GetTime()); // change first to second to get string
+			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 #endif
 
 			sys.first->Update();
 
 #if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StopTimer(sys.second, GetTime()); // change first to second to get string
+			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
 #endif
 
 		}
