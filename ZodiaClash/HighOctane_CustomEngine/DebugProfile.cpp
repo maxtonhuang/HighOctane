@@ -41,10 +41,10 @@
  * \param startTimeInput : The start time for profiling.
  *
  */
-void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput) {
+void DebugProfiling::StartTimer(std::string systemName, uint64_t startTimeInput) {
 
     // To get the time taken for each system
-    startTimers[systemInput] = static_cast<float>(startTimeInput);
+    startTimers[systemName] = static_cast<float>(startTimeInput);
 }
 
 /*!
@@ -56,10 +56,10 @@ void DebugProfiling::StartTimer(std::shared_ptr<System> systemInput, uint64_t st
  * \param endTimeInput : The end time for profiling.
  *
  */
-void DebugProfiling::StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput) {
+void DebugProfiling::StopTimer(std::string systemName, uint64_t endTimeInput) {
 
     // To get the time taken for each system
-    endTimers[systemInput] = static_cast<float>(endTimeInput - startTimers[systemInput]) / 1000.0f;
+    endTimers[systemName] = static_cast<float>(endTimeInput - startTimers[systemName]) / 1000.0f;
 }
 
 /*!
@@ -72,10 +72,10 @@ void DebugProfiling::StopTimer(std::shared_ptr<System> systemInput, uint64_t end
  *
  * \return The percentage of time taken by the system.
  */
-float DebugProfiling::GetPercentage(std::shared_ptr<System> systemInput) {
+float DebugProfiling::GetPercentage(std::string systemName) {
 
     // To get the percentage of time taken for each system
-    return percentages[systemInput] = (endTimers[systemInput] / (g_dt * 1000.f) * 100.f);
+    return percentages[systemName] = (endTimers[systemName] / (g_dt * 1000.f) * 100.f);
 }
 
 /*!
@@ -87,10 +87,10 @@ float DebugProfiling::GetPercentage(std::shared_ptr<System> systemInput) {
  *
  * \return The time taken by the system.
  */
-float DebugProfiling::GetDuration(std::shared_ptr<System> systemInput) {
+float DebugProfiling::GetDuration(std::string systemName) {
 
     // To get the time taken for each system
-    return endTimers[systemInput];
+    return endTimers[systemName];
 }
 
 /*!

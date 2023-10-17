@@ -66,7 +66,8 @@ enum class ADDRESS {
 	GRAPHICS,
 	CORE,
 	WINDOWS,
-	MODEL,
+	SCRIPTING,
+	ANIMATOR,
 	NONE
 };
 

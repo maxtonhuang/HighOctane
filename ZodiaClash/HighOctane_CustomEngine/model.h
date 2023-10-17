@@ -42,6 +42,7 @@
 
 #include "Components.h"
 #include "GraphLib.h"
+#include "Animator.h"
 #include "Texture.h"
 #include "Renderer.h"
 #include "ECS.h"
@@ -53,19 +54,12 @@ class Model {
 public:
 	Model(); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
-	void Draw(Tex const& entity, Animation const& ani); //Add vertices to renderer
+	void Draw(Tex const& entity, Animator const& ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
-	void SetAnimation(Animation& aniData, int index);		 //Set animation to frame of input index
-	void AdvanceAnimation(Animation& aniData, Tex& texData); //Advance animation to next frame
-	void ChangeAnimation(Tex& texData);	//Changes animation if >1 texVariant stored
-	void ResizeOnChange(Tex& texData, Size& sizeData); //Resizes if ChangeAnimation() is called
-
-	void AnimateOnInterval(Animation& aniData, Tex& texData); //time-based animation
-	void AnimateOnKeyPress(Animation& aniData, Tex& texData); //event-based animation
-
-	void UpdateAnimation(Animation& aniData, Tex& texData); // for all entities
-	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData); // for MC entities
+	void SetColor(float r, float g, float b); //Set color of model (colour bounds are between 0 and 1)
+	void SetAlpha(float a); //Set alpha of model (alpha bounds are between 0 and 1)
+	void AddAlpha(float a); //Add alpha of model (alpha bounds are between 0 and 1)
 
 	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 

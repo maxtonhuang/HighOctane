@@ -31,7 +31,6 @@
 /*                                                                   includes
 ----------------------------------------------------------------------------- */
 #include "Input.h"
-#include "ZodiaClash.h"
 #include "Message.h"
 #include "DebugDiagnostic.h"
 #include "AudioManager.h"
@@ -58,6 +57,16 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         }
         if (GLFW_KEY_N == key) {
             audio.PlaySounds("../Assets/Sound/bonk.wav");
+        }
+        if (GLFW_KEY_F11 == key) {
+            static bool fullscreen = false;
+            if (fullscreen) {
+                fullscreen = false;
+            }
+            else {
+                fullscreen = true;
+            }
+            graphics.Fullscreen(fullscreen);
         }
 
         // key input for toggling mass rendering
@@ -94,6 +103,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 }
 
 
+void InputManager::KeyCheck() {
+    for (std::pair<int, INFO> val : keyStatus) {
+        if (val.second != INFO::NONE) {
+            Mail::mail().CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
+        }
+    }
+}
+
+
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
     (void)mod; //unused variable
     (void)pwin; // unused variable;
@@ -119,6 +137,9 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     static int previousPosX = 0;
     static int previousPosY = 0;
     
+    xpos = (xpos - graphics.viewport.GetX()) / graphics.viewport.GetW() * GRAPHICS::defaultWidthF;
+    ypos = (ypos - graphics.viewport.GetY()) / graphics.viewport.GetH() * GRAPHICS::defaultHeightF;
+
     int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
     int currPosY = static_cast<int>(-static_cast<float>(ypos) + GRAPHICS::h);
     
@@ -128,12 +149,4 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 
     previousPosX = currPosX;
     previousPosY = currPosY;
-}
-
-void InputManager::KeyCheck() {
-    for (std::pair<int, INFO> val : keyStatus) {
-        if (val.second != INFO::NONE) {
-            Mail::mail().CreatePostcard(TYPE::KEY_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
-        }
-    }
 }

@@ -57,18 +57,18 @@
     class DebugProfiling {
     public:
 
-        void StartTimer(std::shared_ptr<System> systemInput, uint64_t startTimeInput);
-        void StopTimer(std::shared_ptr<System> systemInput, uint64_t endTimeInput);
+        void StartTimer(std::string systemName, uint64_t startTimeInput);
+        void StopTimer(std::string systemName, uint64_t endTimeInput);
 
-        float GetPercentage(std::shared_ptr<System> systemInput);
-        float GetDuration(std::shared_ptr<System> systemInput);
+        float GetPercentage(std::string systemName);
+        float GetDuration(std::string systemName);
 
     private:
         std::shared_ptr<System> currentSessionName;
         std::unordered_map<std::shared_ptr<System>, uint64_t> timers;
-        std::unordered_map<std::shared_ptr<System>, float> startTimers;
-        std::unordered_map<std::shared_ptr<System>, float> endTimers;
-        std::unordered_map<std::shared_ptr<System>, float> percentages;
+        std::unordered_map<std::string, float> startTimers;
+        std::unordered_map<std::string, float> endTimers;
+        std::unordered_map<std::string, float> percentages;
 
     };
 

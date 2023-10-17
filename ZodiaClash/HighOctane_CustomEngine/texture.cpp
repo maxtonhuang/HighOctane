@@ -35,6 +35,7 @@
 #include "Texture.h"
 #include "debugdiagnostic.h"
 #include "GraphicConstants.h"
+#include "Font.h"
 
 #include <iostream>
 
@@ -82,6 +83,96 @@ void Texture::Init(char const* filename) {
 	glTextureSubImage2D(id, 0, 0, 0, width, height,
 		GL_RGBA, GL_UNSIGNED_BYTE, data);
 	stbi_image_free(data);
+}
+
+void Texture::Init(Font& font, const char* texname) {
+	std::vector<Texcoords> newtexcoords;
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
+	//for all printable characters [32, 127], 169 (copyright) and 174 (registered copyright)
+	unsigned int fontWidth = 0;
+	unsigned int fontHeight = 0;
+
+	//first pass, get font sprite sheet size
+	for (unsigned char c = 32; c < 175; c++)
+	{
+		//skip over characters not in intended range
+		if (((c > 127) && (c < 169)) || ((c > 169) && (c < 174))) {
+			continue;
+		}
+
+		// load character glyph
+		if (FT_Load_Char(font.fontFace, c, FT_LOAD_RENDER))
+		{
+			DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
+			continue;
+		}
+		// generate texture
+		if (fontWidth < font.fontFace->glyph->bitmap.width) {
+			fontWidth = font.fontFace->glyph->bitmap.width;
+		}
+		fontHeight += font.fontFace->glyph->bitmap.rows;
+	}
+	unsigned char* fontData = new unsigned char[fontWidth * fontHeight];
+
+	// generate texture
+	unsigned int texture;
+	glCreateTextures(GL_TEXTURE_2D, 1, &texture);
+	glTextureStorage2D(texture, 1, GL_R8, fontWidth,
+		fontHeight);
+	unsigned int currHeight = 0;
+
+	for (unsigned char c = 32; c < 175; c++)
+	{
+		//skip over characters not in intended range
+		if (((c > 127) && (c < 169)) || ((c > 169) && (c < 174))) {
+			continue;
+		}
+
+		// load character glyph
+		if (FT_Load_Char(font.fontFace, c, FT_LOAD_RENDER))
+		{
+			DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
+			continue;
+		}
+
+		//concatenate glyph data into spritesheet data
+		for (unsigned int h = 0; h < font.fontFace->glyph->bitmap.rows; ++h) {
+			for (unsigned int w = 0; w < font.fontFace->glyph->bitmap.width; ++w) {
+				fontData[(currHeight + h) * fontWidth + w] = font.fontFace->glyph->bitmap.buffer[h * font.fontFace->glyph->bitmap.width + w];
+			}
+		}
+
+		float t = (float)currHeight / fontHeight;
+		float b = (float)(currHeight + font.fontFace->glyph->bitmap.rows) / fontHeight;
+		float r = (float)font.fontFace->glyph->bitmap.width / fontWidth;
+		Texcoords spriteCoords;
+		spriteCoords.bl = glm::vec2{ 0.f, b };
+		spriteCoords.br = glm::vec2{ r, b };
+		spriteCoords.tl = glm::vec2{ 0.f, t };
+		spriteCoords.tr = glm::vec2{ r, t };
+		newtexcoords.emplace_back(spriteCoords);
+
+		// store texture in Character map
+		Character character = {
+			nullptr,
+			newtexcoords.size() - 1,
+			glm::ivec2(font.fontFace->glyph->bitmap.width, font.fontFace->glyph->bitmap.rows),
+			glm::ivec2(font.fontFace->glyph->bitmap_left, font.fontFace->glyph->bitmap_top),
+			static_cast<size_t>(font.fontFace->glyph->advance.x)
+		};
+		font.characters.insert(std::pair<char, Character>(c, character));
+		currHeight += font.fontFace->glyph->bitmap.rows;
+	}
+	glTextureSubImage2D(texture, 0, 0, 0, fontWidth,
+		fontHeight,
+		GL_RED,
+		GL_UNSIGNED_BYTE,
+		fontData);
+	delete[] fontData;
+	id = texture;
+	active = true;
+	name = texname;
+	texcoords.swap(newtexcoords);
 }
 
 void Texture::CreateSpriteSheet(int row, int column, int spritenum) {
@@ -194,4 +285,22 @@ void TextureManager::Clear() {
 		t.second.FreeTexture();
 	}
 	data.clear();
+}
+
+Texture* TextureManager::Add(Font& font) {
+	std::string texname = { "font0" };
+	int count = 0;
+	while (data.count(texname)) {
+		++count;
+		texname = "font" + count;
+	}
+	Texture temp;
+	temp.Init(font, texname.c_str());
+	data.emplace(texname, temp);
+
+	for (auto& c : font.characters) {
+		c.second.textureID = &data[texname];
+	}
+
+	return &data[texname];
 }

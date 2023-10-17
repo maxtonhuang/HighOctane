@@ -69,6 +69,7 @@
 #include "debugdiagnostic.h"
 #include "Components.h"
 
+
 using Entity = std::uint32_t;
 
 // Maximum number of entities
@@ -83,7 +84,6 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 
 ////////// ENTITY /////////////////////////////////////////////////////////////
-
 class EntityManager {
 public:
     EntityManager();
@@ -124,13 +124,54 @@ public:
 template<typename T>
 class ComponentArray : public IComponentArray {
 public:
-    void InsertData(Entity entity, T component);
+    //template <typename T>
+    void InsertData(Entity entity, T component) {
+        ASSERT(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Component added to same entity more than once.");
 
-    void RemoveData(Entity entity);
-        
-    T& GetData(Entity entity);
+        // Put new entry at end and update the maps
+        size_t newIndex = m_Size;
+        m_EntityToIndexMap[entity] = newIndex;
+        m_IndexToEntityMap[newIndex] = entity;
+        m_ComponentArray[newIndex] = component;
+        ++m_Size;
+    }
 
-    void EntityDestroyed(Entity entity) override;
+
+    //template<typename T>
+    void RemoveData(Entity entity) { // check
+        ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Removing non-existent component.");
+
+        // Copy element at end into deleted element's place to maintain density
+        size_t indexOfRemovedEntity = m_EntityToIndexMap[entity];
+        size_t indexOfLastElement = m_Size - 1;
+        m_ComponentArray[indexOfRemovedEntity] = m_ComponentArray[indexOfLastElement];
+
+        // Update map to point to moved spot
+        Entity entityOfLastElement = m_IndexToEntityMap[indexOfLastElement];
+        m_EntityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
+        m_IndexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
+
+        m_EntityToIndexMap.erase(entity);
+        m_IndexToEntityMap.erase(indexOfLastElement);
+
+        --m_Size;
+    }
+
+    //template<typename T>
+    T& GetData(Entity entity) {
+        ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Retrieving non-existent component.");
+
+        // Return a reference to the entity's component
+        return m_ComponentArray[m_EntityToIndexMap[entity]];
+    }
+
+    //template<typename T>
+    void EntityDestroyed(Entity entity) {
+        if (m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end()) {
+            // Remove the entity's component if it existed
+            RemoveData(entity);
+        }
+    }
 
 private:
     // The packed array of components (of generic type T),
@@ -146,34 +187,73 @@ private:
     std::unordered_map<size_t, Entity> m_IndexToEntityMap;
 
     // Total size of valid entries in the array.
-    size_t m_Size;
+    size_t m_Size{};
 };
 
 
 class ComponentManager {
 public:
-    template<typename T>
-    void RegisterComponent();
+    //template<typename T>
+    //void RegisterComponent();
 
     template<typename T>
-    ComponentType GetComponentType();
+    void RegisterComponent() {
+        const char* typeName = typeid(T).name();
+
+        ASSERT(m_ComponentTypes.find(typeName) != m_ComponentTypes.end(), "Registering component type more than once.");
+
+        // Add this component type to the component type map
+        m_ComponentTypes.insert({ typeName, m_NextComponentType });
+
+        // Create a ComponentArray pointer and add it to the component arrays map
+        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
+
+        // Increment the value so that the next component registered will be different
+        ++m_NextComponentType;
+    }
+
 
     template<typename T>
-    void AddComponent(Entity entity, T component);
+    ComponentType GetComponentType() {
+        const char* typeName = typeid(T).name();
+
+        ASSERT(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
+
+        // Return this component's type - used for creating signatures
+        return m_ComponentTypes[typeName];
+    }
 
     template<typename T>
-    void RemoveComponent(Entity entity);
+    void AddComponent(Entity entity, T component) {
+        // Add a component to the array for an entity
+        GetComponentArray<T>()->InsertData(entity, component);
+    }
 
     template<typename T>
-    T& GetComponent(Entity entity);
+    void RemoveComponent(Entity entity) {
+        // Remove a component from the array for an entity
+        GetComponentArray<T>()->RemoveData(entity);
+    }
 
+    template<typename T>
+    T& GetComponent(Entity entity) {
+        // Get a reference to a component from the array for an entity
+        return GetComponentArray<T>()->GetData(entity);
+    }
     void EntityDestroyed(Entity entity);
 
     template<typename T>
-    bool isComponentTypeRegistered(); // new
+    bool isComponentTypeRegistered() {
+        const char* typeName = typeid(T).name();
+        return m_ComponentTypes.find(typeName) != m_ComponentTypes.end();
+    }
 
     template<typename T>
-    ComponentArray<T>& GetComponentArrayRef();
+    ComponentArray<T>& GetComponentArrayRef() {
+        const char* typeName = typeid(T).name();
+        ASSERT(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
+        return *static_cast<ComponentArray<T>*>(m_ComponentArrays[typeName].get());
+    }
 
 
 private:
@@ -188,7 +268,13 @@ private:
 
     // Convenience function to get the statically casted pointer to the ComponentArray of type T.
     template<typename T>
-    std::shared_ptr<ComponentArray<T>> GetComponentArray();
+    std::shared_ptr<ComponentArray<T>> GetComponentArray() {
+        const char* typeName = typeid(T).name();
+
+        ASSERT(m_ComponentTypes.find(typeName) == m_ComponentTypes.end(), "Component not registered before use.");
+
+        return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
+    }
 };
 
 
@@ -204,10 +290,26 @@ public:
 class SystemManager {
 public:
     template<typename T>
-    std::shared_ptr<T> RegisterSystem();
+    std::shared_ptr<T> RegisterSystem() {
+        const char* typeName = typeid(T).name();
+
+        ASSERT(m_Systems.find(typeName) != m_Systems.end(), "Registering system more than once.");
+
+        // Create a pointer to the system and return it so it can be used externally
+        std::shared_ptr<T> system = std::make_shared<T>();
+        m_Systems.insert({ typeName, system });
+        return system;
+    }
 
     template<typename T>
-    void SetSignature(Signature signature);
+    void SetSignature(Signature signature) {
+        const char* typeName = typeid(T).name();
+
+        ASSERT(m_Systems.find(typeName) == m_Systems.end(), "System used before registered.");
+
+        // Set the signature for this system
+        m_Signatures.insert({ typeName, signature });
+    }
 
     void EntityDestroyed(Entity entity);
 
@@ -243,41 +345,75 @@ public:
 
     void DestroyEntity(Entity entity);
 
-    template<typename T>
-    bool HasComponent(Entity entity);
-    
+
     uint32_t GetEntityCount();
 
     // Component methods ------------------------------------------------------
     template<typename T>
-    void RegisterComponent();
+    void RegisterComponent() {
+        m_ComponentManager->RegisterComponent<T>();
+    }
 
     template<typename T>
-    void AddComponent(Entity entity, T component);
+    void AddComponent(Entity entity, T component) {
+        m_ComponentManager->AddComponent<T>(entity, component);
+
+        Signature signature = m_EntityManager->GetSignature(entity);
+        signature.set(m_ComponentManager->GetComponentType<T>(), true);
+        m_EntityManager->SetSignature(entity, signature);
+
+        m_SystemManager->EntitySignatureChanged(entity, signature);
+    }
 
     template<typename T>
-    void RemoveComponent(Entity entity);
+    void RemoveComponent(Entity entity) {
+        m_ComponentManager->RemoveComponent<T>(entity);
+
+        Signature signature = m_EntityManager->GetSignature(entity);
+        signature.set(m_ComponentManager->GetComponentType<T>(), false);
+        m_EntityManager->SetSignature(entity, signature);
+
+        m_SystemManager->EntitySignatureChanged(entity, signature);
+    }
 
     template<typename T>
-    T& GetComponent(Entity entity);
+    T& GetComponent(Entity entity) {
+        return m_ComponentManager->GetComponent<T>(entity);
+    }
 
     template<typename T>
-    ComponentType GetComponentType();
+    ComponentType GetComponentType() {
+        return m_ComponentManager->GetComponentType<T>();
+    }
 
     template<typename T>
-    bool isComponentTypeRegistered();
+    bool isComponentTypeRegistered() {
+        return m_ComponentManager->isComponentTypeRegistered<T>();
+    }
+
+    template<typename T>
+    bool HasComponent(Entity entity) {
+        return m_ComponentManager->isComponentTypeRegistered<T>() &&
+            m_EntityManager->GetSignature(entity).test(m_ComponentManager->GetComponentType<T>());
+    }
 
     ComponentManager& GetComponentManager();
 
     // System methods ---------------------------------------------------------
     template<typename T>
-    std::shared_ptr<T> RegisterSystem();
+    std::shared_ptr<T> RegisterSystem() {
+        return m_SystemManager->RegisterSystem<T>();
+    }
 
     template<typename T>
-    std::shared_ptr<T> RegisterSystem(T& input);
+    std::shared_ptr<T> RegisterSystem(T& input) {
+        return m_SystemManager->RegisterSystem<T>(input);
+    }
 
     template<typename T>
-    void SetSystemSignature(Signature signature);
+    void SetSystemSignature(Signature signature) {
+        m_SystemManager->SetSignature<T>(signature);
+    }
 
 private:
 
@@ -328,5 +464,11 @@ public:
 
 class SerializationSystem : public System {
 public:
+    void Update() override;
+};
+
+class ScriptingSystem : public System {
+public:
+    void Initialize();
     void Update() override;
 };

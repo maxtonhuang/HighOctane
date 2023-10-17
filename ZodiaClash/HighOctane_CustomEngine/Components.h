@@ -43,7 +43,20 @@ struct Transform {
     Vec2                    position{};
     float                   rotation{};
     Vec2                    scale{};
-    Vec2                    velocity{};
+    Vec2                    velocity{};       
+    float                   radius{};
+    Vec2                    halfDimensions{ scale.x / 2.f,  scale.y/ 2.f };
+    bool                    isStatic{}; 
+};
+
+struct Collider {
+    enum SHAPE_ID {
+        SHAPE_BOX,
+        SHAPE_CIRCLE,
+        NUM_OF_SHAPES
+    };
+    SHAPE_ID                bodyShape{};
+    //Collider(SHAPE_ID shape = SHAPE_BOX) { (void)shape; };
 };
 
 struct Size {
@@ -73,19 +86,6 @@ struct MainCharacter {
     // empty by design
 };
 
-struct Animation {
-    enum ANIMATION_TYPE {
-        ANIMATION_NONE,
-        ANIMATION_TIME_BASED,
-        ANIMATION_EVENT_BASED,
-        // PARTICLE
-    };
-    ANIMATION_TYPE          animationType{};
-    uint32_t                frameIndex{};
-    float                   frameTimeElapsed{};
-    float                   frameDisplayDuration{};
-};
-
 struct Circle {
     float                   radius{};
 };
@@ -100,4 +100,10 @@ struct Clone {
     // empty by design
 };
 
+struct Name {
+    std::string             name{};
+};
 
+struct Screen {
+    bool                    isActive{false};
+};

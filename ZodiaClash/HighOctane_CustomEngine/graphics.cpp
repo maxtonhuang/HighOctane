@@ -31,7 +31,7 @@
 *
 ******************************************************************************/
 
-#include "GUIManager.h"
+//#include "GUIManager.h"
 #include "Graphics.h"
 #include "Input.h"
 #include "graphlib.h"
@@ -89,6 +89,10 @@ void GraphicsManager::Initialize(int w, int h) {
     //Create window
     window = glfwCreateWindow(width, height, "ZodiaClash", NULL, NULL);
 
+    if (window == nullptr) {
+        ASSERT(1, "Unable to create game window!");
+    }
+
     glfwMakeContextCurrent(window);
 
     //Set functions for input manager
@@ -101,7 +105,8 @@ void GraphicsManager::Initialize(int w, int h) {
     glClearColor(1.f, 0.f, 0.f, 1.f);
 
     //Create viewport
-    glViewport(0, 0, width, height);
+    viewport.SetViewport(0, 0, width, height);
+    //glViewport(0, 0, width, height);
 
     //Initialise glew for glew functions
     glewInit();
@@ -128,7 +133,8 @@ void GraphicsManager::Initialize(int w, int h) {
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    guiManager.Init(window);
+
+    camera.Update();
 
     //TEMP
     glPointSize(10.f);
@@ -162,53 +168,54 @@ void GraphicsManager::Draw() {
     // note: to draw as entity!
     std::string labelText = "© 2023 High Octane";
     float relFontSize = 0.48f;
-    Vec2 relTextPos = { 0.55f, 0.85f };
-    glm::vec3 color = { 1.f, 1.f, 1.f };
-    DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
+    Vec2 relTextPos = { 0.45f, 0.85f };
+    glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
+    DrawLabel(labelText, "mikachan", "Regular", relFontSize, relTextPos, color);
 
     labelText = "ZodiaClash v0.1";
     relTextPos = { -0.95f, -0.9f };
-    DrawLabel(labelText, "Danto Lite Normal.ttf", relFontSize, relTextPos, color);
+    DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 
-    guiManager.Update(window);
+}
+
+void GraphicsManager::EndDraw() {
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
-
 }
 
-void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b) {
-    pointRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{r,g,b} });
+void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a) {
+    pointRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a} });
 }
 
-void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    lineRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    lineRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
+void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
+    lineRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    lineRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
 }
 
-void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b) {
+void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b, float a) {
     const float PI = 3.141592653589793238463f;
     const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
-    circleRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec3{r,g,b} });
+    circleRenderer.AddVertex(Vertex{ glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a} });
     for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
-        circleRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec3{r,g,b}});
+        circleRenderer.AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec4{r,g,b,a}});
     }
     circleRenderer.Draw();
 }
 
-void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
-    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec3{r,g,b} });
+void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    rectRenderer.AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
     rectRenderer.Draw();
 }
 
-void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b) {
-    DrawLine(x1, y1, x1, y2, r, g, b);
-    DrawLine(x1, y1, x2, y1, r, g, b);
-    DrawLine(x2, y2, x2, y1, r, g, b);
-    DrawLine(x2, y2, x1, y2, r, g, b);
+void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
+    DrawLine(x1, y1, x1, y2, r, g, b, a);
+    DrawLine(x1, y1, x2, y1, r, g, b, a);
+    DrawLine(x2, y2, x2, y1, r, g, b, a);
+    DrawLine(x2, y2, x1, y2, r, g, b, a);
 }
 
 std::string GraphicsManager::GetName() {
@@ -219,6 +226,19 @@ bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
 }
 
+void GraphicsManager::Fullscreen(bool input) {
+    if (input) {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        viewport.SetViewport(0, 0, mode->width, mode->height);
+    }
+    else {
+        glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0); //ypos at 32 as it is window title bar size
+        viewport.SetViewport(0, 0, width, height);
+    }
+}
+
 float GraphicsManager::GetWidth() {
     return (float)width;
 }
@@ -227,7 +247,11 @@ float GraphicsManager::GetHeight() {
     return (float)height;
 }
 
-void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, float relFontSize, Vec2 relTextPos, glm::vec3 color) {
+GLFWwindow* GraphicsManager::GetWindow() {
+    return window;
+}
+
+void GraphicsManager::DrawLabel(std::string labelText, std::string fontFamily, std::string fontVariant, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 
@@ -235,36 +259,40 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontName, flo
     relFontSize = std::max(0.f, relFontSize);
     relFontSize = std::min(relFontSize, 1.f);
 
-    Font fontData = fonts.GetFont();
     // TODO some sort of non null checking for fontData?
-    // iterate through all characters 
-    float initPosX = (relTextPos.x * GRAPHICS::w);
-    float initPosY = (relTextPos.y * GRAPHICS::h);
-    float xPos = initPosX;
-    float yPos;
+    // find font in fontCollection (null checking included)
+    Font fontData = fonts.GetFont(fontFamily, fontVariant);
 
-    std::string::const_iterator c;
-    for (c = labelText.begin(); c != labelText.end(); c++)
-    {
-        Character ch = fontData.characters[*c];
+    if (fontData.isActive) {
+        // iterate through all characters 
+        float initPosX = (relTextPos.x * GRAPHICS::w);
+        float initPosY = (relTextPos.y * GRAPHICS::h);
+        float xPos = initPosX;
+        float yPos;
 
-        xPos = (xPos + ch.bearing.x * relFontSize);
-        yPos = (initPosY - (ch.size.y - ch.bearing.y) * relFontSize);
+        std::string::const_iterator c;
+        for (c = labelText.begin(); c != labelText.end(); c++)
+        {
+            Character ch = fontData.characters[*c];
 
-        float w = ch.size.x * relFontSize;
-        float h = ch.size.y * relFontSize;
-        //glm::vec3 color(1.f, 1.f, 1.f);
-        glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
-        glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
-        glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-        glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-        fontRenderer.AddVertex(Vertex{ botleft, color, glm::vec2{0,1}, (float)ch.textureID - 1});
-        fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topright,color, glm::vec2{1,0}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ botright,color, glm::vec2{1,1}, (float)ch.textureID - 1 });
-        fontRenderer.AddVertex(Vertex{ topleft, color, glm::vec2{0,0}, (float)ch.textureID - 1 });
-        fontRenderer.FontDraw(ch.textureID);
-        xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-    }
+            xPos = (xPos + ch.bearing.x * relFontSize);
+            yPos = (initPosY - (ch.size.y - ch.bearing.y) * relFontSize);
+
+            float w = ch.size.x * relFontSize;
+            float h = ch.size.y * relFontSize;
+            //glm::vec3 color(1.f, 1.f, 1.f);
+            glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
+            glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
+            glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+            glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+            fontRenderer.AddVertex(Vertex{ botleft, color, ch.textureID->GetTexCoords((int)ch.texPos,0), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords((int)ch.texPos,3), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            //fontRenderer.FontDraw(ch.textureID->GetID());
+            xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+        }
+    }    
 }

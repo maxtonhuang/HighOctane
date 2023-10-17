@@ -48,7 +48,7 @@
 #include "VMath.h"
 #include "GraphLib.h"
 #include "Texture.h"
-
+ 
 class Serializer {
 public:
 	std::ifstream stream;

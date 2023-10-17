@@ -46,11 +46,31 @@
 #include "Graphics.h"
 #include "physics.h"
 #include "collision.h"
-
+#include "Model.h"
 
 
 std::unordered_map<std::string, Entity> masterEntitiesList;
+
 std::vector<Entity> massRenderEntitiesList;
+
+
+/*
+
+1. Create default entity
+2. How to change position / size / etc?
+
+1. Load asset into asset library (Change size to fit)
+2. Click and drag from asset library (default properties)
+3. Change properties
+4. Need name for each entity
+
+default name: entity_0001, entity_0002, etc
+
+how to keep track of name?
+Instead of not visible, show in asset library
+
+*/
+
 
 /******************************************************************************
 *
@@ -64,7 +84,7 @@ void LoadMasterModel() {
 	masterEntitiesList["CAT"] = entity;
 	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
 	//ECS::ecs().AddComponent(entity, Transform{ glm::vec2{(rand_width(rng) - graphics.GetWidth() / 2), (rand_height(rng) - graphics.GetHeight() / 2)}, 0.f, glm::vec2{1, 1} });
-	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
+	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE,  });
 	ECS::ecs().AddComponent(entity, Visible{ false });
 	//ECS::ecs().AddComponent(entity, Tex{ texList.Add("cat.png") });
 
@@ -74,17 +94,12 @@ void LoadMasterModel() {
 	t->texVariants.push_back(texList.Add("duck.png"));
 	t->texVariants.push_back(texList.Add("duck2.png"));
 	t->tex = t->texVariants.at(0);
-	ECS::ecs().AddComponent(entity, Animation{});
-	Animation* a = &ECS::ecs().GetComponent<Animation>(entity);
-	a->animationType = Animation::ANIMATION_TIME_BASED;
-	//a->animationType = Animation::ANIMATION_EVENT_BASED;
-	a->frameDisplayDuration = 0.1f;
+	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	//ECS::ecs().AddComponent(entity, MainCharacter{});
 	ECS::ecs().AddComponent(entity, Model{});
 
 	//add physics component
-	ECS::ecs().AddComponent<physics::Body>(entity, physics::Body{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	ECS::ecs().AddComponent<Collider>(entity, Collider{});
 }
 
@@ -108,11 +123,14 @@ Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vec
 		ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
 	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Clone{});
-	ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
-	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
-	ECS::ecs().GetComponent<physics::Body>(entity).isStatic = true;
+	//ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
+	ECS::ecs().AddComponent(entity, Collider{});
+	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
+	
+
+	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	// check if any spritesheets have been loaded
 	if (spritesheets.size() > 0) {
 		for (const char* filename : spritesheets) {
@@ -121,9 +139,12 @@ Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vec
 		}
 		// set default tex to first texVariant
 		ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0];
-		// set default aniType to event-based
-		ECS::ecs().GetComponent<Animation>(entity).animationType = Animation::ANIMATION_TIME_BASED;
-		ECS::ecs().GetComponent<Animation>(entity).frameDisplayDuration = 0.1f;
+
+		// (TO CHECK: add using copy ctor here? then default ctor if no spritesheet?)
+		// set default aniType to time-based
+		//ECS::ecs().GetComponent<Animator>(entity).animationType = Animator::ANIMATION_TIME_BASED;
+		//ECS::ecs().GetComponent<Animator>(entity).frameDisplayDuration = 0.1f;
+		
 		// resize size to tex dimensions
 		ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
 		ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
@@ -154,11 +175,11 @@ void CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}		
 	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animation{ ECS::ecs().GetComponent<Animation>(masterEntity)});
+	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity)});
 	ECS::ecs().AddComponent(entity, Clone{});
-	ECS::ecs().AddComponent<Collider>(entity, ECS::ecs().GetComponent<Collider>(masterEntity));
-	ECS::ecs().AddComponent<physics::Body>(entity, ECS::ecs().GetComponent<physics::Body>(masterEntity));
-	ECS::ecs().GetComponent<physics::Body>(entity).isStatic = true;
+	ECS::ecs().AddComponent(entity, Collider{});
+	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
+	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 }
 
 /******************************************************************************
@@ -250,7 +271,7 @@ Entity CreateModel() {
 	ECS::ecs().AddComponent(entity, Visible{ true });
 	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animation{});
+	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Clone{});
 	return entity;
 }

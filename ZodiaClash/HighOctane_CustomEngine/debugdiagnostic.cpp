@@ -30,7 +30,7 @@
 ******************************************************************************/
 
 #include "DebugDiagnostic.h"
-#include "GUIManager.h"
+//#include "GUIManager.h"
 #include "debuglog.h"
 #include <iostream>
 
@@ -67,8 +67,8 @@ namespace debug {
         va_end(args);
 
         // Redirects it to ImGui
-        imguiOutputBuffer.buffer += buffer;
-        imguiOutputBuffer.buffer += "\n";
+        //imguiOutputBuffer.buffer += buffer;
+        //imguiOutputBuffer.buffer += "\n";
     }
 
 
@@ -161,7 +161,7 @@ namespace debug {
             MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
         );
 
-        const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
+        const std::string& logBuffer = "";//imguiOutputBuffer.GetBuffer();
         const size_t maxLogSize = 1024;  // Adjust the maximum size as needed
         std::string limitedLog = logBuffer.substr(0, maxLogSize);
         

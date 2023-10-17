@@ -131,6 +131,14 @@ void Renderer::FontDraw(GLuint texID) {
     drawcount = 0;
 }
 
+void Renderer::UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3& matrix) {
+    shaderprogram.Use();
+    GLint uniform_var_matrix = glGetUniformLocation(shaderprogram.GetHandle(), uniform_name);
+    if (uniform_var_matrix >= 0) {
+        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
+    }
+}
+
 void Renderer::CreateVAO() {
     //Create buffer vertex
     glCreateBuffers(1, &vbo);
@@ -147,7 +155,7 @@ void Renderer::CreateVAO() {
     //Assign colour positions to shader
     glEnableVertexArrayAttrib(vao, 1);
     glVertexArrayVertexBuffer(vao, 1, vbo, sizeof(Vertex::pos), sizeof(Vertex));
-    glVertexArrayAttribFormat(vao, 1, 3, GL_FLOAT, GL_FALSE, 0);
+    glVertexArrayAttribFormat(vao, 1, 4, GL_FLOAT, GL_FALSE, 0);
     glVertexArrayAttribBinding(vao, 1, 1);
 
     //Assign texture positions to shader

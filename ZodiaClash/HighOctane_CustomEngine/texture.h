@@ -34,9 +34,12 @@
 
 #pragma once
 #include "GraphLib.h"
+#include "FontLib.h"
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+struct Font; //forward declaration
 
 const int channelnum = 4;
 
@@ -52,6 +55,7 @@ public:
 	Texture();
 	~Texture();
 	void Init(char const*); //Initialise a texture using the texture file path as input
+	void Init(Font& font, const char* texname);
 	void FreeTexture();		//Free the texture from OpenGL memory
 
 	GLuint GetID();			//Get texture ID of texture
@@ -84,6 +88,7 @@ class TextureManager {
 public:
 	~TextureManager(); //Calls Clear, in case of deletion without calling Clear
 	Texture* Add(char const* texname); //Create a texture using the texture file path as input. If texture already exists, return the texture instead.
+	Texture* Add(Font& font);
 	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
 	void Clear(); //Removes all textures from OpenGL memory and empties the map
 	std::unordered_map<std::string, Texture> data; //storage of textures
