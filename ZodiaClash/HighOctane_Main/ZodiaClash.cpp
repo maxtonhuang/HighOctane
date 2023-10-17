@@ -295,14 +295,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		
 		guiManager.Init();
 
-
-
-
-
-
-
-
-
 	}
 
 	//fonts.Initialize();
@@ -383,6 +375,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		graphics.EndDraw();
 	}
+
+	///////////////////////////////////////
+	//////////                   //////////
+	//////////   GAME LOOP END   //////////
+	//////////                   //////////
+	///////////////////////////////////////
+
+
+
+
 	delete physics::PHYSICS; //maybe put this somewhere else
 
 
