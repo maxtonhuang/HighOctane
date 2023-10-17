@@ -76,9 +76,10 @@ public class MyScriptClass
         // On top here
     }
 
-
+    
     public static void Testing()
     {
+
         if (Debug.GetKeyDown(INFO.KEY_SPACE))
         {
             Debug.Log("Space key pressed (From C#)");
@@ -88,6 +89,8 @@ public class MyScriptClass
         {
             Debug.Log("W key pressed (From C#)");
         }
+
+
     }
 
     public static void Start()

@@ -345,17 +345,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//SaveEntityToJson("testEntity.json", tmp);
 
 	while (EngineCore::engineCore().getGameActive()) {
+		
 
+		
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
-		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
+		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
+		
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
+		
 		InputManager::KeyCheck();
+		
+		
 		Mail::mail().SendMails();
+		
 		script.RunScript();
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
@@ -367,17 +374,22 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : systemList) {
 
 #if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StartTimer(sys.first, GetTime()); // change first to second to get string
+			debugSysProfile.StartTimer(sys.second, GetTime()); // change first to second to get string
 #endif
 
 			sys.first->Update();
 
 #if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StopTimer(sys.first, GetTime()); // change first to second to get string
+			debugSysProfile.StopTimer(sys.second, GetTime()); // change first to second to get string
 #endif
 
 		}
+
+
+		debugSysProfile.StartTimer("Level Editor", GetTime());
 		guiManager.Update();
+		debugSysProfile.StopTimer("Level Editor", GetTime());
+		
 		if (graphics.WindowClosed()) {
 			EngineCore::engineCore().setGameActive(false);
 		}
