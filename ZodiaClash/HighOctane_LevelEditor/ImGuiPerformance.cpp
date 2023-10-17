@@ -80,11 +80,50 @@ void UpdatePerformance() {
     ImGui::Text("Memory usage: %.3f MB", GetMemoryUsage());
     /************** PERFORMANCE USAGE ***************/
 
-    for (const auto& [system, name] : systemList) {
-        float percentage = debugSysProfile.GetPercentage(system);
+    /************** LEVEL EDITOR USAGE ***************/
+    // Separate each bar with a separator
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
+    std::string LEName = "Level Editor";
+    float LEPercentage = debugSysProfile.GetPercentage(LEName);
+
+    // Name of the histogram
+    std::string LEhistogramName = LEName;
+
+    ImVec4 progressBarColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+    if (LEPercentage > 70.0f) {
+        progressBarColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f); // Red if > 70%
+    }
+    else if (LEPercentage > 30.0f) {
+        progressBarColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f); // Yellow if > 30%
+    }
+
+    // Horizontal histogram
+
+    ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
+    ImGui::ProgressBar(LEPercentage / 100.0f, ImVec2(-1, 30.0f), "");
+    ImGui::PopStyleColor();
+
+    // Position for the percentage text
+    ImGui::SetCursorPos(ImVec2(20.f, ImGui::GetCursorPosY()));
+
+    // Percentage text
+    ImGui::Text("%s %.2f%%", LEhistogramName.c_str(), LEPercentage);
+
+    // Separate each bar with a separator
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
+    // Customize the separator's appearance
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ItemSpacing.y = 10.0f;
+
+    /************** LEVEL EDITOR USAGE ***************/
+    for (const auto& [system, sysName] : systemList) {
+
+        float percentage = debugSysProfile.GetPercentage(sysName);
 
         // Name of the histogram
-        std::string histogramName = name;
+        std::string histogramName = sysName;
 
         // Create a group to hold the horizontal histogram and text side by side
         ImGui::BeginGroup();
@@ -99,6 +138,7 @@ void UpdatePerformance() {
         }
 
         // Horizontal histogram
+
         ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
         ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, 30.0f), "");
         ImGui::PopStyleColor();
