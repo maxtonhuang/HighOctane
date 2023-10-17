@@ -45,8 +45,8 @@ namespace physics {
     void DynamicStaticResponse(Transform& dynamicBody) 
     {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
-        dynamicBody.position.x -= dynamicBody.velocity.x; // *10.f;
-        dynamicBody.position.y -= dynamicBody.velocity.y; // *10.f;
+        dynamicBody.position.x -= dynamicBody.velocity.x;
+        dynamicBody.position.y -= dynamicBody.velocity.y;
     }
 
     /**************************************************************************/
