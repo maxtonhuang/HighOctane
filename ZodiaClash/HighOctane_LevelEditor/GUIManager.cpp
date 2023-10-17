@@ -77,7 +77,7 @@ void GUIManager::Init()
     IMGUI_CHECKVERSION();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     // Init console window
