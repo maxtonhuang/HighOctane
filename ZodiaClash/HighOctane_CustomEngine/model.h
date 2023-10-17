@@ -42,6 +42,7 @@
 
 #include "Components.h"
 #include "GraphLib.h"
+#include "Animator.h"
 #include "Texture.h"
 #include "Renderer.h"
 #include "ECS.h"
@@ -53,7 +54,7 @@ class Model {
 public:
 	Model(); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
-	void Draw(Tex const& entity, Animation const& ani); //Add vertices to renderer
+	void Draw(Tex const& entity, Animator const& ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
 	void SetColor(float r, float g, float b); //Set color of model (colour bounds are between 0 and 1)

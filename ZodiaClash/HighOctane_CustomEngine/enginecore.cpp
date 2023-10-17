@@ -58,7 +58,7 @@
 // #include "MultiThreading.h"
 // #include "Scripting.h"
 #include "FileWatcher.h"
-#include "Animator.h"
+//#include "Animator.h"
 
 //using Vec2 = vmath::Vector2;
 //

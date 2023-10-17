@@ -36,15 +36,34 @@
 
 class Animator {
 public:
+	enum ANIMATION_TYPE {
+		ANIMATION_NONE,
+		ANIMATION_TIME_BASED,
+		ANIMATION_EVENT_BASED,
+		// PARTICLE
+	};
+
 	Animator();
-	void SetAnimation(Animation& aniData, int index);		 //Set animation to frame of input index
-	void AdvanceAnimation(Animation& aniData, Tex& texData); //Advance animation to next frame
+	Animator(ANIMATION_TYPE aniType, float displayDur);
+
+	ANIMATION_TYPE GetAnimationType() const;
+	uint32_t GetFrameIndex() const;
+	float GetFrameTimeElapsed() const;
+	float GetFrameDisplayDuration() const;
+
+	void SetAnimation(int index, Tex& texData);		 //Set animation to frame of input index
+	void AdvanceAnimation(Tex& texData); //Advance animation to next frame
 	void ChangeAnimation(Tex& texData);	//Changes animation if >1 texVariant stored
 	void ResizeOnChange(Tex& texData, Size& sizeData); //Resizes if ChangeAnimation() is called
 
-	void AnimateOnInterval(Animation& aniData, Tex& texData); //time-based animation
-	void AnimateOnKeyPress(Animation& aniData, Tex& texData); //event-based animation
+	void AnimateOnInterval(Tex& texData); //time-based animation
+	void AnimateOnKeyPress(Tex& texData); //event-based animation
 
-	void UpdateAnimation(Animation& aniData, Tex& texData); // for all entities
-	void UpdateAnimationMC(Animation& aniData, Tex& texData, Size& sizeData); // for MC entities
+	void UpdateAnimation(Tex& texData); // for all entities
+	void UpdateAnimationMC(Tex& texData, Size& sizeData); // for MC entities
+private:
+	ANIMATION_TYPE          animationType{};
+	uint32_t                frameIndex{};
+	float                   frameTimeElapsed{};
+	float                   frameDisplayDuration{};
 };
