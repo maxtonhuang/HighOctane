@@ -45,8 +45,7 @@
 #include "Viewport.h"
 
 extern float g_dt;
-
-class GraphicsManager {
+ class GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
 public:

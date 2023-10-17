@@ -50,6 +50,7 @@
 
 
 std::unordered_map<std::string, Entity> masterEntitiesList;
+
 std::vector<Entity> massRenderEntitiesList;
 
 

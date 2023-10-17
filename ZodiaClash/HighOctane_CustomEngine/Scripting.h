@@ -6,7 +6,6 @@
 #include <iostream>
 #include <filesystem>
 #include "debuglog.h"
-#include "ImGuiLib.h"
 #include "Message.h"
 
 #pragma once

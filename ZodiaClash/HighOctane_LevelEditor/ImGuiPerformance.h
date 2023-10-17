@@ -30,7 +30,7 @@
 ******************************************************************************/
 #pragma once
 #include "ImGuiLib.h"
-#include "DebugProfile.h"
+//#include "DebugProfile.h"
 
 void InitPerformance();
 

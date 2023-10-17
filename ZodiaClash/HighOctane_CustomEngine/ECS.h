@@ -69,6 +69,7 @@
 #include "debugdiagnostic.h"
 #include "Components.h"
 
+
 using Entity = std::uint32_t;
 
 // Maximum number of entities
@@ -83,7 +84,6 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 
 ////////// ENTITY /////////////////////////////////////////////////////////////
-
 class EntityManager {
 public:
     EntityManager();

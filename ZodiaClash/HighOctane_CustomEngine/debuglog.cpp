@@ -38,7 +38,7 @@
 ******************************************************************************/
 
 #include "DebugLog.h"
-#include "GUIManager.h"
+//#include "GUIManager.h"
 
 
 

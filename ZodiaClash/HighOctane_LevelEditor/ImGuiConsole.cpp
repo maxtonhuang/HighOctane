@@ -33,6 +33,7 @@
 #include "ImGuiConsole.h"
 #include "GUIManager.h"
 #include "MultiThreading.h"
+#include "debugdiagnostic.h"
 
 /*!
 * \brief Init the console window
