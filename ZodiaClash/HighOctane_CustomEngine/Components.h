@@ -113,3 +113,6 @@ struct Clone {
     // empty by design
 };
 
+struct Name {
+    std::string             name{};
+};

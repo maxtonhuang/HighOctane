@@ -52,6 +52,25 @@
 std::unordered_map<std::string, Entity> masterEntitiesList;
 std::vector<Entity> massRenderEntitiesList;
 
+
+/*
+
+1. Create default entity
+2. How to change position / size / etc?
+
+1. Load asset into asset library (Change size to fit)
+2. Click and drag from asset library (default properties)
+3. Change properties
+4. Need name for each entity
+
+default name: entity_0001, entity_0002, etc
+
+how to keep track of name?
+Instead of not visible, show in asset library
+
+*/
+
+
 /******************************************************************************
 *
 *	@brief Loads Master Model
