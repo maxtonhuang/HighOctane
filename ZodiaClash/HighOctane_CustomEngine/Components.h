@@ -56,7 +56,7 @@ struct Collider {
         NUM_OF_SHAPES
     };
     SHAPE_ID                bodyShape{};
-    Collider(SHAPE_ID shape = SHAPE_BOX) { (void)shape; };
+    //Collider(SHAPE_ID shape = SHAPE_BOX) { (void)shape; };
 };
 
 struct Size {
