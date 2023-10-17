@@ -52,6 +52,13 @@
 //#include "Font.h"
 //#include "MultiThreading.h"
 
+// #include "physics.h"
+// #include "GUIManager.h"
+// #include "Font.h"
+// #include "MultiThreading.h"
+// #include "Scripting.h"
+#include "FileWatcher.h"
+#include "Animator.h"
 
 //using Vec2 = vmath::Vector2;
 //
@@ -182,6 +189,33 @@ void EngineCore::Run(bool const mode) {
 	//physics::PHYSICS = new physics::PhysicsManager{ECS::ecs(),graphics};
 
 	//graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	//graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	//fonts.Initialize();
+	// LoadMasterModel();
+
+	// Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
+
+	// Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
+	// Mail::mail().RegisterMailbox(ADDRESS::INPUT);
+	// Mail::mail().RegisterMailbox(ADDRESS::MODEL);
+	// Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
+	// Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
+
+	// Entity background = CreateModel();
+	// ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
+	// ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
+	// ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
+
+	// Load a single character on the screen
+	// LoadModels(1, true);
+
+	// graphicsSystem->Initialize();
+	/*serializationSystem->Update();*/
+
+	//Process fonts
+	//Entity fontSys = CreateModel();
+	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
+	
 
 
 	//if (mode) {
@@ -189,8 +223,27 @@ void EngineCore::Run(bool const mode) {
 	//	// LOAD IMGUI HERE !!!!!
 	//	
 
+	//SaveEntityToJson("testEntity.json", tmp);
+	
+	// while (gameActive) {
+
+	// 	uint64_t l_currentTime = GetTime();
+	// 	g_dt = static_cast<float>(l_currentTime - m_previousTime) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
+	// 	m_previousTime = l_currentTime;
+			
+	// 	glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
 
+		//script.RunScript();
+
+		// ImGUI button to activate serialization function
+		// if (button_clicked) {
+		// 	button_clicked = false;
+		// 	serializationSystem->Update();
+		// }
+		
+		// Call each system in the System List
+		//for (std::pair<std::shared_ptr<System>, std::string> & sys : systemList) {
 
 
 

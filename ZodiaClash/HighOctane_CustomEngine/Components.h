@@ -43,7 +43,19 @@ struct Transform {
     Vec2                    position{};
     float                   rotation{};
     Vec2                    scale{};
-    Vec2                    velocity{};
+    Vec2                    velocity{};       
+    float                   radius{};
+    Vec2                    halfDimensions{ scale.x / 2.f,  scale.y/ 2.f };
+    bool                    isStatic{}; 
+};
+
+struct Collider {
+    enum SHAPE_ID {
+        SHAPE_CIRCLE,
+        SHAPE_BOX,
+        NUM_OF_SHAPES
+    };
+    SHAPE_ID                bodyShape{};
 };
 
 struct Size {
@@ -99,5 +111,4 @@ struct AABB {
 struct Clone {
     // empty by design
 };
-
 

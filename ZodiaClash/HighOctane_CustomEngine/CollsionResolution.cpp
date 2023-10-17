@@ -42,7 +42,7 @@ namespace physics {
         Static vs Dynamic Collison response
      */
      /**************************************************************************/
-    void DynamicStaticResponse(Body& dynamicBody) 
+    void DynamicStaticResponse(Transform& dynamicBody) 
     {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
         dynamicBody.position.x -= dynamicBody.velocity.x; // *10.f;
@@ -58,38 +58,38 @@ namespace physics {
         Dynamic vs Dynamic Collision response
      */
      /**************************************************************************/
-    void DynamicDynamicResponse(Body& bodyA, Body& bodyB) 
-    {
-        //Vector2 tempVelocity = bodyA.velocity;
-        //swap the velocities, causing them to exchange their velocities upon collision
-        //bounce off each other
-        bodyA.position.x -= bodyA.velocity.x; // *50.f;
-        bodyA.position.y -= bodyA.velocity.y; // *50.f;
-        bodyB.position.x -= bodyB.velocity.x; // *50.f;
-        bodyB.position.y -= bodyB.velocity.y; // *50.f;
-    }
+    //void DynamicDynamicResponse(Transform& bodyA, Transform& bodyB) 
+    //{
+    //    //Vector2 tempVelocity = bodyA.velocity;
+    //    //swap the velocities, causing them to exchange their velocities upon collision
+    //    //bounce off each other
+    //    bodyA.position.x -= bodyA.velocity.x; // *50.f;
+    //    bodyA.position.y -= bodyA.velocity.y; // *50.f;
+    //    bodyB.position.x -= bodyB.velocity.x; // *50.f;
+    //    bodyB.position.y -= bodyB.velocity.y; // *50.f;
+    //}
 
-    /**************************************************************************/
-    /*!
-        @brief Handles the collision response between two bodies.
-        @param alpha Reference to the first body involved in the collision.
-        @param beta Reference to the second body involved in the collision.
+    ///**************************************************************************/
+    ///*!
+    //    @brief Handles the collision response between two bodies.
+    //    @param alpha Reference to the first body involved in the collision.
+    //    @param beta Reference to the second body involved in the collision.
 
-        Depending on the nature of the bodies involved in the collision, this function
-        will delegate the response to either DynamicStaticResponse or DynamicDynamicResponse.
-     */
-     /**************************************************************************/
-    void HandleCollisionResponse(Body& alpha, Body& beta) 
-    {
-        if (beta.isStatic) 
-        {
-            DynamicStaticResponse(alpha);
-        }
-        else 
-        {
-            DynamicDynamicResponse(alpha, beta);
-        }
-    }
+    //    Depending on the nature of the bodies involved in the collision, this function
+    //    will delegate the response to either DynamicStaticResponse or DynamicDynamicResponse.
+    // */
+    // /**************************************************************************/
+    //void HandleCollisionResponse(Transform& alpha, Transform& beta) 
+    //{
+    //    if (beta.isStatic) 
+    //    {
+    //        DynamicStaticResponse(alpha);
+    //    }
+    //    else 
+    //    {
+    //        DynamicDynamicResponse(alpha, beta);
+    //    }
+    //}
 }
 
 

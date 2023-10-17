@@ -32,18 +32,22 @@
 #pragma once
 #include <vector>
 #include "VMath.h"
+#include "ECS.h"
 
 namespace physics {
-
-	// bring in Body class
-	struct Body;
 
 	class CollisionManager
 	{
 	public:
-		static bool CheckBodyCollision(const Body& alpha, const Body& beta);
-		static bool CheckBorderCollision(const Body& alpha);
+		//static bool CheckBorderCollision(const Transform& alpha);
 	};
+
+	bool CheckCollisionBoxBox(const Transform& alpha, const Transform& beta);
+	bool CheckCollisionCircleCircle(const Transform& alpha, const Transform& beta);
+	bool CheckCollisionCircleBox(const Transform& alpha, const Transform& beta);
+	bool CheckCollisionBoxCircle(const Transform& alpha, const Transform& beta);
+	bool CheckCollisionBoxBorder(const Transform& alpha);
+	bool CheckCollisionCircleBorder(const Transform& alpha);
 
 	extern CollisionManager* COLLISION;
 }

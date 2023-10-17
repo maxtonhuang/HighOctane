@@ -51,6 +51,12 @@
     <Filter Include="Vendors">
       <UniqueIdentifier>{5df34908-c48e-483c-984e-163c28359e55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{e17cdb35-4ebc-47b8-9616-fe6c97cf967d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animator">
+      <UniqueIdentifier>{aa0d8dc6-99ea-4506-ae66-2794fcc2954c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaderfilelist.h">
@@ -110,9 +116,6 @@
     <ClInclude Include="Movement.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Body.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Serialization.h">
       <Filter>Serialization</Filter>
     </ClInclude>
@@ -167,6 +170,24 @@
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ZodiaClash.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflections.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripting.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="FileWatcher.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -217,9 +238,6 @@
     <ClCompile Include="Systems.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
-    <ClCompile Include="Body.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Serialization.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
@@ -256,15 +274,31 @@
     <ClCompile Include="GraphicConstants.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="ZodiaClash.cpp" />
+    <ClCompile Include="Reflections.cpp" />
+    <ClCompile Include="Scripting.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Animator</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ZodiaClash.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="ECS.hpp">
       <Filter>EngineArchitecture</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
