@@ -38,6 +38,12 @@ void Viewport::SetViewport(int input_x, int input_y, unsigned int input_w, unsig
 	glViewport(x, y, w, h);
 }
 
+void Viewport::Resize(float input) {
+	w *= input;
+	h *= input;
+	glViewport(x, y, w, h);
+}
+
 int Viewport::GetX() {
 	return x;
 }

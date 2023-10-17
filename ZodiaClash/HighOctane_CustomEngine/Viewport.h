@@ -35,6 +35,7 @@
 class Viewport {
 public:
 	void SetViewport(int input_x, int input_y, unsigned int input_w, unsigned int input_h);
+	void Resize(float input); //resize by a percentage (1 being 100%)
 
 	int GetX();
 	int GetY();
