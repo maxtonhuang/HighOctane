@@ -187,7 +187,7 @@ private:
     std::unordered_map<size_t, Entity> m_IndexToEntityMap;
 
     // Total size of valid entries in the array.
-    size_t m_Size;
+    size_t m_Size{};
 };
 
 
