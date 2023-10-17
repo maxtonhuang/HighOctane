@@ -51,11 +51,12 @@ struct Transform {
 
 struct Collider {
     enum SHAPE_ID {
-        SHAPE_CIRCLE,
         SHAPE_BOX,
+        SHAPE_CIRCLE,
         NUM_OF_SHAPES
     };
     SHAPE_ID                bodyShape{};
+    Collider(SHAPE_ID shape = SHAPE_BOX) {};
 };
 
 struct Size {

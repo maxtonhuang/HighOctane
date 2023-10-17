@@ -30,9 +30,7 @@
 ******************************************************************************/
 #pragma once
 #include "ImGuiLib.h"
-#include "graphics.h"
-
-
+//#include "graphics.h"
 class GUIManager {
 public:
         GUIManager();
@@ -44,17 +42,19 @@ public:
     \param [in] window
     GLFWwindow for ImGui to work on
 *************************************************************************/
-        void Init(GLFWwindow* window);
+        void Init();
 /*!***********************************************************************
  \brief
     Update manager to call ImGui Panels
  \param [in] window
     GLFWwindow for ImGui to work on
  *************************************************************************/
-        void Update(GLFWwindow* window);
+        void Update();
 
 private:
   
 
 };
-    extern GUIManager guiManager;
+
+
+    //extern GUIManager guiManager;

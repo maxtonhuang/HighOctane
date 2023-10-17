@@ -46,8 +46,24 @@ public:
 		static EngineCore ec;
 		return ec;
 	}
+
+	void set_m_previousTime(uint64_t time) {
+		m_previousTime = time;
+	}
+
+	uint64_t get_m_previousTime() {
+		return m_previousTime;
+	}
+
+	void setGameActive(bool active) {
+		gameActive = active;
+	}
+
+	bool getGameActive() {
+		return gameActive;
+	}
 	
-	void Run();
+	void Run(bool const mode);
 
 	friend uint64_t GetTime();
 

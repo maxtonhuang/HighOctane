@@ -439,9 +439,10 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 void LoadConfig() {
 	// Open the file
 	std::ifstream ifs("Config.txt");
-
+	if (!ifs.is_open()) {
 	// Check if the file is open
-		ASSERT(!ifs, "Unable to load Configuration File!");
+		std::cerr << "Unable to load Configuration File!" << std::endl;
+	}
 
 	std::string temp;
 

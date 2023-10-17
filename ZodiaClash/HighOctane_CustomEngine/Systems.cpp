@@ -41,7 +41,7 @@
 #include "physics.h"
 #include "MultiThreading.h"
 #include "Global.h"
-#include "GUIManager.h"
+//#include "GUIManager.h"
 #include "CollisionResolution.h"
 #include "Serialization.h"
 #include "Animator.h"
@@ -172,6 +172,7 @@ void CollisionSystem::Update() {
 					if (collided == true) { physics::DynamicStaticResponse(*transData1); }
 				}
 			}
+			transData1->velocity = { 0.f, 0.f };
 		}
 	}
 	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
