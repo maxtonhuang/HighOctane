@@ -103,3 +103,7 @@ struct Clone {
 struct Name {
     std::string             name{};
 };
+
+struct Screen {
+    bool                    isActive{false};
+};

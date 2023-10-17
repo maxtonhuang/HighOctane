@@ -466,3 +466,9 @@ class SerializationSystem : public System {
 public:
     void Update() override;
 };
+
+class ScriptingSystem : public System {
+public:
+    void Initialize();
+    void Update() override;
+};
