@@ -58,6 +58,7 @@
 #include "Scripting.h"
 #include "ImGuiPerformance.h"
 #include <mono/metadata/assembly.h>
+#include "Animator.h"
 
 
 
@@ -127,12 +128,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {   
     //InitMono();
-    try {
-        LoadCSharpScript();
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Exception: " << e.what() << std::endl;
-    }
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
@@ -194,9 +189,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
 	ECS::ecs().RegisterComponent<Animation>();
+	ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
-	ECS::ecs().RegisterComponent<physics::Body>();
 	ECS::ecs().RegisterComponent<Collider>();
 
 	// Register systems to be used in the ECS
@@ -225,6 +220,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
@@ -233,7 +229,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
@@ -245,7 +240,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
-		signature.set(ECS::ecs().GetComponentType<physics::Body>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
@@ -259,6 +253,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Animation>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
 
@@ -318,6 +313,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::MODEL);
+	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
+	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 
 	Entity background = CreateModel();
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
@@ -359,7 +356,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// and inform all relavant systems
 		InputManager::KeyCheck();
 		Mail::mail().SendMails();
-
+		script.RunScript();
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
 			button_clicked = false;

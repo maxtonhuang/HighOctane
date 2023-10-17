@@ -228,8 +228,8 @@ void ImGuiOutputBuffer::ClearBuffer() {
 ImGuiOutputBuffer imguiOutputBuffer;
 
 // Redirect std::cout to use the custom stream buffer
-//std::ostream imguiCout(&imguiOutputBuffer);
-//std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
+std::ostream imguiCout(&imguiOutputBuffer);
+std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
 
 /*!
 * \brief Export the console content to a file
