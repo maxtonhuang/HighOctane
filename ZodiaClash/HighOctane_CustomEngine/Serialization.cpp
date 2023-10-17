@@ -419,7 +419,8 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			const rapidjson::Value& animObject = entityObject["Animator"];
 			Animator anim{ 
 				static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()), 
-				animObject["Frame Display Duration"].GetFloat() };
+				animObject["Frame Display Duration"].GetFloat() 
+			};
 			//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
 			//anim.frameIndex = animObject["Frame Index"].GetUint();
 			//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();

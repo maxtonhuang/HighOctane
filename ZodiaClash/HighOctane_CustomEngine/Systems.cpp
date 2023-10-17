@@ -287,7 +287,7 @@ void GraphicsSystem::Update() {
 		if (m->CheckTransformUpdated(*transform, *size)) {
 			m->Update(*transform, *size);
 		}
-		m->Draw(*tex, *anim); // to fix!!
+		m->Draw(*tex, *anim);
 	}
 	graphics.Draw();
 }
