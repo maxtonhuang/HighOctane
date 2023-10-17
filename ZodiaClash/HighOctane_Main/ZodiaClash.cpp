@@ -304,10 +304,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 
-	Entity background = CreateModel();
+	Entity background = CloneMasterModel(0,0,false);
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
+	ECS::ecs().RemoveComponent<Collider>(background);
 
 	// Load a single character on the screen
 	LoadModels(1, true);
