@@ -192,6 +192,7 @@ void EngineCore::Run(bool const & mode) {
 	ECS::ecs().RegisterComponent<Collider>();
 	ECS::ecs().RegisterComponent<Name>();
 	ECS::ecs().RegisterComponent<Screen>();
+	ECS::ecs().RegisterComponent<Movable>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -214,7 +215,7 @@ void EngineCore::Run(bool const & mode) {
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
-	std::shared_ptr<EditSystem> editSystem = ECS::ecs().RegisterSystem<EditSystem>();
+	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 
 
 	// Set Entity's Component combination signatures for each System 
@@ -290,7 +291,8 @@ void EngineCore::Run(bool const & mode) {
 		signature.set(ECS::ecs().GetComponentType<Name>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
-		ECS::ecs().SetSystemSignature<EditSystem>(signature);
+		signature.set(ECS::ecs().GetComponentType<Movable>());
+		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////
@@ -327,6 +329,7 @@ void EngineCore::Run(bool const & mode) {
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
 	ECS::ecs().RemoveComponent<Collider>(background);
+	ECS::ecs().RemoveComponent<Movable>(background);
 
 	// Load a single character on the screen
 	EntityFactory::entityFactory().LoadModels(1, true);
@@ -375,9 +378,10 @@ void EngineCore::Run(bool const & mode) {
 
 
 		Mail::mail().SendMails();
-
-		if (edit_mode) {
-			editSystem->Update();
+		//std::cout << "Testing" << std::endl;
+if (edit_mode) {
+			
+			editingSystem->Update();
 		}
 
 		// ImGUI button to activate serialization function

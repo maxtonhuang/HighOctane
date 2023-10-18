@@ -330,7 +330,7 @@ void ScriptingSystem::Update() {
 
 
 
-void EditSystem::Update() {
+void EditingSystem::Update() {
 
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -339,18 +339,26 @@ void EditSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-
+//	std::cout << m_Entities.size() << " ";
 
 	for (Entity entity : m_Entities) {
 		Name* n = &nameArray.GetData(entity);
 		Transform* t = &transformArray.GetData(entity);
 		Model* m = &modelArray.GetData(entity);
-			// show outline
-			//
+		
+//		std::cout << n->name << std::endl;
 
-			// update position
-			UpdateProperties(*n, *t, *m);
+		// update position
+		UpdateProperties(*n, *t, *m);
+		// show outline
+		//
+		if (n->selected) {
+			std::cout << "here" << std::endl;
+			m->DrawOutline();
+		}
+		
 
 	}
+	//std::cout << std::endl;
 	Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }

@@ -474,7 +474,7 @@ public:
 };
 
 
-class EditSystem : public System {
+class EditingSystem : public System {
 public:
     void Update() override;
 };

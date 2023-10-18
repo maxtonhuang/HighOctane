@@ -99,7 +99,8 @@ void EntityFactory::LoadMasterModel() {
 	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	ECS::ecs().AddComponent(entity, Model{});
-	ECS::ecs().AddComponent<Collider>(entity, Collider{}); //add physics component
+	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
+	//ECS::ecs().AddComponent(entity, Static{});
 }
 
 /******************************************************************************
@@ -127,6 +128,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Collider{});
+	ECS::ecs().AddComponent(entity, Movable{});
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	if (isMainCharacter) {
@@ -164,7 +166,7 @@ void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) 
 	{
 		std::ostringstream oss;
 		oss << "entity_" << std::setfill('0') << std::setw(5) << masterCounter++;
-		ECS::ecs().AddComponent(entity, Name{ oss.str() });
+		ECS::ecs().AddComponent(entity, Name{ oss.str(), false });
 	}
 	Entity masterEntity = (masterEntitiesList.find("CatTest"))->second;
 	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });

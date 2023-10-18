@@ -80,6 +80,12 @@ void Mail::SendMails() {
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::EDITING].emplace_back(msg);
             break;
+        case TYPE::MOUSE_UP:
+            mailbox[ADDRESS::EDITING].emplace_back(msg);
+            break;
+        case TYPE::MOUSE_DOWN:
+            mailbox[ADDRESS::EDITING].emplace_back(msg);
+            break;
         default:
             break;
         }        

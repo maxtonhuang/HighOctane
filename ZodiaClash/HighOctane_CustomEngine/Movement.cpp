@@ -51,10 +51,10 @@ void UpdateMovement(Transform & transform, Model & model) {
 		case TYPE::MOUSE_CLICK:
 			
 			if (msg.info == INFO::MOUSE_LEFT) {
-				finalPos = currMousePos;
+				/*finalPos = currMousePos;
 				transform.velocity = { 0.f, 0.f };
 				direction = currMousePos - transform.position;
-				direction = direction.normalize();
+				direction = direction.normalize();*/
 				
 			}
 

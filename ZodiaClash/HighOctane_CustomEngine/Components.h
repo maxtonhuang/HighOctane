@@ -105,7 +105,9 @@ struct Name {
     bool                    selected{ false };
 };
 
-
+struct Movable {
+    // empty by design
+};
 
 struct Screen {
     bool                    isActive{false};
