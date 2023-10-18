@@ -472,3 +472,10 @@ public:
     void Initialize();
     void Update() override;
 };
+
+
+class EditSystem : public System {
+public:
+    void Update() override;
+};
+

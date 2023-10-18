@@ -43,6 +43,7 @@
 #include "GUIManager.h"
 #include "DebugLog.h"
 #include "DebugDiagnostic.h"
+#include "EntityFactory.h"
 #include "DebugProfile.h"
 #include "Input.h"
 #include "EngineCore.h" 
@@ -64,37 +65,17 @@
 #include <rttr/registration>
 
 
-
-
-//#define MAX_LOADSTRING 100
-
-using Vec2 = vmath::Vector2;
-
-
-// Global Variables:
-// HINSTANCE hInst;                                // current instance
-// WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-// WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-
-// Forward declarations of functions included in this code module:
-// ATOM                MyRegisterClass(HINSTANCE hInstance);
-// BOOL                InitInstance(HINSTANCE, int);
-// LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-// INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
 bool gConsoleInitalized = false;
-
-const bool GAME_MODE = false;
-const bool EDITOR_MODE = true;
-
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
-constexpr bool mode = EDITOR_MODE;
+constexpr bool GAME_MODE = false;
+constexpr bool EDITOR_MODE = true;
+constexpr bool game_mode = EDITOR_MODE;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// The following will force the OS to choose Dedicated GPU. //////////
+
 
 /******************************************************************************
 *
@@ -105,18 +86,13 @@ constexpr bool mode = EDITOR_MODE;
 ******************************************************************************/
 
 // NVIDIA Optimus dedicated GPU hint.
-extern "C" {
-    _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
-}
+extern "C" { _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001; }
 
 // AMD PowerXpress high-performance request.
-extern "C" {
-    _declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-}
+extern "C" { _declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1; }
 
 
 #if ENABLE_DEBUG_PROFILE
-
 DebugProfiling debugSysProfile;
 #endif //
 
@@ -125,6 +101,8 @@ std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 
 // Create an instance of GUIManager
 GUIManager guiManager;
+
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -148,8 +126,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Console();
     LOG_INFO("Program started");
 
-    // Load Configuration File
-
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
     LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
 
@@ -167,19 +143,41 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     audio.AddSound("../Assets/Sound/bonk.wav");
     LOG_INFO("Graphics started");
 
-
-
-    // Instantiate Engine Core   
-    EngineCore::engineCore();
-
+    EngineCore::engineCore(); // Instantiate Engine Core
 
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
 
-		////////// INITIALIZE //////////
+	EngineCore::engineCore().Run(game_mode);
 
-	// Register components to be used in the ECS
+    return 0;
+}
+
+
+// // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
+//int main()
+//{
+//    LoadCSharpScript();
+//    LoadConfig();
+//
+//    // Enable run-time memory check for debug builds.
+//    #if (_DEBUG)
+//        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//    #endif
+//        
+//    EngineCore::engineCore().Run();
+//
+//    return 0;
+//
+//}
+
+
+void EngineCore::Run(bool const & mode) {
+
+	////////// INITIALIZE //////////
+
+// Register components to be used in the ECS
 	ECS::ecs().Init();
 	ECS::ecs().RegisterComponent<Transform>();
 	ECS::ecs().RegisterComponent<Color>();
@@ -192,6 +190,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
+	ECS::ecs().RegisterComponent<Name>();
 	ECS::ecs().RegisterComponent<Screen>();
 
 	// Register systems to be used in the ECS
@@ -215,6 +214,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
+	std::shared_ptr<EditSystem> editSystem = ECS::ecs().RegisterSystem<EditSystem>();
 
 
 	// Set Entity's Component combination signatures for each System 
@@ -282,8 +282,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	{
 		Signature signature;
-
 		ECS::ecs().SetSystemSignature<SerializationSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		ECS::ecs().SetSystemSignature<EditSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////
@@ -296,17 +303,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
-
-	if (mode) {
+	if (game_mode) {
 
 		// LOAD IMGUI HERE !!!!!
-		
+
 		guiManager.Init();
 
 	}
 
 	//fonts.Initialize();
-	LoadMasterModel();
+	EntityFactory::entityFactory().LoadMasterModel();
 
 	Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 
@@ -314,15 +320,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
+	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 
-	Entity background = CloneMasterModel(0,0,false);
+	Entity background = EntityFactory::entityFactory().CloneMasterModel(0,0,false);
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
 	ECS::ecs().RemoveComponent<Collider>(background);
 
 	// Load a single character on the screen
-	LoadModels(1, true);
+	EntityFactory::entityFactory().LoadModels(1, true);
 
 	graphicsSystem->Initialize();
 	/*serializationSystem->Update();*/
@@ -333,10 +340,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	{
 		Entity entity = ECS::ecs().CreateEntity();
 
-		ECS::ecs().AddComponent(entity, Screen{true});
-
+		ECS::ecs().AddComponent(entity, Screen{ true });
 
 	}
+	// for GAME STOP / PLAY
+	bool edit_mode = true;
 
 	///////////////////////////////////
 	//////////               //////////
@@ -354,22 +362,28 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
 
+
+
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
 
 		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
-		
+
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
-		
+
 		InputManager::KeyCheck();
-		
-		
+		InputManager::MouseCheck();
+
+
 		Mail::mail().SendMails();
-		
-		
+
+		if (edit_mode) {
+			editSystem->Update();
+		}
+
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
 			button_clicked = false;
@@ -391,11 +405,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		}
 
-
 		debugSysProfile.StartTimer("Level Editor", GetTime());
 		guiManager.Update();
 		debugSysProfile.StopTimer("Level Editor", GetTime());
-		
+
 		if (graphics.WindowClosed()) {
 			EngineCore::engineCore().setGameActive(false);
 		}
@@ -417,31 +430,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
+	//////////////////////////////
+	////////// End Game //////////
+	//////////////////////////////
 
 
-    //////////////////////////////
-    ////////// End Game //////////
-    //////////////////////////////
 
-    return 0;
 }
-
-
-// // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
-//int main()
-//{
-//    LoadCSharpScript();
-//    LoadConfig();
-//
-//    // Enable run-time memory check for debug builds.
-//    #if (_DEBUG)
-//        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//    #endif
-//        
-//    EngineCore::engineCore().Run();
-//
-//    return 0;
-//
-//}
-
-

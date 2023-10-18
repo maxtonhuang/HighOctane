@@ -14,7 +14,7 @@ vmath::Vector2 finalPos{ 0.f, 0.f };
 
 constexpr float speed = 200.f;
 
-void UpdateMovement(Transform& transform, Model & model) {	
+void UpdateMovement(Transform & transform, Model & model) {	
 	//Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
 	transform.velocity = { 0.f, 0.f };
 	for (Postcard const & msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
