@@ -34,6 +34,7 @@
 #pragma once
 #include "Shaders.h"
 #include "Model.h"
+#include "Animator.h"
 #include "ECS.h"
 #include "VMath.h"
 #include "MMath.h"
@@ -44,8 +45,7 @@
 #include "Viewport.h"
 
 extern float g_dt;
-
-class GraphicsManager {
+ class GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
 public:

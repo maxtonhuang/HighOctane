@@ -47,7 +47,7 @@
 
 class AssetManager {
 public:
-    AssetManager(FontManager fonts) : m_fonts(*fonts.GetFontCollection()) {};
+    AssetManager(FontManager fontManager) : m_fonts(*fontManager.GetFontCollection()) {};
 
     //General methods
     void LoadAssets(const std::string& assetPath, const std::string& assetName);
@@ -70,5 +70,5 @@ public:
 private:
     std::unordered_map<std::string, Texture> m_textures;
     std::unordered_map<std::string, AudioManager> m_audio;
-    std::unordered_map<std::string, FontEntry> m_fonts;
+    std::unordered_multimap<std::string, FontEntry> m_fonts;
 };

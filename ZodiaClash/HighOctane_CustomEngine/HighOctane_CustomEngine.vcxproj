@@ -41,13 +41,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -73,16 +73,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental>
     </LinkIncremental>
   </PropertyGroup>
@@ -118,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -127,11 +127,13 @@
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
@@ -140,8 +142,8 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
 copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOctane_CSharpScript.dll" "$(SolutionDir)bin\$(Configuration)-x64\HighOctane_CSharpScript.dll" /Y
-</Command>
+
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -158,13 +160,15 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
       </PrecompiledHeaderFile>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib</AdditionalDependencies>
+      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
@@ -173,27 +177,16 @@ copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)g
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
 copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOctane_CSharpScript.dll" "$(SolutionDir)bin\$(Configuration)-x64\HighOctane_CSharpScript.dll" /Y</Command>
+
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\glfw3.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\glfw3native.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_glfw.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imgui_internal.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
-    <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
-    <ClInclude Include="..\Extern\implot-master\implot.h" />
-    <ClInclude Include="..\Extern\implot-master\implot_internal.h" />
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="AssetManager.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Battle.h" />
-    <ClInclude Include="Body.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="CollisionResolution.h" />
@@ -202,24 +195,19 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClInclude Include="DebugLog.h" />
     <ClInclude Include="DebugProfile.h" />
     <ClInclude Include="ECS.h" />
+    <ClInclude Include="Editing.h" />
     <ClInclude Include="EngineCore.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="FileWatcher.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontLib.h" />
-    <ClInclude Include="Framework.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="CommonHeaderFileList.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicConstants.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphLib.h" />
-    <ClInclude Include="GUIManager.h" />
-    <ClInclude Include="ImGuiConsole.h" />
-    <ClInclude Include="ImGuiEntitiesManager.h" />
-    <ClInclude Include="ImGuiGraph.h" />
-    <ClInclude Include="ImGuiLib.h" />
-    <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MMath.h" />
@@ -227,33 +215,23 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MultiThreading.h" />
     <ClInclude Include="Physics.h" />
+    <ClInclude Include="Reflections.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ScriptEngine.h" />
     <ClInclude Include="Scripting.h" />
+    <ClInclude Include="ScriptLinker.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
-    <ClInclude Include="SoundObject.h" />
-    <ClInclude Include="TargetVer.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Utilities.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="VMath.h" />
-    <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Extern\imgui-1.87\imgui.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_demo.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_draw.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
-    <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
-    <ClCompile Include="..\Extern\implot-master\implot.cpp" />
-    <ClCompile Include="..\Extern\implot-master\implot_demo.cpp" />
-    <ClCompile Include="..\Extern\implot-master\implot_items.cpp" />
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Battle.cpp" />
-    <ClCompile Include="Body.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollsionResolution.cpp" />
@@ -261,6 +239,7 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClCompile Include="DebugLog.cpp" />
     <ClCompile Include="DebugProfile.cpp" />
     <ClCompile Include="ECS.cpp" />
+    <ClCompile Include="Editing.cpp" />
     <ClCompile Include="EngineCore.cpp" />
     <ClCompile Include="EntityFactory.cpp" />
     <ClCompile Include="File.cpp" />
@@ -269,36 +248,27 @@ copy "$(SolutionDir)HighOctane_CSharpScript\bin\$(Configuration)\net6.0\HighOcta
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GraphicConstants.cpp" />
-    <ClCompile Include="GUIManager.cpp" />
-    <ClCompile Include="ImGuiConsole.cpp" />
-    <ClCompile Include="ImGuiEntitiesManager.cpp" />
-    <ClCompile Include="ImGuiGraph.cpp" />
-    <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InternalCalls.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MultiThreading.cpp" />
+    <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
-    <ClCompile Include="SoundObject.cpp" />
     <ClCompile Include="Systems.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Viewport.cpp" />
-    <ClCompile Include="ZodiaClash.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico" />
-    <Image Include="ZodiaClash.ico" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="ECS.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ZodiaClash.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

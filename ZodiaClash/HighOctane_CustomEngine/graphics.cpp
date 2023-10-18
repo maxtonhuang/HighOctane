@@ -31,7 +31,7 @@
 *
 ******************************************************************************/
 
-#include "GUIManager.h"
+//#include "GUIManager.h"
 #include "Graphics.h"
 #include "Input.h"
 #include "graphlib.h"
@@ -89,6 +89,10 @@ void GraphicsManager::Initialize(int w, int h) {
     //Create window
     window = glfwCreateWindow(width, height, "ZodiaClash", NULL, NULL);
 
+    if (window == nullptr) {
+        ASSERT(1, "Unable to create game window!");
+    }
+
     glfwMakeContextCurrent(window);
 
     //Set functions for input manager
@@ -129,7 +133,6 @@ void GraphicsManager::Initialize(int w, int h) {
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    guiManager.Init(window);
 
     camera.Update();
 
@@ -165,16 +168,15 @@ void GraphicsManager::Draw() {
     // note: to draw as entity!
     std::string labelText = "© 2023 High Octane";
     float relFontSize = 0.48f;
-    Vec2 relTextPos = { 0.55f, 0.85f };
+    Vec2 relTextPos = { 0.45f, 0.85f };
     glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
-    DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
+    DrawLabel(labelText, "mikachan", "Regular", relFontSize, relTextPos, color);
 
     labelText = "ZodiaClash v0.1";
     relTextPos = { -0.95f, -0.9f };
     DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 
-    guiManager.Update(window);
 }
 
 void GraphicsManager::EndDraw() {
@@ -283,12 +285,12 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontFamily, s
             glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
             glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
             glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-            fontRenderer.AddVertex(Vertex{ botleft, color, ch.textureID->GetTexCoords((int)ch.texPos,0), (float)ch.textureID->GetID() - 1.f });
-            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1.f });
-            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1.f });
-            fontRenderer.AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords((int)ch.texPos,3), (float)ch.textureID->GetID() - 1.f });
-            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1.f });
-            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1.f });
+            fontRenderer.AddVertex(Vertex{ botleft, color, ch.textureID->GetTexCoords((int)ch.texPos,0), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords((int)ch.texPos,3), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer.AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
             //fontRenderer.FontDraw(ch.textureID->GetID());
             xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
         }

@@ -51,14 +51,16 @@ enum class TYPE {
 	KEY_UP,
 	KEY_CHECK,
 	MOUSE_CLICK,
+	MOUSE_DOWN,
 	MOUSE_MOVE,
+	MOUSE_UP,
 	WINDOW_RESIZE,
 	CUSTOM_EVENT,
 	QUIT
 };
 
 // Mailbox addresses
-enum class ADDRESS { 
+enum class ADDRESS {
 	INPUT,
 	MOVEMENT,
 	COLLISION,
@@ -66,7 +68,9 @@ enum class ADDRESS {
 	GRAPHICS,
 	CORE,
 	WINDOWS,
-	MODEL,
+	SCRIPTING,
+	ANIMATOR,
+	EDITING,
 	NONE
 };
 

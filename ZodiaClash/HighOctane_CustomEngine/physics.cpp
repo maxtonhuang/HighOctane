@@ -60,7 +60,7 @@ namespace physics {
         it'll update one step at a time when a step update is requested.
      */
      /**************************************************************************/
-    void PhysicsManager::Update(float deltaTime)
+    /*void PhysicsManager::Update(float deltaTime)
     {
         // Define a constant time step (fixed interval at which physics calculations will be performed)
         const float timeStep = 1.0f / 60.0f; // 60 updates per second
@@ -98,7 +98,7 @@ namespace physics {
                 advanceStep = false;
             }
         }
-    }
+    }*/
 
     /**************************************************************************/
     /*!
@@ -126,7 +126,7 @@ namespace physics {
         properties won't be updated.
      */
      /**************************************************************************/
-    void PhysicsManager::Integrate(Body& body, Transform& transform) 
+    void PhysicsManager::Integrate(Transform& transform) 
     {
         // If the body is static, we don't want to update its position or velocity.
         //if (body.isStatic) return;
@@ -135,11 +135,9 @@ namespace physics {
         //body.prevPosition = transform.position;
 
         // Update the position based on deltaTime
+        //std::cout << transform.velocity.x << " , " << transform.velocity.y << std::endl;
         transform.position += transform.velocity;
-
-        body.velocity = transform.velocity;
-        body.position = transform.position;
-
+        //std::cout << transform.position.x << " , " << transform.position.y << std::endl;
         /*
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
         Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1f;
@@ -160,20 +158,6 @@ namespace physics {
         body.accumulatedForce = Vector2(0, 0);*/
     }
 
-    /**************************************************************************/
-    /*!
-        @brief Adds a force to a body.
-        @param body Reference to the body the force will be applied to.
-        @param force Vector representing the force to be added.
-
-        This method accumulates the given force to the body's current
-        accumulated force.
-     */
-     /**************************************************************************/
-    void PhysicsManager::AddForce(Body& body, Vector2 force) 
-    {
-        body.accumulatedForce += force;
-    }
 
     /**************************************************************************/
     /*!
@@ -189,11 +173,8 @@ namespace physics {
         (void)deltaTime;
         for (const auto& entity : m_Entities) 
         {
-            auto& body = m_ecs.GetComponent<physics::Body>(entity);
-
-            // Integrate the body.
-            Transform test{};
-            Integrate(body, test); // Using Integrate function to avoid code duplication
+            auto& transform = m_ecs.GetComponent<Transform>(entity);
+            Integrate(transform); // Using Integrate function to avoid code duplication
         }
     }
 
@@ -261,7 +242,7 @@ namespace physics {
         only be rendered if debug drawing is active.
      */
      /**************************************************************************/
-    void PhysicsManager::DebugDraw(physics::Body& body,Transform& transform)
+    void PhysicsManager::DebugDraw(Transform& transform)
     {
         if (!DebugDrawingActive) return;
         //draw the position/center of the body as a point
@@ -272,8 +253,8 @@ namespace physics {
         graphics.DrawLine(transform.position.x, transform.position.y, endPosition.x, endPosition.y, 0.f, 0.f, 1.f);
 
         //draw AABB box
-        Vector2 bottomLeft = transform.position - body.halfDimensions;
-        Vector2 topRight = transform.position + body.halfDimensions;
+        Vector2 bottomLeft = transform.position - transform.halfDimensions;
+        Vector2 topRight = transform.position + transform.halfDimensions;
         graphics.DrawOutline(bottomLeft.x, bottomLeft.y, topRight.x , topRight.y, 0.f, 0.f, 1.f);
     }
 }

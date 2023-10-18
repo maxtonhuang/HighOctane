@@ -44,7 +44,7 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionBoxBox(const Body& alpha, const Body& beta) {
+    bool CheckCollisionBoxBox(const Transform& alpha, const Transform& beta) {
 
 		//extract min-max
 		Vec2 min1 = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
@@ -180,7 +180,7 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionCircleCircle(const Body& alpha, const Body& beta) {
+    bool CheckCollisionCircleCircle(const Transform& alpha, const Transform& beta) {
 
 		vmath::Vector2 centerA = alpha.position;
 		vmath::Vector2 centerB = beta.position;
@@ -202,7 +202,7 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionCircleBox(const Body& alpha, const Body& beta) {
+    bool CheckCollisionCircleBox(const Transform& alpha, const Transform& beta) {
 
 		vmath::Vector2 circleCenter = alpha.position;
 
@@ -231,7 +231,7 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionBoxCircle(const Body& alpha, const Body& beta) {
+    bool CheckCollisionBoxCircle(const Transform& alpha, const Transform& beta) {
 		return CheckCollisionCircleBox(beta, alpha);
     }
 
@@ -243,7 +243,7 @@ namespace physics {
 	 * \param alpha : The AABB entity to check collision for.
 	 *
 	 */
-	bool CheckCollisionBoxBorder(const Body& alpha) {
+	bool CheckCollisionBoxBorder(const Transform& alpha) {
 
 		//extract min-max
 		Vec2 min = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
@@ -282,7 +282,7 @@ namespace physics {
 	 * \param alpha : The Circle entity to check collision for.
 	 *
 	 */
-	bool CheckCollisionCircleBorder(const Body& alpha) {
+	bool CheckCollisionCircleBorder(const Transform& alpha) {
 		vmath::Vector2 circleCenter = alpha.position;
 
 		//circle->radius = alpha.radius;
@@ -321,44 +321,6 @@ namespace physics {
 	}
 
 	/*!
-	 * \brief Parent Body-Body collision detection
-	 *
-	 * This function is the main connecting function call from Physics.
-	 * By determining the SHAPE_ID of each Body, both identifed Body entities are passed into
-	 * their respective functions for collision checks.
-	 *
-	 * \param alpha : The Circle entity to check collision for.
-	 *
-	 */
-	bool CollisionManager::CheckBodyCollision(const Body& alpha, const Body& beta) {
-		
-		SHAPE_ID alphaShape = alpha.bodyShape;
-		SHAPE_ID betaShape = beta.bodyShape;
-
-		if ((alphaShape == SHAPE_BOX) && (betaShape == SHAPE_BOX)) {
-			return CheckCollisionBoxBox(alpha, beta);
-		}
-		else if ((alphaShape == SHAPE_CIRCLE) && (betaShape == SHAPE_CIRCLE)) {
-			return CheckCollisionCircleCircle(alpha, beta);
-		}
-		else if ((alphaShape == SHAPE_CIRCLE) && (betaShape == SHAPE_BOX)) {
-			return CheckCollisionCircleBox(alpha, beta);
-		}
-		else if ((alphaShape == SHAPE_BOX) && (betaShape == SHAPE_CIRCLE)) {
-			return CheckCollisionBoxCircle(alpha, beta);
-		}
-		else
-		{
-			//assert maybe?
-			return false;
-		}
-
-		//collision response
-		//if beta isStatic is true, call OnCollideSnap()
-		//if beta isVulnerable is true, call OnCollideDestroy()
-	}
-
-	/*!
 	 * \brief Parent Body-Border collision detection
 	 *
 	 * This function is the main connecting function call from Physics.
@@ -368,19 +330,19 @@ namespace physics {
 	 * \param alpha : The Circle entity to check collision for.
 	 *
 	 */
-	bool CollisionManager::CheckBorderCollision(const Body& alpha) {
-		SHAPE_ID alphaShape = alpha.bodyShape;
-		if (alphaShape == SHAPE_BOX) {
-			return CheckCollisionBoxBorder(alpha);
-		}
-		else if (alphaShape == SHAPE_CIRCLE) {
-			return CheckCollisionCircleBorder(alpha);
-		}
-		else
-		{
-			//assert maybe?
-			return false;
-		}
-	}
+	//bool CollisionManager::CheckBorderCollision(const Transform& alpha) {
+	//	Collider::SHAPE_ID alphaShape = alpha.bodyShape;
+	//	if (alphaShape == Collider::SHAPE_ID::SHAPE_BOX) {
+	//		return CheckCollisionBoxBorder(alpha);
+	//	}
+	//	else if (alphaShape == Collider::SHAPE_ID::SHAPE_CIRCLE) {
+	//		return CheckCollisionCircleBorder(alpha);
+	//	}
+	//	else
+	//	{
+	//		//assert maybe?
+	//		return false;
+	//	}
+	//}
 
 }

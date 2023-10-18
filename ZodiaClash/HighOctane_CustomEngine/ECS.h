@@ -69,6 +69,7 @@
 #include "debugdiagnostic.h"
 #include "Components.h"
 
+
 using Entity = std::uint32_t;
 
 // Maximum number of entities
@@ -83,7 +84,6 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 
 
 ////////// ENTITY /////////////////////////////////////////////////////////////
-
 class EntityManager {
 public:
     EntityManager();
@@ -187,7 +187,7 @@ private:
     std::unordered_map<size_t, Entity> m_IndexToEntityMap;
 
     // Total size of valid entries in the array.
-    size_t m_Size;
+    size_t m_Size{};
 };
 
 
@@ -467,7 +467,15 @@ public:
     void Update() override;
 };
 
-class AudioSystem : public System {
+class ScriptingSystem : public System {
+public:
+    void Initialize();
+    void Update() override;
+};
+
+
+class EditingSystem : public System {
 public:
     void Update() override;
 };
+

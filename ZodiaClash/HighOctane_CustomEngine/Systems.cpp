@@ -41,10 +41,14 @@
 #include "physics.h"
 #include "MultiThreading.h"
 #include "Global.h"
-#include "GUIManager.h"
+//#include "GUIManager.h"
 #include "CollisionResolution.h"
 #include "Serialization.h"
-#include "AudioManager.h"
+#include "Animator.h"
+#include "Scripting.h"
+#include "Editing.h"
+#include "ScriptEngine.h"
+
 
 /******************************************************************************
 *
@@ -80,17 +84,15 @@ void PhysicsSystem::Update() {
 	//std::cout << m_Entities.size() << std::endl;
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
-	
+
 	//assumes that there is size component
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
 	for (Entity const& entity : m_Entities) {
-		physics::Body bodyData{ bodyArray.GetData(entity) };
 		Size sizeData{ sizeArray.GetData(entity) };
 		Transform transformData{ transformArray.GetData(entity) };
-		bodyArray.GetData(entity).halfDimensions = {
+		transformArray.GetData(entity).halfDimensions = {
 			sizeData.width / 2.f * transformData.scale.x, sizeData.height / 2.f * transformData.scale.y
 		};
 
@@ -99,27 +101,24 @@ void PhysicsSystem::Update() {
 	if (physics::PHYSICS->GetStepModeActive()) {
 		for (Entity const& entity : m_Entities) {
 			Transform* transData = &transformArray.GetData(entity);
-			physics::Body* bodyData = &bodyArray.GetData(entity);
-			physics::PHYSICS->DebugDraw(*bodyData, *transData);
+			physics::PHYSICS->DebugDraw(*transData);
 			transData->velocity *= .95f;
 		}
 		if (reqStep)
 			for (Entity const& entity : m_Entities) {
 				Transform* transData = &transformArray.GetData(entity);
-				physics::Body* bodyData = &bodyArray.GetData(entity);
-				physics::PHYSICS->Integrate(*bodyData, *transData);
+				physics::PHYSICS->Integrate(*transData);
 			}
 	}
 	else {
 		for (Entity const& entity : m_Entities) {
 			Transform* transData = &transformArray.GetData(entity);
-			physics::Body* bodyData = &bodyArray.GetData(entity);
 			//Collider* collideData = &colliderArray.GetData(entity);
 
 			//bodyData->velocity = transData->velocity;
 
-			physics::PHYSICS->Integrate(*bodyData, *transData);
-			physics::PHYSICS->DebugDraw(*bodyData, *transData);
+			physics::PHYSICS->Integrate(*transData);
+			physics::PHYSICS->DebugDraw(*transData);
 		}
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
@@ -143,36 +142,40 @@ void CollisionSystem::Update() {
 	
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& bodyArray = componentManager.GetComponentArrayRef<physics::Body>();
-	//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 	
 
 	//std::cout << m_Entities.size() << std::endl;
 	for (Entity const& entity1 : m_Entities) {
 		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 			Transform* transData1 = &transformArray.GetData(entity1);
-			physics::Body* bodyData1 = &bodyArray.GetData(entity1);
-			//Collider* collideData1 = &colliderArray.GetData(entity1);
+			Collider* collideData1 = &colliderArray.GetData(entity1);
 
 			for (Entity const& entity2 : m_Entities) {
 				if (entity1 != entity2) {
 					Transform* transData2 = &transformArray.GetData(entity2);
-					physics::Body* bodyData2 = &bodyArray.GetData(entity2);
-					//Collider* collideData2 = &colliderArray.GetData(entity2);
+					Collider* collideData2 = &colliderArray.GetData(entity2);
 
 					bool collided{};
-					collided = physics::COLLISION->CheckBodyCollision(*bodyData1, *bodyData2);
-					if (collided) {
-						physics::HandleCollisionResponse(*bodyData1, *bodyData2);
-						
+					if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+						collided = physics::CheckCollisionBoxBox(*transData1, *transData2);
 					}
-					transData2->velocity = bodyData2->velocity;
-					transData2->position = bodyData2->position;
+					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+						collided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
+					}
+					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+						collided = physics::CheckCollisionCircleBox(*transData1, *transData2);
+					}
+					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+						collided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
+					}
+					else
+						collided = false;
+					
+					if (collided == true) { physics::DynamicStaticResponse(*transData1); }
 				}
 			}
-			bodyData1->velocity = { 0.f, 0.f };
-			transData1->velocity = bodyData1->velocity;
-			transData1->position = bodyData1->position;
+			transData1->velocity = { 0.f, 0.f };
 		}
 	}
 	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
@@ -196,20 +199,21 @@ void MovementSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
 		Transform* transformData = &transformArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-		Animation* aniData = &animationArray.GetData(entity);
+
+		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
 		UpdateMovement(*transformData, *modelData);
 		
-		modelData->UpdateAnimationMC(*aniData, *texData, *sizeData);
+		animatorData->UpdateAnimationMC(*texData, *sizeData);
 		//modelData->DrawOutline();
 	}
 	Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
@@ -229,20 +233,18 @@ void ModelSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
-		Model* modelData = &modelArray.GetData(entity);
-		Animation* aniData = &animationArray.GetData(entity);
+		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		//Size* sizeData = &sizeArray.GetData(entity);
 
-		modelData->UpdateAnimation(*aniData, *texData);
+		animatorData->UpdateAnimation(*texData);
 	}
-	Mail::mail().mailbox[ADDRESS::MODEL].clear();
+	Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
 }
 
 /******************************************************************************
@@ -277,14 +279,14 @@ void GraphicsSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& animationArray = componentManager.GetComponentArrayRef<Animation>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
 		Tex* tex = &texArray.GetData(entity);
-		Animation* anim = &animationArray.GetData(entity);
+		Animator* anim = &animatorArray.GetData(entity);
 		if (m->CheckTransformUpdated(*transform, *size)) {
 			m->Update(*transform, *size);
 		}
@@ -307,6 +309,52 @@ void SerializationSystem::Update() {
 	
 }
 
-void AudioSystem::Update() {
-	audio.GetSystem()->update();
+
+void ScriptingSystem::Initialize() {
+	std::cout << "Hi this is initlailze\n";
+	ScriptEngine::Init();
+}
+
+// Scripting
+void ScriptingSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	//auto& screenArray = componentManager.GetComponentArrayRef<Screen>();
+
+	//for (Entity const& entity : m_Entities) {
+	//	Screen* s = &screenArray.GetData(entity);
+	//	script.RunScript(s);
+	//}
+}
+
+
+
+void EditingSystem::Update() {
+
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+
+//	std::cout << m_Entities.size() << " ";
+
+	for (Entity entity : m_Entities) {
+		Name* n = &nameArray.GetData(entity);
+		Transform* t = &transformArray.GetData(entity);
+		Model* m = &modelArray.GetData(entity);
+		
+//		std::cout << n->name << std::endl;
+
+		// update position
+		UpdateProperties(*n, *t, *m);
+
+		if (n->selected) {
+			m->DrawOutline();
+		}
+	}
+	Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }

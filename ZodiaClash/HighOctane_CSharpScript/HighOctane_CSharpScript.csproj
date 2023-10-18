@@ -4,10 +4,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputType>Library</OutputType>
+    <BaseOutputPath>$(SolutionDir)bin\$(Configuration)-x64</BaseOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(SolutionDir)bin\$(Configuration)-x64\$(Configuration)\net6.0\HighOctane_CSharpScript.dll&quot; &quot;$(SolutionDir)bin\$(Configuration)-x64\HighOctane_CSharpScript.dll&quot; /Y" />
+  </Target>
 
 </Project>

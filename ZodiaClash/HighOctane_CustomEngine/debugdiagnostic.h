@@ -47,6 +47,7 @@
 #pragma once
 
 #include "debuglog.h"
+#include <Windows.h>
 #include <psapi.h>
 #include <cstdio>
 #include <cstdarg> // For va_list, va_start, va_end
@@ -102,8 +103,9 @@
 
 #endif
 
-namespace debug {
 
+namespace debug {
+	
 	// Is to print debug messages
 	void PrintDebugHandler(const char* message, ...);
 

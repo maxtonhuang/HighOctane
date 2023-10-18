@@ -90,6 +90,7 @@ were held down
 This function is called when mouse buttons are pressed.
 ****************************************************************************/
 		static void MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod);
+		static void MouseCheck();
 /*  _________________________________________________________________________*/
 /*! CursorPosCallback
 
