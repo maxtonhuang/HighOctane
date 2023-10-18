@@ -5,3 +5,5 @@
 #include "model.h"
 
 bool IsWithinObject(Model& model, vmath::Vector2 cursorPos);
+
+vmath::Vector2 GetOffset(vmath::Vector2 point1, vmath::Vector2 point2);
