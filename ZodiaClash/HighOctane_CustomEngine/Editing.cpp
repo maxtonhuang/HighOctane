@@ -5,7 +5,7 @@
 #include "model.h"
 
 vmath::Vector2 mousePos{ 0.f, 0.f };
-vmath::Vector2 offset{ 0.f,0.f };
+vmath::Vector2 offset{ 0.f, 0.f };
 
 void UpdateProperties (Name & name, Transform & transform, Model & model) {
 //	std::cout << "UpdateProperties" << std::endl;
@@ -35,7 +35,7 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			if (!IsWithinObject(model, mousePos)) {
 				name.selected = false;
 			}
-			offset = { 0.f,0.f };
+			offset = { 0.f, 0.f };
 			break;
 
 		case TYPE::MOUSE_DOWN:
@@ -46,15 +46,8 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 				name.selected = true;
 			}
 			if (name.selected) {
-				std::cout << "Transform Pos: " << transform.position.x << " , " << transform.position.y << std::endl;
-				std::cout << "Mouse Pos: " << mousePos.x << " , " << mousePos.y << std::endl;
-				std::cout << "Offset: " << GetOffset(transform.position, mousePos).x << " , " << GetOffset(transform.position, mousePos).y << std::endl;
 				transform.position = mousePos - offset;
 			}
-			// move entity
-			// update position
-
-
 
 			break;
 
