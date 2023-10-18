@@ -118,6 +118,21 @@ public class MyScriptClass : MonoBehaviour
             Debug.Log("W key pressed (From C#)");
         }
 
+        if (Debug.GetKeyDown(INFO.KEY_A))
+        {
+            Debug.Log("A key pressed (From C#)");
+        }
+
+        if (Debug.GetKeyDown(INFO.KEY_S))
+        {
+            Debug.Log("S key pressed (From C#)");
+        }
+
+        if (Debug.GetKeyDown(INFO.KEY_D))
+        {
+            Debug.Log("D key pressed (From C#)");
+        }
+
     }
 
     //public static void Start()
