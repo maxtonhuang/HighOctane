@@ -358,7 +358,11 @@ void EngineCore::Run(bool const & mode) {
 	// update time calculations
 	EngineCore::engineCore().set_m_previousTime(GetTime());
 
+	// Script engine that creates a new domain and loads the assembly (singleton)
+
 	//SaveEntityToJson("testEntity.json", tmp);
+
+	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
 
 
@@ -414,6 +418,8 @@ if (edit_mode) {
 		}
 		graphics.EndDraw();
 	}
+
+	// Quit the script engine
 
 	///////////////////////////////////////
 	//////////                   //////////
