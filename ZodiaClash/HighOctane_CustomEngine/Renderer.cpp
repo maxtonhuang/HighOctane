@@ -33,6 +33,7 @@
 
 #include "Renderer.h"
 #include "debugdiagnostic.h"
+#include "graphics.h"
 
 Renderer::Renderer() {
     data = new Vertex[GRAPHICS::vertexBufferSize];
@@ -98,6 +99,9 @@ void Renderer::Draw() {
     if (drawcount <= 0) {
         return;
     }
+
+    graphics.framebuffer.Bind();
+
     int uTex[GRAPHICS::MAXTEXTURES];
     for (int i = 0; i < GRAPHICS::MAXTEXTURES; ++i) {
         uTex[i] = i;
@@ -114,6 +118,30 @@ void Renderer::Draw() {
     }
     glBindVertexArray(vao);
     glDrawArrays(drawtype, 0, drawcount);
+    drawcount = 0;
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    graphics.framebuffer.Unbind();
+}
+
+void Renderer::DrawFrameBuffer() {
+    //Create a fullscreen quad to render framebuffer
+    AddVertex(Vertex{ glm::vec2{-1,-1}, glm::vec4{1,1,1,1}, glm::vec2{0,0},0 }); //bottom left
+    AddVertex(Vertex{ glm::vec2{1,-1}, glm::vec4{1,1,1,1}, glm::vec2{1,0},0 }); //bottom right
+    AddVertex(Vertex{ glm::vec2{-1,1}, glm::vec4{1,1,1,1}, glm::vec2{0,1},0 }); //top left
+    AddVertex(Vertex{ glm::vec2{1,1}, glm::vec4{1,1,1,1}, glm::vec2{1,1},0 }); //top right
+
+    glNamedBufferSubData(vbo, 0, sizeof(Vertex) * GRAPHICS::vertexBufferSize, data);
+    shaderprogram.Use();
+    int uTex = 0;
+    glBindTextureUnit(uTex, graphics.framebuffer.GetTextureID());
+    GLint uniform_var_tex = glGetUniformLocation(
+        shaderprogram.GetHandle(), "uTex2d");
+    if (uniform_var_tex >= 0) {
+        glUniform1iv(uniform_var_tex, GRAPHICS::MAXTEXTURES, &uTex);
+    }
+    glBindVertexArray(vao);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, drawcount);
     drawcount = 0;
     glBindTexture(GL_TEXTURE_2D, 0);
 }

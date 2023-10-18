@@ -57,7 +57,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             audio.PlaySounds("../Assets/Sound/ping.wav");
         }
         if (GLFW_KEY_N == key) {
-            audio.PlaySounds("../Assets/Sound/bonk.wav");
+            audio.PlaySounds("../Assets/Sound/bonk.wav", "SFX");
+        }
+        if (GLFW_KEY_F8 == key) {
+            if (audio.IsGroupPaused("BGM")) {
+                audio.ResumeGroup("BGM");
+            }
+            else {
+                audio.PauseGroup("BGM");
+            }
         }
         if (GLFW_KEY_F11 == key) {
             static bool fullscreen = false;
@@ -143,13 +151,15 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 
     static int previousPosX = 0;
     static int previousPosY = 0;
-    
+
+    ypos = (double)graphics.GetWindowHeight() - ypos;
+
     xpos = (xpos - graphics.viewport.GetX()) / graphics.viewport.GetW() * GRAPHICS::defaultWidthF;
     ypos = (ypos - graphics.viewport.GetY()) / graphics.viewport.GetH() * GRAPHICS::defaultHeightF;
 
     int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
-    int currPosY = static_cast<int>(-static_cast<float>(ypos) + GRAPHICS::h);
-    
+    int currPosY = static_cast<int>(static_cast<float>(ypos) - GRAPHICS::h);
+
     if (currPosX != previousPosX || currPosY != previousPosY) {
         Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
     }

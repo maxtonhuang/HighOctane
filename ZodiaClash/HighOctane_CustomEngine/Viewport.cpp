@@ -30,6 +30,14 @@
 ******************************************************************************/
 #include "Viewport.h"
 
+void Viewport::Use() {
+	glViewport(x, y, w, h);
+}
+
+void Viewport::Unuse() {
+	glViewport(0, 0, GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+}
+
 void Viewport::SetViewport(int input_x, int input_y, unsigned int input_w, unsigned int input_h) {
 	x = input_x;
 	y = input_y;
@@ -59,4 +67,3 @@ unsigned int Viewport::GetW() {
 unsigned int Viewport::GetH() {
 	return h;
 }
-

@@ -39,13 +39,25 @@ class AudioManager {
 public:
 	void Initialize(); //Creates FMOD system
 	void Release(); //DELETES THE AUDIO SYSTEM, ONLY CALL AT END OF PROGRAM
+
+	//FUNCTIONS FOR CHANNEL GROUPS
+	FMOD::ChannelGroup* CreateGroup(const char* name);
+	void SetGroupVolume(const char* name, float volume);
+	void StopGroup(const char* name);
+	void ResumeGroup(const char* name);
+	void PauseGroup(const char* name);
+	bool IsGroupPaused(const char* name);
+
 	void ReleaseAllSounds(); //Releases all sounds from audio manager
-	void AddSound(const char* path); //Add a sound to FMOD and audio manager
-	void PlaySounds(const char* sound); //Plays loaded sound
+	FMOD::Sound* AddSound(const char* path); //Add a sound to FMOD and audio manager
+	FMOD::Sound* AddMusic(const char* path);
+	void PlaySounds(const char* sound, const char* channelGroup = nullptr); //Plays loaded sound
 	void FreeSound(const char* sound); //Free a sound from FMOD and audio manager
+	FMOD::System* GetSystem();
 private:
 	FMOD::System* system{};
 	std::unordered_map<std::string, FMOD::Sound*> data{};
+	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
 };
 
 extern AudioManager audio;

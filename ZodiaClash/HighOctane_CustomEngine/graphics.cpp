@@ -104,16 +104,19 @@ void GraphicsManager::Initialize(int w, int h) {
     //Set default background colour
     glClearColor(1.f, 0.f, 0.f, 1.f);
 
-    //Create viewport
-    viewport.SetViewport(0, 0, width, height);
-    //glViewport(0, 0, width, height);
-
     //Initialise glew for glew functions
     glewInit();
+
+    //Create viewport
+    viewport.SetViewport(0, 0, width, height);
+    viewport.Unuse();
 
     //Enable alpha
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    //Initialise framebuffer
+    framebuffer.Initialize();
 
     //Initialize renderers
     flatRenderer.Initialize("../Assets/Shaders/flat.vert", "../Assets/Shaders/flat.frag",GL_TRIANGLES);
@@ -132,7 +135,6 @@ void GraphicsManager::Initialize(int w, int h) {
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
     //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
 
     camera.Update();
 
@@ -177,6 +179,9 @@ void GraphicsManager::Draw() {
     DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
     //physics::PHYSICS->DebugDraw();
 
+    viewport.Use();
+    textureRenderer.DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
+    viewport.Unuse();
 }
 
 void GraphicsManager::EndDraw() {
@@ -231,6 +236,7 @@ void GraphicsManager::Fullscreen(bool input) {
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        UpdateWindow();
         viewport.SetViewport(0, 0, mode->width, mode->height);
     }
     else {
@@ -239,11 +245,15 @@ void GraphicsManager::Fullscreen(bool input) {
     }
 }
 
-float GraphicsManager::GetWidth() {
+void GraphicsManager::UpdateWindow() {
+    glfwGetWindowSize(window, &width, &height);
+}
+
+float GraphicsManager::GetWindowWidth() {
     return (float)width;
 }
 
-float GraphicsManager::GetHeight() {
+float GraphicsManager::GetWindowHeight() {
     return (float)height;
 }
 

@@ -185,14 +185,17 @@
     <ClInclude Include="ScriptLinker.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Editing.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
     <ClInclude Include="ScriptEngine.h">
       <Filter>Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -294,14 +297,15 @@
     <ClCompile Include="InternalCalls.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="Editing.cpp" />
     <ClCompile Include="Utilities.cpp">
       <Filter>Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="ScriptEngine.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="Editing.cpp">
-      <Filter>Miscellaneous</Filter>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
