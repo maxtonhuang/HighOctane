@@ -102,4 +102,7 @@ struct Clone {
 
 struct Name {
     std::string             name{};
+    bool                    selected{ false };
 };
+
+

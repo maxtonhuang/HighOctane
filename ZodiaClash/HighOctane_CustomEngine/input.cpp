@@ -40,6 +40,7 @@
 
 
 std::unordered_map<int, INFO> keyStatus;
+std::unordered_map<int, INFO> mouseStatus;
 
 
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
@@ -78,17 +79,17 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
                     std::vector<const char*> spritesheets;
                     spritesheets.push_back("duck.png");
                     spritesheets.push_back("duck2.png");
-                    LoadModels(2500, false, spritesheets);
+                    EntityFactory::entityFactory().LoadModels(2500, false, spritesheets);
                     // after initial creation of models, to stay true throughout runtime
                     created = true;
                 }
                 else {
-                    ReapplyMassRendering();
+                    EntityFactory::entityFactory().ReapplyMassRendering();
                 }
                 pressed = true;
             }
             else {
-                RemoveMassRendering();
+                EntityFactory::entityFactory().RemoveMassRendering();
                 pressed = false;
             }
         }
@@ -115,10 +116,9 @@ void InputManager::KeyCheck() {
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
     (void)mod; //unused variable
     (void)pwin; // unused variable;
-    if (GLFW_PRESS == action) {
-        /*if (GLFW_KEY_ESCAPE == key) {
-            glfwSetWindowShouldClose(pwin, GLFW_TRUE);
-        }*/
+    switch (action) {
+    case GLFW_PRESS:
+        mouseStatus[button] = static_cast<INFO>(button);
         switch (button) {
         case GLFW_MOUSE_BUTTON_LEFT:
             Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
@@ -127,6 +127,13 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
             Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
             break;
         }
+        break;
+    case GLFW_RELEASE:
+        mouseStatus[button] = INFO::NONE;
+        Mail::mail().CreatePostcard(TYPE::MOUSE_UP, ADDRESS::INPUT, static_cast<INFO>(button), 0.f, 0.f);
+        break;
+    default:
+        break;
     }
 }
 
@@ -149,4 +156,12 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
 
     previousPosX = currPosX;
     previousPosY = currPosY;
+}
+
+void InputManager::MouseCheck() {
+    for (std::pair<int, INFO> val : mouseStatus) {
+        if (val.second != INFO::NONE) {
+            Mail::mail().CreatePostcard(TYPE::MOUSE_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
+        }
+    }
 }
