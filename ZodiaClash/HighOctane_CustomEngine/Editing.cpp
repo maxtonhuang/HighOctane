@@ -5,6 +5,7 @@
 #include "model.h"
 
 vmath::Vector2 mousePos{ 0.f, 0.f };
+vmath::Vector2 offset{ 0.f,0.f };
 
 void UpdateProperties (Name & name, Transform & transform, Model & model) {
 //	std::cout << "UpdateProperties" << std::endl;
@@ -26,21 +27,29 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 
 		case TYPE::MOUSE_CLICK:
 			//std::cout << "Clicked" << std::endl;
+			offset = GetOffset(transform.position, mousePos);
 			break;
 
 		case TYPE::MOUSE_UP:
 			//std::cout << "MUP" << std::endl;
-			if (IsWithinObject(model, mousePos)) {
-				name.selected = true;
+			if (!IsWithinObject(model, mousePos)) {
+				name.selected = false;
 			}
+			offset = { 0.f,0.f };
 			break;
 
 		case TYPE::MOUSE_DOWN:
 			//std::cout << "MDOWN" << std::endl;
 			// lock on position of entity
 			// get offset
+			if (IsWithinObject(model, mousePos)) {
+				name.selected = true;
+			}
 			if (name.selected) {
-				transform.position = mousePos - GetOffset(transform.position, mousePos);
+				std::cout << "Transform Pos: " << transform.position.x << " , " << transform.position.y << std::endl;
+				std::cout << "Mouse Pos: " << mousePos.x << " , " << mousePos.y << std::endl;
+				std::cout << "Offset: " << GetOffset(transform.position, mousePos).x << " , " << GetOffset(transform.position, mousePos).y << std::endl;
+				transform.position = mousePos - offset;
 			}
 			// move entity
 			// update position

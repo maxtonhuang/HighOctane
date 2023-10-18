@@ -353,7 +353,6 @@ void EditingSystem::Update() {
 		// show outline
 		//
 		if (n->selected) {
-			std::cout << "here" << std::endl;
 			m->DrawOutline();
 		}
 		
