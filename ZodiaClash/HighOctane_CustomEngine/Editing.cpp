@@ -36,8 +36,14 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 
 		case TYPE::MOUSE_DOWN:
 			// lock on position of entity
+			// get offset
+			if (name.selected) {
+				transform.position = mousePos - GetOffset(transform.position, mousePos);
+			}
 			// move entity
 			// update position
+
+
 
 			break;
 
