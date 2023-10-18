@@ -35,3 +35,4 @@
 
 extern float g_dt;
 extern bool button_clicked;
+extern bool edit_mode;

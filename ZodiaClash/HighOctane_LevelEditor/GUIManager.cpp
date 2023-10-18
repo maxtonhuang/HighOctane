@@ -42,6 +42,7 @@
 #include "ImGuiConsole.h"
 #include "ImGuiPerformance.h"
 #include "ImGuiEntitiesManager.h"
+#include "ImGuiPlayStop.h"
 #include "graphics.h"
 
 //GUIManager guiManager;
@@ -105,6 +106,7 @@ void GUIManager::Update()
     // Update the console
     UpdateConsole();
     UpdateEntitiesManager();
+    UpdatePlayStop();
 
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console

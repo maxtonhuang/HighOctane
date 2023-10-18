@@ -120,7 +120,7 @@ void PhysicsSystem::Update() {
 			physics::PHYSICS->DebugDraw(*transData);
 		}
 	}
-	Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
+	//Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
 
 /******************************************************************************
@@ -177,7 +177,7 @@ void CollisionSystem::Update() {
 			transData1->velocity = { 0.f, 0.f };
 		}
 	}
-	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
+	//Mail::mail().mailbox[ADDRESS::COLLISION].clear();
 }
 
 /******************************************************************************
@@ -215,7 +215,7 @@ void MovementSystem::Update() {
 		animatorData->UpdateAnimationMC(*texData, *sizeData);
 		//modelData->DrawOutline();
 	}
-	Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
+	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
 
 /******************************************************************************
@@ -243,7 +243,7 @@ void ModelSystem::Update() {
 
 		animatorData->UpdateAnimation(*texData);
 	}
-	Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
+	//Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
 }
 
 /******************************************************************************
@@ -339,15 +339,11 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-//	std::cout << m_Entities.size() << " ";
-
 	for (Entity entity : m_Entities) {
 		Name* n = &nameArray.GetData(entity);
 		Transform* t = &transformArray.GetData(entity);
 		Model* m = &modelArray.GetData(entity);
 		
-//		std::cout << n->name << std::endl;
-
 		// update position
 		UpdateProperties(*n, *t, *m);
 
@@ -355,5 +351,5 @@ void EditingSystem::Update() {
 			m->DrawOutline();
 		}
 	}
-	Mail::mail().mailbox[ADDRESS::EDITING].clear();
+	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }

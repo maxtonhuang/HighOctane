@@ -97,7 +97,11 @@ DebugProfiling debugSysProfile;
 #endif //
 
 // Stores the list of systems from the ECS that will be used to cycle through
+std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
+std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
+
+
 
 // Create an instance of GUIManager
 GUIManager guiManager;
@@ -196,27 +200,37 @@ void EngineCore::Run(bool const & mode) {
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
+	runSystemList.emplace_back(movementSystem, "Movement System");
 	systemList.emplace_back(movementSystem, "Movement System");
 
 	std::shared_ptr<PhysicsSystem> physicsSystem = ECS::ecs().RegisterSystem<PhysicsSystem>();
+	runSystemList.emplace_back(physicsSystem, "Physics System");
 	systemList.emplace_back(physicsSystem, "Physics System");
 
 	std::shared_ptr<CollisionSystem> collisionSystem = ECS::ecs().RegisterSystem<CollisionSystem>();
+	runSystemList.emplace_back(collisionSystem, "Collison System");
 	systemList.emplace_back(collisionSystem, "Collison System");
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
+	runSystemList.emplace_back(modelSystem, "Model System");
 	systemList.emplace_back(modelSystem, "Model System");
 
+	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
+	editSystemList.emplace_back(editingSystem, "Editing System");
+	systemList.emplace_back(editingSystem, "Editing System");
+
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
+	runSystemList.emplace_back(graphicsSystem, "Graphics System");
+	editSystemList.emplace_back(graphicsSystem, "Graphics System");
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 
 	std::shared_ptr<ScriptingSystem> scripingSystem = ECS::ecs().RegisterSystem<ScriptingSystem>();
+	runSystemList.emplace_back(scripingSystem, "Scripting System");
 	systemList.emplace_back(scripingSystem, "Scripting System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
-	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
-
+	systemList.emplace_back(serializationSystem, "Serialization System");
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -346,8 +360,7 @@ void EngineCore::Run(bool const & mode) {
 		ECS::ecs().AddComponent(entity, Screen{ true });
 
 	}
-	// for GAME STOP / PLAY
-	bool edit_mode = true;
+
 
 	///////////////////////////////////
 	//////////               //////////
@@ -379,26 +392,22 @@ void EngineCore::Run(bool const & mode) {
 
 		InputManager::KeyCheck();
 		InputManager::MouseCheck();
-
-
 		Mail::mail().SendMails();
-		//std::cout << "Testing" << std::endl;
-if (edit_mode) {
-			
-			editingSystem->Update();
-		}
 
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
 			button_clicked = false;
+			debugSysProfile.StartTimer("Serialization System", GetTime());
 			serializationSystem->Update();
+			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
 
 		// Call each system in the System List
-		for (std::pair<std::shared_ptr<System>, std::string>& sys : systemList) {
+		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
 #if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
+			//std::cout << sys.second << std::endl;
 #endif
 
 			sys.first->Update();
@@ -417,6 +426,9 @@ if (edit_mode) {
 			EngineCore::engineCore().setGameActive(false);
 		}
 		graphics.EndDraw();
+
+		Mail::mail().ClearMails();
+
 	}
 
 	// Quit the script engine

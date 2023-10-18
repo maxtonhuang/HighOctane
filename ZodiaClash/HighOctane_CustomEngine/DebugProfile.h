@@ -63,12 +63,13 @@
         float GetPercentage(std::string systemName);
         float GetDuration(std::string systemName);
 
+        void ResetTimers();
+
     private:
         std::shared_ptr<System> currentSessionName;
         std::unordered_map<std::shared_ptr<System>, uint64_t> timers;
-        std::unordered_map<std::string, float> startTimers;
-        std::unordered_map<std::string, float> endTimers;
-        std::unordered_map<std::string, float> percentages;
+        std::unordered_map<std::string, uint64_t> startTimers;
+        std::unordered_map<std::string, uint64_t> duration;
 
     };
 

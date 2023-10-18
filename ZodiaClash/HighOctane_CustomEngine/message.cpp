@@ -93,6 +93,15 @@ void Mail::SendMails() {
     mailQueue.clear();
 }
 
+void Mail::ClearMails() {
+    mailbox[ADDRESS::INPUT].clear();
+    mailbox[ADDRESS::ANIMATOR].clear();
+    mailbox[ADDRESS::MOVEMENT].clear();
+    mailbox[ADDRESS::PHYSICS].clear();
+    mailbox[ADDRESS::SCRIPTING].clear();
+    mailbox[ADDRESS::EDITING].clear();
+}
+
 /******************************************************************************
 *
 *	@brief Creates a Postcard (message)

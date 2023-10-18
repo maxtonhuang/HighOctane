@@ -54,6 +54,9 @@
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp">
       <Filter>Vendor</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiPlayStop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGuiConsole.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h">
       <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiPlayStop.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

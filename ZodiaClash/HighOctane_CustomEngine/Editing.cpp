@@ -3,13 +3,13 @@
 #include "message.h"
 #include "Utilities.h"
 #include "model.h"
+#include "Global.h"
 #include <algorithm>
 
 vmath::Vector2 mousePos{ 0.f, 0.f };
 vmath::Vector2 offset{ 0.f, 0.f };
 
 void UpdateProperties (Name & name, Transform & transform, Model & model) {
-//	std::cout << "UpdateProperties" << std::endl;
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 

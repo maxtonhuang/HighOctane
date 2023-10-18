@@ -36,3 +36,4 @@
 
 float g_dt;
 bool button_clicked{ false };
+bool edit_mode{ true };

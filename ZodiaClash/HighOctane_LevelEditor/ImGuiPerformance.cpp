@@ -84,23 +84,26 @@ void UpdatePerformance() {
     // Separate each bar with a separator
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
+
+
+
     std::string LEName = "Level Editor";
     float LEPercentage = debugSysProfile.GetPercentage(LEName);
 
     // Name of the histogram
     std::string LEhistogramName = LEName;
 
-    ImVec4 progressBarColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+    ImVec4 progressBarColorLE = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
     if (LEPercentage > 70.0f) {
-        progressBarColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f); // Red if > 70%
+        progressBarColorLE = ImVec4(1.0f, 0.0f, 0.0f, 1.0f); // Red if > 70%
     }
     else if (LEPercentage > 30.0f) {
-        progressBarColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f); // Yellow if > 30%
+        progressBarColorLE = ImVec4(1.0f, 1.0f, 0.0f, 1.0f); // Yellow if > 30%
     }
 
     // Horizontal histogram
 
-    ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
+    ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColorLE);
     ImGui::ProgressBar(LEPercentage / 100.0f, ImVec2(-1, 30.0f), "");
     ImGui::PopStyleColor();
 
@@ -114,8 +117,8 @@ void UpdatePerformance() {
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
     // Customize the separator's appearance
-    ImGuiStyle& style = ImGui::GetStyle();
-    style.ItemSpacing.y = 10.0f;
+    ImGuiStyle& styleLE = ImGui::GetStyle();
+    styleLE.ItemSpacing.y = 10.0f;
 
     /************** LEVEL EDITOR USAGE ***************/
     for (const auto& [system, sysName] : systemList) {
@@ -140,7 +143,7 @@ void UpdatePerformance() {
         // Horizontal histogram
 
         ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
-        ImGui::ProgressBar(percentage / 100.0f, ImVec2(-1, 30.0f), "");
+        ImGui::ProgressBar(percentage / 100.f, ImVec2(-1, 30.0f), "");
         ImGui::PopStyleColor();
 
         // Position for the percentage text
@@ -159,6 +162,8 @@ void UpdatePerformance() {
         ImGuiStyle& style = ImGui::GetStyle();
         style.ItemSpacing.y = 10.0f;
     }
+
+    debugSysProfile.ResetTimers();
 
     ImGui::End();
 }

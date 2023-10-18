@@ -152,6 +152,8 @@ public:
 
 	void SendMails();
 
+	void ClearMails();
+
 	void CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX, float posY);
 
 	std::unordered_map<ADDRESS, std::vector<Postcard>> mailbox;

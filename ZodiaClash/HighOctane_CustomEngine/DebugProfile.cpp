@@ -44,7 +44,7 @@
 void DebugProfiling::StartTimer(std::string systemName, uint64_t startTimeInput) {
 
     // To get the time taken for each system
-    startTimers[systemName] = static_cast<float>(startTimeInput);
+    startTimers[systemName] = startTimeInput;
 }
 
 /*!
@@ -59,7 +59,7 @@ void DebugProfiling::StartTimer(std::string systemName, uint64_t startTimeInput)
 void DebugProfiling::StopTimer(std::string systemName, uint64_t endTimeInput) {
 
     // To get the time taken for each system
-    endTimers[systemName] = static_cast<float>(endTimeInput - startTimers[systemName]) / 1000.0f;
+    duration[systemName] = endTimeInput - startTimers[systemName];
 }
 
 /*!
@@ -73,9 +73,8 @@ void DebugProfiling::StopTimer(std::string systemName, uint64_t endTimeInput) {
  * \return The percentage of time taken by the system.
  */
 float DebugProfiling::GetPercentage(std::string systemName) {
-
     // To get the percentage of time taken for each system
-    return percentages[systemName] = (endTimers[systemName] / (g_dt * 1000.f) * 100.f);
+    return (static_cast<float>(duration[systemName]) / (g_dt * 10'000.f));;
 }
 
 /*!
@@ -90,7 +89,16 @@ float DebugProfiling::GetPercentage(std::string systemName) {
 float DebugProfiling::GetDuration(std::string systemName) {
 
     // To get the time taken for each system
-    return endTimers[systemName];
+    return static_cast<float>(duration[systemName]);
+}
+
+void DebugProfiling::ResetTimers() {
+    for (std::pair<const std::string, uint64_t> & val : startTimers) {
+        val.second = ((val.first == "Level Editor") ? val.second : 0);
+    }
+    for (std::pair<const std::string, uint64_t> & val : duration) {
+        val.second = ((val.first == "Level Editor") ? val.second : 0);
+    }
 }
 
 /*!
