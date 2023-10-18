@@ -40,7 +40,6 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_DOWN:
-			
 			if (name.selected) {
 				transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::defaultWidthF / 2.f) + (transform.position.x - model.GetMin().x), (GRAPHICS::defaultWidthF / 2.f) - (model.GetMax().x - transform.position.x));
 				transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::defaultHeightF / 2.f) + (transform.position.y - model.GetMin().y), (GRAPHICS::defaultHeightF / 2.f) - (model.GetMax().y - transform.position.y));
