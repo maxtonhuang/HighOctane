@@ -26,6 +26,9 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_CLICK:
+			if (IsWithinObject(model, mousePos)) {
+				name.selected = true;
+			}
 			offset = GetOffset(transform.position, mousePos);
 			break;
 
@@ -37,9 +40,7 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_DOWN:
-			if (IsWithinObject(model, mousePos)) {
-				name.selected = true;
-			}
+			
 			if (name.selected) {
 				transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::defaultWidthF / 2.f) + (transform.position.x - model.GetMin().x), (GRAPHICS::defaultWidthF / 2.f) - (model.GetMax().x - transform.position.x));
 				transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::defaultHeightF / 2.f) + (transform.position.y - model.GetMin().y), (GRAPHICS::defaultHeightF / 2.f) - (model.GetMax().y - transform.position.y));
