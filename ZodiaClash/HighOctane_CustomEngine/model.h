@@ -64,8 +64,8 @@ public:
 
 	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 
-	vmath::Vector2 GetMin();
-	vmath::Vector2 GetMax();
+	vmath::Vector2 GetMin(); //returns minimum point in screen coordinates
+	vmath::Vector2 GetMax(); //returns maximum point in screen coordinates
 private:
 	glm::mat3 matrix{}; //matrix used for computing model verrtices
 	glm::vec4 color{}; //color of the model

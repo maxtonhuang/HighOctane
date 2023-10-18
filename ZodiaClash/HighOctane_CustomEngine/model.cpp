@@ -140,9 +140,9 @@ void Model::AddAlpha(float a) {
 }
 
 vmath::Vector2 Model::GetMin() {
-	return vmath::Vector2{ botleft.x,botleft.y };
+	return vmath::Vector2{ botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h };
 }
 
 vmath::Vector2 Model::GetMax() {
-	return vmath::Vector2{ topright.x,topright.y };
+	return vmath::Vector2{ topright.x * GRAPHICS::w, topright.y * GRAPHICS::h };
 }
