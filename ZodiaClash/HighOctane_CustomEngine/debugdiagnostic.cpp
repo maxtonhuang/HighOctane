@@ -67,6 +67,7 @@ namespace debug {
         va_end(args);
 
         // Redirects it to ImGui
+        std::cout << buffer << std::endl;
         //imguiOutputBuffer.buffer += buffer;
         //imguiOutputBuffer.buffer += "\n";
     }
