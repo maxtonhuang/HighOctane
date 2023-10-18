@@ -39,8 +39,8 @@ void Viewport::SetViewport(int input_x, int input_y, unsigned int input_w, unsig
 }
 
 void Viewport::Resize(float input) {
-	w *= input;
-	h *= input;
+	w = (unsigned int)((float)w * input);
+	h = (unsigned int)((float)h * input);
 	glViewport(x, y, w, h);
 }
 
