@@ -3,6 +3,7 @@
 #include "message.h"
 #include "Utilities.h"
 #include "model.h"
+#include <algorithm>
 
 vmath::Vector2 mousePos{ 0.f, 0.f };
 vmath::Vector2 offset{ 0.f, 0.f };
@@ -40,7 +41,8 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 				name.selected = true;
 			}
 			if (name.selected) {
-				transform.position = mousePos - offset;
+				transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::defaultWidthF / 2.f) + (transform.position.x - model.GetMin().x), (GRAPHICS::defaultWidthF / 2.f) - (model.GetMax().x - transform.position.x));
+				transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::defaultHeightF / 2.f) + (transform.position.y - model.GetMin().y), (GRAPHICS::defaultHeightF / 2.f) - (model.GetMax().y - transform.position.y));
 			}
 			break;
 
