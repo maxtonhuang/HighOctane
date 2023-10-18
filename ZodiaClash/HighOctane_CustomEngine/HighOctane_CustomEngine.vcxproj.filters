@@ -194,6 +194,9 @@
     <ClInclude Include="ScriptEngine.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -300,6 +303,9 @@
     </ClCompile>
     <ClCompile Include="ScriptEngine.cpp">
       <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

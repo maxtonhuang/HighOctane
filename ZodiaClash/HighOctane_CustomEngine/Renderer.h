@@ -56,6 +56,7 @@ public:
 
 	void AddVertex(Vertex); //Add vertex to the buffer
 	void Draw(); //To be called at end of every frame or if buffer is filled
+	void DrawFrameBuffer();
 	void FontDraw(GLuint texID);
 	
 	void UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3& matrix); //update uniform matrix for a shader

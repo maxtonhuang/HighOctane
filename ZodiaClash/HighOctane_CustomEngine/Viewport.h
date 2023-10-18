@@ -30,10 +30,14 @@
 ******************************************************************************/
 
 #pragma once
+#include "GraphicConstants.h"
 #include "graphlib.h"
 
 class Viewport {
 public:
+	void Use();
+	void Unuse();
+
 	void SetViewport(int input_x, int input_y, unsigned int input_w, unsigned int input_h);
 	void Resize(float input); //resize by a percentage (1 being 100%)
 

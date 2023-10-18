@@ -43,11 +43,13 @@
 #include "Font.h"
 #include "Camera.h"
 #include "Viewport.h"
+#include "FrameBuffer.h"
 
 extern float g_dt;
  class GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
+	FrameBuffer framebuffer{};
 public:
 	GraphicsManager();
 	~GraphicsManager();
@@ -69,8 +71,9 @@ public:
 	void DrawRect(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f); //x1,y1 are bottom left. x2,y2 are top right
 	void DrawOutline(float x1, float y1, float x2, float y2, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f); //x1,y1 are bottom left. x2,y2 are top right
 
-	float GetWidth();
-	float GetHeight();
+	void UpdateWindow();
+	float GetWindowWidth();
+	float GetWindowHeight();
 private:
 	GLFWwindow* window;
 	int width;
