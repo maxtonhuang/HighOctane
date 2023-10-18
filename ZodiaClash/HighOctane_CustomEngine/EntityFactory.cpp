@@ -182,6 +182,7 @@ void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) 
 	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity)});
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Collider{});
+	ECS::ecs().AddComponent(entity, Movable{});
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	layerOrder.emplace_back(entity);

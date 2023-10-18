@@ -22,16 +22,13 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 
 		case TYPE::MOUSE_MOVE:
 			mousePos = { msg.posX, msg.posY };
-			//transform.position = { msg.posX, msg.posY };
 			break;
 
 		case TYPE::MOUSE_CLICK:
-			//std::cout << "Clicked" << std::endl;
 			offset = GetOffset(transform.position, mousePos);
 			break;
 
 		case TYPE::MOUSE_UP:
-			//std::cout << "MUP" << std::endl;
 			if (!IsWithinObject(model, mousePos)) {
 				name.selected = false;
 			}
@@ -39,16 +36,12 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_DOWN:
-			//std::cout << "MDOWN" << std::endl;
-			// lock on position of entity
-			// get offset
 			if (IsWithinObject(model, mousePos)) {
 				name.selected = true;
 			}
 			if (name.selected) {
 				transform.position = mousePos - offset;
 			}
-
 			break;
 
 		default:

@@ -350,14 +350,10 @@ void EditingSystem::Update() {
 
 		// update position
 		UpdateProperties(*n, *t, *m);
-		// show outline
-		//
+
 		if (n->selected) {
 			m->DrawOutline();
 		}
-		
-
 	}
-	//std::cout << std::endl;
 	Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }
