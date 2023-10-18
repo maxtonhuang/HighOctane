@@ -76,6 +76,20 @@ void Renderer::Initialize(Shader shader, GLenum type) {
     shaderprogram = shader;
     CreateVAO();
     drawtype = type;
+    switch (drawtype) {
+    case GL_POINTS:
+        objvertsize = 1;
+        break;
+    case GL_TRIANGLES:
+        objvertsize = 6;
+        break;
+    case GL_LINES:
+        objvertsize = 2;
+        break;
+
+    default:
+        objvertsize = 0;
+    }
 }
 
 Shader& Renderer::ShaderProgram() {
@@ -91,8 +105,9 @@ void Renderer::AddVertex(Vertex input) {
         }
         Draw();
     }
+    input.bufPos = (float)(drawcount / objvertsize);
     data[drawcount] = input;
-    ++drawcount;
+    drawcount++;
 }
 
 void Renderer::Draw() {
@@ -160,6 +175,14 @@ void Renderer::FontDraw(GLuint texID) {
     drawcount = 0;
 }
 
+void Renderer::UpdateUniform1fv(char const* uniform_name, float* value, int size) {
+    shaderprogram.Use();
+    GLint uniform_var_matrix = glGetUniformLocation(shaderprogram.GetHandle(), uniform_name);
+    if (uniform_var_matrix >= 0) {
+        glUniform1fv(uniform_var_matrix, size, value);
+    }
+}
+
 void Renderer::UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3* matrix) {
     shaderprogram.Use();
     GLint uniform_var_matrix = glGetUniformLocation(shaderprogram.GetHandle(), uniform_name);
@@ -198,6 +221,12 @@ void Renderer::CreateVAO() {
     glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(Vertex::pos) + sizeof(Vertex::col) + sizeof(Vertex::tex), sizeof(Vertex));
     glVertexArrayAttribFormat(vao, 3, 1, GL_FLOAT, GL_FALSE, 0);
     glVertexArrayAttribBinding(vao, 3, 3);
+
+    //Assign renderer buffer index to shader
+    glEnableVertexArrayAttrib(vao, 4);
+    glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(Vertex::pos) + sizeof(Vertex::col) + sizeof(Vertex::tex) + sizeof(Vertex::index), sizeof(Vertex));
+    glVertexArrayAttribFormat(vao, 4, 1, GL_FLOAT, GL_FALSE, 0);
+    glVertexArrayAttribBinding(vao, 4, 4);
 
     glBindVertexArray(0);
 }

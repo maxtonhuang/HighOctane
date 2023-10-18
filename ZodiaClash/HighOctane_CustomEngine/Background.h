@@ -8,7 +8,7 @@
 *
 * *****************************************************************************
 *
-*	@file		Camera.h
+*	@file		Background.h
 *
 *	@author		Foong Pun Yuen Nigel
 *
@@ -19,35 +19,31 @@
 *
 *	@section	Section A
 *
-*	@date		8 October 2023
+*	@date		19 October 2023
 *
 * *****************************************************************************
 *
 *	@brief
 *
-*	This file contains class and functions for in-game camera
+*	This file contains class for background system used for parallax
+*	background rendering
 *
 ******************************************************************************/
+
 #pragma once
 #include "graphlib.h"
-#include "VMath.h"
+#include "GraphicConstants.h"
+#include "ECS.h"
 
-class Camera {
+class BackgroundSystem {
 public:
-	Camera(); //constructor to initialise values
-
-	void Update(); //pass camera values to shaders
-
-	void Reset(); //reset camera position and scale
-
-	void SetPos(float x, float y); //set camera position
-	void AddPos(float x, float y); //add camera position
-
-	void SetZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
-	void AddZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
+	BackgroundSystem();
+	~BackgroundSystem();
+	void Update();
+	void SetFocusEntity(Entity entity);
+	void AddBackground(float scroll);
 private:
-	vmath::Vector2 pos{};
-	float scale{};
+	float* scrolldata{};
+	int count{};
+	Entity focus{};
 };
-
-extern Camera camera;

@@ -43,12 +43,11 @@
 #include "physics.h"
 #include <algorithm>
 
-//Model test_model;
-Texture test_tex;
 GraphicsManager graphics;
 
 Renderer flatRenderer;
 Renderer textureRenderer;
+Renderer parallaxRenderer;
 Renderer staticRenderer;
 Renderer pointRenderer;
 Renderer lineRenderer;
@@ -120,7 +119,8 @@ void GraphicsManager::Initialize(int w, int h) {
 
     //Initialize renderers
     flatRenderer.Initialize("../Assets/Shaders/flat.vert", "../Assets/Shaders/flat.frag",GL_TRIANGLES);
-    textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag",GL_TRIANGLES);
+    textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag", GL_TRIANGLES);
+    parallaxRenderer.Initialize("../Assets/Shaders/parallax.vert", "../Assets/Shaders/parallax.frag", GL_TRIANGLES);
     staticRenderer.Initialize("../Assets/Shaders/statictexture.vert", "../Assets/Shaders/statictexture.frag", GL_TRIANGLES);
     pointRenderer.Initialize(flatRenderer.ShaderProgram(), GL_POINTS);
     lineRenderer.Initialize(flatRenderer.ShaderProgram(), GL_LINES);
@@ -134,7 +134,6 @@ void GraphicsManager::Initialize(int w, int h) {
     fonts.Initialize();
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
-    //glUniformMatrix4fv(glGetUniformLocation(fontRenderer.shaderprogram.GetHandle(), "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     camera.Update();
 
@@ -159,13 +158,14 @@ void GraphicsManager::Update() {
 }
 
 void GraphicsManager::Draw() {
+    graphics.backgroundsystem.Update();
+    parallaxRenderer.Draw();
     textureRenderer.Draw();
     staticRenderer.Draw();
     flatRenderer.Draw();
     lineRenderer.Draw();
     pointRenderer.Draw();
     fontRenderer.Draw();
-    //test_model.DrawOutline();
     
     // note: to draw as entity!
     std::string labelText = "© 2023 High Octane";

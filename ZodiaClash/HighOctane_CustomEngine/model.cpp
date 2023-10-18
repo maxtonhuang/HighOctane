@@ -50,9 +50,11 @@
 
 const float pi = 3.14159265358979323846f;
 
-Model::Model() { 
+Model::Model(ModelType inputType, float bgScrollSpeed) { 
 	color = glm::vec4{ 1,1,1,1 };
 	matrix = glm::mat3{ 1,0,0,0,1,0,0,0,1 };
+	type = inputType;
+	backgroundScrollSpeed = bgScrollSpeed;
 }
 
 void Model::Update(Transform const& entity, Size const& size) {
@@ -76,9 +78,17 @@ void Model::Update(Transform const& entity, Size const& size) {
 void Model::Draw(Tex const& entity, Animator const& ani) {
 	Renderer* renderer;
 	if (entity.tex != nullptr) {
-		renderer = &textureRenderer;
+		switch (type) {
+		case ModelType::BACKGROUND:
+			renderer = &parallaxRenderer;
+			graphics.backgroundsystem.AddBackground(backgroundScrollSpeed);
+			break;
+		default:
+			renderer = &textureRenderer;
+		}
 	}
 	else {
+		
 		renderer = &flatRenderer;
 	}
 	if (entity.tex != nullptr) {

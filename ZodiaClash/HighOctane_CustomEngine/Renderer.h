@@ -42,6 +42,7 @@ struct Vertex {
 	glm::vec4 col; //RGB colour
 	glm::vec2 tex; //Texture coordinates
 	GLfloat index; //Texture index
+	GLfloat bufPos; //position in buffer, for use for uniform arrays
 };
 
 class Renderer {
@@ -59,6 +60,7 @@ public:
 	void DrawFrameBuffer();
 	void FontDraw(GLuint texID);
 	
+	void UpdateUniform1fv(char const* uniform_name, float* value, int size = 1); //update for single float
 	void UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3* matrix); //update uniform matrix for a shader
 
 	GLuint GetDrawCount(); //Gets current amount of vertices in the buffer

@@ -44,12 +44,14 @@
 #include "Camera.h"
 #include "Viewport.h"
 #include "FrameBuffer.h"
+#include "Background.h"
 
 extern float g_dt;
  class GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
 	FrameBuffer framebuffer{};
+	BackgroundSystem backgroundsystem{};
 public:
 	GraphicsManager();
 	~GraphicsManager();
@@ -82,12 +84,10 @@ private:
 
 extern GraphicsManager graphics;
 
-//extern Model test_model;
-extern Texture test_tex;
-
-//main renderer of the engine
+//Gameplay renderers of the engine
 extern Renderer textureRenderer;
 extern Renderer staticRenderer; //For objects that do not use game camera (eg UI)
+extern Renderer parallaxRenderer; //For parallax backgrounds
 
 //DEBUG RENDERERS
 extern Renderer flatRenderer;

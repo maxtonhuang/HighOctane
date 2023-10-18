@@ -215,6 +215,7 @@ void MovementSystem::Update() {
 		
 		animatorData->UpdateAnimationMC(*texData, *sizeData);
 		//modelData->DrawOutline();
+		graphics.backgroundsystem.SetFocusEntity(entity);
 	}
 	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }

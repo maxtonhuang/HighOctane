@@ -164,9 +164,6 @@
     <ClInclude Include="Scripting.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -195,6 +192,12 @@
       <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
@@ -283,7 +286,6 @@
     <ClCompile Include="GraphicConstants.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -305,6 +307,12 @@
       <Filter>Scripting</Filter>
     </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>

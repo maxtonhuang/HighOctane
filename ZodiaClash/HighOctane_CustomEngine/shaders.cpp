@@ -79,7 +79,7 @@ bool Shader::Compile(std::vector<std::pair<GLenum, std::string>> vec) {
 			int length;
 			glGetShaderInfoLog(shaderhandle, 1024, &length, &errorLog[0]);
 			DEBUG_PRINT("%s\n",errorLog);
-			//std::cout << errorLog << "\n";
+			std::cout << errorLog << "\n";
 			delete[] errorLog;
 			return false;
 		}

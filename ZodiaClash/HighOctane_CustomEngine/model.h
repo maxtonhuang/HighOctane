@@ -49,11 +49,15 @@
 #include "vmath.h"
 #include <vector>
 
-class Texture;
+class Texture; //forward declaration
+
+enum class ModelType {
+	GAMEPLAY, BACKGROUND, UI
+};
 
 class Model {
 public:
-	Model(); //default constructor of model, used to initialise matrix and color
+	Model(ModelType = ModelType::GAMEPLAY, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
 	void Draw(Tex const& entity, Animator const& ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
@@ -69,6 +73,9 @@ public:
 private:
 	glm::mat3 matrix{}; //matrix used for computing model verrtices
 	glm::vec4 color{}; //color of the model
+	ModelType type{};
+
+	float backgroundScrollSpeed{}; //for parallax background
 
 	//PRECOMPUTED VALUES FOR 4 VERTICES OF RECTANGULAR MODEL
 	glm::vec2 topleft{};
