@@ -3,26 +3,49 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-public static class InternalCalls
+// Doesn't show on inspector
+// [SerializeField] private GameObject pauseScreen;
+
+// Show on inspector
+// [SerializeField] pubcli GameObject pauseScreen;
+
+// Create a class that all inherit from
+public abstract class MonoBehaviour
 {
-    // Adds the log function into internal call table
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal static extern void Log(string message);
+    virtual public void Start()
+    {
 
-    // Adds the print function into internal call table
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void Print();
+    }
 
-    // Adds the Get Key Down function into internal call table
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal static extern bool GetKeyDown(INFO key);
+    virtual public void Update()
+    {
+
+    }
+
+    // Can have a on shut down
+    virtual public void ShutDown()
+    {
+
+    }
+
+    // Can have a on triggered, or even a set active?
+    virtual public void OnTriggered()
+    {
+
+    }
+
+    virtual public void SetActive()
+    {
+
+    }
+
 }
 
 
+// In mono, detect the base class, then all the one inherit will be detected
 
-public class MyScriptClass
+public class MyScriptClass : MonoBehaviour
 {
-
     //public const string CppFunctionsDLL = @"..\..\..\..\bin\Debug-x64\HighOctane_CustomEngine.dll";
 
     //[DllImport(CppFunctionsDLL, CallingConvention = CallingConvention.Cdecl)]
@@ -55,6 +78,11 @@ public class MyScriptClass
     //}
 
     //[DllImport("__Internal")]
+
+    public override void Start()
+    {
+
+    }
     
     public static void PrintFromCSharp()
     {
@@ -90,18 +118,17 @@ public class MyScriptClass
             Debug.Log("W key pressed (From C#)");
         }
 
-
     }
 
-    public static void Start()
-    {
-        Console.WriteLine("Hello from start method in C#");
-    }
+    //public static void Start()
+    //{
+    //    Console.WriteLine("Hello from start method in C#");
+    //}
         
-    public static void Stop()
-    {
-        Console.WriteLine("Hello from stop method in C#");
-    }
+    //public static void Stop()
+    //{
+    //    Console.WriteLine("Hello from stop method in C#");
+    //}
 }
 
 

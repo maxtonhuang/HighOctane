@@ -347,7 +347,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// update time calculations
 	EngineCore::engineCore().set_m_previousTime(GetTime());
 
+	// Script engine that creates a new domain and loads the assembly (singleton)
+
 	//SaveEntityToJson("testEntity.json", tmp);
+
+	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
 
 		uint64_t l_currentTime = GetTime();
@@ -397,6 +401,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		graphics.EndDraw();
 	}
+
+	// Quit the script engine
 
 	///////////////////////////////////////
 	//////////                   //////////

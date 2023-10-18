@@ -182,6 +182,9 @@
     <ClInclude Include="Animator.h">
       <Filter>Animator</Filter>
     </ClInclude>
+    <ClInclude Include="ScriptLinker.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -278,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="InternalCalls.cpp">
+      <Filter>Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -20,12 +20,14 @@ public:
 	CsScript();
 	~CsScript();
 	void RunScript(Screen *s);
-	static void AddInternalCall(const char* functionName, const void* methodPointer);
+
 
 private:
 	MonoDomain* domain{};
 	MonoAssembly* assembly{};
 	MonoImage* image{};
+
+
 	MonoClass* scriptClass{};
 	MonoObject* scriptInstance{};
 	MonoMethod* scriptMethod{};
@@ -35,5 +37,5 @@ private:
 //bool GetKeyDown();
 bool GetKeyDown(INFO key);
 void GetKeyDownClear();
-
+void addInternalCalls();
 extern CsScript script;
