@@ -62,6 +62,7 @@
 #include "Animator.h"
 #include "FileWatcher.h"
 
+#include "ScriptEngine.h"
 #include <rttr/registration>
 
 
@@ -158,23 +159,48 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return 0;
 }
 
-
-// // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
-//int main()
-//{
-//    LoadCSharpScript();
-//    LoadConfig();
+ // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
+//int main() {
+//	//InitMono();
+//	LoadConfig();
+//	// Enable run-time memory check for debug builds.
+//#if (_DEBUG)
+//	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//#endif
 //
-//    // Enable run-time memory check for debug builds.
-//    #if (_DEBUG)
-//        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//    #endif
-//        
-//    EngineCore::engineCore().Run();
+//	// To enable the console
+//	Console();
+//	LOG_INFO("Program started");
 //
-//    return 0;
+//	/*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
+//	LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
 //
+//	LOG_TRACE("This is a test trace message");
+//	LOG_DEBUG("This is a test debug message");
+//	LOG_INFO("This is a test info message");
+//	LOG_WARNING("This is a test warning message");
+//	LOG_ERROR("This is a test error message");
+//	LOG_FATAL("This is a test fatal message");
+//	/*---------------------------------------------------------------------------------------------*/
+//	// TODO: Place code here.
+//	//graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+//	audio.Initialize();
+//	audio.AddSound("../Assets/Sound/ping.wav");
+//	audio.AddSound("../Assets/Sound/bonk.wav");
+//	LOG_INFO("Graphics started");
+//
+//	EngineCore::engineCore(); // Instantiate Engine Core
+//
+//	//////////////////////////////
+//	////////// Run Game //////////
+//	//////////////////////////////
+//
+//	EngineCore::engineCore().Run(game_mode);
+//
+//	return 0;
 //}
+
+
 
 
 void EngineCore::Run(bool const & mode) {
@@ -224,9 +250,9 @@ void EngineCore::Run(bool const & mode) {
 	editSystemList.emplace_back(graphicsSystem, "Graphics System");
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 
-	std::shared_ptr<ScriptingSystem> scripingSystem = ECS::ecs().RegisterSystem<ScriptingSystem>();
-	runSystemList.emplace_back(scripingSystem, "Scripting System");
-	systemList.emplace_back(scripingSystem, "Scripting System");
+	std::shared_ptr<ScriptingSystem> scriptingSystem = ECS::ecs().RegisterSystem<ScriptingSystem>();
+	runSystemList.emplace_back(scriptingSystem, "Scripting System");
+	systemList.emplace_back(scriptingSystem, "Scripting System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
@@ -349,6 +375,8 @@ void EngineCore::Run(bool const & mode) {
 	EntityFactory::entityFactory().LoadModels(1, true);
 
 	graphicsSystem->Initialize();
+	scriptingSystem->Initialize();
+
 	/*serializationSystem->Update();*/
 
 	//Process fonts
@@ -431,8 +459,6 @@ void EngineCore::Run(bool const & mode) {
 
 	}
 
-	// Quit the script engine
-
 	///////////////////////////////////////
 	//////////                   //////////
 	//////////   GAME LOOP END   //////////
@@ -441,6 +467,8 @@ void EngineCore::Run(bool const & mode) {
 
 
 
+	// Quit the script engine, maybe move it somewhere else in the future idk or no need
+	ScriptEngine::Shutdown();
 
 	delete physics::PHYSICS; //maybe put this somewhere else
 

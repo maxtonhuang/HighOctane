@@ -22,7 +22,7 @@
 //	}
 //}
 
-CsScript script;
+//CsScript script;
 
 
 
@@ -68,7 +68,7 @@ CsScript::CsScript() {
 
     mono_set_assemblies_path(filePath.c_str());
     domain = mono_jit_init(filePath.c_str());
-    // This part should be ran one time in the whole engine
+     //This part should be ran one time in the whole engine
 
 
     // This should be moved somewhere else eventually

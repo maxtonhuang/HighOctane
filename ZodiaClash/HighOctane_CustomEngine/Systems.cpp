@@ -47,6 +47,7 @@
 #include "Animator.h"
 #include "Scripting.h"
 #include "Editing.h"
+#include "ScriptEngine.h"
 
 
 /******************************************************************************
@@ -310,22 +311,22 @@ void SerializationSystem::Update() {
 
 
 void ScriptingSystem::Initialize() {
-	// Call my on function and pass in ECS
+	std::cout << "Hi this is initlailze\n";
+	ScriptEngine::Init();
 }
 
 // Scripting
 void ScriptingSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	//// Access component arrays through the ComponentManager
+	//auto& screenArray = componentManager.GetComponentArrayRef<Screen>();
 
-	// Access component arrays through the ComponentManager
-	auto& screenArray = componentManager.GetComponentArrayRef<Screen>();
-
-	for (Entity const& entity : m_Entities) {
-		Screen* s = &screenArray.GetData(entity);
-		script.RunScript(s);
-	}
+	//for (Entity const& entity : m_Entities) {
+	//	Screen* s = &screenArray.GetData(entity);
+	//	script.RunScript(s);
+	//}
 }
 
 

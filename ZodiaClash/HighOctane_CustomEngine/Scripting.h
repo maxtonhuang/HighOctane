@@ -8,7 +8,6 @@
 #include "debuglog.h"
 #include "Message.h"
 #include "Components.h"
-#include <rttr/registration>
 // Define the actions
 
 #pragma once

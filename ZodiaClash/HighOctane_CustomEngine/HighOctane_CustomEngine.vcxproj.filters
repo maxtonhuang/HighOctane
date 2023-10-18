@@ -191,6 +191,9 @@
     <ClInclude Include="Editing.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="ScriptEngine.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -293,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="Utilities.cpp">
       <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEngine.cpp">
+      <Filter>Scripting</Filter>
     </ClCompile>
     <ClCompile Include="Editing.cpp">
       <Filter>Miscellaneous</Filter>
