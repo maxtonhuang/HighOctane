@@ -149,7 +149,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ////////// Run Game //////////
     //////////////////////////////
 
-	EngineCore::engineCore().Run(mode);
+	EngineCore::engineCore().Run(game_mode);
 
     return 0;
 }
@@ -322,7 +322,7 @@ void EngineCore::Run(bool const & mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 
-	Entity background = CloneMasterModel(0,0,false);
+	Entity background = EntityFactory::entityFactory().CloneMasterModel(0,0,false);
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
@@ -340,8 +340,9 @@ void EngineCore::Run(bool const & mode) {
 	{
 		Entity entity = ECS::ecs().CreateEntity();
 
-		ECS::ecs().AddComponent(entity, Screen{true});
+		ECS::ecs().AddComponent(entity, Screen{ true });
 
+	}
 	// for GAME STOP / PLAY
 	bool edit_mode = true;
 
@@ -379,7 +380,6 @@ void EngineCore::Run(bool const & mode) {
 			editSystem->Update();
 		}
 
-		script.RunScript();
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
 			button_clicked = false;

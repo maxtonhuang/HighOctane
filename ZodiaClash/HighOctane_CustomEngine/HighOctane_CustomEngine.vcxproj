@@ -128,7 +128,7 @@
       </ForcedIncludeFiles>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,7 +161,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

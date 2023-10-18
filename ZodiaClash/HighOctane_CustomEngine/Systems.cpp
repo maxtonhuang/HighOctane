@@ -327,7 +327,7 @@ void ScriptingSystem::Update() {
 		script.RunScript(s);
 	}
 }
-}
+
 
 
 void EditSystem::Update() {

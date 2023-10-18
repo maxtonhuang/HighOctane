@@ -4,7 +4,7 @@
 #include "Utilities.h"
 #include "model.h"
 
-vmath::Vector2 currMousePos{ 0.f, 0.f };
+vmath::Vector2 mousePos{ 0.f, 0.f };
 
 void UpdateProperties (Name & name, Transform & transform, Model & model) {
 
@@ -20,7 +20,7 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_MOVE:
-			currMousePos = { msg.posX, msg.posY };
+			mousePos = { msg.posX, msg.posY };
 			//transform.position = { msg.posX, msg.posY };
 			break;
 
@@ -29,7 +29,7 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_UP:
-			if (IsWithinObject(model, currMousePos)) {
+			if (IsWithinObject(model, mousePos)) {
 				name.selected = true;
 			}
 			break;
