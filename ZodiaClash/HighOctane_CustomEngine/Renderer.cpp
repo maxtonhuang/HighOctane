@@ -144,6 +144,7 @@ void Renderer::DrawFrameBuffer() {
     glDrawArrays(GL_TRIANGLE_STRIP, 0, drawcount);
     drawcount = 0;
     glBindTexture(GL_TEXTURE_2D, 0);
+    graphics.framebuffer.Clear();
 }
 
 void Renderer::FontDraw(GLuint texID) {
@@ -159,11 +160,11 @@ void Renderer::FontDraw(GLuint texID) {
     drawcount = 0;
 }
 
-void Renderer::UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3& matrix) {
+void Renderer::UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3* matrix) {
     shaderprogram.Use();
     GLint uniform_var_matrix = glGetUniformLocation(shaderprogram.GetHandle(), uniform_name);
     if (uniform_var_matrix >= 0) {
-        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
+        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(*matrix));
     }
 }
 

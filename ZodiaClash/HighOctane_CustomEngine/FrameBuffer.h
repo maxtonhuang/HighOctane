@@ -40,6 +40,7 @@ public:
 	void Initialize();
 	void Bind();
 	void Unbind();
+	void Clear();
 
 	unsigned int GetTextureID();
 private:

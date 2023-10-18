@@ -87,11 +87,11 @@ extern Texture test_tex;
 
 //main renderer of the engine
 extern Renderer textureRenderer;
+extern Renderer staticRenderer; //For objects that do not use game camera (eg UI)
 
 //DEBUG RENDERERS
 extern Renderer flatRenderer;
 extern Renderer pointRenderer;
 extern Renderer lineRenderer;
-extern Renderer lineloopRenderer;
 extern Renderer rectRenderer;
 extern Renderer circleRenderer;

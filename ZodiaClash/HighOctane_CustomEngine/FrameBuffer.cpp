@@ -56,6 +56,8 @@ void FrameBuffer::Initialize() {
 
 	ASSERT(!(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "Unable to create framebuffer!");
 
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+
 	Unbind();
 }
 
@@ -65,6 +67,12 @@ void FrameBuffer::Bind() {
 
 void FrameBuffer::Unbind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FrameBuffer::Clear() {
+	Bind();
+	glClear(GL_COLOR_BUFFER_BIT);
+	Unbind();
 }
 
 unsigned int FrameBuffer::GetTextureID() {

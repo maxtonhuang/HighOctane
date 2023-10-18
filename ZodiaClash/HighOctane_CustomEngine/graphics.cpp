@@ -49,9 +49,9 @@ GraphicsManager graphics;
 
 Renderer flatRenderer;
 Renderer textureRenderer;
+Renderer staticRenderer;
 Renderer pointRenderer;
 Renderer lineRenderer;
-Renderer lineloopRenderer;
 Renderer rectRenderer;
 Renderer circleRenderer;
 Renderer fontRenderer;
@@ -121,9 +121,9 @@ void GraphicsManager::Initialize(int w, int h) {
     //Initialize renderers
     flatRenderer.Initialize("../Assets/Shaders/flat.vert", "../Assets/Shaders/flat.frag",GL_TRIANGLES);
     textureRenderer.Initialize("../Assets/Shaders/texture.vert", "../Assets/Shaders/texture.frag",GL_TRIANGLES);
+    staticRenderer.Initialize("../Assets/Shaders/statictexture.vert", "../Assets/Shaders/statictexture.frag", GL_TRIANGLES);
     pointRenderer.Initialize(flatRenderer.ShaderProgram(), GL_POINTS);
     lineRenderer.Initialize(flatRenderer.ShaderProgram(), GL_LINES);
-    lineloopRenderer.Initialize(flatRenderer.ShaderProgram(), GL_LINE_LOOP);
     rectRenderer.Initialize(flatRenderer.ShaderProgram(), GL_TRIANGLE_STRIP);
     circleRenderer.Initialize(flatRenderer.ShaderProgram(), GL_TRIANGLE_FAN);
     fontRenderer.Initialize("../Assets/Shaders/font.vert", "../Assets/Shaders/font.frag",GL_TRIANGLES);
@@ -160,8 +160,8 @@ void GraphicsManager::Update() {
 
 void GraphicsManager::Draw() {
     textureRenderer.Draw();
+    staticRenderer.Draw();
     flatRenderer.Draw();
-    lineloopRenderer.Draw();
     lineRenderer.Draw();
     pointRenderer.Draw();
     fontRenderer.Draw();
@@ -180,7 +180,7 @@ void GraphicsManager::Draw() {
     //physics::PHYSICS->DebugDraw();
 
     viewport.Use();
-    textureRenderer.DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
+    staticRenderer.DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
     viewport.Unuse();
 }
 
