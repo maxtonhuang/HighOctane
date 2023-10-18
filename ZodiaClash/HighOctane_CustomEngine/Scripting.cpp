@@ -21,6 +21,9 @@
 //		return a - b;
 //	}
 //}
+
+
+
 CsScript script;
 
 // This function is to check whether the key is pressed or not on C# side
@@ -43,6 +46,16 @@ void GetKeyDownClear() {
 }
 
 // This function is to set active like unity
+//void SetActive(bool active) {
+//	//std::cout << "Set active called" << std::endl;
+//	//std::cout << "Active: " << active << std::endl;
+//	//std::cout << "Script instance: " << script.scriptInstance << std::endl;
+//	MonoMethod* method = mono_class_get_method_from_name(script.scriptClass, "SetActive", 1);
+//	void* parameters = { &active }; // Passed parameters are an array of pointers
+//	MonoObject* exception = nullptr; // Exception gets stored in this object
+//	mono_runtime_invoke(method, script.scriptInstance, &parameters, &exception);
+//	if (exception) mono_print_unhandled_exception(exception);
+//}
 
 void testPrintFunction() {
     std::cout << "this is a test" << std::endl;
@@ -128,7 +141,16 @@ CsScript::CsScript() {
     mono_runtime_invoke(scriptCallMethod, scriptInstance, nullptr, nullptr);
 }
 
-void CsScript::RunScript() {
+void CsScript::RunScript(Screen *s) {
+
+    //if (s->isActive) {
+    //    // Show pause screen.
+    //}
+    //else {
+    //    // Do nothing.
+    //}
+
+
     MonoMethod* method = mono_class_get_method_from_name(scriptClass, "Testing", -1);
     mono_runtime_invoke(method, scriptInstance, nullptr, nullptr);
 

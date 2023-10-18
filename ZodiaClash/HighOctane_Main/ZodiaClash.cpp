@@ -60,7 +60,9 @@
 #include "ImGuiPerformance.h"
 #include <mono/metadata/assembly.h>
 #include "Animator.h"
+#include "FileWatcher.h"
 
+#include <rttr/registration>
 
 
 bool gConsoleInitalized = false;
@@ -107,6 +109,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {   
+
     //InitMono();
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
@@ -188,6 +191,7 @@ void EngineCore::Run(bool const & mode) {
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
 	ECS::ecs().RegisterComponent<Name>();
+	ECS::ecs().RegisterComponent<Screen>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -204,6 +208,9 @@ void EngineCore::Run(bool const & mode) {
 
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	systemList.emplace_back(graphicsSystem, "Graphics System");
+
+	std::shared_ptr<ScriptingSystem> scripingSystem = ECS::ecs().RegisterSystem<ScriptingSystem>();
+	systemList.emplace_back(scripingSystem, "Scripting System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
@@ -268,6 +275,13 @@ void EngineCore::Run(bool const & mode) {
 
 	{
 		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Screen>());
+
+		ECS::ecs().SetSystemSignature<ScriptingSystem>(signature);
+	}
+
+	{
+		Signature signature;
 		ECS::ecs().SetSystemSignature<SerializationSystem>(signature);
 	}
 
@@ -308,10 +322,11 @@ void EngineCore::Run(bool const & mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 
-	Entity background = EntityFactory::entityFactory().CreateModel();
+	Entity background = CloneMasterModel(0,0,false);
 	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
+	ECS::ecs().RemoveComponent<Collider>(background);
 
 	// Load a single character on the screen
 	EntityFactory::entityFactory().LoadModels(1, true);
@@ -322,6 +337,10 @@ void EngineCore::Run(bool const & mode) {
 	//Process fonts
 	//Entity fontSys = CreateModel();
 	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
+	{
+		Entity entity = ECS::ecs().CreateEntity();
+
+		ECS::ecs().AddComponent(entity, Screen{true});
 
 	// for GAME STOP / PLAY
 	bool edit_mode = true;
@@ -336,7 +355,6 @@ void EngineCore::Run(bool const & mode) {
 	EngineCore::engineCore().set_m_previousTime(GetTime());
 
 	//SaveEntityToJson("testEntity.json", tmp);
-
 	while (EngineCore::engineCore().getGameActive()) {
 
 
@@ -372,13 +390,13 @@ void EngineCore::Run(bool const & mode) {
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : systemList) {
 
 #if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StartTimer(sys.second, GetTime()); // change first to second to get string
+			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 #endif
 
 			sys.first->Update();
 
 #if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StopTimer(sys.second, GetTime()); // change first to second to get string
+			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
 #endif
 
 		}

@@ -7,6 +7,9 @@
 #include <filesystem>
 #include "debuglog.h"
 #include "Message.h"
+#include "Components.h"
+#include <rttr/registration>
+// Define the actions
 
 #pragma once
 
@@ -16,7 +19,7 @@ class CsScript {
 public:
 	CsScript();
 	~CsScript();
-	void RunScript();
+	void RunScript(Screen *s);
 	static void AddInternalCall(const char* functionName, const void* methodPointer);
 
 private:

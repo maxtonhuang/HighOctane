@@ -467,6 +467,13 @@ public:
     void Update() override;
 };
 
+class ScriptingSystem : public System {
+public:
+    void Initialize();
+    void Update() override;
+};
+
+
 class EditSystem : public System {
 public:
     void Update() override;

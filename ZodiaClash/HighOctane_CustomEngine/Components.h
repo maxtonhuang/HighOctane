@@ -106,3 +106,7 @@ struct Name {
 };
 
 
+
+struct Screen {
+    bool                    isActive{false};
+};
