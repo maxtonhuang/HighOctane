@@ -138,3 +138,11 @@ void Model::AddAlpha(float a) {
 		color.a = 0.f;
 	}
 }
+
+vmath::Vector2 Model::GetMin() {
+	return vmath::Vector2{ botleft.x,botleft.y };
+}
+
+vmath::Vector2 Model::GetMax() {
+	return vmath::Vector2{ topright.x,topright.y };
+}
