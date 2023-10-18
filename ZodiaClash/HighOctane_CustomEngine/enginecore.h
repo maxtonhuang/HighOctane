@@ -32,6 +32,7 @@
 #pragma once
 
 #include <chrono>
+#include "ECS.h"
 
 class EngineCore {
 
@@ -63,7 +64,7 @@ public:
 		return gameActive;
 	}
 	
-	void Run(bool const mode);
+	void Run(bool const & mode);
 
 	friend uint64_t GetTime();
 

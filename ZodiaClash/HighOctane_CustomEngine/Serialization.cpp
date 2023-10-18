@@ -326,7 +326,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 		if (entityObject.HasMember("Entity Name")) {
 			std::string entityName = entityObject["Entity Name"].GetString();
-			masterEntitiesList[entityName] = entity;
+			EntityFactory::entityFactory().masterEntitiesList[entityName] = entity;
 		}
 
 		if (entityObject.HasMember("Color")) {

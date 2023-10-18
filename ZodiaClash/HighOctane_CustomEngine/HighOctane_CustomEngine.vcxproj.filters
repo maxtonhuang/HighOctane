@@ -182,6 +182,12 @@
     <ClInclude Include="Animator.h">
       <Filter>Animator</Filter>
     </ClInclude>
+    <ClInclude Include="Editing.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -278,6 +284,10 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="Editing.cpp" />
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

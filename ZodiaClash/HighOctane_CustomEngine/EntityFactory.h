@@ -33,13 +33,28 @@
 
 #include "ECS.h"
 
+
+class EntityFactory {
+
+public:
+	
+	// Disallow copying to prevent creation of more than one instance
+	EntityFactory(const EntityFactory&) = delete;
+	EntityFactory& operator=(const EntityFactory&) = delete;
+
+	// Public accessor for the Singleton instance
+	static EntityFactory& entityFactory() {
+		static EntityFactory ef;
+		return ef;
+	}
+
 	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
 
 	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
 	void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();
-	extern std::unordered_map<std::string, Entity> masterEntitiesList;
+	//extern std::unordered_map<std::string, Entity> masterEntitiesList;
 	//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
 	Entity CreateModel();
 
@@ -47,3 +62,29 @@
 	//FUNCTIONS FOR MASS RENDERING - SUBJECT TO APPROVAL
 	void RemoveMassRendering();
 	void ReapplyMassRendering();
+
+	void DeleteMasterModel(Entity entity);
+	void DeleteCloneModel(Entity entity);
+
+
+	size_t GetLayerOrder(Entity entity);
+	void LayerOrderSendBackwards(Entity entity);
+	void LayerOrderSendToBack(Entity entity);
+	void LayerOrderBringForward(Entity entity);
+	void LayerOrderBringToFront(Entity entity);
+
+	std::vector<Entity> massRenderEntitiesList;
+	std::unordered_map<std::string, Entity> masterEntitiesList;
+private:
+
+	EntityFactory() {}
+
+	std::deque<Entity> layerOrder;
+
+	size_t masterCounter{1};
+
+	size_t cloneCounter{1};
+
+};
+
+	

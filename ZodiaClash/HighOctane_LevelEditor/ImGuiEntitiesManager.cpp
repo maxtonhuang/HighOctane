@@ -62,7 +62,7 @@ void UpdateEntitiesManager() {
             button_clicked = true;
         }
         if (ImGui::Button("Clone Entity")) {
-            CloneMasterModel(0.f, 0.f, false);
+            EntityFactory::entityFactory().CloneMasterModel(0.f, 0.f, false);
         }
 
 
@@ -71,7 +71,7 @@ void UpdateEntitiesManager() {
         Entity testEntity;
         if (ImGui::Button("Create Entity by Button Test: Cat")) {
             testEntity = ECS::ecs().CreateEntity();
-            masterEntitiesList["CatTest"] = testEntity;
+            EntityFactory::entityFactory().masterEntitiesList["CatTest"] = testEntity;
             ECS::ecs().AddComponent(testEntity, Color{ glm::vec4{ 1,1,1,1 } });
             ECS::ecs().AddComponent(testEntity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
             ECS::ecs().AddComponent(testEntity, Visible{ false });
@@ -95,7 +95,7 @@ void UpdateEntitiesManager() {
                 ASSERT(!entityAddedFlag, "Entity has not been added. Click NO and click on: \"Create Entity by Button Test: Cat\" ");
             }
             else {
-                CloneMasterModel2(0.f, 0.f, false);
+                EntityFactory::entityFactory().CloneMasterModel2(0.f, 0.f, false);
             }
         }
         /*******************************Testing Feature: For Future saving of master entities************************************/
