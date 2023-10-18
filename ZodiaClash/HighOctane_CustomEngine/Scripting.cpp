@@ -109,8 +109,10 @@ CsScript::CsScript() {
     // Script class will store this
     MonoMethod* method = mono_class_get_method_from_name(scriptClass, "TestInterop", 1);
 
-    // Script instance will store this
+    // Script class instance will store this
     MonoObject* instance = mono_object_new(mono_domain_get(), scriptClass);
+
+
     mono_runtime_object_init(instance);
     int input = 50;
     void* parameters = { &input }; // Passed parameters are an array of pointers

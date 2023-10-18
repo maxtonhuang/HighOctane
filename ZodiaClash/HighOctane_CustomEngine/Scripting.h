@@ -34,7 +34,6 @@ private:
 
 };
 
-//bool GetKeyDown();
 bool GetKeyDown(INFO key);
 void GetKeyDownClear();
 void addInternalCalls();

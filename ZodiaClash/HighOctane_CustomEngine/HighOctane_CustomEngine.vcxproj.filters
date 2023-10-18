@@ -290,6 +290,7 @@
     </ClCompile>
     <ClCompile Include="InternalCalls.cpp">
       <Filter>Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="Editing.cpp" />
     <ClCompile Include="Utilities.cpp">
       <Filter>Miscellaneous</Filter>
