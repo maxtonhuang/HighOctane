@@ -57,6 +57,9 @@
     <Filter Include="Animator">
       <UniqueIdentifier>{aa0d8dc6-99ea-4506-ae66-2794fcc2954c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameAI">
+      <UniqueIdentifier>{59a46181-f553-402e-b055-70eef174dba7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaderfilelist.h">
@@ -200,6 +203,12 @@
     <ClInclude Include="Camera.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="GameAILogic.h">
+      <Filter>GameAI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAITree.h">
+      <Filter>GameAI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -314,6 +323,12 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAILogic.cpp">
+      <Filter>GameAI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameAITree.cpp">
+      <Filter>GameAI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
