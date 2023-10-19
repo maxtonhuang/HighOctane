@@ -37,7 +37,7 @@
 #include "EntityFactory.h"
 #include <iostream>
 #include <unordered_map>
-
+#include "AssetManager.h"
 
 std::unordered_map<int, INFO> keyStatus;
 std::unordered_map<int, INFO> mouseStatus;
@@ -54,17 +54,17 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
         if (GLFW_KEY_M == key) {
-            audio.PlaySounds("../Assets/Sound/ping.wav");
+            assetmanager.audio.PlaySounds("ping.wav");
         }
         if (GLFW_KEY_N == key) {
-            audio.PlaySounds("../Assets/Sound/bonk.wav", "SFX");
+            assetmanager.audio.PlaySounds("bonk.wav", "SFX");
         }
         if (GLFW_KEY_F8 == key) {
-            if (audio.IsGroupPaused("BGM")) {
-                audio.ResumeGroup("BGM");
+            if (assetmanager.audio.IsGroupPaused("BGM")) {
+                assetmanager.audio.ResumeGroup("BGM");
             }
             else {
-                audio.PauseGroup("BGM");
+                assetmanager.audio.PauseGroup("BGM");
             }
         }
         if (GLFW_KEY_F11 == key) {

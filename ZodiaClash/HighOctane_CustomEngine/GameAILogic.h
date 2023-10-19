@@ -7,26 +7,26 @@ enum GAMESTATUS {
 
 class Attack {
 public:
-	bool AOE;
+	bool AOE{};
 };
 
 class Character {
 public:
-	float maxHealth;
-	float health;
-	float attack;
-	float defense;
-	int speed;
-	std::list<Attack> attacks;
+	float maxHealth{};
+	float health{};
+	float attack{};
+	float defense{};
+	int speed{};
+	std::list<Attack> attacks{};
 };
 
 class Gamestate {
 public:
 	void Update();
-	std::list<Character> playerCharacters;
-	std::list<Character> enemyCharacters;
-	Character* currentCharacter;
-	int gameStatus;
+	std::list<Character> playerCharacters{};
+	std::list<Character> enemyCharacters{};
+	Character* currentCharacter{};
+	int gameStatus{};
 };
 
 namespace GameAILogic {

@@ -6,6 +6,7 @@ class Node {
 public:
 	Node(Gamestate initial); //PARENT CONSTRUCTOR
 	Node(Node* previous);	 //CHILD CONSTRUCTOR
+	~Node();
 	Node* GetFront();
 	std::vector<Node*> GetBack();
 	Gamestate previousState{};
@@ -15,6 +16,7 @@ public:
 	Node* previous{};
 	std::vector<Node*> next{};
 	size_t depth{};
+	int eval{};
 private:
 	void Advance(Node* node, std::vector<Node*> input);
 };

@@ -1,6 +1,12 @@
 #include "GameAITree.h"
+#include <random>
+
+//----------------------------------------------------------------------------------------
+//DEFINES FOR AI SEARCH SETTINGS
 
 const int MAXDEPTH = 3;
+const int DEVIATION = 0;
+//----------------------------------------------------------------------------------------
 
 Node::Node(Gamestate initial) {
 	previous = nullptr;
@@ -12,6 +18,13 @@ Node::Node(Node* node) {
 	previous = node;
 	previousState = node->currentState;
 	depth = node->depth + 1;
+}
+
+Node::~Node() {
+	//Orphaning all pruned branches for now
+	for (Node* n : next) {
+		n->previous = nullptr;
+	}
 }
 
 Node* Node::GetFront() {
@@ -47,36 +60,61 @@ void TreeManager::Initialize(Gamestate startState) {
 
 void TreeManager::Search(Gamestate const& start, Attack& selectedAttack, Character& selectedCharacter) {
 	(void)start;
-	std::vector<std::vector<Node*>> backNodes;
-	int currentEval{ 0 };
-	Node* selectedNode{ nullptr };
-	for (Node& n: parents) {
-		backNodes.push_back(n.GetBack());
-	}
-	for (std::vector<Node*> v : backNodes) {
-		for (Node* n : v) {
+	std::list<Node*> currentNodes;
+	Node parent(start);
+	currentNodes.push_back(&parent);
+	bool createFinish = false;
+	while (createFinish == false) {
+		for (Node* n : currentNodes) {
+			if (n->depth - n->GetFront()->depth > MAXDEPTH) {
+				continue;
+			}
 
-			//If enemy can win, it always goes for it
-			if (n->currentState.gameStatus == GAMESTATUS::LOSE) {
+			//FOR ALL POSSIBLE MOVES, CREATE A NEW CHILD AND ADD TO CURRENTNODES
+			if (n->currentState.gameStatus == GAMESTATUS::INPROGRESS) {
+				
+			}
+			else if (n->currentState.gameStatus == GAMESTATUS::LOSE) {
+				//If enemy can win, it always goes for it
 				selectedAttack = n->GetFront()->selectedAttack;
 				selectedCharacter = n->GetFront()->selectedTarget;
 				return;
 			}
-			int eval = GameAILogic::Evaluate(n->GetFront()->previousState, n->currentState);
-			if (currentEval == 0) {
-				currentEval = eval;
-				selectedNode = n;
-			}
-			else {
-				if (currentEval < eval) {
-					currentEval = eval;
-					selectedNode = n;
-				}
-			}
-			
+
+			currentNodes.remove(n);
 		}
 	}
-	selectedAttack = selectedNode->GetFront()->selectedAttack;
-	selectedCharacter = selectedNode->GetFront()->selectedTarget;
+
+	int currentEval{ 0 };
+	std::vector<Node*> selectedNodes;
+	for (Node* n : currentNodes) {
+		n->eval = GameAILogic::Evaluate(n->GetFront()->previousState, n->currentState);
+		if (currentEval == 0) {
+			currentEval = n->eval;
+			selectedNodes.push_back(n);
+		}
+		else {
+			if (n->eval > currentEval) {
+				std::vector<Node*> newSelectedNodes;
+				currentEval = n->eval;
+				newSelectedNodes.push_back(n);
+				for (Node* sn : selectedNodes) {
+					if (sn->eval > currentEval - DEVIATION) {
+						newSelectedNodes.push_back(sn);
+					}
+				}
+				selectedNodes = newSelectedNodes;
+			}
+			else if (n->eval > currentEval - DEVIATION) {
+				selectedNodes.push_back(n);
+			}
+		}
+	}
+
+	//Randomly choose an attack among the selected attacks
+	std::default_random_engine rng;
+	std::uniform_int_distribution<size_t> rand_node(0, selectedNodes.size() - 1);
+	selectedAttack = selectedNodes[rand_node(rng)]->GetFront()->selectedAttack;
+	selectedCharacter = selectedNodes[rand_node(rng)]->GetFront()->selectedTarget;
 	return;
 }

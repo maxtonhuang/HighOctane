@@ -40,48 +40,75 @@
 #include "AssetManager.h"
 #include "File.h"
 #include "debugdiagnostic.h"
+#include "Serialization.h"
+
+AssetManager assetmanager;
+
+void AssetManager::Initialize() {
+    const std::string initFilePath = "init.txt";
+    std::string path{initFilePath};
+    Serializer serializer;
+    defaultPath = "Assets/";
+    if (!serializer.Open(path)) {
+        defaultPath = "../Assets/";
+        path = defaultPath + initFilePath;
+        if (!serializer.Open(path)) {
+            ASSERT(1, "Unable to initialize asset manager!");
+            return;
+        }
+    }
+
+    audio.Initialize();
+
+    while (!serializer.stream.eof()) {
+        path.clear();
+        serializer.ReadString(path);
+        if (path != "") {
+            LoadAssets(path);
+        }
+    }
+}
+
+void AssetManager::UnloadAll() {
+    loadedFiles.clear();
+    texture.Clear();
+    audio.ReleaseAllSounds();
+}
 
 /**************************************TEXTURES**************************************************/
-void AssetManager::LoadTexture(const std::string& texturePath, const std::string& textureName) {
-    Texture texture;
-    texture.Init(texturePath.c_str()); // Initialize the texture using your Texture class.
-    m_textures[textureName] = texture;
-}
-
-Texture* AssetManager::GetTexture(const std::string& textureName) {
-    auto it = m_textures.find(textureName);
-    if (it != m_textures.end()) {
-        return &it->second;
+void AssetManager::LoadTexture(const std::string& texturePath) {
+    std::string path{ defaultPath };
+    path += "Textures/";
+    path += texturePath;
+    if (FileExists(path)) {
+        texture.Add(path.c_str());
     }
-    return nullptr; // Texture not found.
-}
-
-void AssetManager::UnloadTexture(const std::string& textureName) {
-    auto it = m_textures.find(textureName);
-    if (it != m_textures.end()) {
-        it->second.FreeTexture(); // Free the texture from OpenGL memory using your Texture class.
-        m_textures.erase(it);
+    else {
+        ASSERT(1, "Unable to open texture file!");
     }
 }
 
 /**************************************AUDIO**************************************************/
-void AssetManager::LoadAudio(const std::string& audioPath, const std::string& audioName) {
-    AudioManager loadAudio;
-    loadAudio.AddSound(audioPath.c_str());
-    m_audio[audioName] = loadAudio;
-}
-
-AudioManager* AssetManager::GetAudio(const std::string& audioName) {
-    auto it = m_audio.find(audioName);
-    if (it != m_audio.end()) {
-        return &it->second;
+void AssetManager::LoadSound(const std::string& audioPath) {
+    std::string path{ defaultPath };
+    path += "Sound/" + audioPath;
+    if (FileExists(path)) {
+        audio.AddSound(path.c_str(), audioPath.c_str());
     }
-    return nullptr; // Audio not found.
+    else {
+        ASSERT(1, "Unable to open sound file!");
+    }
 }
 
-void AssetManager::UnloadAudio(const std::string& audioName) {
-    AudioManager loadAudio;
-    loadAudio.FreeSound(audioName.c_str());
+void AssetManager::LoadMusic(const std::string& audioPath) {
+    std::string path{ defaultPath };
+    path += "Music/" + audioPath;
+    if (FileExists(path)) {
+        audio.AddMusic(path.c_str(), audioPath.c_str());
+    }
+    else {
+        ASSERT(1, "Unable to open music file!");
+    }
 }
 
 
@@ -114,17 +141,30 @@ Font AssetManager::GetFont(const std::string& fontFamily, const std::string& fon
 
 
 /**********************************GENERIC METHODS*********************************************/
-void AssetManager::LoadAssets(const std::string& assetPath, const std::string& assetName) {
+bool AssetManager::FileExists(const std::string& path) {
+    std::fstream f{ path };
+    return f.good();
+}
+
+void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
     std::string extension = FilePath::GetFileExtension(assetPath);
 
     if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {
         // Load as a texture
-        LoadTexture(assetPath, assetName);
+        LoadTexture(assetPath);
     }
     else if (extension == ".mp3" || extension == ".wav" || extension == ".ogg") {
         // Load as audio
-        LoadAudio(assetPath, assetName);
+        std::string soundPath{ defaultPath };
+        soundPath += "Sound/" + assetPath;
+        if (FileExists(soundPath)) {
+            LoadSound(assetPath);
+        }
+        else {
+            LoadMusic(assetPath);
+        }
+        
     }
     else if (extension == ".ttf" || extension == ".otf") {
         // Load as font
@@ -134,4 +174,5 @@ void AssetManager::LoadAssets(const std::string& assetPath, const std::string& a
         // Error Handling
         ASSERT(true,"Unsupported asset type: ");
     }
+    loadedFiles.push_back(assetPath);
 }

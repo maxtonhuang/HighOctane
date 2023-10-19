@@ -268,6 +268,7 @@ Texture* TextureManager::Add(const char* texname) {
 
 Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, int spritenum) {
 	if (data.count(texname)) {
+		data[texname].CreateSpriteSheet(row, col, spritenum);
 		return &data[texname];
 	}
 	Texture temp;

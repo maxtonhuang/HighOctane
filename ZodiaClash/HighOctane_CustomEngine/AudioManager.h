@@ -49,8 +49,8 @@ public:
 	bool IsGroupPaused(const char* name);
 
 	void ReleaseAllSounds(); //Releases all sounds from audio manager
-	FMOD::Sound* AddSound(const char* path); //Add a sound to FMOD and audio manager
-	FMOD::Sound* AddMusic(const char* path);
+	FMOD::Sound* AddSound(const char* path, const char* name); //Add a sound to FMOD and audio manager
+	FMOD::Sound* AddMusic(const char* path, const char* name);
 	void PlaySounds(const char* sound, const char* channelGroup = nullptr); //Plays loaded sound
 	void FreeSound(const char* sound); //Free a sound from FMOD and audio manager
 	FMOD::System* GetSystem();
@@ -59,5 +59,3 @@ private:
 	std::unordered_map<std::string, FMOD::Sound*> data{};
 	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
 };
-
-extern AudioManager audio;
