@@ -82,10 +82,32 @@ void AssetManager::LoadTexture(const std::string& texturePath) {
     path += "Textures/";
     path += texturePath;
     if (FileExists(path)) {
-        texture.Add(path.c_str());
+        texture.Add(path.c_str(), texturePath.c_str());
     }
     else {
         ASSERT(1, "Unable to open texture file!");
+    }
+}
+
+void AssetManager::LoadSpritesheet(const std::string& spritePath) {
+    std::string path{ defaultPath };
+    path += "Textures/" + spritePath;
+    if (FileExists(path)) {
+        Serializer serializer;
+        std::string textureName;
+        int row;
+        int column;
+        int spritenum;
+        serializer.Open(path);
+        serializer.ReadString(textureName);
+        serializer.ReadInt(row);
+        serializer.ReadInt(column);
+        serializer.ReadInt(spritenum);
+        LoadAssets(textureName);
+        texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum);
+    }
+    else {
+        ASSERT(1, "Unable to open sprite sheet file!");
     }
 }
 
@@ -197,6 +219,9 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {
         // Load as a texture
         LoadTexture(assetPath);
+    }
+    else if (extension == ".spritesheet") {
+        LoadSpritesheet(assetPath);
     }
     else if (extension == ".mp3" || extension == ".wav" || extension == ".ogg") {
         // Load as audio

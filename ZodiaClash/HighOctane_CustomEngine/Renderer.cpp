@@ -34,6 +34,7 @@
 #include "Renderer.h"
 #include "debugdiagnostic.h"
 #include "graphics.h"
+#include "AssetManager.h"
 
 Renderer::Renderer() {
     data = new Vertex[GRAPHICS::vertexBufferSize];
@@ -111,6 +112,8 @@ void Renderer::AddVertex(Vertex input) {
 }
 
 void Renderer::Draw() {
+    static std::unordered_map<std::string, Texture>* textureList{ &assetmanager.texture.data };
+
     if (drawcount <= 0) {
         return;
     }
@@ -123,7 +126,7 @@ void Renderer::Draw() {
     }
     glNamedBufferSubData(vbo, 0, sizeof(Vertex) * GRAPHICS::vertexBufferSize, data);
     shaderprogram.Use();
-    for (auto& t : texList.data) {
+    for (auto& t : *textureList) {
         glBindTextureUnit(t.second.GetID() - 1, t.second.GetID());
     }
     GLint uniform_var_tex = glGetUniformLocation(

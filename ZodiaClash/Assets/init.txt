@@ -7,6 +7,10 @@ point.renderer
 line.renderer
 circle.renderer
 rectangle.renderer
+background.jpeg
+duck.spritesheet
+duck2.spritesheet
+cat.png
 ping.wav
 bonk.wav
 MainMenu1.wav

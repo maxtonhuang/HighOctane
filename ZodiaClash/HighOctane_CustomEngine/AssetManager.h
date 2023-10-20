@@ -59,6 +59,7 @@ public:
 
     // Texture methods
     void LoadTexture(const std::string& texturePath);
+    void LoadSpritesheet(const std::string& spritePath);
     Texture* GetTexture(const std::string& textureName);
     void UnloadTexture(const std::string& textureName);
 

@@ -107,9 +107,6 @@ void GraphicsManager::Initialize(int w, int h) {
     //Initialise framebuffer
     framebuffer.Initialize();
 
-    texList.AddSpriteSheet("duck.png", 1, 6, 6);
-    texList.AddSpriteSheet("duck2.png", 1, 6, 6);
-
     fonts.Initialize();
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));

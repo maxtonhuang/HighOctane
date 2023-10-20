@@ -95,12 +95,14 @@ void Model::Draw(Tex const& entity, Animator const& ani) {
 		renderer = flatRenderer;
 	}
 	if (entity.tex != nullptr) {
-		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),0), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),1), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),2), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),3), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),1), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),2), (float)entity.tex->GetID() - 1.f });
+		float texID{ (float)entity.tex->GetID() - 1.f };
+		int frameIndex{ (int)ani.GetFrameIndex() };
+		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords(frameIndex,0), texID });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(frameIndex,1), texID });
+		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords(frameIndex,2), texID });
+		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(frameIndex,3), texID });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(frameIndex,1), texID });
+		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords(frameIndex,2), texID });
 	}
 	else {
 		renderer->AddVertex(Vertex{ botleft,color });

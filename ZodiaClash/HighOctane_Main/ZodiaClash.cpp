@@ -368,7 +368,7 @@ void EngineCore::Run(bool const & mode) {
 
 	Entity background = EntityFactory::entityFactory().CloneMasterModel(0,0,false);
 	ECS::ecs().GetComponent<Model>(background) = Model{ ModelType::BACKGROUND, 1.f };
-	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
+	ECS::ecs().GetComponent<Tex>(background).tex = assetmanager.texture.Get("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
 	ECS::ecs().RemoveComponent<Collider>(background);

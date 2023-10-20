@@ -42,8 +42,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb-master/stb_image.h>
 
-TextureManager texList;
-
 Texture::Texture() {
 	active = false;
 	Texcoords spriteCoords;
@@ -61,15 +59,13 @@ Texture::~Texture() {
 	//glDeleteTextures(1, &id);
 }
 
-void Texture::Init(char const* filename) {
+void Texture::Init(char const* filepath, char const* filename) {
 	int filechannels;
-	std::string filepath{ "../Assets/Textures/" };
-	filepath += filename;
 
 	name = filename;
 
 	unsigned char* data;
-	data = stbi_load(filepath.c_str(), &width, &height, &filechannels, channelnum);
+	data = stbi_load(filepath, &width, &height, &filechannels, channelnum);
 	if (data == nullptr) {
 		active = false;
 		ASSERT("Unable to find texture %s\n", filename);
@@ -253,12 +249,21 @@ TextureManager::~TextureManager() {
 	this->Clear();
 }
 
-Texture* TextureManager::Add(const char* texname) {
+Texture* TextureManager::Get(char const* texname) {
+	if (data.count(texname)) {
+		return &data[texname];
+	}
+	else {
+		ASSERT(1, "Unable to find texture!");
+	}
+}
+
+Texture* TextureManager::Add(const char* texpath, const char* texname) {
 	if (data.count(texname)) {
 		return &data[texname];
 	}
 	Texture temp;
-	temp.Init(texname);
+	temp.Init(texpath, texname);
 	if (temp.IsActive() == false) {
 		return nullptr;
 	}
@@ -266,13 +271,17 @@ Texture* TextureManager::Add(const char* texname) {
 	return &data[texname];
 }
 
-Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, int spritenum) {
+Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, int spritenum, const char* texpath) {
 	if (data.count(texname)) {
 		data[texname].CreateSpriteSheet(row, col, spritenum);
 		return &data[texname];
 	}
+	if (texpath == nullptr) {
+		ASSERT(1, "Sprite sheet texture path not provided!");
+		return nullptr;
+	}
 	Texture temp;
-	temp.Init(texname);
+	temp.Init(texpath, texname);
 	if (temp.IsActive() == false) {
 		return nullptr;
 	}
