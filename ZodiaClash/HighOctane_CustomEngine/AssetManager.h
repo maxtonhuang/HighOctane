@@ -73,6 +73,9 @@ public:
     Font GetFont(const std::string& fontFamily, const std::string& fontVariant);
     //void UnloadFont(const std::string& fontName);
 
+    // Shader methods
+    void LoadRenderer(const std::string& rendererPath);
+
 private:
     std::string defaultPath{};
     std::vector<std::string> loadedFiles{};

@@ -41,6 +41,7 @@
 #include "File.h"
 #include "debugdiagnostic.h"
 #include "Serialization.h"
+#include "graphics.h"
 
 AssetManager assetmanager;
 
@@ -139,6 +140,49 @@ Font AssetManager::GetFont(const std::string& fontFamily, const std::string& fon
 //    //}
 //}
 
+/**************************************SHADERS*************************************************/
+void AssetManager::LoadRenderer(const std::string& rendererPath) {
+    std::string path{ defaultPath };
+    path += "Shaders/" + rendererPath;
+    if (FileExists(path)) {
+        Serializer serializer;
+        std::string rendererName;
+        std::string vertexShader;
+        std::string fragmentShader;
+        std::string typeName;
+        GLenum type;
+        serializer.Open(path);
+        serializer.ReadString(rendererName);
+        serializer.ReadString(vertexShader);
+        serializer.ReadString(fragmentShader);
+        serializer.ReadString(typeName);
+        vertexShader = defaultPath + "Shaders/" + vertexShader;
+        fragmentShader = defaultPath + "Shaders/" + fragmentShader;
+        if (typeName == "GL_TRIANGLES") {
+            type = GL_TRIANGLES;
+        }
+        else if (typeName == "GL_POINTS") {
+            type = GL_POINTS;
+        }
+        else if (typeName == "GL_LINES") {
+            type = GL_LINES;
+        }
+        else if (typeName == "GL_TRIANGLE_FAN") {
+            type = GL_TRIANGLE_FAN;
+        }
+        else if (typeName == "GL_TRIANGLE_STRIP") {
+            type = GL_TRIANGLE_STRIP;
+        }
+        else {
+            ASSERT(1, "Renderer has unsupported draw type!");
+            return;
+        }
+        graphics.renderer[rendererName].Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
+    }
+    else {
+        ASSERT(1, "Unable to open renderer file!");
+    }
+}
 
 /**********************************GENERIC METHODS*********************************************/
 bool AssetManager::FileExists(const std::string& path) {
@@ -169,6 +213,9 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     else if (extension == ".ttf" || extension == ".otf") {
         // Load as font
         LoadFont(assetPath);
+    }
+    else if (extension == ".renderer") {
+        LoadRenderer(assetPath);
     }
     else {
         // Error Handling

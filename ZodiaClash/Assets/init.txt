@@ -1,3 +1,12 @@
+parallax.renderer
+texture.renderer
+statictexture.renderer
+font.renderer
+flat.renderer
+point.renderer
+line.renderer
+circle.renderer
+rectangle.renderer
 ping.wav
 bonk.wav
 MainMenu1.wav

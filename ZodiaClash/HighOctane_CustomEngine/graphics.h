@@ -52,6 +52,7 @@ public:
 	Viewport viewport{}; //viewport class
 	FrameBuffer framebuffer{};
 	BackgroundSystem backgroundsystem{};
+	std::unordered_map<std::string, Renderer> renderer{};
 public:
 	GraphicsManager();
 	~GraphicsManager();
@@ -83,15 +84,3 @@ private:
 };
 
 extern GraphicsManager graphics;
-
-//Gameplay renderers of the engine
-extern Renderer textureRenderer;
-extern Renderer staticRenderer; //For objects that do not use game camera (eg UI)
-extern Renderer parallaxRenderer; //For parallax backgrounds
-
-//DEBUG RENDERERS
-extern Renderer flatRenderer;
-extern Renderer pointRenderer;
-extern Renderer lineRenderer;
-extern Renderer rectRenderer;
-extern Renderer circleRenderer;

@@ -39,9 +39,9 @@ Camera::Camera() {
 
 void Camera::Update() {
 	glm::mat3 matrix{ scale,0,0,0,scale,0,pos.x / GRAPHICS::w, pos.y / GRAPHICS::h, 1 };
-	textureRenderer.UpdateUniformMatrix3fv("uCamera", &matrix);
-	flatRenderer.UpdateUniformMatrix3fv("uCamera", &matrix);
-	parallaxRenderer.UpdateUniformMatrix3fv("uCamera", &matrix);
+	for (auto& r : graphics.renderer) {
+		r.second.UpdateUniformMatrix3fv("uCamera", &matrix);
+	}
 }
 
 void Camera::Reset() {

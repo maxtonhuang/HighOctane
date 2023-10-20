@@ -1,0 +1,4 @@
+rectangle
+flat.vert
+flat.frag
+GL_TRIANGLE_STRIP

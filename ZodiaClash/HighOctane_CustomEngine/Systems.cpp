@@ -293,6 +293,7 @@ void GraphicsSystem::Update() {
 		}
 		m->Draw(*tex, *anim);
 	}
+	camera.Update();
 	graphics.Draw();
 }
 

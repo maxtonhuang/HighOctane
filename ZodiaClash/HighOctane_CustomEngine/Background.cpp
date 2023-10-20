@@ -47,8 +47,8 @@ void BackgroundSystem::Update() {
 		return;
 	}
 	float scrolltarget = ECS::ecs().GetComponent<Transform>(focus).position.x / GRAPHICS::w;
-	parallaxRenderer.UpdateUniform1fv("scrolltarget", &scrolltarget);
-	parallaxRenderer.UpdateUniform1fv("scrollspeed", scrolldata, count);
+	graphics.renderer["parallax"].UpdateUniform1fv("scrolltarget", &scrolltarget);
+	graphics.renderer["parallax"].UpdateUniform1fv("scrollspeed", scrolldata, count);
 	count = 0;
 }
 

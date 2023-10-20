@@ -1,0 +1,4 @@
+static
+statictexture.vert
+statictexture.frag
+GL_TRIANGLES

@@ -76,20 +76,23 @@ void Model::Update(Transform const& entity, Size const& size) {
 }
 
 void Model::Draw(Tex const& entity, Animator const& ani) {
+	static Renderer* parallaxRenderer = &graphics.renderer["parallax"];
+	static Renderer* textureRenderer = &graphics.renderer["texture"];
+	static Renderer* flatRenderer = &graphics.renderer["flat"];
+
 	Renderer* renderer;
 	if (entity.tex != nullptr) {
 		switch (type) {
 		case ModelType::BACKGROUND:
-			renderer = &parallaxRenderer;
+			renderer = parallaxRenderer;
 			graphics.backgroundsystem.AddBackground(backgroundScrollSpeed);
 			break;
 		default:
-			renderer = &textureRenderer;
+			renderer = textureRenderer;
 		}
 	}
 	else {
-		
-		renderer = &flatRenderer;
+		renderer = flatRenderer;
 	}
 	if (entity.tex != nullptr) {
 		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),0), (float)entity.tex->GetID() - 1.f });
