@@ -38,6 +38,7 @@
 ******************************************************************************/
 
 #include "Font.h"
+#include "AssetManager.h"
 #include <iostream>
 
 FontManager fonts;
@@ -206,7 +207,7 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
         // Define pixel font size
         // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
         FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
-        texList.Add(fontData);
+        assetmanager.texture.Add(fontData);
         //LoadChar(fontData);
         break;
     default:

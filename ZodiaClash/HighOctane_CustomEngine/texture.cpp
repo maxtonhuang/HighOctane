@@ -256,6 +256,7 @@ Texture* TextureManager::Get(char const* texname) {
 	else {
 		ASSERT(1, "Unable to find texture!");
 	}
+	return nullptr;
 }
 
 Texture* TextureManager::Add(const char* texpath, const char* texname) {
