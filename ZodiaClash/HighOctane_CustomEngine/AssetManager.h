@@ -64,7 +64,7 @@ public:
 
     // Font methods
     void LoadFont(const std::string& fontPath);
-    Font GetFont(const std::string& fontFamily, const std::string& fontVariant);
+    Font* GetFont(const std::string& fontFamily, const std::string& fontVariant);
     //void UnloadFont(const std::string& fontName);
 
 private:

@@ -57,6 +57,9 @@
     <Filter Include="Animator">
       <UniqueIdentifier>{aa0d8dc6-99ea-4506-ae66-2794fcc2954c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UIComponents">
+      <UniqueIdentifier>{5afdf933-3a03-4f7b-a101-8aaccf26f30a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaderfilelist.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="UIComponents.h">
+      <Filter>UIComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
