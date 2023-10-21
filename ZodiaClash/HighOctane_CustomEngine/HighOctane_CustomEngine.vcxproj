@@ -228,6 +228,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utilities.h" />
+    <ClInclude Include="UIComponents.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="VMath.h" />
   </ItemGroup>

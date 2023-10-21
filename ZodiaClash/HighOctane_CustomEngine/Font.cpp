@@ -39,7 +39,6 @@
 
 #include "Font.h"
 #include <iostream>
-#include "AssetManager.h"
 
 FontManager fonts;
 
@@ -47,6 +46,10 @@ GLuint font_vaoid;
 GLuint font_vboid;
 
 namespace fileSys = std::filesystem;
+
+/*********************************
+* FONTMANAGER CLASS OBJ FUNCTIONS
+*********************************/
 
 /*!
 * \brief Destructor
@@ -73,91 +76,106 @@ FontManager::~FontManager() {
 *
 */
 void FontManager::Initialize() {
+    //DEBUG_PRINT("___ DEBUG::FONT::INITIALIZE ___");
     // initialize freetype library
     FT_Error err;
     err = FT_Init_FreeType(&fonts.fontLibrary);
     ASSERT(err, "Failed to initialise FreeType!");
 
-    // load all fonts in fonts directory
-    fonts.LoadAllFonts();
-
-    // tmp, to remove once fontCollection is stable
-    //fonts.LoadFont("Danto Lite Normal.ttf");
+    ReadFonts();
+    LoadDefaultFont();
 }
 
-void FontManager::LoadAllFonts() {
+// only go through directory to populate fontCollection and fontPairs entries!
+void FontManager::ReadFonts() {
+    //DEBUG_PRINT("___ DEBUG::FONT::READFONTS ___");
     // define parent fonts directory to load from
     std::string parentDir = "../Assets/Fonts/";
 
-    //bool tmpFlag{};
-
     // iterate through folders in parentDir
-    for (const auto& dirItem : fileSys::directory_iterator(parentDir)) {
+    for (const fileSys::directory_entry& dirItem : fileSys::directory_iterator(parentDir)) {
         // capture folder names in parentDir as font family names
-        if (fileSys::is_directory(dirItem)) {
-            std::string ftFamily = dirItem.path().filename().string();
-            DEBUG_PRINT("DEBUG::FONT: >>> Font family: %s", ftFamily.c_str());
+        if (!fileSys::is_directory(dirItem))
+            continue;
 
-            //reset variables
-            std::string ftFilename{}, fileExt{}, ftVariant{};
-            size_t foundVarStart{}, foundVarEnd{};
+        std::string ftFamily = dirItem.path().filename().string();
+        //DEBUG_PRINT("DEBUG::FONT: >>> Font family: %s", ftFamily.c_str());
 
-            // iterate through file items in one font parent directory
-            for (const auto& fileItem : fileSys::directory_iterator(dirItem.path())) {
-                if (fileSys::is_regular_file(fileItem)) {
-                    // ignore files that are not font files
-                    ftFilename = fileItem.path().filename().string();
-                    foundVarStart = ftFilename.find_first_of('-');
-                    foundVarEnd = ftFilename.find_last_of('.');
-                    fileExt = (foundVarEnd != std::string::npos) ? ftFilename.substr(foundVarEnd) : "";
+        //reset variables
+        std::string ftFilename{}, fileExt{}, ftVariant{};
+        size_t foundVarStart{}, foundVarEnd{};
 
-                    if ((fileExt == ".ttf") || (fileExt == ".otf")) {
-                        ftVariant = (foundVarStart != std::string::npos) ? ftFilename.substr(foundVarStart + 1, foundVarEnd - foundVarStart - 1) : "";
+        // iterate through file items in one font parent directory
+        for (const fileSys::directory_entry& fileItem : fileSys::directory_iterator(dirItem.path())) {
+            fileExt = fileItem.path().extension().string();
+            ftFilename = fileItem.path().filename().string();
+            
+            // ignore files that are not font files
+            if (!fileSys::is_regular_file(fileItem) || (!(fileExt == ".ttf") && !(fileExt == ".otf")))
+                continue;
 
-                        // DO DUPLICATION CHECKS!!
-                        if (foundVarStart == std::string::npos) {
-                            if (CheckVariantName(ftFamily, "Regular")) {
-                                DEBUG_PRINT("ERROR::FONT: Font file with unspecified font variant and \"Regular\" variant already exists. Ensure all variants are properly named!");
-                                continue;
-                            }
-                            ftVariant = "Regular";
-                        }
-                        if (CheckVariantName(ftFamily, ftVariant)) {
-                            DEBUG_PRINT("ERROR::FONT: Duplicate variant found: %s, ensure all variants are properly named!", ftVariant.c_str());
-                            continue;
-                        }
-                    
-                        // check if all data is present, then proceed extract data for font file
-                        if (!ftFamily.empty() && !ftVariant.empty()) {
-                            // construct font's filepath
-                            std::string fontFilePath = parentDir + ftFamily + "/" + ftFilename;
-                    
-                            // init new font obj
-                            Font ft_data;
-                            
-                            LoadValidFont(ft_data, fontFilePath);
-                    
-                            // prepare new entry to load into fontCollection
-                            ft_data.isActive = 1;
-                            
-                            //FontInfo ft_info(ft_family, ft_variant);
-                            FontEntry ft_entry(ft_data, ftVariant, ftFilename);
-                    
-                            // store in fontCollection
-                            fontCollection.emplace(ftFamily, ft_entry);
-                            
-                            DEBUG_PRINT("DEBUG::FONT: [+] Added to font collection: %s %s", ftFamily.c_str(), ftVariant.c_str());
-                        }
-                    }
-                    else {
-                        DEBUG_PRINT("DEBUG::FONT: Skipped over file: %s", ftFilename.c_str());
-                    }
-                    
-                }
+            foundVarStart = ftFilename.find_last_of('-');
+            foundVarEnd = ftFilename.find_last_of('.');
+            ftVariant = (foundVarStart != std::string::npos) ? ftFilename.substr(foundVarStart + 1, foundVarEnd - foundVarStart - 1) : "Regular";
+
+            // DO DUPLICATION CHECKS!!            
+            if (CheckVariantName(ftFamily, ftVariant)) {
+                DEBUG_PRINT("ERROR::FONT: Duplicate variant found: %s, ensure all variants are properly named!", ftVariant.c_str());
+                continue;
             }
 
+            // construct font's filepath
+            std::string ftFilePath = parentDir + ftFamily + "/" + ftFilename;
+
+            // store in fontPairs
+            fontPairs.push_back(std::make_pair(std::make_unique<std::string>(ftFamily), std::make_unique<std::string>(ftVariant)));
+
+
+            // construct Font with font family and font variant string references
+            Font ft_data(*fontPairs.back().first, *fontPairs.back().second);
+
+            //construct FontEntry
+            FontEntry ft_entry(ft_data, ftFilePath, ftFilename);
+
+            // store in fontCollection
+            fontCollection.emplace(ftFamily, ft_entry);
+
+            //DEBUG_PRINT("DEBUG::FONT: [+] Added to font collection: %s %s", ftFamily.c_str(), ftVariant.c_str());
         }
     }
+}
+
+void FontManager::LoadDefaultFont() {
+    //DEBUG_PRINT("___ DEBUG::FONT::LOAD DEFAULT FONT ___");
+    // set default font -- serialize?
+    FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant("Danto Lite Normal", "Regular");
+    if (ftEntryPtr == nullptr) {
+        DEBUG_PRINT("ERROR::FONT: Requested default font NOT found.");
+        return;
+    }
+
+    fonts.SetDefaultFont(&ftEntryPtr->font);
+    fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
+}
+
+void FontManager::LoadFontVariant(const std::string& ftFamily, const std::string& ftVariant) {
+    //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT VARIANT ___");
+    FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant(ftFamily, ftVariant);
+    if (ftEntryPtr == nullptr) {
+        DEBUG_PRINT("ERROR::FONT: (var) Requested font NOT found.");
+        return;
+    }
+    fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
+}
+
+void FontManager::LoadFontFilePath(const std::string ftFilePath) {
+    //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT FILEPATH ___");
+    FontEntry* ftEntryPtr = fonts.GetFontEntryByFilePath(ftFilePath);
+    if (ftEntryPtr == nullptr) {
+        DEBUG_PRINT("ERROR::FONT: (path) Requested font NOT found.");
+        return;
+    }
+    fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
 }
 
 /*!
@@ -167,147 +185,60 @@ void FontManager::LoadAllFonts() {
 *
 */
 void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath) {
+    //DEBUG_PRINT("___ DEBUG::FONT::LOAD VALID FONT ___");
+    // if fontData's characters already has textures loaded, return
+    if (!fontData.characters.empty())
+        return;
+
     //DEBUG_PRINT("DEBUG::FONT: Attempting to load: %s", fontFilePath.c_str());
     //Load font face
     FT_Error err;
     err = FT_New_Face(fonts.fontLibrary, fontFilePath.c_str(), 0, &fontData.fontFace);
-    if (err == FT_Err_Unknown_File_Format) {
+    switch (err) {
+    case(FT_Err_Unknown_File_Format):
         DEBUG_PRINT("ERROR::FONT: Able to open and read font, but font format is unsupported");
-    }
-    else if (err == FT_Err_Cannot_Open_Resource) {
+        break;
+    case(FT_Err_Cannot_Open_Resource):
         DEBUG_PRINT("ERROR::FONT: Unable to open resource!");
-    }
-    else if (err) {
+        break;
+    case(FT_Err_Ok):
+        //DEBUG_PRINT("DEBUG::FONT: Loaded: %s", fontFilePath.c_str());
+        // Define pixel font size
+        // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
+        FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
+        texList.Add(fontData);
+        //LoadChar(fontData);
+        break;
+    default:
         DEBUG_PRINT("ERROR::FONT: Font file cannot be open or read!");
     }
-    else {
-        DEBUG_PRINT("DEBUG::FONT: Loaded: %s", fontFilePath.c_str());
-        // Define pixel font size
-        // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
-        FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
-        assetmanager.texture.Add(fontData);
-        //LoadChar(fontData);
+
+    if (fontData.characters.empty()) {
+        FT_Done_Face(fontData.fontFace);
+        return;
     }
+    DEBUG_PRINT("DEBUG::FONT: Loaded requested font: %s", fontFilePath.c_str());
 }
 
+bool FontManager::CheckFamilyName(const std::string& ftFamily) {
+    //DEBUG_PRINT("___ DEBUG::FONT::CHECK FAMILY NAME ___");
+    using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
 
-/*!
-* \brief Loads a font file
-*
-* Given the font file's filepath, the font file is used to open, read and extract glyphs.
-* [NOTE] OLD ver, to replace later
-* [NOTE] keep for now for AssetManager
-*
-*/
-void FontManager::LoadNewFont(Font& fontData, const std::string& fontPath) {
-	//Load font face
-	FT_Error err;
-    std::string fontFilePath = "../Assets/Fonts/" + fontPath;
-	err = FT_New_Face(fonts.fontLibrary, fontFilePath.c_str(), 0, &fontData.fontFace);
-	if (err == FT_Err_Unknown_File_Format) {
-		DEBUG_PRINT("ERROR::FONT: Able to open and read font, but font format is unsupported");
-	}
-	else if (err) {
-        DEBUG_PRINT("!!ERROR::FONT: Font file cannot be open or read!");
-	}
-    else {
-        // Define pixel font size
-        // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
-        FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
-        //LoadChar(fontData);
-        assetmanager.texture.Add(fontData);
+    std::pair<fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
 
-        // with textures loaded, add font object to fontCollection
-        //fontCollection.emplace(fontPath, font);
-    }	
+    return (variantRange.first != fontCollection.end());
+
 }
 
-/*!
-* \brief Loads character glyphs in the font file
-*
-* Each character glyph is loaded to generate a texture, which is then
-* stored in an unordered map for efficient querying access.
-*
-*/
-/*
-void FontManager::LoadChar(Font& fontData) {
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // disable byte-alignment restriction
-    //for all printable characters [32, 127], 169 (copyright) and 174 (registered copyright)
-    unsigned int fontWidth = 0;
-    unsigned int fontHeight = 0;
-    
-    //first pass, get font sprite sheet size
-    for (unsigned char c = 32; c < 175; c++)
-    {
-        //skip over characters not in intended range
-        if (((c > 127) && (c < 169)) || ((c > 169) && (c < 174))) {
-            continue;
-        }
-
-        // load character glyph
-        if (FT_Load_Char(fontData.fontFace, c, FT_LOAD_RENDER))
-        {
-            DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
-            continue;
-        }
-        // generate texture
-        if (fontWidth < fontData.fontFace->glyph->bitmap.width) {
-            fontWidth = fontData.fontFace->glyph->bitmap.width;
-        }
-        fontHeight += fontData.fontFace->glyph->bitmap.rows;
-    }
-
-
-    for (unsigned char c = 32; c < 175; c++)
-    {
-        //skip over characters not in intended range
-        if (((c > 127) && (c < 169)) || ((c > 169) && (c < 174))) {
-            continue;
-        }
-
-        // load character glyph
-        if (FT_Load_Char(fontData.fontFace, c, FT_LOAD_RENDER))
-        {
-            DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
-            continue;
-        }
-        // generate texture
-        if (fontWidth < fontData.fontFace->glyph->bitmap.width) {
-            fontWidth = fontData.fontFace->glyph->bitmap.width;
-        }
-        fontHeight += fontData.fontFace->glyph->bitmap.rows;
-        unsigned int texture;
-        glCreateTextures(GL_TEXTURE_2D, 1, &texture);
-        glTextureStorage2D(texture, 1, GL_R8, fontData.fontFace->glyph->bitmap.width,
-            fontData.fontFace->glyph->bitmap.rows);
-        glTextureSubImage2D(texture, 0, 0, 0, fontData.fontFace->glyph->bitmap.width,
-            fontData.fontFace->glyph->bitmap.rows,
-            GL_RED,
-            GL_UNSIGNED_BYTE,
-            fontData.fontFace->glyph->bitmap.buffer);
-        
-        // store texture in Character map
-        Character character = {
-            texture,
-            glm::ivec2(fontData.fontFace->glyph->bitmap.width, fontData.fontFace->glyph->bitmap.rows),
-            glm::ivec2(fontData.fontFace->glyph->bitmap_left, fontData.fontFace->glyph->bitmap_top),
-            static_cast<GLuint>(fontData.fontFace->glyph->advance.x)
-        };
-        fontData.characters.insert(std::pair<char, Character>(c, character));
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-}
-*/
-
-//to test
 bool FontManager::CheckVariantName(const std::string& ftFamily, const std::string& ftVariant) {
+    //DEBUG_PRINT("___ DEBUG::FONT::CHECK VARIANT NAME ___");
 
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
 
     std::pair <fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
 
     for (fontCollectionType::iterator it = variantRange.first; it != variantRange.second; it++) {
-        if (it->second.fontVariant == ftVariant) {
+        if (it->second.font.GetInfo().second == ftVariant) {
             return true;
         }
     }
@@ -316,13 +247,12 @@ bool FontManager::CheckVariantName(const std::string& ftFamily, const std::strin
 
 
 /*!
-* \brief Font getter
+* \brief Generic Font getter
 *
-* Retrieves Font struct object to access character map stored.
+* Retrieves Font class object to access character map stored.
 *
 */
-Font FontManager::GetFont(const std::string& ftFamily, const std::string& ftVariant) {
-
+Font* FontManager::GetFont(const std::string& ftFamily, const std::string& ftVariant) {
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
     //DEBUG_PRINT("DEBUG::FONT: RECEIVED family: %s", ftFamily.c_str());
     //DEBUG_PRINT("DEBUG::FONT: RECEIVED variant: %s", ftVariant.c_str());
@@ -332,14 +262,188 @@ Font FontManager::GetFont(const std::string& ftFamily, const std::string& ftVari
     for (fontCollectionType::iterator it = variantRange.first; it != variantRange.second; it++) {
         //DEBUG_PRINT("DEBUG::FONT: Reading family: %s", it->first.c_str());
         //DEBUG_PRINT("DEBUG::FONT: Reading variant: %s", it->second.fontVariant.c_str());
-        if (it->second.fontVariant == ftVariant) {
-            return it->second.font;
+        if (it->second.font.GetInfo().second == ftVariant) {
+
+            // if character textures not loaded, load textures
+            if (it->second.font.characters.empty()) {
+                LoadFontVariant(ftFamily, ftVariant);
+            }
+
+            return &it->second.font;
         }
     }
     DEBUG_PRINT("ERROR::FONT: Failed to retrieve requested font variant %s", ftVariant.c_str());
-    return Font{};
+    return nullptr;
 }
 
+/*!
+* \brief Default Font getter
+*
+* Retrieves Font class object to access character map stored.
+*
+*/
+Font* FontManager::GetDefaultFont() {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET DEFAULT FONT ___");
+    return defaultFont;
+}
+
+/*!
+* \brief FontEntry getter (by variant)
+*
+* Retrieves FontEntry class object
+* For access to mainly both Font class object and fontFilePath attributes
+* Given font family strings and font variant strings, returns pointer stored in fontCollection
+*
+*/
+FontEntry* FontManager::GetFontEntryByVariant(const std::string& ftFamily, const std::string& ftVariant) {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET ENTRY BY VARIANT ___");
+    using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
+    //DEBUG_PRINT("DEBUG::FONT: RECEIVED family: %s", ftFamily.c_str());
+    //DEBUG_PRINT("DEBUG::FONT: RECEIVED variant: %s", ftVariant.c_str());
+
+    std::pair <fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
+
+    for (fontCollectionType::iterator it = variantRange.first; it != variantRange.second; it++) {
+        //DEBUG_PRINT("DEBUG::FONT: Reading family: %s", it->first.c_str());
+        //DEBUG_PRINT("DEBUG::FONT: Reading variant: %s", it->second.fontVariant.c_str());
+        if (it->second.font.GetInfo().second == ftVariant) {
+            return &it->second;
+        }
+    }
+    DEBUG_PRINT("ERROR::FONT: Failed to retrieve requested font entry by variant");
+    return nullptr;
+}
+
+/*!
+* \brief FontEntry getter (by filepath)
+*
+* Retrieves FontEntry class object
+* For access to mainly both Font class object and fontFilePath attributes
+* Given only filepath string, returns pointer stored in fontCollection.
+* Identifies font family in filepath to narrow down search in fontCollection
+*
+*/
+FontEntry* FontManager::GetFontEntryByFilePath(const std::string& ftFilePath) {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET ENTRY BY PATH ___");
+    std::string ftFamily = fileSys::path(ftFilePath).parent_path().filename().string();
+    //DEBUG_PRINT("DEBUG::FONT: EXTRACTED family: %s", ftFamily.c_str());
+
+    using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
+
+    std::pair <fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
+
+    for (fontCollectionType::iterator it = variantRange.first; it != variantRange.second; it++) {
+        //DEBUG_PRINT("DEBUG::FONT: Reading family: %s", it->first.c_str());
+        //DEBUG_PRINT("DEBUG::FONT: Reading variant: %s", it->second.fontVariant.c_str());
+        if (it->second.fontFilePath == ftFilePath) {
+            return &it->second;
+        }
+    }
+    DEBUG_PRINT("ERROR::FONT: Failed to retrieve requested font entry by filepath");
+    return nullptr;
+}
+
+/*!
+* \brief fontCollection getter
+*
+* Retrieves fontCollection stored in FontManager
+* For iterating to get or updating Font objects stored, PK: font family string
+*
+*/
 std::unordered_multimap<std::string, FontEntry>* FontManager::GetFontCollection() {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET FONTCOLLECTION ___");
     return &fontCollection;
+}
+
+/*!
+* \brief fontPairs getter
+*
+* Retrieves fontPairs stored in FontManager
+* Contains string pointers to Font objects stored in fontCollection (prevent duplicate storage)
+* Mainly for use by GetFontFamilyList() and GetFontVariantList()
+*
+*/
+const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* FontManager::GetFontPairs() const {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET FONTPAIRS ___");
+    return &fontPairs;
+}
+
+/*!
+* \brief fontFamily list getter
+*
+* Retrieves list of font family strings in fontPairs
+* Mainly for ImGui usage: dropdown selection for font family
+* when selecting UI component with text
+*
+*/
+std::vector<std::string> FontManager::GetFontFamilyList() {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET FAMILY LIST ___");
+    // extract pointer to fontPairs in FontManager
+    const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* fontPairList = GetFontPairs();
+    
+    // set to ensure uniqueness
+    std::set<std::string> fontFamilyList;
+
+    // iterate through fontPairList to get fontFamily strings
+    for (const std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>& pair : *fontPairList) {
+        fontFamilyList.insert(*(pair.first));
+    }
+
+    //convert to vector
+    return std::vector<std::string>(fontFamilyList.begin(), fontFamilyList.end());
+}
+
+/*!
+* \brief fontVariant list getter
+*
+* Retrieves list of font variant strings in fontPairs, given set font family
+* Mainly for ImGui usage: dropdown selection for font variant
+* when selecting UI component with text
+*
+*/
+std::vector<std::string> FontManager::GetFontVariantList(const std::string& ftFamily) {
+    //DEBUG_PRINT("___ DEBUG::FONT::GET VARIANT LIST ___");
+    // extract pointer to fontPairs in FontManager
+    const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* fontPairList = GetFontPairs();
+
+    // set to ensure uniqueness
+    std::set<std::string> fontVariantList;
+
+    // iterate through fontPairList to get fontFamily strings
+    for (const std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>& pair : *fontPairList) {
+        if (*pair.first == ftFamily) {
+            fontVariantList.insert(*(pair.second));
+        }
+    }
+
+    //convert to vector
+    return std::vector<std::string>(fontVariantList.begin(), fontVariantList.end());
+}
+
+/*!
+* \brief defaultFont setter
+*
+* Sets default font. Called in Initialize() unless otherwise modified.
+*
+*/
+void FontManager::SetDefaultFont(Font* fontPtr) {
+    //DEBUG_PRINT("___ DEBUG::FONT::SET DEFAULT FONT ___");
+    defaultFont = fontPtr;
+}
+
+/**************************
+* FONT CLASS OBJ FUNCTIONS
+**************************/
+
+std::pair<std::string, std::string> Font::GetInfo() {
+    /*DEBUG_PRINT("DEBUG::FONT: Recieved family: %s", (*fontFamily).c_str());
+    DEBUG_PRINT("DEBUG::FONT: Received variant: %s", (*fontVariant).c_str());*/
+    if (!fontFamily.empty() && !fontVariant.empty()) {
+        /*std::cout << "DEBUG::FONT: Recieved family:" << fontFamily << std::endl;
+        std::cout << "DEBUG::FONT: Recieved variant:" << fontVariant << std::endl;*/
+        return std::make_pair(fontFamily, fontVariant);
+    }
+    else {
+        return std::make_pair("empty", "empty");
+    }   
 }

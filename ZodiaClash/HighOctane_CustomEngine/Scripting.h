@@ -14,26 +14,26 @@
 
 //void InitMono();
 
-class CsScript {
-public:
-	CsScript();
-	~CsScript();
-	void RunScript(Screen *s);
-
-
-private:
-	MonoDomain* domain{};
-	MonoAssembly* assembly{};
-	MonoImage* image{};
-
-
-	MonoClass* scriptClass{};
-	MonoObject* scriptInstance{};
-	MonoMethod* scriptMethod{};
-
-};
-
-bool GetKeyDown(INFO key);
-void GetKeyDownClear();
-void addInternalCalls();
-extern CsScript script;
+//class CsScript {
+//public:
+//	CsScript();
+//	~CsScript();
+//	void RunScript(Screen *s);
+//
+//
+//private:
+//	MonoDomain* domain{};
+//	MonoAssembly* assembly{};
+//	MonoImage* image{};
+//
+//
+//	MonoClass* scriptClass{};
+//	MonoObject* scriptInstance{};
+//	MonoMethod* scriptMethod{};
+//
+//};
+//
+//bool GetKeyDown(INFO key);
+//void GetKeyDownClear();
+////void addInternalCalls();
+//extern CsScript script;

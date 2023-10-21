@@ -57,15 +57,16 @@ public enum INFO
 
 public static class InternalCalls
 {
-    // Adds the log function into internal call table
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal static extern void Log(string message);
-
-    // Adds the print function into internal call table
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void Print();
 
     // Adds the Get Key Down function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern bool GetKeyDown(INFO key);
+
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void Log(string message);
+
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void LogVector3(ref Vector3 param, out Vector3 result);
 }

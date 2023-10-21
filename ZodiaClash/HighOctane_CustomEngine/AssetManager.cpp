@@ -138,17 +138,10 @@ void AssetManager::LoadMusic(const std::string& audioPath) {
 /**************************************FONTS**************************************************/
 void AssetManager::LoadFont(const std::string& fontPath) {
     FontManager font;
-    Font newFont;
-    font.LoadNewFont(newFont, fontPath); // Load the font using your FontManager class.
-    //m_fonts[fontName] = font;
+    font.LoadFontFilePath(fontPath);
 }
 
-Font AssetManager::GetFont(const std::string& fontFamily, const std::string& fontVariant) {
-    //auto it = m_fonts.find(fontName);
-    //if (it != m_fonts.end()) {
-    //    return &it->second;
-    //}
-    //return nullptr; // Font not found.
+Font* AssetManager::GetFont(const std::string& fontFamily, const std::string& fontVariant) {
     FontManager font;
     return font.GetFont(fontFamily, fontVariant);
 }

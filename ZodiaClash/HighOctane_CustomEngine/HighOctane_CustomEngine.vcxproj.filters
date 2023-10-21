@@ -59,6 +59,9 @@
     </Filter>
     <Filter Include="GameAI">
       <UniqueIdentifier>{59a46181-f553-402e-b055-70eef174dba7}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="UIComponents">
+      <UniqueIdentifier>{5afdf933-3a03-4f7b-a101-8aaccf26f30a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="GameAITree.h">
       <Filter>GameAI</Filter>
+	</ClInclude>
+    <ClInclude Include="UIComponents.h">
+      <Filter>UIComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

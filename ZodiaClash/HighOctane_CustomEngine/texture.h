@@ -39,7 +39,7 @@
 #include <unordered_map>
 #include <vector>
 
-struct Font; //forward declaration
+class Font; //forward declaration
 
 const int channelnum = 4;
 
