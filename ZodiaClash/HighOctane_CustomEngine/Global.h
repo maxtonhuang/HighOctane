@@ -33,6 +33,14 @@
 
 #pragma once
 
+#define RESET_VEC2 0.f, 0.f
+
+const HCURSOR hDefaultCursor{ LoadCursor(NULL, IDC_ARROW) };
+const HCURSOR hNWSECursor{ LoadCursor(NULL, IDC_SIZENWSE) };
+const HCURSOR hNESWCursor{ LoadCursor(NULL, IDC_SIZENESW) };
+const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
+
 extern float g_dt;
 extern bool button_clicked;
 extern bool edit_mode;
+extern bool hoveringPanel;

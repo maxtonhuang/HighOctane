@@ -73,7 +73,7 @@ void UpdateEntitiesManager() {
             testEntity = ECS::ecs().CreateEntity();
             EntityFactory::entityFactory().masterEntitiesList["CatTest"] = testEntity;
             ECS::ecs().AddComponent(testEntity, Color{ glm::vec4{ 1,1,1,1 } });
-            ECS::ecs().AddComponent(testEntity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, vmath::Vector2{ 0,0 } });
+            ECS::ecs().AddComponent(testEntity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, vmath::Vector2{ 0,0 } });
             ECS::ecs().AddComponent(testEntity, Visible{ false });
             ECS::ecs().AddComponent(testEntity, Tex{ texList.Add("cat.png") });
             Tex* t = &ECS::ecs().GetComponent<Tex>(testEntity);

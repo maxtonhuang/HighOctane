@@ -76,9 +76,10 @@ void GUIManager::Init()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
     IMGUI_CHECKVERSION();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     // Init console window
@@ -100,6 +101,15 @@ void GUIManager::Update()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    ImGuiIO& io = ImGui::GetIO();
+    if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+        hoveringPanel = true;
+    }
+    else {
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        hoveringPanel = false;
+    }
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 

@@ -74,6 +74,7 @@ public:
 	void UpdateWindow();
 	float GetWindowWidth();
 	float GetWindowHeight();
+
 private:
 	GLFWwindow* window;
 	int width;

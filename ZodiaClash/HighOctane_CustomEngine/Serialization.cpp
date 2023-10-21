@@ -141,8 +141,7 @@ rapidjson::Value SerializeTransform(const Transform& transform, rapidjson::Docum
 	transformObject.AddMember("position_x", transform.position.x, allocator);
 	transformObject.AddMember("position_y", transform.position.y, allocator);
 	transformObject.AddMember("rotation", transform.rotation, allocator);
-	transformObject.AddMember("scale_x", transform.scale.x, allocator);
-	transformObject.AddMember("scale_y", transform.scale.y, allocator);
+	transformObject.AddMember("scale_x", transform.scale, allocator);
 	transformObject.AddMember("velocity_x", transform.velocity.x, allocator);
 	transformObject.AddMember("velocity_y", transform.velocity.y, allocator);
 	return transformObject;
@@ -347,8 +346,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			transform.position.x = transformObject["position_x"].GetFloat();
 			transform.position.y = transformObject["position_y"].GetFloat();
 			transform.rotation = transformObject["rotation"].GetFloat();
-			transform.scale.x = transformObject["scale_x"].GetFloat();
-			transform.scale.y = transformObject["scale_y"].GetFloat();
+			transform.scale = transformObject["scale"].GetFloat();
 			transform.velocity.x = transformObject["velocity_x"].GetFloat();
 			transform.velocity.y = transformObject["velocity_y"].GetFloat();
 			ECS::ecs().AddComponent<Transform>(entity, transform);
