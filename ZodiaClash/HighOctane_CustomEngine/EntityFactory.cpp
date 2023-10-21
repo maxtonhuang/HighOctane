@@ -47,6 +47,7 @@
 #include "physics.h"
 #include "collision.h"
 #include "Model.h"
+#include "AssetManager.h"
 #include <deque>
 #include <algorithm>
 #include <limits>
@@ -93,8 +94,8 @@ void EntityFactory::LoadMasterModel() {
 	ECS::ecs().AddComponent(entity, Visible{ false });
 	ECS::ecs().AddComponent(entity, Tex{ /*texList.Add("duck.png")*/ }); //add tex component, init tex with duck sprite
 	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
-	t->texVariants.push_back(texList.Add("duck.png"));
-	t->texVariants.push_back(texList.Add("duck2.png"));
+	t->texVariants.push_back(assetmanager.texture.Get("duck.png"));
+	t->texVariants.push_back(assetmanager.texture.Get("duck2.png"));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
@@ -137,7 +138,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	// check if any spritesheets have been loaded
 	if (spritesheets.size() > 0) {
 		for (const char* filename : spritesheets) {
-			ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(texList.Add(filename)); // add a texVariant
+			ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(assetmanager.texture.Get(filename)); // add a texVariant
 		}
 		ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0]; // set default tex to first texVariant
 		// (TO CHECK: add using copy ctor here? then default ctor if no spritesheet?)

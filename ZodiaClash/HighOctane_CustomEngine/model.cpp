@@ -50,9 +50,11 @@
 
 const float pi = 3.14159265358979323846f;
 
-Model::Model() { 
+Model::Model(ModelType inputType, float bgScrollSpeed) { 
 	color = glm::vec4{ 1,1,1,1 };
 	matrix = glm::mat3{ 1,0,0,0,1,0,0,0,1 };
+	type = inputType;
+	backgroundScrollSpeed = bgScrollSpeed;
 }
 
 void Model::Update(Transform const& entity, Size const& size) {
@@ -74,20 +76,33 @@ void Model::Update(Transform const& entity, Size const& size) {
 }
 
 void Model::Draw(Tex const& entity, Animator const& ani) {
+	static Renderer* parallaxRenderer = &graphics.renderer["parallax"];
+	static Renderer* textureRenderer = &graphics.renderer["texture"];
+	static Renderer* flatRenderer = &graphics.renderer["flat"];
+
 	Renderer* renderer;
 	if (entity.tex != nullptr) {
-		renderer = &textureRenderer;
+		switch (type) {
+		case ModelType::BACKGROUND:
+			renderer = parallaxRenderer;
+			graphics.backgroundsystem.AddBackground(backgroundScrollSpeed);
+			break;
+		default:
+			renderer = textureRenderer;
+		}
 	}
 	else {
-		renderer = &flatRenderer;
+		renderer = flatRenderer;
 	}
 	if (entity.tex != nullptr) {
-		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),0), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),1), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),2), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),3), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords((int)ani.GetFrameIndex(),1), (float)entity.tex->GetID() - 1.f });
-		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords((int)ani.GetFrameIndex(),2), (float)entity.tex->GetID() - 1.f });
+		float texID{ (float)entity.tex->GetID() - 1.f };
+		int frameIndex{ (int)ani.GetFrameIndex() };
+		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords(frameIndex,0), texID });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(frameIndex,1), texID });
+		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords(frameIndex,2), texID });
+		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(frameIndex,3), texID });
+		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(frameIndex,1), texID });
+		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords(frameIndex,2), texID });
 	}
 	else {
 		renderer->AddVertex(Vertex{ botleft,color });

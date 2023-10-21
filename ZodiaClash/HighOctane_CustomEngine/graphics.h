@@ -44,12 +44,15 @@
 #include "Camera.h"
 #include "Viewport.h"
 #include "FrameBuffer.h"
+#include "Background.h"
 
 extern float g_dt;
  class GraphicsManager {
 public:
 	Viewport viewport{}; //viewport class
 	FrameBuffer framebuffer{};
+	BackgroundSystem backgroundsystem{};
+	std::unordered_map<std::string, Renderer> renderer{};
 public:
 	GraphicsManager();
 	~GraphicsManager();
@@ -82,17 +85,3 @@ private:
 };
 
 extern GraphicsManager graphics;
-
-//extern Model test_model;
-extern Texture test_tex;
-
-//main renderer of the engine
-extern Renderer textureRenderer;
-
-//DEBUG RENDERERS
-extern Renderer flatRenderer;
-extern Renderer pointRenderer;
-extern Renderer lineRenderer;
-extern Renderer lineloopRenderer;
-extern Renderer rectRenderer;
-extern Renderer circleRenderer;

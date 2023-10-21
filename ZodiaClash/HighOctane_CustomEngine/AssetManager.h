@@ -47,28 +47,40 @@
 
 class AssetManager {
 public:
-    AssetManager(FontManager fontManager) : m_fonts(*fontManager.GetFontCollection()) {};
+    TextureManager texture;
+    AudioManager audio;
+public:
+    void Initialize();
+    void UnloadAll();
 
     //General methods
-    void LoadAssets(const std::string& assetPath, const std::string& assetName);
+    bool FileExists(const std::string& path);
+    void LoadAssets(const std::string& assetPath);
 
     // Texture methods
-    void LoadTexture(const std::string& texturePath, const std::string& textureName);
+    void LoadTexture(const std::string& texturePath);
+    void LoadSpritesheet(const std::string& spritePath);
     Texture* GetTexture(const std::string& textureName);
     void UnloadTexture(const std::string& textureName);
 
     // Audio methods
-    void LoadAudio(const std::string& audioPath, const std::string& audioName);
+    void LoadSound(const std::string& audioPath);
+    void LoadMusic(const std::string& audioPath);
     AudioManager* GetAudio(const std::string& audioName);
     void UnloadAudio(const std::string& audioName);
 
     // Font methods
     void LoadFont(const std::string& fontPath);
-    Font GetFont(const std::string& fontFamily, const std::string& fontVariant);
+    Font* GetFont(const std::string& fontFamily, const std::string& fontVariant);
     //void UnloadFont(const std::string& fontName);
 
+    // Shader methods
+    void LoadRenderer(const std::string& rendererPath);
+
 private:
-    std::unordered_map<std::string, Texture> m_textures;
-    std::unordered_map<std::string, AudioManager> m_audio;
+    std::string defaultPath{};
+    std::vector<std::string> loadedFiles{};
     std::unordered_multimap<std::string, FontEntry> m_fonts;
 };
+
+extern AssetManager assetmanager;

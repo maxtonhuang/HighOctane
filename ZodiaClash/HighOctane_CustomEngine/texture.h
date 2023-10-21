@@ -39,7 +39,7 @@
 #include <unordered_map>
 #include <vector>
 
-struct Font; //forward declaration
+class Font; //forward declaration
 
 const int channelnum = 4;
 
@@ -54,7 +54,7 @@ class Texture {
 public:
 	Texture();
 	~Texture();
-	void Init(char const*); //Initialise a texture using the texture file path as input
+	void Init(char const* filepath, char const* filename); //Initialise a texture using the texture file path as input
 	void Init(Font& font, const char* texname);
 	void FreeTexture();		//Free the texture from OpenGL memory
 
@@ -87,11 +87,10 @@ private:
 class TextureManager {
 public:
 	~TextureManager(); //Calls Clear, in case of deletion without calling Clear
-	Texture* Add(char const* texname); //Create a texture using the texture file path as input. If texture already exists, return the texture instead.
+	Texture* Get(char const* texname);
+	Texture* Add(const char* texpath, char const* texname); //Create a texture using the texture file path as input. If texture already exists, return the texture instead.
 	Texture* Add(Font& font);
-	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
+	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum, const char* texpath = nullptr); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
 	void Clear(); //Removes all textures from OpenGL memory and empties the map
 	std::unordered_map<std::string, Texture> data; //storage of textures
 };
-
-extern TextureManager texList;

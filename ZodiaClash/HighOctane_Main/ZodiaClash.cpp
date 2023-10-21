@@ -61,7 +61,7 @@
 #include <mono/metadata/assembly.h>
 #include "Animator.h"
 #include "FileWatcher.h"
-
+#include "AssetManager.h"
 #include "ScriptEngine.h"
 #include <rttr/registration>
 
@@ -143,9 +143,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*---------------------------------------------------------------------------------------------*/
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
-    audio.Initialize();
-    audio.AddSound("../Assets/Sound/ping.wav");
-    audio.AddSound("../Assets/Sound/bonk.wav");
+
     LOG_INFO("Graphics started");
 
     EngineCore::engineCore(); // Instantiate Engine Core
@@ -346,6 +344,10 @@ void EngineCore::Run(bool const & mode) {
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
+	assetmanager.Initialize();
+	assetmanager.audio.PauseGroup("BGM");
+	assetmanager.audio.PlaySounds("MainMenu1.wav", "BGM");
+
 	if (game_mode) {
 
 		// LOAD IMGUI HERE !!!!!
@@ -366,7 +368,8 @@ void EngineCore::Run(bool const & mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 
 	Entity background = EntityFactory::entityFactory().CloneMasterModel(0,0,false);
-	ECS::ecs().GetComponent<Tex>(background).tex = texList.Add("background.jpeg");
+	ECS::ecs().GetComponent<Model>(background) = Model{ ModelType::BACKGROUND, 1.f };
+	ECS::ecs().GetComponent<Tex>(background).tex = assetmanager.texture.Get("background.jpeg");
 	ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
 	ECS::ecs().RemoveComponent<Collider>(background);

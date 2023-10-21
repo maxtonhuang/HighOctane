@@ -43,6 +43,7 @@
 #include "EntityFactory.h"
 #include "model.h"
 #include "Global.h"
+#include "AssetManager.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -365,7 +366,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			const char* filePath = texObject["Texture File Path"].GetString();
 
 			// Attempt to add or retrieve the Texture from the TextureManager
-			Texture* texture = texList.Add(filePath);
+			Texture* texture = assetmanager.texture.Get(filePath);
 
 			if (texture) {
 				tex.tex = texture;

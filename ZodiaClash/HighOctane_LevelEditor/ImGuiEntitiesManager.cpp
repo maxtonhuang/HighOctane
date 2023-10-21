@@ -35,7 +35,7 @@
 #include "Serialization.h"
 #include "ECS.h"
 #include "Global.h"
-
+#include "AssetManager.h"
 
 void InitEntitiesManager() {
     IMGUI_CHECKVERSION();
@@ -75,10 +75,10 @@ void UpdateEntitiesManager() {
             ECS::ecs().AddComponent(testEntity, Color{ glm::vec4{ 1,1,1,1 } });
             ECS::ecs().AddComponent(testEntity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, vmath::Vector2{ 0,0 } });
             ECS::ecs().AddComponent(testEntity, Visible{ false });
-            ECS::ecs().AddComponent(testEntity, Tex{ texList.Add("cat.png") });
+            ECS::ecs().AddComponent(testEntity, Tex{ assetmanager.texture.Get("cat.png") });
             Tex* t = &ECS::ecs().GetComponent<Tex>(testEntity);
-            t->texVariants.push_back(texList.Add("cat.png"));
-            t->texVariants.push_back(texList.Add("cat.png"));
+            t->texVariants.push_back(assetmanager.texture.Get("cat.png"));
+            t->texVariants.push_back(assetmanager.texture.Get("cat.png"));
             t->tex = t->texVariants.at(0);
             ECS::ecs().AddComponent(testEntity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
             ECS::ecs().AddComponent(testEntity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });

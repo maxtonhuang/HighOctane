@@ -35,8 +35,6 @@
 #include "DebugDiagnostic.h"
 #include <iostream>
 
-AudioManager audio;
-
 void AudioManager::Initialize() {
     FMOD_RESULT result;
 
@@ -91,28 +89,28 @@ bool AudioManager::IsGroupPaused(const char* name) {
     return status;
 }
 
-FMOD::Sound* AudioManager::AddSound(const char* path) {
-    if (data.count(path)) {
-        return data[path];
+FMOD::Sound* AudioManager::AddSound(const char* path, const char* name) {
+    if (data.count(name)) {
+        return data[name];
     }
     FMOD_RESULT result;
-    result = system->createSound(path, FMOD_DEFAULT,0,&data[path]);
+    result = system->createSound(path, FMOD_DEFAULT,0,&data[name]);
     if (result != FMOD_OK) {
         ASSERT(1, "Error creating sound!");
     }
-    return data[path];
+    return data[name];
 }
 
-FMOD::Sound* AudioManager::AddMusic(const char* path) {
-    if (data.count(path)) {
-        return data[path];
+FMOD::Sound* AudioManager::AddMusic(const char* path, const char* name) {
+    if (data.count(name)) {
+        return data[name];
     }
     FMOD_RESULT result;
-    result = system->createSound(path, FMOD_LOOP_NORMAL, 0, &data[path]);
+    result = system->createSound(path, FMOD_LOOP_NORMAL, 0, &data[name]);
     if (result != FMOD_OK) {
         ASSERT(1, "Error creating music!");
     }
-    return data[path];
+    return data[name];
 }
 
 void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {

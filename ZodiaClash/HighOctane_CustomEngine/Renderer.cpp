@@ -34,6 +34,7 @@
 #include "Renderer.h"
 #include "debugdiagnostic.h"
 #include "graphics.h"
+#include "AssetManager.h"
 
 Renderer::Renderer() {
     data = new Vertex[GRAPHICS::vertexBufferSize];
@@ -76,6 +77,20 @@ void Renderer::Initialize(Shader shader, GLenum type) {
     shaderprogram = shader;
     CreateVAO();
     drawtype = type;
+    switch (drawtype) {
+    case GL_POINTS:
+        objvertsize = 1;
+        break;
+    case GL_TRIANGLES:
+        objvertsize = 6;
+        break;
+    case GL_LINES:
+        objvertsize = 2;
+        break;
+
+    default:
+        objvertsize = 0;
+    }
 }
 
 Shader& Renderer::ShaderProgram() {
@@ -91,11 +106,14 @@ void Renderer::AddVertex(Vertex input) {
         }
         Draw();
     }
+    input.bufPos = (float)(drawcount / objvertsize);
     data[drawcount] = input;
-    ++drawcount;
+    drawcount++;
 }
 
 void Renderer::Draw() {
+    static std::unordered_map<std::string, Texture>* textureList{ &assetmanager.texture.data };
+
     if (drawcount <= 0) {
         return;
     }
@@ -108,7 +126,7 @@ void Renderer::Draw() {
     }
     glNamedBufferSubData(vbo, 0, sizeof(Vertex) * GRAPHICS::vertexBufferSize, data);
     shaderprogram.Use();
-    for (auto& t : texList.data) {
+    for (auto& t : *textureList) {
         glBindTextureUnit(t.second.GetID() - 1, t.second.GetID());
     }
     GLint uniform_var_tex = glGetUniformLocation(
@@ -144,6 +162,7 @@ void Renderer::DrawFrameBuffer() {
     glDrawArrays(GL_TRIANGLE_STRIP, 0, drawcount);
     drawcount = 0;
     glBindTexture(GL_TEXTURE_2D, 0);
+    graphics.framebuffer.Clear();
 }
 
 void Renderer::FontDraw(GLuint texID) {
@@ -159,11 +178,19 @@ void Renderer::FontDraw(GLuint texID) {
     drawcount = 0;
 }
 
-void Renderer::UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3& matrix) {
+void Renderer::UpdateUniform1fv(char const* uniform_name, float* value, int size) {
     shaderprogram.Use();
     GLint uniform_var_matrix = glGetUniformLocation(shaderprogram.GetHandle(), uniform_name);
     if (uniform_var_matrix >= 0) {
-        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(matrix));
+        glUniform1fv(uniform_var_matrix, size, value);
+    }
+}
+
+void Renderer::UpdateUniformMatrix3fv(char const* uniform_name, glm::mat3* matrix) {
+    shaderprogram.Use();
+    GLint uniform_var_matrix = glGetUniformLocation(shaderprogram.GetHandle(), uniform_name);
+    if (uniform_var_matrix >= 0) {
+        glUniformMatrix3fv(uniform_var_matrix, 1, GL_FALSE, glm::value_ptr(*matrix));
     }
 }
 
@@ -197,6 +224,12 @@ void Renderer::CreateVAO() {
     glVertexArrayVertexBuffer(vao, 3, vbo, sizeof(Vertex::pos) + sizeof(Vertex::col) + sizeof(Vertex::tex), sizeof(Vertex));
     glVertexArrayAttribFormat(vao, 3, 1, GL_FLOAT, GL_FALSE, 0);
     glVertexArrayAttribBinding(vao, 3, 3);
+
+    //Assign renderer buffer index to shader
+    glEnableVertexArrayAttrib(vao, 4);
+    glVertexArrayVertexBuffer(vao, 4, vbo, sizeof(Vertex::pos) + sizeof(Vertex::col) + sizeof(Vertex::tex) + sizeof(Vertex::index), sizeof(Vertex));
+    glVertexArrayAttribFormat(vao, 4, 1, GL_FLOAT, GL_FALSE, 0);
+    glVertexArrayAttribBinding(vao, 4, 4);
 
     glBindVertexArray(0);
 }

@@ -125,6 +125,7 @@ template<typename T>
 class ComponentArray : public IComponentArray {
 public:
     //template <typename T>
+    /*
     void InsertData(Entity entity, T component) {
         ASSERT(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Component added to same entity more than once.");
 
@@ -135,9 +136,18 @@ public:
         m_ComponentArray[newIndex] = component;
         ++m_Size;
     }
+    */
 
+    void InsertData(Entity entity, T component) {
+        ASSERT(m_RegisteredArray[entity], "Component added to same entity more than once.");
+
+        // Put new entry at end and update the maps
+        m_ComponentArray[entity] = component;
+        m_RegisteredArray[entity] = true;
+    }
 
     //template<typename T>
+    /*
     void RemoveData(Entity entity) { // check
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Removing non-existent component.");
 
@@ -156,18 +166,39 @@ public:
 
         --m_Size;
     }
+    */
+    void RemoveData(Entity entity) { // check
+        ASSERT(m_RegisteredArray[entity] == false, "Removing non-existent component.");
+
+        m_RegisteredArray[entity] = false;
+    }
 
     //template<typename T>
+    /*
     T& GetData(Entity entity) {
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Retrieving non-existent component.");
 
         // Return a reference to the entity's component
         return m_ComponentArray[m_EntityToIndexMap[entity]];
     }
+    */
+    T& GetData(Entity entity) {
+        ASSERT(m_RegisteredArray[entity] == false, "Retrieving non-existent component.");
+        // Return a reference to the entity's component
+        return m_ComponentArray[entity];
+    }
 
     //template<typename T>
+    /*
     void EntityDestroyed(Entity entity) {
         if (m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end()) {
+            // Remove the entity's component if it existed
+            RemoveData(entity);
+        }
+    }
+    */
+    void EntityDestroyed(Entity entity) {
+        if (m_RegisteredArray[entity] == true) {
             // Remove the entity's component if it existed
             RemoveData(entity);
         }
@@ -179,15 +210,16 @@ private:
     // of entities allowed to exist simultaneously, so that each entity
     // has a unique spot.
     std::array<T, MAX_ENTITIES> m_ComponentArray;
+    std::array<bool, MAX_ENTITIES> m_RegisteredArray{};
 
     // Map from an entity ID to an array index.
-    std::unordered_map<Entity, size_t> m_EntityToIndexMap;
+    //std::unordered_map<Entity, size_t> m_EntityToIndexMap;
 
     // Map from an array index to an entity ID.
-    std::unordered_map<size_t, Entity> m_IndexToEntityMap;
+    //std::unordered_map<size_t, Entity> m_IndexToEntityMap;
 
     // Total size of valid entries in the array.
-    size_t m_Size{};
+    //size_t m_Size{};
 };
 
 

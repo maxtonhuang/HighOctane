@@ -40,65 +40,108 @@
 #include "AssetManager.h"
 #include "File.h"
 #include "debugdiagnostic.h"
+#include "Serialization.h"
+#include "graphics.h"
+
+AssetManager assetmanager;
+
+void AssetManager::Initialize() {
+    const std::string initFilePath = "init.txt";
+    std::string path{initFilePath};
+    Serializer serializer;
+    defaultPath = "Assets/";
+    if (!serializer.Open(path)) {
+        defaultPath = "../Assets/";
+        path = defaultPath + initFilePath;
+        if (!serializer.Open(path)) {
+            ASSERT(1, "Unable to initialize asset manager!");
+            return;
+        }
+    }
+
+    audio.Initialize();
+
+    while (!serializer.stream.eof()) {
+        path.clear();
+        serializer.ReadString(path);
+        if (path != "") {
+            LoadAssets(path);
+        }
+    }
+}
+
+void AssetManager::UnloadAll() {
+    loadedFiles.clear();
+    texture.Clear();
+    audio.ReleaseAllSounds();
+}
 
 /**************************************TEXTURES**************************************************/
-void AssetManager::LoadTexture(const std::string& texturePath, const std::string& textureName) {
-    Texture texture;
-    texture.Init(texturePath.c_str()); // Initialize the texture using your Texture class.
-    m_textures[textureName] = texture;
-}
-
-Texture* AssetManager::GetTexture(const std::string& textureName) {
-    auto it = m_textures.find(textureName);
-    if (it != m_textures.end()) {
-        return &it->second;
+void AssetManager::LoadTexture(const std::string& texturePath) {
+    std::string path{ defaultPath };
+    path += "Textures/";
+    path += texturePath;
+    if (FileExists(path)) {
+        texture.Add(path.c_str(), texturePath.c_str());
     }
-    return nullptr; // Texture not found.
+    else {
+        ASSERT(1, "Unable to open texture file!");
+    }
 }
 
-void AssetManager::UnloadTexture(const std::string& textureName) {
-    auto it = m_textures.find(textureName);
-    if (it != m_textures.end()) {
-        it->second.FreeTexture(); // Free the texture from OpenGL memory using your Texture class.
-        m_textures.erase(it);
+void AssetManager::LoadSpritesheet(const std::string& spritePath) {
+    std::string path{ defaultPath };
+    path += "Textures/" + spritePath;
+    if (FileExists(path)) {
+        Serializer serializer;
+        std::string textureName;
+        int row;
+        int column;
+        int spritenum;
+        serializer.Open(path);
+        serializer.ReadString(textureName);
+        serializer.ReadInt(row);
+        serializer.ReadInt(column);
+        serializer.ReadInt(spritenum);
+        LoadAssets(textureName);
+        texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum);
+    }
+    else {
+        ASSERT(1, "Unable to open sprite sheet file!");
     }
 }
 
 /**************************************AUDIO**************************************************/
-void AssetManager::LoadAudio(const std::string& audioPath, const std::string& audioName) {
-    AudioManager loadAudio;
-    loadAudio.AddSound(audioPath.c_str());
-    m_audio[audioName] = loadAudio;
-}
-
-AudioManager* AssetManager::GetAudio(const std::string& audioName) {
-    auto it = m_audio.find(audioName);
-    if (it != m_audio.end()) {
-        return &it->second;
+void AssetManager::LoadSound(const std::string& audioPath) {
+    std::string path{ defaultPath };
+    path += "Sound/" + audioPath;
+    if (FileExists(path)) {
+        audio.AddSound(path.c_str(), audioPath.c_str());
     }
-    return nullptr; // Audio not found.
+    else {
+        ASSERT(1, "Unable to open sound file!");
+    }
 }
 
-void AssetManager::UnloadAudio(const std::string& audioName) {
-    AudioManager loadAudio;
-    loadAudio.FreeSound(audioName.c_str());
+void AssetManager::LoadMusic(const std::string& audioPath) {
+    std::string path{ defaultPath };
+    path += "Music/" + audioPath;
+    if (FileExists(path)) {
+        audio.AddMusic(path.c_str(), audioPath.c_str());
+    }
+    else {
+        ASSERT(1, "Unable to open music file!");
+    }
 }
 
 
 /**************************************FONTS**************************************************/
 void AssetManager::LoadFont(const std::string& fontPath) {
     FontManager font;
-    Font newFont;
-    font.LoadNewFont(newFont, fontPath); // Load the font using your FontManager class.
-    //m_fonts[fontName] = font;
+    font.LoadFontFilePath(fontPath);
 }
 
-Font AssetManager::GetFont(const std::string& fontFamily, const std::string& fontVariant) {
-    //auto it = m_fonts.find(fontName);
-    //if (it != m_fonts.end()) {
-    //    return &it->second;
-    //}
-    //return nullptr; // Font not found.
+Font* AssetManager::GetFont(const std::string& fontFamily, const std::string& fontVariant) {
     FontManager font;
     return font.GetFont(fontFamily, fontVariant);
 }
@@ -112,26 +155,89 @@ Font AssetManager::GetFont(const std::string& fontFamily, const std::string& fon
 //    //}
 //}
 
+/**************************************SHADERS*************************************************/
+void AssetManager::LoadRenderer(const std::string& rendererPath) {
+    std::string path{ defaultPath };
+    path += "Shaders/" + rendererPath;
+    if (FileExists(path)) {
+        Serializer serializer;
+        std::string rendererName;
+        std::string vertexShader;
+        std::string fragmentShader;
+        std::string typeName;
+        GLenum type;
+        serializer.Open(path);
+        serializer.ReadString(rendererName);
+        serializer.ReadString(vertexShader);
+        serializer.ReadString(fragmentShader);
+        serializer.ReadString(typeName);
+        vertexShader = defaultPath + "Shaders/" + vertexShader;
+        fragmentShader = defaultPath + "Shaders/" + fragmentShader;
+        if (typeName == "GL_TRIANGLES") {
+            type = GL_TRIANGLES;
+        }
+        else if (typeName == "GL_POINTS") {
+            type = GL_POINTS;
+        }
+        else if (typeName == "GL_LINES") {
+            type = GL_LINES;
+        }
+        else if (typeName == "GL_TRIANGLE_FAN") {
+            type = GL_TRIANGLE_FAN;
+        }
+        else if (typeName == "GL_TRIANGLE_STRIP") {
+            type = GL_TRIANGLE_STRIP;
+        }
+        else {
+            ASSERT(1, "Renderer has unsupported draw type!");
+            return;
+        }
+        graphics.renderer[rendererName].Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
+    }
+    else {
+        ASSERT(1, "Unable to open renderer file!");
+    }
+}
 
 /**********************************GENERIC METHODS*********************************************/
-void AssetManager::LoadAssets(const std::string& assetPath, const std::string& assetName) {
+bool AssetManager::FileExists(const std::string& path) {
+    std::fstream f{ path };
+    return f.good();
+}
+
+void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
     std::string extension = FilePath::GetFileExtension(assetPath);
 
     if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {
         // Load as a texture
-        LoadTexture(assetPath, assetName);
+        LoadTexture(assetPath);
+    }
+    else if (extension == ".spritesheet") {
+        LoadSpritesheet(assetPath);
     }
     else if (extension == ".mp3" || extension == ".wav" || extension == ".ogg") {
         // Load as audio
-        LoadAudio(assetPath, assetName);
+        std::string soundPath{ defaultPath };
+        soundPath += "Sound/" + assetPath;
+        if (FileExists(soundPath)) {
+            LoadSound(assetPath);
+        }
+        else {
+            LoadMusic(assetPath);
+        }
+        
     }
     else if (extension == ".ttf" || extension == ".otf") {
         // Load as font
         LoadFont(assetPath);
     }
+    else if (extension == ".renderer") {
+        LoadRenderer(assetPath);
+    }
     else {
         // Error Handling
         ASSERT(true,"Unsupported asset type: ");
     }
+    loadedFiles.push_back(assetPath);
 }

@@ -44,9 +44,10 @@
 #include "ImGuiEntitiesManager.h"
 #include "ImGuiPlayStop.h"
 #include "graphics.h"
+#include "FrameBuffer.h"
 
 //GUIManager guiManager;
-
+//FrameBuffer frameBuffer;
 GUIManager::GUIManager()
 {
 	ImGui::CreateContext();
@@ -71,7 +72,7 @@ void GUIManager::Init()
     GLFWwindow* window = graphics.GetWindow();
         
     const char* glsl_version = "#version 450";
-
+    //graphics.viewport.SetViewport(GRAPHICS::defaultWidthF * 0.25f, GRAPHICS::defaultHeightF * 0.5f, GRAPHICS::defaultWidthF * 0.5f, GRAPHICS::defaultHeightF * 0.5f);
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -79,12 +80,13 @@ void GUIManager::Init()
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
     // Init console window
     InitConsole();
     InitEntitiesManager();
+    
 
 #if ENABLE_DEBUG_PROFILE
     // Init performance window
@@ -100,6 +102,34 @@ void GUIManager::Update()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    // Create the main dockable window
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(main_viewport->WorkPos);
+    ImGui::SetNextWindowSize(main_viewport->WorkSize);
+    ImGui::SetNextWindowViewport(main_viewport->ID);
+
+    {
+        ImGui::Begin("Dockable Window", nullptr, window_flags);
+        ImGuiIO& io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+        {
+            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+        
+        }
+
+        // Create a menu bar for the window
+        if (ImGui::BeginMenuBar()) {
+            if (ImGui::BeginMenu("Files")) {
+                ImGui::MenuItem("Load Scene");
+                ImGui::MenuItem("Save Scene");
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenuBar();
+        }
+        ImGui::End();
+    }
 
     ImGuiIO& io = ImGui::GetIO();
     if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
@@ -113,6 +143,14 @@ void GUIManager::Update()
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 
+    {
+        ImGui::Begin("Game Viewport");
+        unsigned texutreID = graphics.framebuffer.GetTextureID();
+        ImGui::Image((void*)texutreID,ImVec2{1280,720},ImVec2{0,1},ImVec2{1,0});
+
+        ImGui::End();
+    }
+  
     // Update the console
     UpdateConsole();
     UpdateEntitiesManager();
