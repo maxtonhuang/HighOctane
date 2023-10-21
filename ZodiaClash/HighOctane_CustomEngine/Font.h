@@ -44,7 +44,8 @@
 #include "texture.h"
 
 // character object - stores data of extracted glyph
-struct Character {
+class Character {
+public:
 	Texture*	textureID;  // Font texture
 	size_t		texPos;		// Position of glyph in font sprite sheet
 	glm::ivec2  size;       // Size of glyph
@@ -53,54 +54,86 @@ struct Character {
 };
 
 // font object - stores loaded FontFace and the FontFace's extracted glyphs
-struct Font {
+class Font {
+public:
 	FT_Face fontFace{};
 	std::unordered_map<char, Character> characters{};
-	bool isActive{};
+
+	Font(const std::string& ftFamily, const std::string& ftVariant)
+		: fontFamily(ftFamily), fontVariant(ftVariant) {}
+
+	std::pair<std::string, std::string> GetInfo();
+
+private:
+	const std::string& fontFamily;
+	const std::string& fontVariant;
 };
 
-//struct FontInfo {
-//	std::string fontFamily{};
-//	std::string fontVariant{};
-//
-//	FontInfo(const std::string& ft_family, const std::string& ft_variant)
-//		: fontFamily(ft_family), fontVariant(ft_variant) {}
-//};
-
-struct FontEntry {
+class FontEntry {
+public:
 	Font font;
-	std::string fontVariant{};
+	std::string fontFilePath{};
 	std::string filename{};
 
-	FontEntry(const Font& ftData, const std::string& ftVariant, const std::string& ftFilename)
-		: font(ftData), fontVariant(ftVariant), filename(ftFilename) {}
+	FontEntry(const Font& ftData, const std::string& ftFilePath, const std::string& ftFilename)
+		: font(ftData), fontFilePath(ftFilePath), filename(ftFilename) {}
 };
 
 class FontManager {
 public:
-	FontManager() : fontLibrary{} {};
+	FontManager() : fontLibrary{}, defaultFont{} {};
 	~FontManager();
 	void Initialize();
 
-	void LoadAllFonts();
+	// called during Initialize()
+	void ReadFonts();
+	void LoadDefaultFont();
+
+	// called during Intialize / for on-demand loading
+	void LoadFontVariant(const std::string& ftFamily, const std::string& ftVariant);
+	void LoadFontFilePath(const std::string ftFilePath);
 	void LoadValidFont(Font& fontData, const std::string& fontFilePath);
-	//void LoadChar(Font& fontData); DEPRECATED
+	
+	// DEPRECATED //
+	//void LoadChar(Font& fontData);  -- moved to TextureManager
+	//void LoadAllFonts(); -- decomposed into its smaller functions
+	//bool LoadNewFont(Font& fontData, const std::string& fontPath); -- dropped, to use LoadFontFilePath()
 
-	//tmp, to replace once fully integrated
-	// for asset manager? new font file
-	void LoadNewFont(Font& fontData, const std::string& fontPath);
-
+	// boolean checkers to prevent duplicates (current usage in Initialize)
+	bool CheckFamilyName(const std::string& ftFamily);
 	bool CheckVariantName(const std::string& ftFamily, const std::string& ftVariant);
 
-	Font GetFont(const std::string& ftFamily, const std::string& ftVariant);
+	/**************************
+	********* GETTERS *********
+	**************************/
+	Font* GetFont(const std::string& ftFamily, const std::string& ftVariant);
+	Font* GetDefaultFont();
+
+	FontEntry* GetFontEntryByVariant(const std::string& ftFamily, const std::string& ftVariant);
+	FontEntry* GetFontEntryByFilePath(const std::string& ftFilePath);
 
 	// primary key: font family string
 	std::unordered_multimap<std::string, FontEntry>* GetFontCollection();
+
+	// getter for retrieving fontPairs
+	const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* GetFontPairs() const;
+
+	// getter for retrieving list of font families
+	std::vector<std::string> GetFontFamilyList();
+
+	// getter for retrieving list of variants for set font family
+	std::vector<std::string> GetFontVariantList(const std::string& ftFamily);
+
+	/**************************
+	********* SETTERS *********
+	**************************/
+	void SetDefaultFont(Font* fontPtr);
 private:
 	FT_Library fontLibrary;
-	//Font ft_font; //tmp
+	Font* defaultFont;
 
 	std::unordered_multimap<std::string, FontEntry> fontCollection;
+	std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>> fontPairs;
 };
 
 extern FontManager fonts;
