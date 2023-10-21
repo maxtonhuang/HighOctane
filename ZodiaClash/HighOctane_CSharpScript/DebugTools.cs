@@ -16,4 +16,10 @@ public static class Debug
     {
         return InternalCalls.GetKeyDown(key);
     }
+
+    public static Vector3 LogVector3(Vector3 vector)
+    {
+        InternalCalls.LogVector3(ref vector, out Vector3 result);
+        return result;
+    }
 }

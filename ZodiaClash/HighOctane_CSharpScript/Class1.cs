@@ -83,12 +83,6 @@ public class MyScriptClass : MonoBehaviour
     {
 
     }
-    
-    public static void PrintFromCSharp()
-    {
-        // Call the C++ function through the C# wrapper
-        InternalCalls.Print();
-    }
 
     // Function to be called from C++ code
     public static void TestInterop(int input)

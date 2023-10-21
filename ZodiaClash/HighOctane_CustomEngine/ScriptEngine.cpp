@@ -2,10 +2,11 @@
 #include <mono/jit/jit.h>
 #include <mono/metadata/assembly.h>
 #include "DebugDiagnostic.h"
+#include "InternalCalls.cpp"
 
 // Forward declaration
-char* ReadBytes(const std::string& filepath, uint32_t* outSize);
-MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath);
+char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize);
+MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath);
 void PrintAssemblyTypes(MonoAssembly* assembly);
 
 
@@ -14,6 +15,7 @@ struct ScriptEngineData {
     MonoDomain* AppDomain = nullptr;
     
     MonoAssembly* CoreAssembly = nullptr;
+    MonoImage* CoreAssemblyImage = nullptr;
 };
 
 static ScriptEngineData* s_Data = nullptr;
@@ -21,7 +23,40 @@ static ScriptEngineData* s_Data = nullptr;
 
 void ScriptEngine::Init() {
     s_Data = new ScriptEngineData();
-	InitMono();
+    InitMono();
+    // If debug mode
+#if (ENABLE_DEBUG_DIAG)
+    // Relative path to the C# assembly
+    const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
+#elif (!ENABLE_DEBUG_DIAG)
+    const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
+#endif
+
+    std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+
+    LoadAssembly(fullAssemblyPath);
+    // This is the mono_add_internal_call but I have my own define function
+    //mono_add_internal_call("InternalCalls::CppFunction", (void*)CppFunc);
+
+    // This is to add the internal calls
+    InternalCalls::addInternalCalls();
+
+    // Retrieve and insantiate class (with constructor)s
+    MonoClass* monoClass = mono_class_from_name(s_Data->CoreAssemblyImage, "", "Main");
+    MonoObject* instance = mono_object_new(s_Data->AppDomain, monoClass);
+    mono_runtime_object_init(instance);
+
+    // Call function (method)
+    MonoMethod* printMessageFunc = mono_class_get_method_from_name(monoClass, "PrintMessage", 0);
+    mono_runtime_invoke(printMessageFunc, instance, nullptr, nullptr);
+
+    // Call function with param
+    MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
+
+    MonoMethod* printCustomMessageFunc = mono_class_get_method_from_name(monoClass, "PrintCustomMessage", 1);
+    void* stringParam = monoString;
+    mono_runtime_invoke(printCustomMessageFunc, instance, &stringParam, nullptr);
+
 }
 
 void ScriptEngine::Shutdown() {
@@ -29,6 +64,33 @@ void ScriptEngine::Shutdown() {
     delete s_Data;
 }
 
+void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
+{
+    // Create an App Domain
+    s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
+    mono_domain_set(s_Data->AppDomain, true);
+
+
+
+    // Move this maybe
+
+
+    s_Data->CoreAssembly = LoadMonoAssembly(filePath);
+
+    s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
+    //PrintAssemblyTypes(s_Data->CoreAssembly);
+}
+
+//#if (ENABLE_DEBUG_DIAG)
+//// Relative path to the C# assembly
+//const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
+//#elif (!ENABLE_DEBUG_DIAG)
+//const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
+//#endif
+//
+//std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+//s_Data->CoreAssembly = LoadCSharpAssembly(fullAssemblyPath);
+//PrintAssemblyTypes(s_Data->CoreAssembly);
 void ScriptEngine::InitMono() {
     
     // Setting the path to the mono
@@ -43,42 +105,8 @@ void ScriptEngine::InitMono() {
     // Store the root domain pointer
     s_Data->RootDomain = rootDomain;
 
-    // Create an App Domain
-    s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane") , nullptr);
-    mono_domain_set(s_Data->AppDomain, true);
 
-    // Move this maybe
-    // If debug mode
-#if (ENABLE_DEBUG_DIAG)
-    // Relative path to the C# assembly
-    const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
-#elif (!ENABLE_DEBUG_DIAG)
-    const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
-#endif
 
-    std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
-    s_Data->CoreAssembly = LoadCSharpAssembly(fullAssemblyPath);
-    PrintAssemblyTypes(s_Data->CoreAssembly);
-
-    MonoImage* assemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
-
-    
-    MonoClass* monoClass = mono_class_from_name(assemblyImage, "", "Main");
-       
-    // Create an object
-    MonoObject* instance = mono_object_new(s_Data->AppDomain, monoClass);
-    mono_runtime_object_init(instance);
-
-    // Call function
-    MonoMethod* printMessageFunc = mono_class_get_method_from_name(monoClass, "PrintMessage", 0);
-    mono_runtime_invoke(printMessageFunc, instance, nullptr, nullptr);
-
-    // Call function with param
-    MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
-
-    MonoMethod* printCustomMessageFunc = mono_class_get_method_from_name(monoClass, "PrintCustomMessage",1);
-    void* stringParam = monoString;
-    mono_runtime_invoke(printCustomMessageFunc, instance, &stringParam, nullptr);
 
 }
 
@@ -90,7 +118,7 @@ void ScriptEngine::ShutdownMono() {
 	//mono_jit_cleanup(s_Data->AppDomain);
 }
 
-char* ReadBytes(const std::string& filepath, uint32_t* outSize)
+static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
 {
     std::ifstream stream(filepath, std::ios::binary | std::ios::ate);
 
@@ -118,7 +146,7 @@ char* ReadBytes(const std::string& filepath, uint32_t* outSize)
     return buffer;
 }
 
-MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath)
+static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
 {
     uint32_t fileSize = 0;
     char* fileData = ReadBytes(assemblyPath, &fileSize);
@@ -133,8 +161,9 @@ MonoAssembly* LoadCSharpAssembly(const std::string& assemblyPath)
         // Log some error message using the errorMessage data
         return nullptr;
     }
+    std::string pathString = assemblyPath.string();
 
-    MonoAssembly* assembly = mono_assembly_load_from_full(image, assemblyPath.c_str(), &status, 0);
+    MonoAssembly* assembly = mono_assembly_load_from_full(image, pathString.c_str(), &status, 0);
     mono_image_close(image);
 
     // Don't forget to free the file data
