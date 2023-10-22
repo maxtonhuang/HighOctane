@@ -158,6 +158,7 @@ void GraphicsManager::Draw() {
 }
 
 void GraphicsManager::EndDraw() {
+    graphics.framebuffer.Clear();
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
 }
