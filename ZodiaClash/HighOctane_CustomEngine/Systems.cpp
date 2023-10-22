@@ -356,3 +356,21 @@ void EditingSystem::Update() {
 	}
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }
+//
+//void GameplaySystem::Update() {
+//	// Access the ComponentManager through the ECS class
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//	// Access component arrays through the ComponentManager
+//	auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
+//	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+//	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+//	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+//	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+//
+//	for (Entity const& entity : m_Entities) {
+//		Model* m = &modelArray.GetData(entity);
+//		Transform* transform = &transformArray.GetData(entity);
+//		Tex* tex = &texArray.GetData(entity);
+//		Animator* anim = &animatorArray.GetData(entity);
+//	}
+//}
