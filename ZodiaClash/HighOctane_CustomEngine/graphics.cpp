@@ -246,7 +246,7 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontFamily, s
 
     // TODO some sort of non null checking for fontData?
     // find font in fontCollection (null checking included)
-    Font fontData = *fonts.GetFont(fontFamily, fontVariant);
+    Font& fontData{ *fonts.GetFont(fontFamily, fontVariant) };
 
     if (fontData.characters.empty() == false) {
         // test GetInfo
@@ -261,7 +261,7 @@ void GraphicsManager::DrawLabel(std::string labelText, std::string fontFamily, s
         std::string::const_iterator c;
         for (c = labelText.begin(); c != labelText.end(); c++)
         {
-            Character ch = fontData.characters[*c];
+            Character ch{ fontData.characters[*c] };
 
             xPos = (xPos + ch.bearing.x * relFontSize);
             yPos = (initPosY - (ch.size.y - ch.bearing.y) * relFontSize);
