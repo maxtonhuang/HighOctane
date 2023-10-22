@@ -105,7 +105,7 @@ void BattleSystem::Update()
                 LOG_WARNING("State: End Round");
                 battleState = NEWROUND;
 
-                activeCharacter.isnull = true;
+                activeCharacter.gameObject.isnull = true;
                 turnManage.activeEnemy = "";
                 turnManage.activePlayer = "";
 

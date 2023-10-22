@@ -1,72 +1,51 @@
-//#include "EnemyAction.h"
-//
-//void EnemyAction::Start() 
-//{
-//    // moveSpeed = 50f;
-//    // startPosition = transform.position;
-//
-//    battleManager = FindObjectOfType<BattleManager>();
-//    characterStats = GetComponent<CharacterStats>();
-//    Vector3 offset = new(10f, 0, 0);
-//    transform.position = startPosition + offset;
-//
-//    enemyState = EnemyState.START;
-//}
-//
-//void EnemyAction::UpdateEnemyState() 
-//{
-//
-//}
-//void EnemyAction::EnemyRefreshTargets() 
-//{
-//    enemyTargets = GameObject.FindGameObjectsWithTag("Enemy");
-//    playerTargets = GameObject.FindGameObjectsWithTag("Player");
-//}
-//void EnemyAction::EnemySelection() 
-//{
-//
-//}
-//void EnemyAction::EnemyUseSkill() 
-//{
-//
-//}
-//void EnemyAction::EnemyAttackAnimation() 
-//{
-//
-//}
-//void EnemyAction::EnemyApplySkill() 
-//{
-//
-//}
-//EnemyState EnemyAction::EnemyDeath() 
-//{
-//
-//}
-//EnemyState EnemyAction::EnemyAttackStartDelay(float startDelay, float endDelay) 
-//{
-//    yield return new WaitForSeconds(startDelay); //walk delay before attacking
-//
-//    EnemyApplySkill();
-//
-//    yield return new WaitForSeconds(endDelay); //delay to play animation
-//
-//    movingToStart = true;
-//}
-//EnemyState EnemyAction::EnemyBuffStartDelay(float startDelay, float endDelay) 
-//{
-//    yield return new WaitForSeconds(startDelay); //delay before buff
-//
-//    EnemyApplySkill();
-//
-//    yield return new WaitForSeconds(endDelay); //delay to play animation
-//
-//    enemyEndingTurn = true;
-//}
-//EnemyState EnemyAction::EnemyEndTurnDelay(float startDelay, float endDelay) 
-//{
-//    yield return new WaitUntil(() = > enemyEndingTurn);
-//
-//    yield return new WaitForSeconds(seconds);
-//
-//    enemyState = EnemyState.ENDING;
-//}
+#include "EnemyAction.h"
+
+
+void EnemyAction::Start() 
+{
+    // moveSpeed = 50f;
+    // startPosition = transform.position;
+
+    /*battleManager = FindObjectOfType<BattleManager>();
+    characterStats = GetComponent<CharacterStats>();
+    vmath::Vector3 offset = new(10f, 0, 0);
+    transform.position = startPosition + offset;*/
+
+    enemyState = START;
+}
+
+void EnemyAction::EnemyRefreshTargets() 
+{
+    targetSelect.enemyTargets = characterStats.gameObject.FindGameObjectsWithTag("Enemy");
+    targetSelect.playerTargets = characterStats.gameObject.FindGameObjectsWithTag("Player");
+}
+
+EntityState EnemyAction::EnemyAttackStartDelay(float startDelay, float endDelay)
+{
+    WaitForSeconds(startDelay); //walk delay before attacking
+    EnemyApplySkill();
+    WaitForSeconds(endDelay); //delay to play animation
+    movingToStart = true;
+    return ATTACKING;
+}
+
+EntityState EnemyAction::EnemyBuffStartDelay(float startDelay, float endDelay)
+{
+    WaitForSeconds(startDelay); //delay before buff
+    EnemyApplySkill();
+    WaitForSeconds(endDelay); //delay to play animation
+    enemyEndingTurn = true;
+    return WAITING; // Return a suitable state
+}
+
+EntityState EnemyAction::EnemyEndTurnDelay(float startDelay, float endDelay)
+{
+    // Wait until enemyEndingTurn becomes true
+    while (!enemyEndingTurn)
+    {
+        WaitForSeconds(100);
+    }
+    WaitForSeconds(endDelay); // Assuming 'seconds' is defined elsewhere or replace with 'endDelay'
+    enemyState = ENDING;
+    return ENDING;
+}

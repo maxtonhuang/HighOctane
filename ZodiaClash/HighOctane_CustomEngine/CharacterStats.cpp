@@ -1,25 +1,30 @@
 #include "CharacterStats.h"
+#include "PlayerAction.h"
 
-void CharacterStats::Start() 
+void CharacterStats::Start()
 {
-   /* gameManager = FindObjectOfType<GameManager>();
-    battleManager = FindObjectOfType<BattleSystem>();
-    checkedStatus = false;*/
+    // Assuming GameManager and BattleSystem are globally accessible or you have some other mechanism to get references
+    // gameManager = GetGameManagerInstance();
+    // battleManager = GetBattleSystemInstance();
+    checkedStatus = false;
 }
 
-void CharacterStats::Death() 
+void CharacterStats::Death()
 {
-   /* if (gameObject.CompareTag("Player"))
-    {
-        _PlayerAction player = GetComponent<_PlayerAction>();
-        player.playerState = PlayerState.DYING;
-    }
-    else if (gameObject.CompareTag("Enemy"))
-    {
-        _EnemyAction enemy = GetComponent<_EnemyAction>();
-        enemy.enemyState = EnemyState.DYING;
-    }*/
+    //if (gameObject.tag == "Player")
+    //{
+    //    // Assuming you have a way to get the _PlayerAction component from the gameObject
+    //    PlayerAction player = gameObject.GetComponent<_PlayerAction>();
+    //    player.playerState = DYING;
+    //}
+    //else if (gameObject.tag == "Enemy")
+    //{
+    //    // Assuming you have a way to get the EnemyAction component from the gameObject
+    //    EnemyAction enemy = gameObject.GetComponent<EnemyAction>();
+    //    enemy.enemyState = DYING;
+    //}
 }
+
 
 void CharacterStats::TakeDamage(float damage) 
 {
