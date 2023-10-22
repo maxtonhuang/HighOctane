@@ -70,7 +70,7 @@ void Serializer::ReadFloat(float& f)
 
 void Serializer::ReadString(std::string& str)
 {
-	stream >> str;
+	std::getline(stream, str);
 }
 
 

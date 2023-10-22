@@ -60,11 +60,13 @@ void AssetManager::Initialize() {
     }
 
     audio.Initialize();
+    fonts.Initialize();
 
     while (!serializer.stream.eof()) {
         path.clear();
         serializer.ReadString(path);
         if (path != "") {
+            //DEBUG_PRINT("RECEIVED PATH: %s", path.c_str());
             LoadAssets(path);
         }
     }
@@ -137,23 +139,15 @@ void AssetManager::LoadMusic(const std::string& audioPath) {
 
 /**************************************FONTS**************************************************/
 void AssetManager::LoadFont(const std::string& fontPath) {
-    FontManager font;
-    font.LoadFontFilePath(fontPath);
+    std::string path{ defaultPath };
+    path += "Fonts/" + fontPath;
+    if (FileExists(path)) {
+        fonts.LoadFontFilePath(path);
+    }
+    else {
+        ASSERT(1, "Unable to open font file!");
+    }    
 }
-
-Font* AssetManager::GetFont(const std::string& fontFamily, const std::string& fontVariant) {
-    FontManager font;
-    return font.GetFont(fontFamily, fontVariant);
-}
-
-// note: might not need, FontManager auto destructs on out of scope
-//void AssetManager::UnloadFont(const std::string& fontName) {
-//    //auto it = m_fonts.find(fontName);
-//    //if (it != m_fonts.end()) {
-//    //    // Release resources related to the font using your FontManager class if necessary.
-//    //    m_fonts.erase(it);
-//    //}
-//}
 
 /**************************************SHADERS*************************************************/
 void AssetManager::LoadRenderer(const std::string& rendererPath) {

@@ -71,7 +71,7 @@ FontManager::~FontManager() {
 /*!
 * \brief Initializer
 *
-* This function is called during Graphics initialization.
+* This function is called during AssetsManager initialization.
 * Initializes a new FreeType library object, and passes a string of a font file's
 * filepath into LoadFont function. Font file must be present in Assets/Fonts/.
 *
@@ -84,10 +84,18 @@ void FontManager::Initialize() {
     ASSERT(err, "Failed to initialise FreeType!");
 
     ReadFonts();
-    LoadDefaultFont();
+    SetDefaultFont();
 }
 
-// only go through directory to populate fontCollection and fontPairs entries!
+/*!
+* \brief Initializer - ReadFonts
+*
+* This function is called during initialization.
+* Goes through directory to populate fontCollection and fontPairs entries!
+* Establishes Font object, stores filepath and filename strings.
+* Loading is NOT done here.
+*
+*/
 void FontManager::ReadFonts() {
     //DEBUG_PRINT("___ DEBUG::FONT::READFONTS ___");
     // define parent fonts directory to load from
@@ -146,19 +154,13 @@ void FontManager::ReadFonts() {
     }
 }
 
-void FontManager::LoadDefaultFont() {
-    //DEBUG_PRINT("___ DEBUG::FONT::LOAD DEFAULT FONT ___");
-    // set default font -- serialize?
-    FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant("Danto Lite Normal", "Regular");
-    if (ftEntryPtr == nullptr) {
-        DEBUG_PRINT("ERROR::FONT: Requested default font NOT found.");
-        return;
-    }
-
-    fonts.SetDefaultFont(&ftEntryPtr->font);
-    fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
-}
-
+/*!
+* \brief Load - LoadFontVariant
+*
+* Given fontFamily and fontVariant strings stored in a Font object,
+* retrieves corresponding FontEntry to extract filepath to load font file.
+*
+*/
 void FontManager::LoadFontVariant(const std::string& ftFamily, const std::string& ftVariant) {
     //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT VARIANT ___");
     FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant(ftFamily, ftVariant);
@@ -169,6 +171,29 @@ void FontManager::LoadFontVariant(const std::string& ftFamily, const std::string
     fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
 }
 
+/*!
+* \brief Load - LoadFontEntry
+*
+* Called in GetFont once it is determined the Font object has no glyphs loaded.
+* Retrieves FontEntry as input to extract filepath to load font file.
+*
+*/
+void FontManager::LoadFontEntry(FontEntry& fontEntryData) {
+    //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT ENTRY ___");
+    if (&fontEntryData == nullptr) {
+        DEBUG_PRINT("ERROR::FONT: (entry) Requested font NOT found.");
+        return;
+    }
+    fonts.LoadValidFont(fontEntryData.font, fontEntryData.fontFilePath);
+}
+
+/*!
+* \brief Load - LoadFontFilePath
+*
+* Called in AssetsManager LoadFont when initialization default font.
+* Retrieves FontEntry as input to extract Font object to load glyphs into.
+*
+*/
 void FontManager::LoadFontFilePath(const std::string ftFilePath) {
     //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT FILEPATH ___");
     FontEntry* ftEntryPtr = fonts.GetFontEntryByFilePath(ftFilePath);
@@ -221,6 +246,12 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
     DEBUG_PRINT("DEBUG::FONT: Loaded requested font: %s", fontFilePath.c_str());
 }
 
+/*!
+* \brief Checker (family name)
+*
+* Duplicate checking. Returns true if fontCollection has registered the fontFamily.
+*
+*/
 bool FontManager::CheckFamilyName(const std::string& ftFamily) {
     //DEBUG_PRINT("___ DEBUG::FONT::CHECK FAMILY NAME ___");
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
@@ -231,6 +262,12 @@ bool FontManager::CheckFamilyName(const std::string& ftFamily) {
 
 }
 
+/*!
+* \brief Checker (variant name)
+*
+* Duplicate checking. Returns true if fontCollection has registered the fontVariant.
+*
+*/
 bool FontManager::CheckVariantName(const std::string& ftFamily, const std::string& ftVariant) {
     //DEBUG_PRINT("___ DEBUG::FONT::CHECK VARIANT NAME ___");
 
@@ -267,7 +304,8 @@ Font* FontManager::GetFont(const std::string& ftFamily, const std::string& ftVar
 
             // if character textures not loaded, load textures
             if (it->second.font.characters.empty()) {
-                LoadFontVariant(ftFamily, ftVariant);
+                //LoadFontVariant(ftFamily, ftVariant);
+                LoadFontEntry(it->second);
             }
 
             return &it->second.font;
@@ -427,9 +465,15 @@ std::vector<std::string> FontManager::GetFontVariantList(const std::string& ftFa
 * Sets default font. Called in Initialize() unless otherwise modified.
 *
 */
-void FontManager::SetDefaultFont(Font* fontPtr) {
+void FontManager::SetDefaultFont() {
     //DEBUG_PRINT("___ DEBUG::FONT::SET DEFAULT FONT ___");
-    defaultFont = fontPtr;
+    FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant("Danto Lite Normal", "Regular");
+    if (ftEntryPtr == nullptr) {
+        DEBUG_PRINT("ERROR::FONT: Requested default font NOT found.");
+        return;
+    }
+
+    defaultFont = &ftEntryPtr->font;
 }
 
 /**************************

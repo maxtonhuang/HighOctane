@@ -56,7 +56,6 @@ GraphicsManager::GraphicsManager() {
 
 GraphicsManager::~GraphicsManager() {
     glfwTerminate();
-    //fonts.~FontManager();
 }
 
 void GraphicsManager::Initialize(int w, int h) {
@@ -107,7 +106,7 @@ void GraphicsManager::Initialize(int w, int h) {
     //Initialise framebuffer
     framebuffer.Initialize();
 
-    fonts.Initialize();
+    /*fonts.Initialize();*/
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
 
