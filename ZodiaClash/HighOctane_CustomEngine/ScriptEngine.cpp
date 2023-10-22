@@ -16,9 +16,12 @@ struct ScriptEngineData {
     
     MonoAssembly* CoreAssembly = nullptr;
     MonoImage* CoreAssemblyImage = nullptr;
+
+    ScriptClass EntityClass;
 };
 
 static ScriptEngineData* s_Data = nullptr;
+
 
 
 void ScriptEngine::Init() {
@@ -39,24 +42,23 @@ void ScriptEngine::Init() {
     //mono_add_internal_call("InternalCalls::CppFunction", (void*)CppFunc);
 
     // This is to add the internal calls
-    InternalCalls::addInternalCalls();
+    internalcalls::addInternalCalls();
 
-    // Retrieve and insantiate class (with constructor)s
-    MonoClass* monoClass = mono_class_from_name(s_Data->CoreAssemblyImage, "", "Main");
-    MonoObject* instance = mono_object_new(s_Data->AppDomain, monoClass);
-    mono_runtime_object_init(instance);
+    // Retrieve and insantiate class (with constructor)
+    s_Data->EntityClass = ScriptClass("", "Entity");
+
+    MonoObject* instance = s_Data->EntityClass.Instantiate();
 
     // Call function (method)
-    MonoMethod* printMessageFunc = mono_class_get_method_from_name(monoClass, "PrintMessage", 0);
-    mono_runtime_invoke(printMessageFunc, instance, nullptr, nullptr);
+    MonoMethod* printMessageFunc = s_Data->EntityClass.GetMethod("PrintMessage", 0);
+    s_Data->EntityClass.InvokeMethod(instance, printMessageFunc, nullptr);
 
+    MonoMethod* printCustomMessageFunc = s_Data->EntityClass.GetMethod("PrintCustomMessage", 1);
     // Call function with param
     MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
 
-    MonoMethod* printCustomMessageFunc = mono_class_get_method_from_name(monoClass, "PrintCustomMessage", 1);
     void* stringParam = monoString;
-    mono_runtime_invoke(printCustomMessageFunc, instance, &stringParam, nullptr);
-
+    s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
 }
 
 void ScriptEngine::Shutdown() {
@@ -64,22 +66,7 @@ void ScriptEngine::Shutdown() {
     delete s_Data;
 }
 
-void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
-{
-    // Create an App Domain
-    s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
-    mono_domain_set(s_Data->AppDomain, true);
 
-
-
-    // Move this maybe
-
-
-    s_Data->CoreAssembly = LoadMonoAssembly(filePath);
-
-    s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
-    //PrintAssemblyTypes(s_Data->CoreAssembly);
-}
 
 //#if (ENABLE_DEBUG_DIAG)
 //// Relative path to the C# assembly
@@ -104,12 +91,18 @@ void ScriptEngine::InitMono() {
 
     // Store the root domain pointer
     s_Data->RootDomain = rootDomain;
-
-
-
-
 }
 
+void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
+{
+    // Create an App Domain
+    s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
+    mono_domain_set(s_Data->AppDomain, true);
+
+    s_Data->CoreAssembly = LoadMonoAssembly(filePath);
+    s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
+    //PrintAssemblyTypes(s_Data->CoreAssembly);
+}
 
 void ScriptEngine::ShutdownMono() {
     //mono_domain_unload(s_Data->AppDomain);
@@ -117,6 +110,30 @@ void ScriptEngine::ShutdownMono() {
     mono_jit_cleanup(s_Data->RootDomain);
 	//mono_jit_cleanup(s_Data->AppDomain);
 }
+
+MonoObject* ScriptEngine::InstantiateClass(MonoClass* classToInstantiate) {
+    MonoObject* instance = mono_object_new(s_Data->AppDomain, classToInstantiate);
+    mono_runtime_object_init(instance);
+    return instance;
+}
+
+ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className) : m_ClassNamespace(classNamespace), m_ClassName(className) {
+    m_MonoClass = mono_class_from_name(s_Data->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
+}
+
+MonoObject* ScriptClass::Instantiate() {
+    return ScriptEngine::InstantiateClass(m_MonoClass);
+}
+
+MonoMethod* ScriptClass::GetMethod(const std::string& name, int parameterCount) {
+    return mono_class_get_method_from_name(m_MonoClass, name.c_str(), parameterCount);
+}
+
+MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, void** params )
+{
+    return mono_runtime_invoke(method, instance, params, nullptr);
+}
+
 
 static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
 {
@@ -130,7 +147,7 @@ static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
 
     std::streampos end = stream.tellg();
     stream.seekg(0, std::ios::beg);
-    uint32_t size = end - stream.tellg();
+    uint64_t size = end - stream.tellg();
 
     if (size == 0)
     {
@@ -142,7 +159,7 @@ static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
     stream.read((char*)buffer, size);
     stream.close();
 
-    *outSize = size;
+    *outSize = (uint32_t)size;
     return buffer;
 }
 
@@ -155,12 +172,12 @@ static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
     MonoImageOpenStatus status;
     MonoImage* image = mono_image_open_from_data_full(fileData, fileSize, 1, &status, 0);
 
-    if (status != MONO_IMAGE_OK)
-    {
-        const char* errorMessage = mono_image_strerror(status);
-        // Log some error message using the errorMessage data
-        return nullptr;
-    }
+    //if (status != MONO_IMAGE_OK)
+    //{
+    //    const char* errorMessage = mono_image_strerror(status);
+    //    // Log some error message using the errorMessage data
+    //    return nullptr;
+    //}
     std::string pathString = assemblyPath.string();
 
     MonoAssembly* assembly = mono_assembly_load_from_full(image, pathString.c_str(), &status, 0);
