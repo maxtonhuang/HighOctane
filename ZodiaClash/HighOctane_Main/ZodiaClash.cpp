@@ -346,8 +346,6 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
 	}
 
-	}
-
 	{
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Tex>());

@@ -157,8 +157,18 @@ void GUIManager::Update()
     {
         ImGui::Begin("Game Viewport");
         unsigned texutreID = graphics.framebuffer.GetTextureID();
-        ImGui::Image((void*)texutreID,ImVec2{1280,720},ImVec2{0,1},ImVec2{1,0});
+        float xSizeAvailable = ImGui::GetContentRegionAvail().x;
+        float ySizeAvailable = ImGui::GetContentRegionAvail().y;
 
+        // Add spacing to centralize viewport
+        if (ySizeAvailable < (xSizeAvailable * 9.f / 16.f)) {
+            ImGui::Dummy(ImVec2(((xSizeAvailable - (ySizeAvailable * 16.f / 9.f)) / 2.f), 0));
+            ImGui::SameLine();
+        }
+        else if ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) {
+            ImGui::Dummy(ImVec2(0, ((ySizeAvailable - (xSizeAvailable * 9.f / 16.f)) / 2.f)));
+        }
+        ImGui::Image((void*)texutreID, ImVec2{ ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f), ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
   
