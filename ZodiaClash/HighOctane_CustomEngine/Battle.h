@@ -31,7 +31,7 @@
 ******************************************************************************/
 
 #pragma once
-#include"CharacterStats.h"
+#include "CharacterStats.h"
 
 enum BattleState
 {
@@ -61,12 +61,11 @@ class BattleSystem : public System
 {
 public:
 	BattleState battleState;
-
- RoundManagement roundManage;
-
- TurnManagement turnManage;
+	RoundManagement roundManage;
+	TurnManagement turnManage;
 	void Initialize();
 	void Update() override;
+
 private:
 	CharacterStats activeCharacter;
 	std::vector <GameObject> gameObjects;
