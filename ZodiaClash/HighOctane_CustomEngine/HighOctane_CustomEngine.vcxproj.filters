@@ -59,7 +59,7 @@
     </Filter>
     <Filter Include="GameAI">
       <UniqueIdentifier>{59a46181-f553-402e-b055-70eef174dba7}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="UIComponents">
       <UniqueIdentifier>{5afdf933-3a03-4f7b-a101-8aaccf26f30a}</UniqueIdentifier>
     </Filter>
@@ -208,12 +208,18 @@
     </ClInclude>
     <ClInclude Include="GameAITree.h">
       <Filter>GameAI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="UIComponents.h">
       <Filter>UIComponents</Filter>
     </ClInclude>
     <ClInclude Include="Editing.h">
       <Filter>Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterStats.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAction.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,12 @@
     </ClCompile>
     <ClCompile Include="Editing.cpp">
       <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterStats.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAction.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

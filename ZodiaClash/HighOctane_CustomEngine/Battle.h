@@ -56,6 +56,7 @@ struct RoundManagement
 	int characterCount;
 	int roundCounter;
 };
+
 class BattleSystem : public System 
 {
 public:

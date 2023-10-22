@@ -9,7 +9,7 @@
 #include "ECS.h"
 
 struct GameObject {
-    Entity entity;
+    //Entity entity;
     Tag tag;
     std::string name;
 
