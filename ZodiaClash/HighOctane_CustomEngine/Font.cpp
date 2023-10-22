@@ -297,6 +297,12 @@ Font* FontManager::GetFont(const std::string& ftFamily, const std::string& ftVar
 
     std::pair <fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
 
+    // explicitly putting this in
+    if (variantRange.first == fontCollection.end()) {
+        DEBUG_PRINT(">>> ERROR::FONT: Failed to retrieve requested font family %s", ftFamily.c_str());
+        return nullptr;
+    }
+
     for (fontCollectionType::iterator it = variantRange.first; it != variantRange.second; it++) {
         //DEBUG_PRINT("DEBUG::FONT: Reading family: %s", it->first.c_str());
         //DEBUG_PRINT("DEBUG::FONT: Reading variant: %s", it->second.fontVariant.c_str());
