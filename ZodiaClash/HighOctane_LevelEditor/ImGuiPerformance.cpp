@@ -31,7 +31,8 @@
 
 #include "ImGuiPerformance.h"
 #include "DebugProfile.h"
-//#include "enginecore.h"
+#include "GUIManager.h"
+
 
 #if ENABLE_DEBUG_PROFILE
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
@@ -70,7 +71,10 @@ void UpdatePerformance() {
     ImGui::Begin("Percent Usage");
 
     /************** FPS ***************/
-    ImGui::Text("Average: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::PushFont(latoLargeBold);
+    ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+    ImGui::PopFont();
+    ImGui::Text("(%.3f ms/frame)", 1000.0f / ImGui::GetIO().Framerate);
     /************** FPS ***************/
 
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);

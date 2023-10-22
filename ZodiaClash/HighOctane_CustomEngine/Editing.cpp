@@ -14,7 +14,7 @@ CLICKED clicked{ CLICKED::NOT };
 
 constexpr float CORNER_SIZE = 10.f;
 
-void UpdateProperties (Name & name, Transform & transform, Model & model, Size & size) {
+void UpdateProperties (Name & name, Transform & transform, Model & model) {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 

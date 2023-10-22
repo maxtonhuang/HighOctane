@@ -57,6 +57,9 @@
     <ClCompile Include="ImGuiPlayStop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AssetLibrary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGuiConsole.h">
@@ -111,6 +114,9 @@
       <Filter>Vendor</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiPlayStop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetLibrary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

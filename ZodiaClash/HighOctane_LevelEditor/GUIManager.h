@@ -56,5 +56,5 @@ private:
 
 };
 
-
+extern ImFont* latoLargeBold;
     //extern GUIManager guiManager;

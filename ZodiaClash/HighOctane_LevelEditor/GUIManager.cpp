@@ -46,6 +46,11 @@
 #include "graphics.h"
 #include "FrameBuffer.h"
 
+
+constexpr float fontSize = 20.f;
+constexpr float fontSizeLarge = 50.f;
+ImFont* latoLargeBold;
+
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
 GUIManager::GUIManager()
@@ -82,6 +87,11 @@ void GUIManager::Init()
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     // Setup Dear ImGui style
+
+    io.Fonts->Clear();
+    io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSize);
+    latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeLarge);
+        
     ImGui::StyleColorsDark();
     // Init console window
     InitConsole();
@@ -131,7 +141,7 @@ void GUIManager::Update()
         ImGui::End();
     }
 
-    ImGuiIO& io = ImGui::GetIO();
+    /*ImGuiIO& io = ImGui::GetIO();
     if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
         io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
         hoveringPanel = true;
@@ -139,7 +149,7 @@ void GUIManager::Update()
     else {
         io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
         hoveringPanel = false;
-    }
+    }*/
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 

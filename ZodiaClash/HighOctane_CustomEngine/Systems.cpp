@@ -341,16 +341,14 @@ void EditingSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity entity : m_Entities) {
 		Name* n = &nameArray.GetData(entity);
 		Transform* t = &transformArray.GetData(entity);
 		Model* m = &modelArray.GetData(entity);
-		Size* s = &sizeArray.GetData(entity);
 		
 		// update position
-		UpdateProperties(*n, *t, *m, *s);
+		UpdateProperties(*n, *t, *m);
 
 		if (n->selected) {
 			m->DrawOutline();
