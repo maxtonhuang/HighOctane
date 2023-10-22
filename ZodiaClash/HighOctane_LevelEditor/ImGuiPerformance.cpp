@@ -38,6 +38,8 @@
 extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
 
+constexpr float spacerHeight = 50.f;
+
 /*!
 * \brief Init the performance window
 *
@@ -66,7 +68,7 @@ void InitPerformance() {
 *
 */
 void UpdatePerformance() {
-    ImVec2 windowSize(300.f, systemList.size() * 80.f);
+    //ImVec2 windowSize(300.f, systemList.size() * 80.f);
    // ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
     ImGui::Begin("Percent Usage");
 
@@ -88,7 +90,7 @@ void UpdatePerformance() {
     // Separate each bar with a separator
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
-
+    float barHeight = std::max(10.f, (ImGui::GetContentRegionAvail().y / (systemList.size() + 1)) - spacerHeight);
 
 
     std::string LEName = "Level Editor";
@@ -108,7 +110,7 @@ void UpdatePerformance() {
     // Horizontal histogram
 
     ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColorLE);
-    ImGui::ProgressBar(LEPercentage / 100.0f, ImVec2(-1, 30.0f), "");
+    ImGui::ProgressBar(LEPercentage / 100.0f, ImVec2(-1, barHeight), "");
     ImGui::PopStyleColor();
 
     // Position for the percentage text
@@ -147,7 +149,7 @@ void UpdatePerformance() {
         // Horizontal histogram
 
         ImGui::PushStyleColor(ImGuiCol_PlotHistogram, progressBarColor);
-        ImGui::ProgressBar(percentage / 100.f, ImVec2(-1, 30.0f), "");
+        ImGui::ProgressBar(percentage / 100.f, ImVec2(-1, barHeight), "");
         ImGui::PopStyleColor();
 
         // Position for the percentage text
