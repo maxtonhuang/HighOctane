@@ -162,7 +162,6 @@ void Renderer::DrawFrameBuffer() {
     glDrawArrays(GL_TRIANGLE_STRIP, 0, drawcount);
     drawcount = 0;
     glBindTexture(GL_TEXTURE_2D, 0);
-    graphics.framebuffer.Clear();
 }
 
 void Renderer::FontDraw(GLuint texID) {
