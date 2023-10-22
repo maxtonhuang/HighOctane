@@ -14,3 +14,4 @@ cat.png
 ping.wav
 bonk.wav
 MainMenu1.wav
+Danto Lite Normal/Danto Lite Normal.ttf
