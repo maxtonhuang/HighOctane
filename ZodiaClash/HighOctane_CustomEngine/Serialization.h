@@ -203,33 +203,4 @@ enum class CharacterComponents {
 	MAINCHARACTER
 };
 
-void InitializeOpenFileName(OPENFILENAME& ofn, wchar_t* szFile, int bufferSize);
-
-
-/*
-
-wchar_t szFiles[4096] = { 0 };  // Example size
-ofn.lpstrFile = szFiles;
-ofn.nMaxFile = sizeof(szFiles);
-
-if (GetOpenFileName(&ofn)) {
-	if (ofn.Flags & OFN_ALLOWMULTISELECT) {
-		char* p = ofn.lpstrFile;
-		std::string directory = p;
-		p += directory.size() + 1;  // move past directory and NULL terminator
-
-		while (*p) {
-			std::string filename = p;
-			p += filename.size() + 1;  // move past filename and NULL terminator
-
-			std::string fullpath = directory + "\\" + filename;
-			// Process or store fullpath
-		}
-	}
-	else {
-		std::string filepath = ofn.lpstrFile;
-		// Process or store filepath
-	}
-}
-
-*/
+std::vector<std::string> OpenFileDialog();

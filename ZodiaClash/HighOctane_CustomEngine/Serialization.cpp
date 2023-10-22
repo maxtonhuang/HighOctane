@@ -44,6 +44,7 @@
 #include "model.h"
 #include "Global.h"
 #include "AssetManager.h"
+#include <shobjidl.h>
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -462,18 +463,67 @@ void LoadConfig() {
 }
 
 
+std::vector<std::string> OpenFileDialog() {
 
-void InitializeOpenFileName(OPENFILENAME& ofn, wchar_t* szFile, int bufferSize) {
-	ZeroMemory(&ofn, sizeof(ofn));
-	ofn.lStructSize = sizeof(ofn);
-	ofn.hwndOwner = NULL; // or your window handle
-	ofn.lpstrFile = szFile;
-	ofn.lpstrFile[0] = '\0';
-	ofn.nMaxFile = bufferSize;
-	ofn.lpstrFilter = L"All\0*.*\0Text\0*.TXT\0";
-	ofn.nFilterIndex = 1;
-	ofn.lpstrFileTitle = NULL;
-	ofn.nMaxFileTitle = 0;
-	ofn.lpstrInitialDir = NULL;
-	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT;
+	std::vector<std::string> filesList;
+
+	// Initialize COM
+	CoInitialize(NULL);
+
+	// Create the File Open Dialog
+	IFileOpenDialog* pfod = NULL;
+	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfod));
+
+	if (SUCCEEDED(hr)) {
+		// Set the options for multiple file selection
+		DWORD dwOptions;
+		hr = pfod->GetOptions(&dwOptions);
+		if (SUCCEEDED(hr)) {
+			hr = pfod->SetOptions(dwOptions | FOS_ALLOWMULTISELECT);
+		}
+
+		// Show the dialog
+		hr = pfod->Show(NULL);
+
+		// Get the chosen files if the user didn't cancel
+		if (SUCCEEDED(hr)) {
+			IShellItemArray* pResults = NULL;
+			hr = pfod->GetResults(&pResults);
+			if (SUCCEEDED(hr)) {
+				DWORD count = 0;
+				pResults->GetCount(&count);
+				for (DWORD i = 0; i < count; i++) {
+					IShellItem* psi;
+					hr = pResults->GetItemAt(i, &psi);
+					if (SUCCEEDED(hr)) {
+						PWSTR pszPath;
+						hr = psi->GetDisplayName(SIGDN_FILESYSPATH, &pszPath);
+
+						if (SUCCEEDED(hr)) {
+							// pszPath contains the full path to one of the chosen files
+
+							// Convert PWSTR (wide string) to std::string
+							int stringSize = WideCharToMultiByte(CP_UTF8, 0, pszPath, -1, NULL, 0, NULL, NULL);
+							std::string convertedPath(stringSize, 0);
+							WideCharToMultiByte(CP_UTF8, 0, pszPath, -1, &convertedPath[0], stringSize, NULL, NULL);
+
+							// Remove the extra null terminator from the string
+							convertedPath.pop_back();
+
+							filesList.emplace_back(convertedPath);
+							CoTaskMemFree(pszPath);
+						}
+						psi->Release();
+					}
+				}
+				pResults->Release();
+			}
+		}
+		pfod->Release();
+	}
+
+	// Cleanup COM
+	CoUninitialize();
+
+	return filesList;
 }
