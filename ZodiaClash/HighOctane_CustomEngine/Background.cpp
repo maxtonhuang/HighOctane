@@ -44,6 +44,7 @@ BackgroundSystem::~BackgroundSystem() {
 
 void BackgroundSystem::Update() {
 	if (focus == 0) {
+		count = 0;
 		return;
 	}
 	float scrolltarget = ECS::ecs().GetComponent<Transform>(focus).position.x / GRAPHICS::w;
@@ -57,6 +58,7 @@ void BackgroundSystem::SetFocusEntity(Entity entity) {
 }
 
 void BackgroundSystem::AddBackground(float scroll) {
+	ASSERT(count > GRAPHICS::vertexBufferSize, "Background system error!");
 	scrolldata[count] = scroll;
 	count++;
 }
