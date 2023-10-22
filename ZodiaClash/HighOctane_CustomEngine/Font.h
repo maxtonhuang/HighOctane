@@ -87,14 +87,15 @@ public:
 
 	// called during Initialize()
 	void ReadFonts();
-	void LoadDefaultFont();
 
 	// called during Intialize / for on-demand loading
 	void LoadFontVariant(const std::string& ftFamily, const std::string& ftVariant);
+	void LoadFontEntry(FontEntry& fontEntryData);
 	void LoadFontFilePath(const std::string ftFilePath);
 	void LoadValidFont(Font& fontData, const std::string& fontFilePath);
 	
 	// DEPRECATED //
+	//void LoadDefaultFont(); -- merged into SetDefaultFont
 	//void LoadChar(Font& fontData);  -- moved to TextureManager
 	//void LoadAllFonts(); -- decomposed into its smaller functions
 	//bool LoadNewFont(Font& fontData, const std::string& fontPath); -- dropped, to use LoadFontFilePath()
@@ -127,7 +128,7 @@ public:
 	/**************************
 	********* SETTERS *********
 	**************************/
-	void SetDefaultFont(Font* fontPtr);
+	void SetDefaultFont();
 private:
 	FT_Library fontLibrary;
 	Font* defaultFont;

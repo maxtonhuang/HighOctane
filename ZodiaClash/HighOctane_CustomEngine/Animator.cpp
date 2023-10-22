@@ -63,7 +63,7 @@ float Animator::GetFrameDisplayDuration() const {
 }
 
 // to manually set animation to specified index frame
-void Animator::SetAnimation(int index, Tex& texData) {
+void Animator::SetAnimation(uint32_t index, Tex& texData) {
 	if (index < texData.tex->GetSheetSize()) {
 		frameIndex = index;
 	}	
@@ -162,6 +162,8 @@ void Animator::UpdateAnimationMC(Tex& texData, Size& sizeData) {
 					break;
 				case(ANIMATION_EVENT_BASED):
 					animationType = ANIMATION_TIME_BASED;
+					break;
+				default:
 					break;
 				}
 			}
