@@ -49,6 +49,7 @@ class AssetManager {
 public:
     TextureManager texture;
     AudioManager audio;
+    //FontManager font;
 public:
     void Initialize();
     void UnloadAll();
@@ -71,8 +72,6 @@ public:
 
     // Font methods
     void LoadFont(const std::string& fontPath);
-    Font* GetFont(const std::string& fontFamily, const std::string& fontVariant);
-    //void UnloadFont(const std::string& fontName);
 
     // Shader methods
     void LoadRenderer(const std::string& rendererPath);
@@ -80,7 +79,7 @@ public:
 private:
     std::string defaultPath{};
     std::vector<std::string> loadedFiles{};
-    std::unordered_multimap<std::string, FontEntry> m_fonts;
+    //std::unordered_multimap<std::string, FontEntry> m_fonts;
 };
 
 extern AssetManager assetmanager;
