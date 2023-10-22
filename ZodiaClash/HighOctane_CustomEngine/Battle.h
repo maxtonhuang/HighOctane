@@ -10,9 +10,9 @@
 *
 *	@file		Battle.h
 *
-*	@author		Maxton Huang Xinghua
+*	@author		Liu WanTing
 *
-*	@email		m.huang\@digipen.edu
+*	@email		wanting.liu\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -31,15 +31,46 @@
 ******************************************************************************/
 
 #pragma once
+#include"CharacterStats.h"
 
-void Battle_Load();
+enum BattleState
+{
+	NEWGAME,
+	NEWROUND,
+	NEXTTURN,
+	PLAYERTURN,
+	ENEMYTURN,
+	WIN,
+	LOSE
+};
+struct TurnManagement
+{
+	std::string activePlayer;
+	std::string activeEnemy;
+	std::vector <CharacterStats> characterList;
+	std::vector <CharacterStats> turnOrderList;
+	std::vector <CharacterStats> originalTurnOrderList;
+};
+struct RoundManagement
+{
+	int characterCount;
+	int roundCounter;
+};
+class BattleSystem : public System 
+{
+public:
+	BattleState battleState;
 
-void Battle_Initialize();
+ RoundManagement roundManage;
 
-void Battle_Update();
+ TurnManagement turnManage;
+	void Initialize();
+	void Update() override;
+private:
+	CharacterStats activeCharacter;
+	std::vector <GameObject> gameObjects;
+	bool roundInProgress;
 
-void Battle_Draw();
-
-void Battle_Free();
-
-void Battle_Unload();
+	BattleState NewGameDelay(float startDelay, float nextDelay);
+	void DetermineTurnOrder();
+};

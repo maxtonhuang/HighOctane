@@ -112,3 +112,7 @@ struct Movable {
 struct Screen {
     bool                    isActive{false};
 };
+
+struct Tag {
+    std::string             tag;
+};

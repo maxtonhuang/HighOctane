@@ -332,7 +332,7 @@ public:
         m_Systems.insert({ typeName, system });
         return system;
     }
-
+    
     template<typename T>
     void SetSignature(Signature signature) {
         const char* typeName = typeid(T).name();
@@ -505,6 +505,11 @@ public:
     void Update() override;
 };
 
+class GameplaySystem : public System {
+public:
+    void Initialize();
+    void Update() override;
+};
 
 class EditingSystem : public System {
 public:

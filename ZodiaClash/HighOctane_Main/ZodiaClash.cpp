@@ -64,6 +64,8 @@
 #include "AssetManager.h"
 #include "ScriptEngine.h"
 #include <rttr/registration>
+#include "CharacterStats.h"
+#include "Battle.h"
 
 
 bool gConsoleInitalized{ false };
@@ -220,7 +222,9 @@ void EngineCore::Run(bool const & mode) {
 	ECS::ecs().RegisterComponent<Collider>();
 	ECS::ecs().RegisterComponent<Name>();
 	ECS::ecs().RegisterComponent<Screen>();
+	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
+	ECS::ecs().RegisterComponent<CharacterStats>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -252,9 +256,13 @@ void EngineCore::Run(bool const & mode) {
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
 	systemList.emplace_back(scriptingSystem, "Scripting System");
 
+	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
+	systemList.emplace_back(battleSystem, "Battle System");
+
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
 	systemList.emplace_back(serializationSystem, "Serialization System");
+
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -332,6 +340,15 @@ void EngineCore::Run(bool const & mode) {
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Movable>());
 		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
+
+		signature.set(ECS::ecs().GetComponentType<Entity>());
+		signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Animator>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
+
+		ECS::ecs().SetSystemSignature<GameplaySystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////

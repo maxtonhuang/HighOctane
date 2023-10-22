@@ -72,12 +72,6 @@ void GSM_Update()
 	//	fpUnload = Level_Unload;
 	//	break;
 	case GS_BATTLE:
-		fpLoad = Battle_Load;
-		fpInitialize = Battle_Initialize;
-		fpUpdate = Battle_Update;
-		fpDraw = Battle_Draw;
-		fpFree = Battle_Free;
-		fpUnload = Battle_Unload;
 		break;
 	case GS_RESTART:
 		break;
