@@ -51,7 +51,7 @@ public:
 	float GetFrameTimeElapsed() const;
 	float GetFrameDisplayDuration() const;
 
-	void SetAnimation(int index, Tex& texData);		 //Set animation to frame of input index
+	void SetAnimation(uint32_t index, Tex& texData);		 //Set animation to frame of input index
 	void AdvanceAnimation(Tex& texData); //Advance animation to next frame
 	void ChangeAnimation(Tex& texData);	//Changes animation if >1 texVariant stored
 	void ResizeOnChange(Tex& texData, Size& sizeData); //Resizes if ChangeAnimation() is called
