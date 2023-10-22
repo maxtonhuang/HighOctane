@@ -20,7 +20,6 @@ void UpdateAssetLibrary() {
 		}
 	}
 	
-
 	ImGui::End();
 
 }

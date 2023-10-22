@@ -90,8 +90,8 @@ void UpdateConsole() {
             ExportConsoleToFile(fileNameBuffer);
             DeleteLineFromFile(fileNameBuffer);
         }
-        ImGui::Separator();
-
+        //ImGui::Separator();
+        ImGui::SameLine(0.0f, 50.0f);
         /********FILTER INPUT TEXT*********/
         ImGui::InputText("Filter", filterBuffer, IM_ARRAYSIZE(filterBuffer));
         ImGui::SameLine();
@@ -103,12 +103,12 @@ void UpdateConsole() {
 
         // Pop the input text box width
         ImGui::PopItemWidth();
-        ImGui::Separator();
-
+        //ImGui::Separator();
+        ImGui::SameLine(0.0f, 50.0f);
         // Checkbox for the auto scroll
         ImGui::Checkbox("Auto-Scroll", &autoScroll);
-        ImGui::Separator();
-
+        //ImGui::Separator();
+        ImGui::SameLine(0.0f, 50.0f);
         // For clearing buffer
         if (ImGui::Button("Clear")) {
             imguiOutputBuffer.ClearBuffer();

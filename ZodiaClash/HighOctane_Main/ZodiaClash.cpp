@@ -203,7 +203,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 
-void EngineCore::Run(bool const & mode) {
+void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
 
@@ -257,6 +257,7 @@ void EngineCore::Run(bool const & mode) {
 	systemList.emplace_back(scriptingSystem, "Scripting System");
 
 	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
+	runSystemList.emplace_back(battleSystem, "Battle System");
 	systemList.emplace_back(battleSystem, "Battle System");
 
 	// Not in System List, will only be called when needed
@@ -340,7 +341,10 @@ void EngineCore::Run(bool const & mode) {
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Movable>());
 		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
+	}
 
+	{
+		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Entity>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Animator>());
