@@ -2,3 +2,4 @@
 
 #include "ImGuiLib.h"
 
+void UpdateAssetLibrary();

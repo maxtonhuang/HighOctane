@@ -43,6 +43,7 @@
 #include "ImGuiPerformance.h"
 #include "ImGuiEntitiesManager.h"
 #include "ImGuiPlayStop.h"
+#include "ImGuiAssetLibrary.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
 
@@ -165,6 +166,7 @@ void GUIManager::Update()
     UpdateConsole();
     UpdateEntitiesManager();
     UpdatePlayStop();
+    UpdateAssetLibrary();
 
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console

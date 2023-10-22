@@ -160,7 +160,7 @@
     <ClCompile Include="..\Extern\imgui-1.87\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
-    <ClCompile Include="AssetLibrary.cpp" />
+    <ClCompile Include="ImGuiAssetLibrary.cpp" />
     <ClCompile Include="GUIManager.cpp" />
     <ClCompile Include="ImGuiConsole.cpp" />
     <ClCompile Include="ImGuiEntitiesManager.cpp" />
@@ -180,7 +180,7 @@
     <ClInclude Include="..\Extern\imgui-1.87\imstb_rectpack.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
-    <ClInclude Include="AssetLibrary.h" />
+    <ClInclude Include="ImGuiAssetLibrary.h" />
     <ClInclude Include="GUIManager.h" />
     <ClInclude Include="ImGuiConsole.h" />
     <ClInclude Include="ImGuiEntitiesManager.h" />
