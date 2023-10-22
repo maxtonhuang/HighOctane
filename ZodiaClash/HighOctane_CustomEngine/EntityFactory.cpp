@@ -90,7 +90,7 @@ void EntityFactory::LoadMasterModel() {
 	}
 	masterEntitiesList["CAT"] = entity;
 	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
-	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, Vec2{ 1.f, 1.f }, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE,  });
+	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE,  });
 	ECS::ecs().AddComponent(entity, Visible{ false });
 	ECS::ecs().AddComponent(entity, Tex{ /*texList.Add("duck.png")*/ }); //add tex component, init tex with duck sprite
 	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);

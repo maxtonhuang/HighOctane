@@ -42,10 +42,10 @@ using Vec2 = vmath::Vector2;
 struct Transform {
     Vec2                    position{};
     float                   rotation{};
-    Vec2                    scale{};
+    float                   scale{};
     Vec2                    velocity{};       
     float                   radius{};
-    Vec2                    halfDimensions{ scale.x / 2.f,  scale.y/ 2.f };
+    Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
     bool                    isStatic{}; 
 };
 

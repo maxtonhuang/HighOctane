@@ -6,7 +6,7 @@
 
 // Change this to a class in the future, change it to scriptglue.cpp, put the functions in there and namespace InternalCalls::
 
-namespace InternalCalls {
+namespace internalcalls {
 
     // This function is to log things into my console on C# side
     static void Log(MonoString* managedMessage)

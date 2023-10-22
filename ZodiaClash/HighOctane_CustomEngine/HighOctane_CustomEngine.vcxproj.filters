@@ -188,9 +188,6 @@
     <ClInclude Include="ScriptLinker.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Editing.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
@@ -214,6 +211,9 @@
 	</ClInclude>
     <ClInclude Include="UIComponents.h">
       <Filter>UIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Editing.h">
+      <Filter>Miscellaneous</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,7 +314,6 @@
     <ClCompile Include="InternalCalls.cpp">
       <Filter>Scripting</Filter>
     </ClCompile>
-    <ClCompile Include="Editing.cpp" />
     <ClCompile Include="Utilities.cpp">
       <Filter>Miscellaneous</Filter>
     </ClCompile>
@@ -335,6 +334,9 @@
     </ClCompile>
     <ClCompile Include="GameAITree.cpp">
       <Filter>GameAI</Filter>
+    </ClCompile>
+    <ClCompile Include="Editing.cpp">
+      <Filter>Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

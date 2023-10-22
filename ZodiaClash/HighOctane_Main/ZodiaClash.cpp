@@ -66,13 +66,13 @@
 #include <rttr/registration>
 
 
-bool gConsoleInitalized = false;
+bool gConsoleInitalized{ false };
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
-constexpr bool GAME_MODE = false;
-constexpr bool EDITOR_MODE = true;
-constexpr bool game_mode = EDITOR_MODE;
+constexpr bool GAME_MODE{ false };
+constexpr bool EDITOR_MODE{ true };
+constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -126,7 +126,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
+	
     // To enable the console
     Console();
     LOG_INFO("Program started");
@@ -329,6 +329,7 @@ void EngineCore::Run(bool const & mode) {
 		signature.set(ECS::ecs().GetComponentType<Name>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Movable>());
 		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
 	}
@@ -408,8 +409,6 @@ void EngineCore::Run(bool const & mode) {
 
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
-
-
 
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000

@@ -58,8 +58,8 @@ Model::Model(ModelType inputType, float bgScrollSpeed) {
 }
 
 void Model::Update(Transform const& entity, Size const& size) {
-	float x = entity.scale.x * size.width;
-	float y = entity.scale.y * size.height;
+	float x = entity.scale * size.width;
+	float y = entity.scale * size.height;
 	matrix = glm::mat3{ cos(entity.rotation) * x / GRAPHICS::defaultWidthF ,-sin(entity.rotation) * x / GRAPHICS::defaultHeightF,0,
 		sin(entity.rotation) * y / GRAPHICS::defaultWidthF , cos(entity.rotation) * y / GRAPHICS::defaultHeightF,0,
 		entity.position.x / GRAPHICS::w,entity.position.y / GRAPHICS::h,1 };

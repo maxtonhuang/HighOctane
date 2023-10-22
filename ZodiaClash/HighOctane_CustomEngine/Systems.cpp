@@ -93,7 +93,7 @@ void PhysicsSystem::Update() {
 		Size sizeData{ sizeArray.GetData(entity) };
 		Transform transformData{ transformArray.GetData(entity) };
 		transformArray.GetData(entity).halfDimensions = {
-			sizeData.width / 2.f * transformData.scale.x, sizeData.height / 2.f * transformData.scale.y
+			sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
 		};
 
 	}
@@ -175,7 +175,7 @@ void CollisionSystem::Update() {
 					if (collided == true) { physics::DynamicStaticResponse(*transData1); }
 				}
 			}
-			transData1->velocity = { 0.f, 0.f };
+			transData1->velocity = { RESET_VEC2 };
 		}
 	}
 	//Mail::mail().mailbox[ADDRESS::COLLISION].clear();
@@ -341,14 +341,16 @@ void EditingSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity entity : m_Entities) {
 		Name* n = &nameArray.GetData(entity);
 		Transform* t = &transformArray.GetData(entity);
 		Model* m = &modelArray.GetData(entity);
+		Size* s = &sizeArray.GetData(entity);
 		
 		// update position
-		UpdateProperties(*n, *t, *m);
+		UpdateProperties(*n, *t, *m, *s);
 
 		if (n->selected) {
 			m->DrawOutline();

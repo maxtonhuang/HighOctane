@@ -17,16 +17,16 @@ public struct Vector3
     }
 }
 
-public class Main
+public class Entity
 {
     public float FloatVar { get; set; }
-    public Main()
+    public Entity()
     {
         Console.WriteLine("Main constructor");
         Debug.Log("Hello this is the custom log that oliver will use from C#");
         Vector3 pos = new Vector3(1, 2, 3);
         Vector3 result = Debug.LogVector3(pos);
-        Console.WriteLine(result.X + ", " + result.Y + ", " + result.Z);                
+        Console.WriteLine(result.X + ", " + result.Y + ", " + result.Z);     
         //Debug.Log($"Result: {result.X}, {result.Y}, {result.Z}");
         //Debug.Log("Main" constructor");
     }
