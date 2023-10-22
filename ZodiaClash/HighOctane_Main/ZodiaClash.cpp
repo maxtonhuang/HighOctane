@@ -218,6 +218,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<MainCharacter>();
 	ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
+	ECS::ecs().RegisterComponent<Master>();
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
 	ECS::ecs().RegisterComponent<Name>();
@@ -225,6 +226,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
+
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();

@@ -49,11 +49,12 @@ public:
 	}
 
 	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
-
+	
 	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
 	void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();
+	void CreateMasterModel(const char* filename);
 	//extern std::unordered_map<std::string, Entity> masterEntitiesList;
 	//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
 	Entity CreateModel();
@@ -75,6 +76,7 @@ public:
 
 	std::vector<Entity> massRenderEntitiesList;
 	std::unordered_map<std::string, Entity> masterEntitiesList;
+
 private:
 
 	EntityFactory() {}

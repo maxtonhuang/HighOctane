@@ -174,6 +174,8 @@ void Texture::Init(Font& font, const char* texname) {
 void Texture::CreateSpriteSheet(int row, int column, int spritenum) {
 	int count = 0;
 	std::vector<Texcoords> newtexcoords;
+	rowCount = row;
+	colCount = column;
 	float colDist = 1.f / column;
 	float rowDist = 1.f / row;
 	width = (int)((float) width * colDist);
@@ -217,6 +219,14 @@ int Texture::GetWidth() {
 
 int Texture::GetHeight() {
 	return height;
+}
+
+int Texture::GetRowCount() {
+	return rowCount;
+}
+
+int Texture::GetColCount() {
+	return colCount;
 }
 
 std::string Texture::GetName() {

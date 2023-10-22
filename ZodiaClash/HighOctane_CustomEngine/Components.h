@@ -96,6 +96,10 @@ struct AABB {
     Vec2                    extents{};
 };
 
+struct Master {
+    // empty by design
+};
+
 struct Clone {
     // empty by design
 };

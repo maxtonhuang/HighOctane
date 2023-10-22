@@ -64,6 +64,8 @@ public:
 
 	int GetWidth(); //returns width of texture
 	int GetHeight(); //returns height of texture
+	int GetRowCount(); //returns number of rows of texture
+	int GetColCount(); //returns number of columns of texture
 	std::string GetName(); //returns name of texture as saved in texture managers data
 
 	/*
@@ -80,6 +82,8 @@ private:
 	GLuint id{}; //texture id as stored in opengl
 	int width{}; //width of individual sprite
 	int height{}; //height of individual sprite
+	int rowCount{}; //number of rows of texture
+	int colCount{}; //number of columns of texture
 	bool active{false}; //true if texture has been saved to OpenGL
 	std::vector<Texcoords> texcoords; //array containing sprite coordinates for sprite sheet
 };
