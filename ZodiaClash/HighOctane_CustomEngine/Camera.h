@@ -42,6 +42,7 @@ public:
 
 	void SetPos(float x, float y); //set camera position
 	void AddPos(float x, float y); //add camera position
+	vmath::Vector2 GetPos();
 
 	void SetZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
 	void AddZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)

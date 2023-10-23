@@ -155,7 +155,7 @@ void Model::AddAlpha(float a) {
 }
 
 vmath::Vector2 Model::GetMin() {
-	return vmath::Vector2{ botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h };
+	return vmath::Vector2{ (botleft.x - camera.GetPos().x) * GRAPHICS::w, (botleft.y - camera.GetPos().y) * GRAPHICS::h };
 }
 
 vmath::Vector2 Model::GetMax() {
