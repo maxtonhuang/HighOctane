@@ -293,7 +293,7 @@ void GraphicsSystem::Update() {
 		if (m->CheckTransformUpdated(*transform, *size)) {
 			m->Update(*transform, *size);
 		}
-		if (texArray.HasComponent(entity) && animatorArray.HasComponent(entity)) {
+		if (texArray.HasComponent(entity)) {
 			tex = &texArray.GetData(entity);
 		}
 		if (animatorArray.HasComponent(entity)) {
