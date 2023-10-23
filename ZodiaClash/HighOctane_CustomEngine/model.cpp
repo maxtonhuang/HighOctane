@@ -38,6 +38,7 @@
 *
 ******************************************************************************/
 
+#include "Camera.h"
 #include "message.h"
 #include "Model.h"
 #include "Graphics.h"
@@ -58,12 +59,20 @@ Model::Model(ModelType inputType, float bgScrollSpeed) {
 }
 
 void Model::Update(Transform const& entity, Size const& size) {
+	if (type == ModelType::BACKGROUNDLOOP) {
+		float x = camera.GetPos().x / GRAPHICS::w;
+		float y = camera.GetPos().y / GRAPHICS::h;
+		botleft = glm::vec2{ -1-x,-1-y };
+		botright = glm::vec2{ 1-x,-1-y };
+		topleft = glm::vec2{ -1-x,1-y };
+		topright = glm::vec2{ 1-x,1-y };
+		return;
+	}
 	float x = entity.scale * size.width;
 	float y = entity.scale * size.height;
 	matrix = glm::mat3{ cos(entity.rotation) * x / GRAPHICS::defaultWidthF ,-sin(entity.rotation) * x / GRAPHICS::defaultHeightF,0,
 		sin(entity.rotation) * y / GRAPHICS::defaultWidthF , cos(entity.rotation) * y / GRAPHICS::defaultHeightF,0,
 		entity.position.x / GRAPHICS::w,entity.position.y / GRAPHICS::h,1 };
-
 	//vec3s are standard values for each corner of a 2x2 square
 	glm::vec3 bottomleft3 = matrix * glm::vec3{ -1,-1,1 };
 	glm::vec3 bottomright3 = matrix * glm::vec3{ 1,-1,1 };
@@ -84,6 +93,7 @@ void Model::Draw(Tex const& entity, Animator const& ani) {
 	if (entity.tex != nullptr) {
 		switch (type) {
 		case ModelType::BACKGROUND:
+		case ModelType::BACKGROUNDLOOP:
 			renderer = parallaxRenderer;
 			graphics.backgroundsystem.AddBackground(backgroundScrollSpeed);
 			break;
@@ -119,7 +129,7 @@ void Model::DrawOutline() {
 	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawPoint(topleft.x * GRAPHICS::w,topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	graphics.DrawPoint(topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
@@ -155,9 +165,9 @@ void Model::AddAlpha(float a) {
 }
 
 vmath::Vector2 Model::GetMin() {
-	return vmath::Vector2{ botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h };
+	return vmath::Vector2{ botleft.x * GRAPHICS::w + camera.GetPos().x, botleft.y * GRAPHICS::h + camera.GetPos().y};
 }
 
 vmath::Vector2 Model::GetMax() {
-	return vmath::Vector2{ topright.x * GRAPHICS::w, topright.y * GRAPHICS::h };
+	return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
 }

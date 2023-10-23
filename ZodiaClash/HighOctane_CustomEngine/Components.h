@@ -118,12 +118,12 @@ struct Screen {
 };
 
 struct Script {
-    std::string             scriptName{};     // ID of owner
+    std::string             className{};     // ID of owner
     // ID of owner
     //Entity entityID;
-    ////vector of the names on scripts
-    //std::vector<std::string> monoScriptName;
-    ////vector of script instances
+    //vector of the names on scripts
+    std::vector<std::string> scriptNameVec{};
+    //vector of script instances
     //std::vector<std::shared_ptr<ScriptInstance>> monoScriptObj; //This is every C# component
 
 

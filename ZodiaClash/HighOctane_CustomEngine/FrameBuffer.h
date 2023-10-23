@@ -38,6 +38,8 @@
 class FrameBuffer {
 public:
 	void Initialize();
+	void Delete();
+	void Recreate();
 	void Bind();
 	void Unbind();
 	void Clear();
@@ -46,4 +48,5 @@ public:
 private:
 	GLuint id; //framebuffer id
 	GLuint textureid; //resultant texture id
+	GLuint rbo; //depth and stencil buffer id
 };

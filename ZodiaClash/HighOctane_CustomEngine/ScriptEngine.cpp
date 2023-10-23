@@ -24,7 +24,8 @@ struct ScriptEngineData {
 	//}
 
     std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
-    std::unordered_map<uint32_t, std::shared_ptr<ScriptInstance>> EntityInstances;
+    std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
+
 
 };
 
@@ -117,8 +118,6 @@ void ScriptEngine::OnRuntimeStart() {
 
     //s_Data->EntityClass.InvokeMethod(instance, method, nullptr);
 
-
-
     // Clear the key down afterwards
     //GetKeyDownClear();
     //s_Data->onCreate();
@@ -134,32 +133,53 @@ bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {
 
 // Not sure if this is working or not haha (Trying to refactor)
 void ScriptEngine::OnCreateEntity(Entity entity) {
-    auto& sc = ECS::ecs().GetComponent<Script>(entity);
 
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    // For each script associated with this entity
+    for (const auto& fullClassName : sc.scriptNameVec) {
+
+        // Check if such a script class exists in our system
+        if (ScriptEngine::EntityClassExists(fullClassName)) {
+
+            // Create an instance of this script class
+            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName]);
+
+            // Store the created instance in a map or list. Here, I'm assuming you have a map from Entity to a list of ScriptInstance pointers.
+            // This way, each entity can have multiple script instances associated with it.
+            s_Data->EntityInstances[entity].push_back(instance);
+
+            // Call the OnCreate method of this script instance
+            instance->InvokeOnCreate();
+        }
+    }
     // This is the script name, if there is no script it won't run
-    sc.scriptName = "Sandbox.Player";
-    //std::cout << "ScriptEngine.cpp::OnCreateEntity, script name: " << sc.scriptName << std::endl;
-    if (ScriptEngine::EntityClassExists(sc.scriptName)) {
-        //std::cout << "ScriptEngine.cpp::OnCreateEntity, class exists" << std::endl;
-        std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[sc.scriptName]);
+    //AddScripts("Sandbox", "Player", entity);
+    //sc.scriptName = "Sandbox.Player";
+
+ /*   if (ScriptEngine::EntityClassExists(sc.className)) {
+        for (auto& scriptVec : sc.scriptNameVec) {
+			std::cout << "ScriptEngine.cpp::OnCreateEntity, scriptVec: " << scriptVec << std::endl;
+        }
+        std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[sc.className]);
         s_Data->EntityInstances[entity] = instance;
         instance->InvokeOnCreate();
-	}
-}
-
-void ScriptEngine::OnUpdateEntity(Entity entity) {
-    //std::cout << "ScriptEngine.cpp::OnUpdateEntity:" << entity << std::endl;
-
-    if (s_Data->EntityInstances.find(entity) != s_Data->EntityInstances.end())
-    {
-        std::shared_ptr<ScriptInstance> instance = s_Data->EntityInstances[entity];
-        instance->InvokeOnUpdate();
-    }
-    else {
-		std::cout << "ScriptEngine.cpp::OnUpdateEntity, instance not found" << std::endl;
-    }
+    }*/
 
 }
+
+void ScriptEngine::OnUpdateEntity(const Entity& entity) {
+    // Check if the entity exists in our map
+    auto it = s_Data->EntityInstances.find(entity);
+    if (it != s_Data->EntityInstances.end()) {
+        // Iterate through all script instances associated with this entity
+        for (auto& scriptInstance : it->second) {
+            // Here, update the script instance. 
+            // This is a placeholder. You'd likely call some function on the scriptInstance.
+            scriptInstance->InvokeOnUpdate();
+        }
+    }
+}
+
 
 void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 {
@@ -246,6 +266,12 @@ void ScriptInstance::InvokeOnCreate() {
 void ScriptInstance::InvokeOnUpdate() {
 	m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod);
 }
+
+//void AddScripts(std::string nameSpace, std::string className, Entity entity) {
+//    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+//    sc.scriptName = nameSpace + "." + className;
+//    sc.monoScriptName.push_back(nameSpace + "." + className);
+//}
 
 // Helper functions
 

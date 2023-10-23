@@ -103,6 +103,8 @@ void EntityFactory::LoadMasterModel() {
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	ECS::ecs().AddComponent(entity, Script{}); //add script component
+
+
 	//ECS::ecs().AddComponent(entity, Static{});
 }
 
