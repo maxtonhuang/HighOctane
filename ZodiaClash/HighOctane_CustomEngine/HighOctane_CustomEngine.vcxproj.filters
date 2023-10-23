@@ -221,6 +221,9 @@
     <ClInclude Include="EnemyAction.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerAction.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -348,6 +351,12 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAction.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardAction.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAction.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>

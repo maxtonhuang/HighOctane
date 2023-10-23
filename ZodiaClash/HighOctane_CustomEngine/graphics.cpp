@@ -149,13 +149,14 @@ void GraphicsManager::Draw() {
     
     //physics::PHYSICS->DebugDraw();
 
+    viewport.Unuse();
     for (auto& r : renderer) {
         r.second.Draw();
     }
 
-    viewport.Use();
+    //viewport.Use();
     renderer["static"].DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
-    viewport.Unuse();
+    viewport.Use();
 }
 
 void GraphicsManager::EndDraw() {

@@ -120,45 +120,57 @@ void GUIManager::Update()
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
     ImGui::SetNextWindowViewport(main_viewport->ID);
 
+    
+    ImGui::Begin("Dockable Window", nullptr, window_flags);
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
     {
-        ImGui::Begin("Dockable Window", nullptr, window_flags);
-        ImGuiIO& io = ImGui::GetIO();
-        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-        {
-            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+        ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+        ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
         
-        }
-
-        // Create a menu bar for the window
-        if (ImGui::BeginMenuBar()) {
-            if (ImGui::BeginMenu("Files")) {
-                ImGui::MenuItem("Load Scene");
-                ImGui::MenuItem("Save Scene");
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
-        ImGui::End();
     }
 
-    /*ImGuiIO& io = ImGui::GetIO();
-    if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
-        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-        hoveringPanel = true;
+    // Create a menu bar for the window
+    if (ImGui::BeginMenuBar()) {
+        if (ImGui::BeginMenu("Files")) {
+            ImGui::MenuItem("Load Scene");
+            ImGui::MenuItem("Save Scene");
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
     }
-    else {
-        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-        hoveringPanel = false;
-    }*/
+    ImGui::End();
+    
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 
     {
         ImGui::Begin("Game Viewport");
-        unsigned texutreID = graphics.framebuffer.GetTextureID();
-        ImGui::Image((void*)texutreID,ImVec2{1280,720},ImVec2{0,1},ImVec2{1,0});
 
+        if (ImGui::IsWindowHovered()) {
+            io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        }
+        else {
+            io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+        }
+        
+        unsigned textureID = graphics.framebuffer.GetTextureID();
+        float xSizeAvailable = ImGui::GetContentRegionAvail().x;
+        float ySizeAvailable = ImGui::GetContentRegionAvail().y;
+
+        // Add spacing to centralize viewport
+        if (ySizeAvailable < (xSizeAvailable * 9.f / 16.f)) {
+            ImGui::Dummy(ImVec2(((xSizeAvailable - (ySizeAvailable * 16.f / 9.f)) / 2.f), 0));
+            ImGui::SameLine();
+        }
+        else if ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) {
+            ImGui::Dummy(ImVec2(0, ((ySizeAvailable - (xSizeAvailable * 9.f / 16.f)) / 2.f)));
+        }
+        ImGuiWindow* window = ImGui::GetCurrentWindow();
+        float w = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f);
+        float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
+        graphics.viewport.SetViewport(window->DC.CursorPos.x,graphics.GetWindowHeight() - window->DC.CursorPos.y - h,w,h);
+        ImGui::Image((void*)textureID, ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
   

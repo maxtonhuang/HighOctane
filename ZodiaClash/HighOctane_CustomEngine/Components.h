@@ -96,6 +96,10 @@ struct AABB {
     Vec2                    extents{};
 };
 
+struct Master {
+    // empty by design
+};
+
 struct Clone {
     // empty by design
 };
@@ -111,6 +115,22 @@ struct Movable {
 
 struct Screen {
     bool                    isActive{false};
+};
+
+struct Script {
+    std::string             scriptName{};     // ID of owner
+    // ID of owner
+    //Entity entityID;
+    ////vector of the names on scripts
+    //std::vector<std::string> monoScriptName;
+    ////vector of script instances
+    //std::vector<std::shared_ptr<ScriptInstance>> monoScriptObj; //This is every C# component
+
+
+    //// string to be added (display for ImGui side)
+    //std::string currentAddingScript = "";
+    //// string currently selected (display for ImGui side)
+    //std::string currentSelectedScript = "";
 };
 
 struct Tag {

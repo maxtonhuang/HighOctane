@@ -64,7 +64,7 @@ float Animator::GetFrameDisplayDuration() const {
 
 // to manually set animation to specified index frame
 void Animator::SetAnimation(uint32_t index, Tex& texData) {
-	if (index < texData.tex->GetSheetSize()) {
+	if ((int)index < texData.tex->GetSheetSize()) {
 		frameIndex = index;
 	}	
 }

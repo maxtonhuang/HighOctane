@@ -83,25 +83,52 @@ Instead of not visible, show in asset library
 ******************************************************************************/
 void EntityFactory::LoadMasterModel() {
 	Entity entity = ECS::ecs().CreateEntity();
-	{
-		std::ostringstream oss;
-		oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
-		ECS::ecs().AddComponent(entity, Name{ oss.str() });
-	}
-	masterEntitiesList["CAT"] = entity;
+	
+	std::ostringstream oss;
+	oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
+	ECS::ecs().AddComponent(entity, Name{ oss.str() });
+	masterEntitiesList[oss.str()] = entity;
+
 	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
-	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE,  });
+	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE });
 	ECS::ecs().AddComponent(entity, Visible{ false });
-	ECS::ecs().AddComponent(entity, Tex{ /*texList.Add("duck.png")*/ }); //add tex component, init tex with duck sprite
+	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
+	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
+	ECS::ecs().AddComponent(entity, Model{});
+	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
+	ECS::ecs().AddComponent(entity, Master{});
 	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
 	t->texVariants.push_back(assetmanager.texture.Get("duck.png"));
 	t->texVariants.push_back(assetmanager.texture.Get("duck2.png"));
 	t->tex = t->texVariants.at(0);
-	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
+	//ECS::ecs().AddComponent(entity, Static{});
+}
+
+void EntityFactory::CreateMasterModel(const char* filename) {
+	Entity entity = ECS::ecs().CreateEntity();
+
+	std::ostringstream oss;
+	oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
+	ECS::ecs().AddComponent(entity, Name{ oss.str() });
+	masterEntitiesList[oss.str()] = entity;
+
+	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
+	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE });
+	ECS::ecs().AddComponent(entity, Visible{ false });
+	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
+	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Model{});
 	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
-	//ECS::ecs().AddComponent(entity, Static{});
+	ECS::ecs().AddComponent(entity, Master{});
+	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
+	assetmanager.LoadTexture(filename);
+	t->texVariants.push_back(assetmanager.texture.Get(filename));
+	t->tex = t->texVariants.at(0);
+	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+
+
 }
 
 /******************************************************************************
@@ -113,25 +140,27 @@ void EntityFactory::LoadMasterModel() {
 ******************************************************************************/
 Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
 	Entity entity = ECS::ecs().CreateEntity();
-	{
-		std::ostringstream oss;
-		oss << "entity_" << std::setfill('0') << std::setw(5) << masterCounter++;
-		ECS::ecs().AddComponent(entity, Name{ oss.str() });
-	}
-	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
+
+	std::ostringstream oss;
+	oss << "entity_" << std::setfill('0') << std::setw(5) << cloneCounter++;
+	ECS::ecs().AddComponent(entity, Name{ oss.str() });
+
+	Entity masterEntity = (masterEntitiesList.find("master_00001"))->second;
 	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-	ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Visible{ true });
 	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Collider{});
 	ECS::ecs().AddComponent(entity, Movable{});
+	ECS::ecs().AddComponent(entity, Clone{});
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
+	ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
+
 	if (isMainCharacter) {
 		ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
@@ -169,7 +198,7 @@ void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) 
 		oss << "entity_" << std::setfill('0') << std::setw(5) << masterCounter++;
 		ECS::ecs().AddComponent(entity, Name{ oss.str(), false });
 	}
-	Entity masterEntity = (masterEntitiesList.find("CatTest"))->second;
+	Entity masterEntity = (masterEntitiesList.find("master_00002"))->second;
 	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
 	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
@@ -184,6 +213,7 @@ void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) 
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Collider{});
 	ECS::ecs().AddComponent(entity, Movable{});
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	layerOrder.emplace_back(entity);
@@ -269,20 +299,20 @@ void EntityFactory::ReapplyMassRendering() {
 //----------
 
 //FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
-Entity EntityFactory::CreateModel() {
-	Entity entity = ECS::ecs().CreateEntity();
-	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
-	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Visible{ true });
-	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Clone{});
-	layerOrder.emplace_back(entity);
-	return entity;
-}
+//Entity EntityFactory::CreateModel() {
+//	Entity entity = ECS::ecs().CreateEntity();
+//	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
+//	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Visible{ true });
+//	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Clone{});
+//	layerOrder.emplace_back(entity);
+//	return entity;
+//}
 
 
 

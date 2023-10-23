@@ -499,7 +499,7 @@ public:
     void Update() override;
 };
 
-class ScriptingSystem : public System {
+class ScriptSystem : public System {
 public:
     void Initialize();
     void Update() override;
