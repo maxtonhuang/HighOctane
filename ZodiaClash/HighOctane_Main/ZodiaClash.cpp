@@ -67,6 +67,7 @@
 #include "CharacterStats.h"
 #include "Battle.h"
 
+#include "Reflections.h"
 
 bool gConsoleInitalized{ false };
 
@@ -116,7 +117,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {   
-
+	//testFunc();
     //InitMono();
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
@@ -149,7 +150,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 
     EngineCore::engineCore(); // Instantiate Engine Core
-
+	ScriptEngine::Init(); // Script Engine should be same level as ECS
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -226,6 +227,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
+	ECS::ecs().RegisterComponent<Script>();
 
 
 	// Register systems to be used in the ECS
@@ -254,7 +256,7 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(graphicsSystem, "Graphics System");
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 
-	std::shared_ptr<ScriptingSystem> scriptingSystem = ECS::ecs().RegisterSystem<ScriptingSystem>();
+	std::shared_ptr<ScriptSystem> scriptingSystem = ECS::ecs().RegisterSystem<ScriptSystem>();
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
 	systemList.emplace_back(scriptingSystem, "Scripting System");
 
@@ -296,7 +298,6 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Collider>());
-		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<CollisionSystem>(signature);
@@ -328,9 +329,11 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Screen>());
+		signature.set(ECS::ecs().GetComponentType<Script>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 
-		ECS::ecs().SetSystemSignature<ScriptingSystem>(signature);
+		ECS::ecs().SetSystemSignature<ScriptSystem>(signature);
 	}
 
 	{
