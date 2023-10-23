@@ -65,6 +65,9 @@ public:
 
 	GLuint GetDrawCount(); //Gets current amount of vertices in the buffer
 	void CreateVAO(); //Creates VAO and buffers for storage
+
+	void SetName(std::string);
+	std::string GetName();
 private:
 	GLuint vao{}; //VAO handle
 	GLuint vbo{}; //VBO handle
@@ -73,4 +76,5 @@ private:
 	GLenum drawtype{}; //draw type of the renderer
 	Shader shaderprogram{}; //shader used by renderer
 	GLuint objvertsize{}; //amount of vertices per screen object
+	std::string name{};
 };

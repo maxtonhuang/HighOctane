@@ -65,7 +65,7 @@ public:
 	bool WindowClosed(); //returns true if window is closed, else false
 	void Fullscreen(bool); //true to set fullscreen on, false to set fullscreen off
 	GLFWwindow* GetWindow(); //returns window of graphics system
-
+	Renderer& AddRenderer(std::string name);
 	//void DrawLabel(std::string labelText, Font* ftData, float relFontSize, Vec2 relTextPos, glm::vec4 color);
 	void DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relTextPos, glm::vec4 color);
 
@@ -81,6 +81,7 @@ public:
 	float GetWindowHeight();
 
 private:
+	std::vector<Renderer*> renderOrder{};
 	GLFWwindow* window;
 	int width;
 	int height;

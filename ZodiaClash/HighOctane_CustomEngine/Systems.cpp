@@ -288,12 +288,19 @@ void GraphicsSystem::Update() {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		Tex* tex = &texArray.GetData(entity);
-		Animator* anim = &animatorArray.GetData(entity);
+		Tex* tex = nullptr;
+		Animator* anim = nullptr;
 		if (m->CheckTransformUpdated(*transform, *size)) {
 			m->Update(*transform, *size);
 		}
-		m->Draw(*tex, *anim);
+		if (texArray.HasComponent(entity) && animatorArray.HasComponent(entity)) {
+			tex = &texArray.GetData(entity);
+		}
+		if (animatorArray.HasComponent(entity)) {
+			anim = &animatorArray.GetData(entity);
+		}
+		m->Draw(tex, anim);
+		
 	}
 	camera.Update();
 	graphics.Draw();
@@ -433,13 +440,15 @@ void UITextLabelSystem::Update() {
 			textLabelData->OnFocus();
 		}
 		
-		DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
-		DEBUG_PRINT("SCALE: %f", transformData->scale);
-		DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
-		DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
+		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
+		//DEBUG_PRINT("SCALE: %f", transformData->scale);
+		//DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
+		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
 
 		//call graphics drawLabel here?
+		modelData->SetAlpha(1.f);
 		graphics.DrawLabel(*textLabelData, *sizeData, transformData->position, modelData->GetColor());
+		modelData->SetAlpha(0.2f);
 		//note: find a way to update size!!
 	}
 }

@@ -150,8 +150,8 @@ void GraphicsManager::Draw() {
     //physics::PHYSICS->DebugDraw();
 
     viewport.Unuse();
-    for (auto& r : renderer) {
-        r.second.Draw();
+    for (auto& r : renderOrder) {
+        r->Draw();
     }
 
     //viewport.Use();
@@ -163,6 +163,15 @@ void GraphicsManager::EndDraw() {
     graphics.framebuffer.Clear();
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+Renderer& GraphicsManager::AddRenderer(std::string name) {
+    if (renderer.count(name) > 0) {
+        return renderer[name];
+    }
+    renderer[name].SetName(name);
+    renderOrder.push_back(&renderer[name]);
+    return renderer[name];
 }
 
 void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a) {

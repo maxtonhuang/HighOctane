@@ -186,7 +186,8 @@ void AssetManager::LoadRenderer(const std::string& rendererPath) {
             ASSERT(1, "Renderer has unsupported draw type!");
             return;
         }
-        graphics.renderer[rendererName].Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
+        graphics.AddRenderer(rendererName).Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
+        //graphics.renderer[rendererName].Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
     }
     else {
         ASSERT(1, "Unable to open renderer file!");
