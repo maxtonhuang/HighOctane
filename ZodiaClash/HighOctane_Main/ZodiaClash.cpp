@@ -117,13 +117,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {   
 
-	/**************************************************************************
-	*	The following code will prevent window from going out of screen of low
-	*	resolution screens. Modern monitors that are 1080P or higher should not
-	*	have this problem.
-	**************************************************************************/
-	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
-
     //InitMono();
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable

@@ -143,14 +143,14 @@ void GUIManager::Update()
     
 
     //ImGuiIO& io = ImGui::GetIO();
-    if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
-        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-        hoveringPanel = true;
-    }
-    else {
-        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-        hoveringPanel = false;
-    }
+    //if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+    //    io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+    //    hoveringPanel = true;
+    //}
+    //else {
+    //    io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+    //    hoveringPanel = false;
+    //}
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 
