@@ -465,10 +465,9 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().AddComponent(textObjectA, TextLabel{});
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
-	ECS::ecs().GetComponent<Tex>(textObjectA).tex = nullptr;
+	ECS::ecs().RemoveComponent<Tex>(textObjectA);
 	ECS::ecs().RemoveComponent<Collider>(textObjectA);
 	ECS::ecs().RemoveComponent<Animator>(textObjectA);
-	//ECS::ecs().RemoveComponent<Tex>(textObjectA);
 
 
 	// Load a single character on the screen
