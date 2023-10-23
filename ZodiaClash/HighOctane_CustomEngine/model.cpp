@@ -161,3 +161,7 @@ vmath::Vector2 Model::GetMin() {
 vmath::Vector2 Model::GetMax() {
 	return vmath::Vector2{ topright.x * GRAPHICS::w, topright.y * GRAPHICS::h };
 }
+
+glm::vec4 Model::GetColor() {
+	return color;
+}

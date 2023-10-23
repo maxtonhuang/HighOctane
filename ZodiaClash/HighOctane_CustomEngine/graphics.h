@@ -45,6 +45,7 @@
 #include "Viewport.h"
 #include "FrameBuffer.h"
 #include "Background.h"
+#include "UIComponents.h"
 
 extern float g_dt;
  class GraphicsManager {
@@ -65,7 +66,8 @@ public:
 	void Fullscreen(bool); //true to set fullscreen on, false to set fullscreen off
 	GLFWwindow* GetWindow(); //returns window of graphics system
 
-	void DrawLabel(std::string labelText, float relFontSize, Vec2 relTextPos, glm::vec4 color);
+	//void DrawLabel(std::string labelText, Font* ftData, float relFontSize, Vec2 relTextPos, glm::vec4 color);
+	void DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relTextPos, glm::vec4 color);
 
 	//DEBUG DRAW FUNCTIONS
 	void DrawPoint(float x, float y, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f);

@@ -46,45 +46,21 @@ enum class UI_VERTICAL_ALIGNMENT {
 	V_TOP_ALIGN,	
 	V_BOTTOM_ALIGN
 };
-enum class UI_COLOR_STATES {
-	DEFAULT,
-	HOVERED,
-	PRESSED
-};
+//enum class UI_COLOR_STATES {
+//	DEFAULT,
+//	HOVERED,
+//	PRESSED
+//};
 
 class UIComponent {
 public:
 	virtual ~UIComponent() {}
 	
 	//event handler functions
-	virtual void onClick() = 0;
-	virtual void onHover() = 0;
-	virtual void onDrag() = 0;
-	virtual void onFocus() = 0;
-};
-
-class Button : public UIComponent {
-public:
-	TextLabel textLabel;
-	Vec2 padding{};
-
-	// destination?
-
-	void onClick() override {
-
-	}
-
-	void onHover() override {
-
-	}
-
-	void onDrag() override {
-
-	}
-
-	void onFocus() override {
-
-	}
+	virtual void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) = 0;
+	virtual void OnClick(Model& modelData, Name& nameData) = 0;
+	virtual void OnHover(Model& modelData, Name& nameData) = 0;
+	virtual void OnFocus() = 0;
 };
 
 class TextLabel : public UIComponent {
@@ -92,28 +68,33 @@ public:
 	Font* font{};
 	std::string textString{};
 	UI_HORIZONTAL_ALIGNMENT textAlignment{};
+	float relFontSize{};
 
-	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align)
-		: font(&f), textString(str), textAlignment(align) {}
+	// store colors for each state? -- default
+	glm::vec4 defaultColor{};
+	glm::vec4 hoveredColor{};
+	glm::vec4 focusedColor{};
 
-	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align)
-		: font(fonts.GetDefaultFont()), textString(str), textAlignment(align) {}
 
-	void onClick() override {
+	TextLabel();
+	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
+	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);
 
-	}
+	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
+	void OnClick(Model& modelData, Name& nameData) override;
+	void OnHover(Model& modelData, Name& nameData) override;
+	void OnFocus() override;
+};
 
-	void onHover() override {
+class Button : public UIComponent {
+public:
+	TextLabel textLabel;
+	Vec2 padding{};
 
-	}
-
-	void onDrag() override {
-
-	}
-
-	void onFocus() override {
-
-	}
+	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
+	void OnClick(Model& modelData, Name& nameData) override;
+	void OnHover(Model& modelData, Name& nameData) override;
+	void OnFocus() override;
 };
 
 class LayoutGroup : UIComponent {
@@ -122,7 +103,3 @@ public:
 	//vector of component pointers? just to keep track what components are in the group?
 	std::vector<std::shared_ptr<UIComponent>>components;
 };
-
-
-
-// UI manager class to handle global states (and event handling?)

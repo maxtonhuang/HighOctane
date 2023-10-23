@@ -49,6 +49,7 @@
 #include "Editing.h"
 #include "ScriptEngine.h"
 #include "Battle.h"
+#include "UIComponents.h"
 
 
 /******************************************************************************
@@ -398,13 +399,51 @@ void GameplaySystem::Update() {
 	}
 }
 
-
-
-
-
 /******************************************************************************
 *
 *	@brief Battle System is located in Battle.cpp
 *
 ******************************************************************************/
 
+
+
+void UITextLabelSystem::Update() {
+	//std::cout << "Hi this is UI update\n";
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform* transformData = &transformArray.GetData(entity);
+		//Tex* texData = &texArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		Name* nameData = &nameArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+
+		textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		if (nameData->selected) {
+			textLabelData->OnFocus();
+		}
+		
+		DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
+		DEBUG_PRINT("SCALE: %f", transformData->scale);
+		DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
+		DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
+
+		//call graphics drawLabel here?
+		graphics.DrawLabel(*textLabelData, *sizeData, transformData->position, modelData->GetColor());
+		//note: find a way to update size!!
+	}
+}
+
+//void UIButtonSystem::Update() {
+//	std::cout << "Hi this is UI update\n";
+//}

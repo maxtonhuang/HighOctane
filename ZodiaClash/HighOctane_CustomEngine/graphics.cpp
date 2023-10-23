@@ -134,18 +134,18 @@ void GraphicsManager::Draw() {
     graphics.backgroundsystem.Update();
    
 
-    // note: to draw as entity!
-    std::string labelText = "© 2023 High Octane";
-    float relFontSize = 0.48f;
-    Vec2 relTextPos = { 0.45f, 0.85f };
-    glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
-    DrawLabel(labelText, relFontSize, relTextPos, color);
-    //DrawLabel(labelText, "mikachan", "Regular", relFontSize, relTextPos, color);
+    //// note: to draw as entity!
+    //std::string labelText = "© 2023 High Octane";
+    //float relFontSize = 0.48f;
+    //Vec2 relTextPos = { 0.45f, 0.85f };
+    //glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
+    //DrawLabel(labelText, nullptr, relFontSize, relTextPos, color);
+    ////DrawLabel(labelText, "mikachan", "Regular", relFontSize, relTextPos, color);
 
-    labelText = "ZodiaClash v0.1";
-    relTextPos = { -0.95f, -0.9f };
-    DrawLabel(labelText, relFontSize, relTextPos, color);
-    //DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
+    //labelText = "ZodiaClash v0.1";
+    //relTextPos = { -0.95f, -0.9f };
+    //DrawLabel(labelText, nullptr, relFontSize, relTextPos, color);
+    ////DrawLabel(labelText, "Danto Lite Normal", "Regular", relFontSize, relTextPos, color);
     
     //physics::PHYSICS->DebugDraw();
 
@@ -237,18 +237,23 @@ GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
-void GraphicsManager::DrawLabel(std::string labelText, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
+void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relTextPos, glm::vec4 color) {
+//void GraphicsManager::DrawLabel(std::string labelText, Font* ftData, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     static Renderer* fontRenderer{ &renderer["font"] };
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 
     // enforce relFontSize to be in range [0.f, 1.f]
-    relFontSize = std::max(0.f, relFontSize);
-    relFontSize = std::min(relFontSize, 1.f);
+    float fontSize = txtLblData.relFontSize;
+    fontSize = std::max(0.f, fontSize);
+    fontSize = std::min(fontSize, 1.f);
 
     // TODO some sort of non null checking for fontData?
     // find font in fontCollection (null checking included)
-    Font& fontData{ *fonts.GetDefaultFont() };
+    Font& fontData{ (txtLblData.font != nullptr) ? *txtLblData.font : *fonts.GetDefaultFont() };
+
+    // reset sizeData
+    sizeData = { 0.f, 0.f };
 
     // iterate through all characters 
     float initPosX = (relTextPos.x * GRAPHICS::w);
@@ -257,15 +262,20 @@ void GraphicsManager::DrawLabel(std::string labelText, float relFontSize, Vec2 r
     float yPos;
 
     std::string::const_iterator c;
-    for (c = labelText.begin(); c != labelText.end(); c++)
+    for (c = txtLblData.textString.begin(); c != txtLblData.textString.end(); c++)
     {
         Character ch{ fontData.characters[*c] };
 
-        xPos = (xPos + ch.bearing.x * relFontSize);
-        yPos = (initPosY - (ch.size.y - ch.bearing.y) * relFontSize);
+        xPos = (xPos + ch.bearing.x * fontSize);
+        yPos = (initPosY - (ch.size.y - ch.bearing.y) * fontSize);
 
-        float w = ch.size.x * relFontSize;
-        float h = ch.size.y * relFontSize;
+        float w = ch.size.x * fontSize;
+        float h = ch.size.y * fontSize;
+
+        // calculate size needed
+        sizeData.width += w;
+        sizeData.height = std::max(fontSize, h);
+
         //glm::vec3 color(1.f, 1.f, 1.f);
         glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
         glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
@@ -277,6 +287,6 @@ void GraphicsManager::DrawLabel(std::string labelText, float relFontSize, Vec2 r
         fontRenderer->AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords((int)ch.texPos,3), (float)ch.textureID->GetID() - 1 });
         fontRenderer->AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
         fontRenderer->AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
-        xPos += (ch.advance >> 6) * relFontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64to get amount of pixels))
+        xPos += (ch.advance >> 6) * fontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64to get amount of pixels))
     }   
 }

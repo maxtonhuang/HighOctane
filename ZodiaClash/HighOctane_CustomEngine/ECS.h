@@ -488,12 +488,6 @@ public:
     void Update() override;
 };
 
-class FontSystem : public System {
-public:
-    void Initialize();
-    void Update() override;
-};
-
 class SerializationSystem : public System {
 public:
     void Update() override;
@@ -517,3 +511,12 @@ public:
     void Update() override;
 };
 
+class UITextLabelSystem : public System {
+public:
+    void Update() override;
+};
+
+class UIButtonSystem : public System {
+public:
+    void Update() override;
+};
