@@ -313,23 +313,45 @@ void SerializationSystem::Update() {
 }
 
 
-void ScriptingSystem::Initialize() {
-	std::cout << "Hi this is initlailze\n";
-	ScriptEngine::Init();
+void ScriptSystem::Initialize() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	std::cout << "System.cpp::ScriptSystem::Initialize" << std::endl;
+	std::cout << "System.cpp::ScriptSystem::Initialize::size: " << m_Entities.size() << std::endl;
+	for (Entity const& entity : m_Entities) {
+		Name* name = &nameArray.GetData(entity);
+		ScriptEngine::OnCreateEntity(entity);
+		std::cout << "System.cpp::ScriptSystem::Initialize: " << name->name << std::endl;
+	}
+
 }
 
 // Scripting
-void ScriptingSystem::Update() {
+void ScriptSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
 	//auto& screenArray = componentManager.GetComponentArrayRef<Screen>();
+	//std::cout << "ScriptSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+
 
 	//for (Entity const& entity : m_Entities) {
 	//	Screen* s = &screenArray.GetData(entity);
 	//	script.RunScript(s);
 	//}
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//std::cout << "System.cpp::ScriptSystem::Update::size: " << m_Entities.size() << std::endl;
+	for (Entity const& entity : m_Entities) {
+		Name* name = &nameArray.GetData(entity);
+		ScriptEngine::OnUpdateEntity(entity);
+		//std::cout << "System.cpp::ScriptSystem::Update: " << name->name << std::endl;
+	}
+	// scripts
+	ScriptEngine::OnRuntimeStart();
+
+	// Instantiate all script entities
 }
 
 
