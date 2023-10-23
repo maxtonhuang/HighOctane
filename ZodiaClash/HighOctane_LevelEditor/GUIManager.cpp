@@ -120,29 +120,29 @@ void GUIManager::Update()
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
     ImGui::SetNextWindowViewport(main_viewport->ID);
 
+    
+    ImGui::Begin("Dockable Window", nullptr, window_flags);
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
     {
-        ImGui::Begin("Dockable Window", nullptr, window_flags);
-        ImGuiIO& io = ImGui::GetIO();
-        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-        {
-            ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-            ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+        ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+        ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
         
-        }
-
-        // Create a menu bar for the window
-        if (ImGui::BeginMenuBar()) {
-            if (ImGui::BeginMenu("Files")) {
-                ImGui::MenuItem("Load Scene");
-                ImGui::MenuItem("Save Scene");
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
-        ImGui::End();
     }
 
-    /*ImGuiIO& io = ImGui::GetIO();
+    // Create a menu bar for the window
+    if (ImGui::BeginMenuBar()) {
+        if (ImGui::BeginMenu("Files")) {
+            ImGui::MenuItem("Load Scene");
+            ImGui::MenuItem("Save Scene");
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
+    }
+    ImGui::End();
+    
+
+    //ImGuiIO& io = ImGui::GetIO();
     if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
         io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
         hoveringPanel = true;
@@ -150,7 +150,7 @@ void GUIManager::Update()
     else {
         io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
         hoveringPanel = false;
-    }*/
+    }
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 
