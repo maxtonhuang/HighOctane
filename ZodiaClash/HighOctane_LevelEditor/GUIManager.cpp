@@ -156,6 +156,14 @@ void GUIManager::Update()
 
     {
         ImGui::Begin("Game Viewport");
+
+        if (ImGui::IsWindowHovered()) {
+            io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        }
+        else {
+            io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+        }
+        
         unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;
         float ySizeAvailable = ImGui::GetContentRegionAvail().y;

@@ -375,3 +375,14 @@ void GameplaySystem::Update() {
 		Animator* anim = &animatorArray.GetData(entity);
 	}
 }
+
+
+
+
+
+/******************************************************************************
+*
+*	@brief Battle System is located in Battle.cpp
+*
+******************************************************************************/
+
