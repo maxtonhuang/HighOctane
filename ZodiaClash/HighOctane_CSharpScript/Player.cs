@@ -19,22 +19,22 @@ namespace Sandbox
         void OnUpdate()
         {
             //Console.WriteLine($"Player OnUpdate:");
-            if (Debug.GetKeyDown(INFO.KEY_W))
-            {
-                Debug.Log("W is pressed from C#");
-            }
-            if (Debug.GetKeyDown(INFO.KEY_A))
-            {
-                Debug.Log("A is pressed from C#");
-            }
-            if (Debug.GetKeyDown(INFO.KEY_S))
-            {
-                Debug.Log("S is pressed from C#");
-            }
-            if (Debug.GetKeyDown(INFO.KEY_D))
-            {
-                Debug.Log("D is pressed from C#");
-            }
+            //if (Debug.GetKeyDown(INFO.KEY_W))
+            //{
+            //    Debug.Log("W is pressed from C#");
+            //}
+            //if (Debug.GetKeyDown(INFO.KEY_A))
+            //{
+            //    Debug.Log("A is pressed from C#");
+            //}
+            //if (Debug.GetKeyDown(INFO.KEY_S))
+            //{
+            //    Debug.Log("S is pressed from C#");
+            //}
+            //if (Debug.GetKeyDown(INFO.KEY_D))
+            //{
+            //    Debug.Log("D is pressed from C#");
+            //}
         }
     }
 
