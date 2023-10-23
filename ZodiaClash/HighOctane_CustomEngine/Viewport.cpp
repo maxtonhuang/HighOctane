@@ -29,13 +29,17 @@
 *
 ******************************************************************************/
 #include "Viewport.h"
+#include "graphics.h"
 
 void Viewport::Use() {
 	glViewport(x, y, w, h);
 }
 
 void Viewport::Unuse() {
-	glViewport(0, 0, GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	int width;
+	int height;
+	glfwGetWindowSize(graphics.GetWindow(), &width, &height);
+	glViewport(0, 0, width, height);
 }
 
 void Viewport::SetViewport(int input_x, int input_y, unsigned int input_w, unsigned int input_h) {

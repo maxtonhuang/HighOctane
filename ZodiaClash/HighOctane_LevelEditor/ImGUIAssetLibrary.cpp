@@ -25,7 +25,7 @@ void UpdateAssetLibrary() {
 
 
 			for (std::string val : filesToOpen) {
-				EntityFactory::entityFactory().CreateMasterModel(val.substr(val.find_last_of('\\') + 1, val.length() - (val.find_last_of('\\') + 1)).c_str());
+				EntityFactory::entityFactory().CreateMasterModel(val.c_str());//.substr(val.find_last_of('\\') + 1, val.length() - (val.find_last_of('\\') + 1)).c_str());
 			}
 
 		}

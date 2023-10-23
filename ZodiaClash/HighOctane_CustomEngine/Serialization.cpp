@@ -498,7 +498,7 @@ std::vector<std::string> OpenFileDialog() {
 					hr = p_Results->GetItemAt(i, &p_si);
 					if (SUCCEEDED(hr)) {
 						PWSTR p_szPath; // Pointer to Zero-terminated String, aka wchar_t*, because this project is in Unicode.
-						hr = p_si->GetDisplayName(SIGDN_FILESYSPATH, &p_szPath);
+						hr = p_si->GetDisplayName(SIGDN_NORMALDISPLAY, &p_szPath); // use "SIGDN_FILESYSPATH" for full file path.
 
 						if (SUCCEEDED(hr)) {
 							// pszPath contains the full path to one of the chosen files

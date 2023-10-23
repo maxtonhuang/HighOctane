@@ -156,7 +156,7 @@ void GUIManager::Update()
 
     {
         ImGui::Begin("Game Viewport");
-        unsigned texutreID = graphics.framebuffer.GetTextureID();
+        unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;
         float ySizeAvailable = ImGui::GetContentRegionAvail().y;
 
@@ -168,7 +168,11 @@ void GUIManager::Update()
         else if ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) {
             ImGui::Dummy(ImVec2(0, ((ySizeAvailable - (xSizeAvailable * 9.f / 16.f)) / 2.f)));
         }
-        ImGui::Image((void*)texutreID, ImVec2{ ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f), ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+        ImGuiWindow* window = ImGui::GetCurrentWindow();
+        float w = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f);
+        float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
+        graphics.viewport.SetViewport(window->DC.CursorPos.x,graphics.GetWindowHeight() - window->DC.CursorPos.y - h,w,h);
+        ImGui::Image((void*)textureID, ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
   
