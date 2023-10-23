@@ -46,11 +46,15 @@
 #include "ImGuiAssetLibrary.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
+#include "Global.h"
+#include <algorithm>
 
 
 constexpr float fontSize = 20.f;
 constexpr float fontSizeLarge = 50.f;
 ImFont* latoLargeBold;
+ImGuiStyle originalStyle;
+bool firstSet = false;
 
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
@@ -109,6 +113,28 @@ void GUIManager::Init()
 void GUIManager::Update()
 {
     GLFWwindow* window = graphics.GetWindow();
+    
+    // blinks entire window if Drag & Drop file is released
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (fileDropped && !firstSet) {
+        
+        // save the original style to revert later on
+        originalStyle = style;
+        firstSet = true;
+
+        // change ImGui style to a faded appearance
+        for (int i = 0; i < ImGuiCol_COUNT; i++)
+        {
+            ImVec4& col = style.Colors[i];
+            col.x = std::min(col.x * 4.f, 1.0f);
+            col.y = std::min(col.y * 4.f, 1.0f);
+            col.z = std::min(col.z * 4.f, 1.0f);
+        }
+    }
+    else if (!fileDropped) {
+        style = originalStyle;
+    }
+
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -196,4 +222,11 @@ glfwGetFramebufferSize(window, &display_w, &display_h);
 //
 //   // glfwSwapBuffers(window);
 
+    dropTimer = ((dropTimer - g_dt) <= 0.f) ? 0.f : (dropTimer - g_dt);
+
+    if (dropTimer == 0.f) {
+        fileDropped = false;
+        firstSet = false;
+    }
+    
 }

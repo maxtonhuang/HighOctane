@@ -36,12 +36,15 @@
 #include "Input.h"
 #include "graphlib.h"
 #include "debugdiagnostic.h"
+#include "WindowsInterlink.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <random>
 #include "physics.h"
 #include <algorithm>
+#include <Windows.h>
+
 
 GraphicsManager graphics;
 
@@ -88,7 +91,11 @@ void GraphicsManager::Initialize(int w, int h) {
     glfwSetMouseButtonCallback(window, InputManager::MouseButtonCallback);
     glfwSetCursorPosCallback(window, InputManager::CursorPosCallback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
+    
+    HWND hwnd = glfwGetWin32Window(window);
+    DragAcceptFiles(hwnd, TRUE);  // Allow the window to accept dropped files
+    glfwSetDropCallback(window, FileDropCallback);
+    
     //Set default background colour
     glClearColor(1.f, 0.f, 0.f, 1.f);
 

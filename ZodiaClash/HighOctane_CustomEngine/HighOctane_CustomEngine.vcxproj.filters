@@ -224,6 +224,9 @@
     <ClInclude Include="PlayerAction.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsInterlink.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="PlayerAction.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsInterlink.cpp">
+      <Filter>EngineArchitecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

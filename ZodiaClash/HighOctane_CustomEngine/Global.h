@@ -44,3 +44,5 @@ extern float g_dt;
 extern bool button_clicked;
 extern bool edit_mode;
 extern bool hoveringPanel;
+extern bool fileDropped;
+extern float dropTimer;

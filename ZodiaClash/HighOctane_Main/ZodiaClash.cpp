@@ -158,7 +158,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 
     EngineCore::engineCore(); // Instantiate Engine Core
-	ScriptEngine::Init(); // Script Engine should be same level as ECS
+	
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -215,6 +215,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
+	ScriptEngine::Init(); // Script Engine should be same level as ECS
 
 // Register components to be used in the ECS
 	ECS::ecs().Init();
