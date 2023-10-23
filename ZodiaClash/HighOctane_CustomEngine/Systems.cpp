@@ -289,9 +289,10 @@ void GraphicsSystem::Update() {
 		Transform* transform = &transformArray.GetData(entity);
 		Tex* tex = &texArray.GetData(entity);
 		Animator* anim = &animatorArray.GetData(entity);
-		if (m->CheckTransformUpdated(*transform, *size)) {
-			m->Update(*transform, *size);
-		}
+		//if (m->CheckTransformUpdated(*transform, *size)) {
+			
+		//}
+		m->Update(*transform, *size);
 		m->Draw(*tex, *anim);
 	}
 	camera.Update();

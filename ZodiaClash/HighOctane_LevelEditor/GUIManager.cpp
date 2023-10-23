@@ -169,7 +169,7 @@ void GUIManager::Update()
         ImGuiWindow* window = ImGui::GetCurrentWindow();
         float w = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f);
         float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
-        graphics.viewport.SetViewport(window->DC.CursorPos.x,graphics.GetWindowHeight() - window->DC.CursorPos.y - h,w,h);
+        graphics.viewport.SetViewport((int)window->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - window->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
         ImGui::Image((void*)textureID, ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
