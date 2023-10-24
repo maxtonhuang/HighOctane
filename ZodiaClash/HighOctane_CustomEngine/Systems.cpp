@@ -314,6 +314,7 @@ void SerializationSystem::Update() {
 }
 
 
+
 void ScriptSystem::Initialize() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -330,9 +331,11 @@ void ScriptSystem::Initialize() {
 			continue;
 		}
 
+
 		// Get the name component
 		Script& script = scriptArray.GetData(entity);
 		Name* name = &nameArray.GetData(entity);
+
 
 		// Get the name of the entity
 		/*------------TEMPORARY HARD CODE-----------*/
@@ -341,6 +344,13 @@ void ScriptSystem::Initialize() {
 			// Add the script names to the script component and it should run the script
 			script.scriptNameVec.push_back("Sandbox.Player");
 			script.scriptNameVec.push_back("Sandbox.PlayerController");
+			script.className = name->name;
+		}
+
+		if (name->name == "entity_00002") {
+
+			// Add the script names to the script component and it should run the script
+			script.scriptNameVec.push_back("Sandbox.Player");
 			script.className = name->name;
 		}
 		/*------------TEMPORARY HARD CODE-----------*/

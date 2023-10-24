@@ -144,26 +144,12 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
             // Create an instance of this script class
             std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName]);
 
-            // Store the created instance in a map or list. Here, I'm assuming you have a map from Entity to a list of ScriptInstance pointers.
-            // This way, each entity can have multiple script instances associated with it.
             s_Data->EntityInstances[entity].push_back(instance);
 
             // Call the OnCreate method of this script instance
             instance->InvokeOnCreate();
         }
     }
-    // This is the script name, if there is no script it won't run
-    //AddScripts("Sandbox", "Player", entity);
-    //sc.scriptName = "Sandbox.Player";
-
- /*   if (ScriptEngine::EntityClassExists(sc.className)) {
-        for (auto& scriptVec : sc.scriptNameVec) {
-			std::cout << "ScriptEngine.cpp::OnCreateEntity, scriptVec: " << scriptVec << std::endl;
-        }
-        std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[sc.className]);
-        s_Data->EntityInstances[entity] = instance;
-        instance->InvokeOnCreate();
-    }*/
 
 }
 
