@@ -44,9 +44,6 @@ namespace physics {
         maxVelocitySq = maxVelocity * maxVelocity;
         advanceStep = false;
         stepModeActive = false;
-        timeAccumulation = 0.0f;
-        penetrationEpsilon = 0.2f;
-        penetrationResolvePercentage = 0.8f;
     }
 
     /**************************************************************************/
@@ -141,6 +138,12 @@ namespace physics {
         // reset force for the next frame
         transformData.velocity *= FRICTION;
         transformData.force = { 0, 0 };
+
+        std::cout << transformData.velocity.x << " , " << transformData.velocity.y << std::endl;
+        std::cout << transformData.position.x << " , " << transformData.position.y << std::endl;
+
+        /*
+
         // If the body is static, we don't want to update its position or velocity.
         //if (body.isStatic) return;
 
