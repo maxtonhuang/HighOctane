@@ -435,20 +435,30 @@ void UITextLabelSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 
+		if (textLabelData->CheckStringUpdated(*textLabelData)) {
+			textLabelData->UpdateOffset(textLabelData->relTransform, *transformData);
+		}
+
 		textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
 		if (nameData->selected) {
 			textLabelData->OnFocus();
 		}
 		
+		sizeData->width = textLabelData->posOffset.x;
+		sizeData->height = textLabelData->posOffset.y;
+		
 		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
+		//DEBUG_PRINT("relTrans: %f %f", textLabelData->relTransform.x, textLabelData->relTransform.y);
 		//DEBUG_PRINT("SCALE: %f", transformData->scale);
 		//DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
 		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
 
+		
 		//call graphics drawLabel here?
 		modelData->SetAlpha(1.f);
-		graphics.DrawLabel(*textLabelData, *sizeData, transformData->position, modelData->GetColor());
+		graphics.DrawLabel(*textLabelData, *sizeData, textLabelData->relTransform, modelData->GetColor());
 		modelData->SetAlpha(0.2f);
+
 		//note: find a way to update size!!
 	}
 }

@@ -69,6 +69,58 @@ TextLabel::TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align) {
 	focusedColor = { 0.f, 0.f, 1.f, 1.f };
 }
 
+bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
+	if (txtLblData.textString != txtLblData.prevTextString) {
+		prevTextString = txtLblData.textString;
+		return true;
+	}
+	return false;
+}
+
+void TextLabel::SetTextString(std::string txtStr) {
+	textString = txtStr;
+}
+
+void TextLabel::CalculateOffset() {
+	// reset variables
+	posOffset = { 0.f, 0.f };
+	float ymax{};
+	float ymin{};
+	bool isGlyphBelowBaseline{};
+
+	std::string::const_iterator c;
+	for (c = textString.begin(); c != textString.end(); c++)
+	{
+		Character ch{ (*font).characters[*c] };
+
+		float w = ch.size.x * relFontSize;
+		float h = ch.size.y * relFontSize;
+
+		// calculate ymax, ymin
+		ymax = std::max(ymax, h);
+		ymin = std::min(ymin, (ch.size.y - ch.bearing.y) * relFontSize);
+
+		/*if (!isGlyphBelowBaseline && (ch.size.y - ch.bearing.y)) {
+			posOffset.y += (2 * (ch.size.y - ch.bearing.y));
+			isGlyphBelowBaseline = true;
+		}*/
+
+		// calculate size needed
+		posOffset.x += w;
+		posOffset.y = ymax - ymin;
+
+		if (c != std::prev(textString.end())) {
+			posOffset.x += 0.5f * (ch.advance >> 6) * relFontSize;
+		}
+	}
+}
+
+void TextLabel::UpdateOffset(Vec2& relTransform, Transform const& transformData) {
+	CalculateOffset();
+	relTransform.x = (transformData.position.x - (0.5f * posOffset.x));
+	relTransform.y = (transformData.position.y - (0.5f * posOffset.y));
+}
+
 void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) {
 	// Check mailbox for input triggers
 	//Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::UICOMPONENT, INFO::NONE, 0.f, 0.f);
@@ -87,7 +139,14 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 				OnClick(modelData, nameData);
 			}
 			break;
+		case(TYPE::MOUSE_DOWN):
+			if (nameData.selected) {
+				transformData.position.x = msg.posX;
+				transformData.position.y = msg.posY;
+			}
+			break;
 		}
+		
 	}
 
 	if (!nameData.selected && IsWithinObject(modelData, uiMousePos)) {

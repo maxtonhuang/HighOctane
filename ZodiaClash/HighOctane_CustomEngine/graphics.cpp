@@ -246,7 +246,7 @@ GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
-void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relTextPos, glm::vec4 color) {
+void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2& relTextPos, glm::vec4 color) {
 //void GraphicsManager::DrawLabel(std::string labelText, Font* ftData, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     static Renderer* fontRenderer{ &renderer["font"] };
@@ -261,12 +261,12 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relT
     // find font in fontCollection (null checking included)
     Font& fontData{ (txtLblData.font != nullptr) ? *txtLblData.font : *fonts.GetDefaultFont() };
 
-    // reset sizeData
-    sizeData = { 0.f, 0.f };
+    //// reset sizeData
+    //sizeData = { 0.f, 0.f };
 
     // iterate through all characters 
-    float initPosX = (relTextPos.x * GRAPHICS::w);
-    float initPosY = (relTextPos.y * GRAPHICS::h);
+    float initPosX = (relTextPos.x /** GRAPHICS::w*/);
+    float initPosY = (relTextPos.y /** GRAPHICS::h*/);
     float xPos = initPosX;
     float yPos;
 
@@ -281,9 +281,9 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relT
         float w = ch.size.x * fontSize;
         float h = ch.size.y * fontSize;
 
-        // calculate size needed
-        sizeData.width += w;
-        sizeData.height = std::max(fontSize, h);
+        //// calculate size needed
+        //sizeData.width += w;
+        //sizeData.height = std::max(fontSize, h);
 
         //glm::vec3 color(1.f, 1.f, 1.f);
         glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
@@ -297,5 +297,9 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2 relT
         fontRenderer->AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
         fontRenderer->AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
         xPos += (ch.advance >> 6) * fontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64to get amount of pixels))
-    }   
+    }
+
+    //// update transform
+    //relTextPos.x = (relTextPos.x - (1.5f * sizeData.width));
+    //relTextPos.y = (relTextPos.y - (1.5f * sizeData.height));
 }

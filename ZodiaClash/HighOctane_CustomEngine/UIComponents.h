@@ -67,8 +67,11 @@ class TextLabel : public UIComponent {
 public:
 	Font* font{};
 	std::string textString{};
+	std::string prevTextString{};
 	UI_HORIZONTAL_ALIGNMENT textAlignment{};
 	float relFontSize{};
+	Vec2 posOffset{}; //offset from transform
+	Vec2 relTransform{};
 
 	// store colors for each state? -- default
 	glm::vec4 defaultColor{};
@@ -79,6 +82,11 @@ public:
 	TextLabel();
 	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
 	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);
+
+	bool CheckStringUpdated(TextLabel& txtLblData);
+	void SetTextString(std::string txtStr);
+	void CalculateOffset();
+	void UpdateOffset(Vec2& relTransform, Transform const& transformData);
 
 	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
 	void OnClick(Model& modelData, Name& nameData) override;

@@ -87,6 +87,7 @@ void Mail::SendMails() {
             break;
         case TYPE::MOUSE_DOWN:
             mailbox[ADDRESS::EDITING].emplace_back(msg);
+            mailbox[ADDRESS::UICOMPONENT].emplace_back(msg);
             break;
         default:
             break;
