@@ -50,6 +50,8 @@
 #include "ScriptEngine.h"
 #include "Battle.h"
 
+// Extern for the vector to contain the full name for ImGui for scripting system
+extern std::vector<std::string> fullNameVecImGUI;
 
 /******************************************************************************
 *
@@ -314,8 +316,8 @@ void SerializationSystem::Update() {
 }
 
 
-
 void ScriptSystem::Initialize() {
+
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -323,6 +325,8 @@ void ScriptSystem::Initialize() {
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
+
+
 
 		// Get the script component
 		Script* s = &ECS::ecs().GetComponent<Script>(entity);
@@ -337,22 +341,46 @@ void ScriptSystem::Initialize() {
 		Name* name = &nameArray.GetData(entity);
 
 
-		// Get the name of the entity
+		// For every entity, add the name to the fullNameVecImGUI vector
+		for (auto& fullName : fullNameVecImGUI) {
+			script.scriptNameVecForImGui.push_back(fullName);
+		}
+
+		//std::cout << "These are the entity names " << name->name << std::endl;
+
 		/*------------TEMPORARY HARD CODE-----------*/
-		if (name->name == "entity_00001") {
+		std::unordered_map<std::string, std::vector<std::string>> entityScripts = {
+			// Will be taken from ImGui property page next time
+			// The format will be
+			// {name.name}, {scriptNameVecForImGui} I think
+			{"entity_00001", {"Sandbox.Player"}},
+			{"entity_00002", {"PlayerController.PlayerMovement"}}
+		};
+		/*------------TEMPORARY HARD CODE-----------*/
 
-			// Add the script names to the script component and it should run the script
-			script.scriptNameVec.push_back("Sandbox.Player");
-			script.scriptNameVec.push_back("Sandbox.PlayerController");
-			script.className = name->name;
+		// Get the script names from the entityScripts map
+		for (auto& [key, value] : entityScripts) {
+			if (key == name->name) {
+				script.scriptNameVec = value;
+			}
 		}
 
-		if (name->name == "entity_00002") {
+		//// Get the name of the entity
+		///*------------TEMPORARY HARD CODE-----------*/
+		//if (name->name == "entity_00001") { 
 
-			// Add the script names to the script component and it should run the script
-			script.scriptNameVec.push_back("Sandbox.Player");
-			script.className = name->name;
-		}
+		//	// Add the script names to the script component and it should run the script
+		//	script.scriptNameVec.push_back("Sandbox.Player");
+		//	script.scriptNameVec.push_back("Sandbox.PlayerController");
+		//	script.className = name->name;
+		//}
+
+		//if (name->name == "entity_00002") { // Kai say this one is the duck
+
+		//	// Add the script names to the script component and it should run the script
+		//	//script.scriptNameVec.push_back("Sandbox.Player");
+		//	script.className = name->name;
+		//}
 		/*------------TEMPORARY HARD CODE-----------*/
 
 
@@ -372,13 +400,13 @@ void ScriptSystem::Initialize() {
 void ScriptSystem::Update() {
 
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
 	//std::cout << "System.cpp::ScriptSystem::Update::size: " << m_Entities.size() << std::endl;
 
 	// Iterate through all entities with a script component
 	for (Entity const& entity : m_Entities) {
-		Name* name = &nameArray.GetData(entity);
+		//Name* name = &nameArray.GetData(entity);
 		ScriptEngine::OnUpdateEntity(entity);
 	}
 

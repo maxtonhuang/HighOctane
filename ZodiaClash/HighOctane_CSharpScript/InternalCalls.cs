@@ -69,4 +69,14 @@ public static class InternalCalls
     // Adds the log function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern void LogVector3(ref Vector3 param, out Vector3 result);
+
+    // Adds the get axis function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern int GetAxisHorizontal();
+
+    // Adds the get axis function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern int GetAxisVertical();
+
+
 }

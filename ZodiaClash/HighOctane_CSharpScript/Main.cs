@@ -5,20 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public struct Vector3
-{
-    public float X, Y, Z;
 
-    public Vector3(float x, float y, float z)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-    }
-}
 
 public class Entity
 {
+
+    virtual public void OnCreate()
+    {
+
+    }
+
+    virtual public void OnUpdate()
+    {
+
+    }
+
     public float FloatVar { get; set; }
     public Entity()
     {

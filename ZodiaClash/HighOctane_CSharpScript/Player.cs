@@ -9,45 +9,49 @@ namespace Sandbox
 {
     internal class Player : Entity
     {
-
-        void OnCreate()
+        public override void OnCreate()
         {
             //Console.WriteLine("Player OnCreate");
 
         }
 
-        void OnUpdate()
+        public override void OnUpdate()
         {
-            //Console.WriteLine($"Player OnUpdate:");
-            if (Debug.GetKeyDown(INFO.KEY_W))
+
+            if (Input.GetAxisHorizontal() == 1)
             {
-                Debug.Log("W is pressed from C#");
+                Debug.Log("Right");
             }
-            if (Debug.GetKeyDown(INFO.KEY_A))
+            else if (Input.GetAxisHorizontal() == -1)
             {
-                Debug.Log("A is pressed from C#");
+                Debug.Log("Left");
             }
-            if (Debug.GetKeyDown(INFO.KEY_S))
+
+            if (Input.GetAxisVertical() == 1)
             {
-                Debug.Log("S is pressed from C#");
+                Debug.Log("Up");
             }
-            if (Debug.GetKeyDown(INFO.KEY_D))
+
+            else if (Input.GetAxisVertical() == -1)
             {
-                Debug.Log("D is pressed from C#");
+                Debug.Log("Down");
             }
         }
     }
 
-    internal class PlayerController : Entity
+}
+namespace PlayerController
+{
+    internal class PlayerMovement : Entity
     {
-        void OnCreate()
+        public override void OnCreate()
         {
-            Console.WriteLine("PlayerController OnCreate");
+            Console.WriteLine("PlayerMovement OnCreate");
         }
 
-        void OnUpdate()
+        public override void OnUpdate()
         {
-            Console.WriteLine($"PlayerController OnUpdate");
+            //Console.WriteLine($"PlayerMovement OnUpdate");
         }
     }
 }

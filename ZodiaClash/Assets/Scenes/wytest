@@ -80,12 +80,14 @@
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
-            "className": "entity_00001",
+            "className": "",
             "scriptNameVec": [
-                "Sandbox.Player",
-                "Sandbox.PlayerController"
+                "Sandbox.Player"
             ],
-            "scriptNameVecForImGui": []
+            "scriptNameVecForImGui": [
+                "PlayerController.PlayerMovement",
+                "Sandbox.Player"
+            ]
         }
     },
     {
@@ -129,11 +131,14 @@
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
-            "className": "entity_00002",
+            "className": "",
             "scriptNameVec": [
-                "Sandbox.Player"
+                "PlayerController.PlayerMovement"
             ],
-            "scriptNameVecForImGui": []
+            "scriptNameVecForImGui": [
+                "PlayerController.PlayerMovement",
+                "Sandbox.Player"
+            ]
         }
     },
     {
