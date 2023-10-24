@@ -62,6 +62,10 @@ void Camera::AddPos(float x, float y) {
 	Update();
 }
 
+vmath::Vector2 Camera::GetPos() {
+	return pos;
+}
+
 void Camera::SetZoom(float zoom) {
 	scale = zoom;
 	Update();

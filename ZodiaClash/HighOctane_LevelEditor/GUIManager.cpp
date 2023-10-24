@@ -47,11 +47,15 @@
 #include "graphics.h"
 #include "FrameBuffer.h"
 #include "AssetManager.h"
+#include "Global.h"
+#include <algorithm>
 
 
 constexpr float fontSize = 20.f;
 constexpr float fontSizeLarge = 50.f;
 ImFont* latoLargeBold;
+ImGuiStyle originalStyle;
+bool firstSet = false;
 
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
@@ -110,6 +114,28 @@ void GUIManager::Init()
 void GUIManager::Update()
 {
     GLFWwindow* window = graphics.GetWindow();
+    
+    // blinks entire window if Drag & Drop file is released
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (fileDropped && !firstSet) {
+        
+        // save the original style to revert later on
+        originalStyle = style;
+        firstSet = true;
+
+        // change ImGui style to a faded appearance
+        for (int i = 0; i < ImGuiCol_COUNT; i++)
+        {
+            ImVec4& col = style.Colors[i];
+            col.x = std::min(col.x * 4.f, 1.0f);
+            col.y = std::min(col.y * 4.f, 1.0f);
+            col.z = std::min(col.z * 4.f, 1.0f);
+        }
+    }
+    else if (!fileDropped) {
+        style = originalStyle;
+    }
+
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
@@ -149,22 +175,20 @@ void GUIManager::Update()
     }
     ImGui::End();
     
-
-    //ImGuiIO& io = ImGui::GetIO();
-    if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
-        io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-        hoveringPanel = true;
-    }
-    else {
-        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-        hoveringPanel = false;
-    }
    /* if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);*/
 
     {
         ImGui::Begin("Game Viewport");
-        unsigned texutreID = graphics.framebuffer.GetTextureID();
+
+        if (ImGui::IsWindowHovered()) {
+            io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+        }
+        else {
+            io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+        }
+        
+        unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;
         float ySizeAvailable = ImGui::GetContentRegionAvail().y;
 
@@ -176,7 +200,11 @@ void GUIManager::Update()
         else if ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) {
             ImGui::Dummy(ImVec2(0, ((ySizeAvailable - (xSizeAvailable * 9.f / 16.f)) / 2.f)));
         }
-        ImGui::Image((void*)texutreID, ImVec2{ ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f), ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+        ImGuiWindow* window = ImGui::GetCurrentWindow();
+        float w = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f);
+        float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
+        graphics.viewport.SetViewport((int)window->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - window->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
+        ImGui::Image((void*)textureID, ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
   
@@ -202,4 +230,11 @@ glfwGetFramebufferSize(window, &display_w, &display_h);
 //
 //   // glfwSwapBuffers(window);
 
+    dropTimer = ((dropTimer - g_dt) <= 0.f) ? 0.f : (dropTimer - g_dt);
+
+    if (dropTimer == 0.f) {
+        fileDropped = false;
+        firstSet = false;
+    }
+    
 }

@@ -289,9 +289,10 @@ void GraphicsSystem::Update() {
 		Transform* transform = &transformArray.GetData(entity);
 		Tex* tex = &texArray.GetData(entity);
 		Animator* anim = &animatorArray.GetData(entity);
-		if (m->CheckTransformUpdated(*transform, *size)) {
-			m->Update(*transform, *size);
-		}
+		//if (m->CheckTransformUpdated(*transform, *size)) {
+			
+		//}
+		m->Update(*transform, *size);
 		m->Draw(*tex, *anim);
 	}
 	camera.Update();
@@ -313,23 +314,78 @@ void SerializationSystem::Update() {
 }
 
 
-void ScriptingSystem::Initialize() {
-	std::cout << "Hi this is initlailze\n";
-	ScriptEngine::Init();
+
+void ScriptSystem::Initialize() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
+
+	// Iterate through all entities with a script component
+	for (const Entity& entity : m_Entities) {
+
+		// Get the script component
+		Script* s = &ECS::ecs().GetComponent<Script>(entity);
+		if (!s) {
+			// If there's no script associated with the entity, just continue to the next iteration.
+			continue;
+		}
+
+
+		// Get the name component
+		Script& script = scriptArray.GetData(entity);
+		Name* name = &nameArray.GetData(entity);
+
+
+		// Get the name of the entity
+		/*------------TEMPORARY HARD CODE-----------*/
+		if (name->name == "entity_00001") {
+
+			// Add the script names to the script component and it should run the script
+			script.scriptNameVec.push_back("Sandbox.Player");
+			script.scriptNameVec.push_back("Sandbox.PlayerController");
+			script.className = name->name;
+		}
+
+		if (name->name == "entity_00002") {
+
+			// Add the script names to the script component and it should run the script
+			script.scriptNameVec.push_back("Sandbox.Player");
+			script.className = name->name;
+		}
+		/*------------TEMPORARY HARD CODE-----------*/
+
+
+		// Debug Log
+		std::cout << "Entity: " << name->name << ", Scripts: " << script.scriptNameVec.size() << std::endl;
+
+		// If the script has a className, then initialize it in the script engine.
+		if (!script.scriptNameVec.empty()) {
+			ScriptEngine::OnCreateEntity(entity);
+			std::cout << "Initializing Script for Entity: " << name->name << std::endl;
+		}
+	}
 }
 
+
 // Scripting
-void ScriptingSystem::Update() {
-	//// Access the ComponentManager through the ECS class
-	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+void ScriptSystem::Update() {
 
-	//// Access component arrays through the ComponentManager
-	//auto& screenArray = componentManager.GetComponentArrayRef<Screen>();
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
-	//for (Entity const& entity : m_Entities) {
-	//	Screen* s = &screenArray.GetData(entity);
-	//	script.RunScript(s);
-	//}
+	//std::cout << "System.cpp::ScriptSystem::Update::size: " << m_Entities.size() << std::endl;
+
+	// Iterate through all entities with a script component
+	for (Entity const& entity : m_Entities) {
+		Name* name = &nameArray.GetData(entity);
+		ScriptEngine::OnUpdateEntity(entity);
+	}
+
+	// scripts
+	ScriptEngine::OnRuntimeStart();
+
+	// Instantiate all script entities
 }
 
 
@@ -375,3 +431,14 @@ void GameplaySystem::Update() {
 		Animator* anim = &animatorArray.GetData(entity);
 	}
 }
+
+
+
+
+
+/******************************************************************************
+*
+*	@brief Battle System is located in Battle.cpp
+*
+******************************************************************************/
+

@@ -102,6 +102,10 @@ void EntityFactory::LoadMasterModel() {
 	t->texVariants.push_back(assetmanager.texture.Get("duck2.png"));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
+
+
+	//ECS::ecs().AddComponent(entity, Static{});
 }
 
 void EntityFactory::CreateMasterModel(const char* filename) {
@@ -125,6 +129,8 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 	t->texVariants.push_back(assetmanager.texture.Get(filename));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+
+
 }
 
 /******************************************************************************
@@ -152,9 +158,11 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	ECS::ecs().AddComponent(entity, Collider{});
 	ECS::ecs().AddComponent(entity, Movable{});
 	ECS::ecs().AddComponent(entity, Clone{});
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
 	ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
+
 	if (isMainCharacter) {
 		ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
@@ -207,6 +215,7 @@ void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) 
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Collider{});
 	ECS::ecs().AddComponent(entity, Movable{});
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	layerOrder.emplace_back(entity);

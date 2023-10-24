@@ -117,6 +117,25 @@ struct Screen {
     bool                    isActive{false};
 };
 
+struct Script {
+    std::string             className{};     // ID of owner
+    // ID of owner
+    //Entity entityID;
+    //vector of the names on scripts
+    std::vector<std::string> scriptNameVec{};
+
+    //vector of script instances
+    //std::vector<std::shared_ptr<ScriptInstance>> monoScriptObj; //This is every C# component
+
+    // For Imgui
+    std::vector<std::string> scriptNameVecForImGui{};
+
+    //// string to be added (display for ImGui side)
+    //std::string currentAddingScript = "";
+    //// string currently selected (display for ImGui side)
+    //std::string currentSelectedScript = "";
+};
+
 struct Tag {
     std::string             tag;
 };

@@ -13,11 +13,16 @@ struct GameObject {
     bool isnull;
     bool isActive;
 public:
-    static std::vector<GameObject> FindGameObjectsWithTag(std::string tag) 
+    static std::vector<GameObject*> FindGameObjectsWithTag(std::string tag) 
     {
-
-        auto& texArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Tag>();
-        return std::vector<GameObject>();
+        //std::vector<GameObject*> output{};
+        //auto tagArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tag>().GetArray() };
+        //for (auto t : tagArray) {
+            //if (t->tag == tag) {
+                //output.push_back(t);
+            //}
+        //}
+        return std::vector<GameObject*>{};
     }
     GameObject() : isActive(true), isnull() {}  // By default, the game object is active
     // set the active state of the game object
@@ -54,9 +59,9 @@ struct SkillSelection
 
 struct TargetSelection
 {
-    std::vector<GameObject> enemyTargets;
-    std::vector<GameObject> playerTargets;
-    std::vector<GameObject> selectedTarget;
+    std::vector<GameObject*> enemyTargets;
+    std::vector<GameObject*> playerTargets;
+    std::vector<GameObject*> selectedTarget;
 };
 
 class CharacterStats
@@ -65,7 +70,7 @@ public:
     Animator animator;
     bool checkedStatus;
     Tag tag;
-
+    Entity entity; //for reference back to ECS
     struct stats {
         float           maxHealth;
         float           health;

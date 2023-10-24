@@ -52,7 +52,7 @@
 class Texture; //forward declaration
 
 enum class ModelType {
-	GAMEPLAY, BACKGROUND, UI
+	GAMEPLAY, BACKGROUND, BACKGROUNDLOOP, UI
 };
 
 class Model {
