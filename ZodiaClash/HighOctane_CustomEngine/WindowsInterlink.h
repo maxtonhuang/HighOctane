@@ -9,3 +9,5 @@ std::vector<std::string> OpenFileDialog();
 void FileDropCallback(GLFWwindow* window, int count, const char** paths);
 
 std::string SaveFileDialog();
+
+std::string OpenSingleFileDialog();

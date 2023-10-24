@@ -49,6 +49,7 @@
 #include "Editing.h"
 #include "ScriptEngine.h"
 #include "Battle.h"
+#include "EntityFactory.h"
 
 
 /******************************************************************************
@@ -308,8 +309,23 @@ void GraphicsSystem::Update() {
 *
 ******************************************************************************/
 void SerializationSystem::Update() {
+	if (saveFile) {
+		Serializer::SaveEntityToJson(SaveFileDialog(), m_Entities);
+		saveFile = false;
+	}
 	
-	Serializer::SaveEntityToJson(SaveFileDialog(), m_Entities);
+	if (destroyAll) {
+		EntityFactory::entityFactory().masterEntitiesList.clear();
+		/*for (const Entity& entity : m_Entities) {
+		    ECS::ecs().DestroyEntity(entity);
+		}*/
+		for (auto it = m_Entities.rbegin(); it != m_Entities.rend(); ++it) {
+			ECS::ecs().DestroyEntity(*it);
+		}
+		destroyAll = false;
+	}
+
+
 	
 }
 

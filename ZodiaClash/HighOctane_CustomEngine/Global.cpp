@@ -31,6 +31,8 @@
 ******************************************************************************/
 
 //#include <mutex>
+#include <memory>
+#include "ECS.h"
 
 // Declare global variables here
 
@@ -40,3 +42,7 @@ bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
+bool destroyAll{ false };
+bool saveFile{ false };
+
+std::shared_ptr<SerializationSystem> s_ptr;

@@ -132,3 +132,63 @@ std::string SaveFileDialog() {
 	return ""; // Return an empty string if the user cancels or an error occurs
 }
 
+std::string OpenSingleFileDialog() {
+
+	std::string selectedFilePath;
+
+	// Initialize COM
+	CoInitialize(NULL);
+
+	// Create the File Open Dialog
+	IFileOpenDialog* p_fod = NULL; // Pointer to FileOpenDialog
+	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&p_fod));
+
+	if (SUCCEEDED(hr)) {
+		// Set the options for multiple file selection
+		DWORD dwOptions;
+		hr = p_fod->GetOptions(&dwOptions);
+		if (SUCCEEDED(hr)) {
+			hr = p_fod->SetOptions(dwOptions | FOS_ALLOWMULTISELECT);
+		}
+
+		// Show the dialog
+		hr = p_fod->Show(NULL);
+
+		// Get the chosen files if the user didn't cancel
+		if (SUCCEEDED(hr)) {
+			IShellItemArray* p_Results = NULL; // Pointer to Results
+			hr = p_fod->GetResults(&p_Results);
+			if (SUCCEEDED(hr)) {
+				DWORD count = 0;
+				p_Results->GetCount(&count);
+				if (count > 0) {
+					IShellItem* p_si; // Pointer to ShellItem
+					hr = p_Results->GetItemAt(0, &p_si); // Get the first selected file.
+					if (SUCCEEDED(hr)) {
+						PWSTR p_szPath; // Pointer to Zero-terminated String (wide string).
+						hr = p_si->GetDisplayName(SIGDN_FILESYSPATH, &p_szPath);
+
+						if (SUCCEEDED(hr)) {
+							// Convert PWSTR (wide string) to std::string
+							int stringSize = WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, NULL, 0, NULL, NULL);
+							selectedFilePath.resize(stringSize);
+							WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, &selectedFilePath[0], stringSize, NULL, NULL);
+
+							// Remove the extra null terminator from the string
+							selectedFilePath.pop_back();
+							CoTaskMemFree(p_szPath);
+						}
+						p_si->Release();
+					}
+				}
+				p_Results->Release();
+			}
+		}
+		p_fod->Release();
+	}
+
+	// Cleanup COM
+	CoUninitialize();
+
+	return selectedFilePath;
+}

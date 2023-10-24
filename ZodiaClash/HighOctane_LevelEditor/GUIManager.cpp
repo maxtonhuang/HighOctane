@@ -44,6 +44,8 @@
 #include "ImGuiEntitiesManager.h"
 #include "ImGuiPlayStop.h"
 #include "ImGuiAssetLibrary.h"
+#include "ImGuiMenuBar.h"
+#include "ImGuiSceneHierarchy.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
 #include "AssetManager.h"
@@ -75,8 +77,6 @@ GUIManager::~GUIManager()
 }
 
 
-// Our state
-//bool show_demo_window;
 
 void GUIManager::Init()
 {
@@ -141,7 +141,7 @@ void GUIManager::Update()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     // Create the main dockable window
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse;
     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(main_viewport->WorkPos);
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
@@ -157,23 +157,8 @@ void GUIManager::Update()
         
     }
 
-    // Create a menu bar for the window
-    if (ImGui::BeginMenuBar()) {
-        if (ImGui::BeginMenu("Files")) {
-            if (ImGui::MenuItem("Load Scene")) {
+    UpdateMenuBar();
 
-            }
-            if (ImGui::MenuItem("Save Scene")) {
-                button_clicked = true;
-            }
-            if (ImGui::MenuItem("Close Scene")) {
-                //if()
-                assetmanager.UnloadAll();
-            }
-            ImGui::EndMenu();
-        }
-        ImGui::EndMenuBar();
-    }
     ImGui::End();
     
    /* if (show_demo_window)
@@ -201,20 +186,20 @@ void GUIManager::Update()
         else if ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) {
             ImGui::Dummy(ImVec2(0, ((ySizeAvailable - (xSizeAvailable * 9.f / 16.f)) / 2.f)));
         }
-        ImGuiWindow* window = ImGui::GetCurrentWindow();
+        ImGuiWindow* ImWindow = ImGui::GetCurrentWindow();
         float w = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f);
         float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
-        graphics.viewport.SetViewport((int)window->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - window->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
+        graphics.viewport.SetViewport((int)ImWindow->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - ImWindow->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
         ImGui::Image((void*)textureID, ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
   
-    // Update the console
+    // Update Panels
     UpdateConsole();
     UpdateEntitiesManager();
     UpdatePlayStop();
     UpdateAssetLibrary();
-
+    UpdateSceneHierachy();
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console
     UpdatePerformance();

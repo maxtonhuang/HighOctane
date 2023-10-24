@@ -279,6 +279,7 @@ void EngineCore::Run(bool const& mode) {
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
 	systemList.emplace_back(serializationSystem, "Serialization System");
+	s_ptr = serializationSystem;
 
 
 	// Set Entity's Component combination signatures for each System 
