@@ -84,9 +84,9 @@ void TextLabel::SetTextString(std::string txtStr) {
 void TextLabel::CalculateOffset() {
 	// reset variables
 	posOffset = { 0.f, 0.f };
-	float ymax{};
-	float ymin{};
-	bool isGlyphBelowBaseline{};
+	/*float ymax{};
+	float ymin{};*/
+	float verticalPadding = 0.f;
 
 	std::string::const_iterator c;
 	for (c = textString.begin(); c != textString.end(); c++)
@@ -97,35 +97,33 @@ void TextLabel::CalculateOffset() {
 		float h = ch.size.y * relFontSize;
 
 		// calculate ymax, ymin
-		ymax = std::max(ymax, h);
-		ymin = std::min(ymin, (ch.size.y - ch.bearing.y) * relFontSize);
-
-		/*if (!isGlyphBelowBaseline && (ch.size.y - ch.bearing.y)) {
-			posOffset.y += (2 * (ch.size.y - ch.bearing.y));
-			isGlyphBelowBaseline = true;
-		}*/
+		/*ymax = std::max(ymax, h);
+		ymin = std::min(ymin, (ch.size.y - ch.bearing.y) * relFontSize);*/
+		if (((ch.bearing.y - ch.size.y) < 0.f) && (verticalPadding == 0.f)) {
+			DEBUG_PRINT("PADDING ADDED");
+			verticalPadding = -(ch.bearing.y - ch.size.y);
+		}
 
 		// calculate size needed
 		posOffset.x += w;
-		posOffset.y = ymax - ymin;
+		posOffset.y = std::max(posOffset.y, h);
 
 		if (c != std::prev(textString.end())) {
 			posOffset.x += 0.5f * (ch.advance >> 6) * relFontSize;
 		}
 	}
+
+	//finalise y-offset
+	posOffset.y += verticalPadding;
 }
 
 void TextLabel::UpdateOffset(Vec2& relTransform, Transform const& transformData) {
 	CalculateOffset();
 	relTransform.x = (transformData.position.x - (0.5f * posOffset.x));
-	relTransform.y = (transformData.position.y - (0.5f * posOffset.y));
+	relTransform.y = (transformData.position.y - (0.25f * posOffset.y));
 }
 
 void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) {
-	// Check mailbox for input triggers
-	//Mail::mail().CreatePostcard(TYPE::MOUSE_CLICK, ADDRESS::UICOMPONENT, INFO::NONE, 0.f, 0.f);
-	//Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::UICOMPONENT, INFO::NONE, 0.f, 0.f);
-
 	// get cursorPos, compare with pos in Transform, return if no match
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
@@ -149,13 +147,13 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 		
 	}
 
-	if (!nameData.selected && IsWithinObject(modelData, uiMousePos)) {
-		DEBUG_PRINT("UI_ONHOVER");
-		OnHover(modelData, nameData);
-	}
-	else {
-		//DEBUG_PRINT("UI_RESET");
-		modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
+	if (!nameData.selected) {
+		if (IsWithinObject(modelData, uiMousePos)) {
+			OnHover(modelData, nameData);
+		}
+		else {
+			modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
+		}
 	}
 }
 
@@ -168,7 +166,7 @@ void TextLabel::OnClick(Model& modelData, Name& nameData) {
 void TextLabel::OnHover(Model& modelData, Name& nameData) {
 	//read Transform pos and mailbox mouse move
 	// pos match, change color (probably more for button and not text...?)
-	DEBUG_PRINT("UI_ONHOVER");
+	//DEBUG_PRINT("UI_ONHOVER");
 	modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
 
 }

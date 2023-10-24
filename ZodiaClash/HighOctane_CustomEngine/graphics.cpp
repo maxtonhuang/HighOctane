@@ -246,7 +246,7 @@ GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
-void GraphicsManager::DrawLabel(TextLabel& txtLblData, Size& sizeData, Vec2& relTextPos, glm::vec4 color) {
+void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::vec4 color) {
 //void GraphicsManager::DrawLabel(std::string labelText, Font* ftData, float relFontSize, Vec2 relTextPos, glm::vec4 color) {
     
     static Renderer* fontRenderer{ &renderer["font"] };

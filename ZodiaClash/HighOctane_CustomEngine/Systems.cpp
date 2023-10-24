@@ -456,7 +456,7 @@ void UITextLabelSystem::Update() {
 		
 		//call graphics drawLabel here?
 		modelData->SetAlpha(1.f);
-		graphics.DrawLabel(*textLabelData, *sizeData, textLabelData->relTransform, modelData->GetColor());
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
 		modelData->SetAlpha(0.2f);
 
 		//note: find a way to update size!!
