@@ -165,6 +165,7 @@
     <ClCompile Include="ImGuiConsole.cpp" />
     <ClCompile Include="ImGuiEntitiesManager.cpp" />
     <ClCompile Include="ImGuiGraph.cpp" />
+    <ClCompile Include="ImGuiMenuBar.cpp" />
     <ClCompile Include="ImGuiPerformance.cpp" />
     <ClCompile Include="ImGuiPlayStop.cpp" />
   </ItemGroup>
@@ -186,6 +187,7 @@
     <ClInclude Include="ImGuiEntitiesManager.h" />
     <ClInclude Include="ImGuiGraph.h" />
     <ClInclude Include="ImGuiLib.h" />
+    <ClInclude Include="ImGuiMenuBar.h" />
     <ClInclude Include="ImGuiPerformance.h" />
     <ClInclude Include="ImGuiPlayStop.h" />
   </ItemGroup>

@@ -167,6 +167,7 @@ void GUIManager::Update()
                 button_clicked = true;
             }
             if (ImGui::MenuItem("Close Scene")) {
+                //if()
                 assetmanager.UnloadAll();
             }
             ImGui::EndMenu();

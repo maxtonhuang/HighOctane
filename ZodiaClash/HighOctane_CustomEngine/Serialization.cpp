@@ -219,6 +219,28 @@ rapidjson::Value SerializeAnimation(const Animator& anim, rapidjson::Document::A
 	animObject.AddMember("Frame Display Duration", anim.GetFrameDisplayDuration() , allocator);
 	return animObject;
 }
+rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value scriptObject(rapidjson::kObjectType);
+
+	// Serialize the className
+	scriptObject.AddMember("className", rapidjson::Value(script.className.c_str(), allocator).Move(), allocator);
+
+	// Serialize the scriptNameVec
+	rapidjson::Value scriptNameArray(rapidjson::kArrayType);
+	for (const std::string& name : script.scriptNameVec) {
+		scriptNameArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
+	}
+	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
+
+	// Serialize the scriptNameVecForImGui
+	rapidjson::Value scriptNameVecForImGuiArray(rapidjson::kArrayType);
+	for (const std::string& name : script.scriptNameVecForImGui) {
+		scriptNameVecForImGuiArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
+	}
+	scriptObject.AddMember("scriptNameVecForImGui", scriptNameVecForImGuiArray, allocator);
+
+	return scriptObject;
+}
 
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
@@ -236,6 +258,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	AABB* aabb = nullptr;
 	Animator* anim = nullptr;
 	Name* name = nullptr;
+	Script* script = nullptr;
 	//Entity* entity = nullptr;
 
 	for (const Entity& entity : m_entity) {
@@ -294,6 +317,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			anim = &ECS::ecs().GetComponent<Animator>(entity);
 			rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
 			entityObject.AddMember("Animation", animationObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Script>(entity)) {
+			script = &ECS::ecs().GetComponent<Script>(entity);
+			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
+			entityObject.AddMember("Scripts", scriptObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
