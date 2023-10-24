@@ -461,7 +461,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Collider>(background);
 	ECS::ecs().RemoveComponent<Movable>(background);
 
-	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0, 0, false);
+	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(125.f, 125.f, false);
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().AddComponent(textObjectA, TextLabel{ "TestString", UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN });
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };

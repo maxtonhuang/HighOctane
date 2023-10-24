@@ -58,6 +58,7 @@ class Font {
 public:
 	FT_Face fontFace{};
 	std::unordered_map<char, Character> characters{};
+	int largestNegativeOffset{};
 
 	Font(const std::string& ftFamily, const std::string& ftVariant)
 		: fontFamily(ftFamily), fontVariant(ftVariant) {}

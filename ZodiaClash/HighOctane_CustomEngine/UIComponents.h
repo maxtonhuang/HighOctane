@@ -85,8 +85,8 @@ public:
 
 	bool CheckStringUpdated(TextLabel& txtLblData);
 	void SetTextString(std::string txtStr);
-	void CalculateOffset();
-	void UpdateOffset(Vec2& relTransform, Transform const& transformData);
+	void CalculateOffset(Size& sizeData);
+	void UpdateOffset(Transform const& transformData, Size& sizeData);
 
 	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
 	void OnClick(Model& modelData, Name& nameData) override;

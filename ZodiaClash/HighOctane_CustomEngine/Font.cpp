@@ -243,7 +243,16 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
         FT_Done_Face(fontData.fontFace);
         return;
     }
-    DEBUG_PRINT("DEBUG::FONT: Loaded requested font: %s", fontFilePath.c_str());
+
+    for (const auto& pair : fontData.characters) {
+        int yOffset = pair.second.bearing.y - pair.second.size.y;
+
+        if (yOffset < fontData.largestNegativeOffset) {
+            fontData.largestNegativeOffset = yOffset;
+        }
+    }
+
+    DEBUG_PRINT("DEBUG::FONT: Loaded requested font: %s", fontFilePath.c_str());    
 }
 
 /*!

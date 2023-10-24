@@ -81,12 +81,11 @@ void TextLabel::SetTextString(std::string txtStr) {
 	textString = txtStr;
 }
 
-void TextLabel::CalculateOffset() {
+void TextLabel::CalculateOffset(Size& sizeData) {
+	//DEBUG_PRINT("Recalculating...");
 	// reset variables
 	posOffset = { 0.f, 0.f };
-	/*float ymax{};
-	float ymin{};*/
-	float verticalPadding = 0.f;
+	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
 
 	std::string::const_iterator c;
 	for (c = textString.begin(); c != textString.end(); c++)
@@ -96,29 +95,23 @@ void TextLabel::CalculateOffset() {
 		float w = ch.size.x * relFontSize;
 		float h = ch.size.y * relFontSize;
 
-		// calculate ymax, ymin
-		/*ymax = std::max(ymax, h);
-		ymin = std::min(ymin, (ch.size.y - ch.bearing.y) * relFontSize);*/
-		if (((ch.bearing.y - ch.size.y) < 0.f) && (verticalPadding == 0.f)) {
-			DEBUG_PRINT("PADDING ADDED");
-			verticalPadding = -(ch.bearing.y - ch.size.y);
-		}
-
 		// calculate size needed
-		posOffset.x += w;
-		posOffset.y = std::max(posOffset.y, h);
-
-		if (c != std::prev(textString.end())) {
-			posOffset.x += 0.5f * (ch.advance >> 6) * relFontSize;
+		if (*c != textString[textString.size() - 1]) {
+			posOffset.x += ((ch.advance >> 6) * relFontSize) - w;
 		}
+		posOffset.x += (w + (ch.bearing.x * relFontSize));
+		posOffset.y = std::max(posOffset.y, h);		
 	}
 
 	//finalise y-offset
 	posOffset.y += verticalPadding;
+
+	sizeData.width = posOffset.x;
+	sizeData.height = posOffset.y;
 }
 
-void TextLabel::UpdateOffset(Vec2& relTransform, Transform const& transformData) {
-	CalculateOffset();
+void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData) {
+	CalculateOffset(sizeData);
 	relTransform.x = (transformData.position.x - (0.5f * posOffset.x));
 	relTransform.y = (transformData.position.y - (0.25f * posOffset.y));
 }
@@ -143,8 +136,7 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 				transformData.position.y = msg.posY;
 			}
 			break;
-		}
-		
+		}		
 	}
 
 	if (!nameData.selected) {
@@ -152,6 +144,7 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 			OnHover(modelData, nameData);
 		}
 		else {
+			SetTextString("TextString");
 			modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
 		}
 	}
@@ -159,7 +152,7 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 
 void TextLabel::OnClick(Model& modelData, Name& nameData) {
 	//change color based Name->selected bool state
-	DEBUG_PRINT("UI_ONCLICK");
+	//DEBUG_PRINT("UI_ONCLICK");
 	modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
 }
 
@@ -167,12 +160,14 @@ void TextLabel::OnHover(Model& modelData, Name& nameData) {
 	//read Transform pos and mailbox mouse move
 	// pos match, change color (probably more for button and not text...?)
 	//DEBUG_PRINT("UI_ONHOVER");
+	SetTextString("Hovered Text");
 	modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
 
 }
 
 void TextLabel::OnFocus() {
-	DEBUG_PRINT("UI_ONFOCUS");
+	SetTextString("Focused Text");
+	//DEBUG_PRINT("UI_ONFOCUS");
 	// open properties perhaps?
 	// likely to trigger together with onClick
 }
