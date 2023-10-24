@@ -204,3 +204,4 @@ enum class CharacterComponents {
 };
 
 std::vector<std::string> OpenFileDialog();
+std::string SaveFileDialog();

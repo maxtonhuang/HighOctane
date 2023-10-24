@@ -137,13 +137,18 @@ void Serializer::SerializeCSV(const std::string& file) {
 	}
 }
 
+rapidjson::Value SerializeName(const Name& entityName, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value nameValue(rapidjson::kStringType);
+	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
+	return nameValue;
+}
 
 rapidjson::Value SerializeTransform(const Transform& transform, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value transformObject(rapidjson::kObjectType);
 	transformObject.AddMember("position_x", transform.position.x, allocator);
 	transformObject.AddMember("position_y", transform.position.y, allocator);
 	transformObject.AddMember("rotation", transform.rotation, allocator);
-	transformObject.AddMember("scale_x", transform.scale, allocator);
+	transformObject.AddMember("scale", transform.scale, allocator);
 	transformObject.AddMember("velocity_x", transform.velocity.x, allocator);
 	transformObject.AddMember("velocity_y", transform.velocity.y, allocator);
 	return transformObject;
@@ -231,18 +236,25 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
 	Animator* anim = nullptr;
-	
+	Name* name = nullptr;
+	//Entity* entity = nullptr;
+
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
 
 		rapidjson::Value entityObject(rapidjson::kObjectType);
 
-		entityObject.AddMember("Entity Name", "Duck", allocator);
+		entityObject.AddMember("Entity ID", entity, allocator);
+
+		if (ECS::ecs().HasComponent<Name>(entity)) {
+			name = &ECS::ecs().GetComponent<Name>(entity);
+			rapidjson::Value nameObject = SerializeName(*name, allocator);
+			entityObject.AddMember("Entity Name", nameObject, allocator);
+		}
 		if (ECS::ecs().HasComponent<Color>(entity)) {
 			color = &ECS::ecs().GetComponent<Color>(entity);
 			rapidjson::Value colorObject = SerializeColor(*color, allocator);
 			entityObject.AddMember("Color", colorObject, allocator);
-
 		}
 		if (ECS::ecs().HasComponent<Transform>(entity)) {
 			transform = &ECS::ecs().GetComponent<Transform>(entity);
@@ -529,3 +541,51 @@ std::vector<std::string> OpenFileDialog() {
 	return filesList;
 }
 
+std::string SaveFileDialog() {
+	// Initialize COM
+	CoInitialize(NULL);
+
+	// Create the File Save Dialog
+	IFileSaveDialog* p_fsd = NULL; // Pointer to FileSaveDialog
+	HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&p_fsd));
+
+	if (SUCCEEDED(hr)) {
+		// Show the dialog
+		hr = p_fsd->Show(NULL);
+
+		if (SUCCEEDED(hr)) {
+			IShellItem* p_si = NULL; // Pointer to ShellItem
+			hr = p_fsd->GetResult(&p_si);
+
+			if (SUCCEEDED(hr)) {
+				PWSTR p_szPath; // Pointer to Zero-terminated String
+				hr = p_si->GetDisplayName(SIGDN_FILESYSPATH, &p_szPath);
+
+				if (SUCCEEDED(hr)) {
+					// p_szPath contains the full path to the selected file
+					// Convert PWSTR (wide string) to std::string
+					int stringSize = WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, NULL, 0, NULL, NULL);
+					std::string convertedPath(stringSize, 0);
+					WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, &convertedPath[0], stringSize, NULL, NULL);
+
+					// Remove the extra null terminator from the string
+					convertedPath.pop_back();
+
+					CoTaskMemFree(p_szPath);
+					p_si->Release();
+
+					// Cleanup COM
+					CoUninitialize();
+
+					return convertedPath;
+				}
+			}
+			p_fsd->Release();
+		}
+	}
+
+	// Cleanup COM
+	CoUninitialize();
+
+	return ""; // Return an empty string if the user cancels or an error occurs
+}

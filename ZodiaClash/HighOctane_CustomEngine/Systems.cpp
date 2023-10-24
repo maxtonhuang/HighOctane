@@ -308,7 +308,7 @@ void GraphicsSystem::Update() {
 ******************************************************************************/
 void SerializationSystem::Update() {
 	
-	Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
+	Serializer::SaveEntityToJson(SaveFileDialog(), m_Entities);
 	
 }
 
