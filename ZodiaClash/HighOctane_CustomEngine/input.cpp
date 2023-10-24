@@ -39,13 +39,15 @@
 #include <unordered_map>
 #include "AssetManager.h"
 
+#define UNREFERENCED_PARAMETER(P) (P)
+
 std::unordered_map<int, INFO> keyStatus;
 std::unordered_map<int, INFO> mouseStatus;
 
 
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
-    (void)mod; //unused variable
-    (void)scancode; //unused variable
+    UNREFERENCED_PARAMETER(mod); //unused variable
+    UNREFERENCED_PARAMETER(scancode); //unused variable
     switch (action) {
     case GLFW_PRESS:
         keyStatus[key] = static_cast<INFO>(key);
@@ -122,8 +124,8 @@ void InputManager::KeyCheck() {
 
 
 void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action, int mod) {
-    (void)mod; //unused variable
-    (void)pwin; // unused variable;
+    UNREFERENCED_PARAMETER(mod); //unused variable
+    UNREFERENCED_PARAMETER(pwin); // unused variable;
     switch (action) {
     case GLFW_PRESS:
         mouseStatus[button] = static_cast<INFO>(button);
@@ -147,7 +149,7 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
 
 
 void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos) {
-    (void)pwin; //unused variable
+    UNREFERENCED_PARAMETER(pwin); //unused variable
 
     static int previousPosX = 0;
     static int previousPosY = 0;

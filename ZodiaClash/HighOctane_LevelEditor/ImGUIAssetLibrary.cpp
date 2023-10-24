@@ -3,6 +3,8 @@
 #include "EntityFactory.h"
 #include "AssetManager.h"
 #include "WindowsInterlink.h"
+#include "Global.h"
+#include "GraphicConstants.h"
 #include <Windows.h>
 #include <shobjidl.h>
 #include <filesystem>
@@ -78,7 +80,141 @@ void UpdateAssetLibrary() {
 
 	ImGui::Columns(1);
 	
+
+
+
+	if (dragAndDropped) {
+
+		for (const std::string& val : dragAndDropFilesList) {
+			std::cout << val << std::endl;
+		}
+
+
+
+
+	static bool showDialog = false;
+
+	if (ImGui::Button("Show Dialog")) {
+		showDialog = true;
+	}
+
+	if (showDialog) {
+		ImGui::SetNextWindowSize(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+		ImGui::SetNextWindowPos(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+		ImGui::OpenPopup("Import Image");
+
+
+		// Variables to hold the state and data
+		static bool isStaticImageSelected = false;
+		static bool isSpritesheetSelected = false;
+		static char rowsInput[7] = "";
+		static char colsInput[7] = "";
+		static bool allConditionsMet = false;
+
+		// Create a centered popup
+		//ImGui::SetNextWindowContentSize(ImVec2(400, 0));
+		//bool modalOpen = true;
+		if (ImGui::BeginPopupModal("Import Image", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+		{
+			// Line 1: Display the main question
+			ImGui::Dummy(ImVec2(0.0f, 50.0f)); // Adjusting the height
+			ImGui::SameLine();
+			ImGui::Text("What type of image are you importing?");
+			ImGui::Spacing();
+
+			// Line 2 & 3: Radio buttons for type selection
+			// Line 2 & 3: Radio buttons for type selection
+			ImGui::Dummy(ImVec2(0.0f, 50.0f)); // Adjusting the height
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Static Image", isStaticImageSelected))
+			{
+				isStaticImageSelected = true;
+				isSpritesheetSelected = false;
+			}
+
+			ImGui::Dummy(ImVec2(0.0f, 50.0f)); // Adjusting the height
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Spritesheet", isSpritesheetSelected))
+			{
+				isSpritesheetSelected = true;
+				isStaticImageSelected = false;
+			}
+
+			int enteredRows = 0, enteredCols = 0;
+
+			if (isSpritesheetSelected)
+			{
+				ImGui::SameLine();
+				ImGui::Dummy(ImVec2(30.f, 0.0f)); // Inserting the gap
+				ImGui::SameLine();
+				// Line 4: Enter rows and columns for spritesheet
+				ImGui::Text("Rows");
+				ImGui::SameLine();
+				ImGui::PushItemWidth(50.f * 2.f);
+				ImGui::InputText("##RowsInput", rowsInput, sizeof(rowsInput));
+				ImGui::PopItemWidth();
+				ImGui::SameLine();
+				ImGui::Dummy(ImVec2(30.f, 0.0f)); // Inserting the gap
+				ImGui::SameLine();
+				ImGui::Text("Columns");
+				ImGui::SameLine();
+				ImGui::PushItemWidth(50.f * 2.f);
+				ImGui::InputText("##ColsInput", colsInput, sizeof(colsInput));
+				ImGui::PopItemWidth();
+				enteredRows = atoi(rowsInput);
+				enteredCols = atoi(colsInput);
+			}
+
+			// Check conditions for enabling "OK" button
+			allConditionsMet = (isStaticImageSelected || (isSpritesheetSelected && enteredRows > 0 && enteredCols > 0));
+
+			ImGui::Dummy(ImVec2(0.0f, 50.0f)); // Adjusting the height
+			ImGui::SameLine();
+			// Line 5: OK and Cancel buttons
+			if (allConditionsMet)
+			{
+				if (ImGui::Button("OK", {30.f * 3.f, 50.f}))
+				{
+					// Handle OK action
+					ImGui::CloseCurrentPopup();
+					showDialog = false;
+				}
+			}
+			else
+			{
+				ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
+				ImGui::Button("OK", {30.f*3.f, 50.f});
+				ImGui::PopStyleVar();
+			}
+
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel", {30.f*3.f, 50.f}))
+			{
+				// Clear data if needed
+				if (isSpritesheetSelected && !isStaticImageSelected)
+				{
+					rowsInput[0] = '\0';
+					colsInput[0] = '\0';
+				}
+				ImGui::CloseCurrentPopup();
+				showDialog = false;
+			}
+			ImGui::EndPopup();
+		}
+	}
+
+		dragAndDropped = false;
+
+
+	}
+
+
+
+
+
 	ImGui::End();
+
+
 
 }
 

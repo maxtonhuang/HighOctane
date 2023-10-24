@@ -32,6 +32,8 @@
 #include "Physics.h"
 #include <math.h>
 
+#define UNREFERENCED_PARAMETER(P) (P)
+
 namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
@@ -170,7 +172,7 @@ namespace physics {
     /**************************************************************************/
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
-        (void)deltaTime;
+        UNREFERENCED_PARAMETER(deltaTime);
         for (const auto& entity : m_Entities) 
         {
             auto& transform = m_ecs.GetComponent<Transform>(entity);

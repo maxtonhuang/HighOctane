@@ -33,6 +33,9 @@
 
 #pragma once
 
+#include <vector>
+#include <string>
+
 #define RESET_VEC2 0.f, 0.f
 
 const HCURSOR hDefaultCursor{ LoadCursor(NULL, IDC_ARROW) };
@@ -46,3 +49,5 @@ extern bool edit_mode;
 extern bool hoveringPanel;
 extern bool fileDropped;
 extern float dropTimer;
+extern std::vector<std::string> dragAndDropFilesList;
+extern int dragAndDropped;

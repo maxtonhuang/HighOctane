@@ -31,6 +31,8 @@
 ******************************************************************************/
 
 //#include <mutex>
+#include <vector>
+#include <string>
 
 // Declare global variables here
 
@@ -40,3 +42,6 @@ bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
+
+std::vector<std::string> dragAndDropFilesList;
+int dragAndDropped{ };

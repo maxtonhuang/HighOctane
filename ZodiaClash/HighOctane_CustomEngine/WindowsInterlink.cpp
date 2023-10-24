@@ -74,12 +74,21 @@ std::vector<std::string> OpenFileDialog() {
 
 void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 
+	UNREFERENCED_PARAMETER(window);
+
 	fileDropped = true;
 	dropTimer = 0.08f;	
 
 	for (int i = 0; i < count; i++)	{
 		// Handle each path: load the file, etc.
 		std::cout << paths[i] << std::endl;
+
+		std::string tempPath(paths[i]);
+
+		dragAndDropFilesList.emplace_back(tempPath);
+
+		dragAndDropped = count;
+
 	}
 }
 
