@@ -37,6 +37,10 @@
 #include "graphics.h"
 
 using namespace vmath;
+#define FRICTION 0.95f
+#define GRAVITY_X 0.0f
+#define GRAVITY_Y -9.81f
+
 
 class GraphicsManager;
 

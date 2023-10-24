@@ -85,7 +85,7 @@ public:
 
 private:
     void Start();
-    void Death();
+    void Death(Entity& entity);
     /*GameStateManager gameManager;
    BattleManager battleManager;
    StatusEffectHud statusEffectHud;*/

@@ -16,17 +16,17 @@ constexpr float speed = 200.f;
 
 void UpdateMovement(Transform & transform, Model & model) {	
 	//Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::MOVEMENT, INFO::NONE);
-	transform.velocity = { RESET_VEC2 };
+	transform.force = { RESET_VEC2 };
 	for (Postcard const & msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 		switch (msg.type) {
 
 		case TYPE::KEY_DOWN:
 			
 			switch (msg.info) {
-			case INFO::KEY_W:   case INFO::KEY_UP:      direction = { RESET_VEC2 }; transform.velocity.y = speed * g_dt;    break;
-			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { RESET_VEC2 }; transform.velocity.y = -speed * g_dt;   break;
-			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { RESET_VEC2 }; transform.velocity.x = -speed * g_dt;   break;
-			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { RESET_VEC2 }; transform.velocity.x = speed * g_dt;    break;
+			case INFO::KEY_W:   case INFO::KEY_UP:      direction = { RESET_VEC2 }; transform.force.y = speed * g_dt * 100000; break;
+			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { RESET_VEC2 }; transform.force.y = -speed * g_dt * 100000; break;
+			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { RESET_VEC2 }; transform.force.x = -speed * g_dt * 100000; break;
+			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { RESET_VEC2 }; transform.force.x = speed * g_dt * 100000; break;
 			case INFO::KEY_O:   transform.scale += 1.f * g_dt; break;
 			case INFO::KEY_P:   transform.scale -= 1.f * g_dt; break;
 			case INFO::KEY_Q:   transform.rotation -= 1.f * g_dt;   break;
@@ -52,7 +52,7 @@ void UpdateMovement(Transform & transform, Model & model) {
 			
 			if (msg.info == INFO::MOUSE_LEFT && !hoveringPanel) {
 				finalPos = currMousePos;
-				transform.velocity = { RESET_VEC2 };
+				transform.force = { RESET_VEC2 };
 				direction = currMousePos - transform.position;
 				direction = direction.normalize();
 			}
@@ -71,7 +71,7 @@ void UpdateMovement(Transform & transform, Model & model) {
 	
 
 	if (transform.position.distance(finalPos) > 2.f) {
-		transform.velocity += direction * speed * g_dt;
+		transform.force += direction * speed * g_dt;
 	}
 
 }

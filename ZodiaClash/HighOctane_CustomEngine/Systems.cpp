@@ -99,6 +99,7 @@ void PhysicsSystem::Update() {
 			sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
 		};
 
+
 	}
 
 	if (physics::PHYSICS->GetStepModeActive()) {

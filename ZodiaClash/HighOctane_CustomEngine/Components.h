@@ -43,10 +43,15 @@ struct Transform {
     Vec2                    position{};
     float                   rotation{};
     float                   scale{};
-    Vec2                    velocity{};       
+    Vec2                    velocity{}; 
     float                   radius{};
     Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
     bool                    isStatic{}; 
+    //add forces
+    float                   mass{10};
+    float                   inverseMass{1/mass};
+    Vec2                    acceleration{10, 10};
+    Vec2                    force{acceleration * mass};
 };
 
 struct Collider {
