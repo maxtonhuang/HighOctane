@@ -56,7 +56,7 @@ protected:
         // Assuming selectedTarget is a vector and we're setting its first element
         targetSelect.selectedTarget[0] = targetSelect.playerTargets[randomIndex];
 
-        std::string output = "Enemy Selected Target: " + targetSelect.selectedTarget[0].name + "\n";
+        std::string output = "Enemy Selected Target: " + targetSelect.selectedTarget[0]->name + "\n";
         //debuglog::Logger::debug(output);
 
         skillSelect.selectedSkillPrefab = skillSelect.skill1Prefab;

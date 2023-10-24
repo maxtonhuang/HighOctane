@@ -33,6 +33,7 @@
 #include "Battle.h"
 #include "GameStateManager.h"
 #include "debuglog.h"
+#include <algorithm>
 
 void BattleSystem::Initialize() 
 {
@@ -42,6 +43,7 @@ void BattleSystem::Initialize()
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
 
+    NewGameDelay(0.f, 0.f);
     //StartCoroutine(NewGameDelay(0.5f, 1.f)); //delay at start
 }
 
@@ -78,20 +80,20 @@ void BattleSystem::Update()
         {
             if (roundManage.characterCount < turnManage.characterList.size())
             {
-                activeCharacter = turnManage.turnOrderList[0];
+                activeCharacter = turnManage.turnOrderList.front();
 
-                if (activeCharacter.gameObject.tag.tag == "Enemy")
+                if (activeCharacter->gameObject.tag.tag == "Enemy")
                 {
-                    turnManage.activeEnemy = activeCharacter.gameObject.name;
+                    turnManage.activeEnemy = activeCharacter->gameObject.name;
                     turnManage.activePlayer = "";
 
                     LOG_WARNING("State: Enemy Turn");
 
                     battleState = ENEMYTURN;
                 }
-                else if (activeCharacter.tag.tag == "Player")
+                else if (activeCharacter->tag.tag == "Player")
                 {
-                    turnManage.activePlayer = activeCharacter.gameObject.name;
+                    turnManage.activePlayer = activeCharacter->gameObject.name;
                     turnManage.activeEnemy = "";
 
                     LOG_WARNING("State: Player Turn");
@@ -105,7 +107,7 @@ void BattleSystem::Update()
                 LOG_WARNING("State: End Round");
                 battleState = NEWROUND;
 
-                activeCharacter.gameObject.isnull = true;
+                activeCharacter->gameObject.isnull = true;
                 turnManage.activeEnemy = "";
                 turnManage.activePlayer = "";
 
@@ -131,13 +133,14 @@ void BattleSystem::DetermineTurnOrder()
 {
     //charactersList
     //getting an array of CharacterStats component 
-    ComponentArray<CharacterStats> characters =  ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>(); // GameObject::FindObjectsOfType();
+    ComponentArray<CharacterStats>& characters =  ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>(); // GameObject::FindObjectsOfType();
 
     turnManage.characterList.clear();
 
     for(auto& chara : m_Entities)
     {
         CharacterStats* m = &characters.GetData(chara);
+        m->entity = chara;
         turnManage.characterList.push_back(*m);
     }
 
@@ -146,14 +149,33 @@ void BattleSystem::DetermineTurnOrder()
 
     for(CharacterStats chara : turnManage.characterList) //add the sorted charactersList to turnOrderList
     {
-        turnManage.turnOrderList.push_back(chara);
+        turnManage.turnOrderList.push_back(&chara);
     }
 
     //originalTurnOrderList
+    turnManage.originalTurnOrderList = turnManage.turnOrderList;
+    /*
     turnManage.originalTurnOrderList.clear();
 
     for(CharacterStats chara : turnManage.turnOrderList) //add turnOrderList to original turn order list
     {
         turnManage.originalTurnOrderList.push_back(chara);
     }
+    */
+}
+
+void BattleSystem::SwitchTurnOrder(CharacterStats* target)
+{
+    turnManage.turnOrderList.remove(target);
+    auto iterator = turnManage.turnOrderList.begin();
+    iterator++;
+    turnManage.turnOrderList.insert(iterator, target);
+}
+
+void BattleSystem::RevertTurnOrder(CharacterStats* target)
+{
+    auto& ogTurnList = turnManage.originalTurnOrderList;
+    auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
+    turnManage.turnOrderList.remove(target);
+    turnManage.turnOrderList.insert(originalIndex, target);
 }
