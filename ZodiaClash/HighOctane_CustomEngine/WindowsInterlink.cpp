@@ -83,5 +83,52 @@ void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 	}
 }
 
+std::string SaveFileDialog() {
+	// Initialize COM
+	CoInitialize(NULL);
 
+	// Create the File Save Dialog
+	IFileSaveDialog* p_fsd = NULL; // Pointer to FileSaveDialog
+	HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&p_fsd));
+
+	if (SUCCEEDED(hr)) {
+		// Show the dialog
+		hr = p_fsd->Show(NULL);
+
+		if (SUCCEEDED(hr)) {
+			IShellItem* p_si = NULL; // Pointer to ShellItem
+			hr = p_fsd->GetResult(&p_si);
+
+			if (SUCCEEDED(hr)) {
+				PWSTR p_szPath; // Pointer to Zero-terminated String
+				hr = p_si->GetDisplayName(SIGDN_FILESYSPATH, &p_szPath);
+
+				if (SUCCEEDED(hr)) {
+					// p_szPath contains the full path to the selected file
+					// Convert PWSTR (wide string) to std::string
+					int stringSize = WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, NULL, 0, NULL, NULL);
+					std::string convertedPath(stringSize, 0);
+					WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, &convertedPath[0], stringSize, NULL, NULL);
+
+					// Remove the extra null terminator from the string
+					convertedPath.pop_back();
+
+					CoTaskMemFree(p_szPath);
+					p_si->Release();
+
+					// Cleanup COM
+					CoUninitialize();
+
+					return convertedPath;
+				}
+			}
+			p_fsd->Release();
+		}
+	}
+
+	// Cleanup COM
+	CoUninitialize();
+
+	return ""; // Return an empty string if the user cancels or an error occurs
+}
 
