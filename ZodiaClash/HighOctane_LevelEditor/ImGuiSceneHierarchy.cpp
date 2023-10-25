@@ -109,7 +109,7 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<Script>(entity)) {
 
 		// If master entity is selected, do not allow editing of scripts
-		if (entity == 1) {
+		if (ECS::ecs().HasComponent<Master>(entity)) {
 			return;
 		}
 		
@@ -128,7 +128,7 @@ void SceneEntityComponents(Entity entity) {
 					scriptNamesCStrings.push_back(scriptName.c_str());
 				}
 
-				if (ImGui::Combo("Select Script", &currentScriptIndex, scriptNamesCStrings.data(), static_cast<int>(scriptNamesCStrings.size()))) {
+				if (ImGui::Combo("", &currentScriptIndex, scriptNamesCStrings.data(), static_cast<int>(scriptNamesCStrings.size()))) {
 					// Update the selected script in the component
 					if (currentScriptIndex >= 0) {
 						fullNameVecImGUI[0] = fullNameVecImGUI[currentScriptIndex];
@@ -136,6 +136,7 @@ void SceneEntityComponents(Entity entity) {
 				}
 			}
 			ImGui::TreePop();
+			ImGui::SameLine();
 			if (ImGui::Button("Add Script")) {
 				std::cout << "Script added\n";
 				// Add the selected script to the entity

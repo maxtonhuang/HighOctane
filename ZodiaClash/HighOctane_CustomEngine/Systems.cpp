@@ -362,21 +362,20 @@ void SerializationSystem::Update() {
 		}
 		destroyAll = false;
 	}
-
-
-	
 }
 
-
+// Loads the script at startup from TestWY1.json
 void ScriptSystem::Initialize() {
+
+	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
+		std::vector<std::string> scriptVec = LoadScripting(entity);
 
 		// Get the script component
 		Script* s = &ECS::ecs().GetComponent<Script>(entity);
@@ -385,46 +384,40 @@ void ScriptSystem::Initialize() {
 			continue;
 		}
 
-
 		// Get the name component
 		Script& script = scriptArray.GetData(entity);
-		Name* name = &nameArray.GetData(entity);
-
-
-		// For every entity, add the name to the fullNameVecImGUI vector
-		for (auto& fullName : fullNameVecImGUI) {
-			script.scriptNameVecForImGui.push_back(fullName);
+		std::vector<std::string> temp;
+		for (auto& scriptString : scriptVec) {
+			
+			temp.push_back(scriptString);
+			
+			// If not in the global vec for imgui
+			if (std::find(fullNameVecImGUI.begin(), fullNameVecImGUI.end(), scriptString) == fullNameVecImGUI.end()) {
+				fullNameVecImGUI.push_back(scriptString);
+			}
 		}
 
-		//std::cout << "These are the entity names " << name->name << std::endl;
-
-		/*------------TEMPORARY HARD CODE-----------*/
-
-		std::unordered_map<Entity, std::vector<std::string>> entityScripts = {
-			{2, {"Sandbox.Player"}},
-			{3, {"Sandbox.PlayerController"/*, "Sandbox.Player"*/}}
-		};
-		/*------------TEMPORARY HARD CODE-----------*/
+		scriptMap.insert({ entity, {temp} });
 
 		// Get the script names from the entityScripts map
-		for (auto& [key, value] : entityScripts) {
+		for (auto& [key, value] : scriptMap) {
 			if (key == entity) {
 				script.scriptNameVec = value;
 			}
 		}
-		///*------------TEMPORARY HARD CODE-----------*/
-
-
-
-		// Debug Log
-		std::cout << "Entity: " << entity << ", Scripts: " << script.scriptNameVec.size() << std::endl;
 
 		// If the script has a className, then initialize it in the script engine.
 		if (!script.scriptNameVec.empty()) {
 			ScriptEngine::OnCreateEntity(entity);
-			std::cout << "Initializing Script for Entity: " << name->name << std::endl;
 		}
 	}
+
+	// Pushes the full name vector to the script component everything is done
+	for (const Entity& entity : m_Entities) {
+		Script& script = scriptArray.GetData(entity);
+		script.scriptNameVecForImGui = fullNameVecImGUI;
+	}
+
 }
 
 

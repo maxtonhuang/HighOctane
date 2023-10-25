@@ -41,7 +41,7 @@ struct CSharpClassInfo {
 };
 
 void ScriptEngine::Init() {
-    std::cout << "Hi this is initialized for scripting system\n";
+    //std::cout << "Hi this is initialized for scripting system\n";
     s_Data = new ScriptEngineData(); 
     InitMono();
     // If debug mode
@@ -90,7 +90,7 @@ void ScriptEngine::Shutdown() {
 void ScriptEngine::InitMono() {
     
     // Setting the path to the mono
-    std::cout << "Scripting InitMono\n";
+    //std::cout << "Scripting InitMono\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
     //std::cout << filePath << std::endl;
     mono_set_assemblies_path(filePath.c_str());
@@ -211,7 +211,7 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         if (isEntity) {
             s_Data->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
             fullNameVecImGUI.emplace_back(fullName);
-            std::cout << "Added class: " << fullName << std::endl;
+            //std::cout << "Added class: " << fullName << std::endl;
             printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
         } 
     }
@@ -268,10 +268,10 @@ ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity 
 }
 
 void ScriptInstance::InvokeOnCreate() {
-    std::cout << "ScriptEngine.cpp::InvokeOnCreate" << std::endl;
+    //std::cout << "ScriptEngine.cpp::InvokeOnCreate" << std::endl;
 	m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
-    std::cout << "ScriptEngine.cpp::InvokeOnCreate m_Instance: " << m_Instance << std::endl;
-    std::cout << "ScriptEngine.cpp::InvokeOnCreate m_OnCreateMethod: " << m_OnCreateMethod << std::endl;
+    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_Instance: " << m_Instance << std::endl;
+    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_OnCreateMethod: " << m_OnCreateMethod << std::endl;
 }
 
 void ScriptInstance::InvokeOnUpdate() {

@@ -208,3 +208,6 @@ enum class CharacterComponents {
 
 //std::vector<std::string> OpenFileDialog();
 std::string SaveFileDialog();
+
+//std::unordered_map<Entity, std::vector<std::string>> LoadScripting();
+std::vector<std::string> LoadScripting(Entity par);
