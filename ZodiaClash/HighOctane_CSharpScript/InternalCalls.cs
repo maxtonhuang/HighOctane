@@ -70,6 +70,12 @@ public static class InternalCalls
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern void LogVector3(ref Vector3 param, out Vector3 result);
 
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void EntityGetTranslation(out Vector3 result);
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void EntitySetTranslation(ref Vector3 value);
+
     // Adds the get axis function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern int GetAxisHorizontal();
@@ -78,5 +84,18 @@ public static class InternalCalls
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern int GetAxisVertical();
 
+    #region Transform
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void TransformGetTranslation(UInt32 entity, out Vector2 translation);
 
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void TransformSetTranslation(UInt32 entity, ref Vector2 translation);
+    #endregion
+
+
+    #region Entity
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static bool EntityHasComponent(/*Entity entity, */Type componentType);
+
+    #endregion
 }

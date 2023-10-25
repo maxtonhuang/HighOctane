@@ -8,27 +8,59 @@ using System.Threading.Tasks;
 
 public class Entity
 {
-    protected Entity() { ID = 0; }
+    // ID is currently hardcoded, need to find a way to make it not hard coded
+    // Use the mono constructor thing that chernos did
+    // Disable default constructor
+    protected Entity() { ID = 3; }
 
-    internal Entity(ulong id)
+    public Entity(UInt32 id)
     {
         ID = id;
     }
 
-    public readonly ulong ID;
+    public readonly UInt32 ID;
 
-    public Vector3 Translation
+    public Vector2 Translation
     {
         get
         {
-            //InternalCalls.TransformComponent_GetTranslation(ID, out Vector3 result);
-            //return result;
-            return new Vector3();
+            InternalCalls.TransformGetTranslation(ID , out Vector2 translation);
+            return translation;
         }
         set
         {
-            //InternalCalls.TransformComponent_SetTranslation(ID, ref value);
+            InternalCalls.TransformSetTranslation(ID, ref value);
         }
     }
+    //public bool HasComponent<T>() where T : Component, new()
+    //{
+    //    Type componentType = typeof(T);
+    //    return InternalCalls.EntityHasComponent(/*Entity.ID, */ componentType);
+    //}
+
+    //public T? GetComponent<T>() where T : Component, new()
+    //{
+    //    if (!HasComponent<T>())
+    //        return null;
+
+    //    T component = new T() { Entity = this };
+    //    return component;
+    //}
+
+    ////public Entity FindEntityByName(string name)
+    ////{
+    ////    ulong entityID = InternalCalls.Entity_FindEntityByName(name);
+    ////    if (entityID == 0)
+    ////        return null;
+
+    ////    return new Entity(entityID);
+    ////}
+
+    ////public T As<T>() where T : Entity, new()
+    ////{
+    ////    object instance = InternalCalls.GetScriptInstance(ID);
+    ////    return instance as T;
+    ////}
+
 }
 

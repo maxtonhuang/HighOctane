@@ -57,5 +57,5 @@ extern bool saveFile;
 
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;
-extern int importFileCount;
+extern size_t importFileCount;
 extern std::vector<std::string> fullNameVecImGUI;

@@ -73,6 +73,7 @@ private:
 
 	std::shared_ptr<ScriptClass> m_ScriptClass = nullptr;
 	MonoObject* m_Instance = nullptr;
+	MonoMethod* m_Constructor = nullptr;
 	MonoMethod* m_OnCreateMethod = nullptr;
 	MonoMethod* m_OnUpdateMethod = nullptr;
 

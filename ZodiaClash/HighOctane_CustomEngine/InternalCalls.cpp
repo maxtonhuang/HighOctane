@@ -32,7 +32,7 @@ namespace internalcalls {
     static bool GetKeyDown(INFO key) {
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
             switch (msg.type) {
-            case TYPE::KEY_TRIGGERED:
+            case TYPE::KEY_DOWN:
                 if (msg.info == key) {
                     return true;
                 }
@@ -46,7 +46,7 @@ namespace internalcalls {
     static int GetAxisHorizontal() {
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
             switch (msg.type) {
-			case TYPE::KEY_TRIGGERED:
+			case TYPE::KEY_DOWN:
                 if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) {
 					return -1;
 				}
@@ -59,11 +59,29 @@ namespace internalcalls {
 		return 0;
 	}
 
+    static void TransformGetTranslation(Entity entity, vmath::Vector2* outTranslation)
+    {
+        if (entity == 0) {
+            return;
+        }
+
+        *outTranslation = ECS::ecs().GetComponent<Transform>(entity).position;
+    }
+
+    static void TransformSetTranslation(Entity entity, vmath::Vector2* translation)
+    {
+        if (entity == 0) {
+            return;
+        }
+        ECS::ecs().GetComponent<Transform>(entity).position = *translation;
+    }
+
+
     // This function is to get the vertical axis on C# side
     static int GetAxisVertical() {
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
             switch (msg.type) {
-            case TYPE::KEY_TRIGGERED:
+            case TYPE::KEY_DOWN:
                 if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) {
                     return -1;
                 }
@@ -76,6 +94,12 @@ namespace internalcalls {
         return 0;
     }
 
+    // Entities
+    template<typename T>
+    static bool EntityHasComponent(/*Entity entity, */T componentName) {
+        return ECS::ecs().HasComponent<T>(0/*entity*/);
+	}
+
 
 #define ADD_INTERNAL_CALL(name) mono_add_internal_call("InternalCalls::" #name, name);
 
@@ -86,6 +110,8 @@ namespace internalcalls {
         ADD_INTERNAL_CALL(LogVector3);
         ADD_INTERNAL_CALL(GetAxisHorizontal);
         ADD_INTERNAL_CALL(GetAxisVertical);
+        ADD_INTERNAL_CALL(TransformGetTranslation);
+        ADD_INTERNAL_CALL(TransformSetTranslation);
 
     }
 
