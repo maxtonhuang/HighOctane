@@ -33,7 +33,7 @@
 
 #pragma once
 
-#include <vector>
+#include <deque>
 #include <string>
 
 #define RESET_VEC2 0.f, 0.f
@@ -49,5 +49,5 @@ extern bool edit_mode;
 extern bool hoveringPanel;
 extern bool fileDropped;
 extern float dropTimer;
-extern std::vector<std::string> dragAndDropFilesList;
-extern int dragAndDropped;
+extern std::deque<std::string> importFileList;
+extern int importFileCount;

@@ -182,6 +182,9 @@ public:
 void LoadConfig();
 
 
+void WriteSpriteConfig(const char* filename, int rows, int cols);
+
+
 /***********************************Testing for CSV Parser*******************************************/
 class PseudoCharacter {
 public:

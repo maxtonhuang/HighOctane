@@ -31,7 +31,7 @@
 ******************************************************************************/
 
 //#include <mutex>
-#include <vector>
+#include <deque>
 #include <string>
 
 // Declare global variables here
@@ -43,5 +43,5 @@ bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
 
-std::vector<std::string> dragAndDropFilesList;
-int dragAndDropped{ };
+std::deque<std::string> importFileList;
+int importFileCount{ };
