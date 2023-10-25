@@ -62,7 +62,7 @@ void ScriptEngine::Init() {
 
     // This is to add the internal calls
     internalcalls::AddInternalCall();
-
+    s_Data->EntityClass = ScriptClass("", "Entity");
 #if 0
     // Retrieve and insantiate class (with constructor)
     s_Data->EntityClass = ScriptClass("", "Entity");
@@ -149,7 +149,7 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
         if (ScriptEngine::EntityClassExists(fullClassName)) {
 
             // Create an instance of this script class
-            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName]);
+            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
 
             s_Data->EntityInstances[entity].push_back(instance);
 
@@ -249,11 +249,22 @@ MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, 
 }
 
 
-ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass) : m_ScriptClass(scriptClass) {
+ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity) : m_ScriptClass(scriptClass) {
 	m_Instance = scriptClass->Instantiate();
 
+    m_Constructor = s_Data->EntityClass.GetMethod(".ctor", 1);
     m_OnCreateMethod = scriptClass->GetMethod("Start", 0);
     m_OnUpdateMethod = scriptClass->GetMethod("Update", 0);
+
+
+
+    // Call entity constructor
+    {
+        Entity entityID = entity;
+        void* param = &entityID;
+        m_ScriptClass->InvokeMethod(m_Instance, m_Constructor, &param);
+    }
+
 }
 
 void ScriptInstance::InvokeOnCreate() {

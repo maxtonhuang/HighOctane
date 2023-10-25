@@ -8,6 +8,8 @@
 #include "vmath.h"
 Entity currentSelectedEntity{};
 
+extern std::vector<std::string> fullNameVecImGUI;
+
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
 	for (const Entity& entity : s_ptr->m_Entities) {
@@ -105,31 +107,40 @@ void SceneEntityComponents(Entity entity) {
 	}
 
 	if (ECS::ecs().HasComponent<Script>(entity)) {
+
+		// If master entity is selected, do not allow editing of scripts
+		if (entity == 1) {
+			return;
+		}
+		
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
-			auto& scriptComponent = ECS::ecs().GetComponent<Script>(entity);
+			//auto& scriptComponent = ECS::ecs().GetComponent<Script>(entity);
 
 			// Create a combo box to select a script
 			int currentScriptIndex = -1; // Initialize with an invalid index
-			if (!scriptComponent.scriptNameVec.empty()) {
-				const char* currentScriptName = scriptComponent.scriptNameVec[0].c_str();
+			if (!fullNameVecImGUI.empty()) {
+				const char* currentScriptName = fullNameVecImGUI[0].c_str();
 
 				// Convert script names to const char*
 				std::vector<const char*> scriptNamesCStrings;
-				scriptNamesCStrings.reserve(scriptComponent.scriptNameVec.size());
-				for (const std::string& scriptName : scriptComponent.scriptNameVec) {
+				scriptNamesCStrings.reserve(fullNameVecImGUI.size());
+				for (const std::string& scriptName : fullNameVecImGUI) {
 					scriptNamesCStrings.push_back(scriptName.c_str());
 				}
 
 				if (ImGui::Combo("Select Script", &currentScriptIndex, scriptNamesCStrings.data(), static_cast<int>(scriptNamesCStrings.size()))) {
 					// Update the selected script in the component
 					if (currentScriptIndex >= 0) {
-						scriptComponent.scriptNameVec[0] = scriptComponent.scriptNameVec[currentScriptIndex];
+						fullNameVecImGUI[0] = fullNameVecImGUI[currentScriptIndex];
 					}
 				}
 			}
-
-
 			ImGui::TreePop();
+			if (ImGui::Button("Add Script")) {
+				std::cout << "Script added\n";
+				// Add the selected script to the entity
+				//ECS::ecs().AddComponent<Script>(entity, Script{ fullNameVecImGUI[0] });
+			}
 		}
 	}
 }

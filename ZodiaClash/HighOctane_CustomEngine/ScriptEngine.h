@@ -64,7 +64,7 @@ private:
 
 class ScriptInstance {
 public: 
-	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass);
+	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity);
 
 	void InvokeOnCreate();
 	void InvokeOnUpdate();
