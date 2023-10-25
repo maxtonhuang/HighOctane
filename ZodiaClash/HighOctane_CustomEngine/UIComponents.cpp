@@ -121,7 +121,7 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData) {
 	relTransform.y = (transformData.position.y - (0.25f * posOffset.y));
 }
 
-void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) {
+void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameData) {
 	// get cursorPos, compare with pos in Transform, return if no match
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
@@ -132,7 +132,7 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos) && !transformData.isStatic) {
 				uiOffset = GetOffset(transformData.position, uiMousePos);
-				OnClick(modelData, nameData);
+				//OnClick(modelData, nameData);
 			}
 			break;
 		//case(TYPE::MOUSE_DOWN):
@@ -144,7 +144,21 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 		}		
 	}
 
-	if (!nameData.selected && !transformData.isStatic) {
+	if (nameData.selected) {
+		SetTextString("Focused Text");
+		modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
+	}
+	else if (IsWithinObject(modelData, uiMousePos)) {
+		SetTextString("Hovered Text");
+		modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
+	}
+	else {
+		SetTextString("TextString");
+		modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
+	}
+
+
+	/*if (!nameData.selected && !transformData.isStatic) {
 		if (IsWithinObject(modelData, uiMousePos)) {
 			OnHover(modelData, nameData);
 		}
@@ -152,30 +166,31 @@ void TextLabel::IsClickedOrHovered(Transform& transformData, Model& modelData, N
 			SetTextString("TextString");
 			modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
 		}
-	}
+	}*/
 }
 
-void TextLabel::OnClick(Model& modelData, Name& nameData) {
-	//change color based Name->selected bool state
-	//DEBUG_PRINT("UI_ONCLICK");
-	modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
-}
-
-void TextLabel::OnHover(Model& modelData, Name& nameData) {
-	//read Transform pos and mailbox mouse move
-	// pos match, change color (probably more for button and not text...?)
-	//DEBUG_PRINT("UI_ONHOVER");
-	SetTextString("Hovered Text");
-	modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
-
-}
-
-void TextLabel::OnFocus() {
-	SetTextString("Focused Text");
-	//DEBUG_PRINT("UI_ONFOCUS");
-	// open properties perhaps?
-	// likely to trigger together with onClick
-}
+//void TextLabel::OnClick(Model& modelData, Name& nameData) {
+//	//change color based Name->selected bool state
+//	//DEBUG_PRINT("UI_ONCLICK");
+//	//modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
+//}
+//
+//void TextLabel::OnHover(Model& modelData/*, Name& nameData*/) {
+//	//read Transform pos and mailbox mouse move
+//	// pos match, change color (probably more for button and not text...?)
+//	//DEBUG_PRINT("UI_ONHOVER");
+//	SetTextString("Hovered Text");
+//	modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
+//
+//}
+//
+//void TextLabel::OnFocus(Model& modelData) {
+//	SetTextString("Focused Text");
+//	modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
+//	//DEBUG_PRINT("UI_ONFOCUS");
+//	// open properties perhaps?
+//	// likely to trigger together with onClick
+//}
 
 
 
@@ -204,7 +219,7 @@ Button::Button(std::string txtStr) {
 	defaultColor.textColor		= { 0.f, 0.f, 1.f, 1.f };
 	defaultColor.outlineColor	= { 0.f, 0.f, 1.f, 1.f };
 
-	hoveredColor.buttonColor	= { 0.f, 0.f, 1.f, 1.f };
+	hoveredColor.buttonColor	= { 1.f, 0.f, 0.f, 1.f };
 	hoveredColor.textColor		= { 1.f, 1.f, 1.f, 1.f };
 	hoveredColor.outlineColor	= { 0.f, 0.f, 1.f, 1.f };
 
@@ -213,7 +228,7 @@ Button::Button(std::string txtStr) {
 	focusedColor.outlineColor	= { 1.f, 0.f, 0.f, 1.f };
 }
 
-void Button::IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) {
+void Button::Update(Transform& transformData, Model& modelData, Name& nameData) {
 	// get cursorPos, compare with pos in Transform, return if no match
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
@@ -224,7 +239,7 @@ void Button::IsClickedOrHovered(Transform& transformData, Model& modelData, Name
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				uiOffset = GetOffset(transformData.position, uiMousePos);
-				OnClick(modelData, nameData);
+				//OnClick(modelData, nameData);
 			}
 			break;
 		//case(TYPE::MOUSE_DOWN):
@@ -236,40 +251,60 @@ void Button::IsClickedOrHovered(Transform& transformData, Model& modelData, Name
 		}
 	}
 
-	if (!nameData.selected) {
-		if (IsWithinObject(modelData, uiMousePos)) {
-			OnHover(modelData, nameData);
-		}
-		else {
-			textLabel.SetTextString("TextString");
-			currentState = STATE::NONE;
-			modelData.SetColor(defaultColor.buttonColor.r, defaultColor.buttonColor.g, defaultColor.buttonColor.b);
-		}
+	if (nameData.selected && IsWithinObject(modelData, uiMousePos)) {
+		textLabel.SetTextString("Focused Text");
+		modelData.SetColor(focusedColor.buttonColor.r, focusedColor.buttonColor.g, focusedColor.buttonColor.b);
+		currentState = STATE::FOCUSED;
 	}
+	else if (IsWithinObject(modelData, uiMousePos)) {
+		textLabel.SetTextString("Hovered Text");
+		modelData.SetColor(hoveredColor.buttonColor.r, hoveredColor.buttonColor.g, hoveredColor.buttonColor.b);
+		currentState = STATE::HOVERED;
+	}
+	else {
+		textLabel.SetTextString("TextString");
+		modelData.SetColor(defaultColor.buttonColor.r, defaultColor.buttonColor.g, defaultColor.buttonColor.b);
+		currentState = STATE::NONE;
+	}
+
+
+
+	//if (!nameData.selected) {
+	//	if (IsWithinObject(modelData, uiMousePos)) {
+	//		//OnHover(modelData, nameData);
+	//	}
+	//	else {
+	//		textLabel.SetTextString("TextString");
+	//		currentState = STATE::NONE;
+	//		modelData.SetColor(defaultColor.buttonColor.r, defaultColor.buttonColor.g, defaultColor.buttonColor.b);
+	//	}
+	//}
 }
 
-void Button::OnClick(Model& modelData, Name& nameData) {
-	//change color based Name->selected bool state;
-	currentState = STATE::SELECTED;
-	modelData.SetColor(focusedColor.buttonColor.r, focusedColor.buttonColor.g, focusedColor.buttonColor.b);
-
-	// may need set textLabel color - add to signature?
-}
-
-void Button::OnHover(Model& modelData, Name& nameData) {
-	textLabel.SetTextString("Hovered Text");
-	currentState = STATE::HOVERED;
-	modelData.SetColor(hoveredColor.buttonColor.r, hoveredColor.buttonColor.g, hoveredColor.buttonColor.b);
-}
-
-void Button::OnFocus() {
-	textLabel.SetTextString("Focused Text");
-	currentState = STATE::FOCUSED;
-	// open properties perhaps?
-}
+//void Button::OnClick(Model& modelData, Name& nameData) {
+//	//change color based Name->selected bool state;
+//	currentState = STATE::SELECTED;
+//	modelData.SetColor(focusedColor.buttonColor.r, focusedColor.buttonColor.g, focusedColor.buttonColor.b);
+//
+//	// may need set textLabel color - add to signature?
+//}
+//
+//void Button::OnHover(Model& modelData, Name& nameData) {
+//	textLabel.SetTextString("Hovered Text");
+//	currentState = STATE::HOVERED;
+//	modelData.SetColor(hoveredColor.buttonColor.r, hoveredColor.buttonColor.g, hoveredColor.buttonColor.b);
+//}
+//
+//void Button::OnFocus() {
+//	textLabel.SetTextString("Focused Text");
+//	currentState = STATE::FOCUSED;
+//	// open properties perhaps?
+//}
 
 void Button::DrawButton(Model& modelData) {
+	graphics.DrawLabel(textLabel, textLabel.relTransform, modelData.GetColor());
 	switch (currentState) {
+
 	case(STATE::HOVERED):
 		graphics.DrawLabel(textLabel, textLabel.relTransform, hoveredColor.textColor);
 		break;

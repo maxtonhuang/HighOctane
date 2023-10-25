@@ -35,7 +35,7 @@ void SceneEntityNode(Entity entity) {
 
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
 
-		bool opened = ImGui::TreeNodeEx((void*)entity, flags, entityName.c_str());
+		bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uintptr_t>(entity)), flags, entityName.c_str());
 		if (ImGui::IsItemClicked()) {
 			currentSelectedEntity = entity;
 		}
@@ -109,7 +109,7 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<Script>(entity)) {
 
 		// If master entity is selected, do not allow editing of scripts
-		if (entity == 1) {
+		if (ECS::ecs().HasComponent<Master>(entity)) {
 			return;
 		}
 		
@@ -128,14 +128,24 @@ void SceneEntityComponents(Entity entity) {
 					scriptNamesCStrings.push_back(scriptName.c_str());
 				}
 
-				if (ImGui::Combo("Select Script", &currentScriptIndex, scriptNamesCStrings.data(), static_cast<int>(scriptNamesCStrings.size()))) {
-					// Update the selected script in the component
-					if (currentScriptIndex >= 0) {
-						fullNameVecImGUI[0] = fullNameVecImGUI[currentScriptIndex];
+
+				static const char* currentItem = NULL;
+
+				if (ImGui::BeginCombo("##name", currentItem)) {
+					for (int n = 0; n < scriptNamesCStrings.size(); n++) {
+						bool is_selected = (currentItem == scriptNamesCStrings[n]);
+						if (ImGui::Selectable(scriptNamesCStrings[n], is_selected)) {
+							currentItem = scriptNamesCStrings[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
 					}
+					ImGui::EndCombo();
 				}
 			}
 			ImGui::TreePop();
+			ImGui::SameLine();
 			if (ImGui::Button("Add Script")) {
 				std::cout << "Script added\n";
 				// Add the selected script to the entity
