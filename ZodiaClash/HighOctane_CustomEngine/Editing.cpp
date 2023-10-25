@@ -10,7 +10,6 @@
 
 vmath::Vector2 mousePos{ RESET_VEC2 };
 vmath::Vector2 offset{ RESET_VEC2 };
-CLICKED clicked{ CLICKED::NOT };
 
 constexpr float CORNER_SIZE = 10.f;
 
@@ -33,28 +32,28 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 		case TYPE::MOUSE_CLICK:
 			if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
 				name.selected = true;
-				clicked = CLICKED::NE;
+				name.clicked = CLICKED::NE;
 			}
 			else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
 				name.selected = true;
-				clicked = CLICKED::SW;
+				name.clicked = CLICKED::SW;
 			}
 			else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
 				name.selected = true;
-				clicked = CLICKED::SE;
+				name.clicked = CLICKED::SE;
 			}
 			else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
 				name.selected = true;
-				clicked = CLICKED::NW;
+				name.clicked = CLICKED::NW;
 			}
 			else if (IsWithinObject(model, mousePos)) {
 				name.selected = true;
-				clicked = CLICKED::INSIDE;
+				name.clicked = CLICKED::INSIDE;
 				offset = GetOffset(transform.position, mousePos);
 			}
 			else {
 				name.selected = false;
-				clicked = CLICKED::NOT;
+				name.clicked = CLICKED::NOT;
 			}
 			
 			break;
@@ -65,18 +64,17 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 					!IsNearby(model.GetMin(), mousePos, CORNER_SIZE) &&
 					!IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE) &&
 					!IsNearby({ model.GetMax().y, model.GetMin().x }, mousePos, CORNER_SIZE)) {
-				clicked = CLICKED::NOT;
+				name.clicked = CLICKED::NOT;
 			}
 			else {
-				//DEBUG_PRINT("RELEASE!");
-				clicked = CLICKED::NOT;
+				name.clicked = CLICKED::NOT;
 			}
 			offset = { RESET_VEC2 };
 			break;
 
 		case TYPE::MOUSE_DOWN: {
 			if (name.selected) {
-				switch (clicked) {
+				switch (name.clicked) {
 				case CLICKED::NE:
 				{
 					float deltaX = mousePos.x - model.GetMax().x;
@@ -150,7 +148,6 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 				}
 					break;
 				case CLICKED::INSIDE:
-					//DEBUG_PRINT("DRAGGING!");
 					transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::w)+(transform.position.x - model.GetMin().x), (GRAPHICS::w)-(model.GetMax().x - transform.position.x));
 					transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::h)+(transform.position.y - model.GetMin().y), (GRAPHICS::h)-(model.GetMax().y - transform.position.y));
 					break;
@@ -167,10 +164,10 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 	}
 
 	if (name.selected) {
-		if (clicked == CLICKED::NE || clicked == CLICKED::SW || (IsNearby(model.GetMax(), mousePos, CORNER_SIZE) || IsNearby(model.GetMin(), mousePos, CORNER_SIZE))) {
+		if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), mousePos, CORNER_SIZE) || IsNearby(model.GetMin(), mousePos, CORNER_SIZE))) {
 			SetCursor(hNESWCursor);
 		}
-		else if (clicked == CLICKED::NW || clicked == CLICKED::SE || IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE) || IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
+		else if (name.clicked == CLICKED::NW || name.clicked == CLICKED::SE || IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE) || IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
 			SetCursor(hNWSECursor);
 		}
 		else if (IsWithinObject(model, mousePos)) {

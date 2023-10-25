@@ -59,10 +59,10 @@ public:
 	virtual ~UIComponent() {}
 	
 	//event handler functions
-	virtual void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) = 0;
-	virtual void OnClick(Model& modelData, Name& nameData) = 0;
-	virtual void OnHover(Model& modelData, Name& nameData) = 0;
-	virtual void OnFocus() = 0;
+	virtual void Update(Transform& transformData, Model& modelData, Name& nameData) = 0;
+	//virtual void OnClick(Model& modelData, Name& nameData) = 0;
+	//virtual void OnHover(Model& modelData, Name& nameData) = 0;
+	//virtual void OnFocus() = 0;
 };
 
 class TextLabel : public UIComponent {
@@ -94,10 +94,10 @@ public:
 	void CalculateOffset(Size& sizeData);
 	void UpdateOffset(Transform const& transformData, Size& sizeData);
 
-	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
-	void OnClick(Model& modelData, Name& nameData) override;
+	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
+	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
-	void OnFocus() override;
+	void OnFocus() override;*/
 };
 
 class Button : public UIComponent {
@@ -125,10 +125,10 @@ public:
 	Button();
 	Button(std::string txtStr);
 
-	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
-	void OnClick(Model& modelData, Name& nameData) override;
+	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
+	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
-	void OnFocus() override;
+	void OnFocus() override;*/
 
 	void DrawButton(Model& modelData);
 };

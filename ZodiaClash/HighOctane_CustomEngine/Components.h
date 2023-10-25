@@ -36,8 +36,19 @@
 #include "GraphLib.h"
 #include "FontLib.h"
 #include "Texture.h"
+//#include "Editing.h"
 
 using Vec2 = vmath::Vector2;
+
+enum class CLICKED {
+    NE,
+    SE,
+    SW,
+    NW,
+    INSIDE,
+    NOT
+};
+
 
 struct Transform {
     Vec2                    position{};
@@ -113,6 +124,8 @@ struct Clone {
 struct Name {
     std::string             name{};
     bool                    selected{ false };
+    CLICKED                 clicked = CLICKED::NOT;
+    uint32_t                group{};
 };
 
 struct Movable {

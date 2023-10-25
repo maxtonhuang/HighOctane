@@ -538,14 +538,15 @@ void UITextLabelSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 
-		if (textLabelData->CheckStringUpdated(*textLabelData)) {
+		//if (textLabelData->CheckStringUpdated(*textLabelData)) {
 			textLabelData->UpdateOffset(*transformData, *sizeData);
-		}
+		//}
 
-		textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		textLabelData->Update(*transformData, *modelData, *nameData);
+		/*textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
 		if (nameData->selected) {
 			textLabelData->OnFocus();
-		}
+		}*/
 		
 		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
 		//DEBUG_PRINT("relTrans: %f %f", textLabelData->relTransform.x, textLabelData->relTransform.y);
@@ -580,14 +581,15 @@ void UIButtonSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
-		if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
+		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
 			buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
-		}
+		//}
 
-		buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
-		if (nameData->selected) {
-			buttonData->OnFocus();
-		}
+		buttonData->Update(*transformData, *modelData, *nameData);
+		//buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		//if (nameData->selected) {
+		//	buttonData->OnFocus();
+		//}
 
 		modelData->SetAlpha(1.f);
 		buttonData->DrawButton(*modelData);
