@@ -7,34 +7,38 @@ using System.Threading.Tasks;
 
 namespace Sandbox
 {
-    internal class Player : Entity
+    internal class Player : MonoBehaviour
     {
-        public override void OnCreate()
+        public override void Start()
         {
             //Console.WriteLine("Player OnCreate");
 
         }
 
-        public override void OnUpdate()
+        public override void Update()
         {
 
             if (Input.GetAxisHorizontal() == 1)
             {
-                Debug.Log("Right");
+                //Debug.Log("Right");
+                Console.WriteLine("Right");
             }
             else if (Input.GetAxisHorizontal() == -1)
             {
-                Debug.Log("Left");
+                //Debug.Log("Left");
+                Console.WriteLine("Left");
             }
 
             if (Input.GetAxisVertical() == 1)
             {
-                Debug.Log("Up");
+                //Debug.Log("Up");
+                Console.WriteLine("Up");
             }
 
             else if (Input.GetAxisVertical() == -1)
             {
-                Debug.Log("Down");
+                //Debug.Log("Down");
+                Console.WriteLine("Down");
             }
         }
     }
@@ -42,14 +46,14 @@ namespace Sandbox
 }
 namespace PlayerController
 {
-    internal class PlayerMovement : Entity
+    internal class PlayerMovement : MonoBehaviour
     {
-        public override void OnCreate()
+        public override void Start()
         {
             Console.WriteLine("PlayerMovement OnCreate");
         }
 
-        public override void OnUpdate()
+        public override void Update()
         {
             //Console.WriteLine($"PlayerMovement OnUpdate");
         }

@@ -181,7 +181,9 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
     MonoImage* image = mono_assembly_get_image(assembly);
     const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
     int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-    MonoClass* entityClass = mono_class_from_name(image, "", "Entity");
+
+    // This is the one that will call the classes that inherit MonoBehaviour
+    MonoClass* entityClass = mono_class_from_name(image, "", "MonoBehaviour");
 
     for (int32_t i = 0; i < numTypes; i++)
     {
@@ -250,8 +252,8 @@ MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, 
 ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass) : m_ScriptClass(scriptClass) {
 	m_Instance = scriptClass->Instantiate();
 
-    m_OnCreateMethod = scriptClass->GetMethod("OnCreate", 0);
-    m_OnUpdateMethod = scriptClass->GetMethod("OnUpdate", 0);
+    m_OnCreateMethod = scriptClass->GetMethod("Start", 0);
+    m_OnUpdateMethod = scriptClass->GetMethod("Update", 0);
 }
 
 void ScriptInstance::InvokeOnCreate() {
