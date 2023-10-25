@@ -50,6 +50,7 @@
 #include "ScriptEngine.h"
 #include "Battle.h"
 #include "EngineCore.h"
+#include "CharacterStats.h"
 
 #define FIXED_DT 1/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
@@ -119,7 +120,6 @@ void PhysicsSystem::Update() {
 			for (Entity const& entity : m_Entities) {
 				Transform* transData = &transformArray.GetData(entity);
 				physics::PHYSICS->DebugDraw(*transData);
-				transData->velocity *= .95f;
 			}
 			if (reqStep)
 				for (Entity const& entity : m_Entities) {
@@ -204,7 +204,7 @@ void CollisionSystem::Update() {
 						if (collided == true) { physics::DynamicStaticResponse(*transData1); }
 					}
 				}
-				transData1->velocity = { RESET_VEC2 };
+				//transData1->velocity = { RESET_VEC2 };
 			}
 		}
 		//Mail::mail().mailbox[ADDRESS::COLLISION].clear();
@@ -474,17 +474,14 @@ void GameplaySystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	// Access component arrays through the ComponentManager
-	auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& characterArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		Tex* tex = &texArray.GetData(entity);
-		Animator* anim = &animatorArray.GetData(entity);
+		CharacterStats* cs = &characterArray.GetData(entity);
 	}
 }
 

@@ -79,7 +79,7 @@ public:
         int             speed;
     }; stats stats;
 
-    void TakeDamage(float damage);
+    void TakeDamage(float damage, Entity& entity);
     void HealBuff(float buffAmount);
     GameObject gameObject;
 

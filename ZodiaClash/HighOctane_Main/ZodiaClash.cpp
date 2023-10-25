@@ -66,7 +66,8 @@
 #include <rttr/registration>
 #include "CharacterStats.h"
 #include "Battle.h"
-
+#include "EnemyAction.h"
+#include "PlayerAction.h"
 #include "Reflections.h"
 
 bool gConsoleInitalized{ false };
@@ -237,6 +238,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
+	ECS::ecs().RegisterComponent<PlayerAction>();
+	ECS::ecs().RegisterComponent<EnemyAction>();
 
 
 	// Register systems to be used in the ECS
