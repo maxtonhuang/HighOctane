@@ -79,13 +79,13 @@ public:
         int             speed;
     }; stats stats;
 
-    void TakeDamage(float damage);
+    void TakeDamage(float damage, Entity& entity);
     void HealBuff(float buffAmount);
     GameObject gameObject;
 
 private:
     void Start();
-    void Death();
+    void Death(Entity& entity);
     /*GameStateManager gameManager;
    BattleManager battleManager;
    StatusEffectHud statusEffectHud;*/

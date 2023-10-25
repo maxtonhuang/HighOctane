@@ -4,9 +4,9 @@
 #include <shobjidl.h>
 
 
-std::vector<std::string> OpenFileDialog() {
+void OpenFileDialog() {
 
-	std::vector<std::string> filesList;
+	std::deque<std::string> filesList;
 
 	// Initialize COM
 	CoInitialize(NULL);
@@ -52,7 +52,7 @@ std::vector<std::string> OpenFileDialog() {
 							// Remove the extra null terminator from the string
 							convertedPath.pop_back();
 
-							filesList.emplace_back(convertedPath);
+							importFileList.emplace_back(convertedPath);
 							CoTaskMemFree(p_szPath);
 						}
 						p_si->Release();
@@ -67,12 +67,14 @@ std::vector<std::string> OpenFileDialog() {
 	// Cleanup COM
 	CoUninitialize();
 
-	return filesList;
+	importFileCount = importFileList.size();
 }
 
 
 
 void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
+
+	UNREFERENCED_PARAMETER(window);
 
 	fileDropped = true;
 	dropTimer = 0.08f;	
@@ -80,6 +82,13 @@ void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 	for (int i = 0; i < count; i++)	{
 		// Handle each path: load the file, etc.
 		std::cout << paths[i] << std::endl;
+
+		std::string tempPath(paths[i]);
+
+		importFileList.emplace_back(tempPath);
+
+		importFileCount = count;
+
 	}
 }
 

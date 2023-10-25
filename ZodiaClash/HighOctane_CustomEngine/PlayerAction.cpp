@@ -1,5 +1,5 @@
 #include "PlayerAction.h"
-#include "debuglog.h"
+#include "debugdiagnostic.h"
 
 
 void PlayerAction::Start()
@@ -83,7 +83,7 @@ void PlayerAction::SelectSkill(std::string btn)
         skillSelect.selectedSkillPrefab = skillSelect.skill3Prefab;
     }
     std::string output = "Player Skill Chosen: " + skillSelect.selectedSkillPrefab.name + "\n";
-    //debuglog::Logger::debug(output);
+    DEBUG_PRINT("%s", output);
 }
 
 EntityState PlayerAction::PlayerDeath()
@@ -95,7 +95,6 @@ EntityState PlayerAction::PlayerDeath()
 
     WaitForSeconds(0.5); // 500 milliseconds
 
-    // Assuming gameObject has a member function named SetActive
     characterStats.gameObject.SetActive(false);
 
     return playerState;
@@ -110,7 +109,6 @@ EntityState PlayerAction::AttackStartDelay(float startDelay, float endDelay)
     WaitForSeconds(endDelay); //delay to play animation
 
     endingTurn = true;
-    // movingToStart = true;
 
     return playerState; // Return the current state or adjust as needed
 }
@@ -123,7 +121,6 @@ EntityState PlayerAction::BuffStartDelay(float startDelay, float endDelay)
 
     WaitForSeconds(endDelay); //delay to play animation
 
-    // StartCoroutine(cam.ZoomOut());
     endingTurn = true;
 
     return playerState; // Return the current state or adjust as needed

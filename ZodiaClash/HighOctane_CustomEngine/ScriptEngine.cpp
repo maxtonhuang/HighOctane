@@ -4,9 +4,12 @@
 #include "DebugDiagnostic.h"
 #include "InternalCalls.cpp"
 
+// Extern for the vector to contain the full name for ImGui
+extern std::vector<std::string> fullNameVecImGUI;
+
 // Forward declaration
-char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize);
-MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath);
+static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize);
+static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath);
 void PrintAssemblyTypes(MonoAssembly* assembly);
 
 
@@ -31,7 +34,11 @@ struct ScriptEngineData {
 
 static ScriptEngineData* s_Data = nullptr;
 
-
+struct CSharpClassInfo {
+    std::string namespaceName;
+    std::string className;
+    // Add more fields if necessary.
+};
 
 void ScriptEngine::Init() {
     std::cout << "Hi this is initialized for scripting system\n";
@@ -49,12 +56,12 @@ void ScriptEngine::Init() {
 
     LoadAssembly(fullAssemblyPath);
     LoadAssemblyClasses(s_Data->CoreAssembly);
-    auto& classes = s_Data->EntityClasses;
+    //auto& classes = s_Data->EntityClasses;
 
     //printf("Classes size: %d\n", classes.size());
 
     // This is to add the internal calls
-    internalcalls::addInternalCalls();
+    internalcalls::AddInternalCall();
 
 #if 0
     // Retrieve and insantiate class (with constructor)
@@ -167,19 +174,23 @@ void ScriptEngine::OnUpdateEntity(const Entity& entity) {
 }
 
 
+
 void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 {
     s_Data->EntityClasses.clear();
     MonoImage* image = mono_assembly_get_image(assembly);
     const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
     int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-    MonoClass* entityClass = mono_class_from_name(image, "", "Entity");
+
+    // This is the one that will call the classes that inherit MonoBehaviour
+    MonoClass* entityClass = mono_class_from_name(image, "", "MonoBehaviour");
 
     for (int32_t i = 0; i < numTypes; i++)
     {
         uint32_t cols[MONO_TYPEDEF_SIZE];
         mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
 
+        // Get the namespace and the name of the class
         const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
         const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
         std::string fullName;
@@ -194,14 +205,17 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         if (monoClass == entityClass) {
             continue;
         }
+
+        // Check if it is a subclass
         bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
         if (isEntity) {
             s_Data->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
+            fullNameVecImGUI.emplace_back(fullName);
             std::cout << "Added class: " << fullName << std::endl;
-        }
-
-        printf("%s.%s\n", nameSpace, name);
+            printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
+        } 
     }
+
 }
 
 void ScriptEngine::ShutdownMono() {
@@ -238,8 +252,8 @@ MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, 
 ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass) : m_ScriptClass(scriptClass) {
 	m_Instance = scriptClass->Instantiate();
 
-    m_OnCreateMethod = scriptClass->GetMethod("OnCreate", 0);
-    m_OnUpdateMethod = scriptClass->GetMethod("OnUpdate", 0);
+    m_OnCreateMethod = scriptClass->GetMethod("Start", 0);
+    m_OnUpdateMethod = scriptClass->GetMethod("Update", 0);
 }
 
 void ScriptInstance::InvokeOnCreate() {

@@ -35,6 +35,9 @@
 
 #include <memory>
 #include "ECS.h"
+#include <deque>
+#include <vector>
+#include <string>
 
 #define RESET_VEC2 0.f, 0.f
 
@@ -53,3 +56,6 @@ extern bool destroyAll;
 extern bool saveFile;
 
 extern std::shared_ptr<SerializationSystem> s_ptr;
+extern std::deque<std::string> importFileList;
+extern int importFileCount;
+extern std::vector<std::string> fullNameVecImGUI;

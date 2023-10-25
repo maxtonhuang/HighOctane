@@ -35,8 +35,13 @@
 #include "ECS.h" 
 #include "collision.h"
 #include "graphics.h"
+#include "EngineCore.h"
 
 using namespace vmath;
+#define FRICTION 0.98f
+#define GRAVITY_X 0.0f
+#define GRAVITY_Y -9.81f
+
 
 class GraphicsManager;
 
@@ -73,9 +78,6 @@ namespace physics {
         std::vector<Entity> m_Entities;
         float maxVelocity{};
         float maxVelocitySq{};
-        float timeAccumulation{};
-        float penetrationEpsilon{};
-        float penetrationResolvePercentage{};
         bool DebugDrawingActive{};
         bool advanceStep{};
         bool stepModeActive{};

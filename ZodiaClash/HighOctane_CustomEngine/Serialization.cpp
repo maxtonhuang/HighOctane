@@ -539,3 +539,20 @@ void LoadConfig() {
 	ifs.close();
 }
 
+void WriteSpriteConfig(const char* filename, int rows, int cols) {
+	std::string tempFilename = filename;
+	std::ostringstream oss;
+	oss << "..\\Assets\\Textures\\" << tempFilename.substr(0, tempFilename.find_last_of('.')) << ".spritesheet";
+
+	// Open the file
+	std::ofstream ofs(oss.str().c_str());
+	if (!ofs.is_open()) {
+		// Check if the file is open
+		std::cerr << "Unable to write spritesheet config!" << std::endl;
+	}
+
+	ofs << filename << "\n" << rows << "\n" << cols << "\n" << rows * cols;
+
+	// Close the file
+	ofs.close();
+}
