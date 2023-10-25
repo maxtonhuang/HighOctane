@@ -1,5 +1,6 @@
 #pragma once
 #include "Battle.h"
+#include "CharacterStats.h"
 #include "vmath.h"
 #include <thread>
 #include <chrono>
@@ -24,7 +25,7 @@ protected:
 	virtual void EnemyUseSkill() {};
 	virtual void EnemyAttackAnimation() {};
 	virtual void EnemyApplySkill() {};
-	virtual EntityState EnemyDeath() {};
+	virtual EntityState EnemyDeath() { return EntityState{}; };
 
 	EntityState EnemyAttackStartDelay(float startDelay, float endDelay);
 	EntityState EnemyBuffStartDelay(float startDelay, float endDelay);
