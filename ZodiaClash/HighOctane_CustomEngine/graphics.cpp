@@ -36,12 +36,15 @@
 #include "Input.h"
 #include "graphlib.h"
 #include "debugdiagnostic.h"
+#include "WindowsInterlink.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <random>
 #include "physics.h"
 #include <algorithm>
+#include <Windows.h>
+
 
 GraphicsManager graphics;
 
@@ -88,7 +91,11 @@ void GraphicsManager::Initialize(int w, int h) {
     glfwSetMouseButtonCallback(window, InputManager::MouseButtonCallback);
     glfwSetCursorPosCallback(window, InputManager::CursorPosCallback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
+    
+    HWND hwnd = glfwGetWin32Window(window);
+    DragAcceptFiles(hwnd, TRUE);  // Allow the window to accept dropped files
+    glfwSetDropCallback(window, FileDropCallback);
+    
     //Set default background colour
     glClearColor(1.f, 0.f, 0.f, 1.f);
 
@@ -135,7 +142,7 @@ void GraphicsManager::Draw() {
    
 
     //// note: to draw as entity!
-    //std::string labelText = "© 2023 High Octane";
+    //std::string labelText = "ï¿½ 2023 High Octane";
     //float relFontSize = 0.48f;
     //Vec2 relTextPos = { 0.45f, 0.85f };
     //glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
@@ -218,16 +225,25 @@ bool GraphicsManager::WindowClosed() {
 
 void GraphicsManager::Fullscreen(bool input) {
     if (input) {
+        int x, y, w, h;
+        glfwGetWindowSize(window, &w, &h);
+        glfwGetWindowPos(window, &x, &y);
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
         glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
         UpdateWindow();
         viewport.SetViewport(0, 0, mode->width, mode->height);
+        previousX = x;
+        previousY = y;
+        previousWidth = w;
+        previousHeight = h;
     }
     else {
-        glfwSetWindowMonitor(window, NULL, 0, 32, width, height, 0); //ypos at 32 as it is window title bar size
+        glfwSetWindowMonitor(window, NULL, previousX, previousY, previousWidth, previousHeight, 0); //ypos at 32 as it is window title bar size
+        UpdateWindow();
         viewport.SetViewport(0, 0, width, height);
     }
+    graphics.framebuffer.Recreate();
 }
 
 void GraphicsManager::UpdateWindow() {

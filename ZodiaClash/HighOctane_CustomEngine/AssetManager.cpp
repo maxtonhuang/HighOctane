@@ -202,6 +202,7 @@ bool AssetManager::FileExists(const std::string& path) {
 
 void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
+    
     std::string extension = FilePath::GetFileExtension(assetPath);
 
     if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {

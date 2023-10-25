@@ -43,10 +43,15 @@ struct Transform {
     Vec2                    position{};
     float                   rotation{};
     float                   scale{};
-    Vec2                    velocity{};       
+    Vec2                    velocity{}; 
     float                   radius{};
     Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
     bool                    isStatic{}; 
+    //add forces
+    float                   mass{10};
+    float                   inverseMass{1/mass};
+    Vec2                    acceleration{10, 10};
+    Vec2                    force{acceleration * mass};
 };
 
 struct Collider {
@@ -118,14 +123,17 @@ struct Screen {
 };
 
 struct Script {
-    std::string             scriptName{};     // ID of owner
+    std::string             className{};     // ID of owner
     // ID of owner
     //Entity entityID;
-    ////vector of the names on scripts
-    //std::vector<std::string> monoScriptName;
-    ////vector of script instances
+    //vector of the names on scripts
+    std::vector<std::string> scriptNameVec{};
+
+    //vector of script instances
     //std::vector<std::shared_ptr<ScriptInstance>> monoScriptObj; //This is every C# component
 
+    // For Imgui
+    std::vector<std::string> scriptNameVecForImGui{};
 
     //// string to be added (display for ImGui side)
     //std::string currentAddingScript = "";

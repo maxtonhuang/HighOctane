@@ -32,6 +32,8 @@
 #include "Physics.h"
 #include <math.h>
 
+#define UNREFERENCED_PARAMETER(P) (P)
+
 namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
@@ -44,9 +46,6 @@ namespace physics {
         maxVelocitySq = maxVelocity * maxVelocity;
         advanceStep = false;
         stepModeActive = false;
-        timeAccumulation = 0.0f;
-        penetrationEpsilon = 0.2f;
-        penetrationResolvePercentage = 0.8f;
     }
 
     /**************************************************************************/
@@ -126,8 +125,23 @@ namespace physics {
         properties won't be updated.
      */
      /**************************************************************************/
-    void PhysicsManager::Integrate(Transform& transform) 
+    void PhysicsManager::Integrate(Transform& transformData) 
     {
+
+        // calculate acceleration due to force
+        transformData.acceleration = transformData.force * transformData.inverseMass;
+        // add gravitational acceleration
+        //transformData.acceleration += {GRAVITY_X, GRAVITY_Y};
+        // update velocity with acceleration and apply friction
+        transformData.velocity += transformData.acceleration;
+        // update position with velocity
+        transformData.position += transformData.velocity;
+        // reset force for the next frame
+        transformData.velocity *= FRICTION;
+        transformData.force = { 0, 0 };
+
+        /*
+
         // If the body is static, we don't want to update its position or velocity.
         //if (body.isStatic) return;
 
@@ -136,7 +150,7 @@ namespace physics {
 
         // Update the position based on deltaTime
         //std::cout << transform.velocity.x << " , " << transform.velocity.y << std::endl;
-        transform.position += transform.velocity;
+        //transform.position += transform.velocity;
         //std::cout << transform.position.x << " , " << transform.position.y << std::endl;
         /*
         // Update the acceleration based on the global gravity and any accumulated forces on the body.
@@ -170,7 +184,7 @@ namespace physics {
     /**************************************************************************/
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
-        (void)deltaTime;
+        UNREFERENCED_PARAMETER(deltaTime);
         for (const auto& entity : m_Entities) 
         {
             auto& transform = m_ecs.GetComponent<Transform>(entity);

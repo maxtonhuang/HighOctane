@@ -49,8 +49,16 @@
 #include "Editing.h"
 #include "ScriptEngine.h"
 #include "Battle.h"
+#include "EntityFactory.h"
+#include "EngineCore.h"
+#include "CharacterStats.h"
 #include "UIComponents.h"
 
+#define FIXED_DT 1/60.f
+#define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
+
+// Extern for the vector to contain the full name for ImGui for scripting system
+extern std::vector<std::string> fullNameVecImGUI;
 
 /******************************************************************************
 *
@@ -64,66 +72,77 @@
 *
 ******************************************************************************/
 void PhysicsSystem::Update() {
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	bool reqStep{ false };
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
-		switch (msg.type) {
-		case TYPE::KEY_TRIGGERED:
-			if (msg.info == INFO::KEY_8) {
-				reqStep = true;
+
+	//for fixed dt
+	float elapsedTime{};
+	float previousTime{};
+	static double accumulatedTime = 0.0;
+	elapsedTime = g_dt;
+	accumulatedTime += elapsedTime;
+
+	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+		accumulatedTime = MAX_ACCUMULATED_TIME;
+	}
+	while (accumulatedTime >= FIXED_DT) {
+		// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+		bool reqStep{ false };
+		for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
+			switch (msg.type) {
+			case TYPE::KEY_TRIGGERED:
+				if (msg.info == INFO::KEY_8) {
+					reqStep = true;
+				}
+				if (msg.info == INFO::KEY_9) {
+					physics::PHYSICS->ToggleStepMode();
+				}
+				if (msg.info == INFO::KEY_0) {
+					physics::PHYSICS->ToggleDebugMode();
+				}
+				break;
 			}
-			if (msg.info == INFO::KEY_9) {
-				physics::PHYSICS->ToggleStepMode();
-			}
-			if (msg.info == INFO::KEY_0) {
-				physics::PHYSICS->ToggleDebugMode();
-			}
-			break;
 		}
-	}
+		//std::cout << m_Entities.size() << std::endl;
+		// Access component arrays through the ComponentManager
+		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
-	//std::cout << m_Entities.size() << std::endl;
-	// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+		//assumes that there is size component
+		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+		//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-	//assumes that there is size component
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
-
-	for (Entity const& entity : m_Entities) {
-		Size sizeData{ sizeArray.GetData(entity) };
-		Transform transformData{ transformArray.GetData(entity) };
-		transformArray.GetData(entity).halfDimensions = {
-			sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
-		};
-
-	}
-
-	if (physics::PHYSICS->GetStepModeActive()) {
 		for (Entity const& entity : m_Entities) {
-			Transform* transData = &transformArray.GetData(entity);
-			physics::PHYSICS->DebugDraw(*transData);
-			transData->velocity *= .95f;
+			Size sizeData{ sizeArray.GetData(entity) };
+			Transform transformData{ transformArray.GetData(entity) };
+			transformArray.GetData(entity).halfDimensions = {
+				sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
+			};
 		}
-		if (reqStep)
+
+		if (physics::PHYSICS->GetStepModeActive()) {
 			for (Entity const& entity : m_Entities) {
 				Transform* transData = &transformArray.GetData(entity);
-				physics::PHYSICS->Integrate(*transData);
+				physics::PHYSICS->DebugDraw(*transData);
 			}
-	}
-	else {
-		for (Entity const& entity : m_Entities) {
-			Transform* transData = &transformArray.GetData(entity);
-			//Collider* collideData = &colliderArray.GetData(entity);
-
-			//bodyData->velocity = transData->velocity;
-
-			physics::PHYSICS->Integrate(*transData);
-			physics::PHYSICS->DebugDraw(*transData);
+			if (reqStep)
+				for (Entity const& entity : m_Entities) {
+					Transform* transData = &transformArray.GetData(entity);
+					physics::PHYSICS->Integrate(*transData);
+				}
 		}
+		else {
+			for (Entity const& entity : m_Entities) {
+				Transform* transData = &transformArray.GetData(entity);
+				//Collider* collideData = &colliderArray.GetData(entity);
+
+				//bodyData->velocity = transData->velocity;
+
+				physics::PHYSICS->Integrate(*transData);
+				physics::PHYSICS->DebugDraw(*transData);
+			}
+		}
+		//Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
+		accumulatedTime -= FIXED_DT;
 	}
-	//Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 }
 
 /******************************************************************************
@@ -138,49 +157,61 @@ void PhysicsSystem::Update() {
 *
 ******************************************************************************/
 void CollisionSystem::Update() {
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	
-	// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
-	
+	float elapsedTime{};
+	float previousTime{};
+	static double accumulatedTime = 0.0;
+	elapsedTime = g_dt;
+	accumulatedTime += elapsedTime;
 
-	//std::cout << m_Entities.size() << std::endl;
-	for (Entity const& entity1 : m_Entities) {
-		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
-			Transform* transData1 = &transformArray.GetData(entity1);
-			Collider* collideData1 = &colliderArray.GetData(entity1);
-
-			for (Entity const& entity2 : m_Entities) {
-				if (entity1 != entity2) {
-					Transform* transData2 = &transformArray.GetData(entity2);
-					Collider* collideData2 = &colliderArray.GetData(entity2);
-
-					bool collided{};
-					if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-						collided = physics::CheckCollisionBoxBox(*transData1, *transData2);
-					}
-					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-						collided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
-					}
-					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-						collided = physics::CheckCollisionCircleBox(*transData1, *transData2);
-					}
-					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-						collided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
-					}
-					else
-						collided = false;
-					
-					if (collided == true) { physics::DynamicStaticResponse(*transData1); }
-				}
-			}
-			transData1->velocity = { RESET_VEC2 };
-		}
+	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+		accumulatedTime = MAX_ACCUMULATED_TIME;
 	}
-	//Mail::mail().mailbox[ADDRESS::COLLISION].clear();
+
+	while (accumulatedTime >= FIXED_DT) {
+		// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+		// Access component arrays through the ComponentManager
+		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+
+		//std::cout << m_Entities.size() << std::endl;
+		for (Entity const& entity1 : m_Entities) {
+			if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
+				Transform* transData1 = &transformArray.GetData(entity1);
+				Collider* collideData1 = &colliderArray.GetData(entity1);
+
+				for (Entity const& entity2 : m_Entities) {
+					if (entity1 != entity2) {
+						Transform* transData2 = &transformArray.GetData(entity2);
+						Collider* collideData2 = &colliderArray.GetData(entity2);
+
+						bool collided{};
+						if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+							collided = physics::CheckCollisionBoxBox(*transData1, *transData2);
+						}
+						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+							collided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
+						}
+						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+							collided = physics::CheckCollisionCircleBox(*transData1, *transData2);
+						}
+						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+							collided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
+						}
+						else
+							collided = false;
+
+						if (collided == true) { physics::DynamicStaticResponse(*transData1); }
+					}
+				}
+				//transData1->velocity = { RESET_VEC2 };
+			}
+		}
+		//Mail::mail().mailbox[ADDRESS::COLLISION].clear();
+		accumulatedTime -= FIXED_DT;
+	}
 }
 
 /******************************************************************************
@@ -315,47 +346,122 @@ void GraphicsSystem::Update() {
 *
 ******************************************************************************/
 void SerializationSystem::Update() {
+	if (saveFile) {
+		Serializer::SaveEntityToJson(SaveFileDialog(), m_Entities);
+		saveFile = false;
+	}
 	
-	Serializer::SaveEntityToJson("../Assets/Scenes/SceneEntities.json", m_Entities);
+	if (destroyAll) {
+		std::vector<Entity> entitylist{};
+		EntityFactory::entityFactory().masterEntitiesList.clear();
+		for (Entity e : m_Entities) {
+			entitylist.push_back(e);
+		}
+		for (Entity e : entitylist) {
+			ECS::ecs().DestroyEntity(e);
+		}
+		destroyAll = false;
+	}
+
+
 	
 }
 
 
 void ScriptSystem::Initialize() {
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	std::cout << "System.cpp::ScriptSystem::Initialize" << std::endl;
-	std::cout << "System.cpp::ScriptSystem::Initialize::size: " << m_Entities.size() << std::endl;
-	for (Entity const& entity : m_Entities) {
-		Name* name = &nameArray.GetData(entity);
-		ScriptEngine::OnCreateEntity(entity);
-		std::cout << "System.cpp::ScriptSystem::Initialize: " << name->name << std::endl;
-	}
 
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
+
+	// Iterate through all entities with a script component
+	for (const Entity& entity : m_Entities) {
+
+
+
+		// Get the script component
+		Script* s = &ECS::ecs().GetComponent<Script>(entity);
+		if (!s) {
+			// If there's no script associated with the entity, just continue to the next iteration.
+			continue;
+		}
+
+
+		// Get the name component
+		Script& script = scriptArray.GetData(entity);
+		Name* name = &nameArray.GetData(entity);
+
+
+		// For every entity, add the name to the fullNameVecImGUI vector
+		for (auto& fullName : fullNameVecImGUI) {
+			script.scriptNameVecForImGui.push_back(fullName);
+		}
+
+		//std::cout << "These are the entity names " << name->name << std::endl;
+
+		/*------------TEMPORARY HARD CODE-----------*/
+		std::unordered_map<std::string, std::vector<std::string>> entityScripts = {
+			// Will be taken from ImGui property page next time
+			// The format will be
+			// {name.name}, {scriptNameVecForImGui} I think
+			{"entity_00001", {"Sandbox.Player"}},
+			{"entity_00002", {"PlayerController.PlayerMovement"}}
+		};
+		/*------------TEMPORARY HARD CODE-----------*/
+
+		// Get the script names from the entityScripts map
+		for (auto& [key, value] : entityScripts) {
+			if (key == name->name) {
+				script.scriptNameVec = value;
+			}
+		}
+
+		//// Get the name of the entity
+		///*------------TEMPORARY HARD CODE-----------*/
+		//if (name->name == "entity_00001") { 
+
+		//	// Add the script names to the script component and it should run the script
+		//	script.scriptNameVec.push_back("Sandbox.Player");
+		//	script.scriptNameVec.push_back("Sandbox.PlayerController");
+		//	script.className = name->name;
+		//}
+
+		//if (name->name == "entity_00002") { // Kai say this one is the duck
+
+		//	// Add the script names to the script component and it should run the script
+		//	//script.scriptNameVec.push_back("Sandbox.Player");
+		//	script.className = name->name;
+		//}
+		/*------------TEMPORARY HARD CODE-----------*/
+
+
+		// Debug Log
+		std::cout << "Entity: " << name->name << ", Scripts: " << script.scriptNameVec.size() << std::endl;
+
+		// If the script has a className, then initialize it in the script engine.
+		if (!script.scriptNameVec.empty()) {
+			ScriptEngine::OnCreateEntity(entity);
+			std::cout << "Initializing Script for Entity: " << name->name << std::endl;
+		}
+	}
 }
+
 
 // Scripting
 void ScriptSystem::Update() {
-	//// Access the ComponentManager through the ECS class
-	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
-	//auto& screenArray = componentManager.GetComponentArrayRef<Screen>();
-	//std::cout << "ScriptSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
-
-
-	//for (Entity const& entity : m_Entities) {
-	//	Screen* s = &screenArray.GetData(entity);
-	//	script.RunScript(s);
-	//}
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+
 	//std::cout << "System.cpp::ScriptSystem::Update::size: " << m_Entities.size() << std::endl;
+
+	// Iterate through all entities with a script component
 	for (Entity const& entity : m_Entities) {
-		Name* name = &nameArray.GetData(entity);
+		//Name* name = &nameArray.GetData(entity);
 		ScriptEngine::OnUpdateEntity(entity);
-		//std::cout << "System.cpp::ScriptSystem::Update: " << name->name << std::endl;
 	}
+
 	// scripts
 	ScriptEngine::OnRuntimeStart();
 
@@ -392,17 +498,15 @@ void GameplaySystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	// Access component arrays through the ComponentManager
-	auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
+	//auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& characterArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		Tex* tex = &texArray.GetData(entity);
-		Animator* anim = &animatorArray.GetData(entity);
+		CharacterStats* cs = &characterArray.GetData(entity);
 	}
 }
 

@@ -1,6 +1,7 @@
 [
     {
-        "Entity Name": "Duck",
+        "Entity ID": 1,
+        "Entity Name": "master_00001",
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -11,7 +12,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale_x": 1.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -37,7 +38,8 @@
         }
     },
     {
-        "Entity Name": "Duck",
+        "Entity ID": 2,
+        "Entity Name": "entity_00001",
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -48,7 +50,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale_x": 1.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -74,7 +76,8 @@
         }
     },
     {
-        "Entity Name": "Duck",
+        "Entity ID": 3,
+        "Entity Name": "entity_00002",
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -85,7 +88,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale_x": 1.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -114,6 +117,6 @@
         }
     },
     {
-        "Entity Name": "Duck"
+        "Entity ID": 4
     }
 ]

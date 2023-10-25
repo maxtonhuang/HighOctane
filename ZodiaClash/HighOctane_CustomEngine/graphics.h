@@ -85,6 +85,12 @@ private:
 	GLFWwindow* window;
 	int width;
 	int height;
+
+	//FOR RETURNING BACK FROM FULLSCREEN TO WINDOWED
+	int previousX;
+	int previousY;
+	int previousWidth;
+	int previousHeight;
 };
 
 extern GraphicsManager graphics;

@@ -36,10 +36,7 @@ void Viewport::Use() {
 }
 
 void Viewport::Unuse() {
-	int width;
-	int height;
-	glfwGetWindowSize(graphics.GetWindow(), &width, &height);
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, (GLsizei)graphics.GetWindowWidth(), (GLsizei)graphics.GetWindowHeight());
 }
 
 void Viewport::SetViewport(int input_x, int input_y, unsigned int input_w, unsigned int input_h) {

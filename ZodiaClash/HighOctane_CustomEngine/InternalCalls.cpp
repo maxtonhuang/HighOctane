@@ -42,14 +42,51 @@ namespace internalcalls {
         return false;
     }
 
+    // This function is to get the horizontal axis on C# side
+    static int GetAxisHorizontal() {
+        for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
+            switch (msg.type) {
+			case TYPE::KEY_TRIGGERED:
+                if (msg.info == INFO::KEY_A || msg.info == INFO::KEY_LEFT) {
+					return -1;
+				}
+                else if (msg.info == INFO::KEY_D || msg.info == INFO::KEY_RIGHT) {
+					return 1;
+				}
+				break;
+			}
+		}
+		return 0;
+	}
+
+    // This function is to get the vertical axis on C# side
+    static int GetAxisVertical() {
+        for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
+            switch (msg.type) {
+            case TYPE::KEY_TRIGGERED:
+                if (msg.info == INFO::KEY_S || msg.info == INFO::KEY_DOWN) {
+                    return -1;
+                }
+                else if (msg.info == INFO::KEY_W || msg.info == INFO::KEY_UP) {
+                    return 1;
+                }
+                break;
+            }
+        }
+        return 0;
+    }
+
 
 #define ADD_INTERNAL_CALL(name) mono_add_internal_call("InternalCalls::" #name, name);
 
     // This should be a class
-    void addInternalCalls() {
+    void AddInternalCall() {
         ADD_INTERNAL_CALL(Log);
         ADD_INTERNAL_CALL(GetKeyDown);
         ADD_INTERNAL_CALL(LogVector3);
+        ADD_INTERNAL_CALL(GetAxisHorizontal);
+        ADD_INTERNAL_CALL(GetAxisVertical);
+
     }
 
 }

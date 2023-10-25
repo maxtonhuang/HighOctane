@@ -63,12 +63,20 @@ void InitConsole() {
 */
 void UpdateConsole() { 
     
+    ImGui::Begin("Testing script thing");
+
+    ImGui::Text("Hello world");
+    if (ImGui::Button("Test add script")) {
+        std::cout << "Script added" << std::endl;
+    }
+    ImGui::End();
+
     static char filterBuffer[256] = "";
     static char fileNameBuffer[31] = "";
     static bool autoScroll = true;
     // Change the colour for my console window
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.2f, 0.2f, 0.2f, 1.0f)); // Change to your desired color
-
+    
     if (ImGui::Begin("Console")) {
 
         // Push the width of the input text box

@@ -10,36 +10,7 @@ using System.Runtime.InteropServices;
 // [SerializeField] pubcli GameObject pauseScreen;
 
 // Create a class that all inherit from
-public abstract class MonoBehaviour
-{
-    virtual public void Start()
-    {
 
-    }
-
-    virtual public void Update()
-    {
-
-    }
-
-    // Can have a on shut down
-    virtual public void ShutDown()
-    {
-
-    }
-
-    // Can have a on triggered, or even a set active?
-    virtual public void OnTriggered()
-    {
-
-    }
-
-    virtual public void SetActive()
-    {
-
-    }
-
-}
 
 
 // In mono, detect the base class, then all the one inherit will be detected

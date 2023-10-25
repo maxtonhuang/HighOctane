@@ -33,6 +33,7 @@
 
 #include "GameStateManager.h"
 #include "Battle.h"
+#include "CharacterStats.h"
 
 int current = 0, previous = 0, next = 0;
 

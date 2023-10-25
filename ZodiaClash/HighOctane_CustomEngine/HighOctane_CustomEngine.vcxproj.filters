@@ -224,6 +224,12 @@
     <ClInclude Include="PlayerAction.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsInterlink.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -361,6 +367,12 @@
     </ClCompile>
     <ClCompile Include="UIComponents.cpp">
       <Filter>UIComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsInterlink.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

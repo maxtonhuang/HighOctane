@@ -44,7 +44,6 @@
 #include "model.h"
 #include "Global.h"
 #include "AssetManager.h"
-#include <shobjidl.h>
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -137,13 +136,25 @@ void Serializer::SerializeCSV(const std::string& file) {
 	}
 }
 
+rapidjson::Value SerializeName(const Name& entityName, rapidjson::Document::AllocatorType& allocator) {
+	/*rapidjson::Value nameValue(rapidjson::kStringType);
+	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
+	return nameValue;*/
+	rapidjson::Value nameObject(rapidjson::kObjectType);
+	rapidjson::Value nameValue;
+	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
+	nameObject.AddMember("Name", nameValue, allocator);
+	nameObject.AddMember("Selected", entityName.selected, allocator);
+	return nameObject;
+
+}
 
 rapidjson::Value SerializeTransform(const Transform& transform, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value transformObject(rapidjson::kObjectType);
 	transformObject.AddMember("position_x", transform.position.x, allocator);
 	transformObject.AddMember("position_y", transform.position.y, allocator);
 	transformObject.AddMember("rotation", transform.rotation, allocator);
-	transformObject.AddMember("scale_x", transform.scale, allocator);
+	transformObject.AddMember("scale", transform.scale, allocator);
 	transformObject.AddMember("velocity_x", transform.velocity.x, allocator);
 	transformObject.AddMember("velocity_y", transform.velocity.y, allocator);
 	return transformObject;
@@ -215,6 +226,28 @@ rapidjson::Value SerializeAnimation(const Animator& anim, rapidjson::Document::A
 	animObject.AddMember("Frame Display Duration", anim.GetFrameDisplayDuration() , allocator);
 	return animObject;
 }
+rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value scriptObject(rapidjson::kObjectType);
+
+	// Serialize the className
+	scriptObject.AddMember("className", rapidjson::Value(script.className.c_str(), allocator).Move(), allocator);
+
+	// Serialize the scriptNameVec
+	rapidjson::Value scriptNameArray(rapidjson::kArrayType);
+	for (const std::string& name : script.scriptNameVec) {
+		scriptNameArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
+	}
+	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
+
+	// Serialize the scriptNameVecForImGui
+	rapidjson::Value scriptNameVecForImGuiArray(rapidjson::kArrayType);
+	for (const std::string& name : script.scriptNameVecForImGui) {
+		scriptNameVecForImGuiArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
+	}
+	scriptObject.AddMember("scriptNameVecForImGui", scriptNameVecForImGuiArray, allocator);
+
+	return scriptObject;
+}
 
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
@@ -231,18 +264,26 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
 	Animator* anim = nullptr;
-	
+	Name* name = nullptr;
+	Script* script = nullptr;
+	//Entity* entity = nullptr;
+
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
 
 		rapidjson::Value entityObject(rapidjson::kObjectType);
 
-		entityObject.AddMember("Entity Name", "Duck", allocator);
+		entityObject.AddMember("Entity ID", entity, allocator);
+
+		if (ECS::ecs().HasComponent<Name>(entity)) {
+			name = &ECS::ecs().GetComponent<Name>(entity);
+			rapidjson::Value nameObject = SerializeName(*name, allocator);
+			entityObject.AddMember("Entity", nameObject, allocator);
+		}
 		if (ECS::ecs().HasComponent<Color>(entity)) {
 			color = &ECS::ecs().GetComponent<Color>(entity);
 			rapidjson::Value colorObject = SerializeColor(*color, allocator);
 			entityObject.AddMember("Color", colorObject, allocator);
-
 		}
 		if (ECS::ecs().HasComponent<Transform>(entity)) {
 			transform = &ECS::ecs().GetComponent<Transform>(entity);
@@ -283,6 +324,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			anim = &ECS::ecs().GetComponent<Animator>(entity);
 			rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
 			entityObject.AddMember("Animation", animationObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Script>(entity)) {
+			script = &ECS::ecs().GetComponent<Script>(entity);
+			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
+			entityObject.AddMember("Scripts", scriptObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -325,9 +371,14 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 		Entity entity = ECS::ecs().CreateEntity();
 
-		if (entityObject.HasMember("Entity Name")) {
-			std::string entityName = entityObject["Entity Name"].GetString();
-			EntityFactory::entityFactory().masterEntitiesList[entityName] = entity;
+		if (entityObject.HasMember("Entity")) {
+			//std::string entityName = entityObject["Entity Name"].GetString();
+			//EntityFactory::entityFactory().masterEntitiesList[entityName] = entity;
+			const rapidjson::Value& nameObject = entityObject["Entity"];
+			Name name{};
+			name.name = nameObject["Name"].GetString();
+			name.selected = nameObject["Selected"].GetBool();
+			ECS::ecs().AddComponent<Name>(entity, name);
 		}
 
 		if (entityObject.HasMember("Color")) {
@@ -414,9 +465,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent<AABB>(entity, aabb);
 		}
 
-		if (entityObject.HasMember("Animator")) {
+		if (entityObject.HasMember("Animation")) {
 			std::cout << ((ECS::ecs().isComponentTypeRegistered<Animator>()) ? "Anim is registered" : "Anim is not registered") << std::endl;
-			const rapidjson::Value& animObject = entityObject["Animator"];
+			const rapidjson::Value& animObject = entityObject["Animation"];
 			Animator anim{ 
 				static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()), 
 				animObject["Frame Display Duration"].GetFloat() 
@@ -427,9 +478,35 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
 			ECS::ecs().AddComponent<Animator>(entity, anim);
 		}
+		if (entityObject.HasMember("Scripts")) {
+			const rapidjson::Value& scriptObject = entityObject["Scripts"];
+			Script script;
 
+			if (scriptObject.HasMember("className")) {
+				script.className = scriptObject["className"].GetString();
+			}
+			if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
+				const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
+				for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
+					if (scriptNameArray[j].IsString()) {
+						script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+					}
+				}
+			}
+			if (scriptObject.HasMember("scriptNameVecForImGui") && scriptObject["scriptNameVecForImGui"].IsArray()) {
+				const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVecForImGui"];
+				for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
+					if (scriptNameArray[j].IsString()) {
+						script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+					}
+				}
+			}
+			ECS::ecs().AddComponent<Script>(entity, script);
+
+		}
 		ECS::ecs().AddComponent(entity, Model{});
 		ECS::ecs().AddComponent(entity, MainCharacter{});
+		ECS::ecs().AddComponent(entity, Clone{});
 	}
 
 	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
@@ -462,70 +539,20 @@ void LoadConfig() {
 	ifs.close();
 }
 
+void WriteSpriteConfig(const char* filename, int rows, int cols) {
+	std::string tempFilename = filename;
+	std::ostringstream oss;
+	oss << "..\\Assets\\Textures\\" << tempFilename.substr(0, tempFilename.find_last_of('.')) << ".spritesheet";
 
-std::vector<std::string> OpenFileDialog() {
-
-	std::vector<std::string> filesList;
-
-	// Initialize COM
-	CoInitialize(NULL);
-
-	// Create the File Open Dialog
-	IFileOpenDialog* p_fod = NULL; // Pointer to FileOpenDialog
-	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&p_fod));
-
-	if (SUCCEEDED(hr)) {
-
-		// Set the options for multiple file selection
-		DWORD dwOptions;
-		hr = p_fod->GetOptions(&dwOptions);
-		if (SUCCEEDED(hr)) {
-			hr = p_fod->SetOptions(dwOptions | FOS_ALLOWMULTISELECT);
-		}
-
-		// Show the dialog
-		hr = p_fod->Show(NULL);
-
-		// Get the chosen files if the user didn't cancel
-		if (SUCCEEDED(hr)) {
-			IShellItemArray* p_Results = NULL; // Pointer to Results. This is a pointer to an IShellItemArray, which is an array of shell items. Each shell item represents a file that was selected.
-			hr = p_fod->GetResults(&p_Results);
-			if (SUCCEEDED(hr)) {
-				DWORD count = 0;
-				p_Results->GetCount(&count);
-				for (DWORD i = 0; i < count; i++) {
-					IShellItem* p_si; // Pointer to ShellItem. It points to a single IShellItem object, which represents a single selected file.
-					hr = p_Results->GetItemAt(i, &p_si);
-					if (SUCCEEDED(hr)) {
-						PWSTR p_szPath; // Pointer to Zero-terminated String, aka wchar_t*, because this project is in Unicode.
-						hr = p_si->GetDisplayName(SIGDN_FILESYSPATH, &p_szPath); // use "SIGDN_FILESYSPATH" for full file path. use "SIGDN_NORMALDISPLAY" for filename.
-
-						if (SUCCEEDED(hr)) {
-							// pszPath contains the full path to one of the chosen files
-
-							// Convert PWSTR (wide string) to std::string
-							int stringSize = WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, NULL, 0, NULL, NULL);
-							std::string convertedPath(stringSize, 0);
-							WideCharToMultiByte(CP_UTF8, 0, p_szPath, -1, &convertedPath[0], stringSize, NULL, NULL);
-
-							// Remove the extra null terminator from the string
-							convertedPath.pop_back();
-
-							filesList.emplace_back(convertedPath);
-							CoTaskMemFree(p_szPath);
-						}
-						p_si->Release();
-					}
-				}
-				p_Results->Release();
-			}
-		}
-		p_fod->Release();
+	// Open the file
+	std::ofstream ofs(oss.str().c_str());
+	if (!ofs.is_open()) {
+		// Check if the file is open
+		std::cerr << "Unable to write spritesheet config!" << std::endl;
 	}
 
-	// Cleanup COM
-	CoUninitialize();
+	ofs << filename << "\n" << rows << "\n" << cols << "\n" << rows * cols;
 
-	return filesList;
+	// Close the file
+	ofs.close();
 }
-

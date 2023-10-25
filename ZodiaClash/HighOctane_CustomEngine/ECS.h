@@ -73,7 +73,7 @@
 using Entity = std::uint32_t;
 
 // Maximum number of entities
-const Entity MAX_ENTITIES = 1'000'000;
+const Entity MAX_ENTITIES = 100'000;
 
 using ComponentType = std::uint8_t;
 

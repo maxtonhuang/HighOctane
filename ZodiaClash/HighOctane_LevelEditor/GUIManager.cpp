@@ -44,13 +44,20 @@
 #include "ImGuiEntitiesManager.h"
 #include "ImGuiPlayStop.h"
 #include "ImGuiAssetLibrary.h"
+#include "ImGuiMenuBar.h"
+#include "ImGuiSceneHierarchy.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
+#include "AssetManager.h"
+#include "Global.h"
+#include <algorithm>
 
 
 constexpr float fontSize = 20.f;
 constexpr float fontSizeLarge = 50.f;
 ImFont* latoLargeBold;
+ImGuiStyle originalStyle;
+bool firstSet = false;
 
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
@@ -70,8 +77,6 @@ GUIManager::~GUIManager()
 }
 
 
-// Our state
-//bool show_demo_window;
 
 void GUIManager::Init()
 {
@@ -109,12 +114,34 @@ void GUIManager::Init()
 void GUIManager::Update()
 {
     GLFWwindow* window = graphics.GetWindow();
+    
+    // blinks entire window if Drag & Drop file is released
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (fileDropped && !firstSet) {
+        
+        // save the original style to revert later on
+        originalStyle = style;
+        firstSet = true;
+
+        // change ImGui style to a faded appearance
+        for (int i = 0; i < ImGuiCol_COUNT; i++)
+        {
+            ImVec4& col = style.Colors[i];
+            col.x = std::min(col.x * 4.f, 1.0f);
+            col.y = std::min(col.y * 4.f, 1.0f);
+            col.z = std::min(col.z * 4.f, 1.0f);
+        }
+    }
+    else if (!fileDropped) {
+        style = originalStyle;
+    }
+
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     // Create the main dockable window
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse;
     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(main_viewport->WorkPos);
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
@@ -130,15 +157,8 @@ void GUIManager::Update()
         
     }
 
-    // Create a menu bar for the window
-    if (ImGui::BeginMenuBar()) {
-        if (ImGui::BeginMenu("Files")) {
-            ImGui::MenuItem("Load Scene");
-            ImGui::MenuItem("Save Scene");
-            ImGui::EndMenu();
-        }
-        ImGui::EndMenuBar();
-    }
+    UpdateMenuBar();
+
     ImGui::End();
     
    /* if (show_demo_window)
@@ -166,20 +186,20 @@ void GUIManager::Update()
         else if ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) {
             ImGui::Dummy(ImVec2(0, ((ySizeAvailable - (xSizeAvailable * 9.f / 16.f)) / 2.f)));
         }
-        ImGuiWindow* window = ImGui::GetCurrentWindow();
+        ImGuiWindow* ImWindow = ImGui::GetCurrentWindow();
         float w = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? xSizeAvailable : (ySizeAvailable * 16.f / 9.f);
         float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
-        graphics.viewport.SetViewport(window->DC.CursorPos.x,graphics.GetWindowHeight() - window->DC.CursorPos.y - h,w,h);
+        graphics.viewport.SetViewport((int)ImWindow->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - ImWindow->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
         ImGui::Image((void*)textureID, ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
         ImGui::End();
     }
   
-    // Update the console
+    // Update Panels
     UpdateConsole();
     UpdateEntitiesManager();
     UpdatePlayStop();
     UpdateAssetLibrary();
-
+    UpdateSceneHierachy();
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console
     UpdatePerformance();
@@ -196,4 +216,11 @@ glfwGetFramebufferSize(window, &display_w, &display_h);
 //
 //   // glfwSwapBuffers(window);
 
+    dropTimer = ((dropTimer - g_dt) <= 0.f) ? 0.f : (dropTimer - g_dt);
+
+    if (dropTimer == 0.f) {
+        fileDropped = false;
+        firstSet = false;
+    }
+    
 }

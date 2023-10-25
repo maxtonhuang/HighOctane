@@ -183,6 +183,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h" />
+    <ClInclude Include="Attack.h" />
     <ClInclude Include="EnemyAction.h" />
     <ClInclude Include="GameAILogic.h" />
     <ClInclude Include="Animator.h" />
@@ -234,8 +235,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="UIComponents.h" />
     <ClInclude Include="Viewport.h" />
     <ClInclude Include="VMath.h" />
+    <ClInclude Include="WindowsInterlink.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="EnemyAction.cpp" />
     <ClCompile Include="GameAILogic.cpp" />
     <ClCompile Include="Animator.cpp" />
@@ -282,6 +285,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="UIComponents.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Viewport.cpp" />
+    <ClCompile Include="WindowsInterlink.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

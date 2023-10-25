@@ -182,6 +182,9 @@ public:
 void LoadConfig();
 
 
+void WriteSpriteConfig(const char* filename, int rows, int cols);
+
+
 /***********************************Testing for CSV Parser*******************************************/
 class PseudoCharacter {
 public:
@@ -203,4 +206,5 @@ enum class CharacterComponents {
 	MAINCHARACTER
 };
 
-std::vector<std::string> OpenFileDialog();
+//std::vector<std::string> OpenFileDialog();
+std::string SaveFileDialog();

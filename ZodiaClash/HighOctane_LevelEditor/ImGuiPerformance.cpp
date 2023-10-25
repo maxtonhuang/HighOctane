@@ -70,6 +70,7 @@ void InitPerformance() {
 void UpdatePerformance() {
     //ImVec2 windowSize(300.f, systemList.size() * 80.f);
    // ImGui::SetNextWindowSizeConstraints(windowSize, windowSize);
+
     ImGui::Begin("Percent Usage");
 
     /************** FPS ***************/

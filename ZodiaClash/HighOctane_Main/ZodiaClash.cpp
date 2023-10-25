@@ -66,8 +66,9 @@
 #include <rttr/registration>
 #include "CharacterStats.h"
 #include "Battle.h"
+#include "EnemyAction.h"
+#include "PlayerAction.h"
 #include "UIComponents.h"
-
 #include "Reflections.h"
 
 bool gConsoleInitalized{ false };
@@ -159,7 +160,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 
     EngineCore::engineCore(); // Instantiate Engine Core
-	ScriptEngine::Init(); // Script Engine should be same level as ECS
+	
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -216,6 +217,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
+	ScriptEngine::Init(); // Script Engine should be same level as ECS
 
 // Register components to be used in the ECS
 	ECS::ecs().Init();
@@ -237,6 +239,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
+	ECS::ecs().RegisterComponent<PlayerAction>();
+	ECS::ecs().RegisterComponent<EnemyAction>();
 
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
@@ -281,6 +285,7 @@ void EngineCore::Run(bool const& mode) {
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
 	systemList.emplace_back(serializationSystem, "Serialization System");
+	s_ptr = serializationSystem;
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
