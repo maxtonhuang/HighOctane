@@ -474,6 +474,7 @@ void GameplaySystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	// Access component arrays through the ComponentManager
+	//auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& characterArray = componentManager.GetComponentArrayRef<CharacterStats>();

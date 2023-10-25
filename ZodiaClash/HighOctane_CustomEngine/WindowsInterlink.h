@@ -4,7 +4,7 @@
 #include <string>
 #include "graphlib.h"
 
-std::vector<std::string> OpenFileDialog();
+void OpenFileDialog();
 
 void FileDropCallback(GLFWwindow* window, int count, const char** paths);
 
