@@ -52,4 +52,4 @@ extern bool fileDropped;
 extern float dropTimer;
 extern std::deque<std::string> importFileList;
 extern int importFileCount;
-extern std::vector<std::string> fullNameVecImGUI{};
+extern std::vector<std::string> fullNameVecImGUI;
