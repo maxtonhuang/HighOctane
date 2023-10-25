@@ -135,9 +135,12 @@ void SceneEntityComponents(Entity entity) {
 					}
 				}
 			}
-
-
 			ImGui::TreePop();
+			if (ImGui::Button("Add Script")) {
+				std::cout << "Script added\n";
+				// Add the selected script to the entity
+				//ECS::ecs().AddComponent<Script>(entity, Script{ fullNameVecImGUI[0] });
+			}
 		}
 	}
 }
