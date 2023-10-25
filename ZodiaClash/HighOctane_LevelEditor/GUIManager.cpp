@@ -46,6 +46,7 @@
 #include "ImGuiAssetLibrary.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
+#include "AssetManager.h"
 #include "Global.h"
 #include <algorithm>
 
@@ -159,8 +160,16 @@ void GUIManager::Update()
     // Create a menu bar for the window
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("Files")) {
-            ImGui::MenuItem("Load Scene");
-            ImGui::MenuItem("Save Scene");
+            if (ImGui::MenuItem("Load Scene")) {
+
+            }
+            if (ImGui::MenuItem("Save Scene")) {
+                button_clicked = true;
+            }
+            if (ImGui::MenuItem("Close Scene")) {
+                //if()
+                assetmanager.UnloadAll();
+            }
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();

@@ -21,15 +21,13 @@ protected:
             }
             else if (enemyState == ATTACKING) {
                 if (!enemyAttacking) {
-                    // EnemyToggleSkillText(true);
                     EnemyUseSkill();
                 }
-                // EnemyMovement();
             }
             else if (enemyState == ENDING) {
                 battleSystem.battleState = NEXTTURN;
                 // skill
-                skillSelect.selectedSkillPrefab.isnull = true;  // Marking the character as inactive or "dead"
+                skillSelect.selectedSkillPrefab.isnull = true;  // marking the character as inactive or "dead"
                 targetSelect.selectedTarget.clear();
 
                 // target
@@ -46,18 +44,17 @@ protected:
 
 
     void EnemySelection() {
-        // Generate a random index
-        std::random_device rd;
+        std::random_device rd; // Generate a random index
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distrib(0, targetSelect.playerTargets.size() - 1);
 
         int randomIndex = distrib(gen);
 
-        // Assuming selectedTarget is a vector and we're setting its first element
+        //selectedTarget is a vector and we're setting its first element
         targetSelect.selectedTarget[0] = targetSelect.playerTargets[randomIndex];
 
-        std::string output = "Enemy Selected Target: " + targetSelect.selectedTarget[0].name + "\n";
-        //debuglog::Logger::debug(output);
+        std::string output = "Enemy Selected Target: " + targetSelect.selectedTarget[0]->name + "\n";
+        DEBUG_PRINT("%s", output);
 
         skillSelect.selectedSkillPrefab = skillSelect.skill1Prefab;
         enemyState = ATTACKING;

@@ -9,21 +9,21 @@ void CharacterStats::Start()
     checkedStatus = false;
 }
 
-void CharacterStats::Death()
-{
-    //if (gameObject.tag == "Player")
-    //{
-    //    // Assuming you have a way to get the _PlayerAction component from the gameObject
-    //    PlayerAction player = gameObject.GetComponent<_PlayerAction>();
-    //    player.playerState = DYING;
-    //}
-    //else if (gameObject.tag == "Enemy")
-    //{
-    //    // Assuming you have a way to get the EnemyAction component from the gameObject
-    //    EnemyAction enemy = gameObject.GetComponent<EnemyAction>();
-    //    enemy.enemyState = DYING;
-    //}
-}
+//void CharacterStats::Death(Entity& entity)
+//{
+//    if (gameObject.tag.tag == "Player")
+//    {
+//        // Assuming you have a way to get the _PlayerAction component from the gameObject
+//        PlayerAction player = ECS::ecs().GetComponent<PlayerAction>();
+//        player.playerState = DYING;
+//    }
+//    else if (gameObject.tag.tag == "Enemy")
+//    {
+//        // Assuming you have a way to get the EnemyAction component from the gameObject
+//        EnemyAction enemy = ECS::ecs().GetComponent<EnemyAction>();
+//        enemy.enemyState = DYING;
+//    }
+//}
 
 
 void CharacterStats::TakeDamage(float damage) 
@@ -32,7 +32,7 @@ void CharacterStats::TakeDamage(float damage)
     if (stats.health <= 0)
     {
         stats.health = 0;
-        Death();
+        //Death();
     }
 }
 

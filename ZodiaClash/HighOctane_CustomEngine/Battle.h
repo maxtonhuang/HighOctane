@@ -47,9 +47,9 @@ struct TurnManagement
 {
 	std::string activePlayer;
 	std::string activeEnemy;
-	std::vector <CharacterStats> characterList;
-	std::vector <CharacterStats> turnOrderList;
-	std::vector <CharacterStats> originalTurnOrderList;
+	std::list <CharacterStats> characterList;
+	std::list <CharacterStats*> turnOrderList;
+	std::list <CharacterStats*> originalTurnOrderList;
 };
 struct RoundManagement
 {
@@ -67,10 +67,12 @@ public:
 	void Update() override;
 
 private:
-	CharacterStats activeCharacter;
+	CharacterStats* activeCharacter;
 	std::vector <GameObject> gameObjects;
 	bool roundInProgress;
 
 	BattleState NewGameDelay(float startDelay, float nextDelay);
 	void DetermineTurnOrder();
+	void SwitchTurnOrder(CharacterStats* target);
+	void RevertTurnOrder(CharacterStats* target);
 };

@@ -45,3 +45,4 @@ float dropTimer{};
 
 std::deque<std::string> importFileList;
 int importFileCount{ };
+std::vector<std::string> fullNameVecImGUI{};

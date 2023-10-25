@@ -7,47 +7,55 @@ using System.Threading.Tasks;
 
 namespace Sandbox
 {
-    internal class Player : Entity
+    internal class Player : MonoBehaviour
     {
-
-        void OnCreate()
+        public override void Start()
         {
             //Console.WriteLine("Player OnCreate");
 
         }
 
-        void OnUpdate()
+        public override void Update()
         {
-            //Console.WriteLine($"Player OnUpdate:");
-            if (Debug.GetKeyDown(INFO.KEY_W))
+
+            if (Input.GetAxisHorizontal() == 1)
             {
-                Debug.Log("W is pressed from C#");
+                //Debug.Log("Right");
+                Console.WriteLine("Right");
             }
-            if (Debug.GetKeyDown(INFO.KEY_A))
+            else if (Input.GetAxisHorizontal() == -1)
             {
-                Debug.Log("A is pressed from C#");
+                //Debug.Log("Left");
+                Console.WriteLine("Left");
             }
-            if (Debug.GetKeyDown(INFO.KEY_S))
+
+            if (Input.GetAxisVertical() == 1)
             {
-                Debug.Log("S is pressed from C#");
+                //Debug.Log("Up");
+                Console.WriteLine("Up");
             }
-            if (Debug.GetKeyDown(INFO.KEY_D))
+
+            else if (Input.GetAxisVertical() == -1)
             {
-                Debug.Log("D is pressed from C#");
+                //Debug.Log("Down");
+                Console.WriteLine("Down");
             }
         }
     }
 
-    internal class PlayerController : Entity
+}
+namespace PlayerController
+{
+    internal class PlayerMovement : MonoBehaviour
     {
-        void OnCreate()
+        public override void Start()
         {
-            Console.WriteLine("PlayerController OnCreate");
+            Console.WriteLine("PlayerMovement OnCreate");
         }
 
-        void OnUpdate()
+        public override void Update()
         {
-            Console.WriteLine($"PlayerController OnUpdate");
+            //Console.WriteLine($"PlayerMovement OnUpdate");
         }
     }
 }
