@@ -41,6 +41,8 @@ More important overloads
 
 namespace vmath {
 
+	constexpr float PI = 3.141592653589793238463f;
+
 	/**************************************************************************/
 	/*!
 		@class Vector2
@@ -251,7 +253,7 @@ namespace vmath {
 					return this->y;
 				}
 				else {
-					std::cout << "Index out of range" << std::endl;
+					std::cout << "Index out of range 1" << std::endl;
 					return this->x;
 				}
 			}
@@ -265,7 +267,7 @@ namespace vmath {
 					return this->y;
 				}
 				else {
-					std::cout << "Index out of range" << std::endl;
+					std::cout << "Index out of range 2" << std::endl;
 					return this->x;
 				}
 			}
@@ -519,7 +521,7 @@ namespace vmath {
 					return this->z;
 				}
 				else {
-					std::cout << "Index out of range" << std::endl;
+					std::cout << "Index out of range 3" << std::endl;
 					return this->x;
 				}
 			}

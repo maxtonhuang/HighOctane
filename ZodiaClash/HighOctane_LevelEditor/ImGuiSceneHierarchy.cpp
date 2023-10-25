@@ -4,12 +4,16 @@
 #include "Global.h"
 #include <string>
 #include "WindowsInterlink.h"
-Entity currentSelectedEntity;
+#include "AssetManager.h"
+#include "vmath.h"
+Entity currentSelectedEntity{};
 
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
 	for (const Entity& entity : s_ptr->m_Entities) {
-		SceneEntityNode(entity);
+		if (ECS::ecs().HasComponent<Name>(entity)) {
+			SceneEntityNode(entity);
+		}
 	}
 	if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
 		currentSelectedEntity = {};
@@ -66,9 +70,9 @@ void SceneEntityComponents(Entity entity) {
 			auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
 			auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
 			auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
-			ImGui::DragFloat2("Position", &positionComponent[2], 0.5f);
-			ImGui::DragFloat("Rotation", &rotationComponent,0.5f,0.f,360.f);
-			ImGui::DragFloat("Scale", &scaleComponent,0.5f,0.f,100.f);
+			ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
+			ImGui::DragFloat("Rotation", &rotationComponent, 0.5f, -(vmath::PI), vmath::PI);
+			ImGui::DragFloat("Scale", &scaleComponent,0.5f,1.f,100.f);
 			/*const char* rotationOptions[] = { "0 degrees", "90 degrees", "180 degrees", "270 degrees" };
 			int currentRotationIndex = static_cast<int>(rotationComponent / 90.0f);
 			if (ImGui::Combo("Rotation", &currentRotationIndex, rotationOptions, IM_ARRAYSIZE(rotationOptions))) {
@@ -78,21 +82,27 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 		}
 	}
-	/*if (ECS::ecs().HasComponent<Tex>(entity)) {
+	if (ECS::ecs().HasComponent<Tex>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Tex).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Texture")) {
 			auto& textureComponent = ECS::ecs().GetComponent<Tex>(entity);
+			auto& sizeComponent = ECS::ecs().GetComponent<Size>(entity);
 			if (ImGui::Button("Edit Current Texture")) {
 
-				std::string selectedFile =	OpenSingleFileDialog();
+				std::string fullFilePath =	OpenSingleFileDialog();
+				std::string selectedFile = fullFilePath.substr(fullFilePath.find_last_of("\\")+1);
 				if (!selectedFile.empty()) {
-					textureComponent.tex.
+					textureComponent.tex = assetmanager.texture.Add(fullFilePath.c_str(), selectedFile.c_str());
+					sizeComponent.width = (float)textureComponent.tex->GetWidth();
+					sizeComponent.height = (float)textureComponent.tex->GetHeight();
 				}
 			}
+			
+			//if(ImGui)
 			
 
 			ImGui::TreePop();
 		}
-	}*/
+	}
 
 	if (ECS::ecs().HasComponent<Script>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {

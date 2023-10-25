@@ -315,12 +315,13 @@ void SerializationSystem::Update() {
 	}
 	
 	if (destroyAll) {
+		std::vector<Entity> entitylist{};
 		EntityFactory::entityFactory().masterEntitiesList.clear();
-		/*for (const Entity& entity : m_Entities) {
-		    ECS::ecs().DestroyEntity(entity);
-		}*/
-		for (auto it = m_Entities.rbegin(); it != m_Entities.rend(); ++it) {
-			ECS::ecs().DestroyEntity(*it);
+		for (Entity e : m_Entities) {
+			entitylist.push_back(e);
+		}
+		for (Entity e : entitylist) {
+			ECS::ecs().DestroyEntity(e);
 		}
 		destroyAll = false;
 	}
