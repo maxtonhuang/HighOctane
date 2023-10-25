@@ -239,7 +239,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Script>();
 
 	ECS::ecs().RegisterComponent<TextLabel>();
-	//ECS::ecs().RegisterComponent<Button>();
+	ECS::ecs().RegisterComponent<Button>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -287,10 +287,10 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 
-	//std::shared_ptr<UIButtonSystem> uiButtonSystem = ECS::ecs().RegisterSystem<UIButtonSystem>();
-	//runSystemList.emplace_back(uiButtonSystem, "UI Button System");
-	////editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
-	//systemList.emplace_back(uiButtonSystem, "UI Button System");
+	std::shared_ptr<UIButtonSystem> uiButtonSystem = ECS::ecs().RegisterSystem<UIButtonSystem>();
+	runSystemList.emplace_back(uiButtonSystem, "UI Button System");
+	editSystemList.emplace_back(uiButtonSystem, "UI Text Label System");
+	systemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -406,18 +406,18 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<UITextLabelSystem>(signature);
 	}
 
-	//{
-	//	Signature signature;
-	//	signature.set(ECS::ecs().GetComponentType<Transform>());
-	//	signature.set(ECS::ecs().GetComponentType<Size>());
-	//	signature.set(ECS::ecs().GetComponentType<Tex>());
-	//	signature.set(ECS::ecs().GetComponentType<Model>());
-	//	signature.set(ECS::ecs().GetComponentType<Clone>());
-	//	signature.set(ECS::ecs().GetComponentType<Name>());
-	//	signature.set(ECS::ecs().GetComponentType<Button>());
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<Button>());
 
-	//	ECS::ecs().SetSystemSignature<UIButtonSystem>(signature);
-	//}
+		ECS::ecs().SetSystemSignature<UIButtonSystem>(signature);
+	}
 
 	//////////////////////////////////////////////////////
 	//////////                                  //////////
@@ -465,9 +465,24 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().AddComponent(textObjectA, TextLabel{ "TestString", UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN });
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
+	ECS::ecs().GetComponent<Transform>(textObjectA).isStatic = false;
 	ECS::ecs().RemoveComponent<Tex>(textObjectA);
 	ECS::ecs().RemoveComponent<Collider>(textObjectA);
 	ECS::ecs().RemoveComponent<Animator>(textObjectA);
+	//uncomment these to prevent event handling for UI system
+	//ECS::ecs().GetComponent<Transform>(textObjectA).isStatic = true;
+	//ECS::ecs().RemoveComponent<Movable>(textObjectA);
+
+
+	Entity buttonObject = EntityFactory::entityFactory().CloneMasterModel(-125.f, -125.f, false);
+	ECS::ecs().GetComponent<Model>(buttonObject) = Model{ ModelType::UI };
+	ECS::ecs().AddComponent(buttonObject, Button{ "TestString" });
+	ECS::ecs().GetComponent<Size>(buttonObject) = Size{ 100.f,100.f };
+	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
+	ECS::ecs().RemoveComponent<Tex>(buttonObject);
+	ECS::ecs().RemoveComponent<Collider>(buttonObject);
+	ECS::ecs().RemoveComponent<Animator>(buttonObject);
+
 
 
 	// Load a single character on the screen

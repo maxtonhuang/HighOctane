@@ -458,6 +458,35 @@ void UITextLabelSystem::Update() {
 	}
 }
 
-//void UIButtonSystem::Update() {
-//	
-//}
+void UIButtonSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		Name* nameData = &nameArray.GetData(entity);
+		Button* buttonData = &buttonArray.GetData(entity);
+
+		if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
+			buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
+		}
+
+		buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		if (nameData->selected) {
+			buttonData->OnFocus();
+		}
+
+		modelData->SetAlpha(1.f);
+		buttonData->DrawButton(*modelData);
+		//modelData->SetAlpha(0.2f);
+	}
+}

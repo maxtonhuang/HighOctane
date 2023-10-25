@@ -46,11 +46,13 @@ enum class UI_VERTICAL_ALIGNMENT {
 	V_TOP_ALIGN,	
 	V_BOTTOM_ALIGN
 };
-//enum class UI_COLOR_STATES {
-//	DEFAULT,
-//	HOVERED,
-//	PRESSED
-//};
+// enums for state lookup (to adapt into Name component!!)
+enum class STATE {
+	NONE,
+	SELECTED,
+	HOVERED,
+	FOCUSED
+};
 
 class UIComponent {
 public:
@@ -74,9 +76,13 @@ public:
 	Vec2 relTransform{};
 
 	// store colors for each state? -- default
-	glm::vec4 defaultColor{};
-	glm::vec4 hoveredColor{};
-	glm::vec4 focusedColor{};
+	glm::vec4 defaultColor{}; // black
+	glm::vec4 hoveredColor{}; // red
+	glm::vec4 focusedColor{}; // blue
+
+	// FUTURE IMPLEMENTATIONS
+	// -> multiline, auto/fixed height
+	// -> line height
 
 
 	TextLabel();
@@ -96,13 +102,35 @@ public:
 
 class Button : public UIComponent {
 public:
+	struct ColorSet {
+		glm::vec4 buttonColor;
+		glm::vec4 textColor;
+		glm::vec4 outlineColor;
+	};
+
 	TextLabel textLabel;
 	Vec2 padding{};
+	STATE currentState{};
+	Vec2 posOffset{}; //offset from transform
+	Vec2 relTransform{};
+
+	// store colors for each state
+	// default: button white, text blue, outline blue
+	ColorSet defaultColor{};
+	// hovered: button blue, text white, outline blue
+	ColorSet hoveredColor{};
+	// focused: button blue, text white, outline red
+	ColorSet focusedColor{};
+
+	Button();
+	Button(std::string txtStr);
 
 	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
 	void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;
+
+	void DrawButton(Model& modelData);
 };
 
 class LayoutGroup : UIComponent {
