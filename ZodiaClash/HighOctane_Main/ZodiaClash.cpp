@@ -68,6 +68,7 @@
 #include "Battle.h"
 #include "EnemyAction.h"
 #include "PlayerAction.h"
+#include "UIComponents.h"
 #include "Reflections.h"
 
 bool gConsoleInitalized{ false };
@@ -241,6 +242,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<PlayerAction>();
 	ECS::ecs().RegisterComponent<EnemyAction>();
 
+	ECS::ecs().RegisterComponent<TextLabel>();
+	ECS::ecs().RegisterComponent<Button>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -284,6 +287,15 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(serializationSystem, "Serialization System");
 	s_ptr = serializationSystem;
 
+	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
+	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+
+	std::shared_ptr<UIButtonSystem> uiButtonSystem = ECS::ecs().RegisterSystem<UIButtonSystem>();
+	runSystemList.emplace_back(uiButtonSystem, "UI Button System");
+	editSystemList.emplace_back(uiButtonSystem, "UI Text Label System");
+	systemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -332,7 +344,7 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		signature.set(ECS::ecs().GetComponentType<Tex>());
+		//signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		//signature.set(ECS::ecs().GetComponentType<Animator>());
@@ -386,6 +398,32 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<BattleSystem>(signature);
 	}
 
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<TextLabel>());
+
+		ECS::ecs().SetSystemSignature<UITextLabelSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<Button>());
+
+		ECS::ecs().SetSystemSignature<UIButtonSystem>(signature);
+	}
+
 	//////////////////////////////////////////////////////
 	//////////                                  //////////
 	//////////   Initialize all other systems   //////////
@@ -418,6 +456,7 @@ void EngineCore::Run(bool const& mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
+	Mail::mail().RegisterMailbox(ADDRESS::UICOMPONENT);
 
 	Entity background = EntityFactory::entityFactory().CloneMasterModel(0,0,false);
 	ECS::ecs().GetComponent<Model>(background) = Model{ ModelType::BACKGROUND, 1.f };
@@ -427,6 +466,30 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Collider>(background);
 	ECS::ecs().RemoveComponent<Movable>(background);
 
+	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(125.f, 125.f, false);
+	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
+	ECS::ecs().AddComponent(textObjectA, TextLabel{ "TestString", UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN });
+	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
+	ECS::ecs().GetComponent<Transform>(textObjectA).isStatic = false;
+	ECS::ecs().RemoveComponent<Tex>(textObjectA);
+	ECS::ecs().RemoveComponent<Collider>(textObjectA);
+	ECS::ecs().RemoveComponent<Animator>(textObjectA);
+	//uncomment these to prevent event handling for UI system
+	//ECS::ecs().GetComponent<Transform>(textObjectA).isStatic = true;
+	//ECS::ecs().RemoveComponent<Movable>(textObjectA);
+
+
+	Entity buttonObject = EntityFactory::entityFactory().CloneMasterModel(-125.f, -125.f, false);
+	ECS::ecs().GetComponent<Model>(buttonObject) = Model{ ModelType::UI };
+	ECS::ecs().AddComponent(buttonObject, Button{ "TestString" });
+	ECS::ecs().GetComponent<Size>(buttonObject) = Size{ 100.f,100.f };
+	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
+	ECS::ecs().RemoveComponent<Tex>(buttonObject);
+	ECS::ecs().RemoveComponent<Collider>(buttonObject);
+	ECS::ecs().RemoveComponent<Animator>(buttonObject);
+
+
+
 	// Load a single character on the screen
 	EntityFactory::entityFactory().LoadModels(1, true);
 
@@ -435,9 +498,6 @@ void EngineCore::Run(bool const& mode) {
 
 	/*serializationSystem->Update();*/
 
-	//Process fonts
-	//Entity fontSys = CreateModel();
-	//fonts.LoadFont("Danto Lite Normal.ttf", ecs.GetComponent<Font>(fontSys));
 	{
 		Entity entity = ECS::ecs().CreateEntity();
 

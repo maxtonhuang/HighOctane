@@ -204,6 +204,10 @@ public:
         }
     }
 
+    bool HasComponent(Entity entity) {
+        return m_RegisteredArray[entity];
+    }
+
 private:
     // The packed array of components (of generic type T),
     // set to a specified maximum amount, matching the maximum number
@@ -488,12 +492,6 @@ public:
     void Update() override;
 };
 
-class FontSystem : public System {
-public:
-    void Initialize();
-    void Update() override;
-};
-
 class SerializationSystem : public System {
 public:
     void Update() override;
@@ -517,3 +515,12 @@ public:
     void Update() override;
 };
 
+class UITextLabelSystem : public System {
+public:
+    void Update() override;
+};
+
+class UIButtonSystem : public System {
+public:
+    void Update() override;
+};

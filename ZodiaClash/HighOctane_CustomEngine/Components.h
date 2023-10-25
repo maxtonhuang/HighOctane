@@ -52,6 +52,7 @@ struct Transform {
     float                   inverseMass{1/mass};
     Vec2                    acceleration{10, 10};
     Vec2                    force{acceleration * mass};
+    //vmath::Vector3 Translation = { 0.0f, 0.0f, 0.0f };
 };
 
 struct Collider {

@@ -46,10 +46,12 @@ enum class UI_VERTICAL_ALIGNMENT {
 	V_TOP_ALIGN,	
 	V_BOTTOM_ALIGN
 };
-enum class UI_COLOR_STATES {
-	DEFAULT,
+// enums for state lookup (to adapt into Name component!!)
+enum class STATE {
+	NONE,
+	SELECTED,
 	HOVERED,
-	PRESSED
+	FOCUSED
 };
 
 class UIComponent {
@@ -57,63 +59,78 @@ public:
 	virtual ~UIComponent() {}
 	
 	//event handler functions
-	virtual void onClick() = 0;
-	virtual void onHover() = 0;
-	virtual void onDrag() = 0;
-	virtual void onFocus() = 0;
-};
-
-class Button : public UIComponent {
-public:
-	TextLabel textLabel;
-	Vec2 padding{};
-
-	// destination?
-
-	void onClick() override {
-
-	}
-
-	void onHover() override {
-
-	}
-
-	void onDrag() override {
-
-	}
-
-	void onFocus() override {
-
-	}
+	virtual void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) = 0;
+	virtual void OnClick(Model& modelData, Name& nameData) = 0;
+	virtual void OnHover(Model& modelData, Name& nameData) = 0;
+	virtual void OnFocus() = 0;
 };
 
 class TextLabel : public UIComponent {
 public:
 	Font* font{};
 	std::string textString{};
+	std::string prevTextString{};
 	UI_HORIZONTAL_ALIGNMENT textAlignment{};
+	float relFontSize{};
+	Vec2 posOffset{}; //offset from transform
+	Vec2 relTransform{};
 
-	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align)
-		: font(&f), textString(str), textAlignment(align) {}
+	// store colors for each state? -- default
+	glm::vec4 defaultColor{}; // black
+	glm::vec4 hoveredColor{}; // red
+	glm::vec4 focusedColor{}; // blue
 
-	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align)
-		: font(fonts.GetDefaultFont()), textString(str), textAlignment(align) {}
+	// FUTURE IMPLEMENTATIONS
+	// -> multiline, auto/fixed height
+	// -> line height
 
-	void onClick() override {
 
-	}
+	TextLabel();
+	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
+	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);
 
-	void onHover() override {
+	bool CheckStringUpdated(TextLabel& txtLblData);
+	void SetTextString(std::string txtStr);
+	void CalculateOffset(Size& sizeData);
+	void UpdateOffset(Transform const& transformData, Size& sizeData);
 
-	}
+	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
+	void OnClick(Model& modelData, Name& nameData) override;
+	void OnHover(Model& modelData, Name& nameData) override;
+	void OnFocus() override;
+};
 
-	void onDrag() override {
+class Button : public UIComponent {
+public:
+	struct ColorSet {
+		glm::vec4 buttonColor;
+		glm::vec4 textColor;
+		glm::vec4 outlineColor;
+	};
 
-	}
+	TextLabel textLabel;
+	Vec2 padding{};
+	STATE currentState{};
+	Vec2 posOffset{}; //offset from transform
+	Vec2 relTransform{};
 
-	void onFocus() override {
+	// store colors for each state
+	// default: button white, text blue, outline blue
+	ColorSet defaultColor{};
+	// hovered: button blue, text white, outline blue
+	ColorSet hoveredColor{};
+	// focused: button blue, text white, outline red
+	ColorSet focusedColor{};
 
-	}
+	Button();
+	Button(std::string txtStr);
+
+	void IsClickedOrHovered(Transform& transformData, Model& modelData, Name& nameData) override;
+	void OnClick(Model& modelData, Name& nameData) override;
+	void OnHover(Model& modelData, Name& nameData) override;
+	void OnFocus() override;
+
+	void DrawButton(Model& modelData);
 };
 
 class LayoutGroup : UIComponent {
@@ -122,7 +139,3 @@ public:
 	//vector of component pointers? just to keep track what components are in the group?
 	std::vector<std::shared_ptr<UIComponent>>components;
 };
-
-
-
-// UI manager class to handle global states (and event handling?)

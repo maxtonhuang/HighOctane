@@ -1,8 +1,8 @@
 parallax.renderer
 texture.renderer
 statictexture.renderer
-font.renderer
 flat.renderer
+font.renderer
 point.renderer
 line.renderer
 circle.renderer
