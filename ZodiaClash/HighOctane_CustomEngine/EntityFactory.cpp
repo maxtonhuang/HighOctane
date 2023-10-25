@@ -48,11 +48,13 @@
 #include "collision.h"
 #include "Model.h"
 #include "AssetManager.h"
+#include "Serialization.h"
 #include <deque>
 #include <algorithm>
 #include <limits>
 #include <sstream>
 #include <iomanip>
+#include <filesystem>
 
 
 
@@ -111,10 +113,10 @@ void EntityFactory::LoadMasterModel() {
 void EntityFactory::CreateMasterModel(const char* filename) {
 	Entity entity = ECS::ecs().CreateEntity();
 
-	std::ostringstream oss;
-	oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
-	ECS::ecs().AddComponent(entity, Name{ oss.str() });
-	masterEntitiesList[oss.str()] = entity;
+	//std::ostringstream oss;
+	//oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
+	ECS::ecs().AddComponent(entity, Name{ filename });
+	masterEntitiesList[filename] = entity;
 
 	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
 	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE });
@@ -132,6 +134,36 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 
 
 }
+
+void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {
+	Entity entity = ECS::ecs().CreateEntity();
+
+	ECS::ecs().AddComponent(entity, Name{ filename });
+	masterEntitiesList[filename] = entity;
+
+	ECS::ecs().AddComponent(entity, Color{ glm::vec4{ 1,1,1,1 } });
+	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE });
+	ECS::ecs().AddComponent(entity, Visible{ false });
+	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
+	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
+	ECS::ecs().AddComponent(entity, Model{});
+	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
+	ECS::ecs().AddComponent(entity, Master{});
+	
+	WriteSpriteConfig(filename, rows, cols);
+	std::string filenameString = filename;
+	std::ostringstream oss;
+	oss << filenameString.substr(0, filenameString.find_last_of('.')) << ".spritesheet";
+
+	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
+	assetmanager.LoadSpritesheet(oss.str());
+	t->texVariants.push_back(assetmanager.texture.Get(filename));
+	t->tex = t->texVariants.at(0);
+	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+
+
+}
+
 
 /******************************************************************************
 *

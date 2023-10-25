@@ -137,9 +137,16 @@ void Serializer::SerializeCSV(const std::string& file) {
 }
 
 rapidjson::Value SerializeName(const Name& entityName, rapidjson::Document::AllocatorType& allocator) {
-	rapidjson::Value nameValue(rapidjson::kStringType);
+	/*rapidjson::Value nameValue(rapidjson::kStringType);
 	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
-	return nameValue;
+	return nameValue;*/
+	rapidjson::Value nameObject(rapidjson::kObjectType);
+	rapidjson::Value nameValue;
+	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
+	nameObject.AddMember("Name", nameValue, allocator);
+	nameObject.AddMember("Selected", entityName.selected, allocator);
+	return nameObject;
+
 }
 
 rapidjson::Value SerializeTransform(const Transform& transform, rapidjson::Document::AllocatorType& allocator) {
@@ -271,7 +278,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 		if (ECS::ecs().HasComponent<Name>(entity)) {
 			name = &ECS::ecs().GetComponent<Name>(entity);
 			rapidjson::Value nameObject = SerializeName(*name, allocator);
-			entityObject.AddMember("Entity Name", nameObject, allocator);
+			entityObject.AddMember("Entity", nameObject, allocator);
 		}
 		if (ECS::ecs().HasComponent<Color>(entity)) {
 			color = &ECS::ecs().GetComponent<Color>(entity);
@@ -364,9 +371,14 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 		Entity entity = ECS::ecs().CreateEntity();
 
-		if (entityObject.HasMember("Entity Name")) {
-			std::string entityName = entityObject["Entity Name"].GetString();
-			EntityFactory::entityFactory().masterEntitiesList[entityName] = entity;
+		if (entityObject.HasMember("Entity")) {
+			//std::string entityName = entityObject["Entity Name"].GetString();
+			//EntityFactory::entityFactory().masterEntitiesList[entityName] = entity;
+			const rapidjson::Value& nameObject = entityObject["Entity"];
+			Name name{};
+			name.name = nameObject["Name"].GetString();
+			name.selected = nameObject["Selected"].GetBool();
+			ECS::ecs().AddComponent<Name>(entity, name);
 		}
 
 		if (entityObject.HasMember("Color")) {
@@ -453,9 +465,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent<AABB>(entity, aabb);
 		}
 
-		if (entityObject.HasMember("Animator")) {
+		if (entityObject.HasMember("Animation")) {
 			std::cout << ((ECS::ecs().isComponentTypeRegistered<Animator>()) ? "Anim is registered" : "Anim is not registered") << std::endl;
-			const rapidjson::Value& animObject = entityObject["Animator"];
+			const rapidjson::Value& animObject = entityObject["Animation"];
 			Animator anim{ 
 				static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()), 
 				animObject["Frame Display Duration"].GetFloat() 
@@ -466,9 +478,35 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
 			ECS::ecs().AddComponent<Animator>(entity, anim);
 		}
+		if (entityObject.HasMember("Scripts")) {
+			const rapidjson::Value& scriptObject = entityObject["Scripts"];
+			Script script;
 
+			if (scriptObject.HasMember("className")) {
+				script.className = scriptObject["className"].GetString();
+			}
+			if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
+				const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
+				for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
+					if (scriptNameArray[j].IsString()) {
+						script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+					}
+				}
+			}
+			if (scriptObject.HasMember("scriptNameVecForImGui") && scriptObject["scriptNameVecForImGui"].IsArray()) {
+				const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVecForImGui"];
+				for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
+					if (scriptNameArray[j].IsString()) {
+						script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+					}
+				}
+			}
+			ECS::ecs().AddComponent<Script>(entity, script);
+
+		}
 		ECS::ecs().AddComponent(entity, Model{});
 		ECS::ecs().AddComponent(entity, MainCharacter{});
+		ECS::ecs().AddComponent(entity, Clone{});
 	}
 
 	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
@@ -501,3 +539,20 @@ void LoadConfig() {
 	ifs.close();
 }
 
+void WriteSpriteConfig(const char* filename, int rows, int cols) {
+	std::string tempFilename = filename;
+	std::ostringstream oss;
+	oss << "..\\Assets\\Textures\\" << tempFilename.substr(0, tempFilename.find_last_of('.')) << ".spritesheet";
+
+	// Open the file
+	std::ofstream ofs(oss.str().c_str());
+	if (!ofs.is_open()) {
+		// Check if the file is open
+		std::cerr << "Unable to write spritesheet config!" << std::endl;
+	}
+
+	ofs << filename << "\n" << rows << "\n" << cols << "\n" << rows * cols;
+
+	// Close the file
+	ofs.close();
+}

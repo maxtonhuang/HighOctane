@@ -66,7 +66,8 @@
 #include <rttr/registration>
 #include "CharacterStats.h"
 #include "Battle.h"
-
+#include "EnemyAction.h"
+#include "PlayerAction.h"
 #include "Reflections.h"
 
 bool gConsoleInitalized{ false };
@@ -237,6 +238,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
+	ECS::ecs().RegisterComponent<PlayerAction>();
+	ECS::ecs().RegisterComponent<EnemyAction>();
 
 
 	// Register systems to be used in the ECS
@@ -279,6 +282,7 @@ void EngineCore::Run(bool const& mode) {
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
 	systemList.emplace_back(serializationSystem, "Serialization System");
+	s_ptr = serializationSystem;
 
 
 	// Set Entity's Component combination signatures for each System 

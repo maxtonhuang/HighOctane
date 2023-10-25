@@ -23,10 +23,10 @@ void UpdateMovement(Transform & transform, Model & model) {
 		case TYPE::KEY_DOWN:
 			
 			switch (msg.info) {
-			case INFO::KEY_W:   case INFO::KEY_UP:      direction = { RESET_VEC2 }; transform.force.y = speed * g_dt; break;
-			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { RESET_VEC2 }; transform.force.y = -speed * g_dt; break;
-			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { RESET_VEC2 }; transform.force.x = -speed * g_dt; break;
-			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { RESET_VEC2 }; transform.force.x = speed * g_dt; break;
+			case INFO::KEY_W:   case INFO::KEY_UP:      direction = { RESET_VEC2 }; transform.force.y = 1; break;
+			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { RESET_VEC2 }; transform.force.y = -1; break;
+			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { RESET_VEC2 }; transform.force.x = -1; break;
+			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { RESET_VEC2 }; transform.force.x = 1; break;
 			case INFO::KEY_O:   transform.scale += 1.f * g_dt; break;
 			case INFO::KEY_P:   transform.scale -= 1.f * g_dt; break;
 			case INFO::KEY_Q:   transform.rotation -= 1.f * g_dt;   break;

@@ -32,6 +32,8 @@
 #include "Physics.h"
 #include <math.h>
 
+#define UNREFERENCED_PARAMETER(P) (P)
+
 namespace physics {
 
     PhysicsManager* PHYSICS = nullptr;
@@ -129,12 +131,11 @@ namespace physics {
         // calculate acceleration due to force
         transformData.acceleration = transformData.force * transformData.inverseMass;
         // add gravitational acceleration
-        transformData.acceleration += {GRAVITY_X, GRAVITY_Y};
+        //transformData.acceleration += {GRAVITY_X, GRAVITY_Y};
         // update velocity with acceleration and apply friction
-        transformData.velocity += transformData.acceleration * g_dt;
+        transformData.velocity += transformData.acceleration;
         // update position with velocity
-        transformData.position += transformData.velocity * g_dt;
-
+        transformData.position += transformData.velocity;
         // reset force for the next frame
         transformData.velocity *= FRICTION;
         transformData.force = { 0, 0 };
@@ -186,7 +187,7 @@ namespace physics {
     /**************************************************************************/
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
-        (void)deltaTime;
+        UNREFERENCED_PARAMETER(deltaTime);
         for (const auto& entity : m_Entities) 
         {
             auto& transform = m_ecs.GetComponent<Transform>(entity);
