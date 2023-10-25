@@ -33,7 +33,7 @@ void SceneEntityNode(Entity entity) {
 
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
 
-		bool opened = ImGui::TreeNodeEx((void*)entity, flags, entityName.c_str());
+		bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uintptr_t>(entity)), flags, entityName.c_str());
 		if (ImGui::IsItemClicked()) {
 			currentSelectedEntity = entity;
 		}
