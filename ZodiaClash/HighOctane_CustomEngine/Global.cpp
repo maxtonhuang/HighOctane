@@ -32,6 +32,7 @@
 
 //#include <mutex>
 #include <deque>
+#include <vector>
 #include <string>
 
 // Declare global variables here
@@ -42,7 +43,6 @@ bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
-
 std::deque<std::string> importFileList;
 int importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};

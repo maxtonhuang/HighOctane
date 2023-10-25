@@ -34,6 +34,7 @@
 #pragma once
 
 #include <deque>
+#include <vector>
 #include <string>
 
 #define RESET_VEC2 0.f, 0.f
@@ -51,3 +52,4 @@ extern bool fileDropped;
 extern float dropTimer;
 extern std::deque<std::string> importFileList;
 extern int importFileCount;
+extern std::vector<std::string> fullNameVecImGUI{};
