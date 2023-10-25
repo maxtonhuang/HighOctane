@@ -128,11 +128,20 @@ void SceneEntityComponents(Entity entity) {
 					scriptNamesCStrings.push_back(scriptName.c_str());
 				}
 
-				if (ImGui::Combo("", &currentScriptIndex, scriptNamesCStrings.data(), static_cast<int>(scriptNamesCStrings.size()))) {
-					// Update the selected script in the component
-					if (currentScriptIndex >= 0) {
-						fullNameVecImGUI[0] = fullNameVecImGUI[currentScriptIndex];
+
+				static const char* currentItem = NULL;
+
+				if (ImGui::BeginCombo("##name", currentItem)) {
+					for (int n = 0; n < scriptNamesCStrings.size(); n++) {
+						bool is_selected = (currentItem == scriptNamesCStrings[n]);
+						if (ImGui::Selectable(scriptNamesCStrings[n], is_selected)) {
+							currentItem = scriptNamesCStrings[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
 					}
+					ImGui::EndCombo();
 				}
 			}
 			ImGui::TreePop();
