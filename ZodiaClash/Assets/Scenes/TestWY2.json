@@ -89,7 +89,9 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [],
+            "scriptNameVec": [
+                "Sandbox.Player"
+            ],
             "scriptNameVecForImGui": [
                 "PlayerController.PlayerMovement",
                 "Sandbox.Player"
@@ -126,7 +128,9 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [],
+            "scriptNameVec": [
+                "PlayerController.PlayerMovement"
+            ],
             "scriptNameVecForImGui": [
                 "PlayerController.PlayerMovement",
                 "Sandbox.Player"
@@ -163,7 +167,10 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [],
+            "scriptNameVec": [
+                "PlayerController.PlayerMovement",
+                "Sandbox.Player"
+            ],
             "scriptNameVecForImGui": [
                 "PlayerController.PlayerMovement",
                 "Sandbox.Player"
@@ -216,7 +223,9 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [],
+            "scriptNameVec": [
+                "Sandbox.Player"
+            ],
             "scriptNameVecForImGui": [
                 "PlayerController.PlayerMovement",
                 "Sandbox.Player"
