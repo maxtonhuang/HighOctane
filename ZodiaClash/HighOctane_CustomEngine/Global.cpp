@@ -31,6 +31,8 @@
 ******************************************************************************/
 
 //#include <mutex>
+#include <memory>
+#include "ECS.h"
 #include <deque>
 #include <vector>
 #include <string>
@@ -43,6 +45,10 @@ bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
+bool destroyAll{ false };
+bool saveFile{ false };
+
+std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};
