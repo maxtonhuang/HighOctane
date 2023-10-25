@@ -51,5 +51,5 @@ extern bool hoveringPanel;
 extern bool fileDropped;
 extern float dropTimer;
 extern std::deque<std::string> importFileList;
-extern int importFileCount;
+extern size_t importFileCount;
 extern std::vector<std::string> fullNameVecImGUI;

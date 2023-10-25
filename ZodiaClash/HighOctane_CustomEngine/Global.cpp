@@ -44,5 +44,5 @@ bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
 std::deque<std::string> importFileList;
-int importFileCount{ };
+size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};

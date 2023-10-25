@@ -47,11 +47,11 @@ void UpdateAssetLibrary() {
 	for (std::pair<std::string, Entity> val : EntityFactory::entityFactory().masterEntitiesList)
 	{
 		Texture* tex = ECS::ecs().GetComponent<Tex>(val.second).tex;
-		float imageWidth = tex->GetWidth();
-		float imageHeight = tex->GetHeight();
+		float imageWidth = static_cast<float>(tex->GetWidth());
+		float imageHeight = static_cast<float>(tex->GetHeight());
 		int rowCount = tex->GetRowCount() == 0 ? 1 : tex->GetRowCount();
 		int colCount = tex->GetColCount() == 0 ? 1 : tex->GetColCount();
-		ImGui::ImageButton((ImTextureID)(tex->GetID()), { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / colCount, 1.f / rowCount });
+		ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(tex->GetID())), { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / static_cast<float>(colCount), 1.f / static_cast<float>(rowCount) });
 		ImGui::TextWrapped(val.first.c_str());
 		ImGui::NextColumn();
 	}
