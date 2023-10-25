@@ -43,6 +43,9 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
     for (CharacterStats& c : turnManage.characterList) {
         c.parent = this;
         c.Start();
+        if (c.entity == input.activeCharacter->entity) {
+            activeCharacter = &c;
+        }
     }
     for (CharacterStats*& c : turnManage.turnOrderList) {
         for (CharacterStats& character : turnManage.characterList) {
