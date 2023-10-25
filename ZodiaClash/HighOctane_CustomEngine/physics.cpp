@@ -140,6 +140,9 @@ namespace physics {
         transformData.velocity *= FRICTION;
         transformData.force = { 0, 0 };
 
+        //std::cout << transformData.velocity.x << " , " << transformData.velocity.y << std::endl;
+        //std::cout << transformData.position.x << " , " << transformData.position.y << std::endl;
+
         /*
 
         // If the body is static, we don't want to update its position or velocity.

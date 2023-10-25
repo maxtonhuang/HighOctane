@@ -5,32 +5,26 @@
 //using System.Threading.Tasks;
 
 
+using System.Linq.Expressions;
+
 public abstract class Component
 {
     public Entity? Entity { get; internal set; }
 }
 
-public class TransformComponent : Component
-{
-    public Vector3 Translation
-    {
-        get
-        {
-            //InternalCalls.TransformComponent_GetTranslation(Entity.ID, out Vector3 translation);
-            //return translation;
-            return new Vector3 { X = 0, Y = 0, Z = 0 };
-        }
-        set
-        {
-            //InternalCalls.TransformComponent_SetTranslation(Entity.ID, ref value);
-        }
-    }
-}
+//public class Transform : Component
+//{
+//    get
+//        {
+//            InternalCalls.TransformGetTranslation(/*Entity.ID, */out Vector3 translation);
+//            return translation;
+//        }
+//set
+//        {
+//            InternalCalls.TransformSetTranslation(/*Entity.ID, */ref value);
+//        }
+//}
 
-public class Rigidbody2DComponent : Component
-{
-
-}
 
 //public class Components
 //{

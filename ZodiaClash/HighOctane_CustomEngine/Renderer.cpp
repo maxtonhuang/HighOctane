@@ -236,3 +236,11 @@ void Renderer::CreateVAO() {
 GLuint Renderer::GetDrawCount() {
     return drawcount;
 }
+
+void Renderer::SetName(std::string input) {
+    name = input;
+}
+
+std::string Renderer::GetName() {
+    return name;
+}

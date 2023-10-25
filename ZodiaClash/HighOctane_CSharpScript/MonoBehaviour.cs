@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public abstract class MonoBehaviour
+public abstract class MonoBehaviour : Entity
 {
     virtual public void Start()
     {

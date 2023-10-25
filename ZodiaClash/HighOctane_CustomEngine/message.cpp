@@ -68,23 +68,27 @@ void Mail::SendMails() {
         case TYPE::KEY_DOWN:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::EDITING].emplace_back(msg);
-            //mailbox[ADDRESS::SCRIPTING].emplace_back(msg);
+            mailbox[ADDRESS::SCRIPTING].emplace_back(msg);
             break;
         case TYPE::KEY_UP:
+            mailbox[ADDRESS::SCRIPTING].emplace_back(msg);
             break;
         case TYPE::MOUSE_CLICK:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::EDITING].emplace_back(msg);
+            mailbox[ADDRESS::UICOMPONENT].emplace_back(msg);
             break;
         case TYPE::MOUSE_MOVE:
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::EDITING].emplace_back(msg);
+            mailbox[ADDRESS::UICOMPONENT].emplace_back(msg);
             break;
         case TYPE::MOUSE_UP:
             mailbox[ADDRESS::EDITING].emplace_back(msg);
             break;
         case TYPE::MOUSE_DOWN:
             mailbox[ADDRESS::EDITING].emplace_back(msg);
+            mailbox[ADDRESS::UICOMPONENT].emplace_back(msg);
             break;
         default:
             break;
@@ -100,6 +104,7 @@ void Mail::ClearMails() {
     mailbox[ADDRESS::PHYSICS].clear();
     mailbox[ADDRESS::SCRIPTING].clear();
     mailbox[ADDRESS::EDITING].clear();
+    mailbox[ADDRESS::UICOMPONENT].clear();
 }
 
 /******************************************************************************

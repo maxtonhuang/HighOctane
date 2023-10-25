@@ -52,6 +52,7 @@
 #include "EntityFactory.h"
 #include "EngineCore.h"
 #include "CharacterStats.h"
+#include "UIComponents.h"
 
 #define FIXED_DT 1/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
@@ -318,13 +319,19 @@ void GraphicsSystem::Update() {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		Tex* tex = &texArray.GetData(entity);
-		Animator* anim = &animatorArray.GetData(entity);
-		//if (m->CheckTransformUpdated(*transform, *size)) {
-			
-		//}
-		m->Update(*transform, *size);
-		m->Draw(*tex, *anim);
+		Tex* tex = nullptr;
+		Animator* anim = nullptr;
+		if (m->CheckTransformUpdated(*transform, *size)) {
+			m->Update(*transform, *size);
+		}
+		if (texArray.HasComponent(entity)) {
+			tex = &texArray.GetData(entity);
+		}
+		if (animatorArray.HasComponent(entity)) {
+			anim = &animatorArray.GetData(entity);
+		}
+		m->Draw(tex, anim);
+		
 	}
 	camera.Update();
 	graphics.Draw();
@@ -503,13 +510,87 @@ void GameplaySystem::Update() {
 	}
 }
 
-
-
-
-
 /******************************************************************************
 *
 *	@brief Battle System is located in Battle.cpp
 *
 ******************************************************************************/
 
+
+
+void UITextLabelSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform* transformData = &transformArray.GetData(entity);
+		//Tex* texData = &texArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		Name* nameData = &nameArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+
+		if (textLabelData->CheckStringUpdated(*textLabelData)) {
+			textLabelData->UpdateOffset(*transformData, *sizeData);
+		}
+
+		textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		if (nameData->selected) {
+			textLabelData->OnFocus();
+		}
+		
+		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
+		//DEBUG_PRINT("relTrans: %f %f", textLabelData->relTransform.x, textLabelData->relTransform.y);
+		//DEBUG_PRINT("SCALE: %f", transformData->scale);
+		//DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
+		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
+		
+		//call graphics drawLabel here?
+		modelData->SetAlpha(1.f);
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
+		modelData->SetAlpha(0.2f);
+
+		//note: find a way to update size!!
+	}
+}
+
+void UIButtonSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		Name* nameData = &nameArray.GetData(entity);
+		Button* buttonData = &buttonArray.GetData(entity);
+
+		if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
+			buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
+		}
+
+		buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		if (nameData->selected) {
+			buttonData->OnFocus();
+		}
+
+		modelData->SetAlpha(1.f);
+		buttonData->DrawButton(*modelData);
+		//modelData->SetAlpha(0.2f);
+	}
+}

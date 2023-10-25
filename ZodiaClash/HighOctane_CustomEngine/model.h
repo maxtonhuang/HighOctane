@@ -59,7 +59,7 @@ class Model {
 public:
 	Model(ModelType = ModelType::GAMEPLAY, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
-	void Draw(Tex const& entity, Animator const& ani); //Add vertices to renderer
+	void Draw(Tex* const entity, Animator* const ani); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
 	void SetColor(float r, float g, float b); //Set color of model (colour bounds are between 0 and 1)
@@ -70,6 +70,9 @@ public:
 
 	vmath::Vector2 GetMin(); //returns minimum point in screen coordinates
 	vmath::Vector2 GetMax(); //returns maximum point in screen coordinates
+
+	glm::vec4 GetColor(); // retrieve color stored
+
 private:
 	glm::mat3 matrix{}; //matrix used for computing model verrtices
 	glm::vec4 color{}; //color of the model

@@ -68,6 +68,7 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 				clicked = CLICKED::NOT;
 			}
 			else {
+				//DEBUG_PRINT("RELEASE!");
 				clicked = CLICKED::NOT;
 			}
 			offset = { RESET_VEC2 };
@@ -149,8 +150,9 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 				}
 					break;
 				case CLICKED::INSIDE:
-					transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::defaultWidthF / 2.f) + (transform.position.x - model.GetMin().x), (GRAPHICS::defaultWidthF / 2.f) - (model.GetMax().x - transform.position.x));
-					transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::defaultHeightF / 2.f) + (transform.position.y - model.GetMin().y), (GRAPHICS::defaultHeightF / 2.f) - (model.GetMax().y - transform.position.y));
+					//DEBUG_PRINT("DRAGGING!");
+					transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::w)+(transform.position.x - model.GetMin().x), (GRAPHICS::w)-(model.GetMax().x - transform.position.x));
+					transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::h)+(transform.position.y - model.GetMin().y), (GRAPHICS::h)-(model.GetMax().y - transform.position.y));
 					break;
 				default:
 					break;

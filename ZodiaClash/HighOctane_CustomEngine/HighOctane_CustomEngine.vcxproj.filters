@@ -365,6 +365,9 @@
     <ClCompile Include="PlayerAction.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="UIComponents.cpp">
+      <Filter>UIComponents</Filter>
+    </ClCompile>
     <ClCompile Include="WindowsInterlink.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>

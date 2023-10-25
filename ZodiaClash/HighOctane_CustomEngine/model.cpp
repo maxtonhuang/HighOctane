@@ -84,18 +84,22 @@ void Model::Update(Transform const& entity, Size const& size) {
 	topright = glm::vec2{ topright3.x,topright3.y };
 }
 
-void Model::Draw(Tex const& entity, Animator const& ani) {
+void Model::Draw(Tex* const entity, Animator* const ani) {
 	static Renderer* parallaxRenderer = &graphics.renderer["parallax"];
 	static Renderer* textureRenderer = &graphics.renderer["texture"];
+	static Renderer* staticRenderer = &graphics.renderer["static"];
 	static Renderer* flatRenderer = &graphics.renderer["flat"];
 
 	Renderer* renderer;
-	if (entity.tex != nullptr) {
+	if (entity != nullptr && ani != nullptr) {
 		switch (type) {
 		case ModelType::BACKGROUND:
 		case ModelType::BACKGROUNDLOOP:
 			renderer = parallaxRenderer;
 			graphics.backgroundsystem.AddBackground(backgroundScrollSpeed);
+			break;
+		case ModelType::UI:
+			renderer = staticRenderer;
 			break;
 		default:
 			renderer = textureRenderer;
@@ -104,15 +108,21 @@ void Model::Draw(Tex const& entity, Animator const& ani) {
 	else {
 		renderer = flatRenderer;
 	}
-	if (entity.tex != nullptr) {
-		float texID{ (float)entity.tex->GetID() - 1.f };
-		int frameIndex{ (int)ani.GetFrameIndex() };
-		renderer->AddVertex(Vertex{ botleft,color,	entity.tex->GetTexCoords(frameIndex,0), texID });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(frameIndex,1), texID });
-		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords(frameIndex,2), texID });
-		renderer->AddVertex(Vertex{ topright,color, entity.tex->GetTexCoords(frameIndex,3), texID });
-		renderer->AddVertex(Vertex{ botright,color, entity.tex->GetTexCoords(frameIndex,1), texID });
-		renderer->AddVertex(Vertex{ topleft,color,	entity.tex->GetTexCoords(frameIndex,2), texID });
+	if (entity != nullptr) {
+		float texID{ (float)entity->tex->GetID() - 1.f };
+		int frameIndex;
+		if (ani != nullptr) {
+			frameIndex = (int)ani->GetFrameIndex();
+		}
+		else {
+			frameIndex = 0;
+		}
+		renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,0), texID });
+		renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
+		renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
+		renderer->AddVertex(Vertex{ topright,color, entity->tex->GetTexCoords(frameIndex,3), texID });
+		renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
+		renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
 	}
 	else {
 		renderer->AddVertex(Vertex{ botleft,color });
@@ -170,4 +180,8 @@ vmath::Vector2 Model::GetMin() {
 
 vmath::Vector2 Model::GetMax() {
 	return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
+}
+
+glm::vec4 Model::GetColor() {
+	return color;
 }

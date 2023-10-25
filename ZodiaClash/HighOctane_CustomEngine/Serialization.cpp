@@ -266,7 +266,6 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Animator* anim = nullptr;
 	Name* name = nullptr;
 	Script* script = nullptr;
-	//Entity* entity = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -279,6 +278,12 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			name = &ECS::ecs().GetComponent<Name>(entity);
 			rapidjson::Value nameObject = SerializeName(*name, allocator);
 			entityObject.AddMember("Entity", nameObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Master>(entity)) {
+			entityObject.AddMember("Master", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (ECS::ecs().HasComponent<Clone>(entity)) {
+			entityObject.AddMember("Clone", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
 		if (ECS::ecs().HasComponent<Color>(entity)) {
 			color = &ECS::ecs().GetComponent<Color>(entity);
