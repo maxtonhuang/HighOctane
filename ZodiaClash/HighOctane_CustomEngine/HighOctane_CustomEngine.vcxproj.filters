@@ -230,6 +230,12 @@
     <ClInclude Include="Attack.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterAction.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterCommon.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -372,6 +378,9 @@
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="Attack.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterAction.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>

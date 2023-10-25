@@ -1,76 +1,26 @@
 #pragma once
+#include "CharacterCommon.h"
+#include "CharacterAction.h"
 #include "ECS.h"
 #include "GameStateManager.h"
 #include "Animator.h"
 #include "model.h"
 #include <vector>
 #include "Components.h"
-#include "ECS.h"
 
-struct GameObject {
-    Tag tag;
-    std::string name;
-    bool isnull;
-    bool isActive;
-public:
-    static std::vector<GameObject*> FindGameObjectsWithTag(std::string tag) 
-    {
-        //std::vector<GameObject*> output{};
-        //auto tagArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tag>().GetArray() };
-        //for (auto t : tagArray) {
-            //if (t->tag == tag) {
-                //output.push_back(t);
-            //}
-        //}
-        return std::vector<GameObject*>{};
-    }
-    GameObject() : isActive(true), isnull() {}  // By default, the game object is active
-    // set the active state of the game object
-    void SetActive(bool active) 
-    {
-        isActive = active;
-    }
-
-    // check if the game object is active
-    bool IsActive() const 
-    {
-        return isActive;
-    }
-};
-
-enum EntityState
-{
-    START, 
-    WAITING,
-    CHECKSTATUS, 
-    SELECTION,
-    ATTACKING,
-    ENDING,
-    DYING
-};
-
-struct SkillSelection
-{
-    GameObject skill1Prefab;
-    GameObject skill2Prefab;
-    GameObject skill3Prefab;
-    GameObject selectedSkillPrefab;
-};
-
-struct TargetSelection
-{
-    std::vector<GameObject*> enemyTargets;
-    std::vector<GameObject*> playerTargets;
-    std::vector<GameObject*> selectedTarget;
-};
+//forward declarations
+class CharacterStats; 
+class BattleSystem;
 
 class CharacterStats
 {
 public:
     Animator animator;
     bool checkedStatus;
-    Tag tag;
+    CharacterType tag;
     Entity entity; //for reference back to ECS
+    CharacterAction action;
+    BattleSystem* parent;
     struct stats {
         float           maxHealth;
         float           health;
@@ -79,19 +29,17 @@ public:
         int             speed;
     }; stats stats;
 
-    void TakeDamage(float damage, Entity& entity);
+    void TakeDamage(float damage);
     void HealBuff(float buffAmount);
     GameObject gameObject;
-
-private:
     void Start();
+private:
+    
     void Death(Entity& entity);
     /*GameStateManager gameManager;
    BattleManager battleManager;
    StatusEffectHud statusEffectHud;*/
 };
-
-
 
 //struct HUD {
 //    Transform uniqueTurnHud;

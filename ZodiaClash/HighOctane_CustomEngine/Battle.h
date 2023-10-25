@@ -31,7 +31,12 @@
 ******************************************************************************/
 
 #pragma once
-#include "CharacterStats.h"
+//#include "CharacterStats.h"
+#include "ECS.h"
+#include <list>
+#include <vector>
+
+class CharacterStats;
 
 enum BattleState
 {
@@ -60,6 +65,8 @@ struct RoundManagement
 class BattleSystem : public System 
 {
 public:
+	BattleSystem() = default;
+	BattleSystem(BattleSystem const&);
 	BattleState battleState;
 	RoundManagement roundManage;
 	TurnManagement turnManage;
@@ -68,10 +75,10 @@ public:
 
 private:
 	CharacterStats* activeCharacter;
-	std::vector <GameObject> gameObjects;
+	//std::vector <GameObject> gameObjects;
 	bool roundInProgress;
 
-	BattleState NewGameDelay(float startDelay, float nextDelay);
+	//BattleState NewGameDelay(float startDelay, float nextDelay);
 	void DetermineTurnOrder();
 	void SwitchTurnOrder(CharacterStats* target);
 	void RevertTurnOrder(CharacterStats* target);

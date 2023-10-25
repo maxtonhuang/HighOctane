@@ -239,8 +239,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
-	ECS::ecs().RegisterComponent<PlayerAction>();
-	ECS::ecs().RegisterComponent<EnemyAction>();
+	//ECS::ecs().RegisterComponent<PlayerAction>();
+	//ECS::ecs().RegisterComponent<EnemyAction>();
 
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
@@ -560,9 +560,11 @@ void EngineCore::Run(bool const& mode) {
 
 		}
 
-		debugSysProfile.StartTimer("Level Editor", GetTime());
-		guiManager.Update();
-		debugSysProfile.StopTimer("Level Editor", GetTime());
+		if (EDITOR_MODE) {
+			debugSysProfile.StartTimer("Level Editor", GetTime());
+			guiManager.Update();
+			debugSysProfile.StopTimer("Level Editor", GetTime());
+		}
 
 		if (graphics.WindowClosed()) {
 			EngineCore::engineCore().setGameActive(false);
