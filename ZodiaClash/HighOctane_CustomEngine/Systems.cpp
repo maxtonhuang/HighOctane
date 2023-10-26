@@ -261,7 +261,7 @@ void MovementSystem::Update() {
 *	has any animation.
 *
 ******************************************************************************/
-void ModelSystem::Update() {
+void AnimatorSystem::Update() {
 
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -279,6 +279,33 @@ void ModelSystem::Update() {
 		animatorData->UpdateAnimation(*texData);
 	}
 	//Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
+}
+
+
+/******************************************************************************
+*
+*	@brief Handles model data for each entity, if any
+*
+*	Handles ...
+*
+******************************************************************************/
+void ModelSystem::Update() {
+
+	// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	////auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+
+	//for (Entity const& entity : m_Entities) {
+	//	Animator* animatorData = &animatorArray.GetData(entity);
+	//	Tex* texData = &texArray.GetData(entity);
+	//	//Size* sizeData = &sizeArray.GetData(entity);
+
+	//	animatorData->UpdateAnimation(*texData);
+	//}
 }
 
 /******************************************************************************
@@ -330,6 +357,8 @@ void GraphicsSystem::Update() {
 		if (animatorArray.HasComponent(entity)) {
 			anim = &animatorArray.GetData(entity);
 		}
+
+		//TO CHECK: CHECK FOR TEXT LABEL OR BUTTON COMPONENT HERE?
 		m->Draw(tex, anim);
 		
 	}
@@ -529,6 +558,7 @@ void UITextLabelSystem::Update() {
 		
 		//call graphics drawLabel here?
 		modelData->SetAlpha(1.f);
+		//TODO: MOVE INTO DRAW LOOP!!
 		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
 		modelData->SetAlpha(0.2f);
 
@@ -565,6 +595,8 @@ void UIButtonSystem::Update() {
 		//}
 
 		modelData->SetAlpha(1.f);
+
+		//TODO: MOVE INTO DRAW LOOP!!
 		buttonData->DrawButton(*modelData);
 		//modelData->SetAlpha(0.2f);
 	}
