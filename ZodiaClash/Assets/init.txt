@@ -11,6 +11,9 @@ background.jpeg
 duck.spritesheet
 duck2.spritesheet
 cat.png
+mockup_cat.png
+mockup_goat.png
+mockup_ox.png
 ping.wav
 bonk.wav
 MainMenu1.wav

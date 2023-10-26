@@ -26,7 +26,7 @@ void UpdateMenuBar() {
                 ////ECS::ecs().DestroyEntity(entity);
                 destroyAll = true;
                 button_clicked = true;
-                //assetmanager.UnloadAll();
+                assetmanager.UnloadAll();
                     
             }
             ImGui::EndMenu();
