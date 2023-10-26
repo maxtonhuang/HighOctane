@@ -218,6 +218,46 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	return entity;
 }
 
+void EntityFactory::CloneMaster(Entity& masterEntity) {
+	Entity entity = ECS::ecs().CreateEntity();
+
+	ECS::ecs().AddComponent(entity, Name{ ("CLONE_" + ECS::ecs().GetComponent<Name>(masterEntity).name).c_str() });
+
+	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Visible{ true });
+	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Model{});
+	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
+	ECS::ecs().AddComponent(entity, Collider{});
+	ECS::ecs().AddComponent(entity, Movable{});
+	ECS::ecs().AddComponent(entity, Clone{});
+	ECS::ecs().AddComponent(entity, Script{}); //add script component
+	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
+	//ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
+	//ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
+
+	// check if any spritesheets have been loaded
+	//if (spritesheets.size() > 0) {
+	//	for (const char* filename : spritesheets) {
+	//		ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(assetmanager.texture.Get(filename)); // add a texVariant
+	//	}
+	//	ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0]; // set default tex to first texVariant
+	//	// (TO CHECK: add using copy ctor here? then default ctor if no spritesheet?)
+	//	// set default aniType to time-based
+	//	//ECS::ecs().GetComponent<Animator>(entity).animationType = Animator::ANIMATION_TIME_BASED;
+	//	//ECS::ecs().GetComponent<Animator>(entity).frameDisplayDuration = 0.1f;
+	//	// resize size to tex dimensions
+	//	ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
+	//	ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
+	//	//// for mass rendering - add this entity to vector
+	//	massRenderEntitiesList.push_back(entity);
+	//}
+	layerOrder.emplace_back(entity);
+	//return entity;
+}
+
 /******************************************************************************
 *
 *	@brief Clones Master Model

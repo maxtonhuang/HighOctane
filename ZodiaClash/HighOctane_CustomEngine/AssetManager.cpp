@@ -227,7 +227,7 @@ void AssetManager::LoadEntities(const std::string& entitiesPath) {
         Serializer::LoadEntityFromJson(path);
     }
     else {
-        ASSERT(1, "Unable to open texture file!");
+        ASSERT(1, "Unable to open json file!");
     }
 }
 

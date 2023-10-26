@@ -7,7 +7,7 @@
 #include "AssetManager.h"
 #include "vmath.h"
 Entity currentSelectedEntity{};
-
+static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
 
 // Helper function declaration
@@ -72,6 +72,10 @@ void SceneEntityComponents(Entity entity) {
 			entityName = std::string(buffer);
 		}
 	}
+
+	if (ImGui::Checkbox("Movement",&check)) {
+		
+	}
 	if (ECS::ecs().HasComponent<Color>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Color).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
 			auto& colorComponent = ECS::ecs().GetComponent<Color>(entity);
@@ -131,9 +135,9 @@ void SceneEntityComponents(Entity entity) {
 			//auto& scriptComponent = ECS::ecs().GetComponent<Script>(entity);
 			static const char* currentItem = NULL;
 			// Create a combo box to select a script
-			int currentScriptIndex = -1; // Initialize with an invalid index
+			//int currentScriptIndex = -1; // Initialize with an invalid index
 			if (!fullNameVecImGUI.empty()) {
-				const char* currentScriptName = fullNameVecImGUI[0].c_str();
+				//const char* currentScriptName = fullNameVecImGUI[0].c_str();
 
 				// Convert script names to const char*
 				std::vector<const char*> scriptNamesCStrings;

@@ -502,9 +502,18 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent<Script>(entity, script);
 
 		}
-		ECS::ecs().AddComponent(entity, Model{});
-		ECS::ecs().AddComponent(entity, MainCharacter{});
-		ECS::ecs().AddComponent(entity, Clone{});
+
+		if (entityObject.HasMember("Master")) {
+			ECS::ecs().AddComponent(entity, Master{});
+			EntityFactory::entityFactory().masterEntitiesList[ECS::ecs().GetComponent<Name>(entity).name] = entity;
+		}
+		if (entityObject.HasMember("Clone")) {
+			ECS::ecs().AddComponent(entity, Clone{});
+		}
+		if (entityObject.HasMember("Model")) {
+			ECS::ecs().AddComponent(entity, Model{});
+		}
+		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
 
 	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
