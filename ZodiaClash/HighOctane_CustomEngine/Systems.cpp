@@ -464,7 +464,6 @@ void ScriptSystem::Initialize() {
 
 // Scripting
 void ScriptSystem::Update() {
-
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
@@ -476,18 +475,23 @@ void ScriptSystem::Update() {
 
 
 		// Global scriptAdded and scriptRemoved bool maybe
-		//if(scriptAdded) {
-		//	ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
-		//}
-		// else if (scripeRemoved) {
-		//}
-		//scriptAdded = false;
-		//scriptRemoved = false; 
-		// Call the scriptEngine but maybe need change to RunTimeChangeScript
-		ScriptEngine::RunTimeAddScript(entity);
+		if(scriptAdded) {
+			//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
+			ScriptEngine::RunTimeAddScript(entity);
 
+		}
+
+		if (scriptRemoved) {
+			std::cout << "SCRIPTREMOVED IS TRUE" << std::endl;
+
+		}
+
+		
 		ScriptEngine::OnUpdateEntity(entity);
 	}
+
+	scriptAdded = false;
+	scriptRemoved = false;
 
 	// scripts
 	ScriptEngine::OnRuntimeStart();

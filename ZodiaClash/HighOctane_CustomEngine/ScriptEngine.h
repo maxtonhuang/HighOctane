@@ -33,6 +33,7 @@ public:
 	static void OnCreateEntity(Entity entity);
 	static void OnUpdateEntity(const Entity& entity);
 	static void RunTimeAddScript(Entity entity);
+	static void RunTimeRemoveScript(Entity entity);
 
 private:
 	// No need to exist

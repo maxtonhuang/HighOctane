@@ -35,6 +35,8 @@
 #include "MultiThreading.h"
 #include "debugdiagnostic.h"
 
+// This is the buffer size allowable before clearing the buffer
+constexpr int MAX_BUFFER_SIZE = 20000;
 /*!
 * \brief Init the console window
 *
@@ -179,6 +181,11 @@ void UpdateConsole() {
             else {
                 break;
             }
+
+            // If buffer is too much, clear to prevent lag
+            if (logBuffer.size() > MAX_BUFFER_SIZE) {
+				imguiOutputBuffer.ClearBuffer();
+			}
         }
 
         if (autoScroll) {

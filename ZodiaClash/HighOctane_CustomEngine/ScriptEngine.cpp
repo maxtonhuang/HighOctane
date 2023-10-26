@@ -165,7 +165,7 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
 
 // Run time add script
 void ScriptEngine::RunTimeAddScript(Entity entity) {
-    // Code to 
+
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     // For each script associated with this entity
     for (const auto& fullClassName : sc.scriptNameVec) {
@@ -180,16 +180,28 @@ void ScriptEngine::RunTimeAddScript(Entity entity) {
             if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
 				s_Data->EntityInstances[entity].push_back(instance);
 			}
-
-            //s_Data->EntityInstances[entity].push_back(instance);
-
-            // Call the OnCreate method of this script instance
-            instance->InvokeOnCreate();
         }
     }
 }
 
 // Run time remove script
+void ScriptEngine::RunTimeRemoveScript(Entity entity) {
+    std::cout << "RunTimeRemoveScript" << std::endl;
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    // For each script associated with this entity
+    for (const auto& fullClassName : sc.scriptNameVec) {
+        
+        // Check if such a script class exists in our system
+        if (ScriptEngine::EntityClassExists(fullClassName)) {
+
+            // If in EntityInstances, remove it
+            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
+                s_Data->EntityInstances.erase(entity);
+                
+            }
+        }
+    }
+}
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
     // Check if the entity exists in our map

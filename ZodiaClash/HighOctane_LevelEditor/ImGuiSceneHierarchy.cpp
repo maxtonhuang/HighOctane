@@ -180,6 +180,7 @@ void SceneEntityComponents(Entity entity) {
 void AddScriptToEntity(Entity entity, const char* scriptName) {
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
+
 	// Checks if the currentItem is already in scriptNameVec
 	for (int i = 0; i < s->scriptNameVec.size(); i++) {
 		if (s->scriptNameVec[i] == scriptName) {
@@ -192,7 +193,12 @@ void AddScriptToEntity(Entity entity, const char* scriptName) {
 			continue;
 		}
 	}
+
+	
+	std::cout << "ADD SCRIPT TO ENTITY FUNCTION" << std::endl;
+	// If not, add it to the vector
 	s->scriptNameVec.push_back(scriptName);
+	scriptAdded = true;
 	DEBUG_PRINT("Adding script %s to entity %d", scriptName, entity);
 	//printf("Adding script %s to entity %d\n", scriptName, entity);
 }
@@ -200,19 +206,15 @@ void AddScriptToEntity(Entity entity, const char* scriptName) {
 void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
-	// Checks if the currentItem is already in scriptNameVec
-	for (int i = 0; i < s->scriptNameVec.size(); i++) {
-		if (s->scriptNameVec[i] == scriptName) {
-			DEBUG_PRINT("Script %s removed from entity %d", scriptName, entity);
-			//printf("Script %s removed from entity %d\n", scriptName, entity);
-			s->scriptNameVec.erase(s->scriptNameVec.begin() + i);
-			return;
-		}
+	// Search for the script in scriptNameVec
+	auto it = std::find(s->scriptNameVec.begin(), s->scriptNameVec.end(), scriptName);
+	std::cout << "Script name: " << scriptName << std::endl;
 
-		else {
-			continue;
-		}
-	}
-	DEBUG_PRINT("Script %s does not exist in entity %d", scriptName, entity);
-	//printf("Script %s does not exist in entity %d\n", scriptName, entity);
+
+	// If the script is found, remove it
+		s->scriptNameVec.erase(it);
+		DEBUG_PRINT("REMOVESCRIPT: Removing script %s from entity %d", scriptName, entity);
+		scriptRemoved = true;
+		// If the script is not found, print a message
+		//DEBUG_PRINT("REMOVESCRIPT: Script %s not found in entity %d", scriptName, entity);
 }
