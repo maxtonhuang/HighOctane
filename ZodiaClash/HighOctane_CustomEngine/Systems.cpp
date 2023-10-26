@@ -473,6 +473,19 @@ void ScriptSystem::Update() {
 	// Iterate through all entities with a script component
 	for (Entity const& entity : m_Entities) {
 		//Name* name = &nameArray.GetData(entity);
+
+
+		// Global scriptAdded and scriptRemoved bool maybe
+		//if(scriptAdded) {
+		//	ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
+		//}
+		// else if (scripeRemoved) {
+		//}
+		//scriptAdded = false;
+		//scriptRemoved = false; 
+		// Call the scriptEngine but maybe need change to RunTimeChangeScript
+		ScriptEngine::RunTimeAddScript(entity);
+
 		ScriptEngine::OnUpdateEntity(entity);
 	}
 
