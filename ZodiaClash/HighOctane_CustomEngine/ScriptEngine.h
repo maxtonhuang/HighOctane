@@ -32,6 +32,8 @@ public:
 	static bool EntityClassExists(const std::string& fullClassName);
 	static void OnCreateEntity(Entity entity);
 	static void OnUpdateEntity(const Entity& entity);
+	static void RunTimeAddScript(Entity entity);
+	static void RunTimeRemoveScript(Entity entity);
 
 private:
 	// No need to exist
@@ -64,7 +66,7 @@ private:
 
 class ScriptInstance {
 public: 
-	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass);
+	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity);
 
 	void InvokeOnCreate();
 	void InvokeOnUpdate();

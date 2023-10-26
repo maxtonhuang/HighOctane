@@ -1,29 +1,33 @@
 #pragma once
 #include <vector>
 #include "GameAILogic.h"
+#include "CharacterStats.h"
+#include "Attack.h"
 
 class Node {
 public:
-	Node(Gamestate initial); //PARENT CONSTRUCTOR
+	Node(BattleSystem const& initial); //PARENT CONSTRUCTOR
 	Node(Node* previous);	 //CHILD CONSTRUCTOR
-	~Node();
 	Node* GetFront();
+	Node* GetChosen();
 	std::vector<Node*> GetBack();
-	Gamestate previousState{};
-	Gamestate currentState{};
+	BattleSystem battlesystem{};
 	Attack selectedAttack;
-	Character selectedTarget;
+	CharacterStats selectedTarget;
 	Node* previous{};
-	std::vector<Node*> next{};
+	std::vector<Node> next{};
 	size_t depth{};
 	int eval{};
 private:
-	void Advance(Node* node, std::vector<Node*> input);
+	void Advance(Node* node, std::vector<Node*>& input);
 };
 
 class TreeManager {
 public:
-	void Initialize(Gamestate startState);
-	void Search(Gamestate const& start, Attack& selectedAttack, Character& selectedTarget);
-	std::vector<Node> parents;
+	//void Initialize(BattleSystem startState);
+	void Search(BattleSystem* start);
+	//std::vector<Node> parents;
+private:
+	void MakeDecision(Node*);
+	BattleSystem* original;
 };

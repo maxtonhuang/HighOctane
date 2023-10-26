@@ -41,7 +41,7 @@ struct CSharpClassInfo {
 };
 
 void ScriptEngine::Init() {
-    std::cout << "Hi this is initialized for scripting system\n";
+    //std::cout << "Hi this is initialized for scripting system\n";
     s_Data = new ScriptEngineData(); 
     InitMono();
     // If debug mode
@@ -62,7 +62,7 @@ void ScriptEngine::Init() {
 
     // This is to add the internal calls
     internalcalls::AddInternalCall();
-
+    s_Data->EntityClass = ScriptClass("", "Entity");
 #if 0
     // Retrieve and insantiate class (with constructor)
     s_Data->EntityClass = ScriptClass("", "Entity");
@@ -90,7 +90,7 @@ void ScriptEngine::Shutdown() {
 void ScriptEngine::InitMono() {
     
     // Setting the path to the mono
-    std::cout << "Scripting InitMono\n";
+    //std::cout << "Scripting InitMono\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
     //std::cout << filePath << std::endl;
     mono_set_assemblies_path(filePath.c_str());
@@ -149,7 +149,7 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
         if (ScriptEngine::EntityClassExists(fullClassName)) {
 
             // Create an instance of this script class
-            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName]);
+            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
 
             s_Data->EntityInstances[entity].push_back(instance);
 
@@ -158,6 +158,49 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
         }
     }
 
+}
+
+// Run time change script here
+// Function that takes in a function pointer
+
+// Run time add script
+void ScriptEngine::RunTimeAddScript(Entity entity) {
+
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    // For each script associated with this entity
+    for (const auto& fullClassName : sc.scriptNameVec) {
+
+        // Check if such a script class exists in our system
+        if (ScriptEngine::EntityClassExists(fullClassName)) {
+
+            // Create an instance of this script class
+            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
+
+            // If not in EntityInstances, add it
+            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
+				s_Data->EntityInstances[entity].push_back(instance);
+			}
+        }
+    }
+}
+
+// Run time remove script
+void ScriptEngine::RunTimeRemoveScript(Entity entity) {
+    std::cout << "RunTimeRemoveScript" << std::endl;
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    // For each script associated with this entity
+    for (const auto& fullClassName : sc.scriptNameVec) {
+        
+        // Check if such a script class exists in our system
+        if (ScriptEngine::EntityClassExists(fullClassName)) {
+
+            // If in EntityInstances, remove it
+            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
+                s_Data->EntityInstances.erase(entity);
+                
+            }
+        }
+    }
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
@@ -211,7 +254,7 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         if (isEntity) {
             s_Data->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
             fullNameVecImGUI.emplace_back(fullName);
-            std::cout << "Added class: " << fullName << std::endl;
+            //std::cout << "Added class: " << fullName << std::endl;
             printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
         } 
     }
@@ -249,18 +292,29 @@ MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, 
 }
 
 
-ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass) : m_ScriptClass(scriptClass) {
+ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity) : m_ScriptClass(scriptClass) {
 	m_Instance = scriptClass->Instantiate();
 
+    m_Constructor = s_Data->EntityClass.GetMethod(".ctor", 1);
     m_OnCreateMethod = scriptClass->GetMethod("Start", 0);
     m_OnUpdateMethod = scriptClass->GetMethod("Update", 0);
+
+
+
+    // Call entity constructor
+    {
+        Entity entityID = entity;
+        void* param = &entityID;
+        m_ScriptClass->InvokeMethod(m_Instance, m_Constructor, &param);
+    }
+
 }
 
 void ScriptInstance::InvokeOnCreate() {
-    std::cout << "ScriptEngine.cpp::InvokeOnCreate" << std::endl;
+    //std::cout << "ScriptEngine.cpp::InvokeOnCreate" << std::endl;
 	m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
-    std::cout << "ScriptEngine.cpp::InvokeOnCreate m_Instance: " << m_Instance << std::endl;
-    std::cout << "ScriptEngine.cpp::InvokeOnCreate m_OnCreateMethod: " << m_OnCreateMethod << std::endl;
+    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_Instance: " << m_Instance << std::endl;
+    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_OnCreateMethod: " << m_OnCreateMethod << std::endl;
 }
 
 void ScriptInstance::InvokeOnUpdate() {

@@ -18,11 +18,11 @@ namespace Sandbox
 
         public override void Update()
         {
-            //float speed = 1.0f;
-            //Vector2 translation = Translation;
-            //translation.X += Input.GetAxisHorizontal() * speed;
-            //translation.Y += Input.GetAxisVertical() * speed;
-            //Translation = translation;
+            float speed = 1.0f;
+            Vector2 translation = Translation;
+            translation.X += Input.GetAxisHorizontal() * speed;
+            translation.Y += Input.GetAxisVertical() * speed;
+            Translation = translation;
 
             if (Input.GetAxisHorizontal() == 1)
             {

@@ -11,7 +11,7 @@ public class Entity
     // ID is currently hardcoded, need to find a way to make it not hard coded
     // Use the mono constructor thing that chernos did
     // Disable default constructor
-    protected Entity() { ID = 3; }
+    protected Entity() { ID = 0; }
 
     public Entity(UInt32 id)
     {

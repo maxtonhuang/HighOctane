@@ -31,26 +31,61 @@
 ******************************************************************************/
 
 #include "Battle.h"
+#include "CharacterStats.h"
 #include "GameStateManager.h"
 #include "debuglog.h"
 #include <algorithm>
 
+BattleSystem::BattleSystem(BattleSystem const& input) {
+    battleState = input.battleState;
+    roundManage = input.roundManage;
+    turnManage.characterList = input.turnManage.characterList;
+    for (CharacterStats& c : turnManage.characterList) {
+        c.parent = this;
+        c.Start();
+        if (c.entity == input.activeCharacter->entity) {
+            activeCharacter = &c;
+        }
+    }
+    for (CharacterStats*& c : turnManage.turnOrderList) {
+        for (CharacterStats& character : turnManage.characterList) {
+            if (c->entity == character.entity) {
+                c = &character;
+                break;
+            }
+        }
+    }
+    for (CharacterStats*& c : turnManage.originalTurnOrderList) {
+        for (CharacterStats& character : turnManage.characterList) {
+            if (c->entity == character.entity) {
+                c = &character;
+                break;
+            }
+        }
+    }
+    roundInProgress = input.roundInProgress;
+}
+
 void BattleSystem::Initialize() 
 {
-    battleState = NEWGAME;
-
     roundInProgress = false;
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
 
-    NewGameDelay(0.f, 0.f);
+    DetermineTurnOrder();
+
+    battleState = NEWROUND;
     //StartCoroutine(NewGameDelay(0.5f, 1.f)); //delay at start
 }
 
 void BattleSystem::Update() 
 {
-    if (battleState == NEWROUND)
-    {
+    switch (battleState) {
+    case NEWGAME:
+        LOG_WARNING("Initializing battle system");
+        Initialize();
+        break;
+    case NEWROUND:
         if (!roundInProgress)
         {
             roundInProgress = true;
@@ -58,9 +93,8 @@ void BattleSystem::Update()
 
             battleState = NEXTTURN;
         }
-    }
-    else if (battleState == NEXTTURN)
-    {
+        break;
+    case NEXTTURN:
         LOG_WARNING("State: Next Turn");
 
         //then check if player has won
@@ -82,7 +116,7 @@ void BattleSystem::Update()
             {
                 activeCharacter = turnManage.turnOrderList.front();
 
-                if (activeCharacter->gameObject.tag.tag == "Enemy")
+                if (activeCharacter->tag == CharacterType::ENEMY)
                 {
                     turnManage.activeEnemy = activeCharacter->gameObject.name;
                     turnManage.activePlayer = "";
@@ -91,7 +125,7 @@ void BattleSystem::Update()
 
                     battleState = ENEMYTURN;
                 }
-                else if (activeCharacter->tag.tag == "Player")
+                else if (activeCharacter->tag == CharacterType::PLAYER)
                 {
                     turnManage.activePlayer = activeCharacter->gameObject.name;
                     turnManage.activeEnemy = "";
@@ -99,6 +133,9 @@ void BattleSystem::Update()
                     LOG_WARNING("State: Player Turn");
 
                     battleState = PLAYERTURN;
+                }
+                if (activeCharacter->action.entityState != EntityState::DYING) {
+                    activeCharacter->action.entityState = EntityState::START;
                 }
                 ++roundManage.characterCount;
             }
@@ -115,18 +152,44 @@ void BattleSystem::Update()
                 roundInProgress = false;
             }
         }
+        break;
+    case PLAYERTURN:
+    case ENEMYTURN:
+        activeCharacter->action.UpdateState();
+        if (activeCharacter->action.entityState == EntityState::ENDING) {
+            turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
+            battleState = NEXTTURN;;
+        }
+        else if (activeCharacter->action.entityState == EntityState::DYING) {
+            turnManage.turnOrderList.remove(activeCharacter);
+            turnManage.originalTurnOrderList.remove(activeCharacter);
+            turnManage.characterList.pop_front();
+            //turnManage.characterList.remove(*activeCharacter);
+        }
+        break;
     }
-}
+    //if (battleState == NEWROUND)
+    //{
+    //    
+    //}
+    //else if (battleState == NEXTTURN)
+    //{
+    //    
+    //}
+    //else if (battleState == PLAYERTURN) {
 
-BattleState BattleSystem::NewGameDelay(float startDelay, float nextDelay)
-{
-    //yield return new WaitForSeconds(startDelay);
-    //return new WaitForSeconds(nextDelay);
-
-    DetermineTurnOrder();
-    battleState = NEWROUND;
-    return battleState;
+    //}
 }
+//
+//BattleState BattleSystem::NewGameDelay(float startDelay, float nextDelay)
+//{
+//    //yield return new WaitForSeconds(startDelay);
+//    //return new WaitForSeconds(nextDelay);
+//
+//    DetermineTurnOrder();
+//    battleState = NEWROUND;
+//    return battleState;
+//}
 
 
 void BattleSystem::DetermineTurnOrder()
@@ -141,6 +204,7 @@ void BattleSystem::DetermineTurnOrder()
     {
         CharacterStats* m = &characters.GetData(chara);
         m->entity = chara;
+        m->parent = this;
         turnManage.characterList.push_back(*m);
     }
 

@@ -1,6 +1,19 @@
 #include "Attack.h"
 #include "Battle.h"
+#include "CharacterStats.h"
 #include <random>
+
+void Attack::UseAttack(CharacterStats* target) {
+    CalculateDamage(*target);
+    target->TakeDamage(damage);
+}
+
+void Attack::UseAttack(std::vector<CharacterStats*> target) {
+    for (CharacterStats* t : target) {
+        CalculateDamage(*t);
+        t->TakeDamage(damage);
+    }
+}
 
 void Attack::CalculateDamage(CharacterStats const& target)
 {

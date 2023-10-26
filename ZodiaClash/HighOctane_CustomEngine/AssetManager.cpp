@@ -200,6 +200,37 @@ bool AssetManager::FileExists(const std::string& path) {
     return f.good();
 }
 
+void AssetManager::LoadScene(const std::string& scenePath) {
+    Serializer serializer;
+    std::string path{ defaultPath };
+    path += "Scenes/" + scenePath;
+    if (serializer.Open(path)) {
+        while (!serializer.stream.eof()) {
+            path.clear();
+            serializer.ReadString(path);
+            if (path != "") {
+                //DEBUG_PRINT("RECEIVED PATH: %s", path.c_str());
+                LoadAssets(path);
+            }
+        }
+    }
+    else {
+        ASSERT(true, "Unable to open scene file!");
+    }
+
+}
+
+void AssetManager::LoadEntities(const std::string& entitiesPath) {
+    std::string path{ defaultPath };
+    path += "Scenes/" + entitiesPath;
+    if (FileExists(path)) {
+        Serializer::LoadEntityFromJson(path);
+    }
+    else {
+        ASSERT(1, "Unable to open texture file!");
+    }
+}
+
 void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
     
@@ -230,6 +261,12 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else if (extension == ".renderer") {
         LoadRenderer(assetPath);
+    }
+    else if (extension == ".scn") {
+        LoadScene(assetPath);
+    }
+    else if (extension == ".json") {
+        LoadEntities(assetPath);
     }
     else {
         // Error Handling

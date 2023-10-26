@@ -261,7 +261,7 @@ void MovementSystem::Update() {
 *	has any animation.
 *
 ******************************************************************************/
-void ModelSystem::Update() {
+void AnimatorSystem::Update() {
 
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -279,6 +279,33 @@ void ModelSystem::Update() {
 		animatorData->UpdateAnimation(*texData);
 	}
 	//Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
+}
+
+
+/******************************************************************************
+*
+*	@brief Handles model data for each entity, if any
+*
+*	Handles ...
+*
+******************************************************************************/
+void ModelSystem::Update() {
+
+	// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	////auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+
+	//for (Entity const& entity : m_Entities) {
+	//	Animator* animatorData = &animatorArray.GetData(entity);
+	//	Tex* texData = &texArray.GetData(entity);
+	//	//Size* sizeData = &sizeArray.GetData(entity);
+
+	//	animatorData->UpdateAnimation(*texData);
+	//}
 }
 
 /******************************************************************************
@@ -312,28 +339,42 @@ void GraphicsSystem::Update() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		Tex* tex = nullptr;
-		Animator* anim = nullptr;
 		if (m->CheckTransformUpdated(*transform, *size)) {
 			m->Update(*transform, *size);
 		}
+	}
+	camera.Update();
+}
+
+void GraphicsSystem::Draw() {
+	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+
+	for (Entity const& entity : m_Entities) {
+		Model* m = &modelArray.GetData(entity);
+		Tex* tex = nullptr;
+		Animator* anim = nullptr;
 		if (texArray.HasComponent(entity)) {
 			tex = &texArray.GetData(entity);
 		}
 		if (animatorArray.HasComponent(entity)) {
 			anim = &animatorArray.GetData(entity);
 		}
+		//TO CHECK: CHECK FOR TEXT LABEL OR BUTTON COMPONENT HERE?
 		m->Draw(tex, anim);
-		
+
 	}
-	camera.Update();
 	graphics.Draw();
 }
 
@@ -362,23 +403,20 @@ void SerializationSystem::Update() {
 		}
 		destroyAll = false;
 	}
-
-
-	
 }
 
-
+// Loads the script at startup from TestWY1.json
 void ScriptSystem::Initialize() {
+
+	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
-
-
+		std::vector<std::string> scriptVec = LoadScripting(entity);
 
 		// Get the script component
 		Script* s = &ECS::ecs().GetComponent<Script>(entity);
@@ -387,70 +425,45 @@ void ScriptSystem::Initialize() {
 			continue;
 		}
 
-
 		// Get the name component
 		Script& script = scriptArray.GetData(entity);
-		Name* name = &nameArray.GetData(entity);
-
-
-		// For every entity, add the name to the fullNameVecImGUI vector
-		for (auto& fullName : fullNameVecImGUI) {
-			script.scriptNameVecForImGui.push_back(fullName);
+		std::vector<std::string> temp;
+		for (auto& scriptString : scriptVec) {
+			
+			temp.push_back(scriptString);
+			
+			// If not in the global vec for imgui
+			if (std::find(fullNameVecImGUI.begin(), fullNameVecImGUI.end(), scriptString) == fullNameVecImGUI.end()) {
+				fullNameVecImGUI.push_back(scriptString);
+			}
 		}
 
-		//std::cout << "These are the entity names " << name->name << std::endl;
-
-		/*------------TEMPORARY HARD CODE-----------*/
-		std::unordered_map<std::string, std::vector<std::string>> entityScripts = {
-			// Will be taken from ImGui property page next time
-			// The format will be
-			// {name.name}, {scriptNameVecForImGui} I think
-			{"entity_00001", {"Sandbox.Player"}},
-			{"entity_00002", {"PlayerController.PlayerMovement"}}
-		};
-		/*------------TEMPORARY HARD CODE-----------*/
+		scriptMap.insert({ entity, {temp} });
 
 		// Get the script names from the entityScripts map
-		for (auto& [key, value] : entityScripts) {
-			if (key == name->name) {
+		for (auto& [key, value] : scriptMap) {
+			if (key == entity) {
 				script.scriptNameVec = value;
 			}
 		}
 
-		//// Get the name of the entity
-		///*------------TEMPORARY HARD CODE-----------*/
-		//if (name->name == "entity_00001") { 
-
-		//	// Add the script names to the script component and it should run the script
-		//	script.scriptNameVec.push_back("Sandbox.Player");
-		//	script.scriptNameVec.push_back("Sandbox.PlayerController");
-		//	script.className = name->name;
-		//}
-
-		//if (name->name == "entity_00002") { // Kai say this one is the duck
-
-		//	// Add the script names to the script component and it should run the script
-		//	//script.scriptNameVec.push_back("Sandbox.Player");
-		//	script.className = name->name;
-		//}
-		/*------------TEMPORARY HARD CODE-----------*/
-
-
-		// Debug Log
-		std::cout << "Entity: " << name->name << ", Scripts: " << script.scriptNameVec.size() << std::endl;
-
 		// If the script has a className, then initialize it in the script engine.
 		if (!script.scriptNameVec.empty()) {
 			ScriptEngine::OnCreateEntity(entity);
-			std::cout << "Initializing Script for Entity: " << name->name << std::endl;
 		}
 	}
+
+	// Pushes the full name vector to the script component everything is done
+	for (const Entity& entity : m_Entities) {
+		Script& script = scriptArray.GetData(entity);
+		script.scriptNameVecForImGui = fullNameVecImGUI;
+	}
+
 }
 
 
 // Scripting
 void ScriptSystem::Update() {
-
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
@@ -459,8 +472,26 @@ void ScriptSystem::Update() {
 	// Iterate through all entities with a script component
 	for (Entity const& entity : m_Entities) {
 		//Name* name = &nameArray.GetData(entity);
+
+
+		// Global scriptAdded and scriptRemoved bool maybe
+		if(scriptAdded) {
+			//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
+			ScriptEngine::RunTimeAddScript(entity);
+
+		}
+
+		if (scriptRemoved) {
+			std::cout << "SCRIPTREMOVED IS TRUE" << std::endl;
+
+		}
+
+		
 		ScriptEngine::OnUpdateEntity(entity);
 	}
+
+	scriptAdded = false;
+	scriptRemoved = false;
 
 	// scripts
 	ScriptEngine::OnRuntimeStart();
@@ -492,6 +523,24 @@ void EditingSystem::Update() {
 		}
 	}
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
+}
+
+void EditingSystem::Draw() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+
+	for (Entity entity : m_Entities) {
+		Name* n = &nameArray.GetData(entity);
+		Model* m = &modelArray.GetData(entity);
+
+		if (n->selected) {
+			m->DrawOutline();
+		}
+	}
 }
 
 void GameplaySystem::Update() {
@@ -538,14 +587,15 @@ void UITextLabelSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 
-		if (textLabelData->CheckStringUpdated(*textLabelData)) {
+		//if (textLabelData->CheckStringUpdated(*textLabelData)) {
 			textLabelData->UpdateOffset(*transformData, *sizeData);
-		}
+		//}
 
-		textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		textLabelData->Update(*transformData, *modelData, *nameData);
+		/*textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
 		if (nameData->selected) {
 			textLabelData->OnFocus();
-		}
+		}*/
 		
 		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
 		//DEBUG_PRINT("relTrans: %f %f", textLabelData->relTransform.x, textLabelData->relTransform.y);
@@ -554,12 +604,27 @@ void UITextLabelSystem::Update() {
 		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
 		
 		//call graphics drawLabel here?
-		modelData->SetAlpha(1.f);
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
-		modelData->SetAlpha(0.2f);
+		
 
 		//note: find a way to update size!!
 	}
+}
+
+void UITextLabelSystem::Draw() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	for (Entity const& entity : m_Entities) {
+		Model* modelData = &modelArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		modelData->SetAlpha(1.f);
+		//TODO: MOVE INTO DRAW LOOP!!
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
+		modelData->SetAlpha(0.2f);
+	}
+	
 }
 
 void UIButtonSystem::Update() {
@@ -580,16 +645,19 @@ void UIButtonSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
-		if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
+		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
 			buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
-		}
+		//}
 
-		buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
-		if (nameData->selected) {
-			buttonData->OnFocus();
-		}
+		buttonData->Update(*transformData, *modelData, *nameData);
+		//buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
+		//if (nameData->selected) {
+		//	buttonData->OnFocus();
+		//}
 
 		modelData->SetAlpha(1.f);
+
+		//TODO: MOVE INTO DRAW LOOP!!
 		buttonData->DrawButton(*modelData);
 		//modelData->SetAlpha(0.2f);
 	}

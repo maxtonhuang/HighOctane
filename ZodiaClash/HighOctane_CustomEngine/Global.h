@@ -54,6 +54,8 @@ extern bool fileDropped;
 extern float dropTimer;
 extern bool destroyAll;
 extern bool saveFile;
+extern bool scriptAdded;
+extern bool scriptRemoved;
 
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;

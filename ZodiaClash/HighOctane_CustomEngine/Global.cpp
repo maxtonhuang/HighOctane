@@ -47,6 +47,8 @@ bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
+bool scriptAdded{ false };
+bool scriptRemoved{ false };
 
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;

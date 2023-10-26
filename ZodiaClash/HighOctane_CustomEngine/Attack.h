@@ -1,8 +1,18 @@
-#include "CharacterStats.h"
+#pragma once
+#include "CharacterCommon.h"
+class CharacterStats;
+
+enum class AttackType {
+    NORMAL,
+    AOE
+};
 
 class Attack {
 public:
+    void UseAttack(CharacterStats* target);
+    void UseAttack(std::vector<CharacterStats*> target);
 	void CalculateDamage(CharacterStats const& target);
+    AttackType attacktype;
 private:
     CharacterStats* owner;
 

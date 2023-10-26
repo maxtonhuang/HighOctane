@@ -61,6 +61,8 @@ namespace internalcalls {
 
     static void TransformGetTranslation(Entity entity, vmath::Vector2* outTranslation)
     {
+
+        // If the entity is 0, then it is not valid
         if (entity == 0) {
             return;
         }
@@ -70,6 +72,8 @@ namespace internalcalls {
 
     static void TransformSetTranslation(Entity entity, vmath::Vector2* translation)
     {
+
+        // If the entity is 0, then it is not valid
         if (entity == 0) {
             return;
         }
