@@ -9,39 +9,39 @@ const float healRate = 1.f;
 //----------------------------------------------------------------------------------------
 
 #include "GameAILogic.h"
-
-void Gamestate::Update() {
-	if (playerCharacters.size() == 0) {
-		gameStatus = 2;
-	}
-	if (enemyCharacters.size() == 2) {
-		gameStatus = 1;
-	}
-}
+#include "CharacterStats.h"
 
 namespace GameAILogic {
-	int Evaluate(Gamestate start, Gamestate end) {
+	int Evaluate(BattleSystem const& start, BattleSystem const& end) {
 		int value = 0;
 
-		value += playerWeight * (int)(end.playerCharacters.size() - start.playerCharacters.size());
-		value += enemyWeight * (int)(end.enemyCharacters.size() - start.enemyCharacters.size());
-
+		int playerChange = 0;
+		int enemyChange = 0;
 		float effectiveDamage = 0;
-		for (Character const& c : start.playerCharacters) {
-			effectiveDamage += c.health;
-		}
-		for (Character const& c : end.playerCharacters) {
-			effectiveDamage -= c.health;
-		}
-		value += (int)(effectiveDamage * damageRate);
-
 		float effectiveHealing = 0;
-		for (Character const& c : end.enemyCharacters) {
-			effectiveHealing += c.health;
+		for (CharacterStats const& c : end.turnManage.characterList) {
+			if (c.tag == CharacterType::PLAYER) {
+				playerChange++;
+				effectiveDamage -= c.stats.health;
+			}
+			if (c.tag == CharacterType::ENEMY) {
+				enemyChange++;
+				effectiveHealing += c.stats.health;
+			}
 		}
-		for (Character const& c : start.enemyCharacters) {
-			effectiveHealing -= c.health;
+		for (CharacterStats const& c : start.turnManage.characterList) {
+			if (c.tag == CharacterType::PLAYER) {
+				playerChange--;
+				effectiveDamage += c.stats.health;
+			}
+			if (c.tag == CharacterType::ENEMY) {
+				enemyChange--;
+				effectiveHealing -= c.stats.health;
+			}
 		}
+		value += playerWeight * playerChange;
+		value += enemyWeight * enemyChange;
+		value += (int)(effectiveDamage * damageRate);
 		value += (int)(effectiveHealing * healRate);
 
 		return value;
