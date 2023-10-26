@@ -319,6 +319,7 @@ private:
 class System {
 public:
     virtual void Update() = 0;
+    virtual void Draw() {};
     std::set<Entity> m_Entities;
 };
 
@@ -490,6 +491,7 @@ class GraphicsSystem : public System {
 public:
     void Initialize();
     void Update() override;
+    void Draw() override;
 };
 
 class SerializationSystem : public System {
@@ -518,6 +520,7 @@ public:
 class UITextLabelSystem : public System {
 public:
     void Update() override;
+    void Draw() override;
 };
 
 class UIButtonSystem : public System {

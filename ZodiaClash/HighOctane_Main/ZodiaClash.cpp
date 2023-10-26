@@ -575,6 +575,10 @@ void EngineCore::Run(bool const& mode) {
 
 		}
 
+		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+			sys.first->Draw();
+		}
+
 		if (EDITOR_MODE) {
 			debugSysProfile.StartTimer("Level Editor", GetTime());
 			guiManager.Update();

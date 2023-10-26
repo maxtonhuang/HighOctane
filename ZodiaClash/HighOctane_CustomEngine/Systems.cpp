@@ -339,30 +339,42 @@ void GraphicsSystem::Update() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		Tex* tex = nullptr;
-		Animator* anim = nullptr;
 		if (m->CheckTransformUpdated(*transform, *size)) {
 			m->Update(*transform, *size);
 		}
+	}
+	camera.Update();
+}
+
+void GraphicsSystem::Draw() {
+	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
+// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+
+	for (Entity const& entity : m_Entities) {
+		Model* m = &modelArray.GetData(entity);
+		Tex* tex = nullptr;
+		Animator* anim = nullptr;
 		if (texArray.HasComponent(entity)) {
 			tex = &texArray.GetData(entity);
 		}
 		if (animatorArray.HasComponent(entity)) {
 			anim = &animatorArray.GetData(entity);
 		}
-
 		//TO CHECK: CHECK FOR TEXT LABEL OR BUTTON COMPONENT HERE?
 		m->Draw(tex, anim);
-		
+
 	}
-	camera.Update();
 	graphics.Draw();
 }
 
@@ -557,13 +569,27 @@ void UITextLabelSystem::Update() {
 		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
 		
 		//call graphics drawLabel here?
+		
+
+		//note: find a way to update size!!
+	}
+}
+
+void UITextLabelSystem::Draw() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	for (Entity const& entity : m_Entities) {
+		Model* modelData = &modelArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		modelData->SetAlpha(1.f);
 		//TODO: MOVE INTO DRAW LOOP!!
 		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
 		modelData->SetAlpha(0.2f);
-
-		//note: find a way to update size!!
 	}
+	
 }
 
 void UIButtonSystem::Update() {
