@@ -568,6 +568,7 @@ std::vector<std::string> LoadScripting(Entity entity) {
 
 	// Open the file here	
 	std::ifstream ifs("../Assets/Scenes/TestWY1.json");
+	//std::ifstream ifs("../Assets/Scenes/TestWY2.json");
 
 	// Check if can open
 	if (!ifs.is_open()) {

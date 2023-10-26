@@ -32,6 +32,7 @@ public:
 	static bool EntityClassExists(const std::string& fullClassName);
 	static void OnCreateEntity(Entity entity);
 	static void OnUpdateEntity(const Entity& entity);
+	static void RunTimeAddScript(Entity entity);
 
 private:
 	// No need to exist

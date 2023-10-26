@@ -160,6 +160,37 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
 
 }
 
+// Run time change script here
+// Function that takes in a function pointer
+
+// Run time add script
+void ScriptEngine::RunTimeAddScript(Entity entity) {
+    // Code to 
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    // For each script associated with this entity
+    for (const auto& fullClassName : sc.scriptNameVec) {
+
+        // Check if such a script class exists in our system
+        if (ScriptEngine::EntityClassExists(fullClassName)) {
+
+            // Create an instance of this script class
+            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
+
+            // If not in EntityInstances, add it
+            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
+				s_Data->EntityInstances[entity].push_back(instance);
+			}
+
+            //s_Data->EntityInstances[entity].push_back(instance);
+
+            // Call the OnCreate method of this script instance
+            instance->InvokeOnCreate();
+        }
+    }
+}
+
+// Run time remove script
+
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
     // Check if the entity exists in our map
     auto it = s_Data->EntityInstances.find(entity);
