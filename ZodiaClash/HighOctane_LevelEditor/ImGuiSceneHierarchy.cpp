@@ -31,17 +31,26 @@ void UpdateSceneHierachy() {
 	if (currentSelectedEntity) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
+	/*Entity entity;
+	
+	if(ECS::ecs().HasComponent<Name>(entity)) {
+		if()
+		SceneEntityComponents(entity);
+	}*/
 	ImGui::End();
 }
 
 void SceneEntityNode(Entity entity) {
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
+		auto& entitySelected = ECS::ecs().GetComponent<Name>(entity).selected;
 
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
-
+		ImGuiTreeNodeFlags flags =  ImGuiTreeNodeFlags_OpenOnArrow;
+		if (entity == currentSelectedEntity) {
+			flags |= ImGuiTreeNodeFlags_Selected; // Add the selected flag for the current entity
+		}
 		bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uintptr_t>(entity)), flags, entityName.c_str());
-		if (ImGui::IsItemClicked()) {
+		if (ImGui::IsItemClicked() || entitySelected == true) {
 			currentSelectedEntity = entity;
 		}
 
@@ -78,7 +87,7 @@ void SceneEntityComponents(Entity entity) {
 			auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
 			auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
 			ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-			ImGui::DragFloat("Rotation", &rotationComponent, 0.5f, -(vmath::PI), vmath::PI);
+			ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
 			ImGui::DragFloat("Scale", &scaleComponent,0.5f,1.f,100.f);
 			/*const char* rotationOptions[] = { "0 degrees", "90 degrees", "180 degrees", "270 degrees" };
 			int currentRotationIndex = static_cast<int>(rotationComponent / 90.0f);
