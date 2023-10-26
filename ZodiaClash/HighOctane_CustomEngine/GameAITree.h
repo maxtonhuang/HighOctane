@@ -9,6 +9,7 @@ public:
 	Node(BattleSystem const& initial); //PARENT CONSTRUCTOR
 	Node(Node* previous);	 //CHILD CONSTRUCTOR
 	Node* GetFront();
+	Node* GetChosen();
 	std::vector<Node*> GetBack();
 	BattleSystem battlesystem{};
 	Attack selectedAttack;
@@ -23,7 +24,10 @@ private:
 
 class TreeManager {
 public:
-	void Initialize(BattleSystem startState);
+	//void Initialize(BattleSystem startState);
 	void Search(BattleSystem* start);
-	std::vector<Node> parents;
+	//std::vector<Node> parents;
+private:
+	void MakeDecision(Node*);
+	BattleSystem* original;
 };

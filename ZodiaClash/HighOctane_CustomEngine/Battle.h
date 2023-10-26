@@ -72,9 +72,9 @@ public:
 	TurnManagement turnManage;
 	void Initialize();
 	void Update() override;
-
-private:
 	CharacterStats* activeCharacter;
+private:
+	
 	//std::vector <GameObject> gameObjects;
 	bool roundInProgress;
 

@@ -69,15 +69,15 @@ void CharacterAction::RefreshTargets() {
 }
 
 void CharacterAction::ApplySkill() {
-    if (selectedSkill->attacktype == AttackType::NORMAL) {
-        selectedSkill->UseAttack(targetSelect.selectedTarget);
+    if (selectedSkill.attacktype == AttackType::NORMAL) {
+        selectedSkill.UseAttack(targetSelect.selectedTarget);
     }
-    else if(selectedSkill->attacktype == AttackType::AOE) {
+    else if(selectedSkill.attacktype == AttackType::AOE) {
         if (characterStats->tag == CharacterType::PLAYER) {
-            selectedSkill->UseAttack(targetSelect.enemyTargets);
+            selectedSkill.UseAttack(targetSelect.enemyTargets);
         }
         else {
-            selectedSkill->UseAttack(targetSelect.playerTargets);
+            selectedSkill.UseAttack(targetSelect.playerTargets);
         }
     }
 }

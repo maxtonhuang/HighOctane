@@ -10,7 +10,7 @@ public:
     //SkillSelection skillSelect;
     TargetSelection targetSelect;
     std::vector<Attack> skills;
-    Attack* selectedSkill;
+    Attack selectedSkill;
     //void SelectSkill(std::string btn);
     void UpdateState();
     BattleSystem* battleManager;
