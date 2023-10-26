@@ -35,18 +35,18 @@
 #include "Battle.h"
 #include "CharacterStats.h"
 
-int current = 0, previous = 0, next = 0;
+int gsmCurrent = 0, gsmPrevious = 0, gsmNext = 0;
 
 FP fpLoad = nullptr, fpInitialize = nullptr, fpUpdate = nullptr, fpDraw = nullptr, fpFree = nullptr, fpUnload = nullptr;
 
 void GSM_Initialize(int startingState)
 {
-	current = previous = next = startingState;
+	gsmCurrent = gsmPrevious = gsmNext = startingState;
 }
 
 void GSM_Update()
 {
-	switch (next)
+	switch (gsmNext)
 	{
 	//case GS_MAINMENU:
 	//	fpLoad = MainMenu_Load;

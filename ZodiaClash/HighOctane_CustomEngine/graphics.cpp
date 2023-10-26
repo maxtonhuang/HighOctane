@@ -191,7 +191,6 @@ void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, 
 }
 
 void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b, float a) {
-    const float PI = 3.141592653589793238463f;
     const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
     renderer["circle"].AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
     for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {

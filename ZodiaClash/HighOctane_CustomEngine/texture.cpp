@@ -325,3 +325,22 @@ Texture* TextureManager::Add(Font& font) {
 
 	return &data[texname];
 }
+
+std::vector<std::string> TextureManager::GetTextureNames() {
+	std::vector<std::string> output;
+	for (auto& texture : data) {
+		if (texture.first.find("font") != std::string::npos) {
+			continue;
+		}
+		if (texture.second.GetSheetSize() == 1) {
+			output.push_back(texture.first);
+		}
+		else {
+			size_t pos = texture.first.find_last_of(".");
+			std::string tmp{ texture.first.substr(0,pos)};
+			tmp += ".spritesheet";
+			output.push_back(tmp);
+		}
+	}
+	return output;
+}

@@ -35,7 +35,7 @@ public:
     void Start();
 private:
     
-    void Death(Entity& entity);
+    //void Death(Entity& entity);
     /*GameStateManager gameManager;
    BattleManager battleManager;
    StatusEffectHud statusEffectHud;*/

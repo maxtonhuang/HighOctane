@@ -231,6 +231,15 @@ void AssetManager::LoadEntities(const std::string& entitiesPath) {
     }
 }
 
+std::vector<std::string> AssetManager::GetFiles() {
+    std::vector<std::string> output{ texture.GetTextureNames() };
+    std::vector<std::string> append{ audio.GetSoundNames() };
+    for (std::string& s : append) {
+        output.push_back(s);
+    }
+    return output;
+}
+
 void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
     
