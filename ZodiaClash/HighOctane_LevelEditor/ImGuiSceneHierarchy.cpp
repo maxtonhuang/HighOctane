@@ -129,7 +129,7 @@ void SceneEntityComponents(Entity entity) {
 		
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
 			//auto& scriptComponent = ECS::ecs().GetComponent<Script>(entity);
-			static const char* currentItem = NULL;
+			//static const char* currentScriptForIMGUI = NULL;
 			// Create a combo box to select a script
 			int currentScriptIndex = -1; // Initialize with an invalid index
 			if (!fullNameVecImGUI.empty()) {
@@ -143,11 +143,11 @@ void SceneEntityComponents(Entity entity) {
 				}
 
 
-				if (ImGui::BeginCombo("Scripts Available", currentItem)) {
+				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI)) {
 					for (int n = 0; n < scriptNamesCStrings.size(); n++) {
-						bool is_selected = (currentItem == scriptNamesCStrings[n]);
+						bool is_selected = (currentScriptForIMGUI == scriptNamesCStrings[n]);
 						if (ImGui::Selectable(scriptNamesCStrings[n], is_selected)) {
-							currentItem = scriptNamesCStrings[n];
+							currentScriptForIMGUI = scriptNamesCStrings[n];
 						}
 						if (is_selected) {
 							ImGui::SetItemDefaultFocus();
@@ -158,23 +158,23 @@ void SceneEntityComponents(Entity entity) {
 			}
 			//ImGui::SameLine();
 			if (ImGui::Button("Add Script")) {
-				if (currentItem == NULL) {
+				if (currentScriptForIMGUI == NULL) {
 					DEBUG_PRINT("No script selected");
 					//printf("No script selected\n");
 				}
 				else {
-					AddScriptToEntity(entity, currentItem);
+					AddScriptToEntity(entity, currentScriptForIMGUI);
 				}
 			}
 
 			ImGui::SameLine();
 			if (ImGui::Button("Delete Script")) {
-				if (currentItem == NULL) {
+				if (currentScriptForIMGUI == NULL) {
 					DEBUG_PRINT("No script selected");
 					//printf("No script selected\n");
 				}
 				else {
-					RemoveScriptFromEntity(entity, currentItem);
+					RemoveScriptFromEntity(entity, currentScriptForIMGUI);
 				}
 			}
 
@@ -190,7 +190,7 @@ void AddScriptToEntity(Entity entity, const char* scriptName) {
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
 
-	// Checks if the currentItem is already in scriptNameVec
+	// Checks if the currentScriptForIMGUI is already in scriptNameVec
 	for (int i = 0; i < s->scriptNameVec.size(); i++) {
 		if (s->scriptNameVec[i] == scriptName) {
 			DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
@@ -215,15 +215,31 @@ void AddScriptToEntity(Entity entity, const char* scriptName) {
 void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
+	// If the scriptNameVec is empty, return
+	if (s->scriptNameVec.size() <= 0) {
+		return;
+	}
+
 	// Search for the script in scriptNameVec
 	auto it = std::find(s->scriptNameVec.begin(), s->scriptNameVec.end(), scriptName);
 	std::cout << "Script name: " << scriptName << std::endl;
+	scriptRemoved = true;
 
+	// If found, remove
+	//if (it != s->scriptNameVec.end()) {
+	//	s->scriptNameVec.erase(it);
+	//	//DEBUG_PRINT("REMOVESCRIPT: Removing script %s from entity %d", scriptName, entity);
+	//	scriptRemoved = true;
+	//	return;
+	//}
+	//else {
+	//	//DEBUG_PRINT("REMOVESCRIPT: Script %s not found in entity %d", scriptName, entity)
+	//}
 
 	// If the script is found, remove it
-		s->scriptNameVec.erase(it);
-		DEBUG_PRINT("REMOVESCRIPT: Removing script %s from entity %d", scriptName, entity);
-		scriptRemoved = true;
-		// If the script is not found, print a message
-		//DEBUG_PRINT("REMOVESCRIPT: Script %s not found in entity %d", scriptName, entity);
+	//s->scriptNameVec.erase(it);
+	//DEBUG_PRINT("REMOVESCRIPT: Removing script %s from entity %d", scriptName, entity);
+	//scriptRemoved = true;
+	// If the script is not found, print a message
+	//DEBUG_PRINT("REMOVESCRIPT: Script %s not found in entity %d", scriptName, entity);
 }

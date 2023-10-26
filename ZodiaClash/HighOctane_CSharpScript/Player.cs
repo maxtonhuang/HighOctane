@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sandbox
+namespace Players
 {
     internal class Player : MonoBehaviour
     {
@@ -23,6 +23,9 @@ namespace Sandbox
             translation.X += Input.GetAxisHorizontal() * speed;
             translation.Y += Input.GetAxisVertical() * speed;
             Translation = translation;
+
+            Vector2 force = Force;
+            Console.WriteLine("Force:" + force.X + ", " + force.Y);
 
             if (Input.GetAxisHorizontal() == 1)
             {
@@ -61,7 +64,23 @@ namespace PlayerController
 
         public override void Update()
         {
-            //Console.WriteLine($"PlayerMovement OnUpdate");
+            Console.WriteLine($"PlayerMovement OnUpdate");
+        }
+    }
+}
+
+namespace JustTest
+{
+    internal class Test : MonoBehaviour
+    {
+        public override void Start()
+        {
+            Console.WriteLine("Test OnCreate");
+        }
+
+        public override void Update()
+        {
+            Console.WriteLine($"Test OnUpdate");
         }
     }
 }

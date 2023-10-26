@@ -32,35 +32,48 @@ public class Entity
             InternalCalls.TransformSetTranslation(ID, ref value);
         }
     }
-    //public bool HasComponent<T>() where T : Component, new()
-    //{
-    //    Type componentType = typeof(T);
-    //    return InternalCalls.EntityHasComponent(/*Entity.ID, */ componentType);
-    //}
+    
+    public Vector2 Force
+    {
+        get
+        {
+            InternalCalls.TransformGetForce(ID, out Vector2 force);
+            return force;
+        }
 
-    //public T? GetComponent<T>() where T : Component, new()
-    //{
-    //    if (!HasComponent<T>())
-    //        return null;
+        set
+        {
+            InternalCalls.TransformSetForce(ID, ref value);
+        }
+    }
 
-    //    T component = new T() { Entity = this };
-    //    return component;
-    //}
 
-    ////public Entity FindEntityByName(string name)
-    ////{
-    ////    ulong entityID = InternalCalls.Entity_FindEntityByName(name);
-    ////    if (entityID == 0)
-    ////        return null;
+    public bool HasComponent<T>() where T : Component, new()
+    {
+        Type componentType = typeof(T);
+        return InternalCalls.EntityHasComponent(ID, componentType);
+    }
 
-    ////    return new Entity(entityID);
-    ////}
+    public void AddComponent<T>() where T : Component, new()
+    {
+        Type componentType = typeof(T);
+        InternalCalls.EntityAddComponent(ID, componentType);
+    }
 
-    ////public T As<T>() where T : Entity, new()
-    ////{
-    ////    object instance = InternalCalls.GetScriptInstance(ID);
-    ////    return instance as T;
-    ////}
+    public void RemoveComponent<T>() where T : Component, new()
+    {
+        Type componentType = typeof(T);
+        InternalCalls.EntityRemoveComponent(ID);
+    }
+
+    public T? GetComponent<T>() where T : Component, new()
+    {
+        if (!HasComponent<T>())
+            return null;
+
+        T component = new T() { Entity = this };
+        return component;
+    }
 
 }
 
