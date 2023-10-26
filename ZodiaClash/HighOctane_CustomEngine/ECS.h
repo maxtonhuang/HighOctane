@@ -481,7 +481,7 @@ public:
     void Update() override;
 };
 
-class ModelSystem : public System {
+class AnimatorSystem : public System {
 public:
     void Update() override;
 };
@@ -521,6 +521,11 @@ public:
 };
 
 class UIButtonSystem : public System {
+public:
+    void Update() override;
+};
+
+class ModelSystem : public System {
 public:
     void Update() override;
 };
