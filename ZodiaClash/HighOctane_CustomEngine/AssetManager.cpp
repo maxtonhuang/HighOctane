@@ -237,6 +237,12 @@ std::vector<std::string> AssetManager::GetFiles() {
     for (std::string& s : append) {
         output.push_back(s);
     }
+    auto* fontmap = fonts.GetFontCollection();
+    for (auto& f : *fontmap) {
+        size_t pos{ f.second.fontFilePath.find("Fonts") };
+        std::string fontpath{ f.second.fontFilePath.substr(pos + 6) };
+        output.push_back(fontpath);
+    }
     return output;
 }
 
