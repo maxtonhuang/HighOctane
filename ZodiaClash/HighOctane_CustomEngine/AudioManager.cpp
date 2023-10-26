@@ -138,3 +138,11 @@ void AudioManager::ReleaseAllSounds() {
 FMOD::System* AudioManager::GetSystem() {
     return system;
 }
+
+std::vector<std::string> AudioManager::GetSoundNames() {
+    std::vector<std::string> output{};
+    for (auto& name : data) {
+        output.push_back(name.first);
+    }
+    return output;
+}

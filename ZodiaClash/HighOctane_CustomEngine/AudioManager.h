@@ -54,6 +54,8 @@ public:
 	void PlaySounds(const char* sound, const char* channelGroup = nullptr); //Plays loaded sound
 	void FreeSound(const char* sound); //Free a sound from FMOD and audio manager
 	FMOD::System* GetSystem();
+
+	std::vector<std::string> GetSoundNames();
 private:
 	FMOD::System* system{};
 	std::unordered_map<std::string, FMOD::Sound*> data{};

@@ -9,8 +9,8 @@ void CharacterStats::Start()
     action.characterStats = this;
 }
 
-void CharacterStats::Death(Entity& entity)
-{
+//void CharacterStats::Death(Entity& entity)
+//{
     //if (tag == CharacterType::PLAYER)
     //{
     //    // Assuming you have a way to get the _PlayerAction component from the gameObject
@@ -25,7 +25,7 @@ void CharacterStats::Death(Entity& entity)
     //    enemy.enemyState = DYING;
     //}
     
-}
+//}
 
 
 void CharacterStats::TakeDamage(float damage) 

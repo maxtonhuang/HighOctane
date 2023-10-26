@@ -54,3 +54,5 @@ std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};
+
+const char* currentScriptForIMGUI{ NULL };

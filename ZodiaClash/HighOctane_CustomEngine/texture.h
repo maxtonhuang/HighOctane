@@ -95,6 +95,7 @@ public:
 	Texture* Add(const char* texpath, char const* texname); //Create a texture using the texture file path as input. If texture already exists, return the texture instead.
 	Texture* Add(Font& font);
 	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum, const char* texpath = nullptr); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
+	std::vector<std::string> GetTextureNames();
 	void Clear(); //Removes all textures from OpenGL memory and empties the map
 	std::unordered_map<std::string, Texture> data; //storage of textures
 };

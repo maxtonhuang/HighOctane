@@ -30,15 +30,13 @@ void Attack::CalculateDamage(CharacterStats const& target)
         //critical hit
         critCheck = true;
 
-        damage = (int)((
-            std::max(minAttackMultiplier, maxAttackMultiplier) *
+        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
             ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense)))
-            * critMultiplier));
+            * critMultiplier);
     }
     else
     {
-        damage = (int)(
-            std::max(minAttackMultiplier, maxAttackMultiplier) *
+        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
             ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense))));
     }
 }

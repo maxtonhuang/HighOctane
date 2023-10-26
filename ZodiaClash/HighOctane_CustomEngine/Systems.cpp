@@ -473,28 +473,39 @@ void ScriptSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 		//Name* name = &nameArray.GetData(entity);
 
+		// For Wen Yuan to DEBUG
+		Script* s = &ECS::ecs().GetComponent<Script>(entity);
+		//if (entity == 3)
+		//printf("ScriptSystem::Update::Script::size: %d\n", s->scriptNameVec.size());
+		// For Wen Yuan to DEBUG
+
 
 		// Global scriptAdded and scriptRemoved bool maybe
 		if(scriptAdded) {
 			//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
 			ScriptEngine::RunTimeAddScript(entity);
 
+
 		}
 
 		if (scriptRemoved) {
-			std::cout << "SCRIPTREMOVED IS TRUE" << std::endl;
+			ScriptEngine::RunTimeRemoveScript(entity);
+			//std::cout << "SCRIPTREMOVED IS TRUE" << std::endl;
 
 		}
 
-		
-		ScriptEngine::OnUpdateEntity(entity);
+		for (auto& scriptName : s->scriptNameVec) {
+			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
+			ScriptEngine::OnUpdateEntity(entity);
+		}
+		//ScriptEngine::OnUpdateEntity(entity);
 	}
 
 	scriptAdded = false;
 	scriptRemoved = false;
 
 	// scripts
-	ScriptEngine::OnRuntimeStart();
+	//ScriptEngine::OnRuntimeStart();
 
 	// Instantiate all script entities
 }

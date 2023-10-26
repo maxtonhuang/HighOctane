@@ -80,6 +80,27 @@ namespace internalcalls {
         ECS::ecs().GetComponent<Transform>(entity).position = *translation;
     }
 
+    // This is to get the force
+    static void TransformGetForce(Entity entity, vmath::Vector2* outForce)
+    {
+		// If the entity is 0, then it is not valid
+        if (entity == 0) {
+			return;
+		}
+
+		*outForce = ECS::ecs().GetComponent<Transform>(entity).force;
+	}
+
+    static void TransformSetForce(Entity entity, vmath::Vector2* forceAdd)
+    {
+
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+        ECS::ecs().GetComponent<Transform>(entity).force = *forceAdd;
+    }
+
 
     // This function is to get the vertical axis on C# side
     static int GetAxisVertical() {
@@ -99,11 +120,23 @@ namespace internalcalls {
     }
 
     // Entities
-    template<typename T>
-    static bool EntityHasComponent(/*Entity entity, */T componentName) {
-        return ECS::ecs().HasComponent<T>(0/*entity*/);
+    static bool EntityHasComponent(Entity entity, MonoReflectionType* componentName) {
+        return ECS::ecs().HasComponent<MonoReflectionType*>(entity);
 	}
 
+    static void EntityAddComponent(Entity entity, MonoReflectionType* componentName) {
+		ECS::ecs().AddComponent<MonoReflectionType*>(entity, componentName);
+	}
+
+    static void EntityRemoveComponent(Entity entity) {
+        ECS::ecs().RemoveComponent<MonoReflectionType*>(entity);
+    }
+
+    static MonoReflectionType* EntityGetComponent(Entity entity) {
+		return ECS::ecs().GetComponent<MonoReflectionType*>(entity);
+	}
+
+    // Entities
 
 #define ADD_INTERNAL_CALL(name) mono_add_internal_call("InternalCalls::" #name, name);
 
@@ -116,6 +149,18 @@ namespace internalcalls {
         ADD_INTERNAL_CALL(GetAxisVertical);
         ADD_INTERNAL_CALL(TransformGetTranslation);
         ADD_INTERNAL_CALL(TransformSetTranslation);
+
+        // Get the force
+        ADD_INTERNAL_CALL(TransformGetForce);
+
+        // Entities
+        ADD_INTERNAL_CALL(EntityHasComponent);
+        ADD_INTERNAL_CALL(EntityAddComponent);
+        ADD_INTERNAL_CALL(EntityRemoveComponent);
+        ADD_INTERNAL_CALL(EntityGetComponent);
+        // Entities
+
+
 
     }
 
