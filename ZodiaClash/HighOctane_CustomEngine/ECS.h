@@ -515,6 +515,7 @@ public:
 class EditingSystem : public System {
 public:
     void Update() override;
+    void Draw() override;
 };
 
 class UITextLabelSystem : public System {

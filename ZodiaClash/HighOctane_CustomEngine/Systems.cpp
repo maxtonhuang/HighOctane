@@ -525,6 +525,24 @@ void EditingSystem::Update() {
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }
 
+void EditingSystem::Draw() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+
+	for (Entity entity : m_Entities) {
+		Name* n = &nameArray.GetData(entity);
+		Model* m = &modelArray.GetData(entity);
+
+		if (n->selected) {
+			m->DrawOutline();
+		}
+	}
+}
+
 void GameplaySystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
