@@ -36,6 +36,7 @@
 #include "Utilities.h"
 #include "Font.h"
 #include "graphics.h"
+#include "Colors.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 vmath::Vector2 uiOffset{ RESET_VEC2 };
@@ -49,9 +50,7 @@ TextLabel::TextLabel() {
 	textString = "TextLabel";
 	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN;
 	relFontSize = 0.5f;
-	defaultColor = { 1.f, 1.f, 1.f, 1.f };
-	hoveredColor = { 1.f, 0.f, 0.f, 1.f };
-	focusedColor = { 0.f, 0.f, 1.f, 1.f };
+	textColor = &colors.colorMap["black"];
 }
 
 TextLabel::TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align) {
@@ -59,9 +58,7 @@ TextLabel::TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align) {
 	textString = str; 
 	textAlignment = align;
 	relFontSize = 0.5f;
-	defaultColor = { 1.f, 1.f, 1.f, 1.f };
-	hoveredColor = { 1.f, 0.f, 0.f, 1.f };
-	focusedColor = { 0.f, 0.f, 1.f, 1.f };
+	textColor = &colors.colorMap["black"];
 }
 
 TextLabel::TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align) {
@@ -69,9 +66,7 @@ TextLabel::TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align) {
 	textString = str;
 	textAlignment = align;
 	relFontSize = 0.5f;
-	defaultColor = { 1.f, 1.f, 1.f, 1.f };
-	hoveredColor = { 1.f, 0.f, 0.f, 1.f };
-	focusedColor = { 0.f, 0.f, 1.f, 1.f };
+	textColor = &colors.colorMap["black"];
 }
 
 bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
@@ -123,6 +118,8 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData) {
 
 void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameData) {
 	// get cursorPos, compare with pos in Transform, return if no match
+	if (transformData.isStatic)
+		return;
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -135,26 +132,23 @@ void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameDat
 				//OnClick(modelData, nameData);
 			}
 			break;
-		//case(TYPE::MOUSE_DOWN):
-		//	if (nameData.selected) {
-		//		transformData.position.x = msg.posX;
-		//		transformData.position.y = msg.posY;
-		//	}
-		//	break;
 		}		
 	}
 
 	if (nameData.selected) {
 		SetTextString("Focused Text");
-		modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
+		currentState = STATE::FOCUSED;
+		//modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
 		SetTextString("Hovered Text");
-		modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
+		currentState = STATE::HOVERED;
+		//modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
 	}
 	else {
 		SetTextString("TextString");
-		modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
+		currentState = STATE::NONE;
+		//modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
 	}
 
 
@@ -199,37 +193,34 @@ void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameDat
 **************************/
 
 Button::Button() {
-	textLabel = { "TextString", UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
-	defaultColor.buttonColor	= { 1.f, 1.f, 1.f, 1.f };
-	defaultColor.textColor		= { 0.f, 0.f, 1.f, 1.f };
-	defaultColor.outlineColor	= { 0.f, 0.f, 1.f, 1.f };
-
-	hoveredColor.buttonColor	= { 0.f, 0.f, 1.f, 1.f };
-	hoveredColor.textColor		= { 1.f, 1.f, 1.f, 1.f };
-	hoveredColor.outlineColor	= { 0.f, 0.f, 1.f, 1.f };
-
-	focusedColor.buttonColor	= { 0.f, 0.f, 1.f, 1.f };
-	focusedColor.textColor		= { 1.f, 1.f, 1.f, 1.f };
-	focusedColor.outlineColor	= { 1.f, 0.f, 0.f, 1.f };
+	std::string txtStr = "TextString";
+	std::string btnColor = "white";
+	std::string txtColor = "blue";
+	textLabel = { txtStr, UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
 }
 
-Button::Button(std::string txtStr) {
+Button::Button(std::string btnColor = "white", std::string txtColor = "blue") {
+	std::string txtStr = "TextString";
 	textLabel = { txtStr, UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
-	defaultColor.buttonColor	= { 1.f, 1.f, 1.f, 1.f };
-	defaultColor.textColor		= { 0.f, 0.f, 1.f, 1.f };
-	defaultColor.outlineColor	= { 0.f, 0.f, 1.f, 1.f };
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
+}
 
-	hoveredColor.buttonColor	= { 1.f, 0.f, 0.f, 1.f };
-	hoveredColor.textColor		= { 1.f, 1.f, 1.f, 1.f };
-	hoveredColor.outlineColor	= { 0.f, 0.f, 1.f, 1.f };
-
-	focusedColor.buttonColor	= { 0.f, 0.f, 1.f, 1.f };
-	focusedColor.textColor		= { 1.f, 1.f, 1.f, 1.f };
-	focusedColor.outlineColor	= { 1.f, 0.f, 0.f, 1.f };
+Button::Button(std::string txtStr, std::string btnColor = "white", std::string txtColor = "blue") {
+	textLabel = { txtStr, UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
 }
 
 void Button::Update(Transform& transformData, Model& modelData, Name& nameData) {
 	// get cursorPos, compare with pos in Transform, return if no match
+	if (transformData.isStatic)
+		return;
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -240,30 +231,28 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 			if (IsWithinObject(modelData, uiMousePos)) {
 				uiOffset = GetOffset(transformData.position, uiMousePos);
 				//OnClick(modelData, nameData);
+				
+				//test updateColor
+				/*glm::vec4 newColor = { 0.09f, 0.63f, 0.72f, 1.0f };
+				colors.UpdateColor("blue", newColor);*/
 			}
 			break;
-		//case(TYPE::MOUSE_DOWN):
-		//	if (nameData.selected) {
-		//		transformData.position.x = msg.posX;
-		//		transformData.position.y = msg.posY;
-		//	}
-		//	break;
 		}
 	}
 
 	if (nameData.selected && IsWithinObject(modelData, uiMousePos)) {
 		textLabel.SetTextString("Focused Text");
-		modelData.SetColor(focusedColor.buttonColor.r, focusedColor.buttonColor.g, focusedColor.buttonColor.b);
+		modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
 		currentState = STATE::FOCUSED;
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
 		textLabel.SetTextString("Hovered Text");
-		modelData.SetColor(hoveredColor.buttonColor.r, hoveredColor.buttonColor.g, hoveredColor.buttonColor.b);
+		modelData.SetColor(hoveredColor.buttonColor->r, hoveredColor.buttonColor->g, hoveredColor.buttonColor->b);
 		currentState = STATE::HOVERED;
 	}
 	else {
 		textLabel.SetTextString("TextString");
-		modelData.SetColor(defaultColor.buttonColor.r, defaultColor.buttonColor.g, defaultColor.buttonColor.b);
+		modelData.SetColor(defaultColor.buttonColor->r, defaultColor.buttonColor->g, defaultColor.buttonColor->b);
 		currentState = STATE::NONE;
 	}
 
@@ -302,18 +291,18 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 //}
 
 void Button::DrawButton(Model& modelData) {
-	graphics.DrawLabel(textLabel, textLabel.relTransform, modelData.GetColor());
+	//graphics.DrawLabel(textLabel, textLabel.relTransform, modelData.GetColor());
 	switch (currentState) {
 
 	case(STATE::HOVERED):
-		graphics.DrawLabel(textLabel, textLabel.relTransform, hoveredColor.textColor);
+		graphics.DrawLabel(textLabel, textLabel.relTransform, *hoveredColor.textColor);
 		break;
 	case(STATE::FOCUSED):
-		graphics.DrawLabel(textLabel, textLabel.relTransform, focusedColor.textColor);
+		graphics.DrawLabel(textLabel, textLabel.relTransform, *focusedColor.textColor);
 		break;
 	// selected, focused
 	default:
-		graphics.DrawLabel(textLabel, textLabel.relTransform, defaultColor.textColor);
+		graphics.DrawLabel(textLabel, textLabel.relTransform, *defaultColor.textColor);
 		break;
 	}
 }

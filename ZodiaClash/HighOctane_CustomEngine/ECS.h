@@ -527,6 +527,7 @@ public:
 class UIButtonSystem : public System {
 public:
     void Update() override;
+    void Draw() override;
 };
 
 class ModelSystem : public System {
