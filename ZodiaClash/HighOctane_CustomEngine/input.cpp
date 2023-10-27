@@ -50,8 +50,10 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
     UNREFERENCED_PARAMETER(scancode); //unused variable
     switch (action) {
     case GLFW_PRESS:
+
         keyStatus[key] = static_cast<INFO>(key);
         Mail::mail().CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
+
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }

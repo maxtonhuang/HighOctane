@@ -50,7 +50,9 @@
 #include "FrameBuffer.h"
 #include "AssetManager.h"
 #include "Global.h"
+#include "vmath.h"
 #include <algorithm>
+#include <vector>
 
 
 constexpr float fontSize = 20.f;
@@ -58,6 +60,7 @@ constexpr float fontSizeLarge = 50.f;
 ImFont* latoLargeBold;
 ImGuiStyle originalStyle;
 bool firstSet = false;
+
 
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
@@ -174,6 +177,8 @@ void GUIManager::Update()
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
         }
         
+        
+ 
         unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;
         float ySizeAvailable = ImGui::GetContentRegionAvail().y;
@@ -191,8 +196,45 @@ void GUIManager::Update()
         float h = ((xSizeAvailable * 9.f / 16.f) < ySizeAvailable) ? (xSizeAvailable * 9.f / 16.f) : ySizeAvailable;
         graphics.viewport.SetViewport((int)ImWindow->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - ImWindow->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
         ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+
+
+        // need to edit popupHovered
+
+        if (rightClick && anyObjectSelected) {
+            
+            if (ImGui::BeginPopupContextWindow()) {
+                popupHovered = ImGui::IsWindowHovered() ? true : false;
+                if (ImGui::MenuItem("Copy")) {
+                    // to implement in future
+                    std::cout << "Copy selected." << std::endl;
+                    rightClick = false;
+                }
+                ImGui::Separator();
+                if (ImGui::MenuItem("Delete")) {
+                    for (Entity entity : selectedEntities) {
+                        
+                        EntityFactory::entityFactory().DeleteCloneModel(entity);
+                    }
+                    rightClick = false;
+                    
+                }
+                ImGui::EndPopup();
+            }
+        }
+        //selectedEntities.clear();
+
+
+
+
+
         ImGui::End();
     }
+
+
+
+
+
+
   
     // Update Panels
     UpdateConsole();
