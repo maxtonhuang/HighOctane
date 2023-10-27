@@ -1,6 +1,19 @@
 #include "Attack.h"
 #include "Battle.h"
+#include "CharacterStats.h"
 #include <random>
+
+void Attack::UseAttack(CharacterStats* target) {
+    CalculateDamage(*target);
+    target->TakeDamage(damage);
+}
+
+void Attack::UseAttack(std::vector<CharacterStats*> target) {
+    for (CharacterStats* t : target) {
+        CalculateDamage(*t);
+        t->TakeDamage(damage);
+    }
+}
 
 void Attack::CalculateDamage(CharacterStats const& target)
 {
@@ -17,15 +30,13 @@ void Attack::CalculateDamage(CharacterStats const& target)
         //critical hit
         critCheck = true;
 
-        damage = (int)((
-            std::max(minAttackMultiplier, maxAttackMultiplier) *
+        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
             ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense)))
-            * critMultiplier));
+            * critMultiplier);
     }
     else
     {
-        damage = (int)(
-            std::max(minAttackMultiplier, maxAttackMultiplier) *
+        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
             ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense))));
     }
 }

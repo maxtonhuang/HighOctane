@@ -57,6 +57,9 @@ public:
     //General methods
     bool FileExists(const std::string& path);
     void LoadAssets(const std::string& assetPath);
+    void LoadScene(const std::string& scenePath);
+    void LoadEntities(const std::string& entitiesPath);
+    std::vector<std::string> GetFiles();
 
     // Texture methods
     void LoadTexture(const std::string& texturePath);

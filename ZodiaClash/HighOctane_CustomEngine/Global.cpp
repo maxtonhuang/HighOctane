@@ -55,8 +55,12 @@ vmath::Vector2 rightClickPos{ RESET_VEC2 };
 std::vector<Entity> selectedEntities{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
+bool scriptAdded{ false };
+bool scriptRemoved{ false };
 
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};
+
+const char* currentScriptForIMGUI{ NULL };

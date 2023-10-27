@@ -34,7 +34,7 @@
 
 typedef void(*FP)(void);
 
-extern int current, previous, next;
+extern int gsmCurrent, gsmPrevious, gsmNext;
 
 extern FP fpLoad, fpInitialize, fpUpdate, fpDraw, fpFree, fpUnload;
 

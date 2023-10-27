@@ -7,8 +7,13 @@
 #include "AssetManager.h"
 #include "vmath.h"
 Entity currentSelectedEntity{};
-
+static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
+
+// Helper function declaration
+void AddScriptToEntity(Entity entity, const char* scriptName);
+void RemoveScriptFromEntity(Entity entity, const char* scriptName);
+
 
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
@@ -26,17 +31,26 @@ void UpdateSceneHierachy() {
 	if (currentSelectedEntity) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
+	/*Entity entity;
+	
+	if(ECS::ecs().HasComponent<Name>(entity)) {
+		if()
+		SceneEntityComponents(entity);
+	}*/
 	ImGui::End();
 }
 
 void SceneEntityNode(Entity entity) {
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
+		auto& entitySelected = ECS::ecs().GetComponent<Name>(entity).selected;
 
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Selected | ImGuiTreeNodeFlags_OpenOnArrow;
-
+		ImGuiTreeNodeFlags flags =  ImGuiTreeNodeFlags_OpenOnArrow;
+		if (entity == currentSelectedEntity) {
+			flags |= ImGuiTreeNodeFlags_Selected; // Add the selected flag for the current entity
+		}
 		bool opened = ImGui::TreeNodeEx(reinterpret_cast<void*>(static_cast<uintptr_t>(entity)), flags, entityName.c_str());
-		if (ImGui::IsItemClicked()) {
+		if (ImGui::IsItemClicked() || entitySelected == true) {
 			currentSelectedEntity = entity;
 		}
 
@@ -58,6 +72,10 @@ void SceneEntityComponents(Entity entity) {
 			entityName = std::string(buffer);
 		}
 	}
+
+	if (ImGui::Checkbox("Movement",&check)) {
+		
+	}
 	if (ECS::ecs().HasComponent<Color>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Color).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
 			auto& colorComponent = ECS::ecs().GetComponent<Color>(entity);
@@ -73,7 +91,7 @@ void SceneEntityComponents(Entity entity) {
 			auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
 			auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
 			ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-			ImGui::DragFloat("Rotation", &rotationComponent, 0.5f, -(vmath::PI), vmath::PI);
+			ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
 			ImGui::DragFloat("Scale", &scaleComponent,0.5f,1.f,100.f);
 			/*const char* rotationOptions[] = { "0 degrees", "90 degrees", "180 degrees", "270 degrees" };
 			int currentRotationIndex = static_cast<int>(rotationComponent / 90.0f);
@@ -109,17 +127,17 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<Script>(entity)) {
 
 		// If master entity is selected, do not allow editing of scripts
-		if (entity == 1) {
+		if (ECS::ecs().HasComponent<Master>(entity)) {
 			return;
 		}
 		
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
 			//auto& scriptComponent = ECS::ecs().GetComponent<Script>(entity);
-
+			//static const char* currentScriptForIMGUI = NULL;
 			// Create a combo box to select a script
-			int currentScriptIndex = -1; // Initialize with an invalid index
+			//int currentScriptIndex = -1; // Initialize with an invalid index
 			if (!fullNameVecImGUI.empty()) {
-				const char* currentScriptName = fullNameVecImGUI[0].c_str();
+				//const char* currentScriptName = fullNameVecImGUI[0].c_str();
 
 				// Convert script names to const char*
 				std::vector<const char*> scriptNamesCStrings;
@@ -128,19 +146,104 @@ void SceneEntityComponents(Entity entity) {
 					scriptNamesCStrings.push_back(scriptName.c_str());
 				}
 
-				if (ImGui::Combo("Select Script", &currentScriptIndex, scriptNamesCStrings.data(), static_cast<int>(scriptNamesCStrings.size()))) {
-					// Update the selected script in the component
-					if (currentScriptIndex >= 0) {
-						fullNameVecImGUI[0] = fullNameVecImGUI[currentScriptIndex];
+
+				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI)) {
+					for (int n = 0; n < scriptNamesCStrings.size(); n++) {
+						bool is_selected = (currentScriptForIMGUI == scriptNamesCStrings[n]);
+						if (ImGui::Selectable(scriptNamesCStrings[n], is_selected)) {
+							currentScriptForIMGUI = scriptNamesCStrings[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
 					}
+					ImGui::EndCombo();
 				}
 			}
-			ImGui::TreePop();
+			//ImGui::SameLine();
 			if (ImGui::Button("Add Script")) {
-				std::cout << "Script added\n";
-				// Add the selected script to the entity
-				//ECS::ecs().AddComponent<Script>(entity, Script{ fullNameVecImGUI[0] });
+				if (currentScriptForIMGUI == NULL) {
+					DEBUG_PRINT("No script selected");
+					//printf("No script selected\n");
+				}
+				else {
+					AddScriptToEntity(entity, currentScriptForIMGUI);
+				}
 			}
+
+			ImGui::SameLine();
+			if (ImGui::Button("Delete Script")) {
+				if (currentScriptForIMGUI == NULL) {
+					DEBUG_PRINT("No script selected");
+					//printf("No script selected\n");
+				}
+				else {
+					RemoveScriptFromEntity(entity, currentScriptForIMGUI);
+				}
+			}
+
+			ImGui::TreePop();
+			
 		}
 	}
+}
+
+
+// Helper functions
+void AddScriptToEntity(Entity entity, const char* scriptName) {
+	Script* s = &ECS::ecs().GetComponent<Script>(entity);
+
+
+	// Checks if the currentScriptForIMGUI is already in scriptNameVec
+	for (int i = 0; i < s->scriptNameVec.size(); i++) {
+		if (s->scriptNameVec[i] == scriptName) {
+			DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
+			//printf("Script %s already exists in entity %d\n", scriptName, entity);
+			return;
+		}
+
+		else {
+			continue;
+		}
+	}
+
+	
+	std::cout << "ADD SCRIPT TO ENTITY FUNCTION" << std::endl;
+	// If not, add it to the vector
+	s->scriptNameVec.push_back(scriptName);
+	scriptAdded = true;
+	DEBUG_PRINT("Adding script %s to entity %d", scriptName, entity);
+	//printf("Adding script %s to entity %d\n", scriptName, entity);
+}
+
+void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
+	Script* s = &ECS::ecs().GetComponent<Script>(entity);
+
+	// If the scriptNameVec is empty, return
+	if (s->scriptNameVec.size() <= 0) {
+		return;
+	}
+
+	// Search for the script in scriptNameVec
+	auto it = std::find(s->scriptNameVec.begin(), s->scriptNameVec.end(), scriptName);
+	std::cout << "Script name: " << scriptName << std::endl;
+	scriptRemoved = true;
+
+	// If found, remove
+	//if (it != s->scriptNameVec.end()) {
+	//	s->scriptNameVec.erase(it);
+	//	//DEBUG_PRINT("REMOVESCRIPT: Removing script %s from entity %d", scriptName, entity);
+	//	scriptRemoved = true;
+	//	return;
+	//}
+	//else {
+	//	//DEBUG_PRINT("REMOVESCRIPT: Script %s not found in entity %d", scriptName, entity)
+	//}
+
+	// If the script is found, remove it
+	//s->scriptNameVec.erase(it);
+	//DEBUG_PRINT("REMOVESCRIPT: Removing script %s from entity %d", scriptName, entity);
+	//scriptRemoved = true;
+	// If the script is not found, print a message
+	//DEBUG_PRINT("REMOVESCRIPT: Script %s not found in entity %d", scriptName, entity);
 }

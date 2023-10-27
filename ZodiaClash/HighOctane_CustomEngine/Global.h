@@ -61,8 +61,13 @@ extern vmath::Vector2 rightClickPos;
 extern std::vector<Entity> selectedEntities;
 extern bool popupHovered;
 extern bool anyObjectSelected;
+extern bool scriptAdded;
+extern bool scriptRemoved;
 
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;
 extern size_t importFileCount;
 extern std::vector<std::string> fullNameVecImGUI;
+
+
+extern const char* currentScriptForIMGUI;

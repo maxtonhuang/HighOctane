@@ -272,7 +272,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 
 		rapidjson::Value entityObject(rapidjson::kObjectType);
 
-		entityObject.AddMember("Entity ID", entity, allocator);
+		//entityObject.AddMember("Entity ID", entity, allocator);
 
 		if (ECS::ecs().HasComponent<Name>(entity)) {
 			name = &ECS::ecs().GetComponent<Name>(entity);
@@ -387,7 +387,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Color")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Color>()) ? "Color is registered" : "Color is not registered") << std::endl;
 			const rapidjson::Value& colorObject = entityObject["Color"];
 			Color color{};
 			color.color.r = colorObject["r"].GetFloat();
@@ -398,7 +397,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Transform")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Transform>()) ? "Transform is registered" : "Transform is not registered") << std::endl;
 			const rapidjson::Value& transformObject = entityObject["Transform"];
 			Transform transform;
 			transform.position.x = transformObject["position_x"].GetFloat();
@@ -411,7 +409,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Texture")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Tex>()) ? "Tex is registered" : "Tex is not registered") << std::endl;
 			const rapidjson::Value& texObject = entityObject["Texture"];
 			Tex tex;
 			tex.texVariantIndex = texObject["Texture Index"].GetUint();
@@ -424,6 +421,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 			// Attempt to add or retrieve the Texture from the TextureManager
 			Texture* texture = assetmanager.texture.Get(filePath);
+			//Texture* texture = assetmanager.LoadTexture(filePath);
 
 			if (texture) {
 				tex.tex = texture;
@@ -433,7 +431,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Visible")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Visible>()) ? "Visible is registered" : "Visible is not registered") << std::endl;
 			const rapidjson::Value& visibleObject = entityObject["Visible"];
 			Visible visible{};
 			visible.isVisible = visibleObject["isVisible"].GetBool();
@@ -441,7 +438,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Size")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Size>()) ? "Size is registered" : "Size is not registered") << std::endl;
 			const rapidjson::Value& sizeObject = entityObject["Size"];
 			Size size{};
 			size.width = sizeObject["width"].GetFloat();
@@ -450,7 +446,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Circle")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Circle>()) ? "Circle is registered" : "Circle is not registered") << std::endl;
 			const rapidjson::Value& circleObject = entityObject["Circle"];
 			Circle circle{};
 			circle.radius = circleObject["radius"].GetFloat();
@@ -458,7 +453,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Collision")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<AABB>()) ? "Collision is registered" : "Collision is not registered") << std::endl;
 			const rapidjson::Value& aabbObject = entityObject["Collision"];
 			AABB aabb;
 			aabb.min.x = aabbObject["Min X"].GetFloat();
@@ -471,7 +465,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 
 		if (entityObject.HasMember("Animation")) {
-			std::cout << ((ECS::ecs().isComponentTypeRegistered<Animator>()) ? "Anim is registered" : "Anim is not registered") << std::endl;
 			const rapidjson::Value& animObject = entityObject["Animation"];
 			Animator anim{ 
 				static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()), 
@@ -509,9 +502,18 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent<Script>(entity, script);
 
 		}
-		ECS::ecs().AddComponent(entity, Model{});
-		ECS::ecs().AddComponent(entity, MainCharacter{});
-		ECS::ecs().AddComponent(entity, Clone{});
+
+		if (entityObject.HasMember("Master")) {
+			ECS::ecs().AddComponent(entity, Master{});
+			EntityFactory::entityFactory().masterEntitiesList[ECS::ecs().GetComponent<Name>(entity).name] = entity;
+		}
+		if (entityObject.HasMember("Clone")) {
+			ECS::ecs().AddComponent(entity, Clone{});
+		}
+		if (entityObject.HasMember("Model")) {
+			ECS::ecs().AddComponent(entity, Model{});
+		}
+		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
 
 	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
@@ -560,4 +562,51 @@ void WriteSpriteConfig(const char* filename, int rows, int cols) {
 
 	// Close the file
 	ofs.close();
+}
+
+// Load the scripting for scripting on start up
+std::vector<std::string> LoadScripting(Entity entity) {
+	std::vector<std::string> scriptVec;
+
+	// Open the file here	
+	std::ifstream ifs("../Assets/Scenes/TestWY1.json");
+	//std::ifstream ifs("../Assets/Scenes/TestWY2.json");
+
+	// Check if can open
+	if (!ifs.is_open()) {
+		// Check if the file is open
+		std::cerr << "Unable to load Scene file for scripting" << std::endl;
+	}
+	rapidjson::Document document;
+
+	rapidjson::IStreamWrapper isw(ifs);
+	document.ParseStream(isw);
+
+	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
+		const rapidjson::Value& entityObject = document[i];
+
+		// If the entity contains entity ID
+		if (entityObject.HasMember("Entity ID") && entityObject["Entity ID"].GetInt() == entity) {
+		
+			// Check if the entity has scripts
+			if (entityObject.HasMember("Scripts")) {
+				const rapidjson::Value& scriptObject = entityObject["Scripts"];
+				Script script;
+				
+				// Check if the entity has the script vector
+				if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
+					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
+					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
+						if (scriptNameArray[j].IsString()) {
+							scriptVec.push_back(scriptNameArray[j].GetString());
+						}
+					}
+				}
+			}
+		
+		}
+ 		
+	}
+	// Return the scriptMap
+	return scriptVec;
 }
