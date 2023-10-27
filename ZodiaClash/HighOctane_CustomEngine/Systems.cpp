@@ -513,7 +513,8 @@ void ScriptSystem::Update() {
 
 
 void EditingSystem::Update() {
-
+	anyObjectSelected = false;
+	selectedEntities.clear();
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -527,12 +528,21 @@ void EditingSystem::Update() {
 		Model* m = &modelArray.GetData(entity);
 		
 		// update position
-		UpdateProperties(*n, *t, *m);
+		UpdateProperties(entity, *n, *t, *m);
 
 		if (n->selected) {
 			m->DrawOutline();
 		}
 	}
+	if (toDestroy) {
+		for (Entity entity : selectedEntities) {
+			EntityFactory::entityFactory().DeleteCloneModel(entity);
+		}
+		toDestroy = false;
+		selectedEntities.clear();
+	}
+
+	
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }
 

@@ -30,12 +30,14 @@
 *
 ******************************************************************************/
 
-//#include <mutex>
-#include <memory>
 #include "ECS.h"
+#include "vmath.h"
 #include <deque>
 #include <vector>
 #include <string>
+#include <memory>
+
+#define RESET_VEC2 0.f, 0.f
 
 // Declare global variables here
 
@@ -47,6 +49,12 @@ bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
+bool rightClick{ false };
+bool toDestroy{ false };
+vmath::Vector2 rightClickPos{ RESET_VEC2 };
+std::vector<Entity> selectedEntities{};
+bool popupHovered{ false };
+bool anyObjectSelected{ false };
 bool scriptAdded{ false };
 bool scriptRemoved{ false };
 

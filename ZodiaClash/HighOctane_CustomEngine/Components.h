@@ -68,9 +68,9 @@ struct Transform {
 
 struct Collider {
     enum SHAPE_ID {
-        SHAPE_BOX,
-        SHAPE_CIRCLE,
-        NUM_OF_SHAPES
+                            SHAPE_BOX,
+                            SHAPE_CIRCLE,
+                            NUM_OF_SHAPES
     };
     SHAPE_ID                bodyShape{};
     //Collider(SHAPE_ID shape = SHAPE_BOX) { (void)shape; };
@@ -125,6 +125,7 @@ struct Name {
     std::string             name{};
     bool                    selected{ false };
     CLICKED                 clicked = CLICKED::NOT;
+    uint32_t                layer{};
     uint32_t                group{};
 };
 

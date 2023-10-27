@@ -33,11 +33,12 @@
 
 #pragma once
 
-#include <memory>
 #include "ECS.h"
+#include "vmath.h"
 #include <deque>
 #include <vector>
 #include <string>
+#include <memory>
 
 #define RESET_VEC2 0.f, 0.f
 
@@ -54,6 +55,12 @@ extern bool fileDropped;
 extern float dropTimer;
 extern bool destroyAll;
 extern bool saveFile;
+extern bool rightClick;
+extern bool toDestroy;
+extern vmath::Vector2 rightClickPos;
+extern std::vector<Entity> selectedEntities;
+extern bool popupHovered;
+extern bool anyObjectSelected;
 extern bool scriptAdded;
 extern bool scriptRemoved;
 

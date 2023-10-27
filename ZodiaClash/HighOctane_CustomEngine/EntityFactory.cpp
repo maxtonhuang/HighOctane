@@ -131,7 +131,7 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 	t->texVariants.push_back(assetmanager.texture.Get(filename));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-
+	++masterCounter;
 
 }
 
@@ -160,7 +160,7 @@ void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) 
 	t->texVariants.push_back(assetmanager.texture.Get(filename));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-
+	++masterCounter;
 
 }
 
@@ -215,6 +215,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 		massRenderEntitiesList.push_back(entity);
 	}
 	layerOrder.emplace_back(entity);
+	++cloneCounter;
 	return entity;
 }
 
@@ -291,6 +292,7 @@ void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) 
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 	layerOrder.emplace_back(entity);
+	++cloneCounter;
 }
 
 /******************************************************************************
@@ -393,13 +395,14 @@ void EntityFactory::ReapplyMassRendering() {
 
 
 void EntityFactory::DeleteMasterModel(Entity entity) {
+	masterEntitiesList.erase(ECS::ecs().GetComponent<Name>(entity).name);
 	ECS::ecs().DestroyEntity(entity);
 	--masterCounter;
 }
 
 
 void EntityFactory::DeleteCloneModel(Entity entity) {
-	layerOrder.erase(std::find(layerOrder.begin(), layerOrder.end(), entity));
+	//layerOrder.erase(std::find(layerOrder.begin(), layerOrder.end(), entity));
 	ECS::ecs().DestroyEntity(entity);
 	--cloneCounter;
 }

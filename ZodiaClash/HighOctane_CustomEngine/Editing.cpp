@@ -6,6 +6,7 @@
 #include "Global.h"
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
+#include "EntityFactory.h"
 #include <algorithm>
 
 vmath::Vector2 mousePos{ RESET_VEC2 };
@@ -13,16 +14,34 @@ vmath::Vector2 offset{ RESET_VEC2 };
 
 constexpr float CORNER_SIZE = 10.f;
 
-void UpdateProperties (Name & name, Transform & transform, Model & model) {
+void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model) {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 
 		case TYPE::KEY_DOWN:
 
-			//switch (msg.info) {
-			//case INFO::KEY_L:   ;   break;
-			//default: break;
-			//}
+			switch (msg.info) {
+
+			case INFO::KEY_BACKSPACE:
+				if (name.selected) {
+					selectedEntities.emplace_back(entity);
+					toDestroy = true;
+				}
+				//EntityFactory::entityFactory().DeleteCloneModel(entity);
+				break;
+
+			case INFO::KEY_DEL:   
+				if (name.selected) {
+					selectedEntities.emplace_back(entity);
+					toDestroy = true;
+				}
+				//EntityFactory::entityFactory().DeleteCloneModel(entity);
+				break;
+
+			default: break;
+			
+			}
+			
 			break;
 
 		case TYPE::MOUSE_MOVE:
@@ -30,32 +49,52 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 			break;
 
 		case TYPE::MOUSE_CLICK:
-			if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
-				name.selected = true;
-				name.clicked = CLICKED::NE;
+			switch (msg.info) {
+				case INFO::MOUSE_LEFT: {
+					
+					if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
+						name.selected = true;
+						name.clicked = CLICKED::NE;
+					}
+					else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
+						name.selected = true;
+						name.clicked = CLICKED::SW;
+					}
+					else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
+						name.selected = true;
+						name.clicked = CLICKED::SE;
+					}
+					else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
+						name.selected = true;
+						name.clicked = CLICKED::NW;
+					}
+					else if (IsWithinObject(model, mousePos)) {
+						name.selected = true;
+						name.clicked = CLICKED::INSIDE;
+						offset = GetOffset(transform.position, mousePos);
+					}
+					else {
+						if (!popupHovered) {
+							rightClick = false;
+							name.selected = false;
+							name.clicked = CLICKED::NOT;
+						}
+					}
+				}
+				break;
+				case INFO::MOUSE_RIGHT:
+					name.selected = false;
+					//rightClick = false;
+					if (IsWithinObject(model, mousePos)) {
+						name.selected = true;
+						rightClick = true;
+						rightClickPos = mousePos;
+					}
+
+					break;
 			}
-			else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
-				name.selected = true;
-				name.clicked = CLICKED::SW;
-			}
-			else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
-				name.selected = true;
-				name.clicked = CLICKED::SE;
-			}
-			else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
-				name.selected = true;
-				name.clicked = CLICKED::NW;
-			}
-			else if (IsWithinObject(model, mousePos)) {
-				name.selected = true;
-				name.clicked = CLICKED::INSIDE;
-				offset = GetOffset(transform.position, mousePos);
-			}
-			else {
-				name.selected = false;
-				name.clicked = CLICKED::NOT;
-			}
-			
+
+
 			break;
 
 		case TYPE::MOUSE_UP:
@@ -164,6 +203,8 @@ void UpdateProperties (Name & name, Transform & transform, Model & model) {
 	}
 
 	if (name.selected) {
+		anyObjectSelected = true;
+		selectedEntities.emplace_back(entity);
 		if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), mousePos, CORNER_SIZE) || IsNearby(model.GetMin(), mousePos, CORNER_SIZE))) {
 			SetCursor(hNESWCursor);
 		}
