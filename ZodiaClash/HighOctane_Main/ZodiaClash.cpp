@@ -496,7 +496,7 @@ void EngineCore::Run(bool const& mode) {
 
 	Entity buttonObject = EntityFactory::entityFactory().CloneMasterModel(-125.f, -125.f, false);
 	ECS::ecs().GetComponent<Model>(buttonObject) = Model{ ModelType::UI };
-	ECS::ecs().AddComponent(buttonObject, Button{ "TestString" });
+	ECS::ecs().AddComponent(buttonObject, Button{ "TestString", "white", "blue"});
 	ECS::ecs().GetComponent<Size>(buttonObject) = Size{ 100.f,100.f };
 	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
 	ECS::ecs().RemoveComponent<Tex>(buttonObject);

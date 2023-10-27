@@ -1,0 +1,12 @@
+white 1 1 1 1
+blue 0.09 0.63 0.72 1
+red 1 0 0 1
+green 0 1 0 1
+black 0 0 0 1
+fatal 1 0 0 1
+primary 0 0.48 1 1
+secondary 0.42 0.45 0.49 1
+success 0.15 0.65 0.27 1
+danger 0.86 0.2 0.27 1
+warning 1 0.75 0.02 1
+info 0.09 0.63 0.72 1

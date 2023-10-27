@@ -34,6 +34,7 @@
 #include "Components.h"
 #include "model.h"
 #include "Font.h"
+#include "Colors.h"
 
 // enums for alignment
 enum class UI_HORIZONTAL_ALIGNMENT {
@@ -76,15 +77,17 @@ public:
 	Vec2 relTransform{};
 
 	// store colors for each state? -- default
-	glm::vec4 defaultColor{}; // black
-	glm::vec4 hoveredColor{}; // red
-	glm::vec4 focusedColor{}; // blue
+	//glm::vec4 defaultColor{}; // black
+	//glm::vec4 hoveredColor{}; // red
+	//glm::vec4 focusedColor{}; // blue
+
+	glm::vec4* textColor{}; // black
 
 	// FUTURE IMPLEMENTATIONS
 	// -> multiline, auto/fixed height
 	// -> line height
 
-
+	//add colors into constructor!!
 	TextLabel();
 	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
 	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);
@@ -103,9 +106,13 @@ public:
 class Button : public UIComponent {
 public:
 	struct ColorSet {
-		glm::vec4 buttonColor;
-		glm::vec4 textColor;
-		glm::vec4 outlineColor;
+		glm::vec4* buttonColor;
+		glm::vec4* textColor;
+		glm::vec4* outlineColor;
+
+		ColorSet() : buttonColor{ nullptr }, textColor{ nullptr }, outlineColor{ nullptr } {}
+		ColorSet(std::string btnColor, std::string txtColor) :
+			buttonColor{ &colors.colorMap[btnColor] }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ &colors.colorMap[btnColor] } {}
 	};
 
 	TextLabel textLabel;
@@ -116,14 +123,15 @@ public:
 
 	// store colors for each state
 	// default: button white, text blue, outline blue
-	ColorSet defaultColor{};
+	ColorSet defaultColor;
 	// hovered: button blue, text white, outline blue
-	ColorSet hoveredColor{};
+	ColorSet hoveredColor;
 	// focused: button blue, text white, outline red
-	ColorSet focusedColor{};
+	ColorSet focusedColor;
 
 	Button();
-	Button(std::string txtStr);
+	Button(std::string btnColor, std::string txtColor);
+	Button(std::string txtStr, std::string btnColor, std::string txtColor);
 
 	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
 	/*void OnClick(Model& modelData, Name& nameData) override;

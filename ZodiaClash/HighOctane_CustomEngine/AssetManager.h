@@ -44,12 +44,12 @@
 #include "AudioManager.h"
 #include "Font.h"
 #include "texture.h"
+#include "Colors.h"
 
 class AssetManager {
 public:
     TextureManager texture;
     AudioManager audio;
-    //FontManager font;
 public:
     void Initialize();
     void UnloadAll();
