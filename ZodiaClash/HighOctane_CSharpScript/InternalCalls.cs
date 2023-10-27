@@ -86,17 +86,28 @@ public static class InternalCalls
 
     #region Transform
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformGetTranslation(UInt32 entity, out Vector2 translation);
+    internal extern static void TransformGetPosition(UInt32 entity, out Vector2 position);
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformSetTranslation(UInt32 entity, ref Vector2 translation);
+    internal extern static void TransformSetPosition(UInt32 entity, ref Vector2 position);
+
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void TransformGetForce(UInt32 entity, out Vector2 force);
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void TransformSetForce(UInt32 entity, ref Vector2 force);
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void TransformGetRotation(UInt32 entity, out float outRotation);
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void TransformSetRotation(UInt32 entity, ref float rotation);
+
+
     #endregion
 
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformGetForce(UInt32 entity, out Vector2 translation);
 
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformSetForce(UInt32 entity, ref Vector2 translation);
     #region Entity
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal extern static bool EntityHasComponent(UInt32 entity, Type componentType);

@@ -22,9 +22,15 @@ namespace Players
             Vector2 translation = Translation;
             translation.X += Input.GetAxisHorizontal() * speed;
             translation.Y += Input.GetAxisVertical() * speed;
-            Translation = translation;
+
 
             Vector2 force = Force;
+            //force.X += Input.GetAxisHorizontal() * speed;
+            //force.Y += Input.GetAxisVertical() * speed;
+
+            Translation = translation;
+            Force = force;
+            //Console.WriteLine("Force is " + Force.X + ", " + Force.Y);
             Console.WriteLine("Force:" + force.X + ", " + force.Y);
 
             if (Input.GetAxisHorizontal() == 1)
@@ -64,7 +70,7 @@ namespace PlayerController
 
         public override void Update()
         {
-            Console.WriteLine($"PlayerMovement OnUpdate");
+            Console.WriteLine("PlayerMovement OnUpdate");
         }
     }
 }

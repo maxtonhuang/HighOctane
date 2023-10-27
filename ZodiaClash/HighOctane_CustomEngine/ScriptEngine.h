@@ -35,6 +35,8 @@ public:
 	static void RunTimeAddScript(Entity entity);
 	static void RunTimeRemoveScript(Entity entity);
 
+	std::string GetScriptName(Entity entity);
+
 private:
 	// No need to exist
 	static void InitMono();
@@ -56,10 +58,10 @@ public:
 	MonoMethod* GetMethod(const std::string& name, int parameterCount);
 	MonoObject* InvokeMethod(MonoObject* instance, MonoMethod* method, void** params = nullptr);
 
-
-private:
 	std::string m_ClassNamespace;
 	std::string m_ClassName;
+private:
+
 
 	MonoClass* m_MonoClass = nullptr;
 };
@@ -69,7 +71,7 @@ public:
 	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity);
 
 	void InvokeOnCreate();
-	void InvokeOnUpdate();
+	void InvokeOnUpdate();std::string GetScriptName() const;
 
 private:
 

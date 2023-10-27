@@ -59,30 +59,31 @@ namespace internalcalls {
 		return 0;
 	}
 
-    static void TransformGetTranslation(Entity entity, vmath::Vector2* outTranslation)
-    {
+    static void TransformGetPosition(Entity entity, vmath::Vector2* outPosition) {
 
         // If the entity is 0, then it is not valid
         if (entity == 0) {
             return;
         }
 
-        *outTranslation = ECS::ecs().GetComponent<Transform>(entity).position;
+        //vmath::Vector2 tmp = ECS::ecs().GetComponent<Transform>(entity).position;
+        //*outTranslation = { tmp.x, tmp.y, 0.0f };
+        *outPosition = ECS::ecs().GetComponent<Transform>(entity).position;
     }
 
-    static void TransformSetTranslation(Entity entity, vmath::Vector2* translation)
-    {
+    static void TransformSetPosition(Entity entity, vmath::Vector2* position) {
 
         // If the entity is 0, then it is not valid
         if (entity == 0) {
             return;
         }
-        ECS::ecs().GetComponent<Transform>(entity).position = *translation;
+
+
+        ECS::ecs().GetComponent<Transform>(entity).position = *position;
     }
 
     // This is to get the force
-    static void TransformGetForce(Entity entity, vmath::Vector2* outForce)
-    {
+    static void TransformGetForce(Entity entity, vmath::Vector2* outForce) {
 		// If the entity is 0, then it is not valid
         if (entity == 0) {
 			return;
@@ -91,8 +92,7 @@ namespace internalcalls {
 		*outForce = ECS::ecs().GetComponent<Transform>(entity).force;
 	}
 
-    static void TransformSetForce(Entity entity, vmath::Vector2* forceAdd)
-    {
+    static void TransformSetForce(Entity entity, vmath::Vector2* forceAdd) {
 
         // If the entity is 0, then it is not valid
         if (entity == 0) {
@@ -101,6 +101,43 @@ namespace internalcalls {
         ECS::ecs().GetComponent<Transform>(entity).force = *forceAdd;
     }
 
+    static void TransformGetRotation(Entity entity, float* outRotation) {
+		// If the entity is 0, then it is not valid
+        if (entity == 0) {
+			*outRotation = 0.0f;
+		}
+
+		*outRotation = ECS::ecs().GetComponent<Transform>(entity).rotation;
+	}
+
+    static void TransformSetRotation(Entity entity, float* rotationAdd) {
+
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+        ECS::ecs().GetComponent<Transform>(entity).rotation = *rotationAdd;
+    }
+
+    static void TransformGetScale(Entity entity, float* outScale) {
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+
+        *outScale = ECS::ecs().GetComponent<Transform>(entity).scale;
+
+    }
+
+    static void TransformSetScale(Entity entity, float* scaleAdd) {
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+
+        ECS::ecs().GetComponent<Transform>(entity).rotation = *scaleAdd;
+
+    }
 
     // This function is to get the vertical axis on C# side
     static int GetAxisVertical() {
@@ -147,11 +184,16 @@ namespace internalcalls {
         ADD_INTERNAL_CALL(LogVector3);
         ADD_INTERNAL_CALL(GetAxisHorizontal);
         ADD_INTERNAL_CALL(GetAxisVertical);
-        ADD_INTERNAL_CALL(TransformGetTranslation);
-        ADD_INTERNAL_CALL(TransformSetTranslation);
+        ADD_INTERNAL_CALL(TransformGetPosition);
+        ADD_INTERNAL_CALL(TransformSetPosition);
 
         // Get the force
         ADD_INTERNAL_CALL(TransformGetForce);
+        ADD_INTERNAL_CALL(TransformSetForce);
+
+        // Get the rotation
+        ADD_INTERNAL_CALL(TransformGetRotation);
+        ADD_INTERNAL_CALL(TransformSetRotation);
 
         // Entities
         ADD_INTERNAL_CALL(EntityHasComponent);

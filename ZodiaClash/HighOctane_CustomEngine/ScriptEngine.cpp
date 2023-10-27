@@ -165,51 +165,80 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
 // Function that takes in a function pointer
 
 // Run time add script
+//void ScriptEngine::RunTimeAddScript(Entity entity) {
+//
+//    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+//    // For each script associated with this entity
+//    for (const auto& fullClassName : sc.scriptNameVec) {
+//
+//        // Check if such a script class exists in our system
+//        if (ScriptEngine::EntityClassExists(fullClassName)) {
+//
+//            // Create an instance of this script class
+//            // This code is making it so that the code stacks on top of each other
+//            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
+//
+//            // Add script
+//            // If not in EntityInstances, add it
+//
+//            // This code is making it so that I am unable to add multiple scripts to the same entity
+//            //if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
+//				s_Data->EntityInstances[entity].push_back(instance);
+//			//}
+//
+//        }
+//    }
+//}
 void ScriptEngine::RunTimeAddScript(Entity entity) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
+
     // For each script associated with this entity
     for (const auto& fullClassName : sc.scriptNameVec) {
-
         // Check if such a script class exists in our system
         if (ScriptEngine::EntityClassExists(fullClassName)) {
 
-            // Create an instance of this script class
-            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
+            // Check if this entity already has a script instance of this class
+            bool alreadyExists = false;
+            auto& entityScripts = s_Data->EntityInstances[entity];
 
-            // Add script
-            // If not in EntityInstances, add it
-            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
-				s_Data->EntityInstances[entity].push_back(instance);
-			}
+            for (const auto& existingScript : entityScripts) {
+                if (existingScript->GetScriptName() == fullClassName) {
+                    alreadyExists = true;
+                    break;
+                }
+            }
 
+            // If this entity doesn't already have a script of this class, add it
+            if (!alreadyExists) {
+
+                std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
+                entityScripts.push_back(instance);
+            }
         }
     }
 }
 
+// Helper function
+std::string ScriptInstance::GetScriptName() const {
+    if (m_ScriptClass) {
+        // Assuming the full script name is composed of Namespace + "." + ClassName
+        return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+    }
+    return ""; // Return an empty string if m_ScriptClass is nullptr
+}
+
+
 // Run time remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity) {
-
+    printf("RUNTIEMREMVESCRPIT IS RAN\n");
     //std::cout << "RunTimeRemoveScript" << std::endl;
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
 
-    std::cout << "SCRIPTNAMEVEC SIZE IS: ";
-    std::cout << sc.scriptNameVec.size() << std::endl;
+    printf("Scriptnamevec size is %d\n", sc.scriptNameVec.size());
 
-    // For each script associated with this entity
-    for (const auto& fullClassName : sc.scriptNameVec) {
-        std::cout << "RUNTIEMREMOVESCRIPT FIND INSTANCES" << std::endl;
-        // Check if such a script class exists in our system
-        if (ScriptEngine::EntityClassExists(fullClassName)) {
-
-            // If in EntityInstances, remove it
-            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
-                //s_Data->EntityInstances.erase(entity);
-
-                
-            }
-        }
-    }
+    // Clear instance vector
+    s_Data->EntityInstances.clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {

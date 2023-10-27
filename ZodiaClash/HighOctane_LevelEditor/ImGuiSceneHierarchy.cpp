@@ -160,6 +160,7 @@ void SceneEntityComponents(Entity entity) {
 					ImGui::EndCombo();
 				}
 			}
+			//printf("CurrentScriptfor IMGUI : %s\n", currentScriptForIMGUI);
 			//ImGui::SameLine();
 			if (ImGui::Button("Add Script")) {
 				if (currentScriptForIMGUI == NULL) {
@@ -224,10 +225,16 @@ void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
 		return;
 	}
 
-	// Search for the script in scriptNameVec
-	auto it = std::find(s->scriptNameVec.begin(), s->scriptNameVec.end(), scriptName);
-	std::cout << "Script name: " << scriptName << std::endl;
+	// This is here for now to delete the script, but next time it won't be this
+
+	// For every entity, only clear the vec that the entity is 
+	s->scriptNameVec.clear();
 	scriptRemoved = true;
+
+	// Search for the script in scriptNameVec
+	//auto it = std::find(s->scriptNameVec.begin(), s->scriptNameVec.end(), scriptName);
+	//std::cout << "Script name: " << scriptName << std::endl;
+	//scriptRemoved = true;
 
 	// If found, remove
 	//if (it != s->scriptNameVec.end()) {
