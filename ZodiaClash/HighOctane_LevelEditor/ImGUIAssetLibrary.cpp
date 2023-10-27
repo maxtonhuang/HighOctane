@@ -12,7 +12,7 @@
 constexpr float thumbnailSize = 128.f;
 constexpr float paddingSize = 20.f;
 constexpr float buttonHeight = 50.f;
-static Entity selectedEntity;
+static Entity selectedMaster;
 static bool clicked;
 void UpdateAssetLibrary() {
 	
@@ -55,7 +55,7 @@ void UpdateAssetLibrary() {
 		ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(tex->GetID())), { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / static_cast<float>(colCount), 1.f / static_cast<float>(rowCount) });
 		if (ImGui::IsItemClicked(0)) {
 			std::cout << "Clicked" << std::endl;
-			selectedEntity = val.second;
+			selectedMaster = val.second;
 			clicked = true;
 		}
 		ImGui::TextWrapped(val.first.c_str());
@@ -76,7 +76,7 @@ void UpdateAssetLibrary() {
 	}
 
 	if (clicked) {
-		EntityFactory::entityFactory().CloneMaster(selectedEntity);
+		EntityFactory::entityFactory().CloneMaster(selectedMaster);
 		clicked = false;
 	}
 

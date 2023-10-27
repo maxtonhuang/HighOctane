@@ -205,8 +205,9 @@ void GUIManager::Update()
             if (ImGui::BeginPopupContextWindow()) {
                 popupHovered = ImGui::IsWindowHovered() ? true : false;
                 if (ImGui::MenuItem("Copy")) {
-                    // to implement in future
-                    std::cout << "Copy selected." << std::endl;
+                    for (Entity entity : selectedEntities) {
+                        EntityFactory::entityFactory().CloneMaster(entity);
+                    }
                     rightClick = false;
                 }
                 ImGui::Separator();

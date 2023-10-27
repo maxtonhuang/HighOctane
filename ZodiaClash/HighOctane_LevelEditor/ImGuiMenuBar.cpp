@@ -37,6 +37,10 @@ void UpdateMenuBar() {
             }
             ImGui::EndMenu();
         }
+        if (ImGui::BeginMenu("Options")) {
+
+            ImGui::EndMenu();
+        }
     }
     ImGui::EndMenuBar();
 

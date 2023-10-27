@@ -221,11 +221,23 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 
 void EntityFactory::CloneMaster(Entity& masterEntity) {
 	Entity entity = ECS::ecs().CreateEntity();
+	/*if (rightClick) {
+		ECS::ecs().AddComponent(entity, Name{ (ECS::ecs().GetComponent<Name>(masterEntity).name).c_str(), false });
+	}*/
+	//else {
+		ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
+	//}
 
-	ECS::ecs().AddComponent(entity, Name{ ("CLONE_" + ECS::ecs().GetComponent<Name>(masterEntity).name).c_str() });
 
 	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+	if (rightClick) {
+		//Transform transform;
+		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+		ECS::ecs().GetComponent<Transform>(entity).position = { 0.f,0.f };
+	}
+	else {
+		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+	}
 	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Visible{ true });
 	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
@@ -255,6 +267,7 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	//	//// for mass rendering - add this entity to vector
 	//	massRenderEntitiesList.push_back(entity);
 	//}
+	newSelection = entity;
 	layerOrder.emplace_back(entity);
 	//return entity;
 }

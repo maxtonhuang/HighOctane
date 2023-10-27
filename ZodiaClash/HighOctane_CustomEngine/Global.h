@@ -59,6 +59,7 @@ extern bool rightClick;
 extern bool toDestroy;
 extern vmath::Vector2 rightClickPos;
 extern std::vector<Entity> selectedEntities;
+extern Entity newSelection;
 extern bool popupHovered;
 extern bool anyObjectSelected;
 extern bool scriptAdded;

@@ -53,6 +53,7 @@ bool rightClick{ false };
 bool toDestroy{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
 std::vector<Entity> selectedEntities{};
+Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
 bool scriptAdded{ false };
