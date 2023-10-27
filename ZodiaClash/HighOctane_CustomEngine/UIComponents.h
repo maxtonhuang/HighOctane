@@ -75,19 +75,13 @@ public:
 	float relFontSize{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-
-	// store colors for each state? -- default
-	//glm::vec4 defaultColor{}; // black
-	//glm::vec4 hoveredColor{}; // red
-	//glm::vec4 focusedColor{}; // blue
-
 	glm::vec4* textColor{}; // black
+	STATE currentState{};
 
 	// FUTURE IMPLEMENTATIONS
 	// -> multiline, auto/fixed height
 	// -> line height
-
-	//add colors into constructor!!
+	
 	TextLabel();
 	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
 	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);

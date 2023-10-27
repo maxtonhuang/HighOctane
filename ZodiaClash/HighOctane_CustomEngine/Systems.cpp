@@ -643,7 +643,8 @@ void UITextLabelSystem::Draw() {
 		modelData->SetAlpha(1.f);
 		//TODO: MOVE INTO DRAW LOOP!!
 		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
-		modelData->SetAlpha(0.2f);
+
+		(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
 	}
 	
 }
@@ -675,11 +676,22 @@ void UIButtonSystem::Update() {
 		//if (nameData->selected) {
 		//	buttonData->OnFocus();
 		//}
+	}
+}
+
+void UIButtonSystem::Draw() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+
+	for (Entity const& entity : m_Entities) {
+		Model* modelData = &modelArray.GetData(entity);
+		Button* buttonData = &buttonArray.GetData(entity);
 
 		modelData->SetAlpha(1.f);
-
-		//TODO: MOVE INTO DRAW LOOP!!
 		buttonData->DrawButton(*modelData);
-		//modelData->SetAlpha(0.2f);
 	}
 }

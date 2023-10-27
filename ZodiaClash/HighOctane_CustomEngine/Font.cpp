@@ -65,7 +65,7 @@ FontManager::~FontManager() {
     for (auto& fontPair : fontCollection) {
         FT_Done_Face(fontPair.second.font.fontFace);
     }
-	FT_Done_FreeType(fonts.fontLibrary);
+	FT_Done_FreeType(fontLibrary);
 }
 
 /*!
@@ -80,7 +80,7 @@ void FontManager::Initialize() {
     //DEBUG_PRINT("___ DEBUG::FONT::INITIALIZE ___");
     // initialize freetype library
     FT_Error err;
-    err = FT_Init_FreeType(&fonts.fontLibrary);
+    err = FT_Init_FreeType(&fontLibrary);
     ASSERT(err, "Failed to initialise FreeType!");
 
     ReadFonts();
@@ -163,12 +163,12 @@ void FontManager::ReadFonts() {
 */
 void FontManager::LoadFontVariant(const std::string& ftFamily, const std::string& ftVariant) {
     //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT VARIANT ___");
-    FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant(ftFamily, ftVariant);
+    FontEntry* ftEntryPtr = GetFontEntryByVariant(ftFamily, ftVariant);
     if (ftEntryPtr == nullptr) {
         DEBUG_PRINT("ERROR::FONT: (var) Requested font NOT found.");
         return;
     }
-    fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
+    LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
 }
 
 /*!
@@ -184,7 +184,7 @@ void FontManager::LoadFontEntry(FontEntry& fontEntryData) {
         DEBUG_PRINT("ERROR::FONT: (entry) Requested font NOT found.");
         return;
     }
-    fonts.LoadValidFont(fontEntryData.font, fontEntryData.fontFilePath);
+    LoadValidFont(fontEntryData.font, fontEntryData.fontFilePath);
 }
 
 /*!
@@ -196,12 +196,12 @@ void FontManager::LoadFontEntry(FontEntry& fontEntryData) {
 */
 void FontManager::LoadFontFilePath(const std::string ftFilePath) {
     //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT FILEPATH ___");
-    FontEntry* ftEntryPtr = fonts.GetFontEntryByFilePath(ftFilePath);
+    FontEntry* ftEntryPtr = GetFontEntryByFilePath(ftFilePath);
     if (ftEntryPtr == nullptr) {
         DEBUG_PRINT("ERROR::FONT: (path) Requested font NOT found.");
         return;
     }
-    fonts.LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
+    LoadValidFont((*ftEntryPtr).font, (*ftEntryPtr).fontFilePath);
 }
 
 /*!

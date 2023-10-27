@@ -137,14 +137,17 @@ void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameDat
 
 	if (nameData.selected) {
 		SetTextString("Focused Text");
+		currentState = STATE::FOCUSED;
 		//modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
 		SetTextString("Hovered Text");
+		currentState = STATE::HOVERED;
 		//modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
 	}
 	else {
 		SetTextString("TextString");
+		currentState = STATE::NONE;
 		//modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
 	}
 
