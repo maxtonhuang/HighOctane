@@ -59,6 +59,7 @@
 
         void StartTimer(std::string systemName, uint64_t startTimeInput);
         void StopTimer(std::string systemName, uint64_t endTimeInput);
+        void ResetTimer(std::string systemName);
 
         float GetPercentage(std::string systemName);
         float GetDuration(std::string systemName);
