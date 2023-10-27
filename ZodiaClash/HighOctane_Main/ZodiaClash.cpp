@@ -70,6 +70,7 @@
 #include "PlayerAction.h"
 #include "UIComponents.h"
 #include "Reflections.h"
+#include "FunctionPointer.h"
 
 bool gConsoleInitalized{ false };
 
@@ -452,6 +453,8 @@ void EngineCore::Run(bool const& mode) {
 	assetmanager.Initialize();
 	assetmanager.audio.PauseGroup("BGM");
 	assetmanager.audio.PlaySounds("MainMenu1.wav", "BGM");
+
+	InitialiseFunctions();
 
 	if (game_mode) {
 

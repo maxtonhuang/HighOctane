@@ -345,8 +345,9 @@ void GraphicsSystem::Update() {
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
 		if (m->CheckTransformUpdated(*transform, *size)) {
-			m->Update(*transform, *size);
+			
 		}
+		m->Update(*transform, *size);
 	}
 	camera.Update();
 }
@@ -529,10 +530,6 @@ void EditingSystem::Update() {
 		
 		// update position
 		UpdateProperties(entity, *n, *t, *m);
-
-		if (n->selected) {
-			m->DrawOutline();
-		}
 	}
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
@@ -594,7 +591,7 @@ void UITextLabelSystem::Update() {
 
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -603,13 +600,13 @@ void UITextLabelSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 		Transform* transformData = &transformArray.GetData(entity);
 		//Tex* texData = &texArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
+		//Size* sizeData = &sizeArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 
 		//if (textLabelData->CheckStringUpdated(*textLabelData)) {
-			textLabelData->UpdateOffset(*transformData, *sizeData);
+			//textLabelData->UpdateOffset(*transformData, *sizeData);
 		//}
 
 		textLabelData->Update(*transformData, *modelData, *nameData);
@@ -635,11 +632,21 @@ void UITextLabelSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		Transform* transformData = &transformArray.GetData(entity);
+		Name* nameData = &nameArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+
+		textLabelData->UpdateOffset(*transformData, *sizeData);
+		//textLabelData->Update(*transformData, *modelData, *nameData);
+
 		modelData->SetAlpha(1.f);
 		//TODO: MOVE INTO DRAW LOOP!!
 		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
@@ -655,20 +662,20 @@ void UIButtonSystem::Update() {
 
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
 		Transform* transformData = &transformArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
+		//Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
 		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
-			buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
+			//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
 		//}
 
 		buttonData->Update(*transformData, *modelData, *nameData);
@@ -684,12 +691,21 @@ void UIButtonSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
+		Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
+		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
+
+		buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
+		//buttonData->Update(*transformData, *modelData, *nameData);
 
 		modelData->SetAlpha(1.f);
 		buttonData->DrawButton(*modelData);

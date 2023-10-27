@@ -200,6 +200,9 @@ Button::Button() {
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
+	eventName = "Test";
+	event = functions[eventName];
+	eventInput = "Test function";
 }
 
 Button::Button(std::string btnColor = "white", std::string txtColor = "blue") {
@@ -208,6 +211,9 @@ Button::Button(std::string btnColor = "white", std::string txtColor = "blue") {
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
+	eventName = "Test";
+	event = functions[eventName];
+	eventInput = "Test function";
 }
 
 Button::Button(std::string txtStr, std::string btnColor = "white", std::string txtColor = "blue") {
@@ -215,6 +221,9 @@ Button::Button(std::string txtStr, std::string btnColor = "white", std::string t
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
+	eventName = "Audio";
+	event = functions[eventName];
+	eventInput = "ping.wav";
 }
 
 void Button::Update(Transform& transformData, Model& modelData, Name& nameData) {
@@ -231,7 +240,7 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 			if (IsWithinObject(modelData, uiMousePos)) {
 				uiOffset = GetOffset(transformData.position, uiMousePos);
 				//OnClick(modelData, nameData);
-				
+				event(eventInput);
 				//test updateColor
 				/*glm::vec4 newColor = { 0.09f, 0.63f, 0.72f, 1.0f };
 				colors.UpdateColor("blue", newColor);*/
@@ -240,7 +249,7 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 		}
 	}
 
-	if (nameData.selected && IsWithinObject(modelData, uiMousePos)) {
+	if (nameData.selected) {
 		textLabel.SetTextString("Focused Text");
 		modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
 		currentState = STATE::FOCUSED;
