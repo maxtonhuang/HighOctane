@@ -76,6 +76,7 @@ void UpdateAssetLibrary() {
 	}
 
 	if (clicked) {
+		
 		EntityFactory::entityFactory().CloneMaster(selectedEntity);
 		clicked = false;
 	}

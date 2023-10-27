@@ -199,16 +199,19 @@ void GUIManager::Update()
 
 
         // need to edit popupHovered
-
+        popupHovered = false;
         if (rightClick && anyObjectSelected) {
             
             if (ImGui::BeginPopupContextWindow()) {
-                popupHovered = ImGui::IsWindowHovered() ? true : false;
+                if (ImGui::IsWindowHovered()) {
+                    popupHovered = true;
+                }
                 if (ImGui::MenuItem("Copy")) {
                     // to implement in future
                     std::cout << "Copy selected." << std::endl;
                     rightClick = false;
                 }
+                ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Delete")) {
                     for (Entity entity : selectedEntities) {
@@ -217,6 +220,27 @@ void GUIManager::Update()
                     }
                     rightClick = false;
                     
+                }
+                ImGui::Separator();
+                if (ImGui::MenuItem("Bring Forward")) {
+                    //
+                    rightClick = false;
+
+                }
+                if (ImGui::MenuItem("Bring to Front")) {
+                    //
+                    rightClick = false;
+
+                }
+                if (ImGui::MenuItem("Send Backward")) {
+                    //
+                    rightClick = false;
+
+                }
+                if (ImGui::MenuItem("Send to Back")) {
+                    //
+                    rightClick = false;
+
                 }
                 ImGui::EndPopup();
             }
