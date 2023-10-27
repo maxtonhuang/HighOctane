@@ -59,7 +59,19 @@ void DebugProfiling::StartTimer(std::string systemName, uint64_t startTimeInput)
 void DebugProfiling::StopTimer(std::string systemName, uint64_t endTimeInput) {
 
     // To get the time taken for each system
-    duration[systemName] = endTimeInput - startTimers[systemName];
+    duration[systemName] += endTimeInput - startTimers[systemName];
+}
+
+/*!
+ * \brief Resets timer for profiling a system
+ *
+ * This function resets the time used by the system at the start of each frame
+ *
+ * \param systemInput : A shared pointer to the system being profiled.
+ *
+ */
+void DebugProfiling::ResetTimer(std::string systemName) {
+    duration[systemName] = 0;
 }
 
 /*!

@@ -236,6 +236,9 @@
     <ClInclude Include="CharacterCommon.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Colors.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -382,6 +385,9 @@
     </ClCompile>
     <ClCompile Include="CharacterAction.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Colors.cpp">
+      <Filter>Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

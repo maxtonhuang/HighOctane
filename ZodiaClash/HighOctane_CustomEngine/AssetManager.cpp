@@ -70,6 +70,8 @@ void AssetManager::Initialize() {
             LoadAssets(path);
         }
     }
+
+    colors.ReadColors();
 }
 
 void AssetManager::UnloadAll() {

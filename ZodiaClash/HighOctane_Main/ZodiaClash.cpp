@@ -496,7 +496,7 @@ void EngineCore::Run(bool const& mode) {
 
 	Entity buttonObject = EntityFactory::entityFactory().CloneMasterModel(-125.f, -125.f, false);
 	ECS::ecs().GetComponent<Model>(buttonObject) = Model{ ModelType::UI };
-	ECS::ecs().AddComponent(buttonObject, Button{ "TestString" });
+	ECS::ecs().AddComponent(buttonObject, Button{ "TestString", "white", "blue"});
 	ECS::ecs().GetComponent<Size>(buttonObject) = Size{ 100.f,100.f };
 	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
 	ECS::ecs().RemoveComponent<Tex>(buttonObject);
@@ -563,6 +563,7 @@ void EngineCore::Run(bool const& mode) {
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
 #if ENABLE_DEBUG_PROFILE
+			debugSysProfile.ResetTimer(sys.second);
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 			//std::cout << sys.second << std::endl;
 #endif
@@ -576,12 +577,23 @@ void EngineCore::Run(bool const& mode) {
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+
+#if ENABLE_DEBUG_PROFILE
+			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
+#endif
+
 			sys.first->Draw();
+
+#if ENABLE_DEBUG_PROFILE
+			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
+#endif
+
 		}
 
 		if (EDITOR_MODE) {
 			debugSysProfile.StartTimer("Level Editor", GetTime());
 			guiManager.Update();
+			debugSysProfile.ResetTimer("Level Editor");
 			debugSysProfile.StopTimer("Level Editor", GetTime());
 		}
 
