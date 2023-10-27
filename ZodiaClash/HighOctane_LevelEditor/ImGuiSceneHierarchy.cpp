@@ -220,7 +220,7 @@ void AddScriptToEntity(Entity entity, const char* scriptName) {
 void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
-	// If the scriptNameVec is empty, return
+	// If the scriptNameVec is empty,5 return
 	if (s->scriptNameVec.size() <= 0) {
 		return;
 	}

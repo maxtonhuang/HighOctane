@@ -86,25 +86,29 @@ public static class InternalCalls
 
     #region Transform
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformGetPosition(UInt32 entity, out Vector2 position);
+    internal extern static void EntityGetPosition(UInt32 entity, out Vector2 position);
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformSetPosition(UInt32 entity, ref Vector2 position);
+    internal extern static void EntitySetPosition(UInt32 entity, ref Vector2 position);
 
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformGetForce(UInt32 entity, out Vector2 force);
+    internal extern static void EntityGetForce(UInt32 entity, out Vector2 force);
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformSetForce(UInt32 entity, ref Vector2 force);
+    internal extern static void EntitySetForce(UInt32 entity, ref Vector2 force);
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformGetRotation(UInt32 entity, out float outRotation);
+    internal extern static void EntityGetRotation(UInt32 entity, out float outRotation);
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void TransformSetRotation(UInt32 entity, ref float rotation);
+    internal extern static void EntitySetRotation(UInt32 entity, ref float rotation);
 
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void EntityGetScale(UInt32 entity, out float outScale);
 
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void EntitySetScale(UInt32 entity, ref float scale);
     #endregion
 
 

@@ -86,7 +86,10 @@ namespace JustTest
 
         public override void Update()
         {
-            Console.WriteLine($"Test OnUpdate");
+            float speed = 0.001f;
+            float scale = Scale;
+            scale += Input.GetAxisHorizontal() * speed;
+            Scale = scale;
         }
     }
 }

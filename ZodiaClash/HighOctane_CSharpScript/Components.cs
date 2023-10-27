@@ -18,12 +18,12 @@ public class TransformComponent : Component
     {
         get
         {
-            InternalCalls.TransformGetPosition(Entity.ID, out Vector2 translation);
+            InternalCalls.EntityGetPosition(Entity.ID, out Vector2 translation);
             return translation;
         }
         set
         {
-            InternalCalls.TransformSetPosition(Entity.ID, ref value);
+            InternalCalls.EntitySetPosition(Entity.ID, ref value);
         }
     }
 
@@ -31,13 +31,13 @@ public class TransformComponent : Component
     {
         get
         {
-            InternalCalls.TransformGetForce(Entity.ID, out Vector2 force);
+            InternalCalls.EntityGetForce(Entity.ID, out Vector2 force);
             return force;
         }
 
         set
         {
-            InternalCalls.TransformSetForce(Entity.ID, ref value);
+            InternalCalls.EntitySetForce(Entity.ID, ref value);
         }
     }
 
