@@ -91,7 +91,7 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 	static Renderer* flatRenderer = &graphics.renderer["flat"];
 
 	Renderer* renderer;
-	if (entity != nullptr && ani != nullptr) {
+	if (entity != nullptr) {
 		switch (type) {
 		case ModelType::BACKGROUND:
 		case ModelType::BACKGROUNDLOOP:

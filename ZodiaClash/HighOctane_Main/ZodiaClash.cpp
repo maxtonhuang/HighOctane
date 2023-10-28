@@ -511,6 +511,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().GetComponent<Button>(buttonObject).eventName = "Audio";
 	ECS::ecs().GetComponent<Button>(buttonObject).eventInput = "ping.wav";
 	//ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
+	//ECS::ecs().GetComponent<Tex>(buttonObject);
 	ECS::ecs().RemoveComponent<Tex>(buttonObject);
 	ECS::ecs().RemoveComponent<Collider>(buttonObject);
 	ECS::ecs().RemoveComponent<Animator>(buttonObject);
