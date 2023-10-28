@@ -468,18 +468,6 @@ void ScriptSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 
 		Script* scriptData = &scriptArray.GetData(entity);
-		//if (scriptAdded) {
-		//	//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
-		//	ScriptEngine::RunTimeAddScript(entity);
-
-
-		//}
-
-		if (scriptRemoved) {
-			ScriptEngine::RunTimeRemoveScript(entity);
-			//std::cout << "SCRIPTREMOVED IS TRUE" << std::endl;
-
-		}
 
 		for (auto& scriptName : scriptData->scriptNameVec) {
 			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
@@ -487,8 +475,6 @@ void ScriptSystem::Update() {
 		}
 	}
 
-	scriptAdded = false;
-	scriptRemoved = false;
 }
 
 

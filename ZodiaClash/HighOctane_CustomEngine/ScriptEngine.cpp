@@ -161,34 +161,6 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
 
 }
 
-// Run time change script here
-// Function that takes in a function pointer
-
-// Run time add script
-//void ScriptEngine::RunTimeAddScript(Entity entity) {
-//
-//    auto& sc = ECS::ecs().GetComponent<Script>(entity);
-//    // For each script associated with this entity
-//    for (const auto& fullClassName : sc.scriptNameVec) {
-//
-//        // Check if such a script class exists in our system
-//        if (ScriptEngine::EntityClassExists(fullClassName)) {
-//
-//            // Create an instance of this script class
-//            // This code is making it so that the code stacks on top of each other
-//            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
-//
-//            // Add script
-//            // If not in EntityInstances, add it
-//
-//            // This code is making it so that I am unable to add multiple scripts to the same entity
-//            //if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
-//				s_Data->EntityInstances[entity].push_back(instance);
-//			//}
-//
-//        }
-//    }
-//}
 void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -235,15 +207,22 @@ std::string ScriptInstance::GetScriptName() const {
 
 
 // Run time remove script
-void ScriptEngine::RunTimeRemoveScript(Entity entity) {
-    printf("RUNTIEMREMVESCRPIT IS RAN\n");
-    //std::cout << "RunTimeRemoveScript" << std::endl;
-    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
+    std::cout << "RunTimeRemoveScript called\n";
+    // Find the script instance using std::remove_if and lambda function
+  //  for (auto& test : s_Data->EntityInstances[entity]) {
+  //      if (test->GetScriptName() == scriptName) {
+  //          std::cout << "RunTimeRemoveScript:: BEFORE scriptNameVec deletion" << test->GetScriptName() << std::endl;
+		//}
+  //  }
 
-    printf("Scriptnamevec size is %d\n", sc.scriptNameVec.size());
 
-    // Clear instance vector
-    s_Data->EntityInstances.clear();
+
+    // Previous code that is working
+    //auto& sc = ECS::ecs().GetComponent<Script>(entity);
+
+    // Clear the instance vector for that entity
+    s_Data->EntityInstances[entity].clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
