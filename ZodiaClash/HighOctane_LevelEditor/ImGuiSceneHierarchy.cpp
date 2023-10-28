@@ -7,6 +7,7 @@
 #include "AssetManager.h"
 #include "vmath.h"
 #include "model.h"
+#include "UIComponents.h"
 Entity currentSelectedEntity{};
 static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
@@ -122,6 +123,32 @@ void SceneEntityComponents(Entity entity) {
 			
 
 			ImGui::TreePop();
+		}
+	}
+	if (ECS::ecs().HasComponent<Button>(entity)) {
+		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
+		const char* currentEvent{ button.eventName.c_str() };
+		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
+			std::vector<const char*> functionNames{ events.GetFunctionNames() };
+			if (!functionNames.empty()) {
+				if (ImGui::BeginCombo("Events Available", currentEvent)) {
+					for (int n = 0; n < functionNames.size(); n++) {
+						bool is_selected = (currentEvent == functionNames[n]);
+						if (ImGui::Selectable(functionNames[n], is_selected)) {
+							button.eventName = functionNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+
+			ImGui::InputText("Event Input",&button.eventInput);
+
+			ImGui::TreePop();
+
 		}
 	}
 

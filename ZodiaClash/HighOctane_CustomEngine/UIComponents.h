@@ -35,7 +35,7 @@
 #include "model.h"
 #include "Font.h"
 #include "Colors.h"
-#include "FunctionPointer.h"
+#include "Events.h"
 
 // enums for alignment
 enum class UI_HORIZONTAL_ALIGNMENT {
@@ -119,7 +119,6 @@ public:
 	STATE currentState{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	Event eventTrigger{};
 	std::string eventName{};
 	std::string eventInput{};
 	// store colors for each state
