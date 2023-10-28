@@ -158,13 +158,11 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
             instance->InvokeOnCreate();
         }
     }
-
 }
 
 void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
-
     // Checks if the currentScriptForIMGUI is already in scriptNameVec
     for (int i = 0; i < sc.scriptNameVec.size(); i++) {
         if (sc.scriptNameVec[i] == scriptName) {
@@ -208,21 +206,28 @@ std::string ScriptInstance::GetScriptName() const {
 
 // Run time remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
-    std::cout << "RunTimeRemoveScript called\n";
-    // Find the script instance using std::remove_if and lambda function
-  //  for (auto& test : s_Data->EntityInstances[entity]) {
-  //      if (test->GetScriptName() == scriptName) {
-  //          std::cout << "RunTimeRemoveScript:: BEFORE scriptNameVec deletion" << test->GetScriptName() << std::endl;
-		//}
-  //  }
+    //std::cout << "RunTimeRemoveScript called\n";
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    
+    std::string concatName = "." + std::string(scriptName);
+    for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = s_Data->EntityInstances[entity].begin(); it != s_Data->EntityInstances[entity].end(); ++it) {
+        //std::cout << "THIS IS ITTTTTT" << (*it)->GetScriptName() << std::endl;
+        //std::cout << "THIS IS ITTTTTT TOOOOOO" << concatName << std::endl;
+        if ((*it)->GetScriptName() == concatName) {
+			s_Data->EntityInstances[entity].erase(it);
 
-
-
-    // Previous code that is working
-    //auto& sc = ECS::ecs().GetComponent<Script>(entity);
+            // I need to clear the sc.scriptNameVec too, not sure if this is right
+            for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+                if (sc.scriptNameVec[i] == scriptName) {
+					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
+				}
+			}
+			break;
+		}
+	}
 
     // Clear the instance vector for that entity
-    s_Data->EntityInstances[entity].clear();
+    //s_Data->EntityInstances[entity].clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
@@ -234,8 +239,6 @@ void ScriptEngine::OnUpdateEntity(const Entity& entity) {
         }
     }
 }
-
-
 
 void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 {
