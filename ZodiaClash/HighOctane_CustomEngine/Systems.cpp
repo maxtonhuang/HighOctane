@@ -407,6 +407,7 @@ void SerializationSystem::Update() {
 
 // Loads the script at startup from TestWY1.json
 void ScriptSystem::Initialize() {
+	std::cout << "ScriptSystem::Initialize()" << std::endl;
 
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
@@ -416,6 +417,8 @@ void ScriptSystem::Initialize() {
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
+
+		ScriptEngine::OnCreateEntity(entity);
 		std::vector<std::string> scriptVec = LoadScripting(entity);
 
 		// Get the script component
@@ -453,40 +456,24 @@ void ScriptSystem::Initialize() {
 		}
 	}
 
-	// Pushes the full name vector to the script component everything is done
-	for (const Entity& entity : m_Entities) {
-		Script& script = scriptArray.GetData(entity);
-		script.scriptNameVecForImGui = fullNameVecImGUI;
-	}
-
 }
 
 
 // Scripting
 void ScriptSystem::Update() {
+
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
-	//std::cout << "System.cpp::ScriptSystem::Update::size: " << m_Entities.size() << std::endl;
-
-	// Iterate through all entities with a script component
 	for (Entity const& entity : m_Entities) {
-		//Name* name = &nameArray.GetData(entity);
 
-		// For Wen Yuan to DEBUG
-		Script* s = &ECS::ecs().GetComponent<Script>(entity);
-		//if (entity == 3)
-		//printf("ScriptSystem::Update::Script::size: %d\n", s->scriptNameVec.size());
-		// For Wen Yuan to DEBUG
+		Script* scriptData = &scriptArray.GetData(entity);
+		//if (scriptAdded) {
+		//	//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
+		//	ScriptEngine::RunTimeAddScript(entity);
 
 
-		// Global scriptAdded and scriptRemoved bool maybe
-		if(scriptAdded) {
-			//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
-			ScriptEngine::RunTimeAddScript(entity);
-
-
-		}
+		//}
 
 		if (scriptRemoved) {
 			ScriptEngine::RunTimeRemoveScript(entity);
@@ -494,20 +481,14 @@ void ScriptSystem::Update() {
 
 		}
 
-		for (auto& scriptName : s->scriptNameVec) {
+		for (auto& scriptName : scriptData->scriptNameVec) {
 			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
 			ScriptEngine::OnUpdateEntity(entity);
 		}
-		//ScriptEngine::OnUpdateEntity(entity);
 	}
 
 	scriptAdded = false;
 	scriptRemoved = false;
-
-	// scripts
-	//ScriptEngine::OnRuntimeStart();
-
-	// Instantiate all script entities
 }
 
 

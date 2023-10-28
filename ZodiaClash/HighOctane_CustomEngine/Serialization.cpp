@@ -239,13 +239,6 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	}
 	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
 
-	// Serialize the scriptNameVecForImGui
-	rapidjson::Value scriptNameVecForImGuiArray(rapidjson::kArrayType);
-	for (const std::string& name : script.scriptNameVecForImGui) {
-		scriptNameVecForImGuiArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
-	}
-	scriptObject.AddMember("scriptNameVecForImGui", scriptNameVecForImGuiArray, allocator);
-
 	return scriptObject;
 }
 

@@ -189,34 +189,39 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
 //        }
 //    }
 //}
-void ScriptEngine::RunTimeAddScript(Entity entity) {
+void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
 
-    // For each script associated with this entity
-    for (const auto& fullClassName : sc.scriptNameVec) {
-        // Check if such a script class exists in our system
-        if (ScriptEngine::EntityClassExists(fullClassName)) {
+    // Checks if the currentScriptForIMGUI is already in scriptNameVec
+    for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+        if (sc.scriptNameVec[i] == scriptName) {
+            DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
+            //printf("Script %s already exists in entity %d\n", scriptName, entity);
+            return;
+        }
 
-            // Check if this entity already has a script instance of this class
-            bool alreadyExists = false;
-            auto& entityScripts = s_Data->EntityInstances[entity];
-
-            for (const auto& existingScript : entityScripts) {
-                if (existingScript->GetScriptName() == fullClassName) {
-                    alreadyExists = true;
-                    break;
-                }
-            }
-
-            // If this entity doesn't already have a script of this class, add it
-            if (!alreadyExists) {
-
-                std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
-                entityScripts.push_back(instance);
-            }
+        else {
+            continue;
         }
     }
+ //   for (const auto& test : sc.scriptNameVec) {
+ //       std::cout << "RunTimeAddScript:: BEFORE scriptNameVec pushback" << test << std::endl;
+	//}
+
+    // If not, add it to the vector
+    sc.scriptNameVec.push_back(scriptName);
+    //std::cout << "RunTimeAddScript:: AFTER scriptNameVec pushback" << std::endl;
+
+    auto& entityScripts = s_Data->EntityInstances[entity];
+    std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[scriptName], entity);
+    entityScripts.push_back(instance);
+
+    // Debugging
+    //for (const auto& testing : entityScripts) {
+    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << testing->GetScriptName() << std::endl;
+    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << entity << std::endl;
+    //}
 }
 
 // Helper function
