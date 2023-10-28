@@ -502,20 +502,31 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Collider>(textObjectB);
 	ECS::ecs().RemoveComponent<Animator>(textObjectB);
 
-	Entity buttonObject = EntityFactory::entityFactory().CloneMasterModel(0.85f * GRAPHICS::w, -0.9f * GRAPHICS::h, false);	
-	ECS::ecs().AddComponent(buttonObject, TextLabel{ "Play Audio", "blue" });
-	ECS::ecs().AddComponent(buttonObject, Button{ "white", ECS::ecs().GetComponent<TextLabel>(buttonObject).textColor });
-	ECS::ecs().GetComponent<Model>(buttonObject) = Model{ ModelType::UI };
-	ECS::ecs().GetComponent<Size>(buttonObject) = Size{ 100.f,100.f };
-	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
-	ECS::ecs().GetComponent<Button>(buttonObject).eventName = "Audio";
-	ECS::ecs().GetComponent<Button>(buttonObject).eventInput = "ping.wav";
-	//ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
-	//ECS::ecs().GetComponent<Tex>(buttonObject);
-	ECS::ecs().RemoveComponent<Tex>(buttonObject);
-	ECS::ecs().RemoveComponent<Collider>(buttonObject);
-	ECS::ecs().RemoveComponent<Animator>(buttonObject);
+	Entity basicButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.6f * GRAPHICS::h, false);
+	ECS::ecs().AddComponent(basicButton, TextLabel{ "Play Audio", "secondary" });
+	ECS::ecs().AddComponent(basicButton, Button{ "white", ECS::ecs().GetComponent<TextLabel>(basicButton).textColor });
+	ECS::ecs().GetComponent<Model>(basicButton) = Model{ ModelType::UI };
+	ECS::ecs().GetComponent<Transform>(basicButton).isStatic = false;
+	ECS::ecs().GetComponent<Button>(basicButton).eventName = "Audio";
+	ECS::ecs().GetComponent<Button>(basicButton).eventInput = "bonk.wav";
+	ECS::ecs().GetComponent<Button>(basicButton).padding = Padding{ 40.f, 10.f };
+	ECS::ecs().RemoveComponent<Tex>(basicButton);
+	ECS::ecs().RemoveComponent<Collider>(basicButton);
+	ECS::ecs().RemoveComponent<Animator>(basicButton);
 
+	Entity texButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.85f * GRAPHICS::h, false);	
+	ECS::ecs().AddComponent(texButton, TextLabel{ "Play Audio", "black" });
+	ECS::ecs().AddComponent(texButton, Button{ "blue", ECS::ecs().GetComponent<TextLabel>(texButton).textColor });
+	ECS::ecs().GetComponent<Model>(texButton) = Model{ ModelType::UI };
+	ECS::ecs().GetComponent<Transform>(texButton).isStatic = false;
+	ECS::ecs().GetComponent<Button>(texButton).eventName = "Audio";
+	ECS::ecs().GetComponent<Button>(texButton).eventInput = "ping.wav";
+	ECS::ecs().GetComponent<Button>(texButton).padding = Padding{ 60.f, 30.f };
+	//ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
+	ECS::ecs().GetComponent<Tex>(texButton).tex = assetmanager.texture.Get("mockup_playbutton_04.png");
+	//ECS::ecs().RemoveComponent<Tex>(buttonObject);
+	ECS::ecs().RemoveComponent<Collider>(texButton);
+	ECS::ecs().RemoveComponent<Animator>(texButton);
 
 
 	// Load a single character on the screen

@@ -86,6 +86,7 @@ void AssetManager::LoadTexture(const std::string& texturePath) {
     path += "Textures/";
     path += texturePath;
     if (FileExists(path)) {
+        //DEBUG_PRINT("RECEIVED PATH: %s", path.c_str());
         texture.Add(path.c_str(), texturePath.c_str());
     }
     else {
@@ -97,6 +98,7 @@ void AssetManager::LoadSpritesheet(const std::string& spritePath) {
     std::string path{ defaultPath };
     path += "Textures/" + spritePath;
     if (FileExists(path)) {
+        //DEBUG_PRINT("RECEIVED SPRITE: %s", spritePath.c_str());
         Serializer serializer;
         std::string textureName;
         int row;
