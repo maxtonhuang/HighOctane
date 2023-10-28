@@ -372,7 +372,6 @@ void GraphicsSystem::Draw() {
 		if (animatorArray.HasComponent(entity)) {
 			anim = &animatorArray.GetData(entity);
 		}
-		//TO CHECK: CHECK FOR TEXT LABEL OR BUTTON COMPONENT HERE?
 		m->Draw(tex, anim);
 
 	}
@@ -596,6 +595,7 @@ void UITextLabelSystem::Update() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
 		Transform* transformData = &transformArray.GetData(entity);
@@ -604,12 +604,17 @@ void UITextLabelSystem::Update() {
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		//Button* buttonData = nullptr;
+
+		//if entity has button component, state handling managed by button
+		if (!buttonArray.HasComponent(entity)) {
+			textLabelData->Update(*transformData, *modelData, *nameData);
+		}
 
 		//if (textLabelData->CheckStringUpdated(*textLabelData)) {
 			//textLabelData->UpdateOffset(*transformData, *sizeData);
 		//}
 
-		textLabelData->Update(*transformData, *modelData, *nameData);
 		/*textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
 		if (nameData->selected) {
 			textLabelData->OnFocus();
@@ -634,24 +639,30 @@ void UITextLabelSystem::Draw() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	
 	for (Entity const& entity : m_Entities) {
-		Model* modelData = &modelArray.GetData(entity);
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 
 		textLabelData->UpdateOffset(*transformData, *sizeData);
-		//textLabelData->Update(*transformData, *modelData, *nameData);
+		//textLabelData->Update(*transformData, *modelData, *nameData);		
 
 		modelData->SetAlpha(1.f);
-		//TODO: MOVE INTO DRAW LOOP!!
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
+		//modelData->SetColor(textLabelData->textColor->r, textLabelData->textColor->g, textLabelData->textColor->b);
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, *textLabelData->textColor);
 
-		(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		if (edit_mode) {
+			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		}
+		else {
+			modelData->SetAlpha(0.0f);
+		}
 	}
 	
 }
@@ -665,6 +676,7 @@ void UIButtonSystem::Update() {
 	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
@@ -672,13 +684,14 @@ void UIButtonSystem::Update() {
 		//Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
 		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
 			//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
 		//}
 
-		buttonData->Update(*transformData, *modelData, *nameData);
+		buttonData->Update(*transformData, *modelData, *nameData, *textLabelData);
 		//buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
 		//if (nameData->selected) {
 		//	buttonData->OnFocus();
@@ -704,7 +717,7 @@ void UIButtonSystem::Draw() {
 		Model* modelData = &modelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
-		buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
+		//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
 		//buttonData->Update(*transformData, *modelData, *nameData);
 
 		modelData->SetAlpha(1.f);

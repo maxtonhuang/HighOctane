@@ -51,7 +51,7 @@ enum class UI_VERTICAL_ALIGNMENT {
 // enums for state lookup (to adapt into Name component!!)
 enum class STATE {
 	NONE,
-	SELECTED,
+	//SELECTED,
 	HOVERED,
 	FOCUSED
 };
@@ -61,7 +61,7 @@ public:
 	virtual ~UIComponent() {}
 	
 	//event handler functions
-	virtual void Update(Transform& transformData, Model& modelData, Name& nameData) = 0;
+	//virtual void Update(Transform& transformData, Model& modelData, Name& nameData) = 0;
 	//virtual void OnClick(Model& modelData, Name& nameData) = 0;
 	//virtual void OnHover(Model& modelData, Name& nameData) = 0;
 	//virtual void OnFocus() = 0;
@@ -84,15 +84,15 @@ public:
 	// -> line height
 	
 	TextLabel();
-	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
-	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);
+	TextLabel(std::string str, std::string txtColor);
 
-	bool CheckStringUpdated(TextLabel& txtLblData);
 	void SetTextString(std::string txtStr);
+
+	bool CheckStringUpdated(TextLabel& txtLblData);	
 	void CalculateOffset(Size& sizeData);
 	void UpdateOffset(Transform const& transformData, Size& sizeData);
 
-	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
+	void Update(Transform& transformData, Model& modelData, Name& nameData);
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
@@ -108,16 +108,20 @@ public:
 		ColorSet() : buttonColor{ nullptr }, textColor{ nullptr }, outlineColor{ nullptr } {}
 		ColorSet(std::string btnColor, std::string txtColor) :
 			buttonColor{ &colors.colorMap[btnColor] }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ &colors.colorMap[btnColor] } {}
+		ColorSet(std::string btnColor, glm::vec4* txtColor) :
+			buttonColor{ &colors.colorMap[btnColor] }, textColor{ txtColor }, outlineColor{ &colors.colorMap[btnColor] } {}
+		ColorSet(glm::vec4* btnColor, std::string txtColor) :
+			buttonColor{ btnColor }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ btnColor } {}
 	};
 
-	TextLabel textLabel;
+	//TextLabel textLabel; //to move to TextLabel component
 	Vec2 padding{};
 	STATE currentState{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	Event event;
-	std::string eventName;
-	std::string eventInput;
+	Event eventTrigger{};
+	std::string eventName{};
+	std::string eventInput{};
 	// store colors for each state
 	// default: button white, text blue, outline blue
 	ColorSet defaultColor;
@@ -127,10 +131,11 @@ public:
 	ColorSet focusedColor;
 
 	Button();
-	Button(std::string btnColor, std::string txtColor);
-	Button(std::string txtStr, std::string btnColor, std::string txtColor);
+	Button(std::string btnColor, glm::vec4* txtColor);
 
-	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
+	//glm::vec4* GetTextColor();
+
+	void Update(Transform& transformData, Model& modelData, Name& nameData, TextLabel& textLabelData);
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/

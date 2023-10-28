@@ -39,7 +39,7 @@
 #include "Colors.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
-vmath::Vector2 uiOffset{ RESET_VEC2 };
+//vmath::Vector2 uiOffset{ RESET_VEC2 };
 
 /**************************
 ******** TEXTLABEL ********
@@ -53,20 +53,16 @@ TextLabel::TextLabel() {
 	textColor = &colors.colorMap["black"];
 }
 
-TextLabel::TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align) {
-	font = &f; 
-	textString = str; 
-	textAlignment = align;
-	relFontSize = 0.5f;
-	textColor = &colors.colorMap["black"];
-}
-
-TextLabel::TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align) {
+TextLabel::TextLabel(std::string str, std::string txtColor) {
 	font = fonts.GetDefaultFont();
 	textString = str;
-	textAlignment = align;
+	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN;
 	relFontSize = 0.5f;
-	textColor = &colors.colorMap["black"];
+	textColor = &colors.colorMap[txtColor];
+}
+
+void TextLabel::SetTextString(std::string txtStr) {
+	textString = txtStr;
 }
 
 bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
@@ -75,10 +71,6 @@ bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 		return true;
 	}
 	return false;
-}
-
-void TextLabel::SetTextString(std::string txtStr) {
-	textString = txtStr;
 }
 
 void TextLabel::CalculateOffset(Size& sizeData) {
@@ -118,17 +110,14 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData) {
 
 void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameData) {
 	// get cursorPos, compare with pos in Transform, return if no match
-	if (transformData.isStatic)
-		return;
-
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
 		case(TYPE::MOUSE_MOVE):
 			uiMousePos = { msg.posX, msg.posY };
 			break;
 		case(TYPE::MOUSE_CLICK):
-			if (IsWithinObject(modelData, uiMousePos) && !transformData.isStatic) {
-				uiOffset = GetOffset(transformData.position, uiMousePos);
+			if (IsWithinObject(modelData, uiMousePos)) {
+				//uiOffset = GetOffset(transformData.position, uiMousePos);
 				//OnClick(modelData, nameData);
 			}
 			break;
@@ -136,21 +125,20 @@ void TextLabel::Update(Transform& transformData, Model& modelData, Name& nameDat
 	}
 
 	if (nameData.selected) {
-		SetTextString("Focused Text");
+		//SetTextString("Focused Text");
 		currentState = STATE::FOCUSED;
 		//modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
-		SetTextString("Hovered Text");
+		//SetTextString("Hovered Text");
 		currentState = STATE::HOVERED;
 		//modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
 	}
 	else {
-		SetTextString("TextString");
+		//SetTextString("TextString");
 		currentState = STATE::NONE;
 		//modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
 	}
-
 
 	/*if (!nameData.selected && !transformData.isStatic) {
 		if (IsWithinObject(modelData, uiMousePos)) {
@@ -196,37 +184,25 @@ Button::Button() {
 	std::string txtStr = "TextString";
 	std::string btnColor = "white";
 	std::string txtColor = "blue";
-	textLabel = { txtStr, UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
-	eventName = "Test";
-	event = functions[eventName];
-	eventInput = "Test function";
+	/*eventName = "Audio";
+	eventTrigger = functions[eventName];
+	eventInput = "ping.wav";*/
 }
 
-Button::Button(std::string btnColor = "white", std::string txtColor = "blue") {
+Button::Button(std::string btnColor, glm::vec4* txtColor) {
 	std::string txtStr = "TextString";
-	textLabel = { txtStr, UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
-	eventName = "Test";
-	event = functions[eventName];
-	eventInput = "Test function";
+	/*eventName = "Audio";
+	eventTrigger = functions[eventName];
+	eventInput = "ping.wav";*/
 }
 
-Button::Button(std::string txtStr, std::string btnColor = "white", std::string txtColor = "blue") {
-	textLabel = { txtStr, UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN };
-	defaultColor = { btnColor, txtColor };
-	hoveredColor = { txtColor, btnColor };
-	focusedColor = { txtColor, btnColor };
-	eventName = "Audio";
-	event = functions[eventName];
-	eventInput = "ping.wav";
-}
-
-void Button::Update(Transform& transformData, Model& modelData, Name& nameData) {
+void Button::Update(Transform& transformData, Model& modelData, Name& nameData, TextLabel& textLabelData) {
 	// get cursorPos, compare with pos in Transform, return if no match
 	if (transformData.isStatic)
 		return;
@@ -238,9 +214,11 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 			break;
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
-				uiOffset = GetOffset(transformData.position, uiMousePos);
-				//OnClick(modelData, nameData);
-				event(eventInput);
+				//on click event trigger (outside edit mode)
+				if (!edit_mode && !eventName.empty() && eventTrigger && !eventInput.empty()) {
+					eventTrigger(eventInput);
+				}
+
 				//test updateColor
 				/*glm::vec4 newColor = { 0.09f, 0.63f, 0.72f, 1.0f };
 				colors.UpdateColor("blue", newColor);*/
@@ -249,23 +227,27 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 		}
 	}
 
+	// update button and text colors
 	if (nameData.selected) {
-		textLabel.SetTextString("Focused Text");
+		//textLabel.SetTextString("Focused Text");
 		modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
-		currentState = STATE::FOCUSED;
+		textLabelData.textColor = focusedColor.textColor;
+		currentState = STATE::FOCUSED;		
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
-		textLabel.SetTextString("Hovered Text");
+		//textLabel.SetTextString("Hovered Text");
 		modelData.SetColor(hoveredColor.buttonColor->r, hoveredColor.buttonColor->g, hoveredColor.buttonColor->b);
-		currentState = STATE::HOVERED;
+		textLabelData.textColor = hoveredColor.textColor;
+		currentState = STATE::HOVERED;		
 	}
 	else {
-		textLabel.SetTextString("TextString");
+		//textLabel.SetTextString("TextString");
 		modelData.SetColor(defaultColor.buttonColor->r, defaultColor.buttonColor->g, defaultColor.buttonColor->b);
+		textLabelData.textColor = defaultColor.textColor;
 		currentState = STATE::NONE;
 	}
 
-
+	textLabelData.currentState = this->currentState;
 
 	//if (!nameData.selected) {
 	//	if (IsWithinObject(modelData, uiMousePos)) {
@@ -278,6 +260,27 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 	//	}
 	//}
 }
+
+void Button::DrawButton(Model& modelData) {
+	
+	switch (currentState) {
+	case(STATE::HOVERED):
+		// set model to button color
+		modelData.SetColor(hoveredColor.buttonColor->r, hoveredColor.buttonColor->g, hoveredColor.buttonColor->b);
+		// draw button
+		modelData.Draw(nullptr, nullptr);
+		break;
+	case(STATE::FOCUSED):
+		modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
+		modelData.Draw(nullptr, nullptr);
+		break;
+	default:
+		modelData.SetColor(defaultColor.buttonColor->r, defaultColor.buttonColor->g, defaultColor.buttonColor->b);
+		modelData.Draw(nullptr, nullptr);
+		break;
+	}
+}
+
 
 //void Button::OnClick(Model& modelData, Name& nameData) {
 //	//change color based Name->selected bool state;
@@ -298,20 +301,3 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData) 
 //	currentState = STATE::FOCUSED;
 //	// open properties perhaps?
 //}
-
-void Button::DrawButton(Model& modelData) {
-	//graphics.DrawLabel(textLabel, textLabel.relTransform, modelData.GetColor());
-	switch (currentState) {
-
-	case(STATE::HOVERED):
-		graphics.DrawLabel(textLabel, textLabel.relTransform, *hoveredColor.textColor);
-		break;
-	case(STATE::FOCUSED):
-		graphics.DrawLabel(textLabel, textLabel.relTransform, *focusedColor.textColor);
-		break;
-	// selected, focused
-	default:
-		graphics.DrawLabel(textLabel, textLabel.relTransform, *defaultColor.textColor);
-		break;
-	}
-}
