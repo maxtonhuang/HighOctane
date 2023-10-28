@@ -185,3 +185,7 @@ vmath::Vector2 Model::GetMax() {
 glm::vec4 Model::GetColor() {
 	return color;
 }
+
+glm::vec4& Model::GetColorRef() {
+	return color;
+}

@@ -6,6 +6,7 @@
 #include "WindowsInterlink.h"
 #include "AssetManager.h"
 #include "vmath.h"
+#include "model.h"
 Entity currentSelectedEntity{};
 static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
@@ -76,11 +77,11 @@ void SceneEntityComponents(Entity entity) {
 	if (ImGui::Checkbox("Movement",&check)) {
 		
 	}
-	if (ECS::ecs().HasComponent<Color>(entity)) {
-		if (ImGui::TreeNodeEx((void*)typeid(Color).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
-			auto& colorComponent = ECS::ecs().GetComponent<Color>(entity);
+	if (ECS::ecs().HasComponent<Model>(entity)) {
+		if (ImGui::TreeNodeEx((void*)typeid(Model).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
+			auto& colorComponent = ECS::ecs().GetComponent<Model>(entity).GetColorRef();
 			//ImVec4 imColor = ((ImVec4)color.color);
-			ImGui::ColorEdit3("Edit Color", (float*)&colorComponent.color);
+			ImGui::ColorEdit3("Edit Color", (float*)&colorComponent);
 
 			ImGui::TreePop();
 		}
