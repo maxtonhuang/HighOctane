@@ -56,6 +56,19 @@ enum class STATE {
 	FOCUSED
 };
 
+struct Padding {
+	float left;
+	float right;
+	float top;
+	float bottom;
+
+	Padding() : left{ 40.f }, right{ 40.f }, top{ 20.f }, bottom{ 20.f } {}
+	Padding(float horizontalVal, float verticalVal) : left{ horizontalVal }, right{ horizontalVal }, top{ verticalVal }, bottom{ verticalVal } {}
+	Padding(float leftVal, float rightVal, float topVal, float bottomVal) : left{ leftVal }, right{ rightVal }, top{ topVal }, bottom{ bottomVal } {}
+};
+
+// struct for padding within padding component
+
 class UIComponent {
 public:
 	virtual ~UIComponent() {}
@@ -72,11 +85,13 @@ public:
 	Font* font{};
 	std::string textString{};
 	std::string prevTextString{};
-	UI_HORIZONTAL_ALIGNMENT textAlignment{};
-	float relFontSize{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	glm::vec4* textColor{}; // black
+	glm::vec4* textColor{};
+	float relFontSize{};
+	float textWidth{};
+	float textHeight{};
+	UI_HORIZONTAL_ALIGNMENT textAlignment{};
 	STATE currentState{};
 
 	// FUTURE IMPLEMENTATIONS
@@ -89,10 +104,10 @@ public:
 	void SetTextString(std::string txtStr);
 
 	bool CheckStringUpdated(TextLabel& txtLblData);	
-	void CalculateOffset(Size& sizeData);
-	void UpdateOffset(Transform const& transformData, Size& sizeData);
+	void CalculateOffset();
+	void UpdateOffset(Transform const& transformData);
 
-	void Update(Transform& transformData, Model& modelData, Name& nameData);
+	void Update(Model& modelData, Name& nameData);
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
@@ -114,32 +129,35 @@ public:
 			buttonColor{ btnColor }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ btnColor } {}
 	};
 
-	//TextLabel textLabel; //to move to TextLabel component
-	Vec2 padding{};
-	STATE currentState{};
+	
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
 	std::string eventName{};
 	std::string eventInput{};
+	float buttonWidth{};
+	float buttonHeight{};
+
+	// other UI unique properties
+	STATE currentState{};
+	Padding padding{};
+
 	// store colors for each state
-	// default: button white, text blue, outline blue
 	ColorSet defaultColor;
-	// hovered: button blue, text white, outline blue
 	ColorSet hoveredColor;
-	// focused: button blue, text white, outline red
 	ColorSet focusedColor;
 
 	Button();
 	Button(std::string btnColor, glm::vec4* txtColor);
 
-	//glm::vec4* GetTextColor();
+	glm::vec4* GetButtonColor();
 
-	void Update(Transform& transformData, Model& modelData, Name& nameData, TextLabel& textLabelData);
+	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
 
-	void DrawButton(Model& modelData);
+	/*void DrawButton(Model& modelData, TextLabel& textLabelData);
+	void DrawButtonTex(Model& modelData, Tex& texData, TextLabel& textLabelData);*/
 };
 
 class LayoutGroup : UIComponent {
