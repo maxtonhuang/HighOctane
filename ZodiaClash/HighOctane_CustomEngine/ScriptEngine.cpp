@@ -158,65 +158,40 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
             instance->InvokeOnCreate();
         }
     }
-
 }
 
-// Run time change script here
-// Function that takes in a function pointer
-
-// Run time add script
-//void ScriptEngine::RunTimeAddScript(Entity entity) {
-//
-//    auto& sc = ECS::ecs().GetComponent<Script>(entity);
-//    // For each script associated with this entity
-//    for (const auto& fullClassName : sc.scriptNameVec) {
-//
-//        // Check if such a script class exists in our system
-//        if (ScriptEngine::EntityClassExists(fullClassName)) {
-//
-//            // Create an instance of this script class
-//            // This code is making it so that the code stacks on top of each other
-//            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
-//
-//            // Add script
-//            // If not in EntityInstances, add it
-//
-//            // This code is making it so that I am unable to add multiple scripts to the same entity
-//            //if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
-//				s_Data->EntityInstances[entity].push_back(instance);
-//			//}
-//
-//        }
-//    }
-//}
-void ScriptEngine::RunTimeAddScript(Entity entity) {
+void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    // Checks if the currentScriptForIMGUI is already in scriptNameVec
+    for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+        if (sc.scriptNameVec[i] == scriptName) {
+            DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
+            //printf("Script %s already exists in entity %d\n", scriptName, entity);
+            return;
+        }
 
-    // For each script associated with this entity
-    for (const auto& fullClassName : sc.scriptNameVec) {
-        // Check if such a script class exists in our system
-        if (ScriptEngine::EntityClassExists(fullClassName)) {
-
-            // Check if this entity already has a script instance of this class
-            bool alreadyExists = false;
-            auto& entityScripts = s_Data->EntityInstances[entity];
-
-            for (const auto& existingScript : entityScripts) {
-                if (existingScript->GetScriptName() == fullClassName) {
-                    alreadyExists = true;
-                    break;
-                }
-            }
-
-            // If this entity doesn't already have a script of this class, add it
-            if (!alreadyExists) {
-
-                std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
-                entityScripts.push_back(instance);
-            }
+        else {
+            continue;
         }
     }
+ //   for (const auto& test : sc.scriptNameVec) {
+ //       std::cout << "RunTimeAddScript:: BEFORE scriptNameVec pushback" << test << std::endl;
+	//}
+
+    // If not, add it to the vector
+    sc.scriptNameVec.push_back(scriptName);
+    //std::cout << "RunTimeAddScript:: AFTER scriptNameVec pushback" << std::endl;
+
+    auto& entityScripts = s_Data->EntityInstances[entity];
+    std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[scriptName], entity);
+    entityScripts.push_back(instance);
+
+    // Debugging
+    //for (const auto& testing : entityScripts) {
+    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << testing->GetScriptName() << std::endl;
+    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << entity << std::endl;
+    //}
 }
 
 // Helper function
@@ -230,15 +205,29 @@ std::string ScriptInstance::GetScriptName() const {
 
 
 // Run time remove script
-void ScriptEngine::RunTimeRemoveScript(Entity entity) {
-    printf("RUNTIEMREMVESCRPIT IS RAN\n");
-    //std::cout << "RunTimeRemoveScript" << std::endl;
+void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
+    //std::cout << "RunTimeRemoveScript called\n";
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    
+    std::string concatName = "." + std::string(scriptName);
+    for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = s_Data->EntityInstances[entity].begin(); it != s_Data->EntityInstances[entity].end(); ++it) {
+        //std::cout << "THIS IS ITTTTTT" << (*it)->GetScriptName() << std::endl;
+        //std::cout << "THIS IS ITTTTTT TOOOOOO" << concatName << std::endl;
+        if ((*it)->GetScriptName() == concatName) {
+			s_Data->EntityInstances[entity].erase(it);
 
-    printf("Scriptnamevec size is %d\n", sc.scriptNameVec.size());
+            // I need to clear the sc.scriptNameVec too, not sure if this is right
+            for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+                if (sc.scriptNameVec[i] == scriptName) {
+					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
+				}
+			}
+			break;
+		}
+	}
 
-    // Clear instance vector
-    s_Data->EntityInstances.clear();
+    // Clear the instance vector for that entity
+    //s_Data->EntityInstances[entity].clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
@@ -250,8 +239,6 @@ void ScriptEngine::OnUpdateEntity(const Entity& entity) {
         }
     }
 }
-
-
 
 void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 {

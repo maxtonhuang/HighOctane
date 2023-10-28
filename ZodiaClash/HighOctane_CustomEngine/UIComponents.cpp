@@ -215,8 +215,9 @@ void Button::Update(Transform& transformData, Model& modelData, Name& nameData, 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (!edit_mode && !eventName.empty() && eventTrigger && !eventInput.empty()) {
-					eventTrigger(eventInput);
+				if (!edit_mode && !eventName.empty() && !eventInput.empty()) {
+					events.Call(eventName, eventInput);
+					//eventTrigger(eventInput);
 				}
 
 				//test updateColor

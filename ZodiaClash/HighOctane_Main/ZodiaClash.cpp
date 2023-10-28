@@ -70,7 +70,7 @@
 #include "PlayerAction.h"
 #include "UIComponents.h"
 #include "Reflections.h"
-#include "FunctionPointer.h"
+#include "Events.h"
 
 bool gConsoleInitalized{ false };
 
@@ -455,7 +455,7 @@ void EngineCore::Run(bool const& mode) {
 	assetmanager.audio.PauseGroup("BGM");
 	assetmanager.audio.PlaySounds("MainMenu1.wav", "BGM");
 
-	InitialiseFunctions();
+	events.InitialiseFunctions();
 
 	if (game_mode) {
 
@@ -510,7 +510,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
 	ECS::ecs().GetComponent<Button>(buttonObject).eventName = "Audio";
 	ECS::ecs().GetComponent<Button>(buttonObject).eventInput = "ping.wav";
-	ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
+	//ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
+	//ECS::ecs().GetComponent<Tex>(buttonObject);
 	ECS::ecs().RemoveComponent<Tex>(buttonObject);
 	ECS::ecs().RemoveComponent<Collider>(buttonObject);
 	ECS::ecs().RemoveComponent<Animator>(buttonObject);

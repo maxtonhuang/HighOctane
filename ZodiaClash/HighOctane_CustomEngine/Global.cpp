@@ -56,8 +56,6 @@ std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
-bool scriptAdded{ false };
-bool scriptRemoved{ false };
 
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;

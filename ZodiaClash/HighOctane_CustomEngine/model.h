@@ -72,6 +72,7 @@ public:
 	vmath::Vector2 GetMax(); //returns maximum point in screen coordinates
 
 	glm::vec4 GetColor(); // retrieve color stored
+	glm::vec4& GetColorRef(); //retrieve color reference
 
 private:
 	glm::mat3 matrix{}; //matrix used for computing model verrtices
