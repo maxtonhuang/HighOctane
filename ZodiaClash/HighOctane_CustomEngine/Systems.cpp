@@ -556,18 +556,12 @@ void UITextLabelSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		//Tex* texData = &texArray.GetData(entity);
-		//Size* sizeData = &sizeArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
@@ -575,26 +569,8 @@ void UITextLabelSystem::Update() {
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
-			textLabelData->Update(*transformData, *modelData, *nameData);
+			textLabelData->Update(*modelData, *nameData);
 		}
-
-		//if (textLabelData->CheckStringUpdated(*textLabelData)) {
-			//textLabelData->UpdateOffset(*transformData, *sizeData);
-		//}
-
-		/*textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
-		if (nameData->selected) {
-			textLabelData->OnFocus();
-		}*/
-		
-		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
-		//DEBUG_PRINT("relTrans: %f %f", textLabelData->relTransform.x, textLabelData->relTransform.y);
-		//DEBUG_PRINT("SCALE: %f", transformData->scale);
-		//DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
-		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
-		
-		//call graphics drawLabel here?
-		
 
 		//note: find a way to update size!!
 	}
@@ -606,29 +582,38 @@ void UITextLabelSystem::Draw() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	
 	for (Entity const& entity : m_Entities) {
 		Transform* transformData = &transformArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-		Name* nameData = &nameArray.GetData(entity);
+		//Name* nameData = &nameArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
+		Tex* texData = nullptr;
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		Button* buttonData = nullptr;
+		
+		textLabelData->UpdateOffset(*transformData);
 
-		textLabelData->UpdateOffset(*transformData, *sizeData);
-		//textLabelData->Update(*transformData, *modelData, *nameData);		
-
-		modelData->SetAlpha(1.f);
-		//modelData->SetColor(textLabelData->textColor->r, textLabelData->textColor->g, textLabelData->textColor->b);
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, *textLabelData->textColor);
-
-		if (edit_mode) {
-			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		//if entity has button component, drawing managed by button
+		if (buttonArray.HasComponent(entity)) {
+			buttonData = &buttonArray.GetData(entity);
 		}
 		else {
-			modelData->SetAlpha(0.0f);
+			sizeData->width = textLabelData->textWidth;
+			sizeData->height = textLabelData->textHeight;
+		}
+		if (texArray.HasComponent(entity)) {
+			texData = &texArray.GetData(entity);
+		}
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, *textLabelData->textColor);
+
+		if (edit_mode && !buttonData && !texData) {
+			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
 		}
 	}
 	
@@ -639,16 +624,17 @@ void UIButtonSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		//Size* sizeData = &sizeArray.GetData(entity);
+		//Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
@@ -657,37 +643,48 @@ void UIButtonSystem::Update() {
 		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
 			//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
 		//}
+		buttonData->Update(*modelData, *nameData, *textLabelData);
 
-		buttonData->Update(*transformData, *modelData, *nameData, *textLabelData);
-		//buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
-		//if (nameData->selected) {
-		//	buttonData->OnFocus();
-		//}
+		if (!texArray.HasComponent(entity)) {
+			glm::vec4 btnColor = *buttonData->GetButtonColor();
+			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
+		}
+
+		sizeData->width = buttonData->buttonWidth;
+		sizeData->height = buttonData->buttonHeight;
 	}
 }
 
-void UIButtonSystem::Draw() {
-	//// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-
-	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
-		Name* nameData = &nameArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
-		Button* buttonData = &buttonArray.GetData(entity);
-
-		//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
-		//buttonData->Update(*transformData, *modelData, *nameData);
-
-		modelData->SetAlpha(1.f);
-		buttonData->DrawButton(*modelData);
-	}
-}
+//void UIButtonSystem::Draw() {
+//	//// Access the ComponentManager through the ECS class
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//
+//	//// Access component arrays through the ComponentManager
+//	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+//	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+//	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+//	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+//	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+//	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+//	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+//
+//	for (Entity const& entity : m_Entities) {
+//		//Transform* transformData = &transformArray.GetData(entity);
+//		Size* sizeData = &sizeArray.GetData(entity);
+//		Model* modelData = &modelArray.GetData(entity);
+//		//Name* nameData = &nameArray.GetData(entity);
+//		Tex* texData = nullptr;
+//		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+//		Button* buttonData = &buttonArray.GetData(entity);
+//
+//		//modelData->SetAlpha(1.f);
+//
+//		//if (texArray.HasComponent(entity)) {
+//		//	texData = &texArray.GetData(entity);
+//		//	buttonData->DrawButtonTex(*modelData, *texData, *textLabelData);
+//		//}
+//		//else {
+//		//	buttonData->DrawButton(*modelData, *textLabelData);
+//		//}
+//	}
+//}
