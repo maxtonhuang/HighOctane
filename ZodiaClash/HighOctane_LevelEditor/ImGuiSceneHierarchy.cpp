@@ -8,6 +8,8 @@
 #include "vmath.h"
 #include "model.h"
 #include "UIComponents.h"
+#include "ScriptEngine.h"
+
 Entity currentSelectedEntity{};
 static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
@@ -196,7 +198,8 @@ void SceneEntityComponents(Entity entity) {
 					//printf("No script selected\n");
 				}
 				else {
-					AddScriptToEntity(entity, currentScriptForIMGUI);
+					//AddScriptToEntity(entity, currentScriptForIMGUI);
+					ScriptEngine::RunTimeAddScript(entity, currentScriptForIMGUI);
 				}
 			}
 
@@ -222,7 +225,6 @@ void SceneEntityComponents(Entity entity) {
 void AddScriptToEntity(Entity entity, const char* scriptName) {
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
-
 	// Checks if the currentScriptForIMGUI is already in scriptNameVec
 	for (int i = 0; i < s->scriptNameVec.size(); i++) {
 		if (s->scriptNameVec[i] == scriptName) {
@@ -236,16 +238,20 @@ void AddScriptToEntity(Entity entity, const char* scriptName) {
 		}
 	}
 
-	
-	std::cout << "ADD SCRIPT TO ENTITY FUNCTION" << std::endl;
+	std::cout << "AddScriptToEntity::ADD SCRIPT TO ENTITY FUNCTION" << std::endl;
 	// If not, add it to the vector
 	s->scriptNameVec.push_back(scriptName);
+
+	for (auto& scriptName : s->scriptNameVec) {
+		std::cout << "Script name: " << scriptName << std::endl;
+	}
+
 	scriptAdded = true;
-	DEBUG_PRINT("Adding script %s to entity %d", scriptName, entity);
-	//printf("Adding script %s to entity %d\n", scriptName, entity);
+
 }
 
 void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
+	std::cout << "RemoveScriptFromEntity::REMOVE SCRIPT FROM ENTITY FUNCTION" << std::endl;
 	Script* s = &ECS::ecs().GetComponent<Script>(entity);
 
 	// If the scriptNameVec is empty,5 return
@@ -257,6 +263,7 @@ void RemoveScriptFromEntity(Entity entity, const char* scriptName) {
 
 	// For every entity, only clear the vec that the entity is 
 	s->scriptNameVec.clear();
+	//s->scriptNameVecForImGui.clear();
 	scriptRemoved = true;
 
 	// Search for the script in scriptNameVec
