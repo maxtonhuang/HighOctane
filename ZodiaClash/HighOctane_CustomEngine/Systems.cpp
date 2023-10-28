@@ -53,6 +53,7 @@
 #include "EngineCore.h"
 #include "CharacterStats.h"
 #include "UIComponents.h"
+#include "AssetManager.h"
 
 #define FIXED_DT 1/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
@@ -388,7 +389,20 @@ void GraphicsSystem::Draw() {
 ******************************************************************************/
 void SerializationSystem::Update() {
 	if (saveFile) {
-		Serializer::SaveEntityToJson(SaveFileDialog(), m_Entities);
+		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
+		if (scenePath != "") {
+			std::ofstream sceneFile{ scenePath.c_str() };
+
+			std::string jsonPath{ scenePath.substr(0,scenePath.find(".scn")) + ".json" };
+			Serializer::SaveEntityToJson(jsonPath, m_Entities);
+
+			auto files = assetmanager.GetFiles();
+			for (auto& f : files) {
+				sceneFile << f << "\n";
+			}
+			sceneFile << jsonPath.substr(jsonPath.find_last_of("\\"));
+			sceneFile.close();
+		}
 		saveFile = false;
 	}
 	

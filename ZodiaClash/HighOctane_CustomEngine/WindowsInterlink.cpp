@@ -3,7 +3,6 @@
 #include <iostream>
 #include <shobjidl.h>
 
-
 void OpenFileDialog() {
 
 	std::deque<std::string> filesList;
@@ -92,7 +91,7 @@ void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 	}
 }
 
-std::string SaveFileDialog() {
+std::string SaveFileDialog(std::string extensionName, std::string extensionDescription) {
 	// Initialize COM
 	CoInitialize(NULL);
 
@@ -102,8 +101,18 @@ std::string SaveFileDialog() {
 
 	if (SUCCEEDED(hr)) {
 		// Show the dialog
+		if (extensionName != "") {
+			std::wstring edtemp = std::wstring(extensionDescription.begin(), extensionDescription.end());
+			LPCWSTR eDescription = edtemp.c_str();
+			std::wstring entemp = std::wstring(extensionName.begin(), extensionName.end());
+			LPCWSTR eName = entemp.c_str();
+			COMDLG_FILTERSPEC extension{ eDescription, eName};
+			p_fsd->SetFileTypes(1, &extension);
+			p_fsd->SetFileTypeIndex(1);
+			p_fsd->SetDefaultExtension(eName);
+		}
+		
 		hr = p_fsd->Show(NULL);
-
 		if (SUCCEEDED(hr)) {
 			IShellItem* p_si = NULL; // Pointer to ShellItem
 			hr = p_fsd->GetResult(&p_si);
