@@ -74,9 +74,6 @@
     <ClInclude Include="EntityFactory.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
-    <ClInclude Include="gamestatemanager.h">
-      <Filter>EngineArchitecture</Filter>
-    </ClInclude>
     <ClInclude Include="graphics.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -245,15 +242,15 @@
     <ClInclude Include="FunctionPointer.h">
       <Filter>FunctionPointer</Filter>
     </ClInclude>
+    <ClInclude Include="GameStateManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="EntityFactory.cpp">
-      <Filter>EngineArchitecture</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestatemanager.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="graphics.cpp">
@@ -397,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="FunctionPointer.cpp">
       <Filter>FunctionPointer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

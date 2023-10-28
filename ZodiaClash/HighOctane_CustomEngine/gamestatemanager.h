@@ -10,16 +10,16 @@
 *
 *	@file		GameStateManager.h
 *
-*	@author		Maxton Huang Xinghua
+*	@author		Liu WanTing
 *
-*	@email		m.huang\@digipen.edu
+*	@email		wanting.liu\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
-*	@date		22 September 2023
+*	@date		22 October 2023
 *
 * *****************************************************************************
 *
@@ -32,17 +32,13 @@
 
 #pragma once
 
-typedef void(*FP)(void);
-
-extern int gsmCurrent, gsmPrevious, gsmNext;
-
-extern FP fpLoad, fpInitialize, fpUpdate, fpDraw, fpFree, fpUnload;
-
-void GSM_Initialize(int startingState);
-
-void GSM_Update();
-
-void GSM_Exit();
+// game state functions typedef
+typedef void (*LoadFunc)();
+typedef void (*InitFunc)();
+typedef void (*UpdateFunc)(float dt);
+typedef void (*DrawFunc)(float dt);
+typedef void (*FreeFunc)();
+typedef void (*UnloadFunc)();
 
 enum GS_STATES
 {
@@ -50,7 +46,63 @@ enum GS_STATES
 	GS_CREDITS,
 	GS_EXPLORE,
 	GS_BATTLE,
-
 	GS_QUIT,
 	GS_RESTART
 };
+
+class GameState {
+private:
+	int idx;
+	LoadFunc loadFunc;
+	InitFunc initFunc;
+	UpdateFunc updateFunc;
+	DrawFunc drawFunc;
+	FreeFunc freeFunc;
+	UnloadFunc unloadFunc;
+public:
+	GameState();
+	void SetGameState(int gsIdx, LoadFunc load, InitFunc init, UpdateFunc update, DrawFunc draw, FreeFunc free, UnloadFunc unload);
+	void GSM_Load();
+	void GSM_Init();
+	void GSM_Update(float dt);
+	void GSM_Draw(float dt);
+	void GSM_Free();
+	void GSM_Unload();
+	int GetIdx();
+};
+
+class GameStateMgr {
+private:
+	enum 
+	{ 
+		GSLOAD, 
+		GSINIT, 
+		GSRUNNING, 
+		GSFREE, 
+		GSUNLOAD 
+	};
+	unsigned gsmState;
+	unsigned gameStateCount;
+	GameState* stateArray;
+	int state;
+	int nextState;
+	bool continueNextState;
+	static GameStateMgr* gamestatemgr_;
+	GameStateMgr(unsigned gsmCount);
+
+public:
+	bool isRunning;
+	static GameStateMgr* GetInstance(unsigned gsmCount);
+	/// ONLY USE THIS IN YOUR INIT FUNCTION
+	static GameStateMgr* GetInstance();
+	static void RemoveInstance();
+	/// <summary>
+	/// sets game state at stateArray[gsIdx]
+	/// </summary>
+	void InsertGameState(int gsmIdx, LoadFunc load, InitFunc init, UpdateFunc update, DrawFunc draw, FreeFunc free, UnloadFunc unload);
+	void UpdateGameStateMgr();
+	void ChangeGameState(int gsmIdx);
+	void QuitGame();
+	~GameStateMgr();
+};
+
