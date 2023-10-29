@@ -140,7 +140,17 @@
             "Model type": 3,
             "Background scroll speed": 0.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "mikachan",
+            "Font Variant": "Regular",
+            "Text String": "© 2023 High Octane",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "blue"
+        }
     },
     {
         "Entity": {
@@ -177,7 +187,17 @@
             "Model type": 3,
             "Background scroll speed": 0.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "ZodiaClash v0.1",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "blue"
+        }
     },
     {
         "Entity": {
@@ -214,7 +234,23 @@
             "Model type": 3,
             "Background scroll speed": 0.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Play Audio",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "blue"
+        },
+        "Button": {
+            "Padding Top": 10.0,
+            "Padding Bottom": 10.0,
+            "Padding Left": 40.0,
+            "Padding Right": 40.0
+        }
     },
     {
         "Entity": {
@@ -258,7 +294,23 @@
             "Model type": 3,
             "Background scroll speed": 0.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Play Audio",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "blue"
+        },
+        "Button": {
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        }
     },
     {
         "Entity": {
@@ -305,9 +357,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [
-                "AntiClockWiseSpin"
-            ]
+            "scriptNameVec": []
         },
         "Model": {
             "Model type": 0,

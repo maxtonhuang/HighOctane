@@ -151,7 +151,7 @@ void GUIManager::Update()
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
     ImGui::SetNextWindowViewport(main_viewport->ID);
 
-    
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.18f, 0.23f, 0.30f, 1.00f);
     ImGui::Begin("Dockable Window", nullptr, window_flags);
     ImGuiIO& io = ImGui::GetIO();
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)

@@ -485,7 +485,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Movable>(background);
 
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
-	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "white" });
+	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "blue" });
 	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
@@ -495,7 +495,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Animator>(textObjectA);
 
 	Entity textObjectB = EntityFactory::entityFactory().CloneMasterModel(-0.8f * GRAPHICS::w, -0.9f * GRAPHICS::h, false);
-	ECS::ecs().AddComponent(textObjectB, TextLabel{ "ZodiaClash v0.1", "white" });
+	ECS::ecs().AddComponent(textObjectB, TextLabel{ "ZodiaClash v0.1", "blue" });
 	ECS::ecs().GetComponent<Model>(textObjectB) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectB) = Size{ 100.f,100.f };
 	ECS::ecs().RemoveComponent<Tex>(textObjectB);
@@ -503,7 +503,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Animator>(textObjectB);
 
 	Entity basicButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.6f * GRAPHICS::h, false);
-	ECS::ecs().AddComponent(basicButton, TextLabel{ "Play Audio", "secondary" });
+	ECS::ecs().AddComponent(basicButton, TextLabel{ "Play Audio", "blue" });
 	ECS::ecs().AddComponent(basicButton, Button{ "white", ECS::ecs().GetComponent<TextLabel>(basicButton).textColor });
 	ECS::ecs().GetComponent<Model>(basicButton) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Transform>(basicButton).isStatic = false;
@@ -515,7 +515,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Animator>(basicButton);
 
 	Entity texButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.85f * GRAPHICS::h, false);	
-	ECS::ecs().AddComponent(texButton, TextLabel{ "Play Audio", "black" });
+	ECS::ecs().AddComponent(texButton, TextLabel{ "Play Audio", "blue" });
 	ECS::ecs().AddComponent(texButton, Button{ "blue", ECS::ecs().GetComponent<TextLabel>(texButton).textColor });
 	ECS::ecs().GetComponent<Model>(texButton) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Transform>(texButton).isStatic = false;
