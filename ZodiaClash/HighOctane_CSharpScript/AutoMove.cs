@@ -17,7 +17,6 @@ internal class AutoMoveX : MonoBehaviour
         float speed = 1.0f;
         Vector2 translation = Translation;
 
-
         if (movingRight)
         {
             translation.X += speed;

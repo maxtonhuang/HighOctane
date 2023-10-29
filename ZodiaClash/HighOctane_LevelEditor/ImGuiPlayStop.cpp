@@ -3,6 +3,7 @@
 #include "ImGuiPlayStop.h"
 #include "Global.h"
 #include "Serialization.h"
+#include "AssetManager.h"
 
 bool buffer = false;
 
@@ -18,7 +19,8 @@ void UpdatePlayStop() {
 	}
 	ImGui::SameLine();
 	if (buffer == true) {
-		Serializer::LoadEntityFromJson("../Assets/Scenes/tmp.json");
+		std::string loadPath = assetmanager.GetDefaultPath() + "Scenes/tmp.json";
+		Serializer::LoadEntityFromJson(loadPath);
 		buffer = false;
 	}
 	if (ImGui::Button("Stop", { 100,50 })) {

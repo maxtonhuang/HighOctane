@@ -415,7 +415,8 @@ void SerializationSystem::Update() {
 	}
 
 	if (playButton) {
-		Serializer::SaveEntityToJson("../Assets/Scenes/tmp.json", m_Entities);
+		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
+		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
 		playButton = false;
 	}
 

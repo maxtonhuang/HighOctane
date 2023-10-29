@@ -160,7 +160,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 
     EngineCore::engineCore(); // Instantiate Engine Core
-	
+
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -467,7 +467,7 @@ void EngineCore::Run(bool const& mode) {
 	//fonts.Initialize();
 	EntityFactory::entityFactory().LoadMasterModel();
 
-	Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
+	//Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
@@ -590,7 +590,6 @@ void EngineCore::Run(bool const& mode) {
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 			//std::cout << sys.second << std::endl;
 #endif
-
 			sys.first->Update();
 
 #if ENABLE_DEBUG_PROFILE
@@ -604,7 +603,6 @@ void EngineCore::Run(bool const& mode) {
 #if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 #endif
-
 			sys.first->Draw();
 
 #if ENABLE_DEBUG_PROFILE

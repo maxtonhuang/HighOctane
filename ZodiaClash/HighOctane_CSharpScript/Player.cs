@@ -92,10 +92,12 @@ namespace JustTest
 
         public override void Update()
         {
-            float speed = 0.001f;
-            float scale = Scale;
-            scale += Input.GetAxisHorizontal() * speed;
-            Scale = scale;
+            float deltaTime = DeltaTime;
+            //Console.WriteLine(deltaTime);
+            //float speed = 0.001f;
+            //float scale = Scale;
+            //scale += Input.GetAxisHorizontal() * speed;
+            //Scale = scale;
         }
     }
 }

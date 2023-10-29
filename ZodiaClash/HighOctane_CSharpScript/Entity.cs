@@ -34,6 +34,15 @@ public class Entity
         }
     }
     
+    public float DeltaTime
+    {
+        get
+        {
+            InternalCalls.GetDeltaTime(out float deltaTime);
+            return deltaTime;
+        }
+    }
+
     public Vector2 Force
     {
         get
