@@ -53,7 +53,9 @@ void ScriptEngine::Init() {
     const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
 #endif
     std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
-    printf("Full assembly path: %s\n", fullAssemblyPath.c_str());
+    //std::string currentPath = std::filesystem::current_path().string();
+    //printf("Current path: %s\n", currentPath.c_str());
+    //printf("Full assembly path: %s\n", fullAssemblyPath.c_str());
 
     if (!std::filesystem::exists(fullAssemblyPath)) {
         fullAssemblyPath = "HighOctane_CSharpScript.dll";
