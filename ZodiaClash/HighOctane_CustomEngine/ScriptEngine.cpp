@@ -53,7 +53,9 @@ void ScriptEngine::Init() {
     const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
 #endif
     std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
-    printf("Full assembly path: %s\n", fullAssemblyPath.c_str());
+    //std::string currentPath = std::filesystem::current_path().string();
+    //printf("Current path: %s\n", currentPath.c_str());
+    //printf("Full assembly path: %s\n", fullAssemblyPath.c_str());
 
     if (!std::filesystem::exists(fullAssemblyPath)) {
         fullAssemblyPath = "HighOctane_CSharpScript.dll";
@@ -99,9 +101,15 @@ void ScriptEngine::InitMono() {
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
 
     if (!std::filesystem::exists(filePath)) {
-        		filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
-                
+        std::string	secondFilePath = std::filesystem::current_path().replace_filename("HighOctane_CustomEngine/Mono/lib/mono/4.5").string();
+        if (!std::filesystem::exists(secondFilePath)) {
+            std::string	thirdFilePath = std::filesystem::current_path().replace_filename("Debug_x64/Mono/lib/mono/4.5").string();
+            mono_set_assemblies_path(thirdFilePath.c_str());
+        }
+        mono_set_assemblies_path(secondFilePath.c_str());
+
     }
+    
 
     mono_set_assemblies_path(filePath.c_str());
 
