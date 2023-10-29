@@ -10,6 +10,7 @@
 #include "UIComponents.h"
 #include "ScriptEngine.h"
 #include "CharacterStats.h"
+#include <sstream>
 
 Entity currentSelectedEntity{};
 static bool check;
@@ -238,6 +239,42 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::InputFloat("Attack", &charstatsComponent.stats.attack);
 			ImGui::InputFloat("Defense", &charstatsComponent.stats.defense);
 			ImGui::InputInt("Speed", &charstatsComponent.stats.speed);
+
+			std::vector<std::string> attackNames{ assetmanager.attacks.GetAttackNames() };
+			for (std::string& s : attackNames) {
+				s = s.substr(0, s.find(".skill"));
+			}
+			for (size_t a = 0; a < charstatsComponent.action.skills.size(); a++) {
+				std::string currentAttack{ charstatsComponent.action.skills[a].attackName };
+				std::stringstream header{};
+				header << "Skill " << a + 1;
+				if (ImGui::BeginCombo(header.str().c_str(), currentAttack.c_str())) {
+					for (int n = 0; n < attackNames.size(); n++) {
+						bool is_selected = (currentAttack == attackNames[n]);
+						if (ImGui::Selectable(attackNames[n].c_str(), is_selected)) {
+							charstatsComponent.action.skills[a] = assetmanager.attacks.data[attackNames[n]];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			std::string currentAttack{ "None"};
+			if (ImGui::BeginCombo("New Skill", currentAttack.c_str())) {
+				for (int n = 0; n < attackNames.size(); n++) {
+					bool is_selected = (currentAttack == attackNames[n]);
+					if (ImGui::Selectable(attackNames[n].c_str(), is_selected)) {
+						charstatsComponent.action.skills.push_back(assetmanager.attacks.data[attackNames[n]]);
+					}
+					if (is_selected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+			
 
 			ImGui::TreePop();
 		}

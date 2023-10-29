@@ -198,6 +198,12 @@ void AssetManager::LoadRenderer(const std::string& rendererPath) {
     }
 }
 
+/**************************************ATTACKS*************************************************/
+void AssetManager::LoadAttack(const std::string& attackPath) {
+    std::string fullPath{ defaultPath + "Skills/" + attackPath };
+    attacks.LoadAttack(fullPath);
+}
+
 /**********************************GENERIC METHODS*********************************************/
 bool AssetManager::FileExists(const std::string& path) {
     std::fstream f{ path };
@@ -247,6 +253,10 @@ std::vector<std::string> AssetManager::GetFiles() {
         std::string fontpath{ f.second.fontFilePath.substr(pos + 6) };
         output.push_back(fontpath);
     }
+    append = attacks.GetAttackNames();
+    for (std::string& s : append) {
+        output.push_back(s);
+    }
     return output;
 }
 
@@ -286,6 +296,9 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else if (extension == ".json") {
         LoadEntities(assetPath);
+    }
+    else if (extension == ".skill") {
+        LoadAttack(assetPath);
     }
     else {
         // Error Handling

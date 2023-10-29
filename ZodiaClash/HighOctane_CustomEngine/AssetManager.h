@@ -82,6 +82,9 @@ public:
     // Shader methods
     void LoadRenderer(const std::string& rendererPath);
 
+    //Attack methods
+    void LoadAttack(const std::string& attackPath);
+
 private:
     std::string defaultPath{};
     std::vector<std::string> loadedFiles{};

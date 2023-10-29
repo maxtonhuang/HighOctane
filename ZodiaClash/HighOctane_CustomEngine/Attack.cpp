@@ -55,7 +55,7 @@ void Attack::SetOwner(CharacterStats* input) {
 std::vector<std::string> AttackList::GetAttackNames() {
     std::vector<std::string> output{};
     for (auto& a : data) {
-        output.push_back(a.first);
+        output.push_back(a.first + ".skill");
     }
     return output;
 }
@@ -114,38 +114,38 @@ void AttackList::LoadAttack(std::string attackPath) {
 
         if (mainObject.HasMember("Name")) {
             const rapidjson::Value& object = mainObject["Name"];
-            atkname = object["Name"].GetString();
+            atkname = object.GetString();
             atk.attackName = atkname;
         }
 
         if (mainObject.HasMember("Type")) {
             const rapidjson::Value& object = mainObject["Type"];
-            atk.attacktype = (AttackType)object["Type"].GetInt();
+            atk.attacktype = (AttackType)object.GetInt();
         }
 
         if (mainObject.HasMember("Skill Attack")) {
             const rapidjson::Value& object = mainObject["Skill Attack"];
-            atk.skillAttackPercent = object["Type"].GetInt();
+            atk.skillAttackPercent = object.GetInt();
         }
 
         if (mainObject.HasMember("Minimum Attack Multiplier")) {
             const rapidjson::Value& object = mainObject["Minimum Attack Multiplier"];
-            atk.minAttackMultiplier = object["Minimum Attack Multiplier"].GetFloat();
+            atk.minAttackMultiplier = object.GetFloat();
         }
 
         if (mainObject.HasMember("Maximum Attack Multiplier")) {
             const rapidjson::Value& object = mainObject["Maximum Attack Multiplier"];
-            atk.maxAttackMultiplier = object["Maximum Attack Multiplier"].GetFloat();
+            atk.maxAttackMultiplier = object.GetFloat();
         }
 
         if (mainObject.HasMember("Crit Rate")) {
             const rapidjson::Value& object = mainObject["Crit Rate"];
-            atk.critRate = object["Crit Rate"].GetFloat();
+            atk.critRate = object.GetFloat();
         }
 
         if (mainObject.HasMember("Crit Multiplier")) {
             const rapidjson::Value& object = mainObject["Crit Multiplier"];
-            atk.critMultiplier = object["Crit Multiplier"].GetFloat();
+            atk.critMultiplier = object.GetFloat();
         }
     }
     data[atkname] = atk;

@@ -245,11 +245,20 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 
 rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value charstats(rapidjson::kObjectType);
+	rapidjson::Value attacks(rapidjson::kArrayType);
 	charstats.AddMember("Character type", (int)stats.tag, allocator);
 	charstats.AddMember("Max Health", stats.stats.maxHealth, allocator);
 	charstats.AddMember("Attack", stats.stats.attack, allocator);
 	charstats.AddMember("Defense", stats.stats.defense, allocator);
 	charstats.AddMember("Speed", stats.stats.speed, allocator);
+
+	for (Attack const& a : stats.action.skills) {
+		rapidjson::Value attackName;
+		attackName.SetString(a.attackName.c_str(), a.attackName.length(), allocator);
+		attacks.PushBack(attackName, allocator);
+	}
+	charstats.AddMember("Skills", attacks, allocator);
+
 	return charstats;
 }
 
@@ -553,6 +562,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			charstats.stats.health = charstats.stats.maxHealth;
 			charstats.stats.speed = statsObject["Speed"].GetInt();
 			charstats.tag = static_cast<CharacterType>(statsObject["Character type"].GetInt());
+			for (auto& a : statsObject["Skills"].GetArray()) {
+				charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
+			}
 			ECS::ecs().AddComponent(entity, charstats);
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
