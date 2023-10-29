@@ -249,6 +249,26 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	return scriptObject;
 }
 
+rapidjson::Value SerializeModel( Model model, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value modelObject(rapidjson::kObjectType);
+
+	model.GetColor();
+	model.GetMax();
+	model.GetMin();
+
+	modelObject.AddMember("r", model.GetColor().r, allocator);
+	modelObject.AddMember("g", model.GetColor().g, allocator);
+	modelObject.AddMember("b", model.GetColor().b, allocator);
+	modelObject.AddMember("a", model.GetColor().a, allocator);
+
+	modelObject.AddMember("Max X", model.GetMax().x, allocator);
+	modelObject.AddMember("Max Y", model.GetMax().y, allocator);
+	modelObject.AddMember("Min X", model.GetMin().x, allocator);
+	modelObject.AddMember("Min Y", model.GetMin().y, allocator);
+
+	return modelObject;
+}
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -266,6 +286,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Animator* anim = nullptr;
 	Name* name = nullptr;
 	Script* script = nullptr;
+	Model* model = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -335,8 +356,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
 			entityObject.AddMember("Scripts", scriptObject, allocator);
 		}
-		document.PushBack(entityObject, allocator);
-		//document.PushBack(entityArray, allocator);
+		if (ECS::ecs().HasComponent<Script>(entity)) {
+			rapidjson::Value modelObject = SerializeModel(ECS::ecs().GetComponent<Model>(entity), allocator);
+			entityObject.AddMember("Model", modelObject, allocator);
+			document.PushBack(entityObject, allocator);
+		}
 	}
 	
 	// Save the JSON document to a file
@@ -420,7 +444,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			const char* filePath = texObject["Texture File Path"].GetString();
 
 			// Attempt to add or retrieve the Texture from the TextureManager
-			Texture* texture = assetmanager.texture.Get(filePath);
+				Texture* texture = assetmanager.texture.Get(filePath);
 			//Texture* texture = assetmanager.LoadTexture(filePath);
 
 			if (texture) {
@@ -502,7 +526,6 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent<Script>(entity, script);
 
 		}
-
 		if (entityObject.HasMember("Master")) {
 			ECS::ecs().AddComponent(entity, Master{});
 			EntityFactory::entityFactory().masterEntitiesList[ECS::ecs().GetComponent<Name>(entity).name] = entity;
@@ -511,12 +534,20 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent(entity, Clone{});
 		}
 		if (entityObject.HasMember("Model")) {
-			ECS::ecs().AddComponent(entity, Model{});
+			const rapidjson::Value& modelObject = entityObject["Model"];
+			Model model;
+			float modelR = modelObject["r"].GetFloat();
+			float modelG = modelObject["g"].GetFloat();
+			float modelB = modelObject["b"].GetFloat();
+			float modelA = modelObject["a"].GetFloat();
+			model.SetColor(modelR, modelG, modelB);
+			model.SetAlpha(modelA);
+			ECS::ecs().AddComponent(entity, model);
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
 
-	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
+	//std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
 
 	return true;
 }

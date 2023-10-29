@@ -221,15 +221,11 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 
 void EntityFactory::CloneMaster(Entity& masterEntity) {
 	Entity entity = ECS::ecs().CreateEntity();
-	/*if (rightClick) {
-		ECS::ecs().AddComponent(entity, Name{ (ECS::ecs().GetComponent<Name>(masterEntity).name).c_str(), false });
-	}*/
-	//else {
-		ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
-	//}
-
+	
+	ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
 
 	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+
 	if (rightClick) {
 		//Transform transform;
 		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
@@ -238,13 +234,16 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	else {
 		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
 	}
+
 	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Visible{ true });
 	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Model{});
 	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Collider{});
-	ECS::ecs().AddComponent(entity, Movable{});
+	if (!(ECS::ecs().GetComponent<Name>(entity).name == "background_CLONE")) {
+		ECS::ecs().AddComponent(entity, Movable{});
+	}
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Script{}); //add script component
 	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };

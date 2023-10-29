@@ -56,6 +56,8 @@ extern float dropTimer;
 extern bool destroyAll;
 extern bool saveFile;
 extern bool rightClick;
+extern bool playButton;
+extern bool stopButton;
 extern bool toDestroy;
 extern vmath::Vector2 rightClickPos;
 extern std::vector<Entity> selectedEntities;

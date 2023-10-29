@@ -248,7 +248,7 @@ void MovementSystem::Update() {
 		
 		animatorData->UpdateAnimationMC(*texData, *sizeData);
 		//modelData->DrawOutline();
-		graphics.backgroundsystem.SetFocusEntity(entity);
+		//graphics.backgroundsystem.SetFocusEntity(entity);
 	}
 	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
@@ -403,6 +403,22 @@ void SerializationSystem::Update() {
 			ECS::ecs().DestroyEntity(e);
 		}
 		destroyAll = false;
+	}
+
+	if (playButton) {
+		Serializer::SaveEntityToJson("../Assets/Scenes/tmp.json", m_Entities);
+		playButton = false;
+	}
+
+	if (stopButton) {
+		std::vector<Entity> entitylist{};
+		for (Entity e : m_Entities) {
+			entitylist.push_back(e);
+		}
+		for (Entity e : entitylist) {
+			ECS::ecs().DestroyEntity(e);
+		}
+		stopButton = false;
 	}
 }
 

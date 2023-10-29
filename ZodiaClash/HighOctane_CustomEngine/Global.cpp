@@ -49,6 +49,8 @@ bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
+bool playButton{ false };
+bool stopButton{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };

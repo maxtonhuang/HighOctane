@@ -63,10 +63,10 @@
     <ClCompile Include="ImGuiMenuBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiEntityProperties.cpp">
+    <ClCompile Include="ImGuiSceneHierarchy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiSceneHierarchy.cpp">
+    <ClCompile Include="ImGuiContentBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -132,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiSceneHierarchy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiContentBrowser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

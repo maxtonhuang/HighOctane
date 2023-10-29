@@ -13,12 +13,18 @@ void UpdateMenuBar() {
         if (ImGui::BeginMenu("Files")) {
             if (ImGui::MenuItem("Load Scene")) {
                 std::string path{ OpenSingleFileDialog() };
-                ASSERT(FilePath::GetFileExtension(path) != ".scn", "Please open a .scn file!");
-                size_t pos = path.find_last_of("\\");
-                ASSERT(pos == std::string::npos, "File path error!");
-                path = path.substr(pos + 1);
-                assetmanager.LoadAssets(path);
-                //Serializer::LoadEntityFromJson(OpenSingleFileDialog());
+                if (path != "") {
+                    if (FilePath::GetFileExtension(path) == ".scn") {
+                        size_t pos = path.find_last_of("\\");
+                        //ASSERT(pos == std::string::npos, "File path error!");
+                        path = path.substr(pos + 1);
+                        assetmanager.LoadAssets(path);
+                        //Serializer::LoadEntityFromJson(OpenSingleFileDialog());
+                    }
+                    else {
+                        ASSERT(true, "Please open a .scn file!");
+                    }
+                }
             }
             if (ImGui::MenuItem("Save Scene")) {
                 button_clicked = true;

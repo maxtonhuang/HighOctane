@@ -46,6 +46,7 @@
 #include "ImGuiAssetLibrary.h"
 #include "ImGuiMenuBar.h"
 #include "ImGuiSceneHierarchy.h"
+#include "ImGuiContentBrowser.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
 #include "AssetManager.h"
@@ -267,6 +268,7 @@ void GUIManager::Update()
     UpdatePlayStop();
     UpdateAssetLibrary();
     UpdateSceneHierachy();
+    UpdateContentBrowser();
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console
     UpdatePerformance();

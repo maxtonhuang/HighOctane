@@ -1,6 +1,5 @@
 [
     {
-        "Entity ID": 1,
         "Entity": {
             "Name": "master_00001",
             "Selected": false
@@ -45,14 +44,18 @@
             "scriptNameVec": [],
             "scriptNameVecForImGui": []
         },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": [],
-            "scriptNameVecForImGui": []
+        "Model": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Max X": 0.0,
+            "Max Y": 0.0,
+            "Min X": 0.0,
+            "Min Y": 0.0
         }
     },
     {
-        "Entity ID": 2,
         "Entity": {
             "Name": "entity_00001",
             "Selected": false
@@ -94,31 +97,29 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [
-                "Sandbox.Player"
-            ],
+            "scriptNameVec": [],
             "scriptNameVecForImGui": [
-                "MyScriptClass",
+                "AntiClockWiseSpin",
+                "ClockWiseSpin",
+                "JustTest.Test",
                 "PlayerController.PlayerMovement",
-                "Sandbox.Player"
+                "Players.Player"
             ]
         },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": [
-                "Sandbox.Player"
-            ],
-            "scriptNameVecForImGui": [
-                "MyScriptClass",
-                "PlayerController.PlayerMovement",
-                "Sandbox.Player"
-            ]
+        "Model": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Max X": 960.0,
+            "Max Y": 540.0,
+            "Min X": -960.0,
+            "Min Y": -540.0
         }
     },
     {
-        "Entity ID": 3,
         "Entity": {
-            "Name": "entity_00002",
+            "Name": "entity_00003",
             "Selected": false
         },
         "Clone": {},
@@ -129,8 +130,106 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": 537.0,
+            "position_y": -251.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 205.0,
+            "height": 58.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": [],
+            "scriptNameVecForImGui": [
+                "AntiClockWiseSpin",
+                "ClockWiseSpin",
+                "JustTest.Test",
+                "PlayerController.PlayerMovement",
+                "Players.Player"
+            ]
+        },
+        "Model": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0,
+            "Max X": 639.5,
+            "Max Y": -222.0,
+            "Min X": 434.4999694824219,
+            "Min Y": -280.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "entity_00005",
+            "Selected": false
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -567.0,
+            "position_y": -235.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 205.0,
+            "height": 58.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": [],
+            "scriptNameVecForImGui": [
+                "AntiClockWiseSpin",
+                "ClockWiseSpin",
+                "JustTest.Test",
+                "PlayerController.PlayerMovement",
+                "Players.Player"
+            ]
+        },
+        "Model": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Max X": -464.4999694824219,
+            "Max Y": -206.00001525878906,
+            "Min X": -669.5,
+            "Min Y": -264.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "entity_00007",
+            "Selected": false
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -531.5,
+            "position_y": -9.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -161,28 +260,24 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [
-                "PlayerController.PlayerMovement"
-            ],
+            "scriptNameVec": [],
             "scriptNameVecForImGui": [
-                "MyScriptClass",
+                "AntiClockWiseSpin",
+                "ClockWiseSpin",
+                "JustTest.Test",
                 "PlayerController.PlayerMovement",
-                "Sandbox.Player"
+                "Players.Player"
             ]
         },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": [
-                "PlayerController.PlayerMovement"
-            ],
-            "scriptNameVecForImGui": [
-                "MyScriptClass",
-                "PlayerController.PlayerMovement",
-                "Sandbox.Player"
-            ]
+        "Model": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Max X": -467.5000305175781,
+            "Max Y": 55.0,
+            "Min X": -595.5,
+            "Min Y": -73.0
         }
-    },
-    {
-        "Entity ID": 4
     }
 ]

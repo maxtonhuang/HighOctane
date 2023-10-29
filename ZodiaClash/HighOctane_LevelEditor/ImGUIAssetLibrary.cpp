@@ -54,7 +54,6 @@ void UpdateAssetLibrary() {
 		int colCount = tex->GetColCount() == 0 ? 1 : tex->GetColCount();
 		ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(tex->GetID())), { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / static_cast<float>(colCount), 1.f / static_cast<float>(rowCount) });
 		if (ImGui::IsItemClicked(0)) {
-			std::cout << "Clicked" << std::endl;
 			selectedMaster = val.second;
 			clicked = true;
 		}
