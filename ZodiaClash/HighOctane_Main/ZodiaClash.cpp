@@ -63,7 +63,6 @@
 #include "FileWatcher.h"
 #include "AssetManager.h"
 #include "ScriptEngine.h"
-#include <rttr/registration>
 #include "CharacterStats.h"
 #include "Battle.h"
 #include "EnemyAction.h"

@@ -204,7 +204,7 @@ std::string ScriptInstance::GetScriptName() const {
 }
 
 
-// Run time remove script
+// Run ti me remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
     //std::cout << "RunTimeRemoveScript called\n";
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
