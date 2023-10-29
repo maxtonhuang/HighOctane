@@ -731,12 +731,10 @@ void WriteSpriteConfig(const char* filename, int rows, int cols) {
 	ofs.close();
 }
 
-// Load the scripting for scripting on start up (To test only, hardcoded, will be removed in the future)
+// Load the scripting for scripting on start up
 std::vector<std::string> LoadScripting(Entity entity) {
 	std::vector<std::string> scriptVec;
-	
 	std::string filePath = assetmanager.GetDefaultPath() + "Scenes/TestWY1.json";
-	
 	// Open the file here	
 	std::ifstream ifs(filePath);
 	//std::ifstream ifs("../Assets/Scenes/TestWY2.json");

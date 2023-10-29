@@ -120,6 +120,7 @@ void GUIManager::Init()
 
 void GUIManager::Update()
 {
+    printf("Test\n");
     GLFWwindow* window = graphics.GetWindow();
     
     // blinks entire window if Drag & Drop file is released
