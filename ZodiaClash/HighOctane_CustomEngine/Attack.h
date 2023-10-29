@@ -12,7 +12,9 @@ public:
     void UseAttack(CharacterStats* target);
     void UseAttack(std::vector<CharacterStats*> target);
 	void CalculateDamage(CharacterStats const& target);
+    void SetOwner(CharacterStats* input);
     AttackType attacktype;
+    std::string attackName;
 private:
     CharacterStats* owner;
 

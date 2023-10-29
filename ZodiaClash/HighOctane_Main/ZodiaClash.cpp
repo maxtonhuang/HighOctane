@@ -498,6 +498,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().AddComponent(textObjectB, TextLabel{ "ZodiaClash v0.1", "white" });
 	ECS::ecs().GetComponent<Model>(textObjectB) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectB) = Size{ 100.f,100.f };
+	ECS::ecs().AddComponent(textObjectB, CharacterStats{});
 	ECS::ecs().RemoveComponent<Tex>(textObjectB);
 	ECS::ecs().RemoveComponent<Collider>(textObjectB);
 	ECS::ecs().RemoveComponent<Animator>(textObjectB);

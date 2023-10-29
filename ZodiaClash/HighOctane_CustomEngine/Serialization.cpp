@@ -44,6 +44,7 @@
 #include "model.h"
 #include "Global.h"
 #include "AssetManager.h"
+#include "CharacterStats.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -242,6 +243,16 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	return scriptObject;
 }
 
+rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value charstats(rapidjson::kObjectType);
+	charstats.AddMember("Character type", (int)stats.tag, allocator);
+	charstats.AddMember("Max Health", stats.stats.maxHealth, allocator);
+	charstats.AddMember("Attack", stats.stats.attack, allocator);
+	charstats.AddMember("Defense", stats.stats.defense, allocator);
+	charstats.AddMember("Speed", stats.stats.speed, allocator);
+	return charstats;
+}
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -259,6 +270,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Animator* anim = nullptr;
 	Name* name = nullptr;
 	Script* script = nullptr;
+	CharacterStats* charstats = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -327,6 +339,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			script = &ECS::ecs().GetComponent<Script>(entity);
 			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
 			entityObject.AddMember("Scripts", scriptObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
+			charstats = &ECS::ecs().GetComponent<CharacterStats>(entity);
+			rapidjson::Value charstatsObject = SerializeCharacterStats(*charstats, allocator);
+			entityObject.AddMember("CharacterStats", charstatsObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -505,6 +522,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 		if (entityObject.HasMember("Model")) {
 			ECS::ecs().AddComponent(entity, Model{});
+		}
+		if (entityObject.HasMember("CharacterStats")) {
+
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}

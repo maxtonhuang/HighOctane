@@ -9,6 +9,7 @@
 #include "model.h"
 #include "UIComponents.h"
 #include "ScriptEngine.h"
+#include "CharacterStats.h"
 
 Entity currentSelectedEntity{};
 static bool check;
@@ -201,6 +202,44 @@ void SceneEntityComponents(Entity entity) {
 
 			ImGui::TreePop();
 			
+		}
+	}
+
+	if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
+		if (ImGui::TreeNodeEx((void*)typeid(CharacterStats).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Character Stats")) {
+			auto& charstatsComponent = ECS::ecs().GetComponent<CharacterStats>(entity);
+			std::unordered_map<const char*, CharacterType> charTypeMap{};
+			charTypeMap.emplace("Player", CharacterType::PLAYER);
+			charTypeMap.emplace("Enemy", CharacterType::ENEMY);
+			std::vector<const char*> charTypeNames{};
+			std::string currentType{};
+			for (auto& c : charTypeMap) {
+				if (c.second == charstatsComponent.tag) {
+					currentType = c.first;
+				}
+				charTypeNames.push_back(c.first);
+			}
+			if (!charTypeNames.empty()) {
+				if (ImGui::BeginCombo("Types Available", currentType.c_str())) {
+					for (int n = 0; n < charTypeNames.size(); n++) {
+						bool is_selected = (currentType.c_str() == charTypeNames[n]);
+						if (ImGui::Selectable(charTypeNames[n], is_selected)) {
+							charstatsComponent.tag = charTypeMap[charTypeNames[n]];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+
+			ImGui::InputFloat("Max Health", &charstatsComponent.stats.maxHealth);
+			ImGui::InputFloat("Attack", &charstatsComponent.stats.attack);
+			ImGui::InputFloat("Defense", &charstatsComponent.stats.defense);
+			ImGui::InputInt("Speed", &charstatsComponent.stats.speed);
+
+			ImGui::TreePop();
 		}
 	}
 }

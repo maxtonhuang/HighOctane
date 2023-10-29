@@ -40,3 +40,7 @@ void Attack::CalculateDamage(CharacterStats const& target)
             ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense))));
     }
 }
+
+void Attack::SetOwner(CharacterStats* input) {
+    owner = input;
+}
