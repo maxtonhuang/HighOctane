@@ -1,6 +1,7 @@
 #include "Colors.h"
 #include "debugdiagnostic.h"
 #include "Serialization.h"
+#include "AssetManager.h"
 
 ColorManager colors;
 
@@ -8,7 +9,13 @@ void ColorManager::ReadColors() {
     const std::string filePath = "colors.txt";
     std::string path{ filePath };
     Serializer serializer;
-    std::string parentDir = "Assets/";
+    std::string parentDir = assetmanager.GetDefaultPath();
+    path = parentDir + filePath;
+    if (!serializer.Open(path)) {
+        ASSERT(1, "Unable to initialize color!");
+        return;
+    }
+    /*
     if (!serializer.Open(path)) {
         parentDir = "../Assets/";
         path = parentDir + filePath;
@@ -17,6 +24,7 @@ void ColorManager::ReadColors() {
             return;
         }
     }
+    */
 
     std::string line;
     std::string variableName;

@@ -47,9 +47,9 @@ AssetManager assetmanager;
 
 void AssetManager::Initialize() {
     const std::string initFilePath = "init.txt";
-    std::string path{initFilePath};
-    Serializer serializer;
     defaultPath = "Assets/";
+    std::string path{defaultPath + initFilePath};
+    Serializer serializer;
     if (!serializer.Open(path)) {
         defaultPath = "../Assets/";
         path = defaultPath + initFilePath;

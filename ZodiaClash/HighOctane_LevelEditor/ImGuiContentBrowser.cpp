@@ -1,9 +1,18 @@
 #include <filesystem>
 #include "ImGuiContentBrowser.h"
-static const std::filesystem::path s_AssetPath = "../Assets/";
+#include "AssetManager.h"
+static std::filesystem::path s_AssetPath = "../Assets/";
 
 void UpdateContentBrowser(){
 	static std::filesystem::path currentDirectory = s_AssetPath;
+	static bool init{ true }; //THIS IS TEMPORARY PLEASE FIND ANOTHER WAY
+
+	if (init) {
+		s_AssetPath = assetmanager.GetDefaultPath();
+		currentDirectory = s_AssetPath;
+		init = false;
+	}
+
 	ImGui::Begin("Content Browser");
 
 	if (currentDirectory != std::filesystem::path(s_AssetPath)) {

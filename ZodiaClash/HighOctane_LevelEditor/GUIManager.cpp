@@ -54,6 +54,7 @@
 #include "vmath.h"
 #include <algorithm>
 #include <vector>
+#include "AssetManager.h"
 
 
 constexpr float fontSize = 20.f;
@@ -99,8 +100,10 @@ void GUIManager::Init()
     // Setup Dear ImGui style
 
     io.Fonts->Clear();
-    io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSize);
-    latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeLarge);
+    std::string regularFont{ assetmanager.GetDefaultPath() + "Fonts/Lato/Lato-Regular.ttf" };
+    std::string boldFont{ assetmanager.GetDefaultPath() + "Fonts/Lato/Lato-Bold.ttf" };
+    io.Fonts->AddFontFromFileTTF(regularFont.c_str(), fontSize);
+    latoLargeBold = io.Fonts->AddFontFromFileTTF(boldFont.c_str(), fontSizeLarge);
         
     ImGui::StyleColorsDark();
     // Init console window
@@ -117,6 +120,7 @@ void GUIManager::Init()
 
 void GUIManager::Update()
 {
+    printf("Test\n");
     GLFWwindow* window = graphics.GetWindow();
     
     // blinks entire window if Drag & Drop file is released
@@ -151,7 +155,7 @@ void GUIManager::Update()
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
     ImGui::SetNextWindowViewport(main_viewport->ID);
 
-    
+
     ImGui::Begin("Dockable Window", nullptr, window_flags);
     ImGuiIO& io = ImGui::GetIO();
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
