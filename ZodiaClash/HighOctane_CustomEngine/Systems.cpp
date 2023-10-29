@@ -276,7 +276,6 @@ void AnimatorSystem::Update() {
 		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		//Size* sizeData = &sizeArray.GetData(entity);
-
 		animatorData->UpdateAnimation(*texData);
 	}
 	//Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
@@ -408,6 +407,11 @@ void SerializationSystem::Update() {
 			ECS::ecs().DestroyEntity(e);
 		}
 		destroyAll = false;
+	}
+
+	if (newScene) {
+		assetmanager.UnloadAll();
+		assetmanager.LoadAssets(newSceneName);
 	}
 
 	if (playButton) {

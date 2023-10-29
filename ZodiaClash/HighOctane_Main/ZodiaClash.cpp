@@ -582,14 +582,6 @@ void EngineCore::Run(bool const& mode) {
 		InputManager::MouseCheck();
 		Mail::mail().SendMails();
 
-		// ImGUI button to activate serialization function
-		if (button_clicked) {
-			button_clicked = false;
-			debugSysProfile.StartTimer("Serialization System", GetTime());
-			serializationSystem->Update();
-			debugSysProfile.StartTimer("Serialization System", GetTime());
-		}
-
 		// Call each system in the System List
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
@@ -632,6 +624,14 @@ void EngineCore::Run(bool const& mode) {
 			EngineCore::engineCore().setGameActive(false);
 		}
 		graphics.EndDraw();
+
+		// ImGUI button to activate serialization function
+		if (button_clicked) {
+			button_clicked = false;
+			debugSysProfile.StartTimer("Serialization System", GetTime());
+			serializationSystem->Update();
+			debugSysProfile.StartTimer("Serialization System", GetTime());
+		}
 
 		Mail::mail().ClearMails();
 

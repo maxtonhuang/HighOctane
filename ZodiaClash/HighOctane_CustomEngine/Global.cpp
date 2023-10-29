@@ -59,6 +59,7 @@ Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
 bool newScene{ true };
+std::string newSceneName{};
 
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
