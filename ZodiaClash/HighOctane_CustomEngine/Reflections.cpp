@@ -1,14 +1,11 @@
 #include "Reflections.h"
 #include <iostream>
-#include <rttr/registration>
 #include <rttr/type>
 
-//class MyClass {
-//public:
-//    MyClass() {}
-//    void printMessage() { std::cout << "Hello from MyClass!" << std::endl; }
-//};
-//
+
+
+
+
 //RTTR_REGISTRATION
 //{
 //    rttr::registration::class_<MyClass>("MyClass")
