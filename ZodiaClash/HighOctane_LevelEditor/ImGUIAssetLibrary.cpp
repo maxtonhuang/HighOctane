@@ -106,7 +106,7 @@ void CheckImageTypeDialog(bool & showDialog) {
 	if (ImGui::BeginPopupModal("Import Image", NULL, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		std::string destinationFilePath = importFileList[0];
-		destinationFilePath = "\\Assets\\Textures\\" + destinationFilePath.substr(destinationFilePath.find_last_of('\\') + 1, destinationFilePath.size());
+		destinationFilePath = "..\\Assets\\Textures\\" + destinationFilePath.substr(destinationFilePath.find_last_of('\\') + 1, destinationFilePath.size());
 		int counter = 1;
 		while (std::filesystem::exists(destinationFilePath)) {
 			if (counter == 1) {
