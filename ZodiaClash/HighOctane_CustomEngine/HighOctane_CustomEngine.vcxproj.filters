@@ -239,6 +239,9 @@
     <ClInclude Include="Colors.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Layering.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -388,6 +391,9 @@
     </ClCompile>
     <ClCompile Include="Colors.cpp">
       <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Layering.cpp">
+      <Filter>EngineArchitecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

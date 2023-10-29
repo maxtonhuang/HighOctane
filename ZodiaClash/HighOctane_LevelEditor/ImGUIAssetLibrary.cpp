@@ -12,6 +12,7 @@
 constexpr float thumbnailSize = 128.f;
 constexpr float paddingSize = 20.f;
 constexpr float buttonHeight = 50.f;
+constexpr float spacing = 30.f;
 static Entity selectedEntity;
 static bool clicked;
 void UpdateAssetLibrary() {
@@ -122,21 +123,21 @@ void CheckImageTypeDialog(bool & showDialog) {
 		counter = 1;
 		std::string destinationFilename = destinationFilePath.substr(destinationFilePath.find_last_of('\\') + 1, destinationFilePath.size() - destinationFilePath.find_last_of('\\') + 1);
 					
-		ImGui::Dummy(ImVec2(0.0f, 30.0f));
+		ImGui::Dummy(ImVec2(0.0f, spacing));
 
-		ImGui::Dummy(ImVec2(30.0f, 0.f)); // Adjusting the height
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
 		ImGui::SameLine();
 		ImGui::Text(destinationFilename.c_str());
 
 		// Line 1: Display the main question
-		ImGui::Dummy(ImVec2(30.0f, 50.f)); // Adjusting the height
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
 		ImGui::SameLine();
 		ImGui::Text("What type of image are you importing?");
 		//ImGui::Spacing();
 
 		// Line 2 & 3: Radio buttons for type selection
 		// Line 2 & 3: Radio buttons for type selection
-		ImGui::Dummy(ImVec2(30.0f, 50.0f)); // Adjusting the height
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
 		ImGui::SameLine();
 		if (ImGui::RadioButton("Static Image", isStaticImageSelected))
 		{
@@ -144,7 +145,7 @@ void CheckImageTypeDialog(bool & showDialog) {
 			isSpritesheetSelected = false;
 		}
 
-		ImGui::Dummy(ImVec2(30.0f, 50.0f)); // Adjusting the height
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
 		ImGui::SameLine();
 		if (ImGui::RadioButton("Spritesheet", isSpritesheetSelected))
 		{
@@ -157,32 +158,32 @@ void CheckImageTypeDialog(bool & showDialog) {
 		if (isSpritesheetSelected)
 		{
 			ImGui::SameLine();
-			ImGui::Dummy(ImVec2(30.f, 0.0f)); // Inserting the gap
+			ImGui::Dummy(ImVec2(spacing, 0.0f)); // Inserting the gap
 			ImGui::SameLine();
 			// Line 4: Enter rows and columns for spritesheet
 			ImGui::Text("Rows");
 			ImGui::SameLine();
-			ImGui::PushItemWidth(50.f * 2.f);
+			ImGui::PushItemWidth(buttonHeight * 2.f);
 			ImGui::InputText("##RowsInput", rowsInput, sizeof(rowsInput));
 			ImGui::PopItemWidth();
 			ImGui::SameLine();
-			ImGui::Dummy(ImVec2(30.f, 0.0f)); // Inserting the gap
+			ImGui::Dummy(ImVec2(spacing, 0.0f)); // Inserting the gap
 			ImGui::SameLine();
 			ImGui::Text("Columns");
 			ImGui::SameLine();
-			ImGui::PushItemWidth(50.f * 2.f);
+			ImGui::PushItemWidth(buttonHeight * 2.f);
 			ImGui::InputText("##ColsInput", colsInput, sizeof(colsInput));
 			ImGui::PopItemWidth();
 			enteredRows = atoi(rowsInput);
 			enteredCols = atoi(colsInput);
 		}
 
-		ImGui::Dummy(ImVec2(30.0f, 50.0f)); // Adjusting the height
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
 		ImGui::SameLine();
 		// Line 5: OK and Cancel buttons
 		if (isStaticImageSelected || (isSpritesheetSelected && enteredRows > 0 && enteredCols > 0))
 		{
-			if (ImGui::Button("OK", { 30.f * 3.f, 50.f }))
+			if (ImGui::Button("OK", { spacing * 3.f, buttonHeight }))
 			{
 
 				std::filesystem::path srcPath = importFileList[0];
@@ -232,12 +233,12 @@ void CheckImageTypeDialog(bool & showDialog) {
 		else
 		{
 			ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
-			ImGui::Button("OK", { 30.f * 3.f, 50.f });
+			ImGui::Button("OK", { spacing * 3.f, buttonHeight });
 			ImGui::PopStyleVar();
 		}
 
 		ImGui::SameLine();
-		if (ImGui::Button("Cancel", { 30.f * 3.f, 50.f }))
+		if (ImGui::Button("Cancel", { spacing * 3.f, buttonHeight }))
 		{
 			// Clear data if needed
 			if (isSpritesheetSelected && !isStaticImageSelected)

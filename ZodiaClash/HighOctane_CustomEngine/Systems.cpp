@@ -536,13 +536,22 @@ void EditingSystem::Update() {
 	}
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
+			std::cout << "Destroying entity: " << entity << std::endl;
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
 		}
 		toDestroy = false;
 		selectedEntities.clear();
+		anyObjectSelected = false;
+
 	}
 
-	
+	if (clearAllSelection) {
+		for (Entity entity : selectedEntities) {
+			nameArray.GetData(entity).selected = false;
+		}
+		clearAllSelection = false;
+		anyObjectSelected = false;
+	}
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }
 

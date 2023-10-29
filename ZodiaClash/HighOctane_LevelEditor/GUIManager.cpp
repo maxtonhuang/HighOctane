@@ -46,6 +46,7 @@
 #include "ImGuiAssetLibrary.h"
 #include "ImGuiMenuBar.h"
 #include "ImGuiSceneHierarchy.h"
+#include "ImGuiLayer.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
 #include "AssetManager.h"
@@ -54,10 +55,15 @@
 #include <algorithm>
 #include <vector>
 
-
-constexpr float fontSize = 20.f;
-constexpr float fontSizeLarge = 50.f;
+constexpr float fontSizeS = 10.f;
+constexpr float fontSizeM = 20.f;
+constexpr float fontSizeL = 30.f;
+constexpr float fontSizeXL = 50.f;
+ImFont* latoSmall;
+ImFont* latoMedium;
+ImFont* latoLarge;
 ImFont* latoLargeBold;
+float currentFontSize{ fontSizeM };
 ImGuiStyle originalStyle;
 bool firstSet = false;
 
@@ -98,9 +104,28 @@ void GUIManager::Init()
     // Setup Dear ImGui style
 
     io.Fonts->Clear();
-    io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSize);
-    latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeLarge);
-        
+    latoMedium = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeM);
+    latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeXL);
+
+    //ImFontConfig config;
+    //io.Fonts->Clear();
+    //char m[] = "latoMedium";
+    //strcpy_s(config.Name, strlen(m) + 1, m);
+    //latoMedium = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeM, &config);
+    //char s[] = "latoSmall";
+    //strcpy_s(config.Name, strlen(s) + 1, s);
+    //latoSmall = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeS, &config);
+    //char l[] = "latoLarge";
+    //strcpy_s(config.Name, strlen(l) + 1, l);
+    //latoLarge = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeL, &config);
+    //char xl[] = "latoXL";
+    //strcpy_s(config.Name, strlen(xl) + 1, xl);
+    //latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeXL, &config);
+    //
+    //ImGui::PushFont(latoMedium);
+    //currentFontSize = fontSizeM;
+
+
     ImGui::StyleColorsDark();
     // Init console window
     InitConsole();
@@ -266,6 +291,10 @@ void GUIManager::Update()
     UpdatePlayStop();
     UpdateAssetLibrary();
     UpdateSceneHierachy();
+    UpdateLayer();
+    // add layers panel here
+
+
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console
     UpdatePerformance();

@@ -52,12 +52,25 @@ bool saveFile{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
+
 std::vector<Entity> selectedEntities{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
 bool scriptAdded{ false };
 bool scriptRemoved{ false };
+bool clearAllSelection{ false };
 
+size_t currentLayer{};
+size_t selectedLayer{};
+
+size_t layerCounter{};
+size_t selectedGroup{};
+size_t groupCounter{};
+size_t highestSelectedOrder{};
+std::deque<std::string> layerNames{};
+std::deque< std::deque<Entity> > layering{};
+
+//std::shared_ptr<EditingSystem> edit_ptr;
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };

@@ -6,6 +6,12 @@
 #include "Serialization.h"
 #include "WindowsInterlink.h"
 #include "File.h"
+#include "GUIManager.h"
+
+constexpr float fontSizeS = 10.f;
+constexpr float fontSizeM = 20.f;
+constexpr float fontSizeL = 30.f;
+
 void UpdateMenuBar() {
     
     // Create a menu bar for the window
@@ -37,8 +43,38 @@ void UpdateMenuBar() {
             }
             ImGui::EndMenu();
         }
+        //if (ImGui::BeginMenu("Settings")) {
+        //    if (ImGui::MenuItem("Increase Font Size")) {
+
+        //        if (fontSizeS == currentFontSize) {
+        //            ImGui::PopFont();
+        //            ImGui::PushFont(latoMedium);
+        //            currentFontSize = fontSizeM;
+        //        }
+        //        else if (fontSizeM == currentFontSize) {
+        //            ImGui::PopFont();
+        //            ImGui::PushFont(latoLarge);
+        //            currentFontSize = fontSizeL;
+        //        }
+        //        
+        //    }
+        //    if (ImGui::MenuItem("Decrease Font Size")) {
+        //        if (fontSizeL == currentFontSize) {
+        //            ImGui::PopFont();
+        //            ImGui::PushFont(latoMedium);
+        //            currentFontSize = fontSizeM;
+        //        }
+        //        else if (fontSizeM == currentFontSize) {
+        //            ImGui::PopFont();
+        //            ImGui::PushFont(latoSmall);
+        //            currentFontSize = fontSizeS;
+        //        }
+        //    }
+        //    ImGui::EndMenu();
+        //}
+        ImGui::EndMenuBar();
     }
-    ImGui::EndMenuBar();
+    
 
 
 }

@@ -70,6 +70,7 @@
 #include "PlayerAction.h"
 #include "UIComponents.h"
 #include "Reflections.h"
+#include "Layering.h"
 
 bool gConsoleInitalized{ false };
 
@@ -445,6 +446,8 @@ void EngineCore::Run(bool const& mode) {
 	//////////                                  //////////
 	//////////////////////////////////////////////////////
 
+	CreateNewLayer();
+
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
@@ -480,6 +483,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
 	ECS::ecs().RemoveComponent<Collider>(background);
 	ECS::ecs().RemoveComponent<Movable>(background);
+
 
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(125.f, 125.f, false);
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };

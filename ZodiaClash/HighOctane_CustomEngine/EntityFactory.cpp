@@ -49,6 +49,8 @@
 #include "Model.h"
 #include "AssetManager.h"
 #include "Serialization.h"
+#include "Global.h"
+#include "Layering.h"
 #include <deque>
 #include <algorithm>
 #include <limits>
@@ -83,7 +85,7 @@ Instead of not visible, show in asset library
 *	This loads a master model where new game objects will be cloned from.
 *
 ******************************************************************************/
-void EntityFactory::LoadMasterModel() {
+void EntityFactory::LoadMasterModel() {  ///////// MASTER
 	Entity entity = ECS::ecs().CreateEntity();
 	
 	std::ostringstream oss;
@@ -110,7 +112,7 @@ void EntityFactory::LoadMasterModel() {
 	//ECS::ecs().AddComponent(entity, Static{});
 }
 
-void EntityFactory::CreateMasterModel(const char* filename) {
+void EntityFactory::CreateMasterModel(const char* filename) {  ///////// MASTER
 	Entity entity = ECS::ecs().CreateEntity();
 
 	//std::ostringstream oss;
@@ -135,7 +137,7 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 
 }
 
-void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {
+void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {  ///////// MASTER
 	Entity entity = ECS::ecs().CreateEntity();
 
 	ECS::ecs().AddComponent(entity, Name{ filename });
@@ -172,6 +174,7 @@ void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) 
 *	This function clones new game objects from the master model.
 *
 ******************************************************************************/
+///////// CLONE 1
 Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
 	Entity entity = ECS::ecs().CreateEntity();
 
@@ -212,14 +215,15 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 		ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
 		ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
 		//// for mass rendering - add this entity to vector
-		massRenderEntitiesList.push_back(entity);
+		massRenderEntitiesList.emplace_back(entity);
 	}
-	layerOrder.emplace_back(entity);
+	layering[selectedLayer].emplace_back(entity);
 	++cloneCounter;
 	return entity;
 }
 
-void EntityFactory::CloneMaster(Entity& masterEntity) {
+
+void EntityFactory::CloneMaster(Entity& masterEntity) {  ///////// CLONE 2
 	Entity entity = ECS::ecs().CreateEntity();
 
 	ECS::ecs().AddComponent(entity, Name{ ("CLONE_" + ECS::ecs().GetComponent<Name>(masterEntity).name).c_str() });
@@ -255,7 +259,8 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	//	//// for mass rendering - add this entity to vector
 	//	massRenderEntitiesList.push_back(entity);
 	//}
-	layerOrder.emplace_back(entity);
+	layering[selectedLayer].emplace_back(entity);
+	++cloneCounter;
 	//return entity;
 }
 
@@ -266,34 +271,34 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 *	This function clones new game objects from the master model.
 *
 ******************************************************************************/
-void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) {
-	Entity entity = ECS::ecs().CreateEntity();
-	{
-		std::ostringstream oss;
-		oss << "entity_" << std::setfill('0') << std::setw(5) << masterCounter++;
-		ECS::ecs().AddComponent(entity, Name{ oss.str(), false });
-	}
-	Entity masterEntity = (masterEntitiesList.find("master_00002"))->second;
-	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
-	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Visible{ true });
-	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
-	if (isMainCharacter) {
-		//ECS::ecs().AddComponent(entity, MainCharacter{});
-	}		
-	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity)});
-	ECS::ecs().AddComponent(entity, Clone{});
-	ECS::ecs().AddComponent(entity, Collider{});
-	ECS::ecs().AddComponent(entity, Movable{});
-	ECS::ecs().AddComponent(entity, Script{}); //add script component
-	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
-	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
-	layerOrder.emplace_back(entity);
-	++cloneCounter;
-}
+//void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) {   ///////// CLONE 3
+//	Entity entity = ECS::ecs().CreateEntity();
+//	{
+//		std::ostringstream oss;
+//		oss << "entity_" << std::setfill('0') << std::setw(5) << masterCounter++;
+//		ECS::ecs().AddComponent(entity, Name{ oss.str(), false });
+//	}
+//	Entity masterEntity = (masterEntitiesList.find("master_00002"))->second;
+//	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
+//	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
+//	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Visible{ true });
+//	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
+//	if (isMainCharacter) {
+//		//ECS::ecs().AddComponent(entity, MainCharacter{});
+//	}		
+//	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
+//	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity)});
+//	ECS::ecs().AddComponent(entity, Clone{});
+//	ECS::ecs().AddComponent(entity, Collider{});
+//	ECS::ecs().AddComponent(entity, Movable{});
+//	ECS::ecs().AddComponent(entity, Script{}); //add script component
+//	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
+//	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
+//	layering[selectedLayer].emplace_back(entity);
+//	++cloneCounter;
+//}
 
 /******************************************************************************
 *
@@ -402,56 +407,43 @@ void EntityFactory::DeleteMasterModel(Entity entity) {
 
 
 void EntityFactory::DeleteCloneModel(Entity entity) {
-	//layerOrder.erase(std::find(layerOrder.begin(), layerOrder.end(), entity));
+	//remove from layer
+
+
+	{
+		std::cout << "Layering Size: " << layering.size() << std::endl;
+		int count = 0;
+		for (auto& val : layering) {
+			std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
+		}
+		for (std::string val : layerNames) {
+			std::cout << "Layer Names: " << val << std::endl;
+		}
+		std::cout << "----------" << std::endl;
+	}
+
+
+
 	ECS::ecs().DestroyEntity(entity);
+	// find entity > remove from layer
+	std::pair<size_t, size_t> pos = FindInLayer(entity);
+	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
+		layering[pos.first].erase(layering[pos.first].begin() + pos.second);
+	}
 	--cloneCounter;
-}
 
-
-
-size_t EntityFactory::GetLayerOrder(Entity entity) {
-	for (size_t i = 0; i < layerOrder.size(); ++i) {
-		if (layerOrder[i] == entity) {
-			return i;
+	{
+		std::cout << "Layering Size: " << layering.size() << std::endl;
+		int count = 0;
+		for (auto& val : layering) {
+			std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
 		}
-	}
-	return ULLONG_MAX; // if not found
-}
-
-
-void EntityFactory::LayerOrderSendBackwards(Entity entity) {
-	size_t i = 0;
-	for (; i < layerOrder.size(); ++i) {
-		if (layerOrder[i] == entity) {
-			break;
+		for (std::string val : layerNames) {
+			std::cout << "Layer Names: " << val << std::endl;
 		}
+		std::cout << "----------" << std::endl;
 	}
-	if (i != 0 || i != layerOrder.size()) {
-		std::swap(layerOrder[i], layerOrder[i - 1]);
-	}
+
 }
 
 
-void EntityFactory::LayerOrderSendToBack(Entity entity) {
-	layerOrder.erase(std::find(layerOrder.begin(), layerOrder.end(), entity));
-	layerOrder.emplace_front(entity);
-}
-
-
-void EntityFactory::LayerOrderBringForward(Entity entity) {
-	size_t i = 0;
-	for (; i < layerOrder.size(); ++i) {
-		if (layerOrder[i] == entity) {
-			break;
-		}
-	}
-	if (i != layerOrder.size() - 1 || i != layerOrder.size()) {
-		std::swap(layerOrder[i], layerOrder[i + 1]);
-	}
-}
-
-
-void EntityFactory::LayerOrderBringToFront(Entity entity) {
-	layerOrder.erase(std::find(layerOrder.begin(), layerOrder.end(), entity));
-	layerOrder.emplace_back(entity);
-}

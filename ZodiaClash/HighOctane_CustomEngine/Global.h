@@ -63,11 +63,22 @@ extern bool popupHovered;
 extern bool anyObjectSelected;
 extern bool scriptAdded;
 extern bool scriptRemoved;
+extern bool clearAllSelection;
 
+
+extern size_t currentLayer;
+extern size_t selectedLayer;
+extern size_t layerCounter;
+extern size_t selectedGroup;
+extern size_t groupCounter;
+extern size_t highestSelectedOrder;
+extern std::deque<std::string> layerNames;
+extern std::deque< std::deque<Entity> > layering;
+
+//extern std::shared_ptr<EditingSystem> edit_ptr;
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;
 extern size_t importFileCount;
 extern std::vector<std::string> fullNameVecImGUI;
-
 
 extern const char* currentScriptForIMGUI;
