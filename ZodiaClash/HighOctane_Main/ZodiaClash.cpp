@@ -563,6 +563,9 @@ void EngineCore::Run(bool const& mode) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
+			Attack test;
+			test.attackName = "Test";
+			assetmanager.attacks.SaveAttack(test);
 			newScene = false;
 		}
 

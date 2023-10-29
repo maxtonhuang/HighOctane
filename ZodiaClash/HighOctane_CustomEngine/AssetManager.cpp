@@ -293,3 +293,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     loadedFiles.push_back(assetPath);
 }
+
+std::string AssetManager::GetDefaultPath() {
+    return defaultPath;
+}
