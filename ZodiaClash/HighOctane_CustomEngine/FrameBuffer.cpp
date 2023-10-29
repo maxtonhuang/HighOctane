@@ -56,7 +56,7 @@ void FrameBuffer::Initialize() {
 
 	ASSERT(!(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE), "Unable to create framebuffer!");
 
-	glClearColor(1.f, 0.f, 0.f, 1.f);
+	glClearColor(0.f, 0.f, 0.f, 1.f);
 
 	Unbind();
 }
