@@ -56,14 +56,17 @@ extern float dropTimer;
 extern bool destroyAll;
 extern bool saveFile;
 extern bool rightClick;
+extern bool playButton;
+extern bool stopButton;
 extern bool toDestroy;
 extern vmath::Vector2 rightClickPos;
 extern std::vector<Entity> selectedEntities;
+extern Entity newSelection;
 extern bool popupHovered;
 extern bool anyObjectSelected;
-extern bool scriptAdded;
-extern bool scriptRemoved;
+
 extern bool clearAllSelection;
+extern bool newScene;
 
 
 extern size_t currentLayer;

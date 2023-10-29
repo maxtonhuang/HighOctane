@@ -18,15 +18,43 @@ namespace Players
 
         public override void Update()
         {
+
+        }
+    }
+
+}
+namespace PlayerController
+{
+    internal class PlayerMovement : MonoBehaviour
+    {
+        public override void Start()
+        {
+            Console.WriteLine("PlayerMovement OnCreate");
+        }
+
+        public override void Update()
+        {
             float speed = 1.0f;
             Vector2 translation = Translation;
             translation.X += Input.GetAxisHorizontal() * speed;
             translation.Y += Input.GetAxisVertical() * speed;
             Translation = translation;
 
-            Vector2 force = Force;
-            Console.WriteLine("Force:" + force.X + ", " + force.Y);
 
+            float rotationSpeed = 0.01f;
+            float rotation = Rotation;
+            
+
+            if (Input.GetKeyDown(INFO.KEY_E))
+            {
+                rotation += rotationSpeed;
+            }
+            else if (Input.GetKeyDown(INFO.KEY_Q))
+            {
+                rotation -= rotationSpeed;
+            }
+
+            Rotation = rotation;
             if (Input.GetAxisHorizontal() == 1)
             {
                 //Debug.Log("Right");
@@ -51,22 +79,6 @@ namespace Players
             }
         }
     }
-
-}
-namespace PlayerController
-{
-    internal class PlayerMovement : MonoBehaviour
-    {
-        public override void Start()
-        {
-            Console.WriteLine("PlayerMovement OnCreate");
-        }
-
-        public override void Update()
-        {
-            Console.WriteLine($"PlayerMovement OnUpdate");
-        }
-    }
 }
 
 namespace JustTest
@@ -80,7 +92,10 @@ namespace JustTest
 
         public override void Update()
         {
-            Console.WriteLine($"Test OnUpdate");
+            float speed = 0.001f;
+            float scale = Scale;
+            scale += Input.GetAxisHorizontal() * speed;
+            Scale = scale;
         }
     }
 }

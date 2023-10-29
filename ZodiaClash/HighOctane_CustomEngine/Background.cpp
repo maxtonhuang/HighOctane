@@ -43,7 +43,7 @@ BackgroundSystem::~BackgroundSystem() {
 }
 
 void BackgroundSystem::Update() {
-	if (focus == 0) {
+	if (!ECS::ecs().HasComponent<Transform>(focus)) {
 		count = 0;
 		return;
 	}

@@ -63,11 +63,14 @@
     <ClCompile Include="ImGuiMenuBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiEntityProperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiSceneHierarchy.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiContentBrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Vendor</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiLayer.cpp">
       <Filter>Source Files</Filter>
@@ -136,6 +139,11 @@
     </ClInclude>
     <ClInclude Include="ImGuiSceneHierarchy.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiContentBrowser.h">
+      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.h">
+      <Filter>Vendor</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiLayer.h">
       <Filter>Header Files</Filter>

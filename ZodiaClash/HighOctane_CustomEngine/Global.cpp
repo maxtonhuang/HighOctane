@@ -49,16 +49,19 @@ bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
+bool playButton{ false };
+bool stopButton{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
 
 std::vector<Entity> selectedEntities{};
+Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
-bool scriptAdded{ false };
-bool scriptRemoved{ false };
+
 bool clearAllSelection{ false };
+bool newScene{ true };
 
 size_t currentLayer{};
 size_t selectedLayer{};

@@ -46,6 +46,7 @@
 #include "ImGuiAssetLibrary.h"
 #include "ImGuiMenuBar.h"
 #include "ImGuiSceneHierarchy.h"
+#include "ImGuiContentBrowser.h"
 #include "ImGuiLayer.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
@@ -232,8 +233,9 @@ void GUIManager::Update()
                     popupHovered = true;
                 }
                 if (ImGui::MenuItem("Copy")) {
-                    // to implement in future
-                    std::cout << "Copy selected." << std::endl;
+                    for (Entity entity : selectedEntities) {
+                        EntityFactory::entityFactory().CloneMaster(entity);
+                    }
                     rightClick = false;
                 }
                 ImGui::MenuItem("Paste", NULL, false, false);
@@ -291,6 +293,7 @@ void GUIManager::Update()
     UpdatePlayStop();
     UpdateAssetLibrary();
     UpdateSceneHierachy();
+    UpdateContentBrowser();
     UpdateLayer();
     // add layers panel here
 

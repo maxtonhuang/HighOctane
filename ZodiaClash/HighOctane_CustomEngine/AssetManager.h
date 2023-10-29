@@ -45,11 +45,13 @@
 #include "Font.h"
 #include "texture.h"
 #include "Colors.h"
+#include "Attack.h"
 
 class AssetManager {
 public:
     TextureManager texture;
     AudioManager audio;
+    AttackList attacks;
 public:
     void Initialize();
     void UnloadAll();
@@ -60,6 +62,7 @@ public:
     void LoadScene(const std::string& scenePath);
     void LoadEntities(const std::string& entitiesPath);
     std::vector<std::string> GetFiles();
+    std::string GetDefaultPath();
 
     // Texture methods
     void LoadTexture(const std::string& texturePath);
@@ -78,6 +81,9 @@ public:
 
     // Shader methods
     void LoadRenderer(const std::string& rendererPath);
+
+    //Attack methods
+    void LoadAttack(const std::string& attackPath);
 
 private:
     std::string defaultPath{};

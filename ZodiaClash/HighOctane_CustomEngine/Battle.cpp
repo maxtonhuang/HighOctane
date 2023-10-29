@@ -68,6 +68,7 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
 
 void BattleSystem::Initialize() 
 {
+    LOG_WARNING("Initializing battle system");
     roundInProgress = false;
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
@@ -80,6 +81,8 @@ void BattleSystem::Initialize()
 
 void BattleSystem::Update() 
 {
+    int enemyAmount = 0;
+    int playerAmount = 0;
     switch (battleState) {
     case NEWGAME:
         LOG_WARNING("Initializing battle system");
@@ -98,13 +101,21 @@ void BattleSystem::Update()
         LOG_WARNING("State: Next Turn");
 
         //then check if player has won
-        if (GameObject::FindGameObjectsWithTag("Enemy").size() <= 0) //no enemies left
+        for (auto& c : turnManage.characterList) {
+            if (c.tag == CharacterType::PLAYER) {
+                playerAmount++;
+            }
+            else if (c.tag == CharacterType::ENEMY) {
+                enemyAmount++;
+            }
+        }
+        if (!enemyAmount) //no enemies left
         {
             LOG_WARNING("State: Win");
             battleState = WIN;
         }
         //then check if enemy has won
-        else if (GameObject::FindGameObjectsWithTag("Player").size() <= 0) //no players left
+        else if (!playerAmount) //no players left
         {
             LOG_WARNING("State: Lose");
             battleState = LOSE;
@@ -205,13 +216,14 @@ void BattleSystem::DetermineTurnOrder()
         CharacterStats* m = &characters.GetData(chara);
         m->entity = chara;
         m->parent = this;
+        m->action.battleManager = this;
         turnManage.characterList.push_back(*m);
     }
 
     //turnOrderList
     turnManage.turnOrderList.clear();
 
-    for(CharacterStats chara : turnManage.characterList) //add the sorted charactersList to turnOrderList
+    for(CharacterStats& chara : turnManage.characterList) //add the sorted charactersList to turnOrderList
     {
         turnManage.turnOrderList.push_back(&chara);
     }

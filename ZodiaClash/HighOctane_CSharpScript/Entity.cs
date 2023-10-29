@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 
 public class Entity
@@ -18,18 +19,18 @@ public class Entity
         ID = id;
     }
 
-    public readonly UInt32 ID;
+    public readonly UInt32 ID = 0;
 
     public Vector2 Translation
     {
         get
         {
-            InternalCalls.TransformGetTranslation(ID , out Vector2 translation);
-            return translation;
+            InternalCalls.EntityGetPosition(ID , out Vector2 position);
+            return position;
         }
         set
         {
-            InternalCalls.TransformSetTranslation(ID, ref value);
+            InternalCalls.EntitySetPosition(ID, ref value);
         }
     }
     
@@ -37,13 +38,40 @@ public class Entity
     {
         get
         {
-            InternalCalls.TransformGetForce(ID, out Vector2 force);
+            InternalCalls.EntityGetForce(ID, out Vector2 force);
             return force;
         }
 
         set
         {
-            InternalCalls.TransformSetForce(ID, ref value);
+            InternalCalls.EntitySetForce(ID, ref value);
+        }
+    }
+    public float Rotation
+    {
+        get
+        {
+            InternalCalls.EntityGetRotation(ID, out float force);
+            return force;
+        }
+
+        set
+        {
+            InternalCalls.EntitySetRotation(ID, ref value);
+        }
+    }
+
+    public float Scale
+    {
+        get
+        {
+            InternalCalls.EntityGetScale(ID, out float force);
+            return force;
+        }
+
+        set
+        {
+            InternalCalls.EntitySetScale(ID, ref value);
         }
     }
 

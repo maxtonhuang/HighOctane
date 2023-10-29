@@ -15,6 +15,9 @@ vmath::Vector2 offset{ RESET_VEC2 };
 constexpr float CORNER_SIZE = 10.f;
 
 void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model) {
+	if (newSelection) {
+		name.selected = false;
+	}
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 
@@ -200,6 +203,11 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			break;
 
 		}
+	}
+	
+	if (newSelection == entity) {
+		newSelection = 0;
+		name.selected = true;
 	}
 
 	if (name.selected) {

@@ -148,8 +148,6 @@ struct Script {
     //vector of script instances
     //std::vector<std::shared_ptr<ScriptInstance>> monoScriptObj; //This is every C# component
 
-    // For Imgui
-    std::vector<std::string> scriptNameVecForImGui{};
 
     //// string to be added (display for ImGui side)
     //std::string currentAddingScript = "";

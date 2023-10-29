@@ -58,6 +58,13 @@ Model::Model(ModelType inputType, float bgScrollSpeed) {
 	backgroundScrollSpeed = bgScrollSpeed;
 }
 
+Model::Model(int modelType, float bgScrollSpeed) {
+	color = glm::vec4{ 1,1,1,1 };
+	matrix = glm::mat3{ 1,0,0,0,1,0,0,0,1 };
+	type = static_cast<ModelType>(modelType);
+	backgroundScrollSpeed = bgScrollSpeed;
+}
+
 void Model::Update(Transform const& entity, Size const& size) {
 	if (type == ModelType::BACKGROUNDLOOP) {
 		float x = camera.GetPos().x / GRAPHICS::w;
@@ -91,7 +98,7 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 	static Renderer* flatRenderer = &graphics.renderer["flat"];
 
 	Renderer* renderer;
-	if (entity != nullptr && ani != nullptr) {
+	if (entity != nullptr) {
 		switch (type) {
 		case ModelType::BACKGROUND:
 		case ModelType::BACKGROUNDLOOP:
@@ -183,5 +190,9 @@ vmath::Vector2 Model::GetMax() {
 }
 
 glm::vec4 Model::GetColor() {
+	return color;
+}
+
+glm::vec4& Model::GetColorRef() {
 	return color;
 }

@@ -24,10 +24,7 @@ public static class Debug
         InternalCalls.Log(message);
     }
 
-    public static bool GetKeyDown(INFO key)
-    {
-        return InternalCalls.GetKeyDown(key);
-    }
+
 
     public static Vector3 LogVector3(Vector3 vector)
     {
@@ -46,5 +43,10 @@ public static class Input
     public static int GetAxisVertical()
     {
         return InternalCalls.GetAxisVertical();
+    }
+
+    public static bool GetKeyDown(INFO key)
+    {
+        return InternalCalls.GetKeyDown(key);
     }
 }

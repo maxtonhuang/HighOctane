@@ -32,8 +32,10 @@ public:
 	static bool EntityClassExists(const std::string& fullClassName);
 	static void OnCreateEntity(Entity entity);
 	static void OnUpdateEntity(const Entity& entity);
-	static void RunTimeAddScript(Entity entity);
-	static void RunTimeRemoveScript(Entity entity);
+	static void RunTimeAddScript(Entity entity, const char* scriptName);
+	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
+
+	std::string GetScriptName(Entity entity);
 
 private:
 	// No need to exist
@@ -56,10 +58,10 @@ public:
 	MonoMethod* GetMethod(const std::string& name, int parameterCount);
 	MonoObject* InvokeMethod(MonoObject* instance, MonoMethod* method, void** params = nullptr);
 
-
-private:
 	std::string m_ClassNamespace;
 	std::string m_ClassName;
+private:
+
 
 	MonoClass* m_MonoClass = nullptr;
 };
@@ -69,7 +71,7 @@ public:
 	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity);
 
 	void InvokeOnCreate();
-	void InvokeOnUpdate();
+	void InvokeOnUpdate();std::string GetScriptName() const;
 
 private:
 

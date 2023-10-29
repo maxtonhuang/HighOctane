@@ -158,58 +158,76 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
             instance->InvokeOnCreate();
         }
     }
-
 }
 
-// Run time change script here
-// Function that takes in a function pointer
-
-// Run time add script
-void ScriptEngine::RunTimeAddScript(Entity entity) {
+void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
-    // For each script associated with this entity
-    for (const auto& fullClassName : sc.scriptNameVec) {
+    // Checks if the currentScriptForIMGUI is already in scriptNameVec
+    for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+        if (sc.scriptNameVec[i] == scriptName) {
+            DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
+            //printf("Script %s already exists in entity %d\n", scriptName, entity);
+            return;
+        }
 
-        // Check if such a script class exists in our system
-        if (ScriptEngine::EntityClassExists(fullClassName)) {
+        else {
+            continue;
+        }
+    }
+ //   for (const auto& test : sc.scriptNameVec) {
+ //       std::cout << "RunTimeAddScript:: BEFORE scriptNameVec pushback" << test << std::endl;
+	//}
 
-            // Create an instance of this script class
-            std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[fullClassName], entity);
+    // If not, add it to the vector
+    sc.scriptNameVec.push_back(scriptName);
+    //std::cout << "RunTimeAddScript:: AFTER scriptNameVec pushback" << std::endl;
 
-            // Add script
-            // If not in EntityInstances, add it
-            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
-				s_Data->EntityInstances[entity].push_back(instance);
+    auto& entityScripts = s_Data->EntityInstances[entity];
+    std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[scriptName], entity);
+    entityScripts.push_back(instance);
+
+    // Debugging
+    //for (const auto& testing : entityScripts) {
+    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << testing->GetScriptName() << std::endl;
+    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << entity << std::endl;
+    //}
+}
+
+// Helper function
+std::string ScriptInstance::GetScriptName() const {
+    if (m_ScriptClass) {
+        // Assuming the full script name is composed of Namespace + "." + ClassName
+        return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+    }
+    return ""; // Return an empty string if m_ScriptClass is nullptr
+}
+
+
+// Run ti me remove script
+void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
+    //std::cout << "RunTimeRemoveScript called\n";
+    auto& sc = ECS::ecs().GetComponent<Script>(entity);
+    
+    std::string concatName = "." + std::string(scriptName);
+    for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = s_Data->EntityInstances[entity].begin(); it != s_Data->EntityInstances[entity].end(); ++it) {
+        //std::cout << "THIS IS ITTTTTT" << (*it)->GetScriptName() << std::endl;
+        //std::cout << "THIS IS ITTTTTT TOOOOOO" << concatName << std::endl;
+        if ((*it)->GetScriptName() == concatName) {
+			s_Data->EntityInstances[entity].erase(it);
+
+            // I need to clear the sc.scriptNameVec too, not sure if this is right
+            for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+                if (sc.scriptNameVec[i] == scriptName) {
+					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
+				}
 			}
+			break;
+		}
+	}
 
-        }
-    }
-}
-
-// Run time remove script
-void ScriptEngine::RunTimeRemoveScript(Entity entity) {
-
-    //std::cout << "RunTimeRemoveScript" << std::endl;
-    auto& sc = ECS::ecs().GetComponent<Script>(entity);
-
-    std::cout << "SCRIPTNAMEVEC SIZE IS: ";
-    std::cout << sc.scriptNameVec.size() << std::endl;
-
-    // For each script associated with this entity
-    for (const auto& fullClassName : sc.scriptNameVec) {
-        std::cout << "RUNTIEMREMOVESCRIPT FIND INSTANCES" << std::endl;
-        // Check if such a script class exists in our system
-        if (ScriptEngine::EntityClassExists(fullClassName)) {
-
-            // If in EntityInstances, remove it
-            if (s_Data->EntityInstances.find(entity) == s_Data->EntityInstances.end()) {
-                //s_Data->EntityInstances.erase(entity);
-
-                
-            }
-        }
-    }
+    // Clear the instance vector for that entity
+    //s_Data->EntityInstances[entity].clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
@@ -221,8 +239,6 @@ void ScriptEngine::OnUpdateEntity(const Entity& entity) {
         }
     }
 }
-
-
 
 void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 {

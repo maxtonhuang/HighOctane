@@ -38,6 +38,7 @@
 #include "Font.h"
 
 #include <iostream>
+#include <sstream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb-master/stb_image.h>
@@ -313,7 +314,9 @@ Texture* TextureManager::Add(Font& font) {
 	int count = 0;
 	while (data.count(texname)) {
 		++count;
-		texname = "font" + count;
+		std::stringstream namestream{};
+		namestream << "font" << count;
+		texname = namestream.str();
 	}
 	Texture temp;
 	temp.Init(font, texname.c_str());
