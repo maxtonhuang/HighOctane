@@ -55,7 +55,7 @@
 #include <sstream>
 #include <iomanip>
 #include <filesystem>
-
+#include "CharacterStats.h"
 
 
 /*
@@ -235,17 +235,33 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 		ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
 	}
 
-	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+	if (ECS::ecs().HasComponent<Tex>(masterEntity)) {
+		ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
+	}
+	
+
 	ECS::ecs().AddComponent(entity, Visible{ true });
 	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Model{});
-	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
+	if (ECS::ecs().HasComponent<Animator>(masterEntity)) {
+		ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
+	}
 	ECS::ecs().AddComponent(entity, Collider{});
 	if (!(ECS::ecs().GetComponent<Name>(entity).name == "background_CLONE")) {
 		ECS::ecs().AddComponent(entity, Movable{});
 	}
 	ECS::ecs().AddComponent(entity, Clone{});
 	ECS::ecs().AddComponent(entity, Script{}); //add script component
+	if (ECS::ecs().HasComponent<TextLabel>(masterEntity)) {
+		ECS::ecs().AddComponent<TextLabel>(entity, TextLabel{ ECS::ecs().GetComponent<TextLabel>(masterEntity) });
+	}
+	if (ECS::ecs().HasComponent<Button>(masterEntity)) {
+		ECS::ecs().AddComponent<Button>(entity, Button{ ECS::ecs().GetComponent<Button>(masterEntity) });
+	}
+	if (ECS::ecs().HasComponent<CharacterStats>(masterEntity)) {
+		ECS::ecs().AddComponent<CharacterStats>(entity, CharacterStats{ ECS::ecs().GetComponent<CharacterStats>(masterEntity) });
+	}
+	
 	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	//ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	//ECS::ecs().GetComponent<Transform>(entity).isStatic = true;

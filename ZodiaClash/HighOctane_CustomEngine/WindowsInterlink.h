@@ -8,6 +8,6 @@ void OpenFileDialog();
 
 void FileDropCallback(GLFWwindow* window, int count, const char** paths);
 
-std::string SaveFileDialog();
+std::string SaveFileDialog(std::string extensionName, std::string extensionDescription);
 
 std::string OpenSingleFileDialog();

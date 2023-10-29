@@ -25,12 +25,12 @@ public class Entity
     {
         get
         {
-            InternalCalls.TransformGetPosition(ID , out Vector2 position);
+            InternalCalls.EntityGetPosition(ID , out Vector2 position);
             return position;
         }
         set
         {
-            InternalCalls.TransformSetPosition(ID, ref value);
+            InternalCalls.EntitySetPosition(ID, ref value);
         }
     }
     
@@ -38,26 +38,40 @@ public class Entity
     {
         get
         {
-            InternalCalls.TransformGetForce(ID, out Vector2 force);
+            InternalCalls.EntityGetForce(ID, out Vector2 force);
             return force;
         }
 
         set
         {
-            InternalCalls.TransformSetForce(ID, ref value);
+            InternalCalls.EntitySetForce(ID, ref value);
         }
     }
     public float Rotation
     {
         get
         {
-            InternalCalls.TransformGetRotation(ID, out float force);
+            InternalCalls.EntityGetRotation(ID, out float force);
             return force;
         }
 
         set
         {
-            InternalCalls.TransformSetRotation(ID, ref value);
+            InternalCalls.EntitySetRotation(ID, ref value);
+        }
+    }
+
+    public float Scale
+    {
+        get
+        {
+            InternalCalls.EntityGetScale(ID, out float force);
+            return force;
+        }
+
+        set
+        {
+            InternalCalls.EntitySetScale(ID, ref value);
         }
     }
 

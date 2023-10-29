@@ -63,14 +63,13 @@
 #include "FileWatcher.h"
 #include "AssetManager.h"
 #include "ScriptEngine.h"
-#include <rttr/registration>
 #include "CharacterStats.h"
 #include "Battle.h"
 #include "EnemyAction.h"
 #include "PlayerAction.h"
 #include "UIComponents.h"
 #include "Reflections.h"
-#include "FunctionPointer.h"
+#include "Events.h"
 
 bool gConsoleInitalized{ false };
 
@@ -279,15 +278,15 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(serializationSystem, "Serialization System");
 	s_ptr = serializationSystem;
 
-	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
-	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
-	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
-	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
-
 	std::shared_ptr<UIButtonSystem> uiButtonSystem = ECS::ecs().RegisterSystem<UIButtonSystem>();
 	runSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	editSystemList.emplace_back(uiButtonSystem, "UI Text Label System");
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
+
+	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
+	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 	editSystemList.emplace_back(editingSystem, "Editing System");
@@ -405,12 +404,12 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<Animator>());
-		signature.set(ECS::ecs().GetComponentType<Model>());
+		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		//signature.set(ECS::ecs().GetComponentType<Animator>());
+		//signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
-		signature.set(ECS::ecs().GetComponentType<Tag>());
+		//signature.set(ECS::ecs().GetComponentType<Tag>());
 		ECS::ecs().SetSystemSignature<BattleSystem>(signature);
 	}
 
@@ -435,6 +434,7 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<TextLabel>());
 		signature.set(ECS::ecs().GetComponentType<Button>());
 
 		ECS::ecs().SetSystemSignature<UIButtonSystem>(signature);
@@ -454,7 +454,7 @@ void EngineCore::Run(bool const& mode) {
 	assetmanager.audio.PauseGroup("BGM");
 	assetmanager.audio.PlaySounds("MainMenu1.wav", "BGM");
 
-	InitialiseFunctions();
+	events.InitialiseFunctions();
 
 	if (game_mode) {
 
@@ -484,35 +484,53 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Collider>(background);
 	ECS::ecs().RemoveComponent<Movable>(background);
 
-	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(125.f, 125.f, false);
+	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
+	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "white" });
+	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
-	ECS::ecs().AddComponent(textObjectA, TextLabel{ "TestString", UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN });
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
-	ECS::ecs().GetComponent<Transform>(textObjectA).isStatic = false;
+	ECS::ecs().GetComponent<TextLabel>(textObjectA).font = fonts.GetFont("mikachan", "Regular");
 	ECS::ecs().RemoveComponent<Tex>(textObjectA);
 	ECS::ecs().RemoveComponent<Collider>(textObjectA);
 	ECS::ecs().RemoveComponent<Animator>(textObjectA);
-	//uncomment these to prevent event handling for UI system
-	//ECS::ecs().GetComponent<Transform>(textObjectA).isStatic = true;
-	//ECS::ecs().RemoveComponent<Movable>(textObjectA);
 
+	Entity textObjectB = EntityFactory::entityFactory().CloneMasterModel(-0.8f * GRAPHICS::w, -0.9f * GRAPHICS::h, false);
+	ECS::ecs().AddComponent(textObjectB, TextLabel{ "ZodiaClash v0.1", "white" });
+	ECS::ecs().GetComponent<Model>(textObjectB) = Model{ ModelType::UI };
+	ECS::ecs().GetComponent<Size>(textObjectB) = Size{ 100.f,100.f };
+	ECS::ecs().RemoveComponent<Tex>(textObjectB);
+	ECS::ecs().RemoveComponent<Collider>(textObjectB);
+	ECS::ecs().RemoveComponent<Animator>(textObjectB);
 
-	Entity buttonObject = EntityFactory::entityFactory().CloneMasterModel(-125.f, -125.f, false);
-	ECS::ecs().GetComponent<Model>(buttonObject) = Model{ ModelType::UI };
-	ECS::ecs().AddComponent(buttonObject, Button{ "TestString", "white", "blue"});
-	ECS::ecs().GetComponent<Size>(buttonObject) = Size{ 100.f,100.f };
-	ECS::ecs().GetComponent<Transform>(buttonObject).isStatic = false;
-	ECS::ecs().RemoveComponent<Tex>(buttonObject);
-	ECS::ecs().RemoveComponent<Collider>(buttonObject);
-	ECS::ecs().RemoveComponent<Animator>(buttonObject);
+	Entity basicButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.6f * GRAPHICS::h, false);
+	ECS::ecs().AddComponent(basicButton, TextLabel{ "Play Audio", "secondary" });
+	ECS::ecs().AddComponent(basicButton, Button{ "white", ECS::ecs().GetComponent<TextLabel>(basicButton).textColor });
+	ECS::ecs().GetComponent<Model>(basicButton) = Model{ ModelType::UI };
+	ECS::ecs().GetComponent<Transform>(basicButton).isStatic = false;
+	ECS::ecs().GetComponent<Button>(basicButton).eventName = "Audio";
+	ECS::ecs().GetComponent<Button>(basicButton).eventInput = "bonk.wav";
+	ECS::ecs().GetComponent<Button>(basicButton).padding = Padding{ 40.f, 10.f };
+	ECS::ecs().RemoveComponent<Tex>(basicButton);
+	ECS::ecs().RemoveComponent<Collider>(basicButton);
+	ECS::ecs().RemoveComponent<Animator>(basicButton);
 
+	Entity texButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.85f * GRAPHICS::h, false);	
+	ECS::ecs().AddComponent(texButton, TextLabel{ "Play Audio", "black" });
+	ECS::ecs().AddComponent(texButton, Button{ "blue", ECS::ecs().GetComponent<TextLabel>(texButton).textColor });
+	ECS::ecs().GetComponent<Model>(texButton) = Model{ ModelType::UI };
+	ECS::ecs().GetComponent<Transform>(texButton).isStatic = false;
+	ECS::ecs().GetComponent<Button>(texButton).eventName = "Audio";
+	ECS::ecs().GetComponent<Button>(texButton).eventInput = "ping.wav";
+	ECS::ecs().GetComponent<Button>(texButton).padding = Padding{ 60.f, 30.f };
+	//ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
+	ECS::ecs().GetComponent<Tex>(texButton).tex = assetmanager.texture.Get("mockup_playbutton_04.png");
+	//ECS::ecs().RemoveComponent<Tex>(buttonObject);
+	ECS::ecs().RemoveComponent<Collider>(texButton);
+	ECS::ecs().RemoveComponent<Animator>(texButton);
 
 
 	// Load a single character on the screen
 	EntityFactory::entityFactory().LoadModels(1, true);
-
-	graphicsSystem->Initialize();
-	scriptingSystem->Initialize();
 
 	/*serializationSystem->Update();*/
 
@@ -539,6 +557,16 @@ void EngineCore::Run(bool const& mode) {
 
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
+
+		if (newScene) {
+			graphicsSystem->Initialize();
+			scriptingSystem->Initialize();
+			battleSystem->Initialize();
+			Attack test;
+			test.attackName = "Test";
+			assetmanager.attacks.SaveAttack(test);
+			newScene = false;
+		}
 
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000

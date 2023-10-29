@@ -63,7 +63,7 @@
     <Filter Include="UIComponents">
       <UniqueIdentifier>{5afdf933-3a03-4f7b-a101-8aaccf26f30a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FunctionPointer">
+    <Filter Include="Events">
       <UniqueIdentifier>{531f8a7d-ed1a-4ae2-944c-2e47389335a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -72,9 +72,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="EntityFactory.h">
-      <Filter>EngineArchitecture</Filter>
-    </ClInclude>
-    <ClInclude Include="gamestatemanager.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
     <ClInclude Include="graphics.h">
@@ -242,8 +239,11 @@
     <ClInclude Include="Colors.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="FunctionPointer.h">
-      <Filter>FunctionPointer</Filter>
+    <ClInclude Include="Events.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateManager.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +251,6 @@
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="EntityFactory.cpp">
-      <Filter>EngineArchitecture</Filter>
-    </ClCompile>
-    <ClCompile Include="gamestatemanager.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="graphics.cpp">
@@ -395,8 +392,11 @@
     <ClCompile Include="Colors.cpp">
       <Filter>Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="FunctionPointer.cpp">
-      <Filter>FunctionPointer</Filter>
+    <ClCompile Include="Events.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -32,8 +32,8 @@ public:
 	static bool EntityClassExists(const std::string& fullClassName);
 	static void OnCreateEntity(Entity entity);
 	static void OnUpdateEntity(const Entity& entity);
-	static void RunTimeAddScript(Entity entity);
-	static void RunTimeRemoveScript(Entity entity);
+	static void RunTimeAddScript(Entity entity, const char* scriptName);
+	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
 
 	std::string GetScriptName(Entity entity);
 

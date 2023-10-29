@@ -53,6 +53,7 @@
 #include "EngineCore.h"
 #include "CharacterStats.h"
 #include "UIComponents.h"
+#include "AssetManager.h"
 
 #define FIXED_DT 1/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
@@ -298,14 +299,6 @@ void ModelSystem::Update() {
 	//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	////auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-
-	//for (Entity const& entity : m_Entities) {
-	//	Animator* animatorData = &animatorArray.GetData(entity);
-	//	Tex* texData = &texArray.GetData(entity);
-	//	//Size* sizeData = &sizeArray.GetData(entity);
-
-	//	animatorData->UpdateAnimation(*texData);
-	//}
 }
 
 /******************************************************************************
@@ -372,7 +365,6 @@ void GraphicsSystem::Draw() {
 		if (animatorArray.HasComponent(entity)) {
 			anim = &animatorArray.GetData(entity);
 		}
-		//TO CHECK: CHECK FOR TEXT LABEL OR BUTTON COMPONENT HERE?
 		m->Draw(tex, anim);
 
 	}
@@ -389,7 +381,20 @@ void GraphicsSystem::Draw() {
 ******************************************************************************/
 void SerializationSystem::Update() {
 	if (saveFile) {
-		Serializer::SaveEntityToJson(SaveFileDialog(), m_Entities);
+		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
+		if (scenePath != "") {
+			std::ofstream sceneFile{ scenePath.c_str() };
+
+			std::string jsonPath{ scenePath.substr(0,scenePath.find(".scn")) + ".json" };
+			Serializer::SaveEntityToJson(jsonPath, m_Entities);
+
+			auto files = assetmanager.GetFiles();
+			for (auto& f : files) {
+				sceneFile << f << "\n";
+			}
+			sceneFile << jsonPath.substr(jsonPath.find_last_of("\\") + 1);
+			sceneFile.close();
+		}
 		saveFile = false;
 	}
 	
@@ -424,6 +429,7 @@ void SerializationSystem::Update() {
 
 // Loads the script at startup from TestWY1.json
 void ScriptSystem::Initialize() {
+	std::cout << "ScriptSystem::Initialize()" << std::endl;
 
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
@@ -433,6 +439,8 @@ void ScriptSystem::Initialize() {
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
+
+		ScriptEngine::OnCreateEntity(entity);
 		std::vector<std::string> scriptVec = LoadScripting(entity);
 
 		// Get the script component
@@ -470,61 +478,25 @@ void ScriptSystem::Initialize() {
 		}
 	}
 
-	// Pushes the full name vector to the script component everything is done
-	for (const Entity& entity : m_Entities) {
-		Script& script = scriptArray.GetData(entity);
-		script.scriptNameVecForImGui = fullNameVecImGUI;
-	}
-
 }
 
 
 // Scripting
 void ScriptSystem::Update() {
+
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
-	//std::cout << "System.cpp::ScriptSystem::Update::size: " << m_Entities.size() << std::endl;
-
-	// Iterate through all entities with a script component
 	for (Entity const& entity : m_Entities) {
-		//Name* name = &nameArray.GetData(entity);
 
-		// For Wen Yuan to DEBUG
-		Script* s = &ECS::ecs().GetComponent<Script>(entity);
-		//if (entity == 3)
-		//printf("ScriptSystem::Update::Script::size: %d\n", s->scriptNameVec.size());
-		// For Wen Yuan to DEBUG
+		Script* scriptData = &scriptArray.GetData(entity);
 
-
-		// Global scriptAdded and scriptRemoved bool maybe
-		if(scriptAdded) {
-			//ScriptEngine::RunTimeChangeScript(entity, functionPointer here);
-			ScriptEngine::RunTimeAddScript(entity);
-
-
-		}
-
-		if (scriptRemoved) {
-			ScriptEngine::RunTimeRemoveScript(entity);
-			//std::cout << "SCRIPTREMOVED IS TRUE" << std::endl;
-
-		}
-
-		for (auto& scriptName : s->scriptNameVec) {
+		for (auto& scriptName : scriptData->scriptNameVec) {
 			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
 			ScriptEngine::OnUpdateEntity(entity);
 		}
-		//ScriptEngine::OnUpdateEntity(entity);
 	}
 
-	scriptAdded = false;
-	scriptRemoved = false;
-
-	// scripts
-	//ScriptEngine::OnRuntimeStart();
-
-	// Instantiate all script entities
 }
 
 
@@ -606,39 +578,21 @@ void UITextLabelSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		//Tex* texData = &texArray.GetData(entity);
-		//Size* sizeData = &sizeArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		//Button* buttonData = nullptr;
 
-		//if (textLabelData->CheckStringUpdated(*textLabelData)) {
-			//textLabelData->UpdateOffset(*transformData, *sizeData);
-		//}
-
-		textLabelData->Update(*transformData, *modelData, *nameData);
-		/*textLabelData->IsClickedOrHovered(*transformData, *modelData, *nameData);
-		if (nameData->selected) {
-			textLabelData->OnFocus();
-		}*/
-		
-		//DEBUG_PRINT("SIZE: %f %f", sizeData->width, sizeData->height);
-		//DEBUG_PRINT("relTrans: %f %f", textLabelData->relTransform.x, textLabelData->relTransform.y);
-		//DEBUG_PRINT("SCALE: %f", transformData->scale);
-		//DEBUG_PRINT("MIN %f %f", modelData->GetMin().x, modelData->GetMin().y);
-		//DEBUG_PRINT("MAX %f %f", modelData->GetMax().x, modelData->GetMax().y);
-		
-		//call graphics drawLabel here?
-		
+		//if entity has button component, state handling managed by button
+		if (!buttonArray.HasComponent(entity)) {
+			textLabelData->Update(*modelData, *nameData);
+		}
 
 		//note: find a way to update size!!
 	}
@@ -650,24 +604,39 @@ void UITextLabelSystem::Draw() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+	
 	for (Entity const& entity : m_Entities) {
-		Model* modelData = &modelArray.GetData(entity);
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		Name* nameData = &nameArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		//Name* nameData = &nameArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
+		Tex* texData = nullptr;
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		Button* buttonData = nullptr;
+		
+		textLabelData->UpdateOffset(*transformData);
 
-		textLabelData->UpdateOffset(*transformData, *sizeData);
-		//textLabelData->Update(*transformData, *modelData, *nameData);
+		//if entity has button component, drawing managed by button
+		if (buttonArray.HasComponent(entity)) {
+			buttonData = &buttonArray.GetData(entity);
+		}
+		else {
+			sizeData->width = textLabelData->textWidth;
+			sizeData->height = textLabelData->textHeight;
+		}
+		if (texArray.HasComponent(entity)) {
+			texData = &texArray.GetData(entity);
+		}
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, *textLabelData->textColor);
 
-		modelData->SetAlpha(1.f);
-		//TODO: MOVE INTO DRAW LOOP!!
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, modelData->GetColor());
-
-		(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		if (edit_mode && !buttonData && !texData) {
+			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		}
 	}
 	
 }
@@ -677,53 +646,67 @@ void UIButtonSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		//Size* sizeData = &sizeArray.GetData(entity);
+		//Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
 		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
 			//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
 		//}
+		buttonData->Update(*modelData, *nameData, *textLabelData);
 
-		buttonData->Update(*transformData, *modelData, *nameData);
-		//buttonData->IsClickedOrHovered(*transformData, *modelData, *nameData);
-		//if (nameData->selected) {
-		//	buttonData->OnFocus();
-		//}
+		if (!texArray.HasComponent(entity)) {
+			glm::vec4 btnColor = *buttonData->GetButtonColor();
+			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
+		}
+
+		sizeData->width = buttonData->buttonWidth;
+		sizeData->height = buttonData->buttonHeight;
 	}
 }
 
-void UIButtonSystem::Draw() {
-	//// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-
-	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
-		Name* nameData = &nameArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
-		Button* buttonData = &buttonArray.GetData(entity);
-
-		buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
-		//buttonData->Update(*transformData, *modelData, *nameData);
-
-		modelData->SetAlpha(1.f);
-		buttonData->DrawButton(*modelData);
-	}
-}
+//void UIButtonSystem::Draw() {
+//	//// Access the ComponentManager through the ECS class
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//
+//	//// Access component arrays through the ComponentManager
+//	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+//	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+//	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+//	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+//	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+//	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+//	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+//
+//	for (Entity const& entity : m_Entities) {
+//		//Transform* transformData = &transformArray.GetData(entity);
+//		Size* sizeData = &sizeArray.GetData(entity);
+//		Model* modelData = &modelArray.GetData(entity);
+//		//Name* nameData = &nameArray.GetData(entity);
+//		Tex* texData = nullptr;
+//		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+//		Button* buttonData = &buttonArray.GetData(entity);
+//
+//		//modelData->SetAlpha(1.f);
+//
+//		//if (texArray.HasComponent(entity)) {
+//		//	texData = &texArray.GetData(entity);
+//		//	buttonData->DrawButtonTex(*modelData, *texData, *textLabelData);
+//		//}
+//		//else {
+//		//	buttonData->DrawButton(*modelData, *textLabelData);
+//		//}
+//	}
+//}

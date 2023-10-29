@@ -35,7 +35,7 @@
 #include "model.h"
 #include "Font.h"
 #include "Colors.h"
-#include "FunctionPointer.h"
+#include "Events.h"
 
 // enums for alignment
 enum class UI_HORIZONTAL_ALIGNMENT {
@@ -51,17 +51,30 @@ enum class UI_VERTICAL_ALIGNMENT {
 // enums for state lookup (to adapt into Name component!!)
 enum class STATE {
 	NONE,
-	SELECTED,
+	//SELECTED,
 	HOVERED,
 	FOCUSED
 };
+
+struct Padding {
+	float left;
+	float right;
+	float top;
+	float bottom;
+
+	Padding() : left{ 40.f }, right{ 40.f }, top{ 20.f }, bottom{ 20.f } {}
+	Padding(float horizontalVal, float verticalVal) : left{ horizontalVal }, right{ horizontalVal }, top{ verticalVal }, bottom{ verticalVal } {}
+	Padding(float leftVal, float rightVal, float topVal, float bottomVal) : left{ leftVal }, right{ rightVal }, top{ topVal }, bottom{ bottomVal } {}
+};
+
+// struct for padding within padding component
 
 class UIComponent {
 public:
 	virtual ~UIComponent() {}
 	
 	//event handler functions
-	virtual void Update(Transform& transformData, Model& modelData, Name& nameData) = 0;
+	//virtual void Update(Transform& transformData, Model& modelData, Name& nameData) = 0;
 	//virtual void OnClick(Model& modelData, Name& nameData) = 0;
 	//virtual void OnHover(Model& modelData, Name& nameData) = 0;
 	//virtual void OnFocus() = 0;
@@ -72,11 +85,13 @@ public:
 	Font* font{};
 	std::string textString{};
 	std::string prevTextString{};
-	UI_HORIZONTAL_ALIGNMENT textAlignment{};
-	float relFontSize{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	glm::vec4* textColor{}; // black
+	glm::vec4* textColor{};
+	float relFontSize{};
+	float textWidth{};
+	float textHeight{};
+	UI_HORIZONTAL_ALIGNMENT textAlignment{};
 	STATE currentState{};
 
 	// FUTURE IMPLEMENTATIONS
@@ -84,15 +99,15 @@ public:
 	// -> line height
 	
 	TextLabel();
-	TextLabel(Font& f, std::string str, UI_HORIZONTAL_ALIGNMENT align);
-	TextLabel(std::string str, UI_HORIZONTAL_ALIGNMENT align);
+	TextLabel(std::string str, std::string txtColor);
 
-	bool CheckStringUpdated(TextLabel& txtLblData);
 	void SetTextString(std::string txtStr);
-	void CalculateOffset(Size& sizeData);
-	void UpdateOffset(Transform const& transformData, Size& sizeData);
 
-	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
+	bool CheckStringUpdated(TextLabel& txtLblData);	
+	void CalculateOffset();
+	void UpdateOffset(Transform const& transformData);
+
+	void Update(Model& modelData, Name& nameData);
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
@@ -108,34 +123,41 @@ public:
 		ColorSet() : buttonColor{ nullptr }, textColor{ nullptr }, outlineColor{ nullptr } {}
 		ColorSet(std::string btnColor, std::string txtColor) :
 			buttonColor{ &colors.colorMap[btnColor] }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ &colors.colorMap[btnColor] } {}
+		ColorSet(std::string btnColor, glm::vec4* txtColor) :
+			buttonColor{ &colors.colorMap[btnColor] }, textColor{ txtColor }, outlineColor{ &colors.colorMap[btnColor] } {}
+		ColorSet(glm::vec4* btnColor, std::string txtColor) :
+			buttonColor{ btnColor }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ btnColor } {}
 	};
 
-	TextLabel textLabel;
-	Vec2 padding{};
-	STATE currentState{};
+	
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	Event event;
-	std::string eventName;
-	std::string eventInput;
+	std::string eventName{};
+	std::string eventInput{};
+	float buttonWidth{};
+	float buttonHeight{};
+
+	// other UI unique properties
+	STATE currentState{};
+	Padding padding{};
+
 	// store colors for each state
-	// default: button white, text blue, outline blue
 	ColorSet defaultColor;
-	// hovered: button blue, text white, outline blue
 	ColorSet hoveredColor;
-	// focused: button blue, text white, outline red
 	ColorSet focusedColor;
 
 	Button();
-	Button(std::string btnColor, std::string txtColor);
-	Button(std::string txtStr, std::string btnColor, std::string txtColor);
+	Button(std::string btnColor, glm::vec4* txtColor);
 
-	void Update(Transform& transformData, Model& modelData, Name& nameData) override;
+	glm::vec4* GetButtonColor();
+
+	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
 
-	void DrawButton(Model& modelData);
+	/*void DrawButton(Model& modelData, TextLabel& textLabelData);
+	void DrawButtonTex(Model& modelData, Tex& texData, TextLabel& textLabelData);*/
 };
 
 class LayoutGroup : UIComponent {

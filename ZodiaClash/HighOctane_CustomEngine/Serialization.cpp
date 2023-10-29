@@ -44,6 +44,7 @@
 #include "model.h"
 #include "Global.h"
 #include "AssetManager.h"
+#include "CharacterStats.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -239,13 +240,6 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	}
 	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
 
-	// Serialize the scriptNameVecForImGui
-	rapidjson::Value scriptNameVecForImGuiArray(rapidjson::kArrayType);
-	for (const std::string& name : script.scriptNameVecForImGui) {
-		scriptNameVecForImGuiArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
-	}
-	scriptObject.AddMember("scriptNameVecForImGui", scriptNameVecForImGuiArray, allocator);
-
 	return scriptObject;
 }
 
@@ -265,7 +259,30 @@ rapidjson::Value SerializeModel( Model model, rapidjson::Document::AllocatorType
 	modelObject.AddMember("Max Y", model.GetMax().y, allocator);
 	modelObject.AddMember("Min X", model.GetMin().x, allocator);
 	modelObject.AddMember("Min Y", model.GetMin().y, allocator);
+}
+rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value charstats(rapidjson::kObjectType);
+	rapidjson::Value attacks(rapidjson::kArrayType);
+	charstats.AddMember("Character type", (int)stats.tag, allocator);
+	charstats.AddMember("Max Health", stats.stats.maxHealth, allocator);
+	charstats.AddMember("Attack", stats.stats.attack, allocator);
+	charstats.AddMember("Defense", stats.stats.defense, allocator);
+	charstats.AddMember("Speed", stats.stats.speed, allocator);
 
+	for (Attack const& a : stats.action.skills) {
+		rapidjson::Value attackName;
+		attackName.SetString(a.attackName.c_str(), a.attackName.length(), allocator);
+		attacks.PushBack(attackName, allocator);
+	}
+	charstats.AddMember("Skills", attacks, allocator);
+
+	return charstats;
+}
+
+rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value modelObject(rapidjson::kObjectType);
+	modelObject.AddMember("Model type", (int)model.type, allocator);
+	modelObject.AddMember("Background scroll speed", model.backgroundScrollSpeed, allocator);
 	return modelObject;
 }
 
@@ -286,6 +303,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Animator* anim = nullptr;
 	Name* name = nullptr;
 	Script* script = nullptr;
+	CharacterStats* charstats = nullptr;
 	Model* model = nullptr;
 
 	for (const Entity& entity : m_entity) {
@@ -356,11 +374,21 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
 			entityObject.AddMember("Scripts", scriptObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Script>(entity)) {
-			rapidjson::Value modelObject = SerializeModel(ECS::ecs().GetComponent<Model>(entity), allocator);
-			entityObject.AddMember("Model", modelObject, allocator);
-			document.PushBack(entityObject, allocator);
+		if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
+			charstats = &ECS::ecs().GetComponent<CharacterStats>(entity);
+			rapidjson::Value charstatsObject = SerializeCharacterStats(*charstats, allocator);
+			entityObject.AddMember("CharacterStats", charstatsObject, allocator);
 		}
+		if (ECS::ecs().HasComponent<Model>(entity)) {
+			model = &ECS::ecs().GetComponent<Model>(entity);
+			rapidjson::Value modelObject = SerializeModel(*model, allocator);
+			entityObject.AddMember("Model", modelObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Movable>(entity)) {
+			entityObject.AddMember("Movable", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		document.PushBack(entityObject, allocator);
+		//document.PushBack(entityArray, allocator);
 	}
 	
 	// Save the JSON document to a file
@@ -535,17 +563,29 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		}
 		if (entityObject.HasMember("Model")) {
 			const rapidjson::Value& modelObject = entityObject["Model"];
-			Model model;
-			float modelR = modelObject["r"].GetFloat();
-			float modelG = modelObject["g"].GetFloat();
-			float modelB = modelObject["b"].GetFloat();
-			float modelA = modelObject["a"].GetFloat();
-			model.SetColor(modelR, modelG, modelB);
-			model.SetAlpha(modelA);
-			ECS::ecs().AddComponent(entity, model);
+			Model model{modelObject["Model type"].GetInt(),modelObject["Background scroll speed"].GetFloat()};
+			ECS::ecs().AddComponent(entity, Model{});
+		}
+		if (entityObject.HasMember("Movable")) {
+			ECS::ecs().AddComponent(entity, Movable{});
+		}
+		if (entityObject.HasMember("CharacterStats")) {
+			const rapidjson::Value& statsObject = entityObject["CharacterStats"];
+			CharacterStats charstats;
+			charstats.stats.attack = statsObject["Attack"].GetFloat();
+			charstats.stats.defense = statsObject["Defense"].GetFloat();
+			charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
+			charstats.stats.health = charstats.stats.maxHealth;
+			charstats.stats.speed = statsObject["Speed"].GetInt();
+			charstats.tag = static_cast<CharacterType>(statsObject["Character type"].GetInt());
+			for (auto& a : statsObject["Skills"].GetArray()) {
+				charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
+			}
+			ECS::ecs().AddComponent(entity, charstats);
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
+	
 
 	//std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
 
