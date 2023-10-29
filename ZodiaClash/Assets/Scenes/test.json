@@ -93,8 +93,8 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
+            "Model type": 1,
+            "Background scroll speed": 1.0
         }
     },
     {
@@ -110,8 +110,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 269.0,
-            "position_y": 334.0,
+            "position_x": 668.0,
+            "position_y": 72.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -129,14 +129,17 @@
             "scriptNameVec": []
         },
         "CharacterStats": {
-            "Character type": 1,
-            "Max Health": 1.0,
+            "Character type": 0,
+            "Max Health": 0.0,
             "Attack": 0.0,
             "Defense": 0.0,
-            "Speed": 0
+            "Speed": 0,
+            "Skills": [
+                "Test"
+            ]
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -173,7 +176,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -210,7 +213,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -254,7 +257,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -293,6 +296,9 @@
             "width": 128.0,
             "height": 128.0
         },
+        "MainCharacter": {
+            "isMainCharacter": true
+        },
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
@@ -309,48 +315,5 @@
         },
         "Movable": {}
     },
-    {
-        "Entity": {
-            "Name": "entity_00003_CLONE",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 496.0,
-            "position_y": 147.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 472.0,
-            "height": 60.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 1.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 1
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
-    }
+    {}
 ]

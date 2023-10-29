@@ -1,10 +1,20 @@
 #include "Events.h"
 #include "AssetManager.h"
+#include "enginecore.h"
+#include "Global.h"
 
 EventManager events;
 
-void ChangeLevel(std::string input) {
+void ExitGame(std::string input) {
+	(void)input;
+	EngineCore::engineCore().setGameActive(false);
+}
 
+void ChangeScene(std::string input) {
+	newScene = true;
+	button_clicked = true;
+	newSceneName = input;
+	destroyAll = true;
 }
 void PlayAudio(std::string input) {
 	//Find the entity from map using input string
@@ -19,6 +29,8 @@ void TestFunction(std::string input) {
 void EventManager::InitialiseFunctions() {
 	//functions["ChangeLevel"] = ChangeLevel;
 	functions["Audio"] = PlayAudio;
+	functions["Exit Game"] = ExitGame;
+	functions["Change Scene"] = ChangeScene;
 	functions["Test"] = TestFunction;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
