@@ -243,23 +243,23 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	return scriptObject;
 }
 
-rapidjson::Value SerializeModel( Model model, rapidjson::Document::AllocatorType& allocator) {
-	rapidjson::Value modelObject(rapidjson::kObjectType);
-
-	model.GetColor();
-	model.GetMax();
-	model.GetMin();
-
-	modelObject.AddMember("r", model.GetColor().r, allocator);
-	modelObject.AddMember("g", model.GetColor().g, allocator);
-	modelObject.AddMember("b", model.GetColor().b, allocator);
-	modelObject.AddMember("a", model.GetColor().a, allocator);
-
-	modelObject.AddMember("Max X", model.GetMax().x, allocator);
-	modelObject.AddMember("Max Y", model.GetMax().y, allocator);
-	modelObject.AddMember("Min X", model.GetMin().x, allocator);
-	modelObject.AddMember("Min Y", model.GetMin().y, allocator);
-}
+//rapidjson::Value SerializeModel( Model model, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value modelObject(rapidjson::kObjectType);
+//
+//	model.GetColor();
+//	model.GetMax();
+//	model.GetMin();
+//
+//	modelObject.AddMember("r", model.GetColor().r, allocator);
+//	modelObject.AddMember("g", model.GetColor().g, allocator);
+//	modelObject.AddMember("b", model.GetColor().b, allocator);
+//	modelObject.AddMember("a", model.GetColor().a, allocator);
+//
+//	modelObject.AddMember("Max X", model.GetMax().x, allocator);
+//	modelObject.AddMember("Max Y", model.GetMax().y, allocator);
+//	modelObject.AddMember("Min X", model.GetMin().x, allocator);
+//	modelObject.AddMember("Min Y", model.GetMin().y, allocator);
+//}
 rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value charstats(rapidjson::kObjectType);
 	rapidjson::Value attacks(rapidjson::kArrayType);
