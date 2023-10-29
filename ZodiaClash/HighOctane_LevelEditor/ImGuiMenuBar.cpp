@@ -18,6 +18,7 @@ void UpdateMenuBar() {
                 ASSERT(pos == std::string::npos, "File path error!");
                 path = path.substr(pos + 1);
                 assetmanager.LoadAssets(path);
+                newScene = true;
                 //Serializer::LoadEntityFromJson(OpenSingleFileDialog());
             }
             if (ImGui::MenuItem("Save Scene")) {

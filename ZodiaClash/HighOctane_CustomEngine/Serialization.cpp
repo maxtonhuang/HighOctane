@@ -253,6 +253,13 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 	return charstats;
 }
 
+rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value modelObject(rapidjson::kObjectType);
+	modelObject.AddMember("Model type", (int)model.type, allocator);
+	modelObject.AddMember("Background scroll speed", model.backgroundScrollSpeed, allocator);
+	return modelObject;
+}
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -271,6 +278,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Name* name = nullptr;
 	Script* script = nullptr;
 	CharacterStats* charstats = nullptr;
+	Model* model = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -344,6 +352,14 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			charstats = &ECS::ecs().GetComponent<CharacterStats>(entity);
 			rapidjson::Value charstatsObject = SerializeCharacterStats(*charstats, allocator);
 			entityObject.AddMember("CharacterStats", charstatsObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Model>(entity)) {
+			model = &ECS::ecs().GetComponent<Model>(entity);
+			rapidjson::Value modelObject = SerializeModel(*model, allocator);
+			entityObject.AddMember("Model", modelObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Movable>(entity)) {
+			entityObject.AddMember("Movable", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -521,13 +537,27 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent(entity, Clone{});
 		}
 		if (entityObject.HasMember("Model")) {
+			const rapidjson::Value& modelObject = entityObject["Model"];
+			Model model{modelObject["Model type"].GetInt(),modelObject["Background scroll speed"].GetFloat()};
 			ECS::ecs().AddComponent(entity, Model{});
 		}
+		if (entityObject.HasMember("Movable")) {
+			ECS::ecs().AddComponent(entity, Movable{});
+		}
 		if (entityObject.HasMember("CharacterStats")) {
-
+			const rapidjson::Value& statsObject = entityObject["CharacterStats"];
+			CharacterStats charstats;
+			charstats.stats.attack = statsObject["Attack"].GetFloat();
+			charstats.stats.defense = statsObject["Defense"].GetFloat();
+			charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
+			charstats.stats.health = charstats.stats.maxHealth;
+			charstats.stats.speed = statsObject["Speed"].GetInt();
+			charstats.tag = static_cast<CharacterType>(statsObject["Character type"].GetInt());
+			ECS::ecs().AddComponent(entity, charstats);
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
+	
 
 	std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
 

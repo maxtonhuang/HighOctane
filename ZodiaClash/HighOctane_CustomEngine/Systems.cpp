@@ -299,14 +299,6 @@ void ModelSystem::Update() {
 	//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	////auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-
-	//for (Entity const& entity : m_Entities) {
-	//	Animator* animatorData = &animatorArray.GetData(entity);
-	//	Tex* texData = &texArray.GetData(entity);
-	//	//Size* sizeData = &sizeArray.GetData(entity);
-
-	//	animatorData->UpdateAnimation(*texData);
-	//}
 }
 
 /******************************************************************************
@@ -400,7 +392,7 @@ void SerializationSystem::Update() {
 			for (auto& f : files) {
 				sceneFile << f << "\n";
 			}
-			sceneFile << jsonPath.substr(jsonPath.find_last_of("\\"));
+			sceneFile << jsonPath.substr(jsonPath.find_last_of("\\") + 1);
 			sceneFile.close();
 		}
 		saveFile = false;

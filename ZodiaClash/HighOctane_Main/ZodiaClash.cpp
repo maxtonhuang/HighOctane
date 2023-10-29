@@ -405,12 +405,12 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<Animator>());
-		signature.set(ECS::ecs().GetComponentType<Model>());
+		//signature.set(ECS::ecs().GetComponentType<Tex>());
+		//signature.set(ECS::ecs().GetComponentType<Animator>());
+		//signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
-		signature.set(ECS::ecs().GetComponentType<Tag>());
+		//signature.set(ECS::ecs().GetComponentType<Tag>());
 		ECS::ecs().SetSystemSignature<BattleSystem>(signature);
 	}
 
@@ -487,6 +487,7 @@ void EngineCore::Run(bool const& mode) {
 
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
 	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "white" });
+	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
 	ECS::ecs().GetComponent<TextLabel>(textObjectA).font = fonts.GetFont("mikachan", "Regular");
@@ -498,7 +499,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().AddComponent(textObjectB, TextLabel{ "ZodiaClash v0.1", "white" });
 	ECS::ecs().GetComponent<Model>(textObjectB) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectB) = Size{ 100.f,100.f };
-	ECS::ecs().AddComponent(textObjectB, CharacterStats{});
 	ECS::ecs().RemoveComponent<Tex>(textObjectB);
 	ECS::ecs().RemoveComponent<Collider>(textObjectB);
 	ECS::ecs().RemoveComponent<Animator>(textObjectB);
@@ -533,9 +533,6 @@ void EngineCore::Run(bool const& mode) {
 	// Load a single character on the screen
 	EntityFactory::entityFactory().LoadModels(1, true);
 
-	graphicsSystem->Initialize();
-	scriptingSystem->Initialize();
-
 	/*serializationSystem->Update();*/
 
 	{
@@ -561,6 +558,13 @@ void EngineCore::Run(bool const& mode) {
 
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
+
+		if (newScene) {
+			graphicsSystem->Initialize();
+			scriptingSystem->Initialize();
+			battleSystem->Initialize();
+			newScene = false;
+		}
 
 		uint64_t l_currentTime = GetTime();
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000

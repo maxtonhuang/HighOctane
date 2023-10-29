@@ -62,6 +62,7 @@ extern std::vector<Entity> selectedEntities;
 extern Entity newSelection;
 extern bool popupHovered;
 extern bool anyObjectSelected;
+extern bool newScene;
 
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;

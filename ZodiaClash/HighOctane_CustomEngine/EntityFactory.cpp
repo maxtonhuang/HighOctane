@@ -55,7 +55,7 @@
 #include <sstream>
 #include <iomanip>
 #include <filesystem>
-
+#include "CharacterStats.h"
 
 
 /*
@@ -259,6 +259,9 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	}
 	if (ECS::ecs().HasComponent<Button>(masterEntity)) {
 		ECS::ecs().AddComponent<Button>(entity, Button{ ECS::ecs().GetComponent<Button>(masterEntity) });
+	}
+	if (ECS::ecs().HasComponent<CharacterStats>(masterEntity)) {
+		ECS::ecs().AddComponent<CharacterStats>(entity, CharacterStats{ ECS::ecs().GetComponent<CharacterStats>(masterEntity) });
 	}
 	
 	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };

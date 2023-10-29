@@ -58,6 +58,13 @@ Model::Model(ModelType inputType, float bgScrollSpeed) {
 	backgroundScrollSpeed = bgScrollSpeed;
 }
 
+Model::Model(int modelType, float bgScrollSpeed) {
+	color = glm::vec4{ 1,1,1,1 };
+	matrix = glm::mat3{ 1,0,0,0,1,0,0,0,1 };
+	type = static_cast<ModelType>(modelType);
+	backgroundScrollSpeed = bgScrollSpeed;
+}
+
 void Model::Update(Transform const& entity, Size const& size) {
 	if (type == ModelType::BACKGROUNDLOOP) {
 		float x = camera.GetPos().x / GRAPHICS::w;
