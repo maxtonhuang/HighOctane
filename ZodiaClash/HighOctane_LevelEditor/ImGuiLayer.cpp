@@ -25,7 +25,7 @@ void UpdateLayer() {
 	float bh = buttonHeight + ImGui::GetStyle().ItemSpacing.y;  // Button height + spacing
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
 
-
+	// rewrite to use traditional i
 
 
 
