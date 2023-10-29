@@ -82,12 +82,12 @@ public:
 
 class TextLabel : public UIComponent {
 public:
-	Font* font{};
-	std::string textString{};
+	Font* font{}; //seri
+	std::string textString{}; //seri
 	std::string prevTextString{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	glm::vec4* textColor{};
+	glm::vec4* textColor{}; //seri
 	float relFontSize{};
 	float textWidth{};
 	float textHeight{};
