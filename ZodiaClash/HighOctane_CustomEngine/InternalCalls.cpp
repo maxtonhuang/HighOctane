@@ -156,6 +156,11 @@ namespace internalcalls {
         return 0;
     }
 
+    // Get the delta time / fixed delta time
+    static void GetDeltaTime(float* outScale) {
+		*outScale = g_dt;
+	}
+
     // Entities
     static bool EntityHasComponent(Entity entity, MonoReflectionType* componentName) {
         return ECS::ecs().HasComponent<MonoReflectionType*>(entity);
@@ -198,6 +203,9 @@ namespace internalcalls {
         // Get the scale
         ADD_INTERNAL_CALL(EntityGetScale);
         ADD_INTERNAL_CALL(EntitySetScale);
+
+        // Get the delta time
+        ADD_INTERNAL_CALL(GetDeltaTime);
 
         // Entities
         ADD_INTERNAL_CALL(EntityHasComponent);

@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <string>
 #include "ECS.h"
+#include "Global.h"
 
 #pragma once
 

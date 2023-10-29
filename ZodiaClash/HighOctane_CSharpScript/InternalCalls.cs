@@ -70,12 +70,6 @@ public static class InternalCalls
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern void LogVector3(ref Vector3 param, out Vector3 result);
 
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal static extern void EntityGetTranslation(out Vector3 result);
-
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal static extern void EntitySetTranslation(ref Vector3 value);
-
     // Adds the get axis function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern int GetAxisHorizontal();
@@ -111,6 +105,12 @@ public static class InternalCalls
     internal extern static void EntitySetScale(UInt32 entity, ref float scale);
     #endregion
 
+
+    #region deltaTime
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void GetDeltaTime(out float outScale);
+
+    #endregion
 
     #region Entity
     [MethodImplAttribute(MethodImplOptions.InternalCall)]

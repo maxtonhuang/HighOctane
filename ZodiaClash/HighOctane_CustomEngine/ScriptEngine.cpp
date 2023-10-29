@@ -52,10 +52,14 @@ void ScriptEngine::Init() {
 #elif (!ENABLE_DEBUG_DIAG)
     const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
 #endif
-
     std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+    printf("Full assembly path: %s\n", fullAssemblyPath.c_str());
 
+    if (!std::filesystem::exists(fullAssemblyPath)) {
+        fullAssemblyPath = "HighOctane_CSharpScript.dll";
+	}
     LoadAssembly(fullAssemblyPath);
+    
     LoadAssemblyClasses(s_Data->CoreAssembly);
     //auto& classes = s_Data->EntityClasses;
 
@@ -92,11 +96,18 @@ void ScriptEngine::InitMono() {
     
     // Setting the path to the mono
     //std::cout << "Scripting InitMono\n";
-    std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
-    //std::cout << filePath << std::endl;
+    std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
+
+    if (!std::filesystem::exists(filePath)) {
+        		filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
+                
+    }
+
     mono_set_assemblies_path(filePath.c_str());
 
+    
     MonoDomain* rootDomain = mono_jit_init("HighOctaneRuntime");
+    //ASSERT(true, "NIGEL");
     ASSERT(rootDomain == nullptr, "Root domain is null");
 
     // Store the root domain pointer
@@ -108,8 +119,10 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     // Create an App Domain
     s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
     mono_domain_set(s_Data->AppDomain, true);
-
-    s_Data->CoreAssembly = LoadMonoAssembly(filePath);
+    //if (!LoadMonoAssembly(filePath)) {
+    //    s_Data->CoreAssembly = LoadMonoAssembly("HighOctane_CSharpScript.dll");
+    //}
+    /*else */s_Data->CoreAssembly = LoadMonoAssembly(filePath);
     s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
     //PrintAssemblyTypes(s_Data->CoreAssembly);
 }
