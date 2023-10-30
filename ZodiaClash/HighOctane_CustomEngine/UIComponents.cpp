@@ -49,7 +49,7 @@ TextLabel::TextLabel() {
 	textString = "TextLabel";
 	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	relFontSize = 0.5f;
-	textColor = &colors.colorMap["black"];
+	textColor = colors.colorMap["black"];
 	initClr = "black";
 }
 
@@ -58,11 +58,11 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 	textString = str;
 	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	relFontSize = 0.5f;
-	textColor = &colors.colorMap[txtColor];
+	textColor = colors.colorMap[txtColor];
 	initClr = txtColor;
 }
 
-TextLabel::TextLabel(std::string str, glm::vec4* clr) {
+TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 		font = fonts.GetDefaultFont();
 		textString = str;
 		textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
@@ -196,22 +196,23 @@ Button::Button() {
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
-	/*eventName = "Audio";
-	eventTrigger = functions[eventName];
-	eventInput = "ping.wav";*/
 }
 
-Button::Button(std::string btnColor, glm::vec4* txtColor) {
+Button::Button(std::string btnColor, glm::vec4 txtColor) {
 	std::string txtStr = "TextString";
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
-	/*eventName = "Audio";
-	eventTrigger = functions[eventName];
-	eventInput = "ping.wav";*/
 }
 
-glm::vec4* Button::GetButtonColor() {
+Button::Button(glm::vec4 btnColor, glm::vec4 txtColor) {
+	std::string txtStr = "TextString";
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
+}
+
+glm::vec4 Button::GetButtonColor() {
 	switch (currentState) {
 	case(STATE::HOVERED):
 		return hoveredColor.buttonColor;
