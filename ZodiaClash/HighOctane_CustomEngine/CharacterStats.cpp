@@ -3,6 +3,21 @@
 #include "PlayerAction.h"
 #include "Battle.h"
 
+CharacterStats::CharacterStats() {
+    stats.health = stats.maxHealth;
+    action.characterStats = this;
+}
+
+CharacterStats::CharacterStats(CharacterStats const& input) {
+    checkedStatus = input.checkedStatus;
+    action = input.action;
+    entity = input.entity;
+    stats = input.stats;
+    tag = input.tag;
+    action.characterStats = this;
+    gameObject = input.gameObject;
+}
+
 void CharacterStats::Start()
 {
     action.battleManager = parent;

@@ -104,31 +104,51 @@ void TreeManager::Search(BattleSystem* start) {
 	bool createFinish = false;
 	while (createFinish == false) {
 		std::vector<Node*> toRemove{};
-		for (Node* n : currentNodes) {
+		
+		auto pointer = currentNodes.begin();
+		size_t currentSize = currentNodes.size();
+		for (size_t i = 0; i < currentSize; i++) {
+			Node* n = *pointer;
 			if (n->depth > MAXDEPTH) {
 				continue;
 			}
 
 			//FOR ALL POSSIBLE MOVES, CREATE A NEW CHILD AND ADD TO CURRENTNODES
 			for (Attack const& a : n->battlesystem.activeCharacter->action.skills) {
-				for (CharacterStats& c : n->battlesystem.turnManage.characterList) {
+				
+				std::vector<CharacterStats*> targetList;
+				if (n->battlesystem.activeCharacter->tag == CharacterType::PLAYER) {
+					targetList = n->battlesystem.GetEnemies();
+				}
+				else {
+					targetList = n->battlesystem.GetPlayers();
+				}
+				for (CharacterStats* c : targetList) {
 					n->next.push_back(Node{ n });
-					Node& child{ n->next[n->next.size() - 1] };
-					child.battlesystem.activeCharacter->action.selectedSkill = a;
-					child.battlesystem.activeCharacter->action.targetSelect.selectedTarget = &c;
-					child.battlesystem.activeCharacter->action.entityState = ATTACKING;
-					child.battlesystem.Update();
-					while (child.battlesystem.battleState != PLAYERTURN && child.battlesystem.battleState != ENEMYTURN && child.battlesystem.battleState != WIN) {
-						if (child.battlesystem.battleState == LOSE) {
-							MakeDecision(&child);
+					Node* child{ &n->next[n->next.size() - 1] };
+					child->battlesystem.activeCharacter->action.selectedSkill = a;
+					CharacterStats* target = c;
+					for (CharacterStats& t : child->battlesystem.turnManage.characterList) {
+						if (t.entity == c->entity) {
+							child->battlesystem.activeCharacter->action.targetSelect.selectedTarget = &t;
+						}
+					}
+					child->battlesystem.activeCharacter->action.entityState = ATTACKING;
+					child->battlesystem.Update();
+					while (child->battlesystem.battleState != PLAYERTURN && child->battlesystem.battleState != ENEMYTURN && child->battlesystem.battleState != WIN) {
+						if (child->battlesystem.battleState == LOSE) {
+							MakeDecision(child);
 							return;
 						}
-						child.battlesystem.Update();
+						child->battlesystem.Update();
 					}
-					currentNodes.push_back(&child);
+					if (child->battlesystem.battleState != WIN) {
+						currentNodes.push_back(child);
+					}
 				}
 			}
 			toRemove.push_back(n);
+			pointer++;
 		}
 		if (toRemove.size() == 0) {
 			createFinish = true;

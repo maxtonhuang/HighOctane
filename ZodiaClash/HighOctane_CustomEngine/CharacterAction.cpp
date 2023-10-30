@@ -2,8 +2,11 @@
 #include "CharacterStats.h"
 
 void CharacterAction::UpdateState() {
+    std::string name;
     switch (entityState) {
     case START:
+        name = ECS::ecs().GetComponent<Name>(characterStats->entity).name;
+        DEBUG_PRINT("Current Turn: %s", name.c_str());
         RefreshTargets();
         entityState = WAITING;
         break;
@@ -69,6 +72,8 @@ void CharacterAction::RefreshTargets() {
 }
 
 void CharacterAction::ApplySkill() {
+    selectedSkill.SetOwner(this->characterStats);
+    DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
     if (selectedSkill.attacktype == AttackType::NORMAL) {
         selectedSkill.UseAttack(targetSelect.selectedTarget);
     }

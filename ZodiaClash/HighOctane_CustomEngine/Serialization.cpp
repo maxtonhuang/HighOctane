@@ -623,7 +623,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
 			charstats.stats.health = charstats.stats.maxHealth;
 			charstats.stats.speed = statsObject["Speed"].GetInt();
-			charstats.tag = static_cast<CharacterType>(statsObject["Character type"].GetInt());
+			charstats.tag = (CharacterType)statsObject["Character type"].GetInt();
 			for (auto& a : statsObject["Skills"].GetArray()) {
 				charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
 			}

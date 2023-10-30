@@ -73,6 +73,8 @@ public:
 	void Initialize();
 	void Update() override;
 	CharacterStats* activeCharacter;
+	std::vector<CharacterStats*> GetPlayers();
+	std::vector<CharacterStats*> GetEnemies();
 private:
 	
 	//std::vector <GameObject> gameObjects;

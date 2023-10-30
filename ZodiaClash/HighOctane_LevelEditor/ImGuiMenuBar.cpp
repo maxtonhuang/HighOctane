@@ -19,7 +19,8 @@ void UpdateMenuBar() {
                         size_t pos = path.find_last_of("\\");
                         //ASSERT(pos == std::string::npos, "File path error!");
                         path = path.substr(pos + 1);
-                        assetmanager.LoadAssets(path);
+                        events.Call("Change Scene",path);
+                        //assetmanager.LoadAssets(path);
                         //Serializer::LoadEntityFromJson(OpenSingleFileDialog());
                     }
                     else {

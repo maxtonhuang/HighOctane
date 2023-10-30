@@ -1,7 +1,9 @@
+#include <sstream>
 #include "Events.h"
 #include "AssetManager.h"
 #include "enginecore.h"
 #include "Global.h"
+#include "CharacterStats.h"
 
 EventManager events;
 
@@ -46,6 +48,22 @@ void PauseResumeGroup(std::string input) {
 void StopGroup(std::string input) {
 	assetmanager.audio.StopGroup(input.c_str());
 }
+void SelectSkill(std::string input) {
+	BattleSystem* bs = events.GetBattleSystem();
+
+	if (bs->activeCharacter->tag != CharacterType::PLAYER || bs->activeCharacter->action.entityState != WAITING) {
+		return;
+	}
+
+	std::stringstream ss{ input };
+	int skillnum;
+	ss >> skillnum;
+	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum];
+
+	auto targets = bs->GetEnemies();
+	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	bs->activeCharacter->action.entityState = ATTACKING;
+}
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
@@ -57,6 +75,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Restart Music"] = RestartMusic;
 	functions["Pause/Resume Group"] = PauseResumeGroup;
 	functions["Stop Group"] = StopGroup;
+	functions["Select Skill"] = SelectSkill;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
 	functions["Test"] = TestFunction;
@@ -72,4 +91,12 @@ void EventManager::Call(std::string functionName, std::string functionInput) {
 
 std::vector<const char*> EventManager::GetFunctionNames() {
 	return functionNames;
+}
+
+void EventManager::ConnectBattleSystem(BattleSystem* input) {
+	battlesystem = input;
+}
+
+BattleSystem* EventManager::GetBattleSystem() {
+	return battlesystem;
 }

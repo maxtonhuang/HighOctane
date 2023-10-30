@@ -99,7 +99,7 @@
     },
     {
         "Entity": {
-            "Name": "entity_00003",
+            "Name": "Cat",
             "Selected": false
         },
         "Clone": {},
@@ -110,10 +110,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -502.0,
-            "position_y": 38.0,
+            "position_x": -530.0,
+            "position_y": 64.00003051757813,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 1.484375238418579,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -147,68 +147,17 @@
             "Attack": 15.0,
             "Defense": 20.0,
             "Speed": 4,
-            "Skills": []
+            "Skills": [
+                "Scarlet Claw",
+                "Five Elements Bloodbath",
+                "Dance of Fury"
+            ]
         },
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0
         },
         "Movable": {}
-    },
-    {
-        "Entity": {
-            "Name": "entity_00005",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 672.0,
-            "position_y": 459.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 472.0,
-            "height": 60.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 0.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "mikachan",
-            "Font Variant": "Regular",
-            "Text String": "© 2023 High Octane",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "blue"
-        }
     },
     {
         "Entity": {
@@ -223,8 +172,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -768.0,
-            "position_y": -486.0,
+            "position_x": 648.0,
+            "position_y": -429.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -254,60 +203,7 @@
             "g": 0.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "blue"
-        }
-    },
-    {
-        "Entity": {
-            "Name": "entity_00009",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 743.0,
-            "position_y": -314.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 295.5,
-            "height": 79.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Play Audio",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "blue"
-        },
-        "Button": {
-            "Padding Top": 10.0,
-            "Padding Bottom": 10.0,
-            "Padding Left": 40.0,
-            "Padding Right": 40.0
+            "Color Preset": "white"
         }
     },
     {
@@ -323,8 +219,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 770.0,
-            "position_y": -473.0,
+            "position_x": -729.0,
+            "position_y": -420.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -341,7 +237,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 335.5,
+            "width": 339.5,
             "height": 119.5
         },
         "Scripts": {
@@ -356,14 +252,16 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Play Audio",
+            "Text String": "Use Skill 1",
             "r": 0.0,
             "g": 0.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "blue"
+            "Color Preset": "black"
         },
         "Button": {
+            "Event Name": "Select Skill",
+            "Event Input": "1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -383,8 +281,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 132.0,
-            "position_y": -207.0,
+            "position_x": 647.0,
+            "position_y": -264.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -419,5 +317,190 @@
             "Background scroll speed": 0.0
         },
         "Movable": {}
+    },
+    {
+        "Entity": {
+            "Name": "Guard",
+            "Selected": false
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 594.0,
+            "position_y": 51.0,
+            "rotation": 0.0,
+            "scale": 1.484375238418579,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_guard.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 256.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "CharacterStats": {
+            "Character type": 1,
+            "Max Health": 120.0,
+            "Attack": 10.0,
+            "Defense": 15.0,
+            "Speed": 1,
+            "Skills": [
+                "Normal Attack",
+                "Normal AOE"
+            ]
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {}
+    },
+    {
+        "Entity": {
+            "Name": "entity_00011_CLONE",
+            "Selected": false
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -352.0,
+            "position_y": -412.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 346.5,
+            "height": 119.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Use Skill 2",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Event Name": "Select Skill",
+            "Event Input": "2",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "entity_00011_CLONE_CLONE",
+            "Selected": false
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 39.0,
+            "position_y": -417.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 345.5,
+            "height": 119.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Use Skill 3",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Event Name": "Select Skill",
+            "Event Input": "3",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        }
     }
 ]
