@@ -283,10 +283,10 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 	}
 	// Serialize other properties of the TextLabel
 	textObject.AddMember("Text String", rapidjson::Value(textLabel.textString.c_str(), allocator).Move(), allocator);
-	textObject.AddMember("r", textLabel.textColor->r, allocator);
-	textObject.AddMember("g", textLabel.textColor->g, allocator);
-	textObject.AddMember("b", textLabel.textColor->b, allocator);
-	textObject.AddMember("a", textLabel.textColor->a, allocator);
+	textObject.AddMember("r", textLabel.textColor.r, allocator);
+	textObject.AddMember("g", textLabel.textColor.g, allocator);
+	textObject.AddMember("b", textLabel.textColor.b, allocator);
+	textObject.AddMember("a", textLabel.textColor.a, allocator);
 
 	
 	textObject.AddMember("Color Preset", rapidjson::Value(textLabel.initClr.c_str(), allocator), allocator);
@@ -297,17 +297,15 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value buttonObject(rapidjson::kObjectType);
 
-	if (button.colorSet.buttonColor && button.colorSet.textColor) {
-		buttonObject.AddMember("Button R", button.colorSet.buttonColor->r, allocator);
-		buttonObject.AddMember("Button G", button.colorSet.buttonColor->g, allocator);
-		buttonObject.AddMember("Button B", button.colorSet.buttonColor->b, allocator);
-		buttonObject.AddMember("Button A", button.colorSet.buttonColor->a, allocator);
+	buttonObject.AddMember("Button R", button.defaultColor.buttonColor.r, allocator);
+	buttonObject.AddMember("Button G", button.defaultColor.buttonColor.g, allocator);
+	buttonObject.AddMember("Button B", button.defaultColor.buttonColor.b, allocator);
+	buttonObject.AddMember("Button A", button.defaultColor.buttonColor.a, allocator);
 	
-		buttonObject.AddMember("Text R", button.colorSet.textColor->r, allocator);
-		buttonObject.AddMember("Text G", button.colorSet.textColor->g, allocator);
-		buttonObject.AddMember("Text B", button.colorSet.textColor->b, allocator);
-		buttonObject.AddMember("Text A", button.colorSet.textColor->a, allocator);
-	}
+	buttonObject.AddMember("Text R", button.defaultColor.textColor.r, allocator);
+	buttonObject.AddMember("Text G", button.defaultColor.textColor.g, allocator);
+	buttonObject.AddMember("Text B", button.defaultColor.textColor.b, allocator);
+	buttonObject.AddMember("Text A", button.defaultColor.textColor.a, allocator);
 
 	// Add other properties as needed
 	buttonObject.AddMember("Padding Top", button.padding.top, allocator);
@@ -636,36 +634,39 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 			textLabel.textString = textObject["Text String"].GetString();
 			
-			textLabel.textColor->r = textObject["r"].GetFloat();
-			textLabel.textColor->g = textObject["g"].GetFloat();
-			textLabel.textColor->b = textObject["b"].GetFloat();
-			textLabel.textColor->a = textObject["a"].GetFloat();
+			textLabel.textColor.r = textObject["r"].GetFloat();
+			textLabel.textColor.g = textObject["g"].GetFloat();
+			textLabel.textColor.b = textObject["b"].GetFloat();
+			textLabel.textColor.a = textObject["a"].GetFloat();
 
 			textLabel.initClr = textObject["Color Preset"].GetString();
-			TextLabel(textLabel.textString, textLabel.textColor);
+			//TextLabel(textLabel.textString, textLabel.textColor);
 			ECS::ecs().AddComponent(entity, textLabel);
 		}
 		if (entityObject.HasMember("Button")) {
 			const rapidjson::Value& buttonObject = entityObject["Button"];
 			Button button;
-			button.colorSet = Button::ColorSet(); // Initialize the colorSet struct
+			//button.colorSet = Button::ColorSet(); // Initialize the colorSet struct
+			glm::vec4 buttonColor{};
 			if (buttonObject.HasMember("Button R") && buttonObject.HasMember("Button G") &&
 				buttonObject.HasMember("Button B") && buttonObject.HasMember("Button A")) {
-				button.colorSet.buttonColor = new glm::vec4;
-				button.colorSet.buttonColor->r = buttonObject["Button R"].GetFloat();
-				button.colorSet.buttonColor->g = buttonObject["Button G"].GetFloat();
-				button.colorSet.buttonColor->b = buttonObject["Button B"].GetFloat();
-				button.colorSet.buttonColor->a = buttonObject["Button A"].GetFloat();
+				buttonColor.r = buttonObject["Button R"].GetFloat();
+				buttonColor.g = buttonObject["Button G"].GetFloat();
+				buttonColor.b = buttonObject["Button B"].GetFloat();
+				buttonColor.a = buttonObject["Button A"].GetFloat();
 			}
 
+			glm::vec4 textColor{};
 			if (buttonObject.HasMember("Text R") && buttonObject.HasMember("Text G") &&
 				buttonObject.HasMember("Text B") && buttonObject.HasMember("Text A")) {
-				button.colorSet.textColor = new glm::vec4;
-				button.colorSet.textColor->r = buttonObject["Text R"].GetFloat();
-				button.colorSet.textColor->g = buttonObject["Text G"].GetFloat();
-				button.colorSet.textColor->b = buttonObject["Text B"].GetFloat();
-				button.colorSet.textColor->a = buttonObject["Text A"].GetFloat();
+				textColor.r = buttonObject["Text R"].GetFloat();
+				textColor.g = buttonObject["Text G"].GetFloat();
+				textColor.b = buttonObject["Text B"].GetFloat();
+				textColor.a = buttonObject["Text A"].GetFloat();
 			}
+
+			// update states
+			button = { buttonColor, textColor };
 
 			if (buttonObject.HasMember("Padding Top") && buttonObject.HasMember("Padding Bottom") &&
 				buttonObject.HasMember("Padding Left") && buttonObject.HasMember("Padding Right")) {
@@ -676,8 +677,8 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			}
 
 			ECS::ecs().AddComponent(entity, button);
-			delete button.colorSet.buttonColor;
-			delete button.colorSet.textColor;
+			//delete button.colorSet.buttonColor;
+			//delete button.colorSet.textColor;
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}

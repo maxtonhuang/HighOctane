@@ -639,7 +639,7 @@ void UITextLabelSystem::Draw() {
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, *textLabelData->textColor);
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
 		if (edit_mode && !buttonData && !texData) {
 			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
@@ -675,7 +675,7 @@ void UIButtonSystem::Update() {
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = *buttonData->GetButtonColor();
+			glm::vec4 btnColor = buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 

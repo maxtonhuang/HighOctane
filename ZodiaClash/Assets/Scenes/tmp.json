@@ -121,7 +121,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 472.0,
+            "width": 422.0,
             "height": 60.5
         },
         "Scripts": {
@@ -144,12 +144,12 @@
         "Text Label": {
             "Font Family": "mikachan",
             "Font Variant": "Regular",
-            "Text String": "© 2023 High Octane",
-            "r": 0.0,
-            "g": 0.0,
+            "Text String": "2023 High Octane",
+            "r": 1.0,
+            "g": 1.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "blue"
+            "Color Preset": "white"
         }
     },
     {
@@ -192,11 +192,11 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Text String": "ZodiaClash v0.1",
-            "r": 0.0,
-            "g": 0.0,
+            "r": 1.0,
+            "g": 1.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "blue"
+            "Color Preset": "white"
         }
     },
     {
@@ -239,13 +239,21 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Text String": "Play Audio",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 1.0,
+            "r": 0.41999998688697815,
+            "g": 0.44999998807907104,
+            "b": 0.49000000953674316,
             "a": 1.0,
-            "Color Preset": "blue"
+            "Color Preset": "secondary"
         },
         "Button": {
+            "Button R": 1.0,
+            "Button G": 1.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.41999998688697815,
+            "Text G": 0.44999998807907104,
+            "Text B": 0.49000000953674316,
+            "Text A": 1.0,
             "Padding Top": 10.0,
             "Padding Bottom": 10.0,
             "Padding Left": 40.0,
@@ -301,11 +309,19 @@
             "Text String": "Play Audio",
             "r": 0.0,
             "g": 0.0,
-            "b": 1.0,
+            "b": 0.0,
             "a": 1.0,
-            "Color Preset": "blue"
+            "Color Preset": "black"
         },
         "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
