@@ -50,6 +50,7 @@ TextLabel::TextLabel() {
 	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = &colors.colorMap["black"];
+	initClr = "black";
 }
 
 TextLabel::TextLabel(std::string str, std::string txtColor) {
@@ -58,6 +59,16 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = &colors.colorMap[txtColor];
+	initClr = txtColor;
+}
+
+TextLabel::TextLabel(std::string str, glm::vec4* clr) {
+		font = fonts.GetDefaultFont();
+		textString = str;
+		textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+		relFontSize = 0.5f;
+		textColor = clr;
+	
 }
 
 void TextLabel::SetTextString(std::string txtStr) {
