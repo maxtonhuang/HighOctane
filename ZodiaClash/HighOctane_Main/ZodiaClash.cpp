@@ -484,6 +484,11 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Collider>(background);
 	ECS::ecs().RemoveComponent<Movable>(background);
 
+	Entity test = EntityFactory::entityFactory().CloneMasterModel(0, 0, false);
+	ECS::ecs().GetComponent<Transform>(test).position.x = 200.f;
+	ECS::ecs().AddComponent(test, CharacterStats{});
+	ECS::ecs().RemoveComponent<Collider>(test);
+
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
 	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "blue" });
 	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
