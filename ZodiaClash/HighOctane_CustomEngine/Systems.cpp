@@ -411,7 +411,9 @@ void SerializationSystem::Update() {
 
 	if (newScene) {
 		assetmanager.UnloadAll();
-		assetmanager.LoadAssets(newSceneName);
+		if (newSceneName != "") {
+			assetmanager.LoadAssets(newSceneName);
+		}
 	}
 
 	if (playButton) {

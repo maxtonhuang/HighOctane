@@ -6,6 +6,7 @@
 #include "Serialization.h"
 #include "WindowsInterlink.h"
 #include "File.h"
+#include "Events.h"
 void UpdateMenuBar() {
     
     // Create a menu bar for the window
@@ -37,9 +38,10 @@ void UpdateMenuBar() {
                 //    ECS::ecs().DestroyEntity(entity);
                 //}
                 ////ECS::ecs().DestroyEntity(entity);
-                destroyAll = true;
-                button_clicked = true;
-                assetmanager.UnloadAll();
+                //destroyAll = true;
+                //button_clicked = true;
+                //assetmanager.UnloadAll();
+                events.Call("Change Scene", "");
             }
             ImGui::EndMenu();
         }
