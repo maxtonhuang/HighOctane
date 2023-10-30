@@ -107,6 +107,7 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(Tex).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Texture")) {
 			auto& textureComponent = ECS::ecs().GetComponent<Tex>(entity);
 			auto& sizeComponent = ECS::ecs().GetComponent<Size>(entity);
+			ImGui::Text(textureComponent.tex->GetName().c_str());
 			if (ImGui::Button("Edit Current Texture")) {
 
 				std::string fullFilePath =	OpenSingleFileDialog();
