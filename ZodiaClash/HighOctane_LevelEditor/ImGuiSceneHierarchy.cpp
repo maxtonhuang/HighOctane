@@ -124,10 +124,21 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 		}
 	}
+
+	if (ECS::ecs().HasComponent<TextLabel>(entity)) {
+		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(TextLabel).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Text Label")) {
+
+			ImGui::InputText("Event Input", &textlabel.textString);
+
+			ImGui::TreePop();
+		}
+	}
+
 	if (ECS::ecs().HasComponent<Button>(entity)) {
 		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
 		const char* currentEvent{ button.eventName.c_str() };
-		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
+		if (ImGui::TreeNodeEx((void*)typeid(Button).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
 			std::vector<const char*> functionNames{ events.GetFunctionNames() };
 			if (!functionNames.empty()) {
 				if (ImGui::BeginCombo("Events Available", currentEvent)) {

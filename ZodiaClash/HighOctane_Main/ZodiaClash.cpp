@@ -485,7 +485,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Movable>(background);
 
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
-	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "white" });
+	ECS::ecs().AddComponent(textObjectA, TextLabel{ "2023 High Octane", "white" });
 	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
