@@ -202,30 +202,29 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
             continue;
         }
     }
- //   for (const auto& test : sc.scriptNameVec) {
- //       std::cout << "RunTimeAddScript:: BEFORE scriptNameVec pushback" << test << std::endl;
-	//}
 
     // If not, add it to the vector
     sc.scriptNameVec.push_back(scriptName);
-    //std::cout << "RunTimeAddScript:: AFTER scriptNameVec pushback" << std::endl;
+    scriptNamesAttachedforIMGUI[entity].push_back(scriptName);
+    //scriptNamesAttachedforIMGUI.push_back(currentScriptForIMGUI);
 
     auto& entityScripts = s_Data->EntityInstances[entity];
     std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[scriptName], entity);
     entityScripts.push_back(instance);
-
-    // Debugging
-    //for (const auto& testing : entityScripts) {
-    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << testing->GetScriptName() << std::endl;
-    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << entity << std::endl;
-    //}
 }
 
 // Helper function
 std::string ScriptInstance::GetScriptName() const {
     if (m_ScriptClass) {
-        // Assuming the full script name is composed of Namespace + "." + ClassName
-        return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+        // Check if there's namespace
+        if (m_ScriptClass->m_ClassNamespace == "") {
+			return m_ScriptClass->m_ClassName;
+		}
+        else {
+            // Assuming the full script name is composed of Namespace + "." + ClassName
+            return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+        }
+
     }
     return ""; // Return an empty string if m_ScriptClass is nullptr
 }
@@ -233,20 +232,22 @@ std::string ScriptInstance::GetScriptName() const {
 
 // Run ti me remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
-    //std::cout << "RunTimeRemoveScript called\n";
+
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     
-    std::string concatName = "." + std::string(scriptName);
     for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = s_Data->EntityInstances[entity].begin(); it != s_Data->EntityInstances[entity].end(); ++it) {
-        //std::cout << "THIS IS ITTTTTT" << (*it)->GetScriptName() << std::endl;
-        //std::cout << "THIS IS ITTTTTT TOOOOOO" << concatName << std::endl;
-        if ((*it)->GetScriptName() == concatName) {
+        DEBUG_PRINT("GetScriptName: %s", (*it)->GetScriptName().c_str());
+        DEBUG_PRINT("scriptName: %s", scriptName);
+        if ((*it)->GetScriptName() == scriptName) {
 			s_Data->EntityInstances[entity].erase(it);
 
             // I need to clear the sc.scriptNameVec too, not sure if this is right
             for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+
                 if (sc.scriptNameVec[i] == scriptName) {
 					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
+                    scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
+                    //scriptNamesAttachedforIMGUI.erase(scriptNamesAttachedforIMGUI.begin() + i);
 				}
 			}
 			break;
