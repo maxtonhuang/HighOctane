@@ -256,6 +256,12 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
     DEBUG_PRINT("DEBUG::FONT: Loaded requested font: %s", fontFilePath.c_str());    
 }
 
+void FontManager::Clear() {
+    for (auto& t : fontCollection) {
+        t.second.font.characters.clear();
+    }
+}
+
 /*!
 * \brief Checker (family name)
 *

@@ -78,6 +78,7 @@ void AssetManager::UnloadAll() {
     loadedFiles.clear();
     texture.Clear();
     audio.ReleaseAllSounds();
+    fonts.Clear();
 }
 
 /**************************************TEXTURES**************************************************/
