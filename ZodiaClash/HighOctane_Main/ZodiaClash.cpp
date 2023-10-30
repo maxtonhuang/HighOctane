@@ -107,8 +107,13 @@ std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 
-
-
+/*-----------THIS IS FOR SCRIPTING------------*/
+//// Global type registry (you could also have this as a singleton)
+//TypeRegistry g_TypeRegistry;
+//
+//// Macros for ease of use
+//#define REGISTER_TYPE(Type) g_TypeRegistry.RegisterType<Type>(#Type)
+/*-----------THIS IS FOR SCRIPTING------------*/
 // Create an instance of GUIManager
 GUIManager guiManager;
 
@@ -142,6 +147,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
+
+	/*-----------THIS IS FOR SCRIPTING------------*/
+	//REGISTER_TYPE(int);
+	//REGISTER_TYPE(double);
+	//REGISTER_TYPE(std::vector<int>);
+
+	//const TypeInformation* intTypeInfo = g_TypeRegistry.GetType("int");
+	//if (intTypeInfo) {
+	//	intTypeInfo->Print();
+	//}
+
+	//const TypeInformation* vectorTypeInfo = g_TypeRegistry.GetType("std::vector<int>");
+	//if (vectorTypeInfo) {
+	//	vectorTypeInfo->Print();
+	//}
+	/*-----------THIS IS FOR SCRIPTING------------*/
+
     LOG_INFO("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
@@ -484,13 +506,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Collider>(background);
 	ECS::ecs().RemoveComponent<Movable>(background);
 
-	Entity test = EntityFactory::entityFactory().CloneMasterModel(0, 0, false);
-	ECS::ecs().GetComponent<Transform>(test).position.x = 200.f;
-	ECS::ecs().AddComponent(test, CharacterStats{});
-	ECS::ecs().RemoveComponent<Collider>(test);
-
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
-	ECS::ecs().AddComponent(textObjectA, TextLabel{ "2023 High Octane", "white" });
+	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "white" });
 	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
