@@ -310,6 +310,8 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	}
 
 	// Add other properties as needed
+	buttonObject.AddMember("Event Name", rapidjson::Value(button.eventName.c_str(), allocator).Move(), allocator);
+	buttonObject.AddMember("Event Input", rapidjson::Value(button.eventInput.c_str(), allocator).Move(), allocator);
 	buttonObject.AddMember("Padding Top", button.padding.top, allocator);
 	buttonObject.AddMember("Padding Bottom", button.padding.bottom, allocator);
 	buttonObject.AddMember("Padding Left", button.padding.left, allocator);
@@ -673,6 +675,14 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				button.padding.bottom = buttonObject["Padding Bottom"].GetFloat();
 				button.padding.left = buttonObject["Padding Left"].GetFloat();
 				button.padding.right = buttonObject["Padding Right"].GetFloat();
+			}
+
+			if (buttonObject.HasMember("Event Name")) {
+				button.eventName = buttonObject["Event Name"].GetString();
+			}
+
+			if (buttonObject.HasMember("Event Input")) {
+				button.eventInput = buttonObject["Event Input"].GetString();
 			}
 
 			ECS::ecs().AddComponent(entity, button);
