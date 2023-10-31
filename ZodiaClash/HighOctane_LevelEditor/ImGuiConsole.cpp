@@ -256,12 +256,11 @@ std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
 void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName;
 
-    // If the file name is empty, use the default file name
     fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
 
     std::ofstream outputFile(fullFileName);
 
-    ASSERT(!outputFile.is_open(), "Unable to open file");
+    ASSERT(!outputFile.is_open(), "Unable to open file to export console");
 
     // Get the console content and write it to the file
     const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
@@ -285,7 +284,8 @@ void ExportConsoleToFile(const char* fileName) {
 * \param fileName The name of the file to delete from
 */
 void DeleteLineFromFile(const char* fileName) {
-    std::string fullFileName = std::string(fileName) + ".log";
+    std::string fullFileName;
+    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
     std::ifstream inputFile(fullFileName);
     ASSERT(!inputFile.is_open(), "Unable to open file to read");
 

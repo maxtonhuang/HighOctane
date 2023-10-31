@@ -36,8 +36,6 @@ public:
 	static void RunTimeAddScript(Entity entity, const char* scriptName);
 	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
 
-	std::string GetScriptName(Entity entity);
-
 private:
 	// No need to exist
 	static void InitMono();
@@ -72,7 +70,8 @@ public:
 	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity);
 
 	void InvokeOnCreate();
-	void InvokeOnUpdate();std::string GetScriptName() const;
+	void InvokeOnUpdate();
+	std::string GetScriptName() const;
 
 private:
 
