@@ -4,8 +4,8 @@
 
 const int playerWeight = 1000;
 const int enemyWeight = 1000;
-const float damageRate = 1.f;
-const float healRate = 1.f;
+const float damageRate = 10.f;
+const float healRate = 10.f;
 //----------------------------------------------------------------------------------------
 
 #include "GameAILogic.h"

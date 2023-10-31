@@ -5,7 +5,9 @@
 //----------------------------------------------------------------------------------------
 //DEFINES FOR AI SEARCH SETTINGS
 
-const int MAXDEPTH = 3;
+//WARNING: INCREASING THIS VALUE RESULTS IN EXPONENTIALLY HIGHER SEARCH TIMES
+const int MAXDEPTH = 4;
+
 const int DEVIATION = 0;
 //----------------------------------------------------------------------------------------
 
@@ -78,11 +80,14 @@ void TreeManager::MakeDecision(Node* chosenNode) {
 }
 
 void TreeManager::Search(BattleSystem* start) {
+	int currentEval{ INT_MIN };
+	std::vector<Node*> selectedNodes;
 	original = start;
 	std::list<Node*> currentNodes;
 	Node parent(*start);
 	currentNodes.push_back(&parent);
-	
+	Node* backup{}; //IN CASE ENEMY CANT FIND ANY NODES
+
 	bool createFinish = false;
 	while (createFinish == false) {
 		std::vector<Node*> toRemove{};
@@ -146,13 +151,37 @@ void TreeManager::Search(BattleSystem* start) {
 							printf("Chosen skill: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
 							return;
 						}
-						//IF ENEMY LOSES, DONT PUSH NODE
-						if (child->battlesystem.battleState == WIN) {
-							break;
-						}
 						child->battlesystem.Update();
 					}
-					//child->eval = GameAILogic::Evaluate(*start, child->battlesystem);
+					//IF ENEMY LOSES, DONT PUSH NODE
+					if (child->battlesystem.battleState == WIN) {
+						child->eval = GameAILogic::Evaluate(*start, child->battlesystem);
+						if (backup == nullptr) {
+							backup = child;
+						}
+						else if (child->eval > backup->eval) {
+							backup = child;
+						}
+						break;
+					}
+
+					//EVALUATE NODES
+					/*
+					if (child->eval > currentEval) {
+						std::vector<Node*> newSelectedNodes;
+						currentEval = child->eval;
+						newSelectedNodes.push_back(child);
+						for (Node* sn : selectedNodes) {
+							if (sn->eval > currentEval - DEVIATION) {
+								newSelectedNodes.push_back(sn);
+							}
+						}
+						selectedNodes = newSelectedNodes;
+					}
+					else if (child->eval > currentEval - DEVIATION) {
+						selectedNodes.push_back(n);
+					}*/
+					child->eval = GameAILogic::Evaluate(*start, child->battlesystem);
 					currentNodes.push_back(child);
 				}
 			}
@@ -170,8 +199,14 @@ void TreeManager::Search(BattleSystem* start) {
 		toRemove.clear();
 	}
 
-	int currentEval{ INT_MIN };
-	std::vector<Node*> selectedNodes;
+	//IF ENEMY CANT FIND ANY VALID MOVES
+	if (currentNodes.size() == 0) {
+		MakeDecision(backup);
+		printf("\nAI cannot find any possible win conditions\n");
+		return;
+	}
+
+	//EVALUATE NODES
 	for (Node* n : currentNodes) {
 		n->eval = GameAILogic::Evaluate(*start, n->battlesystem);
 		if (n->eval > currentEval) {
@@ -194,6 +229,12 @@ void TreeManager::Search(BattleSystem* start) {
 	std::default_random_engine rng;
 	std::uniform_int_distribution<size_t> rand_node(0, selectedNodes.size() - 1);
 	Node* chosenNode = selectedNodes[rand_node(rng)];
+	std::vector<Node*> branch{};
+	Node* reverse{ chosenNode };
+	while (reverse->previous != nullptr) {
+		branch.push_back(reverse);
+		reverse = reverse->previous;
+	}
 	MakeDecision(chosenNode);
 
 	int nodeCount = 0;
@@ -207,8 +248,15 @@ void TreeManager::Search(BattleSystem* start) {
 
 	printf("\nAI decision made:\n");
 	printf("Total nodes created: %d\n", nodeCount);
+	printf("Printing branch:\n");
+	for (int i = (int)branch.size() - 1; i >= 0; i--) {
+		std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
+		std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
+		std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
+		printf("%s used %s on %s: Evaluation amount %d\n", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
+	}
 	printf("Evaluation value: %i\n", (int)currentEval);
-	printf("Chosen skill: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
+	printf("CHOSEN SKILL: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
 
 	return;
 }
