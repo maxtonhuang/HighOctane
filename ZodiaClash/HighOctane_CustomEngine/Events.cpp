@@ -58,7 +58,7 @@ void SelectSkill(std::string input) {
 	std::stringstream ss{ input };
 	int skillnum;
 	ss >> skillnum;
-	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum];
+	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
 
 	auto targets = bs->GetEnemies();
 	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];

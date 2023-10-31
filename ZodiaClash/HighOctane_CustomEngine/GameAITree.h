@@ -10,16 +10,16 @@ public:
 	Node(Node* previous);	 //CHILD CONSTRUCTOR
 	Node* GetFront();
 	Node* GetChosen();
-	std::vector<Node*> GetBack();
+	std::vector<Node*> GetBack(int* nodeCount = nullptr);
 	BattleSystem battlesystem{};
-	Attack selectedAttack;
-	CharacterStats selectedTarget;
+	Entity selectedTarget;
+	CharacterStats* nodeCharacter;
 	Node* previous{};
 	std::vector<Node> next{};
 	size_t depth{};
 	int eval{};
 private:
-	void Advance(Node* node, std::vector<Node*>& input);
+	void Advance(Node* node, std::vector<Node*>& input, int* nodeCount);
 };
 
 class TreeManager {

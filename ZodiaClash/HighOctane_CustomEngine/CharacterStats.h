@@ -33,6 +33,8 @@ public:
     void HealBuff(float buffAmount);
     GameObject gameObject{};
     void Start();
+
+    bool operator==(const CharacterStats&) const;
 private:
     
     //void Death(Entity& entity);

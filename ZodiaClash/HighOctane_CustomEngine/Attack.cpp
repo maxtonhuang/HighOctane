@@ -28,8 +28,8 @@ void Attack::CalculateDamage(CharacterStats const& target)
     //targetStats = target.GetComponent<CharacterStats>();
 
     //critical hit chance
-    std::default_random_engine rng;
-    std::uniform_real_distribution<float> rand(0.f, 1.f);
+    static std::default_random_engine rng;
+    static std::uniform_real_distribution<float> rand(0.f, 1.f);
     float randomValue = rand(rng);
 
     if (randomValue <= critRate)
