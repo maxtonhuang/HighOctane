@@ -70,23 +70,6 @@ void ScriptEngine::Init() {
     // This is to add the internal calls
     internalcalls::AddInternalCall();
     s_Data->EntityClass = ScriptClass("", "Entity");
-#if 0
-    // Retrieve and insantiate class (with constructor)
-    s_Data->EntityClass = ScriptClass("", "Entity");
-
-    MonoObject* instance = s_Data->EntityClass.Instantiate();
-
-    // Call function (method)
-    MonoMethod* printMessageFunc = s_Data->EntityClass.GetMethod("PrintMessage", 0);
-    s_Data->EntityClass.InvokeMethod(instance, printMessageFunc, nullptr);
-
-    MonoMethod* printCustomMessageFunc = s_Data->EntityClass.GetMethod("PrintCustomMessage", 1);
-    // Call function with param
-    MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
-
-    void* stringParam = monoString;
-    s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
-#endif
 }
 
 void ScriptEngine::Shutdown() {
@@ -94,13 +77,11 @@ void ScriptEngine::Shutdown() {
     delete s_Data;
 }
 
-
 void ScriptEngine::InitMono() {
-    
     // Setting the path to the mono
     //std::cout << "Scripting InitMono\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
-
+    std::cout << "filePath: " << filePath << std::endl;
     if (std::filesystem::exists(filePath)) {
         mono_set_assemblies_path(filePath.c_str());
         
@@ -115,9 +96,6 @@ void ScriptEngine::InitMono() {
             mono_set_assemblies_path(filePath.c_str());
         }
     }
-    
-
-    
 
     
     MonoDomain* rootDomain = mono_jit_init("HighOctaneRuntime");
@@ -139,27 +117,6 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     /*else */s_Data->CoreAssembly = LoadMonoAssembly(filePath);
     s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
     //PrintAssemblyTypes(s_Data->CoreAssembly);
-}
-
-void ScriptEngine::OnRuntimeStart() {
-    /*-------THIS PART SHOULD MOVE OUT INTO ECS-------*/
-    //s_Data->EntityClass = ScriptClass("Sandbox", "Player");
-
-    //MonoObject* instance = s_Data->EntityClass.Instantiate();
-    //mono_runtime_invoke(method, scriptInstance, nullptr, nullptr);
-    //MonoMethod* method = s_Data->EntityClass.GetMethod("OnCreate", 0);
-    /*-------THIS PART SHOULD MOVE OUT INTO ECS-------*/
-
-
-    //s_Data->EntityClass.InvokeMethod(instance, method, nullptr);
-
-    // Clear the key down afterwards
-    //GetKeyDownClear();
-    //s_Data->onCreate();
-}
-
-void ScriptEngine::OnRuntimeStop() {
-    // Empty by default now
 }
 
 bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {
@@ -194,7 +151,7 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     for (int i = 0; i < sc.scriptNameVec.size(); i++) {
         if (sc.scriptNameVec[i] == scriptName) {
             DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
-            //printf("Script %s already exists in entity %d\n", scriptName, entity);
+
             return;
         }
 
@@ -236,8 +193,7 @@ void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     
     for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = s_Data->EntityInstances[entity].begin(); it != s_Data->EntityInstances[entity].end(); ++it) {
-        DEBUG_PRINT("GetScriptName: %s", (*it)->GetScriptName().c_str());
-        DEBUG_PRINT("scriptName: %s", scriptName);
+
         if ((*it)->GetScriptName() == scriptName) {
 			s_Data->EntityInstances[entity].erase(it);
 
@@ -253,9 +209,6 @@ void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
 			break;
 		}
 	}
-
-    // Clear the instance vector for that entity
-    //s_Data->EntityInstances[entity].clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {

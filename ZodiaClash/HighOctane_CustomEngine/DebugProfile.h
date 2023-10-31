@@ -41,10 +41,6 @@
 // ENABLE/DISABLE DEBUG DIAGNOSTICS
 #define ENABLE_DEBUG_PROFILE 1
 
-// Print interval in milliseconds
-#define PRINT_INTERVAL 5'000'000
-
-
 #if ENABLE_DEBUG_PROFILE
 
 #include <vector>
