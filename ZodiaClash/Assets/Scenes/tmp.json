@@ -378,7 +378,7 @@
             "Speed": 1,
             "Skills": [
                 "Normal Attack",
-                "Normal AOE",
+                "No",
                 "Test"
             ]
         },

@@ -30,7 +30,14 @@ void Attack::CalculateDamage(CharacterStats const& target)
     //critical hit chance
     static std::default_random_engine rng;
     static std::uniform_real_distribution<float> rand(0.f, 1.f);
-    float randomValue = rand(rng);
+    
+    float randomValue{0.f};
+
+    //NO CRITS IF ITS AN AI SIMULATION
+    if (target.parent->m_Entities.size() > 0) {
+        randomValue = rand(rng);
+    }
+    
 
     if (randomValue <= critRate)
     {

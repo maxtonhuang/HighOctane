@@ -85,7 +85,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06197899580001831,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -134,7 +134,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06197899580001831,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -312,8 +312,8 @@
         },
         "Animation": {
             "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Index": 2,
+            "Frame Time Elapsed": 0.06197899580001831,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -363,7 +363,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06197899580001831,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -378,7 +378,7 @@
             "Speed": 1,
             "Skills": [
                 "Normal Attack",
-                "Normal AOE",
+                "No",
                 "Test"
             ]
         },
@@ -425,7 +425,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06197899580001831,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -487,7 +487,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06197899580001831,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
