@@ -63,16 +63,34 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 }
 
 TextLabel::TextLabel(std::string str, glm::vec4 clr) {
-		font = fonts.GetDefaultFont();
-		textString = str;
-		textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
-		relFontSize = 0.5f;
-		textColor = clr;
-	
+	font = fonts.GetDefaultFont();
+	textString = str;
+	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	relFontSize = 0.5f;
+	textColor = clr;	
 }
 
 void TextLabel::SetTextString(std::string txtStr) {
 	textString = txtStr;
+}
+
+void TextLabel::SetFontFamily(std::string newFamily) {
+	Font* newFont = fonts.GetFont(newFamily, "Regular");
+	if (!newFont) {
+		newFont = fonts.GetFont(newFamily, fonts.GetFontVariantList(newFamily).front());
+	}
+	if (!newFont) {
+		newFont = fonts.GetDefaultFont();
+	}
+	font = newFont;
+}
+
+void TextLabel::SetFontVariant(std::string newFamily, std::string newVariant) {
+	Font* newFont = fonts.GetFont(newFamily, newVariant);
+	if (!newFont) {
+		newFont = fonts.GetDefaultFont();
+	}
+	font = newFont;
 }
 
 bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {

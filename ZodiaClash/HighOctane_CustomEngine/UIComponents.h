@@ -105,6 +105,8 @@ public:
 	TextLabel(std::string str, glm::vec4 clr);
 
 	void SetTextString(std::string txtStr);
+	void SetFontFamily(std::string newFamily);
+	void SetFontVariant(std::string newFamily, std::string newVariant);
 
 	bool CheckStringUpdated(TextLabel& txtLblData);	
 	void CalculateOffset();
