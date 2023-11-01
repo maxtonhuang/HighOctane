@@ -356,19 +356,42 @@ void GraphicsSystem::Draw() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 
-	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		Tex* tex = nullptr;
-		Animator* anim = nullptr;
-		if (texArray.HasComponent(entity)) {
-			tex = &texArray.GetData(entity);
+	graphics.viewport.Unuse();
+	//for (Entity const& entity : m_Entities) {
+	//	Model* m = &modelArray.GetData(entity);
+	//	Tex* tex = nullptr;
+	//	Animator* anim = nullptr;
+	//	if (texArray.HasComponent(entity)) {
+	//		tex = &texArray.GetData(entity);
+	//	}
+	//	if (animatorArray.HasComponent(entity)) {
+	//		anim = &animatorArray.GetData(entity);
+	//	}
+	//	m->Draw(tex, anim);
+	//}
+	for (auto& layer : layering) {
+		for (auto& entity : layer) {
+			Tex* tex{};
+			Animator* anim{};
+			Model* m{};
+			if (modelArray.HasComponent(entity)) {
+				m = &modelArray.GetData(entity);
+				if (texArray.HasComponent(entity)) {
+					tex = &texArray.GetData(entity);
+				}
+				if (animatorArray.HasComponent(entity)) {
+					anim = &animatorArray.GetData(entity);
+				}
+				m->Draw(tex, anim);
+				if (textlabelArray.HasComponent(entity)) {
+					TextLabel* textLabelData = &textlabelArray.GetData(entity);
+					graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+				}
+				
+			}
 		}
-		if (animatorArray.HasComponent(entity)) {
-			anim = &animatorArray.GetData(entity);
-		}
-		m->Draw(tex, anim);
-
 	}
 	graphics.Draw();
 }
@@ -526,7 +549,7 @@ void EditingSystem::Update() {
 			Name* n = &nameArray.GetData(entity);
 			Transform* t = &transformArray.GetData(entity);
 			Model* m = &modelArray.GetData(entity);
-		
+			
 			// update position
 			UpdateProperties(entity, *n, *t, *m);
 		}
@@ -606,17 +629,21 @@ void UITextLabelSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-		//Button* buttonData = nullptr;
+		Transform* transformData = &transformArray.GetData(entity);
+		Button* buttonData{};
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
 			textLabelData->Update(*modelData, *nameData);
 		}
+
+		textLabelData->UpdateOffset(*transformData);
 
 		//note: find a way to update size!!
 	}
@@ -643,8 +670,7 @@ void UITextLabelSystem::Draw() {
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = nullptr;
 		
-		textLabelData->UpdateOffset(*transformData);
-
+		
 		//if entity has button component, drawing managed by button
 		if (buttonArray.HasComponent(entity)) {
 			buttonData = &buttonArray.GetData(entity);
@@ -653,10 +679,11 @@ void UITextLabelSystem::Draw() {
 			sizeData->width = textLabelData->textWidth;
 			sizeData->height = textLabelData->textHeight;
 		}
+
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+		//graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
 		if (edit_mode && !buttonData && !texData) {
 			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);

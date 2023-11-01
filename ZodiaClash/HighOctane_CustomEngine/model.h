@@ -90,3 +90,5 @@ private:
 	Transform previous{}; //used for check if previous is same as current
 	Size previous_size{}; //used for check if previous is same as current
 };
+
+extern Renderer* previousRenderer; //FOR LAYERING

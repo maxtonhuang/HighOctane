@@ -50,6 +50,7 @@
 #include <iostream>
 
 const float pi = 3.14159265358979323846f;
+Renderer* previousRenderer{};
 
 Model::Model(ModelType inputType, float bgScrollSpeed) { 
 	color = glm::vec4{ 1,1,1,1 };
@@ -97,8 +98,6 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 	static Renderer* staticRenderer = &graphics.renderer["static"];
 	static Renderer* flatRenderer = &graphics.renderer["flat"];
 
-	//static Renderer* previousRenderer{};
-
 	Renderer* renderer;
 	if (entity != nullptr) {
 		switch (type) {
@@ -117,14 +116,14 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 	else {
 		renderer = flatRenderer;
 	}
-	/*
+
 	if (renderer != previousRenderer) {
 		if (previousRenderer != nullptr) {
 			previousRenderer->Draw();
 		}
 		previousRenderer = renderer;
 	}
-	*/
+
 	if (entity != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
 		int frameIndex;

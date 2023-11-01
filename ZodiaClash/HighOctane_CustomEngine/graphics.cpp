@@ -267,6 +267,13 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::ve
     static Renderer* fontRenderer{ &renderer["font"] };
     //ASSERT(((relFontSize < 0.f) || (relFontSize > 1.f)), "Relative font size specified is out of range [0.f,1.f]!");
 
+    if (previousRenderer != fontRenderer) {
+        if (previousRenderer != nullptr) {
+            previousRenderer->Draw();
+        }
+        previousRenderer = fontRenderer;
+    }
+
     // enforce relFontSize to be in range [0.f, 1.f]
     float fontSize = txtLblData.relFontSize;
     fontSize = std::max(0.f, fontSize);
