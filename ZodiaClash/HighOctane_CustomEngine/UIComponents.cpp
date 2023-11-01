@@ -286,7 +286,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	// update button and text colors
-	if (nameData.selected) {
+	if (nameData.selected && edit_mode) {
 		//textLabel.SetTextString("Focused Text");
 		//modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
 		//textLabelData.textColor = focusedColor.textColor;
