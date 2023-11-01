@@ -107,6 +107,10 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(Tex).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Texture")) {
 			auto& textureComponent = ECS::ecs().GetComponent<Tex>(entity);
 			auto& sizeComponent = ECS::ecs().GetComponent<Size>(entity);
+
+			if (textureComponent.tex != nullptr) {
+				ImGui::Text(textureComponent.tex->GetName().c_str());
+			}
 			if (ImGui::Button("Edit Current Texture")) {
 
 				std::string fullFilePath =	OpenSingleFileDialog();
@@ -124,10 +128,21 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 		}
 	}
+
+	if (ECS::ecs().HasComponent<TextLabel>(entity)) {
+		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(TextLabel).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Text Label")) {
+
+			ImGui::InputText("Event Input", &textlabel.textString);
+
+			ImGui::TreePop();
+		}
+	}
+
 	if (ECS::ecs().HasComponent<Button>(entity)) {
 		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
 		const char* currentEvent{ button.eventName.c_str() };
-		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
+		if (ImGui::TreeNodeEx((void*)typeid(Button).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
 			std::vector<const char*> functionNames{ events.GetFunctionNames() };
 			if (!functionNames.empty()) {
 				if (ImGui::BeginCombo("Events Available", currentEvent)) {
@@ -160,7 +175,7 @@ void SceneEntityComponents(Entity entity) {
 		
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
 			if (!fullNameVecImGUI.empty()) {
-
+				
 				// Convert script names to const char*
 				std::vector<const char*> scriptNamesCStrings;
 				scriptNamesCStrings.reserve(fullNameVecImGUI.size());
@@ -181,28 +196,46 @@ void SceneEntityComponents(Entity entity) {
 					}
 					ImGui::EndCombo();
 				}
-			}
+
 			if (ImGui::Button("Add Script")) {
 				if (currentScriptForIMGUI == NULL) {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
 					ScriptEngine::RunTimeAddScript(entity, currentScriptForIMGUI);
+					DEBUG_PRINT("Added script %s to entity %d", currentScriptForIMGUI, entity);
+					currentScriptForIMGUI = NULL;
+					
 				}
 			}
 
-			ImGui::SameLine();
+			// This part is for the scripts that are already attached to the entity
+			if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI)) {
+				for (int n = 0; n < scriptNamesAttachedforIMGUI[entity].size(); n++) {
+					bool is_selected = (currentScriptAttachedForIMGUI ==  scriptNamesAttachedforIMGUI[entity][n]);
+					if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n], is_selected)) {
+						currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n];
+					}
+					if (is_selected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+			//ImGui::SameLine();
 			if (ImGui::Button("Delete Script")) {
-				if (currentScriptForIMGUI == NULL) {
+				if (currentScriptAttachedForIMGUI == NULL) {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
-					ScriptEngine::RunTimeRemoveScript(entity, currentScriptForIMGUI);
+					ScriptEngine::RunTimeRemoveScript(entity, currentScriptAttachedForIMGUI);
+					DEBUG_PRINT("Removed script %s from entity %d", currentScriptAttachedForIMGUI, entity);
+					currentScriptAttachedForIMGUI = NULL;
 				}
 			}
 
 			ImGui::TreePop();
-			
+			}
 		}
 	}
 

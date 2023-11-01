@@ -5,7 +5,9 @@
 //----------------------------------------------------------------------------------------
 //DEFINES FOR AI SEARCH SETTINGS
 
-const int MAXDEPTH = 3;
+//WARNING: INCREASING THIS VALUE RESULTS IN EXPONENTIALLY HIGHER SEARCH TIMES
+const int MAXDEPTH = 4;
+
 const int DEVIATION = 0;
 //----------------------------------------------------------------------------------------
 
@@ -14,12 +16,14 @@ Node::Node(BattleSystem const& initial) {
 	battlesystem = initial;
 	depth = 0;
 	battlesystem.m_Entities.clear();
+	next.reserve(12);
 }
 
 Node::Node(Node* node) {
 	previous = node;
 	battlesystem = node->battlesystem;
 	depth = node->depth + 1;
+	next.reserve(12);
 }
 
 Node* Node::GetFront() {
@@ -38,19 +42,22 @@ Node* Node::GetChosen() {
 	return current;
 }
 
-std::vector<Node*> Node::GetBack() {
+std::vector<Node*> Node::GetBack(int* nodeCount) {
 	std::vector<Node*> output;
-	Advance(this, output);
+	Advance(this, output, nodeCount);
 	return output;
 }
 
-void Node::Advance(Node* node, std::vector<Node*>& input) {
+void Node::Advance(Node* node, std::vector<Node*>& input, int* nodeCount) {
+	if (nodeCount != nullptr) {
+		(*nodeCount)++;
+	}
 	if (node->next.size() == 0) {
 		input.push_back(node);
 		return;
 	}
 	for (Node& n : node->next) {
-		Advance(&n, input);
+		Advance(&n, input, nodeCount);
 	}
 	return;
 }
@@ -62,9 +69,10 @@ void Node::Advance(Node* node, std::vector<Node*>& input) {
 //}
 
 void TreeManager::MakeDecision(Node* chosenNode) {
-	original ->activeCharacter->action.selectedSkill = chosenNode->GetChosen()->battlesystem.activeCharacter->action.selectedSkill;
+	original ->activeCharacter->action.selectedSkill = chosenNode->GetChosen()->nodeCharacter->action.selectedSkill;
+	Node* chosen = chosenNode->GetChosen();
 	for (CharacterStats& chosenChar : original->turnManage.characterList) {
-		if (chosenChar.entity == chosenNode->GetChosen()->battlesystem.activeCharacter->action.targetSelect.selectedTarget->entity) {
+		if (chosenChar.entity == chosen->selectedTarget) {
 			original->activeCharacter->action.targetSelect.selectedTarget = &chosenChar;
 		}
 	}
@@ -72,64 +80,116 @@ void TreeManager::MakeDecision(Node* chosenNode) {
 }
 
 void TreeManager::Search(BattleSystem* start) {
+	int currentEval{ INT_MIN };
+	std::vector<Node*> selectedNodes;
 	original = start;
 	std::list<Node*> currentNodes;
 	Node parent(*start);
 	currentNodes.push_back(&parent);
-	//for (Attack const& a : start->activeCharacter->action.skills) {
-	//	for (CharacterStats& c : start->turnManage.characterList) {
-	//		parent.next.push_back(Node{ parent });
-	//		Node& n{ parent.next[parent.next.size() - 1] };
-	//		n.battlesystem.activeCharacter->action.selectedSkill = a;
-	//		n.battlesystem.activeCharacter->action.targetSelect.selectedTarget = &c;
-	//		n.battlesystem.activeCharacter->action.entityState = ATTACKING;
-	//		n.battlesystem.Update();
-	//		while (n.battlesystem.battleState != PLAYERTURN && n.battlesystem.battleState != ENEMYTURN && n.battlesystem.battleState != WIN) {
-	//			if (n.battlesystem.battleState == LOSE) {
-	//				start->activeCharacter->action.selectedSkill = n.GetChosen()->battlesystem.activeCharacter->action.selectedSkill;
-	//				for (CharacterStats& chosenChar : start->turnManage.characterList) {
-	//					if (chosenChar.entity == n.GetChosen()->battlesystem.activeCharacter->action.targetSelect.selectedTarget->entity) {
-	//						start->activeCharacter->action.targetSelect.selectedTarget = &chosenChar;
-	//					}
-	//				}
-	//				start->activeCharacter->action.entityState = ATTACKING;
-	//				return;
-	//			}
-	//			n.battlesystem.Update();
-	//		}
-	//		currentNodes.push_back(&n);
-	//	}
-	//}
-	
+	Node* backup{}; //IN CASE ENEMY CANT FIND ANY NODES
+
 	bool createFinish = false;
 	while (createFinish == false) {
 		std::vector<Node*> toRemove{};
-		for (Node* n : currentNodes) {
+		
+		auto pointer = currentNodes.begin();
+		size_t currentSize = currentNodes.size();
+		for (auto i = 0; i < currentSize; i++) {
+			Node* n = *pointer;
 			if (n->depth > MAXDEPTH) {
+				pointer++;
 				continue;
 			}
 
 			//FOR ALL POSSIBLE MOVES, CREATE A NEW CHILD AND ADD TO CURRENTNODES
 			for (Attack const& a : n->battlesystem.activeCharacter->action.skills) {
-				for (CharacterStats& c : n->battlesystem.turnManage.characterList) {
+				
+				std::vector<CharacterStats*> targetList;
+				if (n->battlesystem.activeCharacter->tag == CharacterType::PLAYER) {
+					targetList = n->battlesystem.GetEnemies();
+				}
+				else {
+					targetList = n->battlesystem.GetPlayers();
+				}
+
+				//FOR ALL POSSIBLE TARGETS, CREATE A NEW CHILD AND ADD TO CURRENTNODES
+				for (CharacterStats* c : targetList) {
 					n->next.push_back(Node{ n });
-					Node& child{ n->next[n->next.size() - 1] };
-					child.battlesystem.activeCharacter->action.selectedSkill = a;
-					child.battlesystem.activeCharacter->action.targetSelect.selectedTarget = &c;
-					child.battlesystem.activeCharacter->action.entityState = ATTACKING;
-					child.battlesystem.Update();
-					while (child.battlesystem.battleState != PLAYERTURN && child.battlesystem.battleState != ENEMYTURN && child.battlesystem.battleState != WIN) {
-						if (child.battlesystem.battleState == LOSE) {
-							MakeDecision(&child);
+					Node* child{ &n->next[n->next.size() - 1] };
+
+					//ASSIGN SKILL
+					child->battlesystem.activeCharacter->action.selectedSkill = a;
+
+					//ASSIGN TO CHILDS VERSION OF THE CHARACTER
+					for (CharacterStats& t : child->battlesystem.turnManage.characterList) {
+						if (t.entity == c->entity) {
+							child->battlesystem.activeCharacter->action.targetSelect.selectedTarget = &t;
+						}
+					}
+
+					//IF TARGET DOES NOT EXIST
+					if (child->battlesystem.activeCharacter->action.targetSelect.selectedTarget == nullptr) {
+						continue;
+					}
+
+					//SET ACTIVE CHARACTER STATE
+					child->battlesystem.activeCharacter->action.entityState = ATTACKING;
+
+					//ASSIGN CURRENT CHARACTER TO NODE
+					child->nodeCharacter = child->battlesystem.activeCharacter;
+					child->selectedTarget = child->battlesystem.activeCharacter->action.targetSelect.selectedTarget->entity;
+					
+					//UPDATE TO NEXT TURN
+					//THIS UPDATES ACTIVE CHARACTER TO NEXT TURNS ACTIVE CHARACTER
+					while (child->battlesystem.activeCharacter->action.entityState != WAITING) {
+						if (child->battlesystem.battleState == WIN) {
+							break;
+						}
+						if (child->battlesystem.battleState == LOSE) {
+							MakeDecision(child);
+							printf("\nAI found possible win state:\n");
+							printf("Chosen skill: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
 							return;
 						}
-						child.battlesystem.Update();
+						child->battlesystem.Update();
 					}
-					currentNodes.push_back(&child);
+					//IF ENEMY LOSES, DONT PUSH NODE
+					if (child->battlesystem.battleState == WIN) {
+						child->eval = GameAILogic::Evaluate(*start, child->battlesystem);
+						if (backup == nullptr) {
+							backup = child;
+						}
+						else if (child->eval > backup->eval) {
+							backup = child;
+						}
+						break;
+					}
+
+					//EVALUATE NODES
+					/*
+					if (child->eval > currentEval) {
+						std::vector<Node*> newSelectedNodes;
+						currentEval = child->eval;
+						newSelectedNodes.push_back(child);
+						for (Node* sn : selectedNodes) {
+							if (sn->eval > currentEval - DEVIATION) {
+								newSelectedNodes.push_back(sn);
+							}
+						}
+						selectedNodes = newSelectedNodes;
+					}
+					else if (child->eval > currentEval - DEVIATION) {
+						selectedNodes.push_back(n);
+					}*/
+					child->eval = GameAILogic::Evaluate(*start, child->battlesystem);
+					currentNodes.push_back(child);
 				}
 			}
 			toRemove.push_back(n);
+			pointer++;
 		}
+
+		//REMOVE EVALUATED NODES
 		if (toRemove.size() == 0) {
 			createFinish = true;
 		}
@@ -139,8 +199,14 @@ void TreeManager::Search(BattleSystem* start) {
 		toRemove.clear();
 	}
 
-	int currentEval{ INT_MIN };
-	std::vector<Node*> selectedNodes;
+	//IF ENEMY CANT FIND ANY VALID MOVES
+	if (currentNodes.size() == 0) {
+		MakeDecision(backup);
+		printf("\nAI cannot find any possible win conditions\n");
+		return;
+	}
+
+	//EVALUATE NODES
 	for (Node* n : currentNodes) {
 		n->eval = GameAILogic::Evaluate(*start, n->battlesystem);
 		if (n->eval > currentEval) {
@@ -163,6 +229,34 @@ void TreeManager::Search(BattleSystem* start) {
 	std::default_random_engine rng;
 	std::uniform_int_distribution<size_t> rand_node(0, selectedNodes.size() - 1);
 	Node* chosenNode = selectedNodes[rand_node(rng)];
+	std::vector<Node*> branch{};
+	Node* reverse{ chosenNode };
+	while (reverse->previous != nullptr) {
+		branch.push_back(reverse);
+		reverse = reverse->previous;
+	}
 	MakeDecision(chosenNode);
+
+	int nodeCount = 0;
+	parent.GetBack(&nodeCount);
+
+	for (auto& c : start->turnManage.characterList) {
+		std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
+		printf("%s remaining health: %f\n", name.c_str(), c.stats.health);
+		//DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+	}
+
+	printf("\nAI decision made:\n");
+	printf("Total nodes created: %d\n", nodeCount);
+	printf("Printing branch:\n");
+	for (int i = (int)branch.size() - 1; i >= 0; i--) {
+		std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
+		std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
+		std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
+		printf("%s used %s on %s: Evaluation amount %d\n", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
+	}
+	printf("Evaluation value: %i\n", (int)currentEval);
+	printf("CHOSEN SKILL: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
+
 	return;
 }

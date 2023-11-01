@@ -99,7 +99,8 @@ void FontManager::Initialize() {
 void FontManager::ReadFonts() {
     //DEBUG_PRINT("___ DEBUG::FONT::READFONTS ___");
     // define parent fonts directory to load from
-    std::string parentDir = "../Assets/Fonts/";
+    //std::string parentDir = "../Assets/Fonts/";
+    std::string parentDir = assetmanager.GetDefaultPath() + "Fonts/";
 
     // iterate through folders in parentDir
     for (const fileSys::directory_entry& dirItem : fileSys::directory_iterator(parentDir)) {
@@ -253,6 +254,12 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
     }
 
     DEBUG_PRINT("DEBUG::FONT: Loaded requested font: %s", fontFilePath.c_str());    
+}
+
+void FontManager::Clear() {
+    for (auto& t : fontCollection) {
+        t.second.font.characters.clear();
+    }
 }
 
 /*!

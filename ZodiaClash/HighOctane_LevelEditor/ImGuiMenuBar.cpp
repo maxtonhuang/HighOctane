@@ -12,6 +12,7 @@ constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
 constexpr float fontSizeL = 30.f;
 
+#include "Events.h"
 void UpdateMenuBar() {
     
     // Create a menu bar for the window
@@ -24,7 +25,8 @@ void UpdateMenuBar() {
                         size_t pos = path.find_last_of("\\");
                         //ASSERT(pos == std::string::npos, "File path error!");
                         path = path.substr(pos + 1);
-                        assetmanager.LoadAssets(path);
+                        events.Call("Change Scene",path);
+                        //assetmanager.LoadAssets(path);
                         //Serializer::LoadEntityFromJson(OpenSingleFileDialog());
                     }
                     else {
@@ -43,9 +45,10 @@ void UpdateMenuBar() {
                 //    ECS::ecs().DestroyEntity(entity);
                 //}
                 ////ECS::ecs().DestroyEntity(entity);
-                destroyAll = true;
-                button_clicked = true;
-                assetmanager.UnloadAll();
+                //destroyAll = true;
+                //button_clicked = true;
+                //assetmanager.UnloadAll();
+                events.Call("Change Scene", "");
             }
             ImGui::EndMenu();
         }

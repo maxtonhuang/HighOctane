@@ -94,6 +94,8 @@ public:
 	void LoadFontEntry(FontEntry& fontEntryData);
 	void LoadFontFilePath(const std::string ftFilePath);
 	void LoadValidFont(Font& fontData, const std::string& fontFilePath);
+
+	void Clear();
 	
 	// DEPRECATED //
 	//void LoadDefaultFont(); -- merged into SetDefaultFont

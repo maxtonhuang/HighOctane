@@ -97,7 +97,7 @@ void GraphicsManager::Initialize(int w, int h) {
     glfwSetDropCallback(window, FileDropCallback);
     
     //Set default background colour
-    glClearColor(1.f, 0.f, 0.f, 1.f);
+    glClearColor(0.f, 0.f, 0.f, 1.f);
 
     //Initialise glew for glew functions
     glewInit();

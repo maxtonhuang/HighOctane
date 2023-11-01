@@ -69,6 +69,7 @@ extern bool anyObjectSelected; // whether any object is selected
 
 extern bool clearAllSelection;
 extern bool newScene;
+extern std::string newSceneName;
 
 
 extern size_t currentLayer;
@@ -87,3 +88,7 @@ extern size_t importFileCount;
 extern std::vector<std::string> fullNameVecImGUI;
 
 extern const char* currentScriptForIMGUI;
+
+extern std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI;
+
+extern const char* currentScriptAttachedForIMGUI;

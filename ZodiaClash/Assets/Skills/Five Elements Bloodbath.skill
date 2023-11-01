@@ -1,0 +1,11 @@
+[
+    {
+        "Name": "Five Elements Bloodbath",
+        "Type": 1,
+        "Skill Attack": 50,
+        "Minimum Attack Multiplier": 0.8,
+        "Maximum Attack Multiplier": 1.2,
+        "Crit Rate": 0.8,
+        "Crit Multiplier": 2.0
+    }
+]

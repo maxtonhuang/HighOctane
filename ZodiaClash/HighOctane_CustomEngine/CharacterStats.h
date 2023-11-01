@@ -9,30 +9,32 @@
 #include "Components.h"
 
 //forward declarations
-class CharacterStats; 
 class BattleSystem;
 
 class CharacterStats
 {
 public:
-    Animator animator;
+    CharacterStats();
+    CharacterStats(CharacterStats const&);
     bool checkedStatus;
-    CharacterType tag;
-    Entity entity; //for reference back to ECS
-    CharacterAction action;
-    BattleSystem* parent;
+    CharacterType tag{};
+    Entity entity{}; //for reference back to ECS
+    CharacterAction action{};
+    BattleSystem* parent{};
     struct stats {
         float           maxHealth;
         float           health;
         float           attack;
         float           defense;
         int             speed;
-    }; stats stats;
+    }; stats stats{};
 
     void TakeDamage(float damage);
     void HealBuff(float buffAmount);
-    GameObject gameObject;
+    GameObject gameObject{};
     void Start();
+
+    bool operator==(const CharacterStats&) const;
 private:
     
     //void Death(Entity& entity);

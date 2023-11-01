@@ -109,7 +109,8 @@ void Texture::Init(Font& font, const char* texname) {
 		}
 		fontHeight += font.fontFace->glyph->bitmap.rows;
 	}
-	unsigned char* fontData = new unsigned char[fontWidth * fontHeight];
+
+	unsigned char* fontData = new unsigned char[fontWidth * fontHeight] {};
 
 	// generate texture
 	unsigned int texture;
@@ -131,7 +132,7 @@ void Texture::Init(Font& font, const char* texname) {
 			DEBUG_PRINT("ERROR::FONT: Failed to load Glyph");
 			continue;
 		}
-
+		
 		//concatenate glyph data into spritesheet data
 		for (unsigned int h = 0; h < font.fontFace->glyph->bitmap.rows; ++h) {
 			for (unsigned int w = 0; w < font.fontFace->glyph->bitmap.width; ++w) {

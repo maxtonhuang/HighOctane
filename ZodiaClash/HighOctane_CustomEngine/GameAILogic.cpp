@@ -4,8 +4,8 @@
 
 const int playerWeight = 1000;
 const int enemyWeight = 1000;
-const float damageRate = 1.f;
-const float healRate = 1.f;
+const float damageRate = 10.f;
+const float healRate = 10.f;
 //----------------------------------------------------------------------------------------
 
 #include "GameAILogic.h"
@@ -21,25 +21,33 @@ namespace GameAILogic {
 		float effectiveHealing = 0;
 		for (CharacterStats const& c : end.turnManage.characterList) {
 			if (c.tag == CharacterType::PLAYER) {
-				playerChange++;
+				if (c.stats.health != 0) {
+					playerChange++;
+				}
 				effectiveDamage -= c.stats.health;
 			}
 			if (c.tag == CharacterType::ENEMY) {
-				enemyChange++;
+				if (c.stats.health != 0) {
+					enemyChange++;
+				}
 				effectiveHealing += c.stats.health;
 			}
 		}
 		for (CharacterStats const& c : start.turnManage.characterList) {
 			if (c.tag == CharacterType::PLAYER) {
-				playerChange--;
+				if (c.stats.health != 0) {
+					playerChange--;
+				}
 				effectiveDamage += c.stats.health;
 			}
 			if (c.tag == CharacterType::ENEMY) {
-				enemyChange--;
+				if (c.stats.health != 0) {
+					enemyChange--;
+				}
 				effectiveHealing -= c.stats.health;
 			}
 		}
-		value += playerWeight * playerChange;
+		value += playerWeight * (-playerChange);
 		value += enemyWeight * enemyChange;
 		value += (int)(effectiveDamage * damageRate);
 		value += (int)(effectiveHealing * healRate);

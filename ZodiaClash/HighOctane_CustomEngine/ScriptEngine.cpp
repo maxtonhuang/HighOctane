@@ -52,10 +52,16 @@ void ScriptEngine::Init() {
 #elif (!ENABLE_DEBUG_DIAG)
     const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
 #endif
-
     std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+    //std::string currentPath = std::filesystem::current_path().string();
+    //printf("Current path: %s\n", currentPath.c_str());
+    //printf("Full assembly path: %s\n", fullAssemblyPath.c_str());
 
+    if (!std::filesystem::exists(fullAssemblyPath)) {
+        fullAssemblyPath = "HighOctane_CSharpScript.dll";
+	}
     LoadAssembly(fullAssemblyPath);
+    
     LoadAssemblyClasses(s_Data->CoreAssembly);
     //auto& classes = s_Data->EntityClasses;
 
@@ -64,23 +70,6 @@ void ScriptEngine::Init() {
     // This is to add the internal calls
     internalcalls::AddInternalCall();
     s_Data->EntityClass = ScriptClass("", "Entity");
-#if 0
-    // Retrieve and insantiate class (with constructor)
-    s_Data->EntityClass = ScriptClass("", "Entity");
-
-    MonoObject* instance = s_Data->EntityClass.Instantiate();
-
-    // Call function (method)
-    MonoMethod* printMessageFunc = s_Data->EntityClass.GetMethod("PrintMessage", 0);
-    s_Data->EntityClass.InvokeMethod(instance, printMessageFunc, nullptr);
-
-    MonoMethod* printCustomMessageFunc = s_Data->EntityClass.GetMethod("PrintCustomMessage", 1);
-    // Call function with param
-    MonoString* monoString = mono_string_new(s_Data->AppDomain, "Hello World from C++!");
-
-    void* stringParam = monoString;
-    s_Data->EntityClass.InvokeMethod(instance, printCustomMessageFunc, &stringParam);
-#endif
 }
 
 void ScriptEngine::Shutdown() {
@@ -89,14 +78,28 @@ void ScriptEngine::Shutdown() {
 }
 
 void ScriptEngine::InitMono() {
-    
     // Setting the path to the mono
     //std::cout << "Scripting InitMono\n";
-    std::string filePath = std::filesystem::current_path().replace_filename("Extern\\Mono\\lib\\mono\\4.5").string();
-    //std::cout << filePath << std::endl;
-    mono_set_assemblies_path(filePath.c_str());
+    std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
+    std::cout << "filePath: " << filePath << std::endl;
+    if (std::filesystem::exists(filePath)) {
+        mono_set_assemblies_path(filePath.c_str());
+        
+    }
+    else {
+        filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
+        if (std::filesystem::exists(filePath)) {
+            mono_set_assemblies_path(filePath.c_str());
+        }
+        else {
+            filePath = std::filesystem::current_path().replace_filename("HighOctane_CustomEngine/Extern/Mono/lib/mono/4.5").string();
+            mono_set_assemblies_path(filePath.c_str());
+        }
+    }
 
+    
     MonoDomain* rootDomain = mono_jit_init("HighOctaneRuntime");
+    //ASSERT(true, "NIGEL");
     ASSERT(rootDomain == nullptr, "Root domain is null");
 
     // Store the root domain pointer
@@ -108,31 +111,12 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     // Create an App Domain
     s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
     mono_domain_set(s_Data->AppDomain, true);
-
-    s_Data->CoreAssembly = LoadMonoAssembly(filePath);
+    //if (!LoadMonoAssembly(filePath)) {
+    //    s_Data->CoreAssembly = LoadMonoAssembly("HighOctane_CSharpScript.dll");
+    //}
+    /*else */s_Data->CoreAssembly = LoadMonoAssembly(filePath);
     s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
     //PrintAssemblyTypes(s_Data->CoreAssembly);
-}
-
-void ScriptEngine::OnRuntimeStart() {
-    /*-------THIS PART SHOULD MOVE OUT INTO ECS-------*/
-    //s_Data->EntityClass = ScriptClass("Sandbox", "Player");
-
-    //MonoObject* instance = s_Data->EntityClass.Instantiate();
-    //mono_runtime_invoke(method, scriptInstance, nullptr, nullptr);
-    //MonoMethod* method = s_Data->EntityClass.GetMethod("OnCreate", 0);
-    /*-------THIS PART SHOULD MOVE OUT INTO ECS-------*/
-
-
-    //s_Data->EntityClass.InvokeMethod(instance, method, nullptr);
-
-    // Clear the key down afterwards
-    //GetKeyDownClear();
-    //s_Data->onCreate();
-}
-
-void ScriptEngine::OnRuntimeStop() {
-    // Empty by default now
 }
 
 bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {
@@ -167,7 +151,7 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     for (int i = 0; i < sc.scriptNameVec.size(); i++) {
         if (sc.scriptNameVec[i] == scriptName) {
             DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
-            //printf("Script %s already exists in entity %d\n", scriptName, entity);
+
             return;
         }
 
@@ -175,30 +159,29 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
             continue;
         }
     }
- //   for (const auto& test : sc.scriptNameVec) {
- //       std::cout << "RunTimeAddScript:: BEFORE scriptNameVec pushback" << test << std::endl;
-	//}
 
     // If not, add it to the vector
     sc.scriptNameVec.push_back(scriptName);
-    //std::cout << "RunTimeAddScript:: AFTER scriptNameVec pushback" << std::endl;
+    scriptNamesAttachedforIMGUI[entity].push_back(scriptName);
+    //scriptNamesAttachedforIMGUI.push_back(currentScriptForIMGUI);
 
     auto& entityScripts = s_Data->EntityInstances[entity];
     std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(s_Data->EntityClasses[scriptName], entity);
     entityScripts.push_back(instance);
-
-    // Debugging
-    //for (const auto& testing : entityScripts) {
-    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << testing->GetScriptName() << std::endl;
-    //    std::cout << "RunTimeAddScript:: AFTER entityScripts pushback" << entity << std::endl;
-    //}
 }
 
 // Helper function
 std::string ScriptInstance::GetScriptName() const {
     if (m_ScriptClass) {
-        // Assuming the full script name is composed of Namespace + "." + ClassName
-        return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+        // Check if there's namespace
+        if (m_ScriptClass->m_ClassNamespace == "") {
+			return m_ScriptClass->m_ClassName;
+		}
+        else {
+            // Assuming the full script name is composed of Namespace + "." + ClassName
+            return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+        }
+
     }
     return ""; // Return an empty string if m_ScriptClass is nullptr
 }
@@ -206,28 +189,26 @@ std::string ScriptInstance::GetScriptName() const {
 
 // Run ti me remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
-    //std::cout << "RunTimeRemoveScript called\n";
+
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     
-    std::string concatName = "." + std::string(scriptName);
     for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = s_Data->EntityInstances[entity].begin(); it != s_Data->EntityInstances[entity].end(); ++it) {
-        //std::cout << "THIS IS ITTTTTT" << (*it)->GetScriptName() << std::endl;
-        //std::cout << "THIS IS ITTTTTT TOOOOOO" << concatName << std::endl;
-        if ((*it)->GetScriptName() == concatName) {
+
+        if ((*it)->GetScriptName() == scriptName) {
 			s_Data->EntityInstances[entity].erase(it);
 
             // I need to clear the sc.scriptNameVec too, not sure if this is right
             for (int i = 0; i < sc.scriptNameVec.size(); i++) {
+
                 if (sc.scriptNameVec[i] == scriptName) {
 					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
+                    scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
+                    //scriptNamesAttachedforIMGUI.erase(scriptNamesAttachedforIMGUI.begin() + i);
 				}
 			}
 			break;
 		}
 	}
-
-    // Clear the instance vector for that entity
-    //s_Data->EntityInstances[entity].clear();
 }
 
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {

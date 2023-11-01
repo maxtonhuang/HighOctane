@@ -34,6 +34,9 @@
 #include "CharacterStats.h"
 #include "GameStateManager.h"
 #include "debuglog.h"
+#include "Events.h"
+#include "GameAITree.h"
+#include "ECS.h"
 #include <algorithm>
 
 BattleSystem::BattleSystem(BattleSystem const& input) {
@@ -47,6 +50,9 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
             activeCharacter = &c;
         }
     }
+
+    turnManage.turnOrderList = input.turnManage.turnOrderList;
+    turnManage.originalTurnOrderList = input.turnManage.originalTurnOrderList;
     for (CharacterStats*& c : turnManage.turnOrderList) {
         for (CharacterStats& character : turnManage.characterList) {
             if (c->entity == character.entity) {
@@ -69,11 +75,19 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
 void BattleSystem::Initialize() 
 {
     LOG_WARNING("Initializing battle system");
+    events.ConnectBattleSystem(this);
     roundInProgress = false;
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
 
     DetermineTurnOrder();
+
+    printf("\nBeginning battle:\n");
+    for (auto& c : turnManage.characterList) {
+        std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
+        DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+        printf("Character loaded: %s, remaining health: %f\n", name.c_str(), c.stats.health);
+    }
 
     battleState = NEWROUND;
     //StartCoroutine(NewGameDelay(0.5f, 1.f)); //delay at start
@@ -83,9 +97,21 @@ void BattleSystem::Update()
 {
     int enemyAmount = 0;
     int playerAmount = 0;
+    TreeManager gameAI{};
+    
+    // Access component arrays through the ComponentManager
+    ComponentArray<CharacterStats>* statsArray{};
+    ComponentArray<Model>* modelArray{};
+    if (m_Entities.size() > 0) {
+        ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+        statsArray = &componentManager.GetComponentArrayRef<CharacterStats>();
+        modelArray = &componentManager.GetComponentArrayRef<Model>();
+
+    }
+
     switch (battleState) {
     case NEWGAME:
-        LOG_WARNING("Initializing battle system");
+        //LOG_WARNING("Initializing battle system");
         Initialize();
         break;
     case NEWROUND:
@@ -111,12 +137,18 @@ void BattleSystem::Update()
         }
         if (!enemyAmount) //no enemies left
         {
+            if (m_Entities.size() > 0) {
+                printf("\nYOU WIN!\n");
+            }
             LOG_WARNING("State: Win");
             battleState = WIN;
         }
         //then check if enemy has won
         else if (!playerAmount) //no players left
         {
+            if (m_Entities.size() > 0) {
+                printf("\nYOU LOSE!\n");
+            }
             LOG_WARNING("State: Lose");
             battleState = LOSE;
         }
@@ -164,44 +196,57 @@ void BattleSystem::Update()
             }
         }
         break;
-    case PLAYERTURN:
     case ENEMYTURN:
+        if (activeCharacter->action.entityState == WAITING) {
+            gameAI.Search(this);
+        }
+    case PLAYERTURN:
         activeCharacter->action.UpdateState();
         if (activeCharacter->action.entityState == EntityState::ENDING) {
+            if (m_Entities.size() > 0) {
+                for (auto& c : turnManage.characterList) {
+                    std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
+                    printf("%s remaining health: %f\n", name.c_str(), c.stats.health);
+                    DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+                }
+            }
             turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
-            battleState = NEXTTURN;;
+            battleState = NEXTTURN;
         }
         else if (activeCharacter->action.entityState == EntityState::DYING) {
+            if (m_Entities.size() > 0) {
+                std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
+                printf("%s died\n", name.c_str());
+                DEBUG_PRINT("%s died", name.c_str());
+            }
             turnManage.turnOrderList.remove(activeCharacter);
             turnManage.originalTurnOrderList.remove(activeCharacter);
-            turnManage.characterList.pop_front();
+            turnManage.characterList.remove(*activeCharacter);
+            battleState = NEXTTURN;
             //turnManage.characterList.remove(*activeCharacter);
         }
         break;
     }
-    //if (battleState == NEWROUND)
-    //{
-    //    
-    //}
-    //else if (battleState == NEXTTURN)
-    //{
-    //    
-    //}
-    //else if (battleState == PLAYERTURN) {
-
-    //}
+    for (Entity entity : m_Entities) {
+        CharacterStats* cs = &statsArray->GetData(entity);
+        if (cs->action.entityState == DEAD) {
+            continue;
+        }
+        bool found = false;
+        for (CharacterStats const& c : turnManage.characterList) {
+            if (c.entity == entity) {
+                *cs = c;
+                found = true;
+                break;
+            }
+        }
+        if (found == false) {
+            Model* model = &modelArray->GetData(entity);
+            cs->action.entityState = DEAD;
+            model->SetAlpha(0.2f);
+        }
+    }
 }
-//
-//BattleState BattleSystem::NewGameDelay(float startDelay, float nextDelay)
-//{
-//    //yield return new WaitForSeconds(startDelay);
-//    //return new WaitForSeconds(nextDelay);
-//
-//    DetermineTurnOrder();
-//    battleState = NEWROUND;
-//    return battleState;
-//}
-
 
 void BattleSystem::DetermineTurnOrder()
 {
@@ -230,14 +275,25 @@ void BattleSystem::DetermineTurnOrder()
 
     //originalTurnOrderList
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
-    /*
-    turnManage.originalTurnOrderList.clear();
+}
 
-    for(CharacterStats chara : turnManage.turnOrderList) //add turnOrderList to original turn order list
-    {
-        turnManage.originalTurnOrderList.push_back(chara);
+std::vector<CharacterStats*> BattleSystem::GetPlayers() {
+    std::vector<CharacterStats*> output;
+    for (auto& c : turnManage.characterList) {
+        if (c.tag == CharacterType::PLAYER) {
+            output.push_back(&c);
+        }
     }
-    */
+    return output;
+}
+std::vector<CharacterStats*> BattleSystem::GetEnemies() {
+    std::vector<CharacterStats*> output;
+    for (auto& c : turnManage.characterList) {
+        if (c.tag == CharacterType::ENEMY) {
+            output.push_back(&c);
+        }
+    }
+    return output;
 }
 
 void BattleSystem::SwitchTurnOrder(CharacterStats* target)

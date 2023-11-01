@@ -45,6 +45,8 @@
 #include "Global.h"
 #include "AssetManager.h"
 #include "CharacterStats.h"
+#include "UIComponents.h"
+#include <memory>
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -243,23 +245,6 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	return scriptObject;
 }
 
-//rapidjson::Value SerializeModel( Model model, rapidjson::Document::AllocatorType& allocator) {
-//	rapidjson::Value modelObject(rapidjson::kObjectType);
-//
-//	model.GetColor();
-//	model.GetMax();
-//	model.GetMin();
-//
-//	modelObject.AddMember("r", model.GetColor().r, allocator);
-//	modelObject.AddMember("g", model.GetColor().g, allocator);
-//	modelObject.AddMember("b", model.GetColor().b, allocator);
-//	modelObject.AddMember("a", model.GetColor().a, allocator);
-//
-//	modelObject.AddMember("Max X", model.GetMax().x, allocator);
-//	modelObject.AddMember("Max Y", model.GetMax().y, allocator);
-//	modelObject.AddMember("Min X", model.GetMin().x, allocator);
-//	modelObject.AddMember("Min Y", model.GetMin().y, allocator);
-//}
 rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value charstats(rapidjson::kObjectType);
 	rapidjson::Value attacks(rapidjson::kArrayType);
@@ -286,6 +271,53 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 	return modelObject;
 }
 
+rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value textObject(rapidjson::kObjectType);
+	/*textLabel.font->GetInfo().first; family
+	textLabel.font->GetInfo().second; variant
+	ECS::ecs().GetComponent<TextLabel>(textObjectA).font = fonts.GetFont("mikachan", "Regular");*/
+	if (textLabel.font != nullptr) {
+		auto fontInfo = textLabel.font->GetInfo();
+		textObject.AddMember("Font Family", rapidjson::Value(fontInfo.first.c_str(), allocator).Move(), allocator);
+		textObject.AddMember("Font Variant", rapidjson::Value(fontInfo.second.c_str(), allocator).Move(), allocator);
+	}
+	// Serialize other properties of the TextLabel
+	textObject.AddMember("Text String", rapidjson::Value(textLabel.textString.c_str(), allocator).Move(), allocator);
+	textObject.AddMember("r", textLabel.textColor.r, allocator);
+	textObject.AddMember("g", textLabel.textColor.g, allocator);
+	textObject.AddMember("b", textLabel.textColor.b, allocator);
+	textObject.AddMember("a", textLabel.textColor.a, allocator);
+
+	
+	textObject.AddMember("Color Preset", rapidjson::Value(textLabel.initClr.c_str(), allocator), allocator);
+	
+
+	return textObject;
+}
+rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value buttonObject(rapidjson::kObjectType);
+
+	buttonObject.AddMember("Button R", button.defaultColor.buttonColor.r, allocator);
+	buttonObject.AddMember("Button G", button.defaultColor.buttonColor.g, allocator);
+	buttonObject.AddMember("Button B", button.defaultColor.buttonColor.b, allocator);
+	buttonObject.AddMember("Button A", button.defaultColor.buttonColor.a, allocator);
+	
+	buttonObject.AddMember("Text R", button.defaultColor.textColor.r, allocator);
+	buttonObject.AddMember("Text G", button.defaultColor.textColor.g, allocator);
+	buttonObject.AddMember("Text B", button.defaultColor.textColor.b, allocator);
+	buttonObject.AddMember("Text A", button.defaultColor.textColor.a, allocator);
+
+	// Add other properties as needed
+	buttonObject.AddMember("Event Name", rapidjson::Value(button.eventName.c_str(), allocator).Move(), allocator);
+	buttonObject.AddMember("Event Input", rapidjson::Value(button.eventInput.c_str(), allocator).Move(), allocator);
+	buttonObject.AddMember("Padding Top", button.padding.top, allocator);
+	buttonObject.AddMember("Padding Bottom", button.padding.bottom, allocator);
+	buttonObject.AddMember("Padding Left", button.padding.left, allocator);
+	buttonObject.AddMember("Padding Right", button.padding.right, allocator);
+
+	return buttonObject;
+}
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -305,6 +337,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Script* script = nullptr;
 	CharacterStats* charstats = nullptr;
 	Model* model = nullptr;
+	TextLabel* textLabel = nullptr;
+	Button* button = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -386,6 +420,16 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 		}
 		if (ECS::ecs().HasComponent<Movable>(entity)) {
 			entityObject.AddMember("Movable", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (ECS::ecs().HasComponent<TextLabel>(entity)) {
+			textLabel = &ECS::ecs().GetComponent<TextLabel>(entity);
+			rapidjson::Value textObject = SerializeTextLabel(*textLabel, allocator);
+			entityObject.AddMember("Text Label", textObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Button>(entity)) {
+			button = &ECS::ecs().GetComponent<Button>(entity);
+			rapidjson::Value buttonObject = SerializeButton(*button, allocator);
+			entityObject.AddMember("Button", buttonObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -581,11 +625,74 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
 			charstats.stats.health = charstats.stats.maxHealth;
 			charstats.stats.speed = statsObject["Speed"].GetInt();
-			charstats.tag = static_cast<CharacterType>(statsObject["Character type"].GetInt());
+			charstats.tag = (CharacterType)statsObject["Character type"].GetInt();
 			for (auto& a : statsObject["Skills"].GetArray()) {
 				charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
 			}
 			ECS::ecs().AddComponent(entity, charstats);
+		}
+		if (entityObject.HasMember("Text Label")) {
+			const rapidjson::Value& textObject = entityObject["Text Label"];
+			TextLabel textLabel;
+			std::string fontFamily = textObject["Font Family"].GetString();
+			std::string fontvariant = textObject["Font Variant"].GetString();
+			textLabel.font = fonts.GetFont(fontFamily, fontvariant);
+
+			textLabel.textString = textObject["Text String"].GetString();
+			
+			textLabel.textColor.r = textObject["r"].GetFloat();
+			textLabel.textColor.g = textObject["g"].GetFloat();
+			textLabel.textColor.b = textObject["b"].GetFloat();
+			textLabel.textColor.a = textObject["a"].GetFloat();
+
+			textLabel.initClr = textObject["Color Preset"].GetString();
+			//TextLabel(textLabel.textString, textLabel.textColor);
+			ECS::ecs().AddComponent(entity, textLabel);
+		}
+		if (entityObject.HasMember("Button")) {
+			const rapidjson::Value& buttonObject = entityObject["Button"];
+			Button button;
+			//button.colorSet = Button::ColorSet(); // Initialize the colorSet struct
+			glm::vec4 buttonColor{};
+			if (buttonObject.HasMember("Button R") && buttonObject.HasMember("Button G") &&
+				buttonObject.HasMember("Button B") && buttonObject.HasMember("Button A")) {
+				buttonColor.r = buttonObject["Button R"].GetFloat();
+				buttonColor.g = buttonObject["Button G"].GetFloat();
+				buttonColor.b = buttonObject["Button B"].GetFloat();
+				buttonColor.a = buttonObject["Button A"].GetFloat();
+			}
+
+			glm::vec4 textColor{};
+			if (buttonObject.HasMember("Text R") && buttonObject.HasMember("Text G") &&
+				buttonObject.HasMember("Text B") && buttonObject.HasMember("Text A")) {
+				textColor.r = buttonObject["Text R"].GetFloat();
+				textColor.g = buttonObject["Text G"].GetFloat();
+				textColor.b = buttonObject["Text B"].GetFloat();
+				textColor.a = buttonObject["Text A"].GetFloat();
+			}
+
+			// update states
+			button = { buttonColor, textColor };
+
+			if (buttonObject.HasMember("Padding Top") && buttonObject.HasMember("Padding Bottom") &&
+				buttonObject.HasMember("Padding Left") && buttonObject.HasMember("Padding Right")) {
+				button.padding.top = buttonObject["Padding Top"].GetFloat();
+				button.padding.bottom = buttonObject["Padding Bottom"].GetFloat();
+				button.padding.left = buttonObject["Padding Left"].GetFloat();
+				button.padding.right = buttonObject["Padding Right"].GetFloat();
+			}
+
+			if (buttonObject.HasMember("Event Name")) {
+				button.eventName = buttonObject["Event Name"].GetString();
+			}
+
+			if (buttonObject.HasMember("Event Input")) {
+				button.eventInput = buttonObject["Event Input"].GetString();
+			}
+
+			ECS::ecs().AddComponent(entity, button);
+			//delete button.colorSet.buttonColor;
+			//delete button.colorSet.textColor;
 		}
 		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
@@ -642,9 +749,9 @@ void WriteSpriteConfig(const char* filename, int rows, int cols) {
 // Load the scripting for scripting on start up
 std::vector<std::string> LoadScripting(Entity entity) {
 	std::vector<std::string> scriptVec;
-
+	std::string filePath = assetmanager.GetDefaultPath() + "Scenes/TestWY1.json";
 	// Open the file here	
-	std::ifstream ifs("../Assets/Scenes/TestWY1.json");
+	std::ifstream ifs(filePath);
 	//std::ifstream ifs("../Assets/Scenes/TestWY2.json");
 
 	// Check if can open

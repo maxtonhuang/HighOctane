@@ -82,17 +82,19 @@ public:
 
 class TextLabel : public UIComponent {
 public:
-	Font* font{};
-	std::string textString{};
+	Font* font{}; 
+	std::string textString{}; 
 	std::string prevTextString{};
 	Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
-	glm::vec4* textColor{};
+	glm::vec4 textColor{}; 
 	float relFontSize{};
 	float textWidth{};
 	float textHeight{};
 	UI_HORIZONTAL_ALIGNMENT textAlignment{};
 	STATE currentState{};
+
+	std::string initClr;
 
 	// FUTURE IMPLEMENTATIONS
 	// -> multiline, auto/fixed height
@@ -100,6 +102,7 @@ public:
 	
 	TextLabel();
 	TextLabel(std::string str, std::string txtColor);
+	TextLabel(std::string str, glm::vec4 clr);
 
 	void SetTextString(std::string txtStr);
 
@@ -116,18 +119,20 @@ public:
 class Button : public UIComponent {
 public:
 	struct ColorSet {
-		glm::vec4* buttonColor;
-		glm::vec4* textColor;
-		glm::vec4* outlineColor;
+		glm::vec4 buttonColor; 
+		glm::vec4 textColor; 
+		glm::vec4 outlineColor;
 
-		ColorSet() : buttonColor{ nullptr }, textColor{ nullptr }, outlineColor{ nullptr } {}
+		ColorSet() : buttonColor{ 1,1,1,1 }, textColor{ 0,0,0,1 }, outlineColor{ 1,1,1,1 } {}
 		ColorSet(std::string btnColor, std::string txtColor) :
-			buttonColor{ &colors.colorMap[btnColor] }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ &colors.colorMap[btnColor] } {}
-		ColorSet(std::string btnColor, glm::vec4* txtColor) :
-			buttonColor{ &colors.colorMap[btnColor] }, textColor{ txtColor }, outlineColor{ &colors.colorMap[btnColor] } {}
-		ColorSet(glm::vec4* btnColor, std::string txtColor) :
-			buttonColor{ btnColor }, textColor{ &colors.colorMap[txtColor] }, outlineColor{ btnColor } {}
-	};
+			buttonColor{ colors.colorMap[btnColor] }, textColor{ colors.colorMap[txtColor] }, outlineColor{ colors.colorMap[btnColor] } {}
+		ColorSet(std::string btnColor, glm::vec4 txtColor) :
+			buttonColor{ colors.colorMap[btnColor] }, textColor{ txtColor }, outlineColor{ colors.colorMap[btnColor] } {}
+		ColorSet(glm::vec4 btnColor, std::string txtColor) :
+			buttonColor{ btnColor }, textColor{ colors.colorMap[txtColor] }, outlineColor{ btnColor } {}
+		ColorSet(glm::vec4 btnColor, glm::vec4 txtColor) :
+			buttonColor{ btnColor }, textColor{ txtColor }, outlineColor{ btnColor } {}
+	}colorSet;
 
 	
 	Vec2 posOffset{}; //offset from transform
@@ -139,7 +144,7 @@ public:
 
 	// other UI unique properties
 	STATE currentState{};
-	Padding padding{};
+	Padding padding{}; 
 
 	// store colors for each state
 	ColorSet defaultColor;
@@ -147,9 +152,10 @@ public:
 	ColorSet focusedColor;
 
 	Button();
-	Button(std::string btnColor, glm::vec4* txtColor);
+	Button(std::string btnColor, glm::vec4 txtColor);
+	Button(glm::vec4 btnColor, glm::vec4 txtColor);
 
-	glm::vec4* GetButtonColor();
+	glm::vec4 GetButtonColor();
 
 	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
 	/*void OnClick(Model& modelData, Name& nameData) override;

@@ -279,7 +279,6 @@ void AnimatorSystem::Update() {
 		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
 		//Size* sizeData = &sizeArray.GetData(entity);
-
 		animatorData->UpdateAnimation(*texData);
 	}
 	//Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
@@ -413,8 +412,16 @@ void SerializationSystem::Update() {
 		destroyAll = false;
 	}
 
+	if (newScene) {
+		assetmanager.UnloadAll();
+		if (newSceneName != "") {
+			assetmanager.LoadAssets(newSceneName);
+		}
+	}
+
 	if (playButton) {
-		Serializer::SaveEntityToJson("../Assets/Scenes/tmp.json", m_Entities);
+		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
+		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
 		playButton = false;
 	}
 
@@ -648,7 +655,7 @@ void UITextLabelSystem::Draw() {
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, *textLabelData->textColor);
+		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
 		if (edit_mode && !buttonData && !texData) {
 			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
@@ -684,7 +691,7 @@ void UIButtonSystem::Update() {
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = *buttonData->GetButtonColor();
+			glm::vec4 btnColor = buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 

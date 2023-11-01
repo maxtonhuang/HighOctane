@@ -44,7 +44,8 @@ enum EntityState
     SELECTION,
     ATTACKING,
     ENDING,
-    DYING
+    DYING,
+    DEAD
 };
 
 enum class CharacterType {

@@ -108,8 +108,13 @@ std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 
-
-
+/*-----------THIS IS FOR SCRIPTING------------*/
+//// Global type registry (you could also have this as a singleton)
+//TypeRegistry g_TypeRegistry;
+//
+//// Macros for ease of use
+//#define REGISTER_TYPE(Type) g_TypeRegistry.RegisterType<Type>(#Type)
+/*-----------THIS IS FOR SCRIPTING------------*/
 // Create an instance of GUIManager
 GUIManager guiManager;
 
@@ -143,6 +148,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
+
+	/*-----------THIS IS FOR SCRIPTING------------*/
+	//REGISTER_TYPE(int);
+	//REGISTER_TYPE(double);
+	//REGISTER_TYPE(std::vector<int>);
+
+	//const TypeInformation* intTypeInfo = g_TypeRegistry.GetType("int");
+	//if (intTypeInfo) {
+	//	intTypeInfo->Print();
+	//}
+
+	//const TypeInformation* vectorTypeInfo = g_TypeRegistry.GetType("std::vector<int>");
+	//if (vectorTypeInfo) {
+	//	vectorTypeInfo->Print();
+	//}
+	/*-----------THIS IS FOR SCRIPTING------------*/
+
     LOG_INFO("Program started");
 
     /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
@@ -161,7 +183,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 
     EngineCore::engineCore(); // Instantiate Engine Core
-	
+
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -471,7 +493,7 @@ void EngineCore::Run(bool const& mode) {
 	//fonts.Initialize();
 	EntityFactory::entityFactory().LoadMasterModel();
 
-	Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
+	//Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
@@ -489,7 +511,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RemoveComponent<Movable>(background);
 
 	Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
-	ECS::ecs().AddComponent(textObjectA, TextLabel{ "© 2023 High Octane", "white" });
+	ECS::ecs().AddComponent(textObjectA, TextLabel{ "2023 High Octane", "white" });
 	ECS::ecs().AddComponent(textObjectA, CharacterStats{});
 	ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
 	ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
@@ -586,14 +608,6 @@ void EngineCore::Run(bool const& mode) {
 		InputManager::MouseCheck();
 		Mail::mail().SendMails();
 
-		// ImGUI button to activate serialization function
-		if (button_clicked) {
-			button_clicked = false;
-			debugSysProfile.StartTimer("Serialization System", GetTime());
-			serializationSystem->Update();
-			debugSysProfile.StartTimer("Serialization System", GetTime());
-		}
-
 		// Call each system in the System List
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
@@ -602,7 +616,6 @@ void EngineCore::Run(bool const& mode) {
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 			//std::cout << sys.second << std::endl;
 #endif
-
 			sys.first->Update();
 
 #if ENABLE_DEBUG_PROFILE
@@ -616,7 +629,6 @@ void EngineCore::Run(bool const& mode) {
 #if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 #endif
-
 			sys.first->Draw();
 
 #if ENABLE_DEBUG_PROFILE
@@ -636,6 +648,14 @@ void EngineCore::Run(bool const& mode) {
 			EngineCore::engineCore().setGameActive(false);
 		}
 		graphics.EndDraw();
+
+		// ImGUI button to activate serialization function
+		if (button_clicked) {
+			button_clicked = false;
+			debugSysProfile.StartTimer("Serialization System", GetTime());
+			serializationSystem->Update();
+			debugSysProfile.StartTimer("Serialization System", GetTime());
+		}
 
 		Mail::mail().ClearMails();
 

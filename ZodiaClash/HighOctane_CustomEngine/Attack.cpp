@@ -28,9 +28,16 @@ void Attack::CalculateDamage(CharacterStats const& target)
     //targetStats = target.GetComponent<CharacterStats>();
 
     //critical hit chance
-    std::default_random_engine rng;
-    std::uniform_real_distribution<float> rand(0.f, 1.f);
-    float randomValue = rand(rng);
+    static std::default_random_engine rng;
+    static std::uniform_real_distribution<float> rand(0.f, 1.f);
+    
+    float randomValue{0.f};
+
+    //NO CRITS IF ITS AN AI SIMULATION
+    if (target.parent->m_Entities.size() > 0) {
+        randomValue = rand(rng);
+    }
+    
 
     if (randomValue <= critRate)
     {

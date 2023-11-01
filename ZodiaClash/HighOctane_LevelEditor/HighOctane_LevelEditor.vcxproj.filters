@@ -142,6 +142,7 @@
     </ClInclude>
     <ClInclude Include="ImGuiContentBrowser.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.h">
       <Filter>Vendor</Filter>
     </ClInclude>

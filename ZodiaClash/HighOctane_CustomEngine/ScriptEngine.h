@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <string>
 #include "ECS.h"
+#include "Global.h"
 
 #pragma once
 
@@ -34,8 +35,6 @@ public:
 	static void OnUpdateEntity(const Entity& entity);
 	static void RunTimeAddScript(Entity entity, const char* scriptName);
 	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
-
-	std::string GetScriptName(Entity entity);
 
 private:
 	// No need to exist
@@ -71,7 +70,8 @@ public:
 	ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity);
 
 	void InvokeOnCreate();
-	void InvokeOnUpdate();std::string GetScriptName() const;
+	void InvokeOnUpdate();
+	std::string GetScriptName() const;
 
 private:
 

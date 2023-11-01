@@ -55,6 +55,7 @@
 #include "vmath.h"
 #include <algorithm>
 #include <vector>
+#include "AssetManager.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;

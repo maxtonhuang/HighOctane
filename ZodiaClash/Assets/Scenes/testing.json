@@ -85,7 +85,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.09859199821949005,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -93,8 +93,8 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
+            "Model type": 1,
+            "Background scroll speed": 1.0
         }
     },
     {
@@ -137,7 +137,7 @@
             "Skills": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -174,7 +174,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -193,7 +193,7 @@
         },
         "Transform": {
             "position_x": 768.0,
-            "position_y": -324.0,
+            "position_y": -322.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -211,7 +211,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
@@ -255,14 +255,14 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {}
     },
     {
         "Entity": {
-            "Name": "duck",
+            "Name": "entity_00011",
             "Selected": false
         },
         "Clone": {},
@@ -273,12 +273,12 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 173.4280242919922,
-            "position_y": 568.4279174804688,
-            "rotation": -7.8600850105285645,
+            "position_x": 2188.463623046875,
+            "position_y": -135.37400817871094,
+            "rotation": 100.43304443359375,
             "scale": 1.0,
-            "velocity_x": 0.2914505898952484,
-            "velocity_y": 0.2914505898952484
+            "velocity_x": -7.6673808097839355,
+            "velocity_y": 0.4954065680503845
         },
         "Texture": {
             "Texture Index": 0,
@@ -294,16 +294,19 @@
             "width": 128.0,
             "height": 128.0
         },
+        "MainCharacter": {
+            "isMainCharacter": true
+        },
         "Animation": {
             "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Index": 5,
+            "Frame Time Elapsed": 0.09859199821949005,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
             "className": "",
             "scriptNameVec": [
-                "AntiClockWiseSpin"
+                "ClockWiseSpin"
             ]
         },
         "Model": {
@@ -362,9 +365,10 @@
         },
         "Movable": {}
     },
+    {},
     {
         "Entity": {
-            "Name": "NEW_ox_idle.png",
+            "Name": "mockup_cat (1).png",
             "Selected": false
         },
         "Master": {},
@@ -387,7 +391,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "NEW_ox_idle.png"
+            "Texture File Path": "mockup_cat (1).png"
         },
         "Visible": {
             "isVisible": false
