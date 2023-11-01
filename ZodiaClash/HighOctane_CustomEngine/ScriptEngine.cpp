@@ -50,9 +50,6 @@ void ScriptEngine::Init() {
     LoadAssembly(fullAssemblyPath);
     
     LoadAssemblyClasses(s_Data->CoreAssembly);
-    //auto& classes = s_Data->EntityClasses;
-
-    //printf("Classes size: %d\n", classes.size());
 
     // This is to add the internal calls
     internalcalls::AddInternalCall();
@@ -135,11 +132,12 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     //PrintAssemblyTypes(s_Data->CoreAssembly);
 }
 
+// Helper function to see if the entity class exists
 bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {
 	return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
 }
 
-// Not sure if this is working or not haha (Trying to refactor)
+// On creating the Entity
 void ScriptEngine::OnCreateEntity(Entity entity) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -160,6 +158,8 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
     }
 }
 
+
+// Run time add script
 void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -186,7 +186,7 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     entityScripts.push_back(instance);
 }
 
-// Helper function
+// Helper function for script instance
 std::string ScriptInstance::GetScriptName() const {
     if (m_ScriptClass) {
         // Check if there's namespace
@@ -203,7 +203,7 @@ std::string ScriptInstance::GetScriptName() const {
 }
 
 
-// Run ti me remove script
+// Run time remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -274,7 +274,7 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
             s_Data->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
             fullNameVecImGUI.emplace_back(fullName);
             //std::cout << "Added class: " << fullName << std::endl;
-            printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
+            //printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
         } 
     }
 
@@ -330,10 +330,7 @@ ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity 
 }
 
 void ScriptInstance::InvokeOnCreate() {
-    //std::cout << "ScriptEngine.cpp::InvokeOnCreate" << std::endl;
 	m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
-    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_Instance: " << m_Instance << std::endl;
-    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_OnCreateMethod: " << m_OnCreateMethod << std::endl;
 }
 
 void ScriptInstance::InvokeOnUpdate() {
@@ -342,7 +339,6 @@ void ScriptInstance::InvokeOnUpdate() {
 
 
 // Helper functions
-
 static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
 {
     std::ifstream stream(filepath, std::ios::binary | std::ios::ate);
@@ -383,7 +379,6 @@ static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
 
     MonoAssembly* assembly = mono_assembly_load_from_full(image, pathString.c_str(), &status, 0);
     mono_image_close(image);
-
 
     // Free the file Data
     delete[] fileData;

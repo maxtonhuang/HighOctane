@@ -69,6 +69,7 @@
 #include "Events.h"
 #include "Layering.h"
 
+
 bool gConsoleInitalized{ false };
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
@@ -130,8 +131,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	**************************************************************************/
 	//SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
-	//testFunc();
-    //InitMono();
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
@@ -145,7 +144,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
-
+	testFunc();
 	/*-----------THIS IS FOR SCRIPTING------------*/
 	//REGISTER_TYPE(int);
 	//REGISTER_TYPE(double);
