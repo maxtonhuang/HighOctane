@@ -1,6 +1,4 @@
-#include "ScriptLinker.h"
 #include "Scripting.h"
-
 #include "ScriptEngine.h"
 #include "vmath.h"
 

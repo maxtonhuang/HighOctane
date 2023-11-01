@@ -179,14 +179,8 @@
     <ClInclude Include="Scripting.h">
       <Filter>Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="FileWatcher.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptLinker.h">
-      <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Miscellaneous</Filter>
@@ -335,9 +329,6 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Reflections.cpp" />
-    <ClCompile Include="Scripting.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>Animator</Filter>
     </ClCompile>

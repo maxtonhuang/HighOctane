@@ -3,6 +3,9 @@
 #include <string>
 #include "ECS.h"
 #include "Global.h"
+#include "Message.h"
+#include "Components.h"
+#include "Debuglog.h"
 
 #pragma once
 
@@ -26,9 +29,6 @@ public:
 	static void Shutdown();
 
 	static void LoadAssembly(const std::filesystem::path& filePath);
-
-	static void OnRuntimeStart();
-	static void OnRuntimeStop();
 
 	static bool EntityClassExists(const std::string& fullClassName);
 	static void OnCreateEntity(Entity entity);
