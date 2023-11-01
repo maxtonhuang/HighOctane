@@ -27,7 +27,7 @@ void UpdateLayer() {
 
 	// rewrite to use traditional i
 
-
+	///// Here
 
 	for (auto layer_it = layering.rbegin(); layer_it != layering.rend(); ++layer_it) {
 
@@ -50,6 +50,9 @@ void UpdateLayer() {
 		}
 
 	}
+
+	///// To here
+
 	ImGui::EndChild();
 
 	float panelWidth = ImGui::GetContentRegionAvail().x;

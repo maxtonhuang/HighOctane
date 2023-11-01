@@ -59,11 +59,13 @@ extern bool rightClick;
 extern bool playButton;
 extern bool stopButton;
 extern bool toDestroy;
+extern bool inEditing;
+extern bool viewportWindowHovered;
 extern vmath::Vector2 rightClickPos;
-extern std::vector<Entity> selectedEntities;
+extern std::vector<Entity> selectedEntities; // for destruction
 extern Entity newSelection;
 extern bool popupHovered;
-extern bool anyObjectSelected;
+extern bool anyObjectSelected; // whether any object is selected
 
 extern bool clearAllSelection;
 extern bool newScene;

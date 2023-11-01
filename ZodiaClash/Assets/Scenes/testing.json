@@ -155,8 +155,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -786.0,
-            "position_y": -495.0,
+            "position_x": -768.0,
+            "position_y": -486.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -192,10 +192,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -462.5,
-            "position_y": 406.1548156738281,
+            "position_x": 768.0,
+            "position_y": -324.0,
             "rotation": 0.0,
-            "scale": 3.3671743869781494,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -229,8 +229,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 791.0,
-            "position_y": -480.25,
+            "position_x": 768.0,
+            "position_y": -459.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -262,7 +262,7 @@
     },
     {
         "Entity": {
-            "Name": "entity_00011",
+            "Name": "duck",
             "Selected": false
         },
         "Clone": {},
@@ -273,12 +273,12 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 661.4998168945313,
-            "position_y": 241.49981689453125,
-            "rotation": 0.0,
-            "scale": 4.664065361022949,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
+            "position_x": 173.4280242919922,
+            "position_y": 568.4279174804688,
+            "rotation": -7.8600850105285645,
+            "scale": 1.0,
+            "velocity_x": 0.2914505898952484,
+            "velocity_y": 0.2914505898952484
         },
         "Texture": {
             "Texture Index": 0,
@@ -302,7 +302,9 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptNameVec": [
+                "AntiClockWiseSpin"
+            ]
         },
         "Model": {
             "Model type": 0,
@@ -323,10 +325,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 687.0001220703125,
-            "position_y": -150.0,
+            "position_x": -450.0,
+            "position_y": 119.0,
             "rotation": 0.0,
-            "scale": 4.265623092651367,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -362,7 +364,7 @@
     },
     {
         "Entity": {
-            "Name": "buffalo (1).png",
+            "Name": "NEW_ox_idle.png",
             "Selected": false
         },
         "Master": {},
@@ -385,14 +387,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "buffalo (1).png"
+            "Texture File Path": "NEW_ox_idle.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 512.0,
-            "height": 512.0
+            "width": 256.0,
+            "height": 256.0
         },
         "Animation": {
             "Animation Type": 1,
@@ -407,7 +409,7 @@
     },
     {
         "Entity": {
-            "Name": "buffalo (1).png_CLONE",
+            "Name": "NEW_ox_idle.png_CLONE",
             "Selected": false
         },
         "Clone": {},
@@ -418,10 +420,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -571.0,
-            "position_y": 27.0,
+            "position_x": 549.0,
+            "position_y": 30.0,
             "rotation": 0.0,
-            "scale": 0.578125,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -430,14 +432,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "buffalo (1).png"
+            "Texture File Path": "NEW_ox_idle.png"
         },
         "Visible": {
             "isVisible": true
         },
         "Size": {
-            "width": 512.0,
-            "height": 512.0
+            "width": 256.0,
+            "height": 256.0
         },
         "Animation": {
             "Animation Type": 1,
@@ -447,10 +449,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [
-                "PlayerController.PlayerMovement",
-                "AntiClockWiseSpin"
-            ]
+            "scriptNameVec": []
         },
         "Model": {
             "Model type": 0,

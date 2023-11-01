@@ -437,17 +437,17 @@ void EntityFactory::DeleteCloneModel(Entity entity) {
 	//remove from layer
 
 
-	{
-		std::cout << "Layering Size: " << layering.size() << std::endl;
-		int count = 0;
-		for (auto& val : layering) {
-			std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
-		}
-		for (std::string val : layerNames) {
-			std::cout << "Layer Names: " << val << std::endl;
-		}
-		std::cout << "----------" << std::endl;
-	}
+	//{
+	//	std::cout << "Layering Size: " << layering.size() << std::endl;
+	//	int count = 0;
+	//	for (auto& val : layering) {
+	//		std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
+	//	}
+	//	for (std::string val : layerNames) {
+	//		std::cout << "Layer Names: " << val << std::endl;
+	//	}
+	//	std::cout << "----------" << std::endl;
+	//}
 
 
 
@@ -459,17 +459,17 @@ void EntityFactory::DeleteCloneModel(Entity entity) {
 	}
 	--cloneCounter;
 
-	{
-		std::cout << "Layering Size: " << layering.size() << std::endl;
-		int count = 0;
-		for (auto& val : layering) {
-			std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
-		}
-		for (std::string val : layerNames) {
-			std::cout << "Layer Names: " << val << std::endl;
-		}
-		std::cout << "----------" << std::endl;
-	}
+	//{
+	//	std::cout << "Layering Size: " << layering.size() << std::endl;
+	//	int count = 0;
+	//	for (auto& val : layering) {
+	//		std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
+	//	}
+	//	for (std::string val : layerNames) {
+	//		std::cout << "Layer Names: " << val << std::endl;
+	//	}
+	//	std::cout << "----------" << std::endl;
+	//}
 
 }
 

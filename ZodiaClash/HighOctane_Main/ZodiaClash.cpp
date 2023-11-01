@@ -464,6 +464,7 @@ void EngineCore::Run(bool const& mode) {
 		// LOAD IMGUI HERE !!!!!
 
 		guiManager.Init();
+		inEditing = game_mode;
 
 	}
 

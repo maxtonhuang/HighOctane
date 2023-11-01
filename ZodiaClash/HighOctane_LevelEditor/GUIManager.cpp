@@ -126,17 +126,25 @@ void GUIManager::Init()
     //ImGui::PushFont(latoMedium);
     //currentFontSize = fontSizeM;
 
+    
+
 
     ImGui::StyleColorsDark();
+ 
     // Init console window
     InitConsole();
     InitEntitiesManager();
-    
+
 
 #if ENABLE_DEBUG_PROFILE
     // Init performance window
     InitPerformance();
 #endif
+
+
+    //ImGuiStyle& style = ImGui::GetStyle();
+    
+
 
 }
 
@@ -146,6 +154,7 @@ void GUIManager::Update()
     
     // blinks entire window if Drag & Drop file is released
     ImGuiStyle& style = ImGui::GetStyle();
+    
     if (fileDropped && !firstSet) {
         
         // save the original style to revert later on
@@ -176,6 +185,7 @@ void GUIManager::Update()
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
     ImGui::SetNextWindowViewport(main_viewport->ID);
 
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.18f, 0.23f, 0.30f, 1.00f);
     
     ImGui::Begin("Dockable Window", nullptr, window_flags);
     ImGuiIO& io = ImGui::GetIO();
@@ -198,9 +208,11 @@ void GUIManager::Update()
 
         if (ImGui::IsWindowHovered()) {
             io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+            viewportWindowHovered = true;
         }
         else {
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+            viewportWindowHovered = false;
         }
         
         
@@ -295,7 +307,6 @@ void GUIManager::Update()
     UpdateSceneHierachy();
     UpdateContentBrowser();
     UpdateLayer();
-    // add layers panel here
 
 
 #if ENABLE_DEBUG_PROFILE
