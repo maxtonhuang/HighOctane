@@ -199,12 +199,12 @@ rapidjson::Value SerializeVisible(const Visible& visible, rapidjson::Document::A
 	visibleObject.AddMember("isVisible", visible.isVisible, allocator);
 	return visibleObject;
 }
-
-rapidjson::Value SerializeMainCharacter(const MainCharacter& /* mainCharacter */, rapidjson::Document::AllocatorType& allocator) {
-	rapidjson::Value MCObject(rapidjson::kObjectType);
-	MCObject.AddMember("isMainCharacter", true, allocator);
-	return MCObject;
-}
+//
+//rapidjson::Value SerializeMainCharacter(const MainCharacter& /* mainCharacter */, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value MCObject(rapidjson::kObjectType);
+//	MCObject.AddMember("isMainCharacter", true, allocator);
+//	return MCObject;
+//}
 
 rapidjson::Value SerializeCircle(const Circle& circle, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value circleObject(rapidjson::kObjectType);
@@ -269,6 +269,12 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 	modelObject.AddMember("Model type", (int)model.type, allocator);
 	modelObject.AddMember("Background scroll speed", model.backgroundScrollSpeed, allocator);
 	return modelObject;
+}
+
+rapidjson::Value SerializeCollider(const Collider& collider, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value colliderObject(rapidjson::kObjectType);
+	colliderObject.AddMember("Collider Enum", (int)collider.bodyShape, allocator);
+	return colliderObject;
 }
 
 rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Document::AllocatorType& allocator) {
@@ -339,6 +345,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Model* model = nullptr;
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
+	Collider* collider = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		//rapidjson::Value entityArray(rapidjson::kArrayType);
@@ -383,11 +390,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value sizeObject = SerializeSize(*size, allocator);
 			entityObject.AddMember("Size", sizeObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
+		/*if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
 			mainCharacter = &ECS::ecs().GetComponent<MainCharacter>(entity);
 			rapidjson::Value MCObject = SerializeMainCharacter(*mainCharacter, allocator);
 			entityObject.AddMember("MainCharacter", MCObject, allocator);
-		}
+		}*/
 		if (ECS::ecs().HasComponent<Circle>(entity)) {
 			circle = &ECS::ecs().GetComponent<Circle>(entity);
 			rapidjson::Value circleObject = SerializeCircle(*circle, allocator);
@@ -421,6 +428,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 		if (ECS::ecs().HasComponent<Movable>(entity)) {
 			entityObject.AddMember("Movable", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
+		if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
+			entityObject.AddMember("MainCharacter", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
 		if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 			textLabel = &ECS::ecs().GetComponent<TextLabel>(entity);
 			rapidjson::Value textObject = SerializeTextLabel(*textLabel, allocator);
@@ -430,6 +440,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			button = &ECS::ecs().GetComponent<Button>(entity);
 			rapidjson::Value buttonObject = SerializeButton(*button, allocator);
 			entityObject.AddMember("Button", buttonObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<Collider>(entity)) {
+			collider = &ECS::ecs().GetComponent<Collider>(entity);
+			rapidjson::Value colliderObject = SerializeCollider(*collider, allocator);
+			entityObject.AddMember("Collider", colliderObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -605,10 +620,20 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Clone")) {
 			ECS::ecs().AddComponent(entity, Clone{});
 		}
+		if (entityObject.HasMember("MainCharacter")) {
+			ECS::ecs().AddComponent(entity, MainCharacter{});
+		}
 		if (entityObject.HasMember("Model")) {
 			const rapidjson::Value& modelObject = entityObject["Model"];
 			Model model{modelObject["Model type"].GetInt(),modelObject["Background scroll speed"].GetFloat()};
 			ECS::ecs().AddComponent(entity, Model{});
+		}
+		if (entityObject.HasMember("Collider")) {
+			const rapidjson::Value& colliderObject = entityObject["Collider"];
+			Collider collider;
+			int enumID = colliderObject["Collider Enum"].GetInt();
+			collider.bodyShape = static_cast<Collider::SHAPE_ID>(enumID);
+			ECS::ecs().AddComponent(entity, collider);
 		}
 		if (entityObject.HasMember("Movable")) {
 			ECS::ecs().AddComponent(entity, Movable{});
@@ -685,12 +710,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			if (buttonObject.HasMember("Event Input")) {
 				button.eventInput = buttonObject["Event Input"].GetString();
 			}
-
+			
 			ECS::ecs().AddComponent(entity, button);
-			//delete button.colorSet.buttonColor;
-			//delete button.colorSet.textColor;
 		}
-		//ECS::ecs().AddComponent(entity, MainCharacter{});
 	}
 	
 

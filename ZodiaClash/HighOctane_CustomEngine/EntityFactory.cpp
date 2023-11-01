@@ -261,6 +261,9 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	if (ECS::ecs().HasComponent<CharacterStats>(masterEntity)) {
 		ECS::ecs().AddComponent<CharacterStats>(entity, CharacterStats{ ECS::ecs().GetComponent<CharacterStats>(masterEntity) });
 	}
+	if (ECS::ecs().HasComponent<MainCharacter>(masterEntity)) {
+		ECS::ecs().AddComponent<MainCharacter>(entity, MainCharacter{ ECS::ecs().GetComponent<MainCharacter>(masterEntity) });
+	}
 	
 	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	//ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
