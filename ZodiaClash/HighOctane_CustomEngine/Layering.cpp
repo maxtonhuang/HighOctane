@@ -3,6 +3,7 @@
 #include "Editing.h"
 #include <sstream>
 #include <algorithm>
+#include <limits>
 
 
 
@@ -90,20 +91,27 @@ void CreateNewLayer() {
 }
 
 void DeleteLayer() {
-	std::cout << "Layering Size: " << layering[selectedLayer].size() << std::endl;
+	/*std::cout << "Layering Size: " << layering[selectedLayer].size() << std::endl;
 	for (auto& entity : layering[selectedLayer]) {
 		selectedEntities.emplace_back(entity);
 		std::cout << "Marked for destruction: " << entity << std::endl;
 	}
-	std::cout << "---" << std::endl;
+	std::cout << "---" << std::endl;*/
 	
-	for (Entity entity : selectedEntities) {
+	for (Entity entity : layering[selectedLayer]) {
 		std::cout << "Destroying entity: " << entity << std::endl;
 		EntityFactory::entityFactory().DeleteCloneModel(entity);
 	}
+
+	/*for (Entity entity : selectedEntities) {
+		std::cout << "Destroying entity: " << entity << std::endl;
+		EntityFactory::entityFactory().DeleteCloneModel(entity);
+	}*/
+
 	toDestroy = false;
 	selectedEntities.clear();
 	
 	layering.erase(layering.begin() + selectedLayer);
 	layerNames.erase(layerNames.begin() + selectedLayer);
+	currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 }

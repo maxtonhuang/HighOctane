@@ -10,9 +10,6 @@ constexpr float buttonHeight = 40.f;
 
 void UpdateLayer() {
 
-
-
-
 	// retrieving name that has already been deleted.
 
 	// check selection of layer.

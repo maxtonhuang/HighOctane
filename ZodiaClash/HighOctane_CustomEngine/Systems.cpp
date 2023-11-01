@@ -544,26 +544,38 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (auto& layer : layering) {
-		for (auto& entity : layer) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {//(auto& layer : layering) {
+		for (auto& entity : layering[layer_it]) {
 			Name* n = &nameArray.GetData(entity);
 			Transform* t = &transformArray.GetData(entity);
 			Model* m = &modelArray.GetData(entity);
 			
 			// update position
-			UpdateProperties(entity, *n, *t, *m);
+			UpdateProperties(entity, *n, *t, *m, layer_it);
 		}
 	}
 
+	selectedEntities.clear();
+	//printf("%d - Start\n", static_cast<int>(selectedEntities.size()));
+	//UnselectAll();
+	for (Entity entity : m_Entities) {
+		if (nameArray.GetData(entity).selected) {
+			anyObjectSelected = true;
+			selectedEntities.emplace_back(entity);
+			//printf("%d\n", static_cast<int>(selectedEntities.size()));
+		}
+	}
+	//printf("%d\n---\n", static_cast<int>(selectedEntities.size()));
 
 	if (toDestroy) {
-		for (Entity entity : selectedEntities) {
+		/*for (Entity entity : selectedEntities) {
 			std::cout << "Destroying entity: " << entity << std::endl;
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
-		}
+		}*/
 		toDestroy = false;
 		selectedEntities.clear();
 		anyObjectSelected = false;
+		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 
 	}
 
@@ -583,7 +595,6 @@ void EditingSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
 	for (Entity entity : m_Entities) {
