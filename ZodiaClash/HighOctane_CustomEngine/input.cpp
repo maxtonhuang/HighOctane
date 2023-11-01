@@ -57,20 +57,6 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
-        if (GLFW_KEY_M == key) {
-            assetmanager.audio.PlaySounds("ping.wav");
-        }
-        if (GLFW_KEY_N == key) {
-            assetmanager.audio.PlaySounds("bonk.wav", "SFX");
-        }
-        if (GLFW_KEY_F8 == key) {
-            if (assetmanager.audio.IsGroupPaused("BGM")) {
-                assetmanager.audio.ResumeGroup("BGM");
-            }
-            else {
-                assetmanager.audio.PauseGroup("BGM");
-            }
-        }
         if (GLFW_KEY_F11 == key) {
             static bool fullscreen = false;
             if (fullscreen) {
@@ -83,28 +69,28 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         }
 
         // key input for toggling mass rendering
-        if (GLFW_KEY_Y == key) {
-            static bool pressed = false;
-            static bool created = false;
-            if (!pressed) {
-                if (!created) {
-                    std::vector<const char*> spritesheets;
-                    spritesheets.push_back("duck.png");
-                    spritesheets.push_back("duck2.png");
-                    EntityFactory::entityFactory().LoadModels(2500, false, spritesheets);
-                    // after initial creation of models, to stay true throughout runtime
-                    created = true;
-                }
-                else {
-                    EntityFactory::entityFactory().ReapplyMassRendering();
-                }
-                pressed = true;
-            }
-            else {
-                EntityFactory::entityFactory().RemoveMassRendering();
-                pressed = false;
-            }
-        }
+        //if (GLFW_KEY_Y == key) {
+        //    static bool pressed = false;
+        //    static bool created = false;
+        //    if (!pressed) {
+        //        if (!created) {
+        //            std::vector<const char*> spritesheets;
+        //            spritesheets.push_back("duck.png");
+        //            spritesheets.push_back("duck2.png");
+        //            EntityFactory::entityFactory().LoadModels(2500, false, spritesheets);
+        //            // after initial creation of models, to stay true throughout runtime
+        //            created = true;
+        //        }
+        //        else {
+        //            EntityFactory::entityFactory().ReapplyMassRendering();
+        //        }
+        //        pressed = true;
+        //    }
+        //    else {
+        //        EntityFactory::entityFactory().RemoveMassRendering();
+        //        pressed = false;
+        //    }
+        //}
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;

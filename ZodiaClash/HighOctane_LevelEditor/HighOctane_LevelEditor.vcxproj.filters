@@ -72,6 +72,9 @@
     <ClCompile Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.cpp">
       <Filter>Vendor</Filter>
     </ClCompile>
+    <ClCompile Include="ImGuiLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGuiConsole.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.h">
       <Filter>Vendor</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiLayer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

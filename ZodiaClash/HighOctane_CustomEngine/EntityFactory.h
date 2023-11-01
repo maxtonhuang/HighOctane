@@ -52,7 +52,7 @@ public:
 	
 	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
 	void CloneMaster(Entity& masterEntity);
-	void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
+	//void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();
 	void CreateMasterModel(const char* filename);
@@ -70,24 +70,17 @@ public:
 	void DeleteCloneModel(Entity entity);
 
 
-	size_t GetLayerOrder(Entity entity);
-	void LayerOrderSendBackwards(Entity entity);
-	void LayerOrderSendToBack(Entity entity);
-	void LayerOrderBringForward(Entity entity);
-	void LayerOrderBringToFront(Entity entity);
+
 
 	std::vector<Entity> massRenderEntitiesList;
 	std::unordered_map<std::string, Entity> masterEntitiesList;
 
+	size_t masterCounter{1};
+	size_t cloneCounter{1};
+
 private:
 
 	EntityFactory() {}
-
-	std::deque<Entity> layerOrder;
-
-	size_t masterCounter{1};
-
-	size_t cloneCounter{1};
 
 };
 

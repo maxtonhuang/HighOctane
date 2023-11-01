@@ -46,9 +46,6 @@
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0
-        },
-        "Collider": {
-            "Collider Enum": 0
         }
     },
     {
@@ -96,8 +93,8 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
+            "Model type": 1,
+            "Background scroll speed": 1.0
         }
     },
     {
@@ -140,7 +137,7 @@
             "Skills": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -187,7 +184,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -234,7 +231,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -304,7 +301,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -369,6 +366,9 @@
             "width": 128.0,
             "height": 128.0
         },
+        "MainCharacter": {
+            "isMainCharacter": true
+        },
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
@@ -383,10 +383,7 @@
             "Model type": 0,
             "Background scroll speed": 0.0
         },
-        "Movable": {},
-        "MainCharacter": {},
-        "Collider": {
-            "Collider Enum": 0
-        }
-    }
+        "Movable": {}
+    },
+    {}
 ]

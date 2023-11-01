@@ -1,6 +1,4 @@
 #include "ScriptEngine.h"
-#include <mono/jit/jit.h>
-#include <mono/metadata/assembly.h>
 #include "DebugDiagnostic.h"
 #include "InternalCalls.cpp"
 
@@ -10,7 +8,6 @@ extern std::vector<std::string> fullNameVecImGUI;
 // Forward declaration
 static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize);
 static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath);
-void PrintAssemblyTypes(MonoAssembly* assembly);
 
 
 struct ScriptEngineData {
@@ -22,10 +19,6 @@ struct ScriptEngineData {
 
     ScriptClass EntityClass;
 
- //   void onCreate() {
- //       std::cout << "On create called\n";
-	//}
-
     std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
     std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
     //std::vector<std::shared_ptr<ScriptInstance>> EntityInstances;
@@ -34,12 +27,6 @@ struct ScriptEngineData {
 };
 
 static ScriptEngineData* s_Data = nullptr;
-
-struct CSharpClassInfo {
-    std::string namespaceName;
-    std::string className;
-    // Add more fields if necessary.
-};
 
 void ScriptEngine::Init() {
     //std::cout << "Hi this is initialized for scripting system\n";
@@ -63,9 +50,6 @@ void ScriptEngine::Init() {
     LoadAssembly(fullAssemblyPath);
     
     LoadAssemblyClasses(s_Data->CoreAssembly);
-    //auto& classes = s_Data->EntityClasses;
-
-    //printf("Classes size: %d\n", classes.size());
 
     // This is to add the internal calls
     internalcalls::AddInternalCall();
@@ -82,6 +66,22 @@ void ScriptEngine::InitMono() {
     //std::cout << "Scripting InitMono\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
     std::cout << "filePath: " << filePath << std::endl;
+
+
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
     if (std::filesystem::exists(filePath)) {
         mono_set_assemblies_path(filePath.c_str());
         
@@ -96,7 +96,20 @@ void ScriptEngine::InitMono() {
             mono_set_assemblies_path(filePath.c_str());
         }
     }
-
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
+    /*-------------------HARD CODE---------------------*/
     
     MonoDomain* rootDomain = mono_jit_init("HighOctaneRuntime");
     //ASSERT(true, "NIGEL");
@@ -119,11 +132,12 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     //PrintAssemblyTypes(s_Data->CoreAssembly);
 }
 
+// Helper function to see if the entity class exists
 bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {
 	return s_Data->EntityClasses.find(fullClassName) != s_Data->EntityClasses.end();
 }
 
-// Not sure if this is working or not haha (Trying to refactor)
+// On creating the Entity
 void ScriptEngine::OnCreateEntity(Entity entity) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -144,6 +158,8 @@ void ScriptEngine::OnCreateEntity(Entity entity) {
     }
 }
 
+
+// Run time add script
 void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -170,7 +186,7 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     entityScripts.push_back(instance);
 }
 
-// Helper function
+// Helper function for script instance
 std::string ScriptInstance::GetScriptName() const {
     if (m_ScriptClass) {
         // Check if there's namespace
@@ -187,7 +203,7 @@ std::string ScriptInstance::GetScriptName() const {
 }
 
 
-// Run ti me remove script
+// Run time remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
@@ -258,7 +274,7 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
             s_Data->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
             fullNameVecImGUI.emplace_back(fullName);
             //std::cout << "Added class: " << fullName << std::endl;
-            printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
+            //printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
         } 
     }
 
@@ -314,24 +330,15 @@ ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity 
 }
 
 void ScriptInstance::InvokeOnCreate() {
-    //std::cout << "ScriptEngine.cpp::InvokeOnCreate" << std::endl;
 	m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
-    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_Instance: " << m_Instance << std::endl;
-    //std::cout << "ScriptEngine.cpp::InvokeOnCreate m_OnCreateMethod: " << m_OnCreateMethod << std::endl;
 }
 
 void ScriptInstance::InvokeOnUpdate() {
 	m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod);
 }
 
-//void AddScripts(std::string nameSpace, std::string className, Entity entity) {
-//    auto& sc = ECS::ecs().GetComponent<Script>(entity);
-//    sc.scriptName = nameSpace + "." + className;
-//    sc.monoScriptName.push_back(nameSpace + "." + className);
-//}
 
 // Helper functions
-
 static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize)
 {
     std::ifstream stream(filepath, std::ios::binary | std::ios::ate);
@@ -365,41 +372,16 @@ static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
     uint32_t fileSize = 0;
     char* fileData = ReadBytes(assemblyPath, &fileSize);
 
-    // NOTE: We can't use this image for anything other than loading the assembly because this image doesn't have a reference to the assembly
     MonoImageOpenStatus status;
     MonoImage* image = mono_image_open_from_data_full(fileData, fileSize, 1, &status, 0);
 
-    //if (status != MONO_IMAGE_OK)
-    //{
-    //    const char* errorMessage = mono_image_strerror(status);
-    //    // Log some error message using the errorMessage data
-    //    return nullptr;
-    //}
     std::string pathString = assemblyPath.string();
 
     MonoAssembly* assembly = mono_assembly_load_from_full(image, pathString.c_str(), &status, 0);
     mono_image_close(image);
 
-    // Don't forget to free the file data
+    // Free the file Data
     delete[] fileData;
 
     return assembly;
-}
-
-void PrintAssemblyTypes(MonoAssembly* assembly)
-{
-    MonoImage* image = mono_assembly_get_image(assembly);
-    const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(image, MONO_TABLE_TYPEDEF);
-    int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
-
-    for (int32_t i = 0; i < numTypes; i++)
-    {
-        uint32_t cols[MONO_TYPEDEF_SIZE];
-        mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
-
-        const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
-        const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
-         
-        printf("%s.%s\n", nameSpace, name);
-    }
 }

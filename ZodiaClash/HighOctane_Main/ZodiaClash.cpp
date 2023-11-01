@@ -52,17 +52,14 @@
 #include "ECS.h"
 #include "Components.h"
 #include "physics.h"
-#include <filesystem>
 //#include <thread>
 #include "AudioManager.h"
 #include "Serialization.h"
+#include "ScriptEngine.h"
 #include "Scripting.h"
 #include "ImGuiPerformance.h"
-#include <mono/metadata/assembly.h>
 #include "Animator.h"
-#include "FileWatcher.h"
 #include "AssetManager.h"
-#include "ScriptEngine.h"
 #include "CharacterStats.h"
 #include "Battle.h"
 #include "EnemyAction.h"
@@ -70,6 +67,8 @@
 #include "UIComponents.h"
 #include "Reflections.h"
 #include "Events.h"
+#include "Layering.h"
+
 
 bool gConsoleInitalized{ false };
 
@@ -132,8 +131,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	**************************************************************************/
 	//SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
-	//testFunc();
-    //InitMono();
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
@@ -147,7 +144,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
-
+	testFunc();
 	/*-----------THIS IS FOR SCRIPTING------------*/
 	//REGISTER_TYPE(int);
 	//REGISTER_TYPE(double);
@@ -468,6 +465,8 @@ void EngineCore::Run(bool const& mode) {
 	//////////                                  //////////
 	//////////////////////////////////////////////////////
 
+	CreateNewLayer();
+
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
@@ -483,6 +482,7 @@ void EngineCore::Run(bool const& mode) {
 		// LOAD IMGUI HERE !!!!!
 
 		guiManager.Init();
+		inEditing = game_mode;
 
 	}
 
