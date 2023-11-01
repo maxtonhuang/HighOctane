@@ -74,12 +74,12 @@ extern std::string newSceneName;
 
 extern size_t currentLayer;
 extern size_t selectedLayer;
-extern size_t layerCounter;
+extern size_t layerCounter; // serialize
 extern size_t selectedGroup;
-extern size_t groupCounter;
+extern size_t groupCounter; // serialize
 extern size_t highestSelectedOrder;
-extern std::deque<std::string> layerNames;
-extern std::deque< std::deque<Entity> > layering;
+extern std::deque<std::string> layerNames; // seialize
+extern std::deque< std::deque<Entity> > layering; // serialize
 
 //extern std::shared_ptr<EditingSystem> edit_ptr;
 extern std::shared_ptr<SerializationSystem> s_ptr;
