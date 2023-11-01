@@ -31,7 +31,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			case INFO::KEY_BACKSPACE:
 				//if (name.selected) {
 					//selectedEntities.emplace_back(entity);
-					toDestroy = true;
+					//toDestroy = true;
 					//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				//}
 				//EntityFactory::entityFactory().DeleteCloneModel(entity);
@@ -213,8 +213,10 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				}
 					break;
 				case CLICKED::INSIDE:
-					transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::w)+(transform.position.x - model.GetMin().x), (GRAPHICS::w)-(model.GetMax().x - transform.position.x));
-					transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::h)+(transform.position.y - model.GetMin().y), (GRAPHICS::h)-(model.GetMax().y - transform.position.y));
+					//transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::w)+(transform.position.x - model.GetMin().x), (GRAPHICS::w)-(model.GetMax().x - transform.position.x));
+					//transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::h)+(transform.position.y - model.GetMin().y), (GRAPHICS::h)-(model.GetMax().y - transform.position.y));
+					transform.position.x = mousePos.x - offset.x;
+					transform.position.y = mousePos.y - offset.y;
 					break;
 				default:
 					break;

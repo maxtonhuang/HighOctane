@@ -228,7 +228,7 @@ void AssetManager::LoadScene(const std::string& scenePath) {
     else {
         ASSERT(true, "Unable to open scene file!");
     }
-
+    sceneName = scenePath;
 }
 
 void AssetManager::LoadEntities(const std::string& entitiesPath) {

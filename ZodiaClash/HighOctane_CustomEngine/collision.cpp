@@ -33,6 +33,8 @@
 #include "Physics.h"
 #include "Global.h"
 
+#define FIXED_DT 1.0f/60.f
+
 namespace physics {
 
 	/*!
@@ -74,7 +76,7 @@ namespace physics {
 			Step 2: Initialize and calculate the new velocity of Vb
 			*/
 			float tFirst = 0.f;
-			float tLast = g_dt;
+			float tLast = FIXED_DT;
 
 			vmath::Vector2 vB;
 			vB.x = vel2.x - vel1.x;

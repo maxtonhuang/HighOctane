@@ -132,8 +132,67 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(TextLabel).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Text Label")) {
+			std::pair<std::string, std::string> fontInfo = textlabel.font->GetInfo();
 
-			ImGui::InputText("Event Input", &textlabel.textString);
+			// font properties
+			std::vector<std::string> ftFamilyList = fonts.GetFontFamilyList();
+			std::vector<std::string> ftVariantList = fonts.GetFontVariantList(fontInfo.first);
+			const char* selectedFamily = fontInfo.first.c_str();
+			const char* selectedVariant = fontInfo.second.c_str();
+
+			if (ECS::ecs().HasComponent<Button>(entity)) {
+				Button& button{ ECS::ecs().GetComponent<Button>(entity) };
+
+				auto& txtColor = button.GetDefaultTextColor();
+				ImGui::ColorEdit3("Color", (float*)&txtColor);
+
+				//button.UpdateColorSets(button.GetDefaultButtonColor(), txtColor);
+				textlabel.textColor = txtColor;
+			}
+			else {
+				auto& txtColor = textlabel.GetTextColor();
+				ImGui::ColorEdit3("Color", (float*)&txtColor);
+			}
+
+			// combo box for font family
+			if (!ftFamilyList.empty()) {
+				if (ImGui::BeginCombo("Font", selectedFamily)) {
+					for (int n = 0; n < ftFamilyList.size(); n++) {
+						bool is_selected = (selectedFamily == ftFamilyList[n]);
+						if (ImGui::Selectable(ftFamilyList[n].c_str(), is_selected)) {
+							selectedFamily = ftFamilyList[n].c_str();
+							// trigger set font family
+							textlabel.SetFontFamily(selectedFamily);
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+
+			// combo box for font variant
+			if (!ftFamilyList.empty()) {
+				if (ImGui::BeginCombo("Variant", selectedVariant)) {
+					for (int n = 0; n < ftVariantList.size(); n++) {
+						bool is_selected = (selectedVariant == ftVariantList[n]);
+						if (ImGui::Selectable(ftVariantList[n].c_str(), is_selected)) {
+							selectedVariant = ftVariantList[n].c_str();
+							// trigger set font variant
+							textlabel.SetFontVariant(selectedFamily, selectedVariant);
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+
+
+			// text box to reflect current string
+			ImGui::InputText("Text", &textlabel.textString);
 
 			ImGui::TreePop();
 		}
@@ -160,6 +219,12 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			ImGui::InputText("Event Input",&button.eventInput);
+
+			auto& btnColor = button.GetDefaultButtonColor();
+			ImGui::ColorEdit3("Color", (float*)&btnColor);
+			//if (button.currentState == STATE::FOCUSED) {
+				//button.UpdateColorSets(btnColor, button.GetDefaultTextColor()); //TO FIX!!
+			//}
 
 			ImGui::TreePop();
 

@@ -13,6 +13,9 @@ void ExitGame(std::string input) {
 }
 
 void ChangeScene(std::string input) {
+	if (sceneName == input) {
+		return;
+	}
 	newScene = true;
 	button_clicked = true;
 	newSceneName = input;

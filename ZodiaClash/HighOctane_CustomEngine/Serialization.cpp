@@ -621,7 +621,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Clone")) {
 			ECS::ecs().AddComponent(entity, Clone{});
 			//////////////////////////////////////////////////////////////////////////// <-------
-			layering[selectedLayer].push_back(entity);
+			// im guessing this means to serialise layering but i put 0 first so it doesnt crash
+			//layering[selectedLayer].push_back(entity);
+			layering[0].push_back(entity);
 			++(EntityFactory::entityFactory().cloneCounter);
 		}
 		if (entityObject.HasMember("MainCharacter")) {

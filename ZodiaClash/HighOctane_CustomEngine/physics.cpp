@@ -32,6 +32,7 @@
 #include "Physics.h"
 #include <math.h>
 
+#define FIXED_DT 1.0f/60.f
 #define UNREFERENCED_PARAMETER(P) (P)
 
 namespace physics {
@@ -125,55 +126,26 @@ namespace physics {
         properties won't be updated.
      */
      /**************************************************************************/
-    void PhysicsManager::Integrate(Transform& transformData) 
+    void PhysicsManager::Integrate(Transform& transformData)
     {
-
         // calculate acceleration due to force
         transformData.acceleration = transformData.force * transformData.inverseMass;
-        // add gravitational acceleration
-        //transformData.acceleration += {GRAVITY_X, GRAVITY_Y};
+        // optionally add gravitational acceleration
+        //transformData.acceleration += {GRAVITY_X* FIXED_DT, GRAVITY_Y* FIXED_DT};
         // update velocity with acceleration and apply friction
-        transformData.velocity += transformData.acceleration;
+        transformData.velocity += transformData.acceleration * FIXED_DT;
         // update position with velocity
-        transformData.position += transformData.velocity;
+        transformData.position += transformData.velocity * FIXED_DT;
+        // apply friction (assuming FRICTION is < 1 and represents a damping factor)
+        transformData.velocity *= pow(FRICTION, FIXED_DT);
         // reset force for the next frame
-        transformData.velocity *= FRICTION;
         transformData.force = { 0, 0 };
 
-        //std::cout << transformData.velocity.x << " , " << transformData.velocity.y << std::endl;
-        //std::cout << transformData.position.x << " , " << transformData.position.y << std::endl;
-
-        /*
-
-        // If the body is static, we don't want to update its position or velocity.
-        //if (body.isStatic) return;
-
-        // Store the current position as the previous position
-        //body.prevPosition = transform.position;
-
-        // Update the position based on deltaTime
-        //std::cout << transform.velocity.x << " , " << transform.velocity.y << std::endl;
-        //transform.position += transform.velocity;
-        //std::cout << transform.position.x << " , " << transform.position.y << std::endl;
-        /*
-        // Update the acceleration based on the global gravity and any accumulated forces on the body.
-        Vector2 newAcceleration = body.accumulatedForce + body.acceleration * 0.1f;
-
-        // Update the velocity using the newly computed acceleration.
-        transform.velocity += newAcceleration * deltaTime;
-        
-
-        //// Ensure the velocity doesn't exceed a maximum value for numerical stability.
-        if (Vector2::dot(transform.velocity, transform.velocity) > maxVelocitySq)
-        {
-            transform.velocity.normalize();  // Make the velocity a unit vector
-            transform.velocity *= maxVelocity;  // Scale it to the maximum allowed velocity
-        }
-        transform.velocity *= .95f;
-
-        // Reset the accumulated force to zero for the next frame
-        body.accumulatedForce = Vector2(0, 0);*/
+        std::cout << transformData.velocity.x << " , " << transformData.velocity.y << std::endl;
+        std::cout << "=====================================================================" << std::endl;
+        std::cout << transformData.position.x << " , " << transformData.position.y << std::endl;
     }
+
 
 
     /**************************************************************************/
