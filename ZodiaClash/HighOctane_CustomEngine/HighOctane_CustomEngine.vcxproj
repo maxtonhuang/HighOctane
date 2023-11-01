@@ -214,7 +214,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="EngineCore.h" />
     <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="File.h" />
-    <ClInclude Include="FileWatcher.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontLib.h" />
     <ClInclude Include="FrameBuffer.h" />
@@ -238,7 +237,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ScriptEngine.h" />
     <ClInclude Include="Scripting.h" />
-    <ClInclude Include="ScriptLinker.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Texture.h" />
@@ -291,7 +289,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
-    <ClCompile Include="Scripting.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Systems.cpp" />
