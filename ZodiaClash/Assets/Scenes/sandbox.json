@@ -96,8 +96,8 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 1,
-            "Background scroll speed": 1.0
+            "Model type": 0,
+            "Background scroll speed": 0.0
         }
     },
     {
@@ -257,7 +257,7 @@
             "Text G": 0.44999998807907104,
             "Text B": 0.49000000953674316,
             "Text A": 1.0,
-            "Event Name": "Audio",
+            "Event Name": "Play Sound",
             "Event Input": "bonk.wav",
             "Padding Top": 10.0,
             "Padding Bottom": 10.0,
@@ -268,7 +268,7 @@
     {
         "Entity": {
             "Name": "entity_00009",
-            "Selected": false
+            "Selected": true
         },
         "Clone": {},
         "Color": {
@@ -327,7 +327,7 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Audio",
+            "Event Name": "Play Sound",
             "Event Input": "ping.wav",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -388,6 +388,5 @@
         "Collider": {
             "Collider Enum": 0
         }
-    },
-    {}
+    }
 ]
