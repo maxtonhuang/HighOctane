@@ -54,47 +54,49 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		case TYPE::MOUSE_CLICK: // selection of entity done here
 			switch (msg.info) {
 				case INFO::MOUSE_LEFT: {
-					
-					if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
-						// clear all previous selection
-						UnselectAll();
-						name.selected = true;
-						name.clicked = CLICKED::NE;
-					}
-					else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
-						UnselectAll();
-						name.selected = true;
-						name.clicked = CLICKED::SW;
-					}
-					else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
-						UnselectAll();
-						name.selected = true;
-						name.clicked = CLICKED::SE;
-					}
-					else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
-						UnselectAll();
-						name.selected = true;
-						name.clicked = CLICKED::NW;
-					}
-					else if (IsWithinObject(model, mousePos)) {
-						UnselectAll();
-						name.selected = true;
-						name.clicked = CLICKED::INSIDE;
-						offset = GetOffset(transform.position, mousePos);
-					}
-					else {
-						if (!popupHovered) {
-							rightClick = false;
-							name.selected = false;
-							name.clicked = CLICKED::NOT;
+					if (viewportWindowHovered) {
+						if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
+							// clear all previous selection
+							UnselectAll();
+							name.selected = true;
+							name.clicked = CLICKED::NE;
+						}
+						else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
+							UnselectAll();
+							name.selected = true;
+							name.clicked = CLICKED::SW;
+						}
+						else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
+							UnselectAll();
+							name.selected = true;
+							name.clicked = CLICKED::SE;
+						}
+						else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
+							UnselectAll();
+							name.selected = true;
+							name.clicked = CLICKED::NW;
+						}
+						else if (IsWithinObject(model, mousePos)) {
+							UnselectAll();
+							name.selected = true;
+							name.clicked = CLICKED::INSIDE;
+							offset = GetOffset(transform.position, mousePos);
+						}
+						else {
+							if (!popupHovered) {
+								rightClick = false;
+								name.selected = false;
+								name.clicked = CLICKED::NOT;
+							}
 						}
 					}
 				}
 				break;
 				case INFO::MOUSE_RIGHT:
-					UnselectAll();
+					
 					//rightClick = false;
 					if (IsWithinObject(model, mousePos)) {
+						UnselectAll();
 						name.selected = true;
 						rightClick = true;
 						rightClickPos = mousePos;
@@ -216,7 +218,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		name.selected = true;
 	}
 
-	if (name.selected) {
+	if (/*viewportWindowHovered && */name.selected) {
 		anyObjectSelected = true;
 		selectedEntities.emplace_back(entity);
 		if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), mousePos, CORNER_SIZE) || IsNearby(model.GetMin(), mousePos, CORNER_SIZE))) {

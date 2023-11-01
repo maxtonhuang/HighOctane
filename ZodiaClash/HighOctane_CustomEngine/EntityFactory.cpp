@@ -265,7 +265,13 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {  ///////// CLONE 2
 	if (ECS::ecs().HasComponent<CharacterStats>(masterEntity)) {
 		ECS::ecs().AddComponent<CharacterStats>(entity, CharacterStats{ ECS::ecs().GetComponent<CharacterStats>(masterEntity) });
 	}
-	
+
+	layering[selectedLayer].emplace_back(entity);
+	++cloneCounter;
+
+
+
+
 	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	//ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
 	//ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
@@ -286,8 +292,7 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {  ///////// CLONE 2
 	//	//// for mass rendering - add this entity to vector
 	//	massRenderEntitiesList.push_back(entity);
 	//}
-	layering[selectedLayer].emplace_back(entity);
-	++cloneCounter;
+	
 	//return entity;
 }
 

@@ -544,14 +544,15 @@ void EditingSystem::Update() {
 
 	}
 
-	if (clearAllSelection) {
-		for (Entity entity : selectedEntities) {
-			nameArray.GetData(entity).selected = false;
-		}
-		clearAllSelection = false;
-		anyObjectSelected = false;
-	}
+	//if (clearAllSelection) {
+	//	for (Entity entity : selectedEntities) {
+	//		nameArray.GetData(entity).selected = false;
+	//	}
+	//	clearAllSelection = false;
+	//	anyObjectSelected = false;
+	//}
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
+	//printf("XXXXXXXXXX--- END EDITING SYSTEM ---XXXXXXXXXX");
 }
 
 void EditingSystem::Draw() {

@@ -1,5 +1,6 @@
 #include "Layering.h"
 #include "Global.h"
+#include "Editing.h"
 #include <sstream>
 #include <algorithm>
 
@@ -68,7 +69,10 @@ void CreateNewLayer() {
 	layerNames.emplace_back(oss.str());
 	
 	currentLayer = selectedLayer = layering.size() - 1;
-	clearAllSelection = true;
+	
+	UnselectAll();
+	
+	//clearAllSelection = true;
 
 
 

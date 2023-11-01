@@ -2,6 +2,7 @@
 #include "ImGuiLayer.h"
 #include "EntityFactory.h"
 #include "Layering.h"
+#include "Editing.h"
 #include <iterator>
 #include "Global.h"
 
@@ -16,11 +17,6 @@ void UpdateLayer() {
 
 	// check selection of layer.
 
-
-
-
-
-
 	ImGui::Begin("Layers");
 	float bh = buttonHeight + ImGui::GetStyle().ItemSpacing.y;  // Button height + spacing
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
@@ -29,27 +25,37 @@ void UpdateLayer() {
 
 	///// Here
 
-	for (auto layer_it = layering.rbegin(); layer_it != layering.rend(); ++layer_it) {
-
-		size_t idx = std::distance(layer_it, layering.rend()) - 1;
-		if ( ImGui::TreeNodeEx(layerNames[idx].c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (idx == currentLayer ? ImGuiTreeNodeFlags_Selected : 0), layerNames[idx].c_str()) ) {
-
-			for (auto entity_it = layer_it->rbegin(); entity_it != layer_it->rend(); ++entity_it) {
-				auto& entityName = ECS::ecs().GetComponent<Name>(*entity_it);
-				if (entityName.selected) {
-					currentLayer = idx;
+	for (int layer_it = (static_cast<int>(layering.size()) - 1); layer_it >= 0; --layer_it) {
+		if (ImGui::TreeNodeEx(layerNames[layer_it].c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (layer_it == currentLayer ? ImGuiTreeNodeFlags_Selected : 0), layerNames[layer_it].c_str())) {
+			if (ImGui::IsItemClicked()) {
+				UnselectAll();
+				for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
+					Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
+					entityName.selected = true;
 				}
-				if ( ImGui::TreeNodeEx((std::to_string(*entity_it)).c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), entityName.name.c_str())) {
-					// keep the node selected
-					//entityName.selected = true;
+			}
+			for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
+				Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
+				if (entityName.selected) {
+					currentLayer = layer_it;
+				}
+				if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), entityName.name.c_str())) {
+					
+					if (ImGui::IsItemClicked()) {
+						UnselectAll();
+						entityName.selected = true;
+					}
+
 					ImGui::TreePop();
 				}
 			}
-
 			ImGui::TreePop();
 		}
-
 	}
+
+
+
+
 
 	///// To here
 
@@ -69,6 +75,7 @@ void UpdateLayer() {
 
 	ImGui::End();
 
+	//printf("XXXXXXXXXX--- END GUILAYER SYSTEM ---XXXXXXXXXX");
 
 
 }
