@@ -70,6 +70,7 @@
 #include "UIComponents.h"
 #include "Reflections.h"
 #include "Events.h"
+#include "Layering.h"
 
 bool gConsoleInitalized{ false };
 
@@ -468,6 +469,8 @@ void EngineCore::Run(bool const& mode) {
 	//////////                                  //////////
 	//////////////////////////////////////////////////////
 
+	CreateNewLayer();
+
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
@@ -483,6 +486,7 @@ void EngineCore::Run(bool const& mode) {
 		// LOAD IMGUI HERE !!!!!
 
 		guiManager.Init();
+		inEditing = game_mode;
 
 	}
 

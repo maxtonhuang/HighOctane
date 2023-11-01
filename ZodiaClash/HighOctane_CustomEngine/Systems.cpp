@@ -227,29 +227,32 @@ void CollisionSystem::Update() {
 void MovementSystem::Update() {
 	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() <<std::endl;
 
-	//// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	if (!inEditing || viewportWindowHovered) {
 
-	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+		//// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
+		//// Access component arrays through the ComponentManager
+		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+		auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
-		Animator* animatorData = &animatorArray.GetData(entity);
-		Tex* texData = &texArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
+		for (Entity const& entity : m_Entities) {
+			Transform* transformData = &transformArray.GetData(entity);
+			Model* modelData = &modelArray.GetData(entity);
 
-		UpdateMovement(*transformData, *modelData);
-		
-		animatorData->UpdateAnimationMC(*texData, *sizeData);
-		//modelData->DrawOutline();
-		//graphics.backgroundsystem.SetFocusEntity(entity);
+			Animator* animatorData = &animatorArray.GetData(entity);
+			Tex* texData = &texArray.GetData(entity);
+			Size* sizeData = &sizeArray.GetData(entity);
+
+			UpdateMovement(*transformData, *modelData);
+
+			animatorData->UpdateAnimationMC(*texData, *sizeData);
+			//modelData->DrawOutline();
+			//graphics.backgroundsystem.SetFocusEntity(entity);
+		}
 	}
 	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
@@ -518,23 +521,36 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (Entity entity : m_Entities) {
-		Name* n = &nameArray.GetData(entity);
-		Transform* t = &transformArray.GetData(entity);
-		Model* m = &modelArray.GetData(entity);
+	for (auto& layer : layering) {
+		for (auto& entity : layer) {
+			Name* n = &nameArray.GetData(entity);
+			Transform* t = &transformArray.GetData(entity);
+			Model* m = &modelArray.GetData(entity);
 		
-		// update position
-		UpdateProperties(entity, *n, *t, *m);
+			// update position
+			UpdateProperties(entity, *n, *t, *m);
+		}
 	}
+
+
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
+			std::cout << "Destroying entity: " << entity << std::endl;
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
 		}
 		toDestroy = false;
 		selectedEntities.clear();
+		anyObjectSelected = false;
+
 	}
 
-	
+	if (clearAllSelection) {
+		for (Entity entity : selectedEntities) {
+			nameArray.GetData(entity).selected = false;
+		}
+		clearAllSelection = false;
+		anyObjectSelected = false;
+	}
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
 }
 

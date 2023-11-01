@@ -245,6 +245,9 @@
     <ClInclude Include="GameStateManager.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="Layering.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -397,6 +400,9 @@
     </ClCompile>
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Layering.cpp">
+      <Filter>EngineArchitecture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

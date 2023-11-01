@@ -15,9 +15,9 @@ vmath::Vector2 offset{ RESET_VEC2 };
 constexpr float CORNER_SIZE = 10.f;
 
 void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model) {
-	if (newSelection) {
-		name.selected = false;
-	}
+	//if (newSelection) {
+	//	name.selected = false;
+	//}
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 
@@ -51,27 +51,33 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			mousePos = { msg.posX, msg.posY };
 			break;
 
-		case TYPE::MOUSE_CLICK:
+		case TYPE::MOUSE_CLICK: // selection of entity done here
 			switch (msg.info) {
 				case INFO::MOUSE_LEFT: {
 					
 					if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
+						// clear all previous selection
+						UnselectAll();
 						name.selected = true;
 						name.clicked = CLICKED::NE;
 					}
 					else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
+						UnselectAll();
 						name.selected = true;
 						name.clicked = CLICKED::SW;
 					}
 					else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
+						UnselectAll();
 						name.selected = true;
 						name.clicked = CLICKED::SE;
 					}
 					else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
+						UnselectAll();
 						name.selected = true;
 						name.clicked = CLICKED::NW;
 					}
 					else if (IsWithinObject(model, mousePos)) {
+						UnselectAll();
 						name.selected = true;
 						name.clicked = CLICKED::INSIDE;
 						offset = GetOffset(transform.position, mousePos);
@@ -86,7 +92,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				}
 				break;
 				case INFO::MOUSE_RIGHT:
-					name.selected = false;
+					UnselectAll();
 					//rightClick = false;
 					if (IsWithinObject(model, mousePos)) {
 						name.selected = true;
@@ -227,3 +233,23 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		}
 	}
 }
+
+
+
+void UnselectAll() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	for (auto& layer : layering) {
+		for (auto& entity : layer) {
+			nameArray.GetData(entity).selected = false;
+		}
+	}
+}
+
+
+void SelectGroup() {
+
+
+
+}
+

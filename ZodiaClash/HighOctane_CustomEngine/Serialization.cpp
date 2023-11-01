@@ -601,9 +601,13 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Master")) {
 			ECS::ecs().AddComponent(entity, Master{});
 			EntityFactory::entityFactory().masterEntitiesList[ECS::ecs().GetComponent<Name>(entity).name] = entity;
+			++(EntityFactory::entityFactory().masterCounter);
 		}
 		if (entityObject.HasMember("Clone")) {
 			ECS::ecs().AddComponent(entity, Clone{});
+			//////////////////////////////////////////////////////////////////////////// <-------
+			layering[selectedLayer].push_back(entity);
+			++(EntityFactory::entityFactory().cloneCounter);
 		}
 		if (entityObject.HasMember("Model")) {
 			const rapidjson::Value& modelObject = entityObject["Model"];

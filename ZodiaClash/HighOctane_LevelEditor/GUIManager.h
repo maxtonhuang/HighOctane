@@ -57,4 +57,8 @@ private:
 };
 
 extern ImFont* latoLargeBold;
-    //extern GUIManager guiManager;
+extern ImFont* latoSmall;
+extern ImFont* latoMedium;
+extern ImFont* latoLarge;
+extern float currentFontSize;
+//extern GUIManager guiManager;

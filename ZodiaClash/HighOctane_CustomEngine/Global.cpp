@@ -53,14 +53,30 @@ bool playButton{ false };
 bool stopButton{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
+bool inEditing{ false };
+bool viewportWindowHovered{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
+
 std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
+
+bool clearAllSelection{ false };
 bool newScene{ true };
 std::string newSceneName{};
 
+size_t currentLayer{};
+size_t selectedLayer{};
+
+size_t layerCounter{};
+size_t selectedGroup{};
+size_t groupCounter{};
+size_t highestSelectedOrder{};
+std::deque<std::string> layerNames{};
+std::deque< std::deque<Entity> > layering{};
+
+//std::shared_ptr<EditingSystem> edit_ptr;
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };
