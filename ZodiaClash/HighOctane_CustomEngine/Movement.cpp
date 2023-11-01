@@ -70,8 +70,8 @@ void UpdateMovement(Transform & transform, Model & model) {
 	//transform.velocity = {0,0};
 	
 
-	if (transform.position.distance(finalPos) > 2.f) {
-		transform.force += direction * speed * g_dt;
-	}
+	//if (transform.position.distance(finalPos) > 2.f) {
+	//	transform.force += direction * speed * g_dt;
+	//}
 
 }

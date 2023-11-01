@@ -59,14 +59,30 @@ extern bool rightClick;
 extern bool playButton;
 extern bool stopButton;
 extern bool toDestroy;
+extern bool toCopy;
+extern bool inEditing;
+extern bool viewportWindowHovered;
 extern vmath::Vector2 rightClickPos;
-extern std::vector<Entity> selectedEntities;
+extern std::vector<Entity> selectedEntities; // for destruction
 extern Entity newSelection;
 extern bool popupHovered;
-extern bool anyObjectSelected;
+extern bool anyObjectSelected; // whether any object is selected
+
+extern bool clearAllSelection;
 extern bool newScene;
 extern std::string newSceneName;
 
+
+extern size_t currentLayer;
+extern size_t selectedLayer;
+extern size_t layerCounter; // serialize
+extern size_t selectedGroup;
+extern size_t groupCounter; // serialize
+extern size_t highestSelectedOrder;
+extern std::deque<std::string> layerNames; // seialize
+extern std::deque< std::deque<Entity> > layering; // serialize
+
+//extern std::shared_ptr<EditingSystem> edit_ptr;
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;
 extern size_t importFileCount;

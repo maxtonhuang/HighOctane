@@ -50,7 +50,6 @@ TextLabel::TextLabel() {
 	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap["black"];
-	initClr = "black";
 }
 
 TextLabel::TextLabel(std::string str, std::string txtColor) {

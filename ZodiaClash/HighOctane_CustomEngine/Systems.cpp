@@ -54,6 +54,7 @@
 #include "CharacterStats.h"
 #include "UIComponents.h"
 #include "AssetManager.h"
+#include "Layering.h"
 
 #define FIXED_DT 1/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
@@ -227,29 +228,32 @@ void CollisionSystem::Update() {
 void MovementSystem::Update() {
 	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() <<std::endl;
 
-	//// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	if (!inEditing || viewportWindowHovered) {
 
-	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+		//// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
+		//// Access component arrays through the ComponentManager
+		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+		auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
-		Animator* animatorData = &animatorArray.GetData(entity);
-		Tex* texData = &texArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
+		for (Entity const& entity : m_Entities) {
+			Transform* transformData = &transformArray.GetData(entity);
+			Model* modelData = &modelArray.GetData(entity);
 
-		UpdateMovement(*transformData, *modelData);
-		
-		animatorData->UpdateAnimationMC(*texData, *sizeData);
-		//modelData->DrawOutline();
-		//graphics.backgroundsystem.SetFocusEntity(entity);
+			Animator* animatorData = &animatorArray.GetData(entity);
+			Tex* texData = &texArray.GetData(entity);
+			Size* sizeData = &sizeArray.GetData(entity);
+
+			UpdateMovement(*transformData, *modelData);
+
+			animatorData->UpdateAnimationMC(*texData, *sizeData);
+			//modelData->DrawOutline();
+			//graphics.backgroundsystem.SetFocusEntity(entity);
+		}
 	}
 	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
@@ -341,6 +345,21 @@ void GraphicsSystem::Update() {
 		}
 		m->Update(*transform, *size);
 	}
+
+	//UPDATE FREE CAMERA MOVEMENT
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
+		if (msg.type == TYPE::KEY_DOWN) {
+			switch (msg.info) {
+			case INFO::KEY_Y:   camera.AddZoom(0.1f * g_dt);        break;
+			case INFO::KEY_U:   camera.AddZoom(-0.1f * g_dt);       break;
+			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * g_dt);   break;
+			case INFO::KEY_J:   camera.AddPos(-200.f * g_dt, 0.f);  break;
+			case INFO::KEY_K:   camera.AddPos(0, -200.f * g_dt);    break;
+			case INFO::KEY_L:   camera.AddPos(200.f * g_dt, 0.f);   break;
+			default: break;
+			}
+		}
+	}
 	camera.Update();
 }
 
@@ -353,19 +372,42 @@ void GraphicsSystem::Draw() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 
-	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		Tex* tex = nullptr;
-		Animator* anim = nullptr;
-		if (texArray.HasComponent(entity)) {
-			tex = &texArray.GetData(entity);
+	graphics.viewport.Unuse();
+	//for (Entity const& entity : m_Entities) {
+	//	Model* m = &modelArray.GetData(entity);
+	//	Tex* tex = nullptr;
+	//	Animator* anim = nullptr;
+	//	if (texArray.HasComponent(entity)) {
+	//		tex = &texArray.GetData(entity);
+	//	}
+	//	if (animatorArray.HasComponent(entity)) {
+	//		anim = &animatorArray.GetData(entity);
+	//	}
+	//	m->Draw(tex, anim);
+	//}
+	for (auto& layer : layering) {
+		for (auto& entity : layer) {
+			Tex* tex{};
+			Animator* anim{};
+			Model* m{};
+			if (modelArray.HasComponent(entity)) {
+				m = &modelArray.GetData(entity);
+				if (texArray.HasComponent(entity)) {
+					tex = &texArray.GetData(entity);
+				}
+				if (animatorArray.HasComponent(entity)) {
+					anim = &animatorArray.GetData(entity);
+				}
+				m->Draw(tex, anim);
+				if (textlabelArray.HasComponent(entity)) {
+					TextLabel* textLabelData = &textlabelArray.GetData(entity);
+					graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+				}
+				
+			}
 		}
-		if (animatorArray.HasComponent(entity)) {
-			anim = &animatorArray.GetData(entity);
-		}
-		m->Draw(tex, anim);
-
 	}
 	graphics.Draw();
 }
@@ -419,6 +461,7 @@ void SerializationSystem::Update() {
 	if (playButton) {
 		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
 		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
+		std::cout << "Total m_entities" << m_Entities.size() << std::endl;
 		playButton = false;
 	}
 
@@ -518,24 +561,63 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (Entity entity : m_Entities) {
-		Name* n = &nameArray.GetData(entity);
-		Transform* t = &transformArray.GetData(entity);
-		Model* m = &modelArray.GetData(entity);
-		
-		// update position
-		UpdateProperties(entity, *n, *t, *m);
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		for (auto& entity : layering[layer_it]) {
+			Name* n = &nameArray.GetData(entity);
+			Transform* t = &transformArray.GetData(entity);
+			Model* m = &modelArray.GetData(entity);
+			
+			// update position
+			UpdateProperties(entity, *n, *t, *m, layer_it);
+		}
 	}
+
+	selectedEntities.clear();
+	//printf("%d - Start\n", static_cast<int>(selectedEntities.size()));
+	//UnselectAll();
+	for (Entity entity : m_Entities) {
+		if (nameArray.GetData(entity).selected) {
+			anyObjectSelected = true;
+			selectedEntities.emplace_back(entity);
+			//printf("%d\n", static_cast<int>(selectedEntities.size()));
+		}
+	}
+	
+	if (toCopy) {
+		for (Entity entity : selectedEntities) {
+			printf("Copying entity: %d\n", static_cast<int>(entity));
+			EntityFactory::entityFactory().CloneMaster(entity);
+		}
+		toCopy = false;
+		selectedEntities.clear();
+		anyObjectSelected = false;
+		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		printf("Copying complete\n---\n");
+	}
+
+
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
+			printf("Destroying entity: %d\n", static_cast<int>(entity));
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
+			RemoveEntityFromLayering(entity);
 		}
 		toDestroy = false;
 		selectedEntities.clear();
+		anyObjectSelected = false;
+		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		printf("Deleting complete\n---\n");
 	}
 
-	
+	//if (clearAllSelection) {
+	//	for (Entity entity : selectedEntities) {
+	//		nameArray.GetData(entity).selected = false;
+	//	}
+	//	clearAllSelection = false;
+	//	anyObjectSelected = false;
+	//}
 	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
+	//printf("XXXXXXXXXX--- END EDITING SYSTEM ---XXXXXXXXXX");
 }
 
 void EditingSystem::Draw() {
@@ -543,7 +625,6 @@ void EditingSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
 	for (Entity entity : m_Entities) {
@@ -589,17 +670,21 @@ void UITextLabelSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-		//Button* buttonData = nullptr;
+		Transform* transformData = &transformArray.GetData(entity);
+		Button* buttonData{};
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
 			textLabelData->Update(*modelData, *nameData);
 		}
+
+		textLabelData->UpdateOffset(*transformData);
 
 		//note: find a way to update size!!
 	}
@@ -626,8 +711,7 @@ void UITextLabelSystem::Draw() {
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = nullptr;
 		
-		textLabelData->UpdateOffset(*transformData);
-
+		
 		//if entity has button component, drawing managed by button
 		if (buttonArray.HasComponent(entity)) {
 			buttonData = &buttonArray.GetData(entity);
@@ -636,10 +720,11 @@ void UITextLabelSystem::Draw() {
 			sizeData->width = textLabelData->textWidth;
 			sizeData->height = textLabelData->textHeight;
 		}
+
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
-		graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+		//graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
 		if (edit_mode && !buttonData && !texData) {
 			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);

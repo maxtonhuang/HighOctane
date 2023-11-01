@@ -47,6 +47,7 @@
 #include "ImGuiMenuBar.h"
 #include "ImGuiSceneHierarchy.h"
 #include "ImGuiContentBrowser.h"
+#include "ImGuiLayer.h"
 #include "graphics.h"
 #include "FrameBuffer.h"
 #include "AssetManager.h"
@@ -56,10 +57,15 @@
 #include <vector>
 #include "AssetManager.h"
 
-
-constexpr float fontSize = 20.f;
-constexpr float fontSizeLarge = 50.f;
+constexpr float fontSizeS = 10.f;
+constexpr float fontSizeM = 20.f;
+constexpr float fontSizeL = 30.f;
+constexpr float fontSizeXL = 50.f;
+ImFont* latoSmall;
+ImFont* latoMedium;
+ImFont* latoLarge;
 ImFont* latoLargeBold;
+float currentFontSize{ fontSizeM };
 ImGuiStyle originalStyle;
 bool firstSet = false;
 
@@ -100,21 +106,46 @@ void GUIManager::Init()
     // Setup Dear ImGui style
 
     io.Fonts->Clear();
-    std::string regularFont{ assetmanager.GetDefaultPath() + "Fonts/Lato/Lato-Regular.ttf" };
-    std::string boldFont{ assetmanager.GetDefaultPath() + "Fonts/Lato/Lato-Bold.ttf" };
-    io.Fonts->AddFontFromFileTTF(regularFont.c_str(), fontSize);
-    latoLargeBold = io.Fonts->AddFontFromFileTTF(boldFont.c_str(), fontSizeLarge);
-        
+    latoMedium = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeM);
+    latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeXL);
+
+    //ImFontConfig config;
+    //io.Fonts->Clear();
+    //char m[] = "latoMedium";
+    //strcpy_s(config.Name, strlen(m) + 1, m);
+    //latoMedium = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeM, &config);
+    //char s[] = "latoSmall";
+    //strcpy_s(config.Name, strlen(s) + 1, s);
+    //latoSmall = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeS, &config);
+    //char l[] = "latoLarge";
+    //strcpy_s(config.Name, strlen(l) + 1, l);
+    //latoLarge = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeL, &config);
+    //char xl[] = "latoXL";
+    //strcpy_s(config.Name, strlen(xl) + 1, xl);
+    //latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeXL, &config);
+    //
+    //ImGui::PushFont(latoMedium);
+    //currentFontSize = fontSizeM;
+
+    
+
+
     ImGui::StyleColorsDark();
+ 
     // Init console window
     InitConsole();
     InitEntitiesManager();
-    
+
 
 #if ENABLE_DEBUG_PROFILE
     // Init performance window
     InitPerformance();
 #endif
+
+
+    //ImGuiStyle& style = ImGui::GetStyle();
+    
+
 
 }
 
@@ -124,6 +155,7 @@ void GUIManager::Update()
     
     // blinks entire window if Drag & Drop file is released
     ImGuiStyle& style = ImGui::GetStyle();
+    
     if (fileDropped && !firstSet) {
         
         // save the original style to revert later on
@@ -155,6 +187,7 @@ void GUIManager::Update()
     ImGui::SetNextWindowViewport(main_viewport->ID);
 
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0.18f, 0.23f, 0.30f, 1.00f);
+    
     ImGui::Begin("Dockable Window", nullptr, window_flags);
     ImGuiIO& io = ImGui::GetIO();
     if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
@@ -176,9 +209,11 @@ void GUIManager::Update()
 
         if (ImGui::IsWindowHovered()) {
             io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+            viewportWindowHovered = true;
         }
         else {
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+            viewportWindowHovered = false;
         }
         
         
@@ -211,18 +246,13 @@ void GUIManager::Update()
                     popupHovered = true;
                 }
                 if (ImGui::MenuItem("Copy")) {
-                    for (Entity entity : selectedEntities) {
-                        EntityFactory::entityFactory().CloneMaster(entity);
-                    }
+                    toCopy = true;
                     rightClick = false;
                 }
                 ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Delete")) {
-                    for (Entity entity : selectedEntities) {
-                        
-                        EntityFactory::entityFactory().DeleteCloneModel(entity);
-                    }
+                    toDestroy = true;
                     rightClick = false;
                     
                 }
@@ -272,6 +302,9 @@ void GUIManager::Update()
     UpdateAssetLibrary();
     UpdateSceneHierachy();
     UpdateContentBrowser();
+    UpdateLayer();
+
+
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console
     UpdatePerformance();
