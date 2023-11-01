@@ -112,6 +112,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					if (IsWithinObject(model, mousePos)) {
 						UnselectAll();
 						name.selected = true;
+						newSelection = entity;
 						rightClick = true;
 						rightClickPos = mousePos;
 					}

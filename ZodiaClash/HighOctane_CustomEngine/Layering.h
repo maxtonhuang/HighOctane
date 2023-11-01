@@ -5,7 +5,7 @@
 
 
 std::pair<size_t, size_t> FindInLayer(Entity entity);
-void LayerOrderSendBackwards(Entity entity);
+void LayerOrderSendBackward(Entity entity);
 void LayerOrderSendToBack(Entity entity);
 void LayerOrderBringForward(Entity entity);
 void LayerOrderBringToFront(Entity entity);

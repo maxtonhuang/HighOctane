@@ -56,6 +56,7 @@
 #include <algorithm>
 #include <vector>
 #include "AssetManager.h"
+#include "Layering.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -259,21 +260,25 @@ void GUIManager::Update()
                 ImGui::Separator();
                 if (ImGui::MenuItem("Bring Forward")) {
                     //
+                    LayerOrderBringForward(newSelection);
                     rightClick = false;
 
                 }
                 if (ImGui::MenuItem("Bring to Front")) {
                     //
+                    LayerOrderBringToFront(newSelection);
                     rightClick = false;
 
                 }
                 if (ImGui::MenuItem("Send Backward")) {
                     //
+                    LayerOrderSendBackward(newSelection);
                     rightClick = false;
 
                 }
                 if (ImGui::MenuItem("Send to Back")) {
                     //
+                    LayerOrderSendToBack(newSelection);
                     rightClick = false;
 
                 }

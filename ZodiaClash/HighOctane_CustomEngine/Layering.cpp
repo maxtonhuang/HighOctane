@@ -20,7 +20,7 @@ std::pair<size_t, size_t> FindInLayer(Entity entity) {
 }
 
 
-void LayerOrderSendBackwards(Entity entity) {
+void LayerOrderSendBackward(Entity entity) {
 	std::pair<size_t, size_t> pos = FindInLayer(entity);
 	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
 		if (pos.second != 0) {
