@@ -140,6 +140,20 @@ void SceneEntityComponents(Entity entity) {
 			const char* selectedFamily = fontInfo.first.c_str();
 			const char* selectedVariant = fontInfo.second.c_str();
 
+			if (ECS::ecs().HasComponent<Button>(entity)) {
+				Button& button{ ECS::ecs().GetComponent<Button>(entity) };
+
+				auto& txtColor = button.GetDefaultTextColor();
+				ImGui::ColorEdit3("Color", (float*)&txtColor);
+
+				//button.UpdateColorSets(button.GetDefaultButtonColor(), txtColor);
+				textlabel.textColor = txtColor;
+			}
+			else {
+				auto& txtColor = textlabel.GetTextColor();
+				ImGui::ColorEdit3("Color", (float*)&txtColor);
+			}
+
 			// combo box for font family
 			if (!ftFamilyList.empty()) {
 				if (ImGui::BeginCombo("Font", selectedFamily)) {
@@ -205,6 +219,12 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			ImGui::InputText("Event Input",&button.eventInput);
+
+			auto& btnColor = button.GetDefaultButtonColor();
+			ImGui::ColorEdit3("Color", (float*)&btnColor);
+			//if (button.currentState == STATE::FOCUSED) {
+				//button.UpdateColorSets(btnColor, button.GetDefaultTextColor()); //TO FIX!!
+			//}
 
 			ImGui::TreePop();
 

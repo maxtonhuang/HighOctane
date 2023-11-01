@@ -69,8 +69,16 @@ TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	textColor = clr;	
 }
 
+glm::vec4& TextLabel::GetTextColor() {
+	return textColor;
+}
+
 void TextLabel::SetTextString(std::string txtStr) {
 	textString = txtStr;
+}
+
+void TextLabel::SetTextColor(glm::vec4 txtColor) {
+	textColor = txtColor;
 }
 
 void TextLabel::SetFontFamily(std::string newFamily) {
@@ -229,6 +237,14 @@ Button::Button(glm::vec4 btnColor, glm::vec4 txtColor) {
 	focusedColor = { txtColor, btnColor };
 }
 
+glm::vec4& Button::GetDefaultTextColor() {
+	return defaultColor.textColor;
+}
+
+glm::vec4& Button::GetDefaultButtonColor() {
+	return defaultColor.buttonColor;
+}
+
 glm::vec4 Button::GetButtonColor() {
 	switch (currentState) {
 	case(STATE::HOVERED):
@@ -273,21 +289,41 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	if (nameData.selected) {
 		//textLabel.SetTextString("Focused Text");
 		//modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
-		textLabelData.textColor = focusedColor.textColor;
-		currentState = STATE::FOCUSED;		
+		//textLabelData.textColor = focusedColor.textColor;
+		currentState = STATE::FOCUSED;
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
 		//textLabel.SetTextString("Hovered Text");
 		//modelData.SetColor(hoveredColor.buttonColor->r, hoveredColor.buttonColor->g, hoveredColor.buttonColor->b);
-		textLabelData.textColor = hoveredColor.textColor;
-		currentState = STATE::HOVERED;		
+		//textLabelData.textColor = hoveredColor.textColor;
+		currentState = STATE::HOVERED;
 	}
 	else {
 		//textLabel.SetTextString("TextString");
 		//modelData.SetColor(defaultColor.buttonColor->r, defaultColor.buttonColor->g, defaultColor.buttonColor->b);
-		textLabelData.textColor = defaultColor.textColor;
+		//textLabelData.textColor = defaultColor.textColor;
 		currentState = STATE::NONE;
 	}
+
+	//outside edit mode, color change accordingly to state. otherwise show default
+	if (!edit_mode) {
+		switch (currentState) {
+		case(STATE::HOVERED):
+			textLabelData.textColor = hoveredColor.textColor;
+			break;
+		case(STATE::FOCUSED):
+			textLabelData.textColor = focusedColor.textColor;
+			break;
+		default:
+			textLabelData.textColor = defaultColor.textColor;
+			break;
+		}
+
+		UpdateColorSets(GetDefaultButtonColor(), GetDefaultTextColor());
+	}
+	else {
+		textLabelData.textColor = defaultColor.textColor;
+	}	
 
 	textLabelData.currentState = this->currentState;
 	buttonWidth = textLabelData.textWidth + padding.left + padding.right;
@@ -303,6 +339,12 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	//		modelData.SetColor(defaultColor.buttonColor.r, defaultColor.buttonColor.g, defaultColor.buttonColor.b);
 	//	}
 	//}
+}
+
+void Button::UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor) {
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
 }
 
 //void Button::DrawButton(Model& modelData, TextLabel& textLabelData) {
