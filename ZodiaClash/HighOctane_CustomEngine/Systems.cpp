@@ -314,8 +314,13 @@ void ModelSystem::Update() {
 void GraphicsSystem::Initialize() {
 	for (Entity const& entity : m_Entities) {
 		Model* m = &ECS::ecs().GetComponent<Model>(entity);
+		if (ECS::ecs().HasComponent<TextLabel>(entity)) {
+			m->type = UI;
+		}
 		m->Update(ECS::ecs().GetComponent<Transform>(entity), ECS::ecs().GetComponent<Size>(entity));
 	}
+	camera.SetPos(0.f, 0.f);
+	camera.SetZoom(1.f);
 }
 
 /******************************************************************************
@@ -446,7 +451,8 @@ void SerializationSystem::Update() {
 			entitylist.push_back(e);
 		}
 		for (Entity e : entitylist) {
-			ECS::ecs().DestroyEntity(e);
+			//ECS::ecs().DestroyEntity(e);
+			EntityFactory::entityFactory().DeleteCloneModel(e);
 		}
 		destroyAll = false;
 	}
@@ -737,6 +743,9 @@ void UITextLabelSystem::Draw() {
 
 		if (edit_mode && !buttonData && !texData) {
 			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		}
+		else if (!buttonData && !texData) {
+			modelData->SetAlpha(0.0f);
 		}
 	}
 	

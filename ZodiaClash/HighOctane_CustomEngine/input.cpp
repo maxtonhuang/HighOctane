@@ -38,6 +38,7 @@
 #include <iostream>
 #include <unordered_map>
 #include "AssetManager.h"
+#include "Events.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -56,6 +57,9 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 
         if (GLFW_KEY_ESCAPE == key) {
             glfwSetWindowShouldClose(pwin, GLFW_TRUE);
+        }
+        if (GLFW_KEY_F1 == key) {
+            events.Call("Change Scene", "mainmenu.scn");
         }
         if (GLFW_KEY_F11 == key) {
             static bool fullscreen = false;

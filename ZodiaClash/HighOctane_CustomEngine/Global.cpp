@@ -65,6 +65,7 @@ bool popupHovered{ false };
 bool anyObjectSelected{ false };
 
 bool clearAllSelection{ false };
+std::string sceneName{};
 bool newScene{ true };
 std::string newSceneName{};
 

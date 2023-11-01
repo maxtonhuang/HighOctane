@@ -21,3 +21,4 @@ MainMenu1.wav
 Test.skill
 No.skill
 Danto Lite Normal/Danto Lite Normal.ttf
+mainmenu.scn
