@@ -50,7 +50,7 @@
     },
     {
         "Entity": {
-            "Name": "Play Sound 3 Button",
+            "Name": "entity_00001",
             "Selected": false
         },
         "Clone": {},
@@ -61,7 +61,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -1.0,
+            "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -85,7 +85,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.09497901052236557,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -110,8 +110,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 17.0,
-            "position_y": 484.0,
+            "position_x": 411.0,
+            "position_y": 471.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -121,8 +121,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 260.5,
-            "height": 58.5
+            "width": 1050.5,
+            "height": 61.0
         },
         "Scripts": {
             "className": "",
@@ -144,7 +144,7 @@
         "Text Label": {
             "Font Family": "mikachan",
             "Font Variant": "Regular",
-            "Text String": "SOUND TEST",
+            "Text String": "PRESS F1 ANYTIME TO RETURN TO THIS SCREEN",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -155,7 +155,7 @@
     {
         "Entity": {
             "Name": "entity_00005",
-            "Selected": true
+            "Selected": false
         },
         "Clone": {},
         "Color": {
@@ -165,8 +165,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -700.0,
-            "position_y": -485.0,
+            "position_x": -687.0,
+            "position_y": -470.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -201,7 +201,7 @@
     },
     {
         "Entity": {
-            "Name": "Play Sound 1 Button",
+            "Name": "entity_00009",
             "Selected": false
         },
         "Clone": {},
@@ -212,8 +212,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -573.0,
-            "position_y": 49.75,
+            "position_x": 438.0,
+            "position_y": -314.25,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -230,7 +230,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 373.5,
+            "width": 334.0,
             "height": 119.5
         },
         "Scripts": {
@@ -245,7 +245,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Play Sound 1",
+            "Text String": "Sound Test",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -261,8 +261,8 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Play Sound",
-            "Event Input": "Cat Atk 1_Edited.wav",
+            "Event Name": "Change Scene",
+            "Event Input": "soundtest.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -271,7 +271,7 @@
     },
     {
         "Entity": {
-            "Name": "Pause BGM Button",
+            "Name": "entity_00009_CLONE",
             "Selected": false
         },
         "Clone": {},
@@ -282,8 +282,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -9.0,
-            "position_y": -228.0,
+            "position_x": 445.0,
+            "position_y": -37.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -300,8 +300,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 540.5,
-            "height": 119.0
+            "width": 333.0,
+            "height": 119.5
         },
         "Scripts": {
             "className": "",
@@ -315,7 +315,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Pause / Resume BGM",
+            "Text String": "Battle Test",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -331,8 +331,8 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Pause/Resume Group",
-            "Event Input": "BGM",
+            "Event Name": "Change Scene",
+            "Event Input": "battle2.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -387,7 +387,7 @@
     {
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png_CLONE",
-            "Selected": false
+            "Selected": true
         },
         "Clone": {},
         "Color": {
@@ -397,8 +397,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 19.0,
-            "position_y": 329.0,
+            "position_x": 458.0,
+            "position_y": 141.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -421,7 +421,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.09497901052236557,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -436,7 +436,7 @@
     },
     {
         "Entity": {
-            "Name": "Play Music Button",
+            "Name": "entity_00009_CLONE_CLONE",
             "Selected": false
         },
         "Clone": {},
@@ -447,8 +447,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -6.0,
-            "position_y": 55.0,
+            "position_x": 447.0,
+            "position_y": -172.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -465,8 +465,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 340.0,
-            "height": 119.5
+            "width": 444.0,
+            "height": 121.5
         },
         "Scripts": {
             "className": "",
@@ -480,7 +480,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Play Music",
+            "Text String": "Exploration Test",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -496,8 +496,8 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Play Music",
-            "Event Input": "MainMenu1.wav",
+            "Event Name": "Change Scene",
+            "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -714,10 +714,10 @@
     },
     {
         "Entity": {
-            "Name": "Play Sound 2 Button",
+            "Name": "master_00007",
             "Selected": false
         },
-        "Clone": {},
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -725,8 +725,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -576.0,
-            "position_y": -86.25,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -737,271 +737,32 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
+            "Texture File Path": "duck.png"
         },
         "Visible": {
-            "isVisible": true
+            "isVisible": false
         },
         "Size": {
-            "width": 380.5,
-            "height": 119.5
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Play Sound 2",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
-        },
-        "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
-            "Event Name": "Play Sound",
-            "Event Input": "Repeat cat.wav",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0
         },
         "Collider": {
             "Collider Enum": 0
         }
     },
-    {
-        "Entity": {
-            "Name": "entity_00009_CLONE_CLONE",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -576.0,
-            "position_y": -225.25,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 379.5,
-            "height": 119.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Play Sound 3",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
-        },
-        "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
-            "Event Name": "Play Sound",
-            "Event Input": "Skill Select_Edited.wav",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "Stop Music Button",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -8.0,
-            "position_y": -73.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 341.5,
-            "height": 121.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Stop Music",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
-        },
-        "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
-            "Event Name": "Stop Group",
-            "Event Input": "BGM",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "Pause BGM Button_CLONE",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 576.0,
-            "position_y": -46.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 538.0,
-            "height": 117.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Return to main menu",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
-        },
-        "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
-            "Event Name": "Change Scene",
-            "Event Input": "mainmenu.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    }
+    {}
 ]

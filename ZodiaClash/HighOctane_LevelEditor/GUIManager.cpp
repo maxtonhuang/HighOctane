@@ -144,9 +144,10 @@ void GUIManager::Init()
 #endif
 
 
-    //ImGuiStyle& style = ImGui::GetStyle();
-    
-
+    std::fill(layersToSkip.begin(), layersToSkip.end(), true);
+    std::fill(entitiesToSkip.begin(), entitiesToSkip.end(), true);
+    std::fill(layersToLock.begin(), layersToLock.end(), true);
+    std::fill(entitiesToLock.begin(), entitiesToLock.end(), true);
 
 }
 

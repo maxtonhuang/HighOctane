@@ -75,9 +75,12 @@ size_t selectedLayer{ std::numeric_limits<size_t>::max()  };
 size_t layerCounter{};
 size_t selectedGroup{};
 size_t groupCounter{};
-size_t highestSelectedOrder{};
 std::deque<std::string> layerNames{};
 std::deque< std::deque<Entity> > layering{};
+std::array<bool, 10000> layersToSkip{};
+std::array<bool, 100000> entitiesToSkip{};
+std::array<bool, 10000> layersToLock{};
+std::array<bool, 100000> entitiesToLock{};
 
 //std::shared_ptr<EditingSystem> edit_ptr;
 std::shared_ptr<SerializationSystem> s_ptr;

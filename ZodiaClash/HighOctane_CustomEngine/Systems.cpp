@@ -386,25 +386,30 @@ void GraphicsSystem::Draw() {
 	//	}
 	//	m->Draw(tex, anim);
 	//}
-	for (auto& layer : layering) {
-		for (auto& entity : layer) {
-			Tex* tex{};
-			Animator* anim{};
-			Model* m{};
-			if (modelArray.HasComponent(entity)) {
-				m = &modelArray.GetData(entity);
-				if (texArray.HasComponent(entity)) {
-					tex = &texArray.GetData(entity);
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it]) {
+			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+				Entity entity = layering[layer_it][entity_it];
+				if (entitiesToSkip[entity]) {
+					Tex* tex{};
+					Animator* anim{};
+					Model* m{};
+					if (modelArray.HasComponent(entity)) {
+						m = &modelArray.GetData(entity);
+						if (texArray.HasComponent(entity)) {
+							tex = &texArray.GetData(entity);
+						}
+						if (animatorArray.HasComponent(entity)) {
+							anim = &animatorArray.GetData(entity);
+						}
+						m->Draw(tex, anim);
+						if (textlabelArray.HasComponent(entity)) {
+							TextLabel* textLabelData = &textlabelArray.GetData(entity);
+							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+						}
+
+					}
 				}
-				if (animatorArray.HasComponent(entity)) {
-					anim = &animatorArray.GetData(entity);
-				}
-				m->Draw(tex, anim);
-				if (textlabelArray.HasComponent(entity)) {
-					TextLabel* textLabelData = &textlabelArray.GetData(entity);
-					graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
-				}
-				
 			}
 		}
 	}
@@ -562,51 +567,47 @@ void EditingSystem::Update() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		for (auto& entity : layering[layer_it]) {
-			Name* n = &nameArray.GetData(entity);
-			Transform* t = &transformArray.GetData(entity);
-			Model* m = &modelArray.GetData(entity);
-			
-			// update position
-			UpdateProperties(entity, *n, *t, *m, layer_it);
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity & entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+					Name* n = &nameArray.GetData(entity);
+					Transform* t = &transformArray.GetData(entity);
+					Model* m = &modelArray.GetData(entity);
+
+					// edit entity's properties
+					UpdateProperties(entity, *n, *t, *m, layer_it);
+				}
+			}
 		}
 	}
 
 	selectedEntities.clear();
-	//printf("%d - Start\n", static_cast<int>(selectedEntities.size()));
-	//UnselectAll();
 	for (Entity entity : m_Entities) {
 		if (nameArray.GetData(entity).selected) {
 			anyObjectSelected = true;
 			selectedEntities.emplace_back(entity);
-			//printf("%d\n", static_cast<int>(selectedEntities.size()));
 		}
 	}
 
 	if (toCopy || toDestroy) {
-		printf("Currently in Selected Entites: ");
 		for (Entity entity : selectedEntities) {
 			printf("%d ", static_cast<int>(entity));
 		}
-		printf("\n---\n");
 	}
 
 	if (toCopy) {
 		for (Entity entity : selectedEntities) {
-			printf("Copying entity: %d\n", static_cast<int>(entity));
 			EntityFactory::entityFactory().CloneMaster(entity);
 		}
 		toCopy = false;
 		selectedEntities.clear();
 		anyObjectSelected = false;
 		UnselectAll();
-		printf("Copying complete\n---\n");
 	}
 
 
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
-			printf("Destroying entity: %d\n", static_cast<int>(entity));
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
 			RemoveEntityFromLayering(entity);
 		}
@@ -615,18 +616,7 @@ void EditingSystem::Update() {
 		UnselectAll();
 		anyObjectSelected = false;
 		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
-		printf("Deleting complete\n---\n");
 	}
-
-	//if (clearAllSelection) {
-	//	for (Entity entity : selectedEntities) {
-	//		nameArray.GetData(entity).selected = false;
-	//	}
-	//	clearAllSelection = false;
-	//	anyObjectSelected = false;
-	//}
-	//Mail::mail().mailbox[ADDRESS::EDITING].clear();
-	//printf("XXXXXXXXXX--- END EDITING SYSTEM ---XXXXXXXXXX");
 }
 
 void EditingSystem::Draw() {

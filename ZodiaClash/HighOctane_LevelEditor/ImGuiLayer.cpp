@@ -22,16 +22,20 @@ void UpdateLayer() {
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
 
 	size_t potentialDropTarget = ULLONG_MAX;
+	size_t checkboxCounter = 0;
 
 	for (int layer_it = (static_cast<int>(layering.size()) - 1); layer_it >= 0; --layer_it) {
 
-		/*if (ImGui::IsDragDropPayloadBeingAccepted() && ImGui::IsItemHovered()) {
-			potentialDropTarget = layer_it;
-			ImVec2 p0 = ImGui::GetCursorScreenPos();
-			ImVec2 p1 = { p0.x + ImGui::GetContentRegionAvail().x, p0.y };
-			ImGui::GetWindowDrawList()->AddLine(p0, p1, IM_COL32(255, 0, 0, 255), 3.0f);
-		}*/
-
+		std::string label1 = "##label" + std::to_string(checkboxCounter++);
+		if (ImGui::Checkbox(label1.c_str(), &layersToSkip[layer_it])) {
+			UnselectAll();
+		}
+		ImGui::SameLine();
+		std::string label2 = "##label" + std::to_string(checkboxCounter++);
+		if (ImGui::Checkbox(label2.c_str(), &layersToLock[layer_it])) {
+			UnselectAll();
+		}
+		ImGui::SameLine();
 		if (ImGui::TreeNodeEx(layerNames[layer_it].c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (layer_it == currentLayer ? ImGuiTreeNodeFlags_Selected : 0), layerNames[layer_it].c_str())) {
 			
 			if (ImGui::IsItemClicked()) {
@@ -79,6 +83,16 @@ void UpdateLayer() {
 				if (entityName.selected) {
 					currentLayer = layer_it;
 				}
+				std::string label3 = "##label" + std::to_string(checkboxCounter++);
+				if (ImGui::Checkbox(label3.c_str(), &entitiesToSkip[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
+					UnselectAll();
+				}
+				ImGui::SameLine();
+				std::string label4 = "##label" + std::to_string(checkboxCounter++);
+				if (ImGui::Checkbox(label4.c_str(), &entitiesToLock[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
+					UnselectAll();
+				}
+				ImGui::SameLine();
 				if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), entityName.name.c_str())) {
 					
 					if (ImGui::IsItemClicked()) {

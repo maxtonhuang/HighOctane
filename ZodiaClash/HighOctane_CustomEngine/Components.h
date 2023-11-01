@@ -125,9 +125,9 @@ struct Name {
     std::string             name{};
     bool                    selected{ false };
     CLICKED                 clicked = CLICKED::NOT;
-    //uint32_t                layer{};
-    uint32_t                group{};
-    //uint64_t                order{};
+    size_t                  group{};
+    size_t                  serializationLayer{};
+    size_t                  serializationOrderInLayer{};
 };
 
 struct Movable {
