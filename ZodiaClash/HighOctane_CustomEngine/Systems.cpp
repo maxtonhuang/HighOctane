@@ -56,7 +56,7 @@
 #include "AssetManager.h"
 #include "Layering.h"
 
-#define FIXED_DT 1/60.f
+#define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
 
 // Extern for the vector to contain the full name for ImGui for scripting system
@@ -75,19 +75,15 @@ extern std::vector<std::string> fullNameVecImGUI;
 ******************************************************************************/
 void PhysicsSystem::Update() {
 
-	//for fixed dt
-	float elapsedTime{};
-	float previousTime{};
 	static double accumulatedTime = 0.0;
-	elapsedTime = g_dt;
-	accumulatedTime += elapsedTime;
+	accumulatedTime += g_dt; // Ensure that g_dt is the time since the last frame.
 
 	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-		accumulatedTime = MAX_ACCUMULATED_TIME;
+		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
 	}
+
 	while (accumulatedTime >= FIXED_DT) {
-		// Access the ComponentManager through the ECS class
-		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+		//process mesaage here
 		bool reqStep{ false };
 		for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
 			switch (msg.type) {
@@ -104,14 +100,15 @@ void PhysicsSystem::Update() {
 				break;
 			}
 		}
-		//std::cout << m_Entities.size() << std::endl;
+		Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
+
 		// Access component arrays through the ComponentManager
+		// Access the ComponentManager through the ECS class
+		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-
-		//assumes that there is size component
 		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-		//auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
+		//update entity half-dimensions
 		for (Entity const& entity : m_Entities) {
 			Size sizeData{ sizeArray.GetData(entity) };
 			Transform transformData{ transformArray.GetData(entity) };
@@ -120,29 +117,29 @@ void PhysicsSystem::Update() {
 			};
 		}
 
+		// Check step mode and integrate physics
 		if (physics::PHYSICS->GetStepModeActive()) {
+			// Debug draw all entities
 			for (Entity const& entity : m_Entities) {
-				Transform* transData = &transformArray.GetData(entity);
-				physics::PHYSICS->DebugDraw(*transData);
+				Transform& transData = transformArray.GetData(entity);
+				physics::PHYSICS->DebugDraw(transData);
 			}
-			if (reqStep)
+			// If step is required, integrate physics for all entities
+			if (reqStep) {
 				for (Entity const& entity : m_Entities) {
-					Transform* transData = &transformArray.GetData(entity);
-					physics::PHYSICS->Integrate(*transData);
+					Transform& transData = transformArray.GetData(entity);
+					physics::PHYSICS->Integrate(transData);
 				}
+			}
 		}
 		else {
+			// Regular physics integration and debug drawing
 			for (Entity const& entity : m_Entities) {
-				Transform* transData = &transformArray.GetData(entity);
-				//Collider* collideData = &colliderArray.GetData(entity);
-
-				//bodyData->velocity = transData->velocity;
-
-				physics::PHYSICS->Integrate(*transData);
-				physics::PHYSICS->DebugDraw(*transData);
+				Transform& transData = transformArray.GetData(entity);
+				physics::PHYSICS->Integrate(transData);
+				physics::PHYSICS->DebugDraw(transData);
 			}
 		}
-		//Mail::mail().mailbox[ADDRESS::PHYSICS].clear();
 		accumulatedTime -= FIXED_DT;
 	}
 }
@@ -160,14 +157,11 @@ void PhysicsSystem::Update() {
 ******************************************************************************/
 void CollisionSystem::Update() {
 
-	float elapsedTime{};
-	float previousTime{};
 	static double accumulatedTime = 0.0;
-	elapsedTime = g_dt;
-	accumulatedTime += elapsedTime;
+	accumulatedTime += g_dt;
 
 	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-		accumulatedTime = MAX_ACCUMULATED_TIME;
+		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents excessive accumulation.
 	}
 
 	while (accumulatedTime >= FIXED_DT) {
@@ -208,10 +202,10 @@ void CollisionSystem::Update() {
 						if (collided == true) { physics::DynamicStaticResponse(*transData1); }
 					}
 				}
-				//transData1->velocity = { RESET_VEC2 };
+				/*transData1->velocity = { RESET_VEC2 };*/
 			}
 		}
-		//Mail::mail().mailbox[ADDRESS::COLLISION].clear();
+		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
 		accumulatedTime -= FIXED_DT;
 	}
 }
