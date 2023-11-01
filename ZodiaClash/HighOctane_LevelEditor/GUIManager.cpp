@@ -250,6 +250,7 @@ void GUIManager::Update()
                         EntityFactory::entityFactory().CloneMaster(entity);
                     }
                     rightClick = false;
+                    selectedEntities.clear();
                 }
                 ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();

@@ -36,6 +36,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <limits>
 
 #define RESET_VEC2 0.f, 0.f
 
@@ -66,8 +67,8 @@ bool clearAllSelection{ false };
 bool newScene{ true };
 std::string newSceneName{};
 
-size_t currentLayer{};
-size_t selectedLayer{};
+size_t currentLayer{ std::numeric_limits<size_t>::max() };
+size_t selectedLayer{ std::numeric_limits<size_t>::max() };
 
 size_t layerCounter{};
 size_t selectedGroup{};

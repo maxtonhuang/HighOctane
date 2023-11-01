@@ -8,13 +8,14 @@
 #include "DebugProfile.h"
 #include "EntityFactory.h"
 #include <algorithm>
+#include <limits>
 
 vmath::Vector2 mousePos{ RESET_VEC2 };
 vmath::Vector2 offset{ RESET_VEC2 };
 
 constexpr float CORNER_SIZE = 10.f;
 
-void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model) {
+void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
 	//if (newSelection) {
 	//	name.selected = false;
 	//}
@@ -29,6 +30,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				if (name.selected) {
 					selectedEntities.emplace_back(entity);
 					toDestroy = true;
+					//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				}
 				//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				break;
@@ -37,6 +39,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				if (name.selected) {
 					selectedEntities.emplace_back(entity);
 					toDestroy = true;
+					//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				}
 				//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				break;
@@ -59,26 +62,31 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 							// clear all previous selection
 							UnselectAll();
 							name.selected = true;
+							currentLayer = selectedLayer = layer_it;
 							name.clicked = CLICKED::NE;
 						}
 						else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
 							UnselectAll();
 							name.selected = true;
+							currentLayer = selectedLayer = layer_it;
 							name.clicked = CLICKED::SW;
 						}
 						else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
 							UnselectAll();
 							name.selected = true;
+							currentLayer = selectedLayer = layer_it;
 							name.clicked = CLICKED::SE;
 						}
 						else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
 							UnselectAll();
 							name.selected = true;
+							currentLayer = selectedLayer = layer_it;
 							name.clicked = CLICKED::NW;
 						}
 						else if (IsWithinObject(model, mousePos)) {
 							UnselectAll();
 							name.selected = true;
+							currentLayer = selectedLayer = layer_it;
 							name.clicked = CLICKED::INSIDE;
 							offset = GetOffset(transform.position, mousePos);
 						}
@@ -86,6 +94,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 							if (!popupHovered) {
 								rightClick = false;
 								name.selected = false;
+								currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 								name.clicked = CLICKED::NOT;
 							}
 						}
@@ -213,14 +222,13 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		}
 	}
 	
-	if (newSelection == entity) {
-		newSelection = 0;
-		name.selected = true;
-	}
+	//if (newSelection == entity) {
+	//	newSelection = 0;
+	//	name.selected = true;
+	//}
 
-	if (/*viewportWindowHovered && */name.selected) {
-		anyObjectSelected = true;
-		selectedEntities.emplace_back(entity);
+	if (name.selected) {
+
 		if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), mousePos, CORNER_SIZE) || IsNearby(model.GetMin(), mousePos, CORNER_SIZE))) {
 			SetCursor(hNESWCursor);
 		}
