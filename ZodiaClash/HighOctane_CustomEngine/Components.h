@@ -53,7 +53,7 @@ enum class CLICKED {
 struct Transform {
     Vec2                    position{};
     float                   rotation{};
-    float                   scale{};
+    float                   scale{1.f};
     Vec2                    velocity{}; 
     float                   radius{};
     Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
@@ -61,7 +61,7 @@ struct Transform {
     //add forces
     float                   mass{10};
     float                   inverseMass{1/mass};
-    Vec2                    acceleration{10, 10};
+    Vec2                    acceleration{};
     Vec2                    force{acceleration * mass};
     //vmath::Vector3 Translation = { 0.0f, 0.0f, 0.0f };
 };

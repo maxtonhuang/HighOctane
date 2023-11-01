@@ -114,7 +114,13 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 		}
 	}
 	else {
-		renderer = flatRenderer;
+		switch (type) {
+		case ModelType::UI:
+			renderer = staticRenderer;
+			break;
+		default:
+			renderer = flatRenderer;
+		}
 	}
 
 	if (renderer != previousRenderer) {

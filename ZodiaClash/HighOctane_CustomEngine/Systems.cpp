@@ -345,6 +345,21 @@ void GraphicsSystem::Update() {
 		}
 		m->Update(*transform, *size);
 	}
+
+	//UPDATE FREE CAMERA MOVEMENT
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
+		if (msg.type == TYPE::KEY_DOWN) {
+			switch (msg.info) {
+			case INFO::KEY_Y:   camera.AddZoom(0.1f * g_dt);        break;
+			case INFO::KEY_U:   camera.AddZoom(-0.1f * g_dt);       break;
+			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * g_dt);   break;
+			case INFO::KEY_J:   camera.AddPos(-200.f * g_dt, 0.f);  break;
+			case INFO::KEY_K:   camera.AddPos(0, -200.f * g_dt);    break;
+			case INFO::KEY_L:   camera.AddPos(200.f * g_dt, 0.f);   break;
+			default: break;
+			}
+		}
+	}
 	camera.Update();
 }
 
@@ -446,6 +461,7 @@ void SerializationSystem::Update() {
 	if (playButton) {
 		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
 		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
+		std::cout << "Total m_entities" << m_Entities.size() << std::endl;
 		playButton = false;
 	}
 
