@@ -18,9 +18,6 @@ void UpdateLayer() {
 	float bh = buttonHeight + ImGui::GetStyle().ItemSpacing.y;  // Button height + spacing
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
 
-	// rewrite to use traditional i
-
-	///// Here
 
 	for (int layer_it = (static_cast<int>(layering.size()) - 1); layer_it >= 0; --layer_it) {
 		if (ImGui::TreeNodeEx(layerNames[layer_it].c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (layer_it == currentLayer ? ImGuiTreeNodeFlags_Selected : 0), layerNames[layer_it].c_str())) {

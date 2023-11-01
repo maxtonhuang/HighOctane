@@ -246,19 +246,13 @@ void GUIManager::Update()
                     popupHovered = true;
                 }
                 if (ImGui::MenuItem("Copy")) {
-                    for (Entity entity : selectedEntities) {
-                        EntityFactory::entityFactory().CloneMaster(entity);
-                    }
+                    toCopy = true;
                     rightClick = false;
-                    selectedEntities.clear();
                 }
                 ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Delete")) {
-                    for (Entity entity : selectedEntities) {
-                        
-                        EntityFactory::entityFactory().DeleteCloneModel(entity);
-                    }
+                    toDestroy = true;
                     rightClick = false;
                     
                 }

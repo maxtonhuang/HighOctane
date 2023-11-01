@@ -115,3 +115,16 @@ void DeleteLayer() {
 	layerNames.erase(layerNames.begin() + selectedLayer);
 	currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 }
+
+void RemoveEntityFromLayering(Entity entity) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+			if (layering[layer_it][entity_it] == entity) {
+				layering[layer_it].erase(layering[layer_it].begin() + entity_it);
+				return;
+			}
+		}
+	}
+	printf("ENTITY CANNOT BE FOUND IN LAYERING!\n");
+	return;
+}

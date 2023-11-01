@@ -59,6 +59,7 @@ extern bool rightClick;
 extern bool playButton;
 extern bool stopButton;
 extern bool toDestroy;
+extern bool toCopy;
 extern bool inEditing;
 extern bool viewportWindowHovered;
 extern vmath::Vector2 rightClickPos;

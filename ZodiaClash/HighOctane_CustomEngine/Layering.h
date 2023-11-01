@@ -12,3 +12,4 @@ void LayerOrderBringToFront(Entity entity);
 
 void CreateNewLayer();
 void DeleteLayer();
+void RemoveEntityFromLayering(Entity entity);

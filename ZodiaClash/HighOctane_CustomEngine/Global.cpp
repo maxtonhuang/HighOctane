@@ -54,6 +54,7 @@ bool playButton{ false };
 bool stopButton{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
+bool toCopy{ false };
 bool inEditing{ false };
 bool viewportWindowHovered{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
@@ -68,7 +69,7 @@ bool newScene{ true };
 std::string newSceneName{};
 
 size_t currentLayer{ std::numeric_limits<size_t>::max() };
-size_t selectedLayer{ std::numeric_limits<size_t>::max() };
+size_t selectedLayer{ std::numeric_limits<size_t>::max()  };
 
 size_t layerCounter{};
 size_t selectedGroup{};

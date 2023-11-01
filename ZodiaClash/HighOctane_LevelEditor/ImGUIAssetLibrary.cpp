@@ -20,11 +20,11 @@ void UpdateAssetLibrary() {
 	
 	static bool showDialog = false;
 
-	ImGui::Begin("Asset Library");
+	ImGui::Begin("Master Entities Library");
 
 	float panelWidth = ImGui::GetContentRegionAvail().x;
 
-	if (ImGui::Button("Import From Image", { panelWidth, buttonHeight })) {
+	if (ImGui::Button("Create New Master Entity From Image", { panelWidth, buttonHeight })) {
 
 		OpenFileDialog();
 		

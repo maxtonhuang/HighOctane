@@ -27,20 +27,20 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			switch (msg.info) {
 
 			case INFO::KEY_BACKSPACE:
-				if (name.selected) {
-					selectedEntities.emplace_back(entity);
+				//if (name.selected) {
+					//selectedEntities.emplace_back(entity);
 					toDestroy = true;
 					//EntityFactory::entityFactory().DeleteCloneModel(entity);
-				}
+				//}
 				//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				break;
 
 			case INFO::KEY_DEL:   
-				if (name.selected) {
-					selectedEntities.emplace_back(entity);
+				//if (name.selected) {
+					//selectedEntities.emplace_back(entity);
 					toDestroy = true;
 					//EntityFactory::entityFactory().DeleteCloneModel(entity);
-				}
+				//}
 				//EntityFactory::entityFactory().DeleteCloneModel(entity);
 				break;
 

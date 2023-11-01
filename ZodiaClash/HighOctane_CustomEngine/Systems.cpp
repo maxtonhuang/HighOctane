@@ -54,6 +54,7 @@
 #include "CharacterStats.h"
 #include "UIComponents.h"
 #include "AssetManager.h"
+#include "Layering.h"
 
 #define FIXED_DT 1/60.f
 #define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
@@ -544,7 +545,7 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {//(auto& layer : layering) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		for (auto& entity : layering[layer_it]) {
 			Name* n = &nameArray.GetData(entity);
 			Transform* t = &transformArray.GetData(entity);
@@ -565,18 +566,31 @@ void EditingSystem::Update() {
 			//printf("%d\n", static_cast<int>(selectedEntities.size()));
 		}
 	}
-	//printf("%d\n---\n", static_cast<int>(selectedEntities.size()));
+	
+	if (toCopy) {
+		for (Entity entity : selectedEntities) {
+			printf("Copying entity: %d\n", static_cast<int>(entity));
+			EntityFactory::entityFactory().CloneMaster(entity);
+		}
+		toCopy = false;
+		selectedEntities.clear();
+		anyObjectSelected = false;
+		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		printf("Copying complete\n---\n");
+	}
+
 
 	if (toDestroy) {
-		/*for (Entity entity : selectedEntities) {
-			std::cout << "Destroying entity: " << entity << std::endl;
+		for (Entity entity : selectedEntities) {
+			printf("Destroying entity: %d\n", static_cast<int>(entity));
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
-		}*/
+			RemoveEntityFromLayering(entity);
+		}
 		toDestroy = false;
 		selectedEntities.clear();
 		anyObjectSelected = false;
 		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
-
+		printf("Deleting complete\n---\n");
 	}
 
 	//if (clearAllSelection) {
