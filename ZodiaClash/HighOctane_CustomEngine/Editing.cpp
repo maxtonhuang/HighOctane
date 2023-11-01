@@ -10,15 +10,17 @@
 #include <algorithm>
 #include <limits>
 
+#define UNREFERENCED_PARAMETER(P) (P)
+
 vmath::Vector2 mousePos{ RESET_VEC2 };
 vmath::Vector2 offset{ RESET_VEC2 };
 
 constexpr float CORNER_SIZE = 10.f;
 
 void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
-	//if (newSelection) {
-	//	name.selected = false;
-	//}
+
+	UNREFERENCED_PARAMETER(entity);
+
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 
@@ -97,6 +99,9 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 								currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 								name.clicked = CLICKED::NOT;
 							}
+						}
+						if (name.selected) {
+							printf("Entity %d is selected on Layer %d\n", static_cast<int>(entity), static_cast<int>(layer_it));
 						}
 					}
 				}

@@ -269,8 +269,14 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {  ///////// CLONE 2
 		ECS::ecs().AddComponent<MainCharacter>(entity, MainCharacter{ ECS::ecs().GetComponent<MainCharacter>(masterEntity) });
 	}
 	
-
-	layering[selectedLayer].emplace_back(entity);
+	std::pair<size_t, size_t> p = FindInLayer(masterEntity);
+	if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
+		layering[p.first].emplace_back(entity);
+	}
+	else {
+		layering[layering.size() - 1].emplace_back(entity);
+	}
+	
 	++cloneCounter;
 
 

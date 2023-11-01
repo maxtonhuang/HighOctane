@@ -582,7 +582,15 @@ void EditingSystem::Update() {
 			//printf("%d\n", static_cast<int>(selectedEntities.size()));
 		}
 	}
-	
+
+	if (toCopy || toDestroy) {
+		printf("Currently in Selected Entites: ");
+		for (Entity entity : selectedEntities) {
+			printf("%d ", static_cast<int>(entity));
+		}
+		printf("\n---\n");
+	}
+
 	if (toCopy) {
 		for (Entity entity : selectedEntities) {
 			printf("Copying entity: %d\n", static_cast<int>(entity));
@@ -591,7 +599,7 @@ void EditingSystem::Update() {
 		toCopy = false;
 		selectedEntities.clear();
 		anyObjectSelected = false;
-		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		UnselectAll();
 		printf("Copying complete\n---\n");
 	}
 
@@ -604,6 +612,7 @@ void EditingSystem::Update() {
 		}
 		toDestroy = false;
 		selectedEntities.clear();
+		UnselectAll();
 		anyObjectSelected = false;
 		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 		printf("Deleting complete\n---\n");

@@ -9,7 +9,7 @@
 
 
 std::pair<size_t, size_t> FindInLayer(Entity entity) {
-	for (size_t i = 1; i < layering.size(); ++i) {
+	for (size_t i = 0; i < layering.size(); ++i) {
 		for (size_t j = 0; j < layering[i].size(); ++j) {
 			if (layering[i][j] == entity) {
 				return { i, j };
