@@ -741,8 +741,13 @@ void UITextLabelSystem::Draw() {
 		}
 		//graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
-		if (edit_mode && !buttonData && !texData) {
-			(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+		if (!buttonData && !texData) {
+			if (edit_mode) {
+				(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+			}
+			else {
+				modelData->SetAlpha(0.0f);
+			}
 		}
 		else if (!buttonData && !texData) {
 			modelData->SetAlpha(0.0f);
@@ -778,7 +783,7 @@ void UIButtonSystem::Update() {
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = buttonData->GetButtonColor();
+			glm::vec4 btnColor = (edit_mode) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 

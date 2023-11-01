@@ -48,7 +48,7 @@ enum class UI_VERTICAL_ALIGNMENT {
 	V_TOP_ALIGN,	
 	V_BOTTOM_ALIGN
 };
-// enums for state lookup (to adapt into Name component!!)
+// enums for state lookup
 enum class STATE {
 	NONE,
 	//SELECTED,
@@ -104,7 +104,12 @@ public:
 	TextLabel(std::string str, std::string txtColor);
 	TextLabel(std::string str, glm::vec4 clr);
 
+	glm::vec4& GetTextColor();
+
 	void SetTextString(std::string txtStr);
+	void SetTextColor(glm::vec4 txtColor);
+	void SetFontFamily(std::string newFamily);
+	void SetFontVariant(std::string newFamily, std::string newVariant);
 
 	bool CheckStringUpdated(TextLabel& txtLblData);	
 	void CalculateOffset();
@@ -155,9 +160,14 @@ public:
 	Button(std::string btnColor, glm::vec4 txtColor);
 	Button(glm::vec4 btnColor, glm::vec4 txtColor);
 
+	glm::vec4& GetDefaultTextColor();
+	glm::vec4& GetDefaultButtonColor();
+
 	glm::vec4 GetButtonColor();
 
 	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
+	void UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor);
+
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
