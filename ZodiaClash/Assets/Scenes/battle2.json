@@ -51,7 +51,7 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": false
+            "Selected": true
         },
         "Clone": {},
         "Color": {
@@ -85,7 +85,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.013570999726653099,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -134,7 +134,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.013570999726653099,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -183,7 +183,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 319.5,
+            "width": 421.5,
             "height": 59.5
         },
         "Scripts": {
@@ -191,16 +191,16 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "ZodiaClash v0.1",
-            "r": 0.0,
-            "g": 0.0,
+            "Text String": "ZodiaClash M2 Build",
+            "r": 1.0,
+            "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white"
@@ -245,7 +245,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -275,56 +275,6 @@
             "Padding Left": 60.0,
             "Padding Right": 60.0
         }
-    },
-    {
-        "Entity": {
-            "Name": "entity_00013",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 647.0,
-            "position_y": -264.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 2,
-            "Frame Time Elapsed": 0.06197899580001831,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
     },
     {
         "Entity": {
@@ -363,7 +313,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.013570999726653099,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -378,7 +328,7 @@
             "Speed": 1,
             "Skills": [
                 "Normal Attack",
-                "No",
+                "Normal AOE",
                 "Test"
             ]
         },
@@ -425,7 +375,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.013570999726653099,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -487,7 +437,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.013570999726653099,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -551,7 +501,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -621,7 +571,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},

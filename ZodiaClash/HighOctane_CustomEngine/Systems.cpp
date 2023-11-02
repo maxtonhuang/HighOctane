@@ -472,6 +472,8 @@ void SerializationSystem::Update() {
 		if (newSceneName != "") {
 			assetmanager.LoadAssets(newSceneName);
 		}
+		initLevel = true;
+		//newScene = false;
 	}
 
 	if (playButton) {

@@ -71,6 +71,7 @@ extern bool anyObjectSelected; // whether any object is selected
 extern bool clearAllSelection;
 extern std::string sceneName;
 extern bool newScene;
+extern bool initLevel;
 extern std::string newSceneName;
 
 

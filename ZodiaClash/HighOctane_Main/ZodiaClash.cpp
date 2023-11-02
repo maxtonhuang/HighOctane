@@ -490,7 +490,7 @@ void EngineCore::Run(bool const& mode) {
 	}
 
 	//fonts.Initialize();
-	EntityFactory::entityFactory().LoadMasterModel();
+	//EntityFactory::entityFactory().LoadMasterModel();
 
 	//Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 
@@ -587,9 +587,6 @@ void EngineCore::Run(bool const& mode) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
-			Attack test;
-			test.attackName = "Test";
-			assetmanager.attacks.SaveAttack(test);
 			newScene = false;
 		}
 

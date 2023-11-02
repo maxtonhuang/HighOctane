@@ -67,6 +67,7 @@ bool anyObjectSelected{ false };
 bool clearAllSelection{ false };
 std::string sceneName{};
 bool newScene{ true };
+bool initLevel{ true };
 std::string newSceneName{};
 
 size_t currentLayer{ std::numeric_limits<size_t>::max() };
