@@ -19,7 +19,7 @@
 *
 *	@section	Section A
 *
-*	@date		22 September 2023
+*	@date		22 October 2023
 *
 * *****************************************************************************
 *
@@ -39,6 +39,11 @@
 #include "ECS.h"
 #include <algorithm>
 
+/**
+ * @brief Constructor that copies the state of another BattleSystem instance.
+ *
+ * @param input A constant reference to another BattleSystem object.
+ */
 BattleSystem::BattleSystem(BattleSystem const& input) {
     battleState = input.battleState;
     roundManage = input.roundManage;
@@ -72,11 +77,17 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
     roundInProgress = input.roundInProgress;
 }
 
+/**
+ * @brief Initializes the battle system by setting the battle state to NEWGAME.
+ */
 void BattleSystem::Initialize() 
 {
     battleState = NEWGAME;
 }
 
+/**
+ * @brief Starts the battle, initializes event connections, and determines the turn order.
+ */
 void BattleSystem::StartBattle() {
     LOG_WARNING("Initializing battle system");
     events.ConnectBattleSystem(this);
@@ -96,6 +107,9 @@ void BattleSystem::StartBattle() {
     battleState = NEWROUND;
 }
 
+/**
+ * @brief Updates the state of the battle each frame, manages the game logic depending on the current battle state.
+ */
 void BattleSystem::Update() 
 {
     int enemyAmount = 0;
@@ -204,6 +218,7 @@ void BattleSystem::Update()
         if (activeCharacter->action.entityState == WAITING) {
             gameAI.Search(this);
         }
+        break;
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
         if (activeCharacter->action.entityState == EntityState::ENDING) {
@@ -252,6 +267,9 @@ void BattleSystem::Update()
     }
 }
 
+/**
+ * @brief Determines the turn order of characters based on their stats and adds them to the turn management lists.
+ */
 void BattleSystem::DetermineTurnOrder()
 {
     //charactersList
@@ -281,6 +299,11 @@ void BattleSystem::DetermineTurnOrder()
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
 }
 
+/**
+ * @brief Retrieves a list of CharacterStats pointers to all player characters.
+ *
+ * @return std::vector<CharacterStats*> A vector containing pointers to the player characters.
+ */
 std::vector<CharacterStats*> BattleSystem::GetPlayers() {
     std::vector<CharacterStats*> output;
     for (auto& c : turnManage.characterList) {
@@ -290,6 +313,12 @@ std::vector<CharacterStats*> BattleSystem::GetPlayers() {
     }
     return output;
 }
+
+/**
+ * @brief Retrieves a list of CharacterStats pointers to all enemy characters.
+ *
+ * @return std::vector<CharacterStats*> A vector containing pointers to the enemy characters.
+ */
 std::vector<CharacterStats*> BattleSystem::GetEnemies() {
     std::vector<CharacterStats*> output;
     for (auto& c : turnManage.characterList) {
@@ -300,6 +329,11 @@ std::vector<CharacterStats*> BattleSystem::GetEnemies() {
     return output;
 }
 
+/**
+ * @brief Moves a character's turn order immediately after the next character in the current turn order list.
+ *
+ * @param target A pointer to the CharacterStats of the target character.
+ */
 void BattleSystem::SwitchTurnOrder(CharacterStats* target)
 {
     turnManage.turnOrderList.remove(target);
@@ -308,6 +342,11 @@ void BattleSystem::SwitchTurnOrder(CharacterStats* target)
     turnManage.turnOrderList.insert(iterator, target);
 }
 
+/**
+ * @brief Reverts the turn order change for a character to its original position.
+ *
+ * @param target A pointer to the CharacterStats of the target character.
+ */
 void BattleSystem::RevertTurnOrder(CharacterStats* target)
 {
     auto& ogTurnList = turnManage.originalTurnOrderList;

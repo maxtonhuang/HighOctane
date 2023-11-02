@@ -66,12 +66,4 @@ void UpdateMovement(Transform & transform, Model & model) {
 	if (transform.scale < 0.f) {
 		transform.scale = 0.f;
 	}
-	//transform.position += transform.velocity;
-	//transform.velocity = {0,0};
-	
-
-	//if (transform.position.distance(finalPos) > 2.f) {
-	//	transform.force += direction * speed * g_dt;
-	//}
-
 }

@@ -44,53 +44,8 @@ namespace physics {
      /**************************************************************************/
     void DynamicStaticResponse(Transform& dynamicBody) 
     {
-        //reverse the velocity to cause it to "bounce back" , cancel the velocity
-        dynamicBody.position.x -= dynamicBody.velocity.x * 0.1;
-        dynamicBody.position.y -= dynamicBody.velocity.y * 0.1;
         dynamicBody.velocity = Vec2{ 0,0 };
     }
-
-    /**************************************************************************/
-    /*!
-        @brief Handles the collision response between two dynamic bodies.
-        @param bodyA Reference to the first dynamic body involved in the collision.
-        @param bodyB Reference to the second dynamic body involved in the collision.
-
-        Dynamic vs Dynamic Collision response
-     */
-     /**************************************************************************/
-    //void DynamicDynamicResponse(Transform& bodyA, Transform& bodyB) 
-    //{
-    //    //Vector2 tempVelocity = bodyA.velocity;
-    //    //swap the velocities, causing them to exchange their velocities upon collision
-    //    //bounce off each other
-    //    bodyA.position.x -= bodyA.velocity.x; // *50.f;
-    //    bodyA.position.y -= bodyA.velocity.y; // *50.f;
-    //    bodyB.position.x -= bodyB.velocity.x; // *50.f;
-    //    bodyB.position.y -= bodyB.velocity.y; // *50.f;
-    //}
-
-    ///**************************************************************************/
-    ///*!
-    //    @brief Handles the collision response between two bodies.
-    //    @param alpha Reference to the first body involved in the collision.
-    //    @param beta Reference to the second body involved in the collision.
-
-    //    Depending on the nature of the bodies involved in the collision, this function
-    //    will delegate the response to either DynamicStaticResponse or DynamicDynamicResponse.
-    // */
-    // /**************************************************************************/
-    //void HandleCollisionResponse(Transform& alpha, Transform& beta) 
-    //{
-    //    if (beta.isStatic) 
-    //    {
-    //        DynamicStaticResponse(alpha);
-    //    }
-    //    else 
-    //    {
-    //        DynamicDynamicResponse(alpha, beta);
-    //    }
-    //}
 }
 
 

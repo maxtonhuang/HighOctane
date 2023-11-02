@@ -212,12 +212,6 @@
     <ClInclude Include="CharacterStats.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAction.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerAction.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="WindowsInterlink.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
@@ -360,15 +354,6 @@
       <Filter>Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="CharacterStats.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAction.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardAction.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerAction.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="UIComponents.cpp">

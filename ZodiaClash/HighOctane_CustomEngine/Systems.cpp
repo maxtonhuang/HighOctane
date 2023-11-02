@@ -188,31 +188,36 @@ void CollisionSystem::Update() {
 				Transform* transData1 = &transformArray.GetData(entity1);
 				Collider* collideData1 = &colliderArray.GetData(entity1);
 
+				bool hasCollided = false;
+
 				for (Entity const& entity2 : m_Entities) {
 					if (entity1 != entity2) {
 						Transform* transData2 = &transformArray.GetData(entity2);
 						Collider* collideData2 = &colliderArray.GetData(entity2);
 
-						bool collided{};
 						if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-							collided = physics::CheckCollisionBoxBox(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionBoxBox(*transData1, *transData2);
 						}
 						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-							collided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
 						}
 						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-							collided = physics::CheckCollisionCircleBox(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionCircleBox(*transData1, *transData2);
 						}
 						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-							collided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
 						}
-						else
-							collided = false;
-
-						if (collided == true) { physics::DynamicStaticResponse(*transData1); }
+						if (hasCollided == true) 
+						{ 
+							physics::DynamicStaticResponse(*transData1);
+							break;
+						}
 					}
 				}
-				/*transData1->velocity = { RESET_VEC2 };*/
+				// Update the character's position if no collision occurred
+				if (!hasCollided) {
+					physics::PHYSICS->Integrate(*transData1);
+				}
 			}
 		}
 		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
@@ -647,22 +652,6 @@ void EditingSystem::Draw() {
 		if (n->selected) {
 			m->DrawOutline();
 		}
-	}
-}
-
-void GameplaySystem::Update() {
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	// Access component arrays through the ComponentManager
-	//auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& characterArray = componentManager.GetComponentArrayRef<CharacterStats>();
-
-	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		Transform* transform = &transformArray.GetData(entity);
-		CharacterStats* cs = &characterArray.GetData(entity);
 	}
 }
 

@@ -290,9 +290,6 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
 	systemList.emplace_back(scriptingSystem, "Scripting System");
 
-	std::shared_ptr<GameplaySystem> gameplaySystem = ECS::ecs().RegisterSystem<GameplaySystem>();
-	systemList.emplace_back(gameplaySystem, "Gameplay System");
-
 	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
 	runSystemList.emplace_back(battleSystem, "Battle System");
 	systemList.emplace_back(battleSystem, "Battle System");
@@ -423,7 +420,6 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
 		signature.set(ECS::ecs().GetComponentType<Tag>());
-		ECS::ecs().SetSystemSignature<GameplaySystem>(signature);
 	}
 
 	{

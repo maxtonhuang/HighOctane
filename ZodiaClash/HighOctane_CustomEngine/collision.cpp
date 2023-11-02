@@ -82,17 +82,6 @@ namespace physics {
 			vB.x = vel2.x - vel1.x;
 			vB.y = vel2.y - vel1.y;
 
-			/*
-			Step 3: Working with one dimension (x-axis).
-					if(Vb < 0)
-						case 1
-						case 4
-					if(Vb > 0)
-						case 2
-						case 3
-
-					case 5
-			*/
 			if (vB.x < 0.f)
 			{
 				//case 1
@@ -259,21 +248,6 @@ namespace physics {
 		}
 		else
 			return 1;
-
-		/**
-		//if camera is involved (dynamic?)
-		vmath::Vector2 cameraOffset{};
-		float viewportWidth{};
-		float viewportHeight{};
-		if (((max.x + cameraOffset.x) < viewportWidth) || ((max.y + cameraOffset.y) < viewportHeight)
-			|| ((min.x + cameraOffset.x) > 0.f) || ((min.y + cameraOffset.y) > 0.f))
-		{
-			return 0;
-		}
-		else
-			return 1;
-		**/
-
 	}
 
 	/*!
@@ -302,49 +276,5 @@ namespace physics {
 		}
 		else
 			return 1;
-
-		/**
-		//if camera is involved (dynamic?)
-		vmath::Vector2 cameraOffset{};
-		float viewportWidth{};
-		float viewportHeight{};
-		vmath::Vector2 circleOffset = cameraOffset + circle.center;
-
-		if (((circleOffset.x + circle.radius) < windowWidth)
-		|| ((circleOffset.y + circle.radius) < windowHeight)
-		|| ((circleOffset.x - circle.radius) > 0.f)
-		|| ((circleOffset.y - circle.radius) > 0.f))
-		{
-			return 0;
-		}
-		else
-			return 1;
-		**/
 	}
-
-	/*!
-	 * \brief Parent Body-Border collision detection
-	 *
-	 * This function is the main connecting function call from Physics.
-	 * By determining the SHAPE_ID of Body, the identifed Body entity is passed into
-	 * their respective functions for collision checks.
-	 *
-	 * \param alpha : The Circle entity to check collision for.
-	 *
-	 */
-	//bool CollisionManager::CheckBorderCollision(const Transform& alpha) {
-	//	Collider::SHAPE_ID alphaShape = alpha.bodyShape;
-	//	if (alphaShape == Collider::SHAPE_ID::SHAPE_BOX) {
-	//		return CheckCollisionBoxBorder(alpha);
-	//	}
-	//	else if (alphaShape == Collider::SHAPE_ID::SHAPE_CIRCLE) {
-	//		return CheckCollisionCircleBorder(alpha);
-	//	}
-	//	else
-	//	{
-	//		//assert maybe?
-	//		return false;
-	//	}
-	//}
-
 }
