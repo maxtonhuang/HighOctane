@@ -173,28 +173,33 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
 }
 
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
-
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
-    
-    for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = scriptData->EntityInstances[entity].begin(); it != scriptData->EntityInstances[entity].end(); ++it) {
 
-        if ((*it)->GetScriptName() == scriptName) {
+    // Remove the script instances from the vector
+    auto& instances = scriptData->EntityInstances[entity];
+    for (int i = 0; i < instances.size(); ) {
+        if (instances[i]->GetScriptName() == scriptName) {
+            instances.erase(instances.begin() + i);
+            // Do not increment i, as the next element has shifted into the current position
+        }
+        else {
+            // Increment i only if an element was not erased
+            ++i;
+        }
+    }
 
-            // Remove the script instance from the vector
-			scriptData->EntityInstances[entity].erase(it);
-
-            for (int i = 0; i < sc.scriptNameVec.size(); i++) {
-
-                if (sc.scriptNameVec[i] == scriptName) {
-
-                    // Remove the script name from the vector
-					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
-                    scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
-				}
-			}
-			break;
-		}
-	}
+    // Now remove the script name from scriptNameVec and scriptNamesAttachedforIMGUI
+    for (int i = 0; i < sc.scriptNameVec.size(); ) {
+        if (sc.scriptNameVec[i] == scriptName) {
+            sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
+            scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
+            break;
+        }
+        else {
+            // Increment i only if an element was not erased
+            ++i;
+        }
+    }
 }
 
 void ScriptEngine::ScriptUpdate(const Entity& entity) {
