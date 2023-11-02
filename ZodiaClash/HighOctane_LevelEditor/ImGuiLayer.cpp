@@ -19,6 +19,11 @@ void UpdateLayer() {
 
 	ImGui::Begin("Layers");
 	float bh = buttonHeight + ImGui::GetStyle().ItemSpacing.y;  // Button height + spacing
+
+	ImGui::Text("View");
+	ImGui::SameLine();
+	ImGui::Text("Lock");
+
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
 
 	size_t potentialDropTarget = ULLONG_MAX;

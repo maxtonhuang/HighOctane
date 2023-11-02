@@ -70,6 +70,8 @@
 #include "Layering.h"
 
 
+
+
 bool gConsoleInitalized{ false };
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
@@ -144,22 +146,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
-	testFunc();
-	/*-----------THIS IS FOR SCRIPTING------------*/
-	//REGISTER_TYPE(int);
-	//REGISTER_TYPE(double);
-	//REGISTER_TYPE(std::vector<int>);
+	/*-----------THIS IS FOR REFLECTION------------*/
+	
+	// Use the macro to declare variables
+	DECLARE(int, test, 3);
+	DECLARE(float, test2, 3.14f);
+	DECLARE(std::string, test3, "Hello");
+	DECLARE(bool, test4, true);
 
-	//const TypeInformation* intTypeInfo = g_TypeRegistry.GetType("int");
-	//if (intTypeInfo) {
-	//	intTypeInfo->Print();
-	//}
+	// The rest of your code can stay the same
 
-	//const TypeInformation* vectorTypeInfo = g_TypeRegistry.GetType("std::vector<int>");
-	//if (vectorTypeInfo) {
-	//	vectorTypeInfo->Print();
-	//}
-	/*-----------THIS IS FOR SCRIPTING------------*/
+
+	// Iterate over registered variables and print their values
+	for (const auto& var : variablesTEST) {
+		std::cout << var.name << " = " << var.read() << std::endl;
+	}
+
+
+
+	/*-----------THIS IS FOR REFLECTION------------*/
 
     LOG_INFO("Program started");
 
@@ -486,7 +491,7 @@ void EngineCore::Run(bool const& mode) {
 	}
 
 	//fonts.Initialize();
-	EntityFactory::entityFactory().LoadMasterModel();
+	//EntityFactory::entityFactory().LoadMasterModel();
 
 	//Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 
@@ -579,13 +584,11 @@ void EngineCore::Run(bool const& mode) {
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
 
-		if (newScene) {
+		if (initLevel) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
-			Attack test;
-			test.attackName = "Test";
-			assetmanager.attacks.SaveAttack(test);
+			initLevel = false;
 			newScene = false;
 		}
 

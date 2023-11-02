@@ -472,12 +472,15 @@ void SerializationSystem::Update() {
 		if (newSceneName != "") {
 			assetmanager.LoadAssets(newSceneName);
 		}
+		initLevel = true;
+		newScene = false;
 	}
 
 	if (playButton) {
 		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
 		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
 		std::cout << "Total m_entities" << m_Entities.size() << std::endl;
+		initLevel = true;
 		playButton = false;
 	}
 
@@ -486,7 +489,7 @@ void SerializationSystem::Update() {
 
 // Loads the script at startup from TestWY1.json
 void ScriptSystem::Initialize() {
-	std::cout << "ScriptSystem::Initialize()" << std::endl;
+	//std::cout << "ScriptSystem::Initialize()" << std::endl;
 
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
@@ -498,7 +501,7 @@ void ScriptSystem::Initialize() {
 	for (const Entity& entity : m_Entities) {
 
 		ScriptEngine::OnCreateEntity(entity);
-		std::vector<std::string> scriptVec = LoadScripting(entity);
+		//std::vector<std::string> scriptVec = LoadScripting(entity);
 
 		// Get the script component
 		Script* s = &ECS::ecs().GetComponent<Script>(entity);
@@ -508,31 +511,31 @@ void ScriptSystem::Initialize() {
 		}
 
 		// Get the name component
-		Script& script = scriptArray.GetData(entity);
-		std::vector<std::string> temp;
-		for (auto& scriptString : scriptVec) {
-			
-			temp.push_back(scriptString);
-			
-			// If not in the global vec for imgui
-			if (std::find(fullNameVecImGUI.begin(), fullNameVecImGUI.end(), scriptString) == fullNameVecImGUI.end()) {
-				fullNameVecImGUI.push_back(scriptString);
-			}
-		}
+		//Script& script = scriptArray.GetData(entity);
+		//std::vector<std::string> temp;
+		//for (auto& scriptString : scriptVec) {
+		//	
+		//	temp.push_back(scriptString);
+		//	
+		//	// If not in the global vec for imgui
+		//	if (std::find(fullNameVecImGUI.begin(), fullNameVecImGUI.end(), scriptString) == fullNameVecImGUI.end()) {
+		//		fullNameVecImGUI.push_back(scriptString);
+		//	}
+		//}
 
-		scriptMap.insert({ entity, {temp} });
+		//scriptMap.insert({ entity, {temp} });
 
-		// Get the script names from the entityScripts map
-		for (auto& [key, value] : scriptMap) {
-			if (key == entity) {
-				script.scriptNameVec = value;
-			}
-		}
+		//// Get the script names from the entityScripts map
+		//for (auto& [key, value] : scriptMap) {
+		//	if (key == entity) {
+		//		script.scriptNameVec = value;
+		//	}
+		//}
 
 		// If the script has a className, then initialize it in the script engine.
-		if (!script.scriptNameVec.empty()) {
+		//if (!script.scriptNameVec.empty()) {
 			ScriptEngine::OnCreateEntity(entity);
-		}
+		//}
 	}
 
 }

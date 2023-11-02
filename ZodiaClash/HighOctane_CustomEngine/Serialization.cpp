@@ -244,6 +244,7 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	for (const std::string& name : script.scriptNameVec) {
 		scriptNameArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
 	}
+
 	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
 
 	return scriptObject;
@@ -899,51 +900,4 @@ void WriteSpriteConfig(const char* filename, int rows, int cols) {
 
 	// Close the file
 	ofs.close();
-}
-
-// Load the scripting for scripting on start up
-std::vector<std::string> LoadScripting(Entity entity) {
-	std::vector<std::string> scriptVec;
-	std::string filePath = assetmanager.GetDefaultPath() + "Scenes/TestWY1.json";
-	// Open the file here	
-	std::ifstream ifs(filePath);
-	//std::ifstream ifs("../Assets/Scenes/TestWY2.json");
-
-	// Check if can open
-	if (!ifs.is_open()) {
-		// Check if the file is open
-		std::cerr << "Unable to load Scene file for scripting" << std::endl;
-	}
-	rapidjson::Document document;
-
-	rapidjson::IStreamWrapper isw(ifs);
-	document.ParseStream(isw);
-
-	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
-		const rapidjson::Value& entityObject = document[i];
-
-		// If the entity contains entity ID
-		if (entityObject.HasMember("Entity ID") && entityObject["Entity ID"].GetInt() == entity) {
-		
-			// Check if the entity has scripts
-			if (entityObject.HasMember("Scripts")) {
-				const rapidjson::Value& scriptObject = entityObject["Scripts"];
-				Script script;
-				
-				// Check if the entity has the script vector
-				if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
-					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
-					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
-						if (scriptNameArray[j].IsString()) {
-							scriptVec.push_back(scriptNameArray[j].GetString());
-						}
-					}
-				}
-			}
-		
-		}
- 		
-	}
-	// Return the scriptMap
-	return scriptVec;
 }

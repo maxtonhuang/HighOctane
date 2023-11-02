@@ -51,8 +51,9 @@ void ScriptEngine::Init() {
     
     LoadAssemblyClasses(s_Data->CoreAssembly);
 
-    // This is to add the internal calls
+    // This is to add all the internal calls
     internalcalls::AddInternalCall();
+
     s_Data->EntityClass = ScriptClass("", "Entity");
 }
 
@@ -63,9 +64,7 @@ void ScriptEngine::Shutdown() {
 
 void ScriptEngine::InitMono() {
     // Setting the path to the mono
-    //std::cout << "Scripting InitMono\n";
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
-    std::cout << "filePath: " << filePath << std::endl;
 
 
     /*-------------------HARD CODE---------------------*/
@@ -124,10 +123,10 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     // Create an App Domain
     s_Data->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
     mono_domain_set(s_Data->AppDomain, true);
-    //if (!LoadMonoAssembly(filePath)) {
-    //    s_Data->CoreAssembly = LoadMonoAssembly("HighOctane_CSharpScript.dll");
-    //}
-    /*else */s_Data->CoreAssembly = LoadMonoAssembly(filePath);
+    if (!LoadMonoAssembly(filePath)) {
+        s_Data->CoreAssembly = LoadMonoAssembly("HighOctane_CSharpScript.dll");
+    }
+    else s_Data->CoreAssembly = LoadMonoAssembly(filePath);
     s_Data->CoreAssemblyImage = mono_assembly_get_image(s_Data->CoreAssembly);
     //PrintAssemblyTypes(s_Data->CoreAssembly);
 }
@@ -186,23 +185,6 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     entityScripts.push_back(instance);
 }
 
-// Helper function for script instance
-std::string ScriptInstance::GetScriptName() const {
-    if (m_ScriptClass) {
-        // Check if there's namespace
-        if (m_ScriptClass->m_ClassNamespace == "") {
-			return m_ScriptClass->m_ClassName;
-		}
-        else {
-            // Assuming the full script name is composed of Namespace + "." + ClassName
-            return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
-        }
-
-    }
-    return ""; // Return an empty string if m_ScriptClass is nullptr
-}
-
-
 // Run time remove script
 void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
 
@@ -227,6 +209,24 @@ void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
 	}
 }
 
+// Helper function for script instance
+std::string ScriptInstance::GetScriptName() const {
+    if (m_ScriptClass) {
+        // Check if there's namespace
+        if (m_ScriptClass->m_ClassNamespace == "") {
+            return m_ScriptClass->m_ClassName;
+        }
+        else {
+            // Assuming the full script name is composed of Namespace + "." + ClassName
+            return m_ScriptClass->m_ClassNamespace + "." + m_ScriptClass->m_ClassName;
+        }
+
+    }
+    return ""; // Return an empty string if m_ScriptClass is nullptr
+}
+
+
+// On update entity
 void ScriptEngine::OnUpdateEntity(const Entity& entity) {
     auto it = s_Data->EntityInstances.find(entity);
     if (it != s_Data->EntityInstances.end()) {
@@ -273,8 +273,6 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         if (isEntity) {
             s_Data->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
             fullNameVecImGUI.emplace_back(fullName);
-            //std::cout << "Added class: " << fullName << std::endl;
-            //printf("LoadAssemblyClassesssssssssss: %s.%s\n", nameSpace, name);
         } 
     }
 
