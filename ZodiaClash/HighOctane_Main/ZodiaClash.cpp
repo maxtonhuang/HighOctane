@@ -68,6 +68,7 @@
 #include "Reflections.h"
 #include "Events.h"
 #include "Layering.h"
+#include <rttr/type.h>
 
 
 bool gConsoleInitalized{ false };
@@ -84,7 +85,9 @@ constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////
 
+class myClass {
 
+};
 
 /******************************************************************************
 *
@@ -110,13 +113,6 @@ std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 
-/*-----------THIS IS FOR SCRIPTING------------*/
-//// Global type registry (you could also have this as a singleton)
-//TypeRegistry g_TypeRegistry;
-//
-//// Macros for ease of use
-//#define REGISTER_TYPE(Type) g_TypeRegistry.RegisterType<Type>(#Type)
-/*-----------THIS IS FOR SCRIPTING------------*/
 // Create an instance of GUIManager
 GUIManager guiManager;
 
@@ -151,11 +147,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	/*-----------THIS IS FOR REFLECTION------------*/
 	
 	// Use the macro to declare variables
-	DECLARE(int, test, 3);
-	DECLARE(float, test2, 3.14f);
-	DECLARE(std::string, test3, "Hello");
-	DECLARE(bool, test4, true);
+	//DECLARE(int, test, 3);
+	//DECLARE(float, test2, 3.14f);
+	//DECLARE(std::string, test3, "Hello");
+	//DECLARE(bool, test4, true);
 
+	auto type{ rttr::type::get<myClass>() };
+	auto const& sysKey{ type.get_name().to_string() }; //gets name of _system type
+	std::cout << sysKey << std::endl;
 	// The rest of your code can stay the same
 
 

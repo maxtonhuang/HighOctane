@@ -66,6 +66,9 @@
     <Filter Include="Events">
       <UniqueIdentifier>{531f8a7d-ed1a-4ae2-944c-2e47389335a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{9702622b-4f7e-4eb6-b7c1-ca998e062476}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaderfilelist.h">
@@ -173,9 +176,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Reflections.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Scripting.h">
       <Filter>Scripting</Filter>
     </ClInclude>
@@ -235,6 +235,15 @@
     </ClInclude>
     <ClInclude Include="Layering.h">
       <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Reflections.h">
+      <Filter>Reflection</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,7 +331,6 @@
     <ClCompile Include="Viewport.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Animator.cpp">
       <Filter>Animator</Filter>
     </ClCompile>
@@ -379,6 +387,12 @@
     </ClCompile>
     <ClCompile Include="Layering.cpp">
       <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAction.cpp" />
+    <ClCompile Include="GuardAction.cpp" />
+    <ClCompile Include="PlayerAction.cpp" />
+    <ClCompile Include="Reflections.cpp">
+      <Filter>Reflection</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

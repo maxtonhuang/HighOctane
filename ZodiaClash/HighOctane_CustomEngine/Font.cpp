@@ -33,7 +33,11 @@
     font library into the game engine.
 
     [M1] 2 font objects created. Needs further polishing
-    [M2] Reading from font directory to store more than 1 font file
+    [M2] Reading from font directory to store more than 1 font file.
+            - Revamped to account for loading only requested fonts (on demand), 
+            dropped unnecessary structures
+            - Revamped to account for serialization and imgui support 
+            (combo box selection)
 *
 ******************************************************************************/
 
@@ -245,6 +249,14 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
         return;
     }
 
+    // add loaded font into loadedFilePaths
+    std::string parentDir = assetmanager.GetDefaultPath() + "Fonts/";
+    size_t pos = fontFilePath.find(parentDir);
+    // if string starts with parentDir, remove prefix, else just store as is
+    (pos == 0) ? 
+        loadedFilePaths.push_back(fontFilePath.substr(pos + parentDir.length()))
+        : loadedFilePaths.push_back(fontFilePath);
+
     for (const auto& pair : fontData.characters) {
         int yOffset = pair.second.bearing.y - pair.second.size.y;
 
@@ -427,6 +439,10 @@ std::unordered_multimap<std::string, FontEntry>* FontManager::GetFontCollection(
 const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* FontManager::GetFontPairs() const {
     //DEBUG_PRINT("___ DEBUG::FONT::GET FONTPAIRS ___");
     return &fontPairs;
+}
+
+const std::vector<std::string>* FontManager::GetLoadedFilePaths() const {
+    return &loadedFilePaths;
 }
 
 /*!

@@ -122,6 +122,9 @@ public:
 	// getter for retrieving fontPairs
 	const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* GetFontPairs() const;
 
+	// getter for retrieving loaded fonts filepaths
+	const std::vector<std::string>* GetLoadedFilePaths() const;
+
 	// getter for retrieving list of font families
 	std::vector<std::string> GetFontFamilyList();
 
@@ -138,6 +141,7 @@ private:
 
 	std::unordered_multimap<std::string, FontEntry> fontCollection;
 	std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>> fontPairs;
+	std::vector<std::string> loadedFilePaths;
 };
 
 extern FontManager fonts;
