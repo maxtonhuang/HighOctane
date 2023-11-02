@@ -30,7 +30,7 @@ Input Keys(Main menu)
 - ENSURE GAME IS IN PLAY MODE AND NOT EDIT MODE FOR BUTTONS TO WORK
 
 Input Keys (Battle scene)
-- Press Use Skill 1, 2 and 3 to use the skills for currently active player character
+- Press Use Skill 1, 2 and 3 to use the skills for currently active player character (target will be the first enemy character)
 - Refer to console to see battle logs and AI output (either editor console or game console)
 
 Input Keys(Exploration scene):
