@@ -243,7 +243,30 @@ void GUIManager::Update()
         graphics.viewport.SetViewport((int)ImWindow->DC.CursorPos.x,(int)(graphics.GetWindowHeight() - ImWindow->DC.CursorPos.y - h),(unsigned int)w,(unsigned int)h);
         ImGui::Image(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(textureID)), ImVec2{ w , h }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 
+        if (ImGui::BeginDragDropTarget()) {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_ITEM")) {
+                const wchar_t* droppedItemPath = (const wchar_t*)payload->Data;
+                std::wcout << L"Original Path: " << droppedItemPath << std::endl;
 
+                // Extract the filename from the path
+                std::wstring widePath(droppedItemPath);
+                size_t lastSlash = widePath.find_last_of(L"\\/");
+                std::wstring filename = widePath.substr(lastSlash + 1);
+
+                int stringSize = WideCharToMultiByte(CP_UTF8, 0, filename.c_str(), -1, NULL, 0, NULL, NULL);
+                if (stringSize > 0) {
+                    std::string convertedPath(stringSize, 0);
+                    WideCharToMultiByte(CP_UTF8, 0, filename.c_str(), -1, &convertedPath[0], stringSize, NULL, NULL);
+
+                    // Remove the null-terminator from the end if necessary
+                    if (!convertedPath.empty() && convertedPath.back() == '\0') {
+                        convertedPath.pop_back();
+                    }
+                    events.Call("Change Scene", convertedPath);
+                }
+            }
+            ImGui::EndDragDropTarget();
+        }
         // need to edit popupHovered
         popupHovered = false;
         if (rightClick && anyObjectSelected) {

@@ -4,58 +4,11 @@
 #include <map>
 
 static std::filesystem::path s_AssetPath = "../Assets/";
-std::string folderIconPath = "foldericon.png";
-std::string fileIconPath = "fileicon.png";
-std::string backIconPath = "backicon.png";
-static std::map<std::string, ImTextureID> loadedIcons;
 
-ImTextureID LoadIconTexture(const std::string& iconPath) {
-	// Create an instance of Texture
-	Texture iconTexture;
 
-	// Define a path to your icons directory in the AssetManager
-	std::string pathToIcons = assetmanager.GetDefaultPath() + "Textures/Icons/";
+extern std::map<std::string, ImTextureID> loadedIcons;
 
-	// Construct the full path to the icon within the icons directory
-	std::string fullPath = pathToIcons + iconPath;
-
-	// Initialize the icon texture
-	iconTexture.Init(fullPath.c_str(), iconPath.c_str());
-
-	// Check if the icon texture was loaded successfully
-	if (iconTexture.IsActive()) {
-		// Return the ImTextureID from the loaded texture
-		return reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(iconTexture.GetID()));
-	}
-
-	else {
-		// Return nullptr if loading failed (you may want to handle errors differently)
-		return nullptr;
-	}
-}
-
-void LoadIcons() {
-	loadedIcons["folderIcon"] = LoadIconTexture("foldericon.png");
-	loadedIcons["fileIcon"] = LoadIconTexture("fileicon.png");
-	loadedIcons["backIcon"] = LoadIconTexture("backicon.png");
-}
-
-void UnloadIcons() {
-	for (const auto& iconPair : loadedIcons) {
-		ImTextureID imTextureID = iconPair.second;
-		Texture* iconTexture = reinterpret_cast<Texture*>(imTextureID);
-
-		/*if (iconTexture) {
-			GLuint textureID = imTextureID->GetID();
-			glDeleteTextures(1, &textureID);
-		}*/
-		glDeleteTextures(1, reinterpret_cast<GLuint*>(&imTextureID));
-	}
-
-	loadedIcons.clear();
-}
-
-void UpdateContentBrowser(){
+void UpdateContentBrowser() {
 	static std::filesystem::path currentDirectory = s_AssetPath;
 	static bool init{ true }; //THIS IS TEMPORARY PLEASE FIND ANOTHER WAY
 	if (init) {
@@ -65,9 +18,9 @@ void UpdateContentBrowser(){
 	}
 
 	ImGui::Begin("Content Browser");
-	
+
 	if (currentDirectory != std::filesystem::path(s_AssetPath)) {
-		if (ImGui::ImageButton(loadedIcons["backIcon"],ImVec2{32,32})) {
+		if (ImGui::ImageButton(loadedIcons["backIcon"], ImVec2{ 32,32 })) {
 			currentDirectory = currentDirectory.parent_path();
 			if (currentDirectory < s_AssetPath) {
 				currentDirectory = s_AssetPath;
@@ -100,7 +53,7 @@ void UpdateContentBrowser(){
 		ImTextureID iconID = isDirectory ? loadedIcons["folderIcon"] : loadedIcons["fileIcon"];
 
 		// Display the icon and name
-		ImGui::ImageButton(iconID, { thumbnailSize, thumbnailSize }, { 1, 0 }, { 0, 1 }); 
+		ImGui::ImageButton(iconID, { thumbnailSize, thumbnailSize }, { 1, 0 }, { 0, 1 });
 
 		// Handle the directory or file button click
 		if (ImGui::IsItemClicked(0)) {
@@ -109,9 +62,21 @@ void UpdateContentBrowser(){
 				std::cout << "Directory selected: " << currentDirectory / path.filename() << std::endl;
 				currentDirectory /= path.filename();
 			}
-			else {
-				// Handle file click
-				std::cout << "File selected: " << currentDirectory / path.filename() << std::endl;
+		}
+
+		// Use the correct file path with extension
+		//std::string fullFilePath = (currentDirectory / path.filename()).string();
+
+		// Check if it's a .scn file for drag-and-drop
+		if (!isDirectory && relativePath.has_extension() && relativePath.extension() == ".scn") {
+			if (ImGui::BeginDragDropSource()) {
+				std::filesystem::path relativePath(path);
+				const wchar_t* itemPath = relativePath.c_str();
+
+				ImGui::SetDragDropPayload("SCENE_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
+				//wprintf(L"Original Path: %ls\n", itemPath);
+				std::wcout << L"Original Path: " << itemPath << std::endl;
+				ImGui::EndDragDropSource();
 			}
 		}
 		ImGui::TextWrapped(filenameString.c_str());

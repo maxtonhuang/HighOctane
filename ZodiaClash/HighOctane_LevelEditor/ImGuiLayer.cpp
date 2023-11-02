@@ -6,11 +6,13 @@
 #include <iterator>
 #include <limits>
 #include "Global.h"
+#include<map>
 
 constexpr float buttonHeight = 40.f;
 int index{};
 //Entity entity{};
 
+extern std::map<std::string, ImTextureID> loadedIcons;
 void UpdateLayer() {
 
 	// retrieving name that has already been deleted.
@@ -19,10 +21,11 @@ void UpdateLayer() {
 
 	ImGui::Begin("Layers");
 	float bh = buttonHeight + ImGui::GetStyle().ItemSpacing.y;  // Button height + spacing
+	
 
-	ImGui::Text("View");
+	ImGui::Image(loadedIcons["viewIcon"], ImVec2{ 23.f,23.f });
 	ImGui::SameLine();
-	ImGui::Text("Lock");
+	ImGui::Image(loadedIcons["lockIcon"], ImVec2{ 23.f,23.f });
 
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
 
