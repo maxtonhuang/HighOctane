@@ -1,3 +1,26 @@
+ZODIACLASH Project Guide File
+
+================================================================
+
+Game name: ZodiaClash
+Version: v0.1 M1 build
+
+Programmers:
+Huang Maxton Xinghua (m.huang@digipen.edu)
+Liu Wanting (wanting.liu@digipen.edu)
+Foong Pun Yuen Nigel (p.foong@digipen.edu)
+Koh Wen Yuen (k.wenyuan@digipen.edu)
+Chua Zhen Rong (c.zhenrong@digipen.edu)
+Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
+
+Designer:
+Yau Yee Onn Oliver (y.yau@digipen.edu)
+
+Artist:
+Loo Zhi Ying (zhiying.loo@digipen.edu)
+
+================================================================
+
 Input Keys(During play in exploration scene):
 
 - W, A, S, D to move the duck
@@ -21,11 +44,11 @@ Tests:
 	1. Play in exploration scene.
 	2. WASD to move main character duck(dynamic object) to collide with the stone (static object). Upon collision, the duck will stop.
 
--To test outline:
+- To test outline:
 	1. Select an entity in editor.
 	2. DrawOutline() and DrawPoint() will be called to draw the entity's outline.
 
--To test drawing lines for an object's direction: 
+- To test drawing lines for an object's direction: 
 	1. Press '0' during gameplay to draw AABB box
 	2. When moving the entity with "W,A,S,D", line will be drawn to represent object's direction.
 
