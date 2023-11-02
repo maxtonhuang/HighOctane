@@ -309,7 +309,7 @@ namespace internalcalls {
 * \param componentName The name or type of the component to be checked.
 * \return true if the entity has the component, false otherwise.
 */
-    static bool EntityHasComponent(Entity entity, MonoReflectionType* componentName) {
+    static bool EntityHasComponent(Entity entity) {
         return ECS::ecs().HasComponent<MonoReflectionType*>(entity);
 	}
 

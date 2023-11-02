@@ -283,8 +283,8 @@ private:
 	std::shared_ptr<ScriptClass> m_ScriptClass = nullptr; /*!< A shared pointer to the associated ScriptClass instance. */
 	MonoObject* m_Instance = nullptr; /*!< The instance of the script class. */
 	MonoMethod* m_Constructor = nullptr; /*!< The constructor method of the script class. */
-	MonoMethod* m_OnCreateMethod = nullptr; /*!< The method to invoke when the script is created. */
-	MonoMethod* m_OnUpdateMethod = nullptr; /*!< The method to invoke for script updates. */
+	MonoMethod* m_StartMethod = nullptr; /*!< The method to invoke when the script is created. */
+	MonoMethod* m_UpdateMethod = nullptr; /*!< The method to invoke for script updates. */
 };
 
 /*!
