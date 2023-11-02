@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "Serialization.h"
 #include "AssetManager.h"
+#include "Layering.h"
 
 bool buffer = false;
 
@@ -21,12 +22,14 @@ void UpdatePlayStop() {
 	if (buffer == true) {
 		std::string loadPath = assetmanager.GetDefaultPath() + "Scenes/tmp.json";
 		Serializer::LoadEntityFromJson(loadPath);
+		RebuildLayeringAfterDeserialization();
 		buffer = false;
 	}
 	if (ImGui::Button("Stop", { 100,50 })) {
 		destroyAll = true;
 		button_clicked = true;
 		edit_mode = true;
+		stopButton = true;
 		buffer = true;
 	}
 	ImGui::SameLine();

@@ -82,7 +82,7 @@ std::array<bool, 100000> entitiesToSkip{};
 std::array<bool, 10000> layersToLock{};
 std::array<bool, 100000> entitiesToLock{};
 
-//std::shared_ptr<EditingSystem> edit_ptr;
+std::shared_ptr<EditingSystem> edit_ptr;
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };

@@ -481,16 +481,7 @@ void SerializationSystem::Update() {
 		playButton = false;
 	}
 
-	if (stopButton) {
-		std::vector<Entity> entitylist{};
-		for (Entity e : m_Entities) {
-			entitylist.push_back(e);
-		}
-		for (Entity e : entitylist) {
-			ECS::ecs().DestroyEntity(e);
-		}
-		stopButton = false;
-	}
+	
 }
 
 // Loads the script at startup from TestWY1.json

@@ -76,17 +76,17 @@ extern std::string newSceneName;
 
 extern size_t currentLayer;
 extern size_t selectedLayer;
-extern size_t layerCounter; // serialize
+extern size_t layerCounter; 
 extern size_t selectedGroup;
-extern size_t groupCounter; // serialize
-extern std::deque<std::string> layerNames; // seialize
+extern size_t groupCounter; 
+extern std::deque<std::string> layerNames; 
 extern std::deque< std::deque<Entity> > layering;
 extern std::array<bool, 10000> layersToSkip;
 extern std::array<bool, 100000> entitiesToSkip;
 extern std::array<bool, 10000> layersToLock;
 extern std::array<bool, 100000> entitiesToLock;
 
-//extern std::shared_ptr<EditingSystem> edit_ptr;
+extern std::shared_ptr<EditingSystem> edit_ptr;
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;
 extern size_t importFileCount;
