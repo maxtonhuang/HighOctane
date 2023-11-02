@@ -38,6 +38,7 @@
 #include "GameAITree.h"
 #include "ECS.h"
 #include <algorithm>
+#include <iostream>
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -233,8 +234,8 @@ void BattleSystem::Update()
         if (activeCharacter->action.entityState == WAITING) {
             gameAI.Search(this);
         }
-        //NO BREAK BY DESIGN, IT NEEDS TO UPDATE ENTITY STATE
-        //break;
+        [[fallthrough]];
+
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
         if (activeCharacter->action.entityState == EntityState::ENDING) {
