@@ -29,7 +29,8 @@ void UpdateSceneHierachy() {
 	ImGui::End();
 
 	ImGui::Begin("Properties");
-	if (currentSelectedEntity && selectedEntities.size() == 1) {
+	//if (currentSelectedEntity && selectedEntities.size() == 1) {
+	if (currentSelectedEntity) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
 	/*Entity entity;

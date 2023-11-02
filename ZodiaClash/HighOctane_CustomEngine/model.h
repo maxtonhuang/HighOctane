@@ -13,13 +13,6 @@
 *	@author		Foong Pun Yuen Nigel (Initial creation and draw functions)
 *
 *	@email		p.foong\@digipen.edu
-* 
-*	@co-author	Chua Zhen Rong (animation functions)
-* 
-*	@email		c.zhenrong\@digipen.edu 
-*
-*	@course		CSD 2401 - Software Engineering Project 3
-*				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
@@ -86,6 +79,9 @@ private:
 	glm::vec2 topright{};
 	glm::vec2 botleft{};
 	glm::vec2 botright{};
+
+	vmath::Vector2 minimum{};
+	vmath::Vector2 maximum{};
 
 	Transform previous{}; //used for check if previous is same as current
 	Size previous_size{}; //used for check if previous is same as current

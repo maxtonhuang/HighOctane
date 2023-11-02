@@ -181,37 +181,49 @@ Renderer& GraphicsManager::AddRenderer(std::string name) {
     return renderer[name];
 }
 
-void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a) {
-    renderer["point"].AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
-}
-
-void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
-    renderer["line"].AddVertex(Vertex{glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec4{r,g,b,a}});
-    renderer["line"].AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
-}
-
-void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b, float a) {
-    const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
-    renderer["circle"].AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
-    for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
-        renderer["circle"].AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a, Renderer* input) {
+    if (input == nullptr) {
+        input = &renderer["point"];
     }
-    renderer["circle"].Draw();
+    input->AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
 }
 
-void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
-    renderer["rectangle"].AddVertex(Vertex{glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a}});
-    renderer["rectangle"].AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
-    renderer["rectangle"].AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
-    renderer["rectangle"].AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
-    renderer["rectangle"].Draw();
+void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
+    if (input == nullptr) {
+        input = &renderer["line"];
+    }
+    input->AddVertex(Vertex{glm::vec2{x1 / GRAPHICS::w, y1 / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+    input->AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
 }
 
-void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
-    DrawLine(x1, y1, x1, y2, r, g, b, a);
-    DrawLine(x1, y1, x2, y1, r, g, b, a);
-    DrawLine(x2, y2, x2, y1, r, g, b, a);
-    DrawLine(x2, y2, x1, y2, r, g, b, a);
+void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b, float a, Renderer* input) {
+    if (input == nullptr) {
+        input = &renderer["circle"];
+    }
+    const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
+    input->AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+    for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
+        input->AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+    }
+    input->Draw();
+}
+
+void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
+    if (input == nullptr) {
+        input = &renderer["rectangle"];
+    }
+    input->AddVertex(Vertex{glm::vec2{x1 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+    input->AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y1 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    input->AddVertex(Vertex{ glm::vec2{x1 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    input->AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w,y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
+    input->Draw();
+}
+
+void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
+    DrawLine(x1, y1, x1, y2, r, g, b, a, input);
+    DrawLine(x1, y1, x2, y1, r, g, b, a, input);
+    DrawLine(x2, y2, x2, y1, r, g, b, a, input);
+    DrawLine(x2, y2, x1, y2, r, g, b, a, input);
 }
 
 std::string GraphicsManager::GetName() {

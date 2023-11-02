@@ -7,6 +7,8 @@ point.renderer
 line.renderer
 circle.renderer
 rectangle.renderer
+staticline.renderer
+staticpoint.renderer
 background.jpeg
 duck.spritesheet
 duck2.spritesheet

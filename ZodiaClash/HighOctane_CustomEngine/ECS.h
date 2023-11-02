@@ -477,6 +477,7 @@ private:
 class PhysicsSystem : public System {
 public:
     void Update() override;
+    void Draw() override;
 };
 
 class CollisionSystem : public System {

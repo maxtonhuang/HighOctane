@@ -82,26 +82,26 @@ void PhysicsSystem::Update() {
 		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
 	}
 
-	while (accumulatedTime >= FIXED_DT) {
-		//process mesaage here
-		bool reqStep{ false };
-		for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
-			switch (msg.type) {
-			case TYPE::KEY_TRIGGERED:
-				if (msg.info == INFO::KEY_8) {
-					reqStep = true;
-				}
-				if (msg.info == INFO::KEY_9) {
-					physics::PHYSICS->ToggleStepMode();
-				}
-				if (msg.info == INFO::KEY_0) {
-					physics::PHYSICS->ToggleDebugMode();
-				}
-				break;
+	//process mesaage here
+	bool reqStep{ false };
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
+		switch (msg.type) {
+		case TYPE::KEY_TRIGGERED:
+			if (msg.info == INFO::KEY_8) {
+				reqStep = true;
 			}
+			if (msg.info == INFO::KEY_9) {
+				physics::PHYSICS->ToggleStepMode();
+			}
+			if (msg.info == INFO::KEY_0) {
+				physics::PHYSICS->ToggleDebugMode();
+			}
+			break;
 		}
-		Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
+	}
+	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
+	while (accumulatedTime >= FIXED_DT) {
 		// Access component arrays through the ComponentManager
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -120,10 +120,10 @@ void PhysicsSystem::Update() {
 		// Check step mode and integrate physics
 		if (physics::PHYSICS->GetStepModeActive()) {
 			// Debug draw all entities
-			for (Entity const& entity : m_Entities) {
+			/*for (Entity const& entity : m_Entities) {
 				Transform& transData = transformArray.GetData(entity);
 				physics::PHYSICS->DebugDraw(transData);
-			}
+			}*/
 			// If step is required, integrate physics for all entities
 			if (reqStep) {
 				for (Entity const& entity : m_Entities) {
@@ -137,10 +137,20 @@ void PhysicsSystem::Update() {
 			for (Entity const& entity : m_Entities) {
 				Transform& transData = transformArray.GetData(entity);
 				physics::PHYSICS->Integrate(transData);
-				physics::PHYSICS->DebugDraw(transData);
+				//physics::PHYSICS->DebugDraw(transData);
 			}
 		}
 		accumulatedTime -= FIXED_DT;
+	}
+}
+
+void PhysicsSystem::Draw() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+
+	for (Entity const& entity : m_Entities) {
+		Transform& transData = transformArray.GetData(entity);
+		physics::PHYSICS->DebugDraw(transData);
 	}
 }
 
@@ -247,6 +257,7 @@ void MovementSystem::Update() {
 			animatorData->UpdateAnimationMC(*texData, *sizeData);
 			//modelData->DrawOutline();
 			//graphics.backgroundsystem.SetFocusEntity(entity);
+			camera.SetPos(-transformData->position.x, -transformData->position.y);
 		}
 	}
 	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
@@ -339,9 +350,9 @@ void GraphicsSystem::Update() {
 		Model* m = &modelArray.GetData(entity);
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
-		if (m->CheckTransformUpdated(*transform, *size)) {
+		/*if (m->CheckTransformUpdated(*transform, *size)) {
 			
-		}
+		}*/
 		m->Update(*transform, *size);
 	}
 

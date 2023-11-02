@@ -59,7 +59,7 @@ struct Transform {
     Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
     bool                    isStatic{}; 
     //add forces
-    float                   mass{10};
+    float                   mass{1};
     float                   inverseMass{1/mass};
     Vec2                    acceleration{};
     Vec2                    force{acceleration * mass};

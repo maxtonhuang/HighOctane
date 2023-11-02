@@ -51,7 +51,7 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": false
+            "Selected": true
         },
         "Clone": {},
         "Color": {
@@ -85,7 +85,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.07671000063419342,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -155,7 +155,7 @@
     {
         "Entity": {
             "Name": "entity_00005",
-            "Selected": true
+            "Selected": false
         },
         "Clone": {},
         "Color": {
@@ -421,7 +421,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.07671000063419342,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -497,7 +497,7 @@
             "Text B": 0.0,
             "Text A": 1.0,
             "Event Name": "Change Scene",
-            "Event Input": "",
+            "Event Input": "exploration.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -711,5 +711,110 @@
         "Collider": {
             "Collider Enum": 0
         }
-    }
+    },
+    {
+        "Entity": {
+            "Name": "master_00007",
+            "Selected": false
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "master_00008",
+            "Selected": false
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {}
 ]

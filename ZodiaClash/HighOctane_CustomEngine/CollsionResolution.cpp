@@ -47,6 +47,7 @@ namespace physics {
         //reverse the velocity to cause it to "bounce back" , cancel the velocity
         dynamicBody.position.x -= dynamicBody.velocity.x * 0.1;
         dynamicBody.position.y -= dynamicBody.velocity.y * 0.1;
+        dynamicBody.velocity = Vec2{ 0,0 };
     }
 
     /**************************************************************************/
