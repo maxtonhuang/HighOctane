@@ -9,7 +9,7 @@
 
 constexpr float buttonHeight = 40.f;
 int index{};
-Entity entity{};
+//Entity entity{};
 
 void UpdateLayer() {
 
@@ -34,11 +34,13 @@ void UpdateLayer() {
 		std::string label1 = "##label" + std::to_string(checkboxCounter++);
 		if (ImGui::Checkbox(label1.c_str(), &layersToSkip[layer_it])) {
 			UnselectAll();
+			SetWholeSkipLayer(static_cast<size_t>(layer_it));
 		}
 		ImGui::SameLine();
 		std::string label2 = "##label" + std::to_string(checkboxCounter++);
 		if (ImGui::Checkbox(label2.c_str(), &layersToLock[layer_it])) {
 			UnselectAll();
+			SetWholeLockLayer(static_cast<size_t>(layer_it));
 		}
 		ImGui::SameLine();
 		if (ImGui::TreeNodeEx(layerNames[layer_it].c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (layer_it == currentLayer ? ImGuiTreeNodeFlags_Selected : 0), layerNames[layer_it].c_str())) {
@@ -88,6 +90,8 @@ void UpdateLayer() {
 				if (entityName.selected) {
 					currentLayer = layer_it;
 				}
+				layersToSkip[layer_it] = CheckSkipLayerAllTrue(static_cast<size_t>(layer_it));
+				layersToLock[layer_it] = CheckLockLayerAllTrue(static_cast<size_t>(layer_it));
 				std::string label3 = "##label" + std::to_string(checkboxCounter++);
 				if (ImGui::Checkbox(label3.c_str(), &entitiesToSkip[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
 					UnselectAll();

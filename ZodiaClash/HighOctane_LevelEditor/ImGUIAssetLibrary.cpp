@@ -5,6 +5,7 @@
 #include "WindowsInterlink.h"
 #include "Global.h"
 #include "GraphicConstants.h"
+#include "EntityFactory.h"
 #include <Windows.h>
 #include <shobjidl.h>
 #include <filesystem>
@@ -55,18 +56,21 @@ void UpdateAssetLibrary() {
 		int rowCount = tex->GetRowCount() == 0 ? 1 : tex->GetRowCount();
 		int colCount = tex->GetColCount() == 0 ? 1 : tex->GetColCount();
 		ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(tex->GetID())), { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / static_cast<float>(colCount), 1.f / static_cast<float>(rowCount) });
-		if (ImGui::IsItemClicked(0)) {
-			selectedMaster = val.second;
-			clicked = true;
+		if (ImGui::IsItemHovered()) {
+			if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+				selectedMaster = val.second;
+				popupMasterRightClicked = true;
+			}
+			else if (ImGui::IsMouseDoubleClicked(0)) {
+				selectedMaster = val.second;
+				clicked = true;
+			}
 		}
 		ImGui::TextWrapped(val.first.c_str());
 		ImGui::NextColumn();
 	}
 
 	ImGui::Columns(1);
-	
-	ImGui::End();
-	
 	
 	if (importFileCount) {
 		showDialog = true;
@@ -81,6 +85,17 @@ void UpdateAssetLibrary() {
 		clicked = false;
 	}
 
+	if (popupMasterRightClicked) {
+		if (ImGui::BeginPopupContextWindow("1")) {
+			if (ImGui::MenuItem("Delete")) {
+				EntityFactory::entityFactory().DeleteMasterModel(selectedMaster);
+				popupMasterRightClicked = false;
+			}
+			ImGui::EndPopup();
+		}	
+	}
+
+	ImGui::End();
 
 }
 
