@@ -77,7 +77,7 @@ bool gConsoleInitalized{ false };
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
 constexpr bool GAME_MODE{ false };
-constexpr bool EDITOR_MODE{ true };
+constexpr bool EDITOR_MODE{ false };
 constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -468,6 +468,8 @@ void EngineCore::Run(bool const& mode) {
 	//////////////////////////////////////////////////////
 
 	CreateNewLayer();
+
+	edit_mode = EDITOR_MODE;
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 

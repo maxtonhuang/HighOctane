@@ -1,4 +1,4 @@
 staticpoint
 statictexture.vert
-statictexture.frag
+flat.frag
 GL_POINTS

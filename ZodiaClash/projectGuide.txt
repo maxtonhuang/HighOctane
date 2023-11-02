@@ -20,9 +20,11 @@ Artist:
 Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
-Input Keys(Main menu)
+Input Keys(General)
 - Use mouse to click on buttons to navigate to the relevant scene
-- ENSURE GAME IS IN PLAY MODE AND NOT EDIT MODE FOR BUTTONS TO WORK
+- Press Esc to exit game at anytime
+- Press F11 to toggle fullscreen or windowed mode
+- ENSURE GAME IS NOT PAUSED FOR BUTTONS TO WORK
 
 Input Keys(During play in exploration scene):
 

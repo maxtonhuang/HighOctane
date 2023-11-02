@@ -403,10 +403,10 @@ void GraphicsSystem::Draw() {
 	//	m->Draw(tex, anim);
 	//}
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it]) {
+		if (layersToSkip[layer_it] || !edit_mode) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity]) {
+				if (entitiesToSkip[entity] || !edit_mode) {
 					Tex* tex{};
 					Animator* anim{};
 					Model* m{};
