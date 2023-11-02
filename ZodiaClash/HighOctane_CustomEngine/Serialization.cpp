@@ -203,12 +203,6 @@ rapidjson::Value SerializeVisible(const Visible& visible, rapidjson::Document::A
 	visibleObject.AddMember("isVisible", visible.isVisible, allocator);
 	return visibleObject;
 }
-//
-//rapidjson::Value SerializeMainCharacter(const MainCharacter& /* mainCharacter */, rapidjson::Document::AllocatorType& allocator) {
-//	rapidjson::Value MCObject(rapidjson::kObjectType);
-//	MCObject.AddMember("isMainCharacter", true, allocator);
-//	return MCObject;
-//}
 
 rapidjson::Value SerializeCircle(const Circle& circle, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value circleObject(rapidjson::kObjectType);
@@ -284,9 +278,7 @@ rapidjson::Value SerializeCollider(const Collider& collider, rapidjson::Document
 
 rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value textObject(rapidjson::kObjectType);
-	/*textLabel.font->GetInfo().first; family
-	textLabel.font->GetInfo().second; variant
-	ECS::ecs().GetComponent<TextLabel>(textObjectA).font = fonts.GetFont("mikachan", "Regular");*/
+	
 	if (textLabel.font != nullptr) {
 		auto fontInfo = textLabel.font->GetInfo();
 		textObject.AddMember("Font Family", rapidjson::Value(fontInfo.first.c_str(), allocator).Move(), allocator);

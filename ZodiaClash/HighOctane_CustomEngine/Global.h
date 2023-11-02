@@ -58,6 +58,7 @@ extern bool saveFile;
 extern bool rightClick;
 extern bool playButton;
 extern bool stopButton;
+extern bool sceneChangedWhilePlay;
 extern bool toDestroy;
 extern bool toCopy;
 extern bool inEditing;

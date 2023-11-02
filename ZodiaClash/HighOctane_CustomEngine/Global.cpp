@@ -52,6 +52,7 @@ bool destroyAll{ false };
 bool saveFile{ false };
 bool playButton{ true };
 bool stopButton{ false };
+bool sceneChangedWhilePlay{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
 bool toCopy{ false };

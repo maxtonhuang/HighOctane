@@ -115,8 +115,6 @@ std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 //// Macros for ease of use
 //#define REGISTER_TYPE(Type) g_TypeRegistry.RegisterType<Type>(#Type)
 /*-----------THIS IS FOR SCRIPTING------------*/
-// Create an instance of GUIManager
-GUIManager guiManager;
 
 
 
@@ -477,10 +475,12 @@ void EngineCore::Run(bool const& mode) {
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
+
 	assetmanager.Initialize();
 
 	events.InitialiseFunctions();
 
+	GUIManager guiManager;
 	if (game_mode) {
 
 		// LOAD IMGUI HERE !!!!!
