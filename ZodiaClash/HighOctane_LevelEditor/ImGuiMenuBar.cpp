@@ -1,3 +1,33 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiMenuBar.h
+*
+*	@author		Kai Alexander Van Adrichem Boogaert
+*
+*	@email		kaialexander.v\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		10 October 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file is the definition for Menu Bar of the editor
+*
+******************************************************************************/
 #include "ImGuiMenuBar.h"
 #include "Global.h"
 #include "AssetManager.h"
@@ -23,11 +53,8 @@ void UpdateMenuBar() {
                 if (path != "") {
                     if (FilePath::GetFileExtension(path) == ".scn") {
                         size_t pos = path.find_last_of("\\");
-                        //ASSERT(pos == std::string::npos, "File path error!");
                         path = path.substr(pos + 1);
                         events.Call("Change Scene",path);
-                        //assetmanager.LoadAssets(path);
-                        //Serializer::LoadEntityFromJson(OpenSingleFileDialog());
                     }
                     else {
                         ASSERT(true, "Please open a .scn file!");
@@ -39,15 +66,6 @@ void UpdateMenuBar() {
                 saveFile = true;
             }
             if (ImGui::MenuItem("Close Scene")) {
-
-                //EntityFactory::entityFactory().masterEntitiesList.clear();
-                //for (const Entity& entity : s_ptr->m_Entities) {
-                //    ECS::ecs().DestroyEntity(entity);
-                //}
-                ////ECS::ecs().DestroyEntity(entity);
-                //destroyAll = true;
-                //button_clicked = true;
-                //assetmanager.UnloadAll();
                 events.Call("Change Scene", "");
             }
             ImGui::EndMenu();

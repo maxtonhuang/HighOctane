@@ -26,13 +26,8 @@
 *	@brief		
 *
 *	This file contains all the definitions for serialize and dersiarialize.
+*	It also has helper functions as well to serialize specific components.
 * 
-*	!--Future Updates--!
-*	
-*	-M1 Checkpoint-
-*	- Attempt at creating a CSV parser
-*	- Create a Json to CSV, Vice versa
-*	- Find better optimization techniques for serialization
 ******************************************************************************/
 #include "Serialization.h"
 #include <rapidjson-master/include/rapidjson/document.h>
@@ -130,8 +125,6 @@ void Serializer::SerializeCSV(const std::string& file) {
 				characterStats.speed = std::stof(field);
 			}
 		}
-		//DEBUG_PRINT("ID:%d Name:%s  Health:%f  Attack:%f  Defence:%f  Speed:%f", characterStats.id, characterStats.name.c_str(), characterStats.health, characterStats.attack, characterStats.defence, characterStats.speed);
-
 		// Check for newline to indicate the end of a line
 		if (c == '\n' || stream.stream.eof()) {
 			// Reset characterStats for the next line
@@ -141,9 +134,7 @@ void Serializer::SerializeCSV(const std::string& file) {
 }
 
 rapidjson::Value SerializeName(const Name& entityName, rapidjson::Document::AllocatorType& allocator) {
-	/*rapidjson::Value nameValue(rapidjson::kStringType);
-	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
-	return nameValue;*/
+	
 	rapidjson::Value nameObject(rapidjson::kObjectType);
 	rapidjson::Value nameValue;
 	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
@@ -286,7 +277,6 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 		textObject.AddMember("Font Family", rapidjson::Value(fontInfo.first.c_str(), allocator).Move(), allocator);
 		textObject.AddMember("Font Variant", rapidjson::Value(fontInfo.second.c_str(), allocator).Move(), allocator);
 	}
-	// Serialize other properties of the TextLabel
 	textObject.AddMember("Text String", rapidjson::Value(textLabel.textString.c_str(), allocator).Move(), allocator);
 	textObject.AddMember("r", textLabel.textColor.r, allocator);
 	textObject.AddMember("g", textLabel.textColor.g, allocator);
@@ -312,7 +302,6 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	buttonObject.AddMember("Text B", button.defaultColor.textColor.b, allocator);
 	buttonObject.AddMember("Text A", button.defaultColor.textColor.a, allocator);
 
-	// Add other properties as needed
 	buttonObject.AddMember("Event Name", rapidjson::Value(button.eventName.c_str(), allocator).Move(), allocator);
 	buttonObject.AddMember("Event Input", rapidjson::Value(button.eventInput.c_str(), allocator).Move(), allocator);
 	buttonObject.AddMember("Padding Top", button.padding.top, allocator);
@@ -334,7 +323,6 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	EmbedSkipLockForSerialization();
 	rapidjson::Value layeringHeader(rapidjson::kObjectType);
 
-	// Create a "Layering" JSON object to group the global variables
 	rapidjson::Value layeringObject(rapidjson::kObjectType);
 
 	layeringObject.AddMember("layerCounter", layerCounter, allocator);
@@ -346,37 +334,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 		}
 		layeringObject.AddMember("layerNames", layerNamesArray, allocator);
 	}
-	//// Serialize layersToSkip
-	//rapidjson::Value layersToSkipArray(rapidjson::kArrayType);
-	//for (bool skip : layersToSkip) {
-	//	layersToSkipArray.PushBack(skip, allocator);
-	//}
-	//layeringObject.AddMember("layersToSkip", layersToSkipArray, allocator);
-	//// Serialize entitiesToSkip
-	//rapidjson::Value entitiesToSkipArray(rapidjson::kArrayType);
-	//for (bool skip : entitiesToSkip) {
-	//	entitiesToSkipArray.PushBack(skip, allocator);
-	//}
-	//layeringObject.AddMember("entitiesToSkip", entitiesToSkipArray, allocator);
 
-	//// Serialize layersToLock
-	//rapidjson::Value layersToLockArray(rapidjson::kArrayType);
-	//for (bool lock : layersToLock) {
-	//	layersToLockArray.PushBack(lock, allocator);
-	//}
-	//layeringObject.AddMember("layersToLock", layersToLockArray, allocator);
-
-	//// Serialize entitiesToLock
-	//rapidjson::Value entitiesToLockArray(rapidjson::kArrayType);
-	//for (bool lock : entitiesToLock) {
-	//	entitiesToLockArray.PushBack(lock, allocator);
-	//}
-	//layeringObject.AddMember("entitiesToLock", entitiesToLockArray, allocator);
-
-	// Add the "Layering" object to the root
 	layeringHeader.AddMember("LayeringSystems", layeringObject, allocator);
 
-	// Add the root object to the JSON document
 	document.PushBack(layeringHeader, allocator);
 
 	/*******************For ENTITIES****************/
@@ -398,11 +358,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Collider* collider = nullptr;
 
 	for (const Entity& entity : m_entity) {
-		//rapidjson::Value entityArray(rapidjson::kArrayType);
-
+		
 		rapidjson::Value entityObject(rapidjson::kObjectType);
 
-		//entityObject.AddMember("Entity ID", entity, allocator);
 
 		if (ECS::ecs().HasComponent<Name>(entity)) {
 			name = &ECS::ecs().GetComponent<Name>(entity);
@@ -440,11 +398,6 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value sizeObject = SerializeSize(*size, allocator);
 			entityObject.AddMember("Size", sizeObject, allocator);
 		}
-		/*if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
-			mainCharacter = &ECS::ecs().GetComponent<MainCharacter>(entity);
-			rapidjson::Value MCObject = SerializeMainCharacter(*mainCharacter, allocator);
-			entityObject.AddMember("MainCharacter", MCObject, allocator);
-		}*/
 		if (ECS::ecs().HasComponent<Circle>(entity)) {
 			circle = &ECS::ecs().GetComponent<Circle>(entity);
 			rapidjson::Value circleObject = SerializeCircle(*circle, allocator);
@@ -533,53 +486,6 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 			}
 		}
 	}
-	//// Deserialize layersToSkip
-	//if (layeringObject.HasMember("layersToSkip") && layeringObject["layersToSkip"].IsArray()) {
-	//	const rapidjson::Value& layersToSkipArray = layeringObject["layersToSkip"];
-	//	if (layersToSkipArray.Size() == layersToSkip.size()) {
-	//		for (rapidjson::SizeType i = 0; i < layersToSkipArray.Size(); ++i) {
-	//			if (layersToSkipArray[i].IsBool()) {
-	//				layersToSkip[i] = layersToSkipArray[i].GetBool();
-	//			}
-	//		}
-	//	}
-	//}
-
-	//// Deserialize entitiesToSkip
-	//if (layeringObject.HasMember("entitiesToSkip") && layeringObject["entitiesToSkip"].IsArray()) {
-	//	const rapidjson::Value& entitiesToSkipArray = layeringObject["entitiesToSkip"];
-	//	if (entitiesToSkipArray.Size() == entitiesToSkip.size()) {
-	//		for (rapidjson::SizeType i = 0; i < entitiesToSkipArray.Size(); ++i) {
-	//			if (entitiesToSkipArray[i].IsBool()) {
-	//				entitiesToSkip[i] = entitiesToSkipArray[i].GetBool();
-	//			}
-	//		}
-	//	}
-	//}
-
-	//// Deserialize layersToLock
-	//if (layeringObject.HasMember("layersToLock") && layeringObject["layersToLock"].IsArray()) {
-	//	const rapidjson::Value& layersToLockArray = layeringObject["layersToLock"];
-	//	if (layersToLockArray.Size() == layersToLock.size()) {
-	//		for (rapidjson::SizeType i = 0; i < layersToLockArray.Size(); ++i) {
-	//			if (layersToLockArray[i].IsBool()) {
-	//				layersToLock[i] = layersToLockArray[i].GetBool();
-	//			}
-	//		}
-	//	}
-	//}
-
-	//// Deserialize entitiesToLock
-	//if (layeringObject.HasMember("entitiesToLock") && layeringObject["entitiesToLock"].IsArray()) {
-	//	const rapidjson::Value& entitiesToLockArray = layeringObject["entitiesToLock"];
-	//	if (entitiesToLockArray.Size() == entitiesToLock.size()) {
-	//		for (rapidjson::SizeType i = 0; i < entitiesToLockArray.Size(); ++i) {
-	//			if (entitiesToLockArray[i].IsBool()) {
-	//				entitiesToLock[i] = entitiesToLockArray[i].GetBool();
-	//			}
-	//		}
-	//	}
-	//}
 }
 
 bool Serializer::LoadEntityFromJson(const std::string& fileName) {

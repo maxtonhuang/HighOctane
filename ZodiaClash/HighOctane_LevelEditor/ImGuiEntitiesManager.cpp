@@ -85,10 +85,6 @@ void UpdateEntitiesManager() {
         ImGui::Begin("Creating Entity");
 
         /*************************Testing for Serialization and Deserialization*************************************************/
-        
-        if (ImGui::Button("Clone Duck Entity")) {
-            EntityFactory::entityFactory().CloneMasterModel(0.f, 0.f, false);
-        }
 
         if (ImGui::Button("Create Entity")) {
             ImGui::OpenPopup("Entity Type");

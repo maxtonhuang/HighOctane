@@ -8,24 +8,24 @@
 *
 * *****************************************************************************
 *
-*	@file		ImGuiPlayStop.cpp
+* @file		ImGuiPlayStop.cpp
 *
-*	@author		Maxton Huang Xinghua
+* @author		Maxton Huang Xinghua
 *
-*	@email		m.huang\@digipen.edu
+* @email		m.huang\@digipen.edu
 *
-*	@course		CSD 2401 - Software Engineering Project 3
-*				CSD 2451 - Software Engineering Project 4
+* @course		CSD 2401 - Software Engineering Project 3
+* CSD 2451 - Software Engineering Project 4
 *
-*	@section	Section A
+*@section	Section A
 *
-*	@date		3 November 2023
+*@date		3 November 2023
 *
-* *****************************************************************************
+******************************************************************************
 *
-*	@brief		Functions to display the Play, Stop, and Pause buttons
+*@brief		Functions to display the Play, Stop, and Pause buttons
 *
-*	-
+* -
 *
 ******************************************************************************/
 
@@ -37,11 +37,10 @@
 #include "Events.h"
 
 bool buffer = false;
-
 /******************************************************************************
 *
 *	@brief Creates the Play, Stop, and Pause Control Panel
-*	
+*
 *	This function creates the Play, Stop, and Pause Buttons. When the Play
 *	button is clicked, the game will start. When the Stop button is clicked,
 *	the game will stop and the scene will be reset. When the Pause button is
@@ -51,6 +50,7 @@ bool buffer = false;
 void UpdatePlayStop() {
 
 	ImGui::Begin("Controls");
+
 
 	if (ImGui::Button("Play", {100,50})) {
 		playButton = true;
