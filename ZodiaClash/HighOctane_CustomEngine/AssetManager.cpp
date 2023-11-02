@@ -64,7 +64,6 @@ void AssetManager::Initialize() {
         path.clear();
         serializer.ReadString(path);
         if (path != "") {
-            //DEBUG_PRINT("RECEIVED PATH: %s", path.c_str());
             LoadAssets(path);
         }
     }
@@ -85,7 +84,6 @@ void AssetManager::LoadTexture(const std::string& texturePath) {
     path += "Textures/";
     path += texturePath;
     if (FileExists(path)) {
-        //DEBUG_PRINT("RECEIVED PATH: %s", path.c_str());
         texture.Add(path.c_str(), texturePath.c_str());
     }
     else {
@@ -97,7 +95,6 @@ void AssetManager::LoadSpritesheet(const std::string& spritePath) {
     std::string path{ defaultPath };
     path += "Textures/" + spritePath;
     if (FileExists(path)) {
-        //DEBUG_PRINT("RECEIVED SPRITE: %s", spritePath.c_str());
         Serializer serializer;
         std::string textureName;
         int row;
@@ -218,7 +215,6 @@ void AssetManager::LoadScene(const std::string& scenePath) {
             path.clear();
             serializer.ReadString(path);
             if (path != "") {
-                //DEBUG_PRINT("RECEIVED PATH: %s", path.c_str());
                 LoadAssets(path);
             }
         }
@@ -246,11 +242,9 @@ std::vector<std::string> AssetManager::GetFiles() {
     for (std::string& s : append) {
         output.push_back(s);
     }
-    auto* fontmap = fonts.GetFontCollection();
+    auto* fontmap = fonts.GetLoadedFilePaths();
     for (auto& f : *fontmap) {
-        size_t pos{ f.second.fontFilePath.find("Fonts") };
-        std::string fontpath{ f.second.fontFilePath.substr(pos + 6) };
-        output.push_back(fontpath);
+        output.push_back(f);
     }
     append = attacks.GetAttackNames();
     for (std::string& s : append) {
