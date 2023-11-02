@@ -442,6 +442,8 @@ void GraphicsSystem::Draw() {
 ******************************************************************************/
 void SerializationSystem::Update() {
 	if (saveFile) {
+		PrepareLayeringForSerialization();
+		//EmbedSkipLockForSerialization();
 		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
 		if (scenePath != "") {
 			std::ofstream sceneFile{ scenePath.c_str() };
@@ -675,7 +677,7 @@ void UITextLabelSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		Button* buttonData{};
+		//Button* buttonData{};
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
@@ -692,7 +694,7 @@ void UITextLabelSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
@@ -701,7 +703,7 @@ void UITextLabelSystem::Draw() {
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	
 	for (Entity const& entity : m_Entities) {
-		Transform* transformData = &transformArray.GetData(entity);
+		//Transform* transformData = &transformArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		//Name* nameData = &nameArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);

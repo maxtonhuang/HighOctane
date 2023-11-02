@@ -23,11 +23,12 @@ void UpdatePlayStop() {
 	if (buffer == true) {
 		std::string loadPath = assetmanager.GetDefaultPath() + "Scenes/tmp.json";
 		Serializer::LoadEntityFromJson(loadPath);
-		RebuildLayeringAfterDeserialization();
+		
 		buffer = false;
 	}
 	if (ImGui::Button("Stop", { 100,50 })) {
 		events.Call("Change Scene", "tmp.scn");
+		edit_mode = true;
 		/*destroyAll = true;
 		button_clicked = true;
 		edit_mode = true;

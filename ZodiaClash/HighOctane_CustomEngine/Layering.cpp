@@ -139,6 +139,7 @@ void EmbedSkipLockForSerialization() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	std::set<Entity>* e = &(s_ptr->m_Entities);
+	printf("Total entites saving %d \n", static_cast<int>(s_ptr->m_Entities.size()));
 	for (const Entity& entity : *e) {
 		Name& n = nameArray.GetData(entity);
 		n.skip = entitiesToSkip[static_cast<int>(entity)];

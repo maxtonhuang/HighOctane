@@ -36,6 +36,7 @@
 #include "enginecore.h"
 #include "Global.h"
 #include "CharacterStats.h"
+#include "Layering.h"
 
 EventManager events;
 
@@ -52,6 +53,8 @@ void ChangeScene(std::string input) {
 	button_clicked = true;
 	newSceneName = input;
 	destroyAll = true;
+	/*RebuildLayeringAfterDeserialization();
+	ExtractSkipLockAfterDeserialization();*/
 	//playButton = true;
 }
 void PlayAudio(std::string input) {

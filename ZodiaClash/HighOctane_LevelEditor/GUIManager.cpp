@@ -77,6 +77,7 @@ GUIManager::GUIManager()
 {
     //ImPlot::CreateContext();
     //GUIWindow = nullptr;
+    LoadIcons();
 }
 
 GUIManager::~GUIManager()
@@ -87,6 +88,7 @@ GUIManager::~GUIManager()
         ImGui::DestroyContext();
     }
     //ImPlot::DestroyContext();
+    UnloadIcons();
 }
 
 
@@ -185,7 +187,7 @@ void GUIManager::Update()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     // Create the main dockable window
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(main_viewport->WorkPos);
     ImGui::SetNextWindowSize(main_viewport->WorkSize);

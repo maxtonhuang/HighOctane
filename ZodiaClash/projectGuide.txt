@@ -9,7 +9,7 @@ Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
 Liu Wanting (wanting.liu@digipen.edu)
 Foong Pun Yuen Nigel (p.foong@digipen.edu)
-Koh Wen Yuen (k.wenyuan@digipen.edu)
+Koh Wen Yuan (k.wenyuan@digipen.edu)
 Chua Zhen Rong (c.zhenrong@digipen.edu)
 Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
 
@@ -20,16 +20,23 @@ Artist:
 Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
-Input Keys(General)
-- Use mouse to click on buttons to navigate to the relevant scene
-- Press Esc to exit game at anytime
-- Press F11 to toggle fullscreen or windowed mode
-- ENSURE GAME IS NOT PAUSED FOR BUTTONS TO WORK
+Project Settings
+- Run the engine using HighOctane_Main project
+- To turn on the editor, initialise game_mode variable in ZodiaClash.cpp with EDITOR_MODE 
+- To turn off the editor, initialise game_mode variable in ZodiaClash.cpp with GAME_MODE 
 
-Input Keys(During play in exploration scene):
+Input Keys(Main menu)
+- Use mouse to click on buttons to navigate to the relevant scene
+- ENSURE GAME IS IN PLAY MODE AND NOT EDIT MODE FOR BUTTONS TO WORK
+
+Input Keys (Battle scene)
+- Press Use Skill 1, 2 and 3 to use the skills for currently active player character (target will be the first enemy character)
+- Refer to console to see battle logs and AI output (either editor console or game console)
+
+Input Keys(Exploration scene):
 
 - W, A, S, D to move the duck
-- P, O to scale the game objects
+- P, O to scale the main character
 - Q to rotate main character anticlockwise
 - E to rotate main character clockwise
 
@@ -42,6 +49,12 @@ Input Keys(During play in exploration scene):
 - 9 to toggle step by step mode
 
 - Use mouse to select and edit entities
+
+Input Keys(Sound test)
+- Pressing Play Sound 1, 2 and 3 buttons will play a different sound respectively
+- Pressing Play Music will play looped music
+- Pressing Stop Music will stop all currently playing music
+- Pressing Pause/Resume BGM will pause the music, or if already paused, resume it
 
 Tests:
 
@@ -62,15 +75,4 @@ Tests:
 	2. Press the buttons to play the sound / sound setting as per the label
 	3. Please note that pressing "Play Music" multiple times will overlap the music
 
-- To test scripting:
-	- Add Script
-	1. From Properties page, click on the dropdown list in the script available portion. Press 'Add Script' button to add the script to the entity. Eg "AutoMoveX".
-	2. Press 'Play' and the entity will automove along the X direction.
-	3. You can choose to add more scripts to the same entity and both will run.
-	4. Press 'Pause', click on another entity, and add a different script to the entity.
-	5. Press 'Play' and the entities will call the corresponding scripts.
-	
-	- Delete script
-	1. From Properties page, click on the dropdown list in the script attached portion. Press 'Delete Script' button to remove the script from the entity. Eg "AutoMoveX".
-	2. Press 'Play' and you can see that the script is removed.
  
