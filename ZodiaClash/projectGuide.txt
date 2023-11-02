@@ -20,6 +20,9 @@ Artist:
 Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
+
+Startup project should be HighOctane_Main
+
 Input Keys(General)
 - Use mouse to click on buttons to navigate to the relevant scene
 - Press Esc to exit game at anytime
@@ -63,6 +66,7 @@ Tests:
 	3. Please note that pressing "Play Music" multiple times will overlap the music
 
 - To test scripting:
+
 	- Add Script
 	1. From Properties page, click on the dropdown list in the script available portion. Press 'Add Script' button to add the script to the entity. Eg "AutoMoveX".
 	2. Press 'Play' and the entity will automove along the X direction.
@@ -73,4 +77,9 @@ Tests:
 	- Delete script
 	1. From Properties page, click on the dropdown list in the script attached portion. Press 'Delete Script' button to remove the script from the entity. Eg "AutoMoveX".
 	2. Press 'Play' and you can see that the script is removed.
+
+
+To turn off editor:
+
+Set EDITOR_MODE variable in ZodiaClash.cpp to FALSE.
  
