@@ -74,6 +74,10 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
 
 void BattleSystem::Initialize() 
 {
+    battleState = NEWGAME;
+}
+
+void BattleSystem::StartBattle() {
     LOG_WARNING("Initializing battle system");
     events.ConnectBattleSystem(this);
     roundInProgress = false;
@@ -90,7 +94,6 @@ void BattleSystem::Initialize()
     }
 
     battleState = NEWROUND;
-    //StartCoroutine(NewGameDelay(0.5f, 1.f)); //delay at start
 }
 
 void BattleSystem::Update() 
@@ -112,7 +115,8 @@ void BattleSystem::Update()
     switch (battleState) {
     case NEWGAME:
         //LOG_WARNING("Initializing battle system");
-        Initialize();
+
+        StartBattle();
         break;
     case NEWROUND:
         if (!roundInProgress)

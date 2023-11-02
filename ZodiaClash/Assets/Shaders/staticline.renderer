@@ -1,0 +1,4 @@
+staticline
+statictexture.vert
+statictexture.frag
+GL_LINES

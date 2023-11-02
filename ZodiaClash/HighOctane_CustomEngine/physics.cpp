@@ -141,9 +141,11 @@ namespace physics {
         // reset force for the next frame
         transformData.force = { 0, 0 };
 
+        /*
         std::cout << transformData.velocity.x << " , " << transformData.velocity.y << std::endl;
         std::cout << "=====================================================================" << std::endl;
         std::cout << transformData.position.x << " , " << transformData.position.y << std::endl;
+        */
     }
 
 

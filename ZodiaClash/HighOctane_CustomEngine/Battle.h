@@ -81,6 +81,7 @@ private:
 	bool roundInProgress;
 
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
+	void StartBattle();
 	void DetermineTurnOrder();
 	void SwitchTurnOrder(CharacterStats* target);
 	void RevertTurnOrder(CharacterStats* target);

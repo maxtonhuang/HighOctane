@@ -13,13 +13,6 @@
 *	@author		Foong Pun Yuen Nigel (Initial creation and draw functions)
 *
 *	@email		p.foong\@digipen.edu
-* 
-*  	@co-author	Chua Zhen Rong (animation functions)
-* 
-*	@email		c.zhenrong\@digipen.edu
-*
-*	@course		CSD 2401 - Software Engineering Project 3
-*				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
@@ -47,6 +40,7 @@
 #include "EngineCore.h"
 #include "Global.h"
 
+#include <algorithm>
 #include <iostream>
 
 const float pi = 3.14159265358979323846f;
@@ -90,6 +84,29 @@ void Model::Update(Transform const& entity, Size const& size) {
 	botright = glm::vec2{ bottomright3.x,bottomright3.y };
 	topleft = glm::vec2{ topleft3.x,topleft3.y };
 	topright = glm::vec2{ topright3.x,topright3.y };
+
+	minimum.x = fmin(botleft.x, botright.x);
+	minimum.x = fmin(minimum.x, topleft.x);
+	minimum.x = fmin(minimum.x, topright.x);
+	minimum.y = fmin(botleft.y, botright.y);
+	minimum.y = fmin(minimum.y, topleft.y);
+	minimum.y = fmin(minimum.y, topright.y);
+
+	maximum.x = fmax(botleft.x, botright.x);
+	maximum.x = fmax(maximum.x, topleft.x);
+	maximum.x = fmax(maximum.x, topright.x);
+	maximum.y = fmax(botleft.y, botright.y);
+	maximum.y = fmax(maximum.y, topleft.y);
+	maximum.y = fmax(maximum.y, topright.y);
+
+	minimum.x *= GRAPHICS::w;
+	minimum.y *= GRAPHICS::h;
+	maximum.x *= GRAPHICS::w;
+	maximum.y *= GRAPHICS::h;
+	if (type != UI) {
+		minimum += camera.GetPos();
+		maximum += camera.GetPos();
+	}
 }
 
 void Model::Draw(Tex* const entity, Animator* const ani) {
@@ -157,14 +174,22 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 }
 
 void Model::DrawOutline() {
-	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawPoint(topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f);
-	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f);
+	Renderer* render{ nullptr };
+	if (type == UI) {
+		render = &graphics.renderer["staticline"];
+	}
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	
+	if (type == UI) {
+		render = &graphics.renderer["staticpoint"];
+	}
+	graphics.DrawPoint(topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 }
 
 bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
@@ -197,11 +222,13 @@ void Model::AddAlpha(float a) {
 }
 
 vmath::Vector2 Model::GetMin() {
-	return vmath::Vector2{ botleft.x * GRAPHICS::w + camera.GetPos().x, botleft.y * GRAPHICS::h + camera.GetPos().y};
+	//return vmath::Vector2{ botleft.x * GRAPHICS::w + camera.GetPos().x, botleft.y * GRAPHICS::h + camera.GetPos().y};
+	return minimum;
 }
 
 vmath::Vector2 Model::GetMax() {
-	return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
+	//return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
+	return maximum;
 }
 
 glm::vec4 Model::GetColor() {
