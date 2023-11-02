@@ -20,6 +20,9 @@ Artist:
 Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
+Input Keys(Main menu)
+- Use mouse to click on buttons to navigate to the relevant scene
+- ENSURE GAME IS IN PLAY MODE AND NOT EDIT MODE FOR BUTTONS TO WORK
 
 Input Keys(During play in exploration scene):
 
@@ -51,5 +54,10 @@ Tests:
 - To test drawing lines for an object's direction: 
 	1. Press '0' during gameplay to draw AABB box
 	2. When moving the entity with "W,A,S,D", line will be drawn to represent object's direction.
+
+- To test audio:
+	1. Click on "Sound Test" in main menu
+	2. Press the buttons to play the sound / sound setting as per the label
+	3. Please note that pressing "Play Music" multiple times will overlap the music
 
  

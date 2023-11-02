@@ -100,7 +100,7 @@ void BattleSystem::StartBattle() {
     printf("\nBeginning battle:\n");
     for (auto& c : turnManage.characterList) {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
-        DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+        DEBUG_PRINT("Character loaded: %s, remaining health: %f", name.c_str(), c.stats.health);
         printf("Character loaded: %s, remaining health: %f\n", name.c_str(), c.stats.health);
     }
 
@@ -142,7 +142,11 @@ void BattleSystem::Update()
         }
         break;
     case NEXTTURN:
-        LOG_WARNING("State: Next Turn");
+        if (m_Entities.size() > 0) {
+            printf("\nState: Next Turn\n");
+            LOG_WARNING("State: Next Turn");
+        }
+        
 
         //then check if player has won
         for (auto& c : turnManage.characterList) {
@@ -156,18 +160,20 @@ void BattleSystem::Update()
         if (!enemyAmount) //no enemies left
         {
             if (m_Entities.size() > 0) {
-                printf("\nYOU WIN!\n");
+                printf("\nState: Win\n");
+                LOG_WARNING("State: Win");
             }
-            LOG_WARNING("State: Win");
+            
             battleState = WIN;
         }
         //then check if enemy has won
         else if (!playerAmount) //no players left
         {
             if (m_Entities.size() > 0) {
-                printf("\nYOU LOSE!\n");
+                printf("\nState: Lose\n");
+                LOG_WARNING("State: Lose");
             }
-            LOG_WARNING("State: Lose");
+            
             battleState = LOSE;
         }
         //continue battle
@@ -182,7 +188,10 @@ void BattleSystem::Update()
                     turnManage.activeEnemy = activeCharacter->gameObject.name;
                     turnManage.activePlayer = "";
 
-                    LOG_WARNING("State: Enemy Turn");
+                    if (m_Entities.size() > 0) {
+                        printf("\nState: Enemy Turn\n");
+                        LOG_WARNING("State: Enemy Turn");
+                    }
 
                     battleState = ENEMYTURN;
                 }
@@ -191,7 +200,10 @@ void BattleSystem::Update()
                     turnManage.activePlayer = activeCharacter->gameObject.name;
                     turnManage.activeEnemy = "";
 
-                    LOG_WARNING("State: Player Turn");
+                    if (m_Entities.size() > 0) {
+                        printf("\nState: Player Turn\n");
+                        LOG_WARNING("State: Player Turn");
+                    }
 
                     battleState = PLAYERTURN;
                 }
@@ -202,7 +214,10 @@ void BattleSystem::Update()
             }
             else
             {
-                LOG_WARNING("State: End Round");
+                if (m_Entities.size() > 0) {
+                    printf("\nState: End Round\n");
+                    LOG_WARNING("State: End Round");
+                }
                 battleState = NEWROUND;
 
                 activeCharacter->gameObject.isnull = true;
@@ -218,7 +233,8 @@ void BattleSystem::Update()
         if (activeCharacter->action.entityState == WAITING) {
             gameAI.Search(this);
         }
-        break;
+        //NO BREAK BY DESIGN, IT NEEDS TO UPDATE ENTITY STATE
+        //break;
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
         if (activeCharacter->action.entityState == EntityState::ENDING) {

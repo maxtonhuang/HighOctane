@@ -161,9 +161,8 @@ void GraphicsManager::Draw() {
         r->Draw();
     }
 
-    //viewport.Use();
-    renderer["static"].DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
     viewport.Use();
+    renderer["static"].DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
 }
 
 void GraphicsManager::EndDraw() {

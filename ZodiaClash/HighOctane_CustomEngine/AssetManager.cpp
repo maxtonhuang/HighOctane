@@ -32,15 +32,7 @@
 *	@brief
 *
 *	This file contains all the definitions for managing assets such as textures, 
-    audio and fonts.
-
-*	!--Future Updates--!
-* 
-*   -M1 checkpoint-
-*	- Attempt at a general get and unload functions
-*   - Improve on functionalities look into implementing better functions to 
-*     provide more functionalities
-*   - Research more on what an asset manager needs
+*   audio and fonts.
 ******************************************************************************/
 
 #include "AssetManager.h"

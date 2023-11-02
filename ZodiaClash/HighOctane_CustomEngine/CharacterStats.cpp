@@ -97,6 +97,7 @@ void CharacterStats::TakeDamage(float damage)
     if (parent->m_Entities.size() > 0) {
         std::string name{ ECS::ecs().GetComponent<Name>(entity).name };
         printf("%s took %f damage!\n", name.c_str(), damage);
+        DEBUG_PRINT("%s took %f damage!", name.c_str(), damage);
     }
     stats.health -= damage;
     if (stats.health <= 0)

@@ -25,9 +25,11 @@
 *
 *	@brief
 *
-*	This file contains class for skill system and damage
-*   formula of the game as well as a skill manager for loaded skills
+*	This file contains evaluation formula used for the 
+*	AI to calculate the best possible move
 *
+*	PRIORITISED TO BE SCRIPTED SO THAT DESIGNER WILL BE ABLE TO HAVE
+*	MORE CONTROL OVER THE AI
 ******************************************************************************/
 
 //----------------------------------------------------------------------------------------

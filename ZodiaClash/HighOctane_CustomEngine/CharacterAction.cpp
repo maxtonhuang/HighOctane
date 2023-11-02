@@ -51,6 +51,7 @@ void CharacterAction::UpdateState() {
         //DEBUG_PRINT("Current Turn: %s", name.c_str());
         if (battleManager->m_Entities.size() > 0) {
             printf("\nCurrent Turn %s\n", name.c_str());
+            DEBUG_PRINT("Current Turn %s", name.c_str());
         }
         RefreshTargets();
         break;
@@ -90,6 +91,7 @@ void CharacterAction::ApplySkill() {
     RefreshTargets();
     if (battleManager->m_Entities.size() > 0) {
         printf("Using skill: %s\n", selectedSkill.attackName.c_str());
+        DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
     }
     
     if (selectedSkill.attacktype == AttackType::NORMAL) {

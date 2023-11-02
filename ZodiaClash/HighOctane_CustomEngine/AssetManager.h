@@ -32,15 +32,7 @@
 *	@brief
 *
 *	This file contains all the definitions for managing assets such as textures,
-    audio and fonts.
-
-*	!--Future Updates--!
-*
-*   -M1 checkpoint-
-*	- Attempt at a general GetAssets and UnloadAssets functions
-*   - Improve on functionalities look into implementing better functions to 
-*     provide more functionalities
-*   - Research more on what an asset manager needs
+*   audio and fonts.
 ******************************************************************************/
 #pragma once
 #include <iostream>
@@ -72,14 +64,10 @@ public:
     // Texture methods
     void LoadTexture(const std::string& texturePath);
     void LoadSpritesheet(const std::string& spritePath);
-    Texture* GetTexture(const std::string& textureName);
-    void UnloadTexture(const std::string& textureName);
 
     // Audio methods
     void LoadSound(const std::string& audioPath);
     void LoadMusic(const std::string& audioPath);
-    AudioManager* GetAudio(const std::string& audioName);
-    void UnloadAudio(const std::string& audioName);
 
     // Font methods
     void LoadFont(const std::string& fontPath);
