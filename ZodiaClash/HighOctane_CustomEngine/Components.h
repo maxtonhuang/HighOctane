@@ -38,8 +38,6 @@
 #include "Texture.h"
 #include "Reflections.h"
 
-//#include "Editing.h"
-
 using Vec2 = vmath::Vector2;
 
 enum class CLICKED {
@@ -50,7 +48,6 @@ enum class CLICKED {
     INSIDE,
     NOT
 };
-
 
 struct Transform {
     Vec2                    position{};
@@ -65,7 +62,6 @@ struct Transform {
     float                   inverseMass{1/mass};
     Vec2                    acceleration{};
     Vec2                    force{acceleration * mass};
-    //vmath::Vector3 Translation = { 0.0f, 0.0f, 0.0f };
 };
 
 struct Collider {
@@ -75,7 +71,6 @@ struct Collider {
                             NUM_OF_SHAPES
     };
     SHAPE_ID                bodyShape{};
-    //Collider(SHAPE_ID shape = SHAPE_BOX) { (void)shape; };
 };
 
 struct Size {

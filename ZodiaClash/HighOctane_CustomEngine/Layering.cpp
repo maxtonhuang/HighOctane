@@ -1,3 +1,36 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Layering.cpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Functions to enable layering of entities in the Scenes
+*
+*	This file contains functions to rearrange layers, add new layers, delete
+*   layers, and other functions related to layering.
+*
+******************************************************************************/
+
+
 #include "Layering.h"
 #include "Global.h"
 #include "Editing.h"
@@ -6,9 +39,13 @@
 #include <algorithm>
 #include <limits>
 
-
-
-
+/******************************************************************************
+*
+*	@brief Finds the position of an entity in the layering deque of deques
+*
+*	-
+*
+******************************************************************************/
 std::pair<size_t, size_t> FindInLayer(Entity entity) {
 	for (size_t i = 0; i < layering.size(); ++i) {
 		for (size_t j = 0; j < layering[i].size(); ++j) {
@@ -20,7 +57,13 @@ std::pair<size_t, size_t> FindInLayer(Entity entity) {
 	return { ULLONG_MAX, ULLONG_MAX }; // if not found
 }
 
-
+/******************************************************************************
+*
+*	@brief Sends an entity backward one position
+*
+*	-
+*
+******************************************************************************/
 void LayerOrderSendBackward(Entity entity) {
 	std::pair<size_t, size_t> pos = FindInLayer(entity);
 	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
@@ -30,7 +73,13 @@ void LayerOrderSendBackward(Entity entity) {
 	}
 }
 
-
+/******************************************************************************
+*
+*	@brief Sends an entity to the back of the layer
+*
+*	-
+*
+******************************************************************************/
 void LayerOrderSendToBack(Entity entity) {
 	std::pair<size_t, size_t> pos = FindInLayer(entity);
 	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
@@ -41,7 +90,13 @@ void LayerOrderSendToBack(Entity entity) {
 	}
 }
 
-
+/******************************************************************************
+*
+*	@brief Brings an entity forward one position
+*
+*	-
+*
+******************************************************************************/
 void LayerOrderBringForward(Entity entity) {
 	std::pair<size_t, size_t> pos = FindInLayer(entity);
 	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
@@ -51,7 +106,13 @@ void LayerOrderBringForward(Entity entity) {
 	}
 }
 
-
+/******************************************************************************
+*
+*	@brief Brings an entity to the front of the layer
+*
+*	-
+*
+******************************************************************************/
 void LayerOrderBringToFront(Entity entity) {
 	std::pair<size_t, size_t> pos = FindInLayer(entity);
 	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
@@ -62,7 +123,13 @@ void LayerOrderBringToFront(Entity entity) {
 	}
 }
 
-
+/******************************************************************************
+*
+*	@brief Creates a new layer on top of all other layers
+*
+*	-
+*
+******************************************************************************/
 void CreateNewLayer() {
 	std::deque<Entity> temp;
 	layering.emplace_back(temp);
@@ -73,6 +140,13 @@ void CreateNewLayer() {
 	UnselectAll();
 }
 
+/******************************************************************************
+*
+*	@brief Deletes the selected layer and destroys all entities in it
+*
+*	-
+*
+******************************************************************************/
 void DeleteLayer() {
 	for (Entity entity : layering[selectedLayer]) {
 		std::cout << "Destroying entity: " << entity << std::endl;
@@ -85,6 +159,13 @@ void DeleteLayer() {
 	currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 }
 
+/******************************************************************************
+*
+*	@brief Removes an entity from the layering deque of deques
+*
+*	Used after destroying an entity
+*
+******************************************************************************/
 void RemoveEntityFromLayering(Entity entity) {
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
@@ -94,10 +175,17 @@ void RemoveEntityFromLayering(Entity entity) {
 			}
 		}
 	}
-	printf("ENTITY CANNOT BE FOUND IN LAYERING!\n");
 	return;
 }
 
+/******************************************************************************
+*
+*	@brief Transfers layering data into each entity
+*
+*	Copies the layering deque of deques into the Name component of each entity
+*	for saving
+*
+******************************************************************************/
 void PrepareLayeringForSerialization() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -110,6 +198,14 @@ void PrepareLayeringForSerialization() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Rebuilds the layering deque of deques from each entity's data
+*
+*	Rebuilds the layering deque of deques from the Name component of each
+*	entity after loading
+*
+******************************************************************************/
 void RebuildLayeringAfterDeserialization() {
 	layering.clear();
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -135,11 +231,18 @@ void RebuildLayeringAfterDeserialization() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Transfers the Visible and Lock settings into each entity
+*
+*	Embeds the Visible and Lock selection settings into each entity before
+*	saving.
+*
+******************************************************************************/
 void EmbedSkipLockForSerialization() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	std::set<Entity>* e = &(s_ptr->m_Entities);
-	printf("Total entites saving %d \n", static_cast<int>(s_ptr->m_Entities.size()));
 	for (const Entity& entity : *e) {
 		Name& n = nameArray.GetData(entity);
 		n.skip = entitiesToSkip[static_cast<int>(entity)];
@@ -147,6 +250,14 @@ void EmbedSkipLockForSerialization() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Extracts the Visible and Lock settings from each entity
+*
+*	Replaces the Visible and Lock selection settings from for each entity after
+*	loading.
+*
+******************************************************************************/
 void ExtractSkipLockAfterDeserialization() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -182,6 +293,14 @@ void ExtractSkipLockAfterDeserialization() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Checks if all entities in a layer are set to not visible
+* 
+*	Checks if all entities in a layer are set to not visible, so that the layer
+*	can be set to not visible
+*
+******************************************************************************/
 bool CheckSkipLayerAllTrue(size_t layer_it) {
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 		if (entitiesToSkip[layering[layer_it][entity_it]]) {
@@ -191,6 +310,14 @@ bool CheckSkipLayerAllTrue(size_t layer_it) {
 	return false;
 }
 
+/******************************************************************************
+*
+*	@brief Checks if all entities in a layer are set to locked
+*
+*	Checks if all entities in a layer are set to locked, so that the layer
+*	can be set to locked
+*
+******************************************************************************/
 bool CheckLockLayerAllTrue(size_t layer_it) {
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 		if (entitiesToLock[layering[layer_it][entity_it]]) {
@@ -200,12 +327,27 @@ bool CheckLockLayerAllTrue(size_t layer_it) {
 	return false;
 }
 
+/******************************************************************************
+*
+*	@brief Sets all entities in a layer to not visible
+*
+*	Sets all entities in a layer to not visible if the layer is set to not
+*	visible
+*
+******************************************************************************/
 void SetWholeSkipLayer(size_t layer_it) {
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 		entitiesToSkip[layering[layer_it][entity_it]] = layersToSkip[layer_it];
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Sets all entities in a layer to locked
+*
+*	Sets all entities in a layer to locked if the layer is set to locked
+*
+******************************************************************************/
 void SetWholeLockLayer(size_t layer_it) {
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 		entitiesToLock[layering[layer_it][entity_it]] = layersToLock[layer_it];
