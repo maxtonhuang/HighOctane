@@ -1,3 +1,35 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Attack.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		19 October 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file contains class for skill system and damage
+*   formula of the game as well as a skill manager for loaded skills
+*
+******************************************************************************/
+
 #include "Attack.h"
 #include "Battle.h"
 #include "CharacterStats.h"
@@ -31,7 +63,7 @@ void Attack::CalculateDamage(CharacterStats const& target)
     static std::default_random_engine rng;
     static std::uniform_real_distribution<float> rand(0.f, 1.f);
     
-    float randomValue{0.f};
+    float randomValue{1.f};
 
     //NO CRITS IF ITS AN AI SIMULATION
     if (target.parent->m_Entities.size() > 0) {

@@ -57,7 +57,7 @@
 #include "Layering.h"
 
 #define FIXED_DT 1.0f/60.f
-#define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
+#define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -75,12 +75,12 @@ extern std::vector<std::string> fullNameVecImGUI;
 ******************************************************************************/
 void PhysicsSystem::Update() {
 
-	static double accumulatedTime = 0.0;
-	accumulatedTime += g_dt; // Ensure that g_dt is the time since the last frame.
+	//static double accumulatedTime = 0.0;
+	//accumulatedTime += g_dt; // Ensure that g_dt is the time since the last frame.
 
-	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
-	}
+	//if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+	//	accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
+	//}
 
 	//process mesaage here
 	bool reqStep{ false };
@@ -101,7 +101,7 @@ void PhysicsSystem::Update() {
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
-	while (accumulatedTime >= FIXED_DT) {
+	//while (accumulatedTime >= FIXED_DT) {
 		// Access component arrays through the ComponentManager
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -140,8 +140,8 @@ void PhysicsSystem::Update() {
 				//physics::PHYSICS->DebugDraw(transData);
 			}
 		}
-		accumulatedTime -= FIXED_DT;
-	}
+		//accumulatedTime -= FIXED_DT;
+	//}
 }
 
 void PhysicsSystem::Draw() {
@@ -167,14 +167,14 @@ void PhysicsSystem::Draw() {
 ******************************************************************************/
 void CollisionSystem::Update() {
 
-	static double accumulatedTime = 0.0;
-	accumulatedTime += g_dt;
+	//static double accumulatedTime = 0.0;
+	//accumulatedTime += g_dt;
 
-	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents excessive accumulation.
-	}
+	//if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+	//	accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents excessive accumulation.
+	//}
 
-	while (accumulatedTime >= FIXED_DT) {
+	//while (accumulatedTime >= FIXED_DT) {
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -221,8 +221,8 @@ void CollisionSystem::Update() {
 			}
 		}
 		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
-		accumulatedTime -= FIXED_DT;
-	}
+		//accumulatedTime -= FIXED_DT;
+	//}
 }
 
 /******************************************************************************
@@ -365,12 +365,12 @@ void GraphicsSystem::Update() {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_DOWN) {
 			switch (msg.info) {
-			case INFO::KEY_Y:   camera.AddZoom(0.1f * g_dt);        break;
-			case INFO::KEY_U:   camera.AddZoom(-0.1f * g_dt);       break;
-			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * g_dt);   break;
-			case INFO::KEY_J:   camera.AddPos(-200.f * g_dt, 0.f);  break;
-			case INFO::KEY_K:   camera.AddPos(0, -200.f * g_dt);    break;
-			case INFO::KEY_L:   camera.AddPos(200.f * g_dt, 0.f);   break;
+			case INFO::KEY_Y:   camera.AddZoom(0.1f * FIXED_DT);        break;
+			case INFO::KEY_U:   camera.AddZoom(-0.1f * FIXED_DT);       break;
+			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * FIXED_DT);   break;
+			case INFO::KEY_J:   camera.AddPos(-200.f * FIXED_DT, 0.f);  break;
+			case INFO::KEY_K:   camera.AddPos(0, -200.f * FIXED_DT);    break;
+			case INFO::KEY_L:   camera.AddPos(200.f * FIXED_DT, 0.f);   break;
 			default: break;
 			}
 		}

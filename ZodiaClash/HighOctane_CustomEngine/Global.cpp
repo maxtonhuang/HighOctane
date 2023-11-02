@@ -43,6 +43,7 @@
 // Declare global variables here
 
 float g_dt;
+float accumulatedTime{};
 bool button_clicked{ true };
 bool edit_mode{ true };
 bool hoveringPanel{ false };

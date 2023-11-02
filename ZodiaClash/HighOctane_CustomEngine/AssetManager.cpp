@@ -10,10 +10,16 @@
 *
 *	@file		AssetManager.cpp
 *
-*	@author		Kai Alexander Van Adrichem Boogaert
+*	@author		Kai Alexander Van Adrichem Boogaert (Initial creation)
 *
 *	@email		kaialexander.v\@digipen.edu
 *
+* 
+*	@co-author	Foong Pun Yuen Nigel (Redone for loading of all assets)
+*
+*	@email		p.foong\@digipen.edu 
+* 
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *

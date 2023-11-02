@@ -31,6 +31,8 @@
 #include "CollisionResolution.h" 
 using namespace vmath;
 
+#define FIXED_DT 1.0f/60.f
+
 namespace physics {
 
     /**************************************************************************/
@@ -44,6 +46,7 @@ namespace physics {
      /**************************************************************************/
     void DynamicStaticResponse(Transform& dynamicBody) 
     {
+        dynamicBody.position -= dynamicBody.velocity * FIXED_DT * 2;
         dynamicBody.velocity = Vec2{ 0,0 };
     }
 }

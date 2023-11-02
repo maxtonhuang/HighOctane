@@ -603,31 +603,40 @@ void EngineCore::Run(bool const& mode) {
 		Mail::mail().SendMails();
 
 		// Call each system in the System List
-		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+		accumulatedTime += g_dt;
+		if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+			accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
+		}
+		while (accumulatedTime >= FIXED_DT) {
 
-#if ENABLE_DEBUG_PROFILE
-			debugSysProfile.ResetTimer(sys.second);
-			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-			//std::cout << sys.second << std::endl;
-#endif
-			sys.first->Update();
+			for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
-#if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+				#if ENABLE_DEBUG_PROFILE
+				debugSysProfile.ResetTimer(sys.second);
+				debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
+				//std::cout << sys.second << std::endl;
+				#endif
+				sys.first->Update();
 
+				#if ENABLE_DEBUG_PROFILE
+				debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
+				#endif
+
+			}
+			Mail::mail().ClearMails();
+			accumulatedTime -= FIXED_DT;
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
-#if ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+			#endif
 			sys.first->Draw();
 
-#if ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+			#endif
 
 		}
 
@@ -651,7 +660,7 @@ void EngineCore::Run(bool const& mode) {
 			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
 
-		Mail::mail().ClearMails();
+		//Mail::mail().ClearMails();
 
 	}
 
