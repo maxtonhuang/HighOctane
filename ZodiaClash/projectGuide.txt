@@ -62,4 +62,15 @@ Tests:
 	2. Press the buttons to play the sound / sound setting as per the label
 	3. Please note that pressing "Play Music" multiple times will overlap the music
 
+- To test scripting:
+	- Add Script
+	1. From Properties page, click on the dropdown list in the script available portion. Press 'Add Script' button to add the script to the entity. Eg "AutoMoveX".
+	2. Press 'Play' and the entity will automove along the X direction.
+	3. You can choose to add more scripts to the same entity and both will run.
+	4. Press 'Pause', click on another entity, and add a different script to the entity.
+	5. Press 'Play' and the entities will call the corresponding scripts.
+	
+	- Delete script
+	1. From Properties page, click on the dropdown list in the script attached portion. Press 'Delete Script' button to remove the script from the entity. Eg "AutoMoveX".
+	2. Press 'Play' and you can see that the script is removed.
  

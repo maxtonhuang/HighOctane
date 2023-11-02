@@ -482,9 +482,25 @@ void SerializationSystem::Update() {
 	}
 
 	if (playButton) {
-		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
-		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
-		std::cout << "Total m_entities" << m_Entities.size() << std::endl;
+		//std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
+		//Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
+		//std::cout << "Total m_entities" << m_Entities.size() << std::endl;
+
+		std::string scenePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.scn"};
+		if (scenePath != "") {
+			std::ofstream sceneFile{ scenePath.c_str() };
+
+			std::string jsonPath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
+			Serializer::SaveEntityToJson(jsonPath, m_Entities);
+
+			auto files = assetmanager.GetFiles();
+			for (auto& f : files) {
+				sceneFile << f << "\n";
+			}
+			sceneFile << "tmp.json";
+			sceneFile.close();
+		}
+
 		initLevel = true;
 		playButton = false;
 	}

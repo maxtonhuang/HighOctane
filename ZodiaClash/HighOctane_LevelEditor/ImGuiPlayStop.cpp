@@ -5,6 +5,7 @@
 #include "Serialization.h"
 #include "AssetManager.h"
 #include "Layering.h"
+#include "Events.h"
 
 bool buffer = false;
 
@@ -26,11 +27,12 @@ void UpdatePlayStop() {
 		buffer = false;
 	}
 	if (ImGui::Button("Stop", { 100,50 })) {
-		destroyAll = true;
+		events.Call("Change Scene", "tmp.scn");
+		/*destroyAll = true;
 		button_clicked = true;
 		edit_mode = true;
 		stopButton = true;
-		buffer = true;
+		buffer = true;*/
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Pause", { 100,50 })) {

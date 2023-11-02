@@ -52,7 +52,7 @@ void ChangeScene(std::string input) {
 	button_clicked = true;
 	newSceneName = input;
 	destroyAll = true;
-	playButton = true;
+	//playButton = true;
 }
 void PlayAudio(std::string input) {
 	//Find the entity from map using input string
