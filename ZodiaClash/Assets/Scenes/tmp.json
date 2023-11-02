@@ -137,7 +137,7 @@
             "Skills": []
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -155,7 +155,7 @@
     {
         "Entity": {
             "Name": "entity_00005",
-            "Selected": false
+            "Selected": true
         },
         "Clone": {},
         "Color": {
@@ -184,7 +184,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -238,7 +238,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -308,7 +308,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -387,7 +387,7 @@
     {
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png_CLONE",
-            "Selected": true
+            "Selected": false
         },
         "Clone": {},
         "Color": {
@@ -473,7 +473,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -763,6 +763,5 @@
         "Collider": {
             "Collider Enum": 0
         }
-    },
-    {}
+    }
 ]
