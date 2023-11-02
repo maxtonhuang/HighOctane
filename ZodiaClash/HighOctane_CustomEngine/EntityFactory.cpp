@@ -25,7 +25,7 @@
 *
 *	@brief		The place where new entities are born
 *
-*	This file does the follwing:
+*	This file does the following:
 *	[1]	Load master models which are not rendered by the Graphics Manager.
 *	[2] Clone models from the master models. These clones will be the in-game
 *		entities.
@@ -112,11 +112,16 @@ void EntityFactory::LoadMasterModel() {  ///////// MASTER
 	//ECS::ecs().AddComponent(entity, Static{});
 }
 
-void EntityFactory::CreateMasterModel(const char* filename) {  ///////// MASTER
+/******************************************************************************
+*
+*	@brief Creates New Master Entities 1 (NEW!)
+*
+*	This function creates new Master Entities with Static Images.
+*
+******************************************************************************/
+void EntityFactory::CreateMasterModel(const char* filename) {
 	Entity entity = ECS::ecs().CreateEntity();
 
-	//std::ostringstream oss;
-	//oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
 	ECS::ecs().AddComponent(entity, Name{ filename });
 	masterEntitiesList[filename] = entity;
 
@@ -134,10 +139,16 @@ void EntityFactory::CreateMasterModel(const char* filename) {  ///////// MASTER
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	++masterCounter;
-
 }
 
-void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {  ///////// MASTER
+/******************************************************************************
+*
+*	@brief Creates New Master Entities 2 (NEW!)
+*
+*	This function creates new Master Entities with Spritesheets.
+*
+******************************************************************************/
+void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {
 	Entity entity = ECS::ecs().CreateEntity();
 
 	ECS::ecs().AddComponent(entity, Name{ filename });
@@ -163,18 +174,15 @@ void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) 
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	++masterCounter;
-
 }
-
 
 /******************************************************************************
 *
-*	@brief Clones Master Model
+*	@brief Clones Master Model 1
 *
-*	This function clones new game objects from the master model.
+*	This function clones new game objects from Master Entities.
 *
 ******************************************************************************/
-///////// CLONE 1
 Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets) {
 	Entity entity = ECS::ecs().CreateEntity();
 
@@ -207,10 +215,6 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 			ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(assetmanager.texture.Get(filename)); // add a texVariant
 		}
 		ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0]; // set default tex to first texVariant
-		// (TO CHECK: add using copy ctor here? then default ctor if no spritesheet?)
-		// set default aniType to time-based
-		//ECS::ecs().GetComponent<Animator>(entity).animationType = Animator::ANIMATION_TIME_BASED;
-		//ECS::ecs().GetComponent<Animator>(entity).frameDisplayDuration = 0.1f;
 		// resize size to tex dimensions
 		ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
 		ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
@@ -222,8 +226,14 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	return entity;
 }
 
-
-void EntityFactory::CloneMaster(Entity& masterEntity) {  ///////// CLONE 2
+/******************************************************************************
+*
+*	@brief Clones Master Model 2 (NEW!)
+*
+*	This function clones new game objects from another entity.
+*
+******************************************************************************/
+void EntityFactory::CloneMaster(Entity& masterEntity) {
 	Entity entity = ECS::ecs().CreateEntity();
 	
 	ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
@@ -279,68 +289,7 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {  ///////// CLONE 2
 	
 	++cloneCounter;
 
-
-
-
-	//ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
-	//ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
-	//ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
-
-	// check if any spritesheets have been loaded
-	//if (spritesheets.size() > 0) {
-	//	for (const char* filename : spritesheets) {
-	//		ECS::ecs().GetComponent<Tex>(entity).texVariants.push_back(assetmanager.texture.Get(filename)); // add a texVariant
-	//	}
-	//	ECS::ecs().GetComponent<Tex>(entity).tex = ECS::ecs().GetComponent<Tex>(entity).texVariants[0]; // set default tex to first texVariant
-	//	// (TO CHECK: add using copy ctor here? then default ctor if no spritesheet?)
-	//	// set default aniType to time-based
-	//	//ECS::ecs().GetComponent<Animator>(entity).animationType = Animator::ANIMATION_TIME_BASED;
-	//	//ECS::ecs().GetComponent<Animator>(entity).frameDisplayDuration = 0.1f;
-	//	// resize size to tex dimensions
-	//	ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
-	//	ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
-	//	//// for mass rendering - add this entity to vector
-	//	massRenderEntitiesList.push_back(entity);
-	//}
-	
-	//return entity;
 }
-
-/******************************************************************************
-*
-*	@brief Clones Master Model
-*
-*	This function clones new game objects from the master model.
-*
-******************************************************************************/
-//void EntityFactory::CloneMasterModel2(float rW, float rH, bool isMainCharacter) {   ///////// CLONE 3
-//	Entity entity = ECS::ecs().CreateEntity();
-//	{
-//		std::ostringstream oss;
-//		oss << "entity_" << std::setfill('0') << std::setw(5) << masterCounter++;
-//		ECS::ecs().AddComponent(entity, Name{ oss.str(), false });
-//	}
-//	Entity masterEntity = (masterEntitiesList.find("master_00002"))->second;
-//	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-//	ECS::ecs().GetComponent<Transform>(entity).position = {rW, rH};
-//	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Visible{ true });
-//	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
-//	if (isMainCharacter) {
-//		//ECS::ecs().AddComponent(entity, MainCharacter{});
-//	}		
-//	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity)});
-//	ECS::ecs().AddComponent(entity, Clone{});
-//	ECS::ecs().AddComponent(entity, Collider{});
-//	ECS::ecs().AddComponent(entity, Movable{});
-//	ECS::ecs().AddComponent(entity, Script{}); //add script component
-//	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
-//	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
-//	layering[selectedLayer].emplace_back(entity);
-//	++cloneCounter;
-//}
 
 /******************************************************************************
 *
@@ -413,59 +362,23 @@ void EntityFactory::ReapplyMassRendering() {
 	}
 }
 
-
-
-
-
-
-
-//----------
-
-//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
-//Entity EntityFactory::CreateModel() {
-//	Entity entity = ECS::ecs().CreateEntity();
-//	Entity masterEntity = (masterEntitiesList.find("CAT"))->second;
-//	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Transform{ ECS::ecs().GetComponent<Transform>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Visible{ true });
-//	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Model{ ECS::ecs().GetComponent<Model>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Animator{ ECS::ecs().GetComponent<Animator>(masterEntity) });
-//	ECS::ecs().AddComponent(entity, Clone{});
-//	layerOrder.emplace_back(entity);
-//	return entity;
-//}
-
-
-
-
-
+/******************************************************************************
+*
+*	Function for deleting Master Models (NEW!)
+*
+******************************************************************************/
 void EntityFactory::DeleteMasterModel(Entity entity) {
 	masterEntitiesList.erase(ECS::ecs().GetComponent<Name>(entity).name);
 	ECS::ecs().DestroyEntity(entity);
 	--masterCounter;
 }
 
-
+/******************************************************************************
+*
+*	Function for deleting Clone Models (NEW!)
+*
+******************************************************************************/
 void EntityFactory::DeleteCloneModel(Entity entity) {
-	//remove from layer
-
-
-	//{
-	//	std::cout << "Layering Size: " << layering.size() << std::endl;
-	//	int count = 0;
-	//	for (auto& val : layering) {
-	//		std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
-	//	}
-	//	for (std::string val : layerNames) {
-	//		std::cout << "Layer Names: " << val << std::endl;
-	//	}
-	//	std::cout << "----------" << std::endl;
-	//}
-
-
-
 	ECS::ecs().DestroyEntity(entity);
 	// find entity > remove from layer
 	std::pair<size_t, size_t> pos = FindInLayer(entity);
@@ -473,19 +386,6 @@ void EntityFactory::DeleteCloneModel(Entity entity) {
 		layering[pos.first].erase(layering[pos.first].begin() + pos.second);
 	}
 	--cloneCounter;
-
-	//{
-	//	std::cout << "Layering Size: " << layering.size() << std::endl;
-	//	int count = 0;
-	//	for (auto& val : layering) {
-	//		std::cout << "Layering[" << count++ << "] size: " << val.size() << std::endl;
-	//	}
-	//	for (std::string val : layerNames) {
-	//		std::cout << "Layer Names: " << val << std::endl;
-	//	}
-	//	std::cout << "----------" << std::endl;
-	//}
-
 }
 
 

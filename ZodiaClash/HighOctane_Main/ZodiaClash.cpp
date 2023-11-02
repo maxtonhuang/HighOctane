@@ -52,7 +52,6 @@
 #include "ECS.h"
 #include "Components.h"
 #include "physics.h"
-//#include <thread>
 #include "AudioManager.h"
 #include "Serialization.h"
 #include "ScriptEngine.h"
@@ -403,16 +402,6 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<Animator>());
-		signature.set(ECS::ecs().GetComponentType<Model>());
-		signature.set(ECS::ecs().GetComponentType<Clone>());
-		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
-		signature.set(ECS::ecs().GetComponentType<Tag>());
-	}
-
-	{
-		Signature signature;
 		//signature.set(ECS::ecs().GetComponentType<Tex>());
 		//signature.set(ECS::ecs().GetComponentType<Animator>());
 		//signature.set(ECS::ecs().GetComponentType<Model>());
@@ -478,11 +467,7 @@ void EngineCore::Run(bool const& mode) {
 
 	}
 
-	//fonts.Initialize();
-	//EntityFactory::entityFactory().LoadMasterModel();
-
-	//Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
-
+	// Mailbox Registrations
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
@@ -490,70 +475,6 @@ void EngineCore::Run(bool const& mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 	Mail::mail().RegisterMailbox(ADDRESS::UICOMPONENT);
 
-	//Entity background = EntityFactory::entityFactory().CloneMasterModel(0,0,false);
-	//ECS::ecs().GetComponent<Model>(background) = Model{ ModelType::BACKGROUND, 1.f };
-	//ECS::ecs().GetComponent<Tex>(background).tex = assetmanager.texture.Get("background.jpeg");
-	//ECS::ecs().GetComponent<Size>(background).width = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetWidth();
-	//ECS::ecs().GetComponent<Size>(background).height = (float)ECS::ecs().GetComponent<Tex>(background).tex->GetHeight();
-	//ECS::ecs().RemoveComponent<Collider>(background);
-	//ECS::ecs().RemoveComponent<Movable>(background);
-
-	//Entity textObjectA = EntityFactory::entityFactory().CloneMasterModel(0.7f * GRAPHICS::w, 0.85f * GRAPHICS::h, false);
-	//ECS::ecs().AddComponent(textObjectA, TextLabel{ "2023 High Octane", "white" });
-	//ECS::ecs().AddComponent(textObjectA, CharacterStats{});
-	//ECS::ecs().GetComponent<Model>(textObjectA) = Model{ ModelType::UI };
-	//ECS::ecs().GetComponent<Size>(textObjectA) = Size{ 100.f,100.f };
-	//ECS::ecs().GetComponent<TextLabel>(textObjectA).font = fonts.GetFont("mikachan", "Regular");
-	//ECS::ecs().RemoveComponent<Tex>(textObjectA);
-	//ECS::ecs().RemoveComponent<Collider>(textObjectA);
-	//ECS::ecs().RemoveComponent<Animator>(textObjectA);
-
-	//Entity textObjectB = EntityFactory::entityFactory().CloneMasterModel(-0.8f * GRAPHICS::w, -0.9f * GRAPHICS::h, false);
-	//ECS::ecs().AddComponent(textObjectB, TextLabel{ "ZodiaClash v0.1", "white" });
-	//ECS::ecs().GetComponent<Model>(textObjectB) = Model{ ModelType::UI };
-	//ECS::ecs().GetComponent<Size>(textObjectB) = Size{ 100.f,100.f };
-	//ECS::ecs().RemoveComponent<Tex>(textObjectB);
-	//ECS::ecs().RemoveComponent<Collider>(textObjectB);
-	//ECS::ecs().RemoveComponent<Animator>(textObjectB);
-
-	//Entity basicButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.6f * GRAPHICS::h, false);
-	//ECS::ecs().AddComponent(basicButton, TextLabel{ "Play Audio", "secondary" });
-	//ECS::ecs().AddComponent(basicButton, Button{ "white", ECS::ecs().GetComponent<TextLabel>(basicButton).textColor });
-	//ECS::ecs().GetComponent<Model>(basicButton) = Model{ ModelType::UI };
-	//ECS::ecs().GetComponent<Transform>(basicButton).isStatic = false;
-	//ECS::ecs().GetComponent<Button>(basicButton).eventName = "Audio";
-	//ECS::ecs().GetComponent<Button>(basicButton).eventInput = "bonk.wav";
-	//ECS::ecs().GetComponent<Button>(basicButton).padding = Padding{ 40.f, 10.f };
-	//ECS::ecs().RemoveComponent<Tex>(basicButton);
-	//ECS::ecs().RemoveComponent<Collider>(basicButton);
-	//ECS::ecs().RemoveComponent<Animator>(basicButton);
-
-	//Entity texButton = EntityFactory::entityFactory().CloneMasterModel(0.8f * GRAPHICS::w, -0.85f * GRAPHICS::h, false);	
-	//ECS::ecs().AddComponent(texButton, TextLabel{ "Play Audio", "black" });
-	//ECS::ecs().AddComponent(texButton, Button{ "blue", ECS::ecs().GetComponent<TextLabel>(texButton).textColor });
-	//ECS::ecs().GetComponent<Model>(texButton) = Model{ ModelType::UI };
-	//ECS::ecs().GetComponent<Transform>(texButton).isStatic = false;
-	//ECS::ecs().GetComponent<Button>(texButton).eventName = "Audio";
-	//ECS::ecs().GetComponent<Button>(texButton).eventInput = "ping.wav";
-	//ECS::ecs().GetComponent<Button>(texButton).padding = Padding{ 60.f, 30.f };
-	////ECS::ecs().GetComponent<Button>(buttonObject).eventTrigger = functions[ECS::ecs().GetComponent<Button>(buttonObject).eventName];
-	//ECS::ecs().GetComponent<Tex>(texButton).tex = assetmanager.texture.Get("mockup_playbutton_04.png");
-	////ECS::ecs().RemoveComponent<Tex>(buttonObject);
-	//ECS::ecs().RemoveComponent<Collider>(texButton);
-	//ECS::ecs().RemoveComponent<Animator>(texButton);
-
-
-	// Load a single character on the screen
-	//EntityFactory::entityFactory().LoadModels(1, true);
-
-	/*serializationSystem->Update();*/
-
-	{
-		/*Entity entity = ECS::ecs().CreateEntity();
-
-		ECS::ecs().AddComponent(entity, Screen{ true });*/
-
-	}
 
 
 	///////////////////////////////////
@@ -651,8 +572,6 @@ void EngineCore::Run(bool const& mode) {
 			serializationSystem->Update();
 			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
-
-		//Mail::mail().ClearMails();
 
 	}
 
