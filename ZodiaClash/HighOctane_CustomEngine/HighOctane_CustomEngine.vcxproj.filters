@@ -236,6 +236,12 @@
     <ClInclude Include="Layering.h">
       <Filter>EngineArchitecture</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyAction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -380,11 +386,11 @@
     <ClCompile Include="Layering.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyAction.cpp" />
+    <ClCompile Include="GuardAction.cpp" />
+    <ClCompile Include="PlayerAction.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ECS.hpp">
-      <Filter>EngineArchitecture</Filter>
-    </None>
     <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

@@ -62,7 +62,7 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": true,
+            "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 0
         },

@@ -468,8 +468,6 @@ private:
     std::unique_ptr<SystemManager> m_SystemManager;
 };
 
-#include "ECS.hpp" // for template functions of ECS
-
 
 
 ////////// System Declarations ////////////////////////////////////////////////
