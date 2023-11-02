@@ -1,8 +1,51 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		WindowsInterlink.cpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Functions to handle intercommunication with Windows
+*
+*	This file contains functions to enable Windows file dialogs and file drag
+*   and drop from Windows File Explorer into the appication window.
+*
+******************************************************************************/
+
+
 #include "WindowsInterlink.h"
 #include "Global.h"
 #include <iostream>
 #include <shobjidl.h>
 
+
+/******************************************************************************
+*
+*	@brief Creates the Open File Dialog to load multiple files
+*
+*	Handles the windows communications to create the Open File Dialog and
+*	retrieve the file paths of the selected file(s). Accepts multiple file
+*	selection.
+*
+******************************************************************************/
 void OpenFileDialog() {
 
 	std::deque<std::string> filesList;
@@ -69,8 +112,14 @@ void OpenFileDialog() {
 	importFileCount = importFileList.size();
 }
 
-
-
+/******************************************************************************
+*
+*	@brief Sets the callback for OpenGL window to detect file drag and drop
+*
+*	Enables the OpenGL window to detect file drag and drop from Windows File
+*	Explorer into the application window.
+*
+******************************************************************************/
 void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 
 	UNREFERENCED_PARAMETER(window);
@@ -91,6 +140,14 @@ void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Creates the Save File Dialog to save a file into static storage
+*
+*	Handles the windows communications to create the Save File Dialog and
+*	save a file into a chosen folder.
+* 
+******************************************************************************/
 std::string SaveFileDialog(std::string extensionName, std::string extensionDescription) {
 	// Initialize COM
 	CoInitialize(NULL);
@@ -150,6 +207,14 @@ std::string SaveFileDialog(std::string extensionName, std::string extensionDescr
 	return ""; // Return an empty string if the user cancels or an error occurs
 }
 
+/******************************************************************************
+*
+*	@brief Creates the Open File Dialog to load a single file
+*
+*	Handles the windows communications to create the Open File Dialog and
+*	retrieve the file path of a selected file.
+*
+******************************************************************************/
 std::string OpenSingleFileDialog() {
 
 	std::string selectedFilePath;

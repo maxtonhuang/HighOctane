@@ -1,3 +1,37 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Editing.cpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Functions for handling editing functions for entities
+*
+*	This file contains functions for selecting and unselecting individual
+*	entities, moving them around, and resizing them. It also contains functions
+*	for setting the correct cursor for the mouse when hovering over an entity.
+*
+******************************************************************************/
+
+
 #include "Editing.h"
 #include "Components.h"
 #include "message.h"
@@ -17,6 +51,14 @@ vmath::Vector2 offset{ RESET_VEC2 };
 
 constexpr float CORNER_SIZE = 10.f;
 
+
+/******************************************************************************
+*
+*	@brief Updates the editing functions for entities
+*
+*	Includes entity selection, movement, and resizing.
+*
+******************************************************************************/
 void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
 
 	UNREFERENCED_PARAMETER(entity);
@@ -28,22 +70,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 
 			switch (msg.info) {
 
-			case INFO::KEY_BACKSPACE:
-				//if (name.selected) {
-					//selectedEntities.emplace_back(entity);
-					//toDestroy = true;
-					//EntityFactory::entityFactory().DeleteCloneModel(entity);
-				//}
-				//EntityFactory::entityFactory().DeleteCloneModel(entity);
-				break;
-
 			case INFO::KEY_DEL:   
-				//if (name.selected) {
-					//selectedEntities.emplace_back(entity);
-					toDestroy = true;
-					//EntityFactory::entityFactory().DeleteCloneModel(entity);
-				//}
-				//EntityFactory::entityFactory().DeleteCloneModel(entity);
+				toDestroy = true;
 				break;
 
 			default: break;
@@ -106,9 +134,9 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					}
 				}
 				break;
+				
 				case INFO::MOUSE_RIGHT:
 					
-					//rightClick = false;
 					if (IsWithinObject(model, mousePos)) {
 						UnselectAll();
 						name.selected = true;
@@ -120,10 +148,10 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					break;
 			}
 
-
 			break;
 
 		case TYPE::MOUSE_UP:
+
 			if (!IsWithinObject(model, mousePos) &&
 					!IsNearby(model.GetMax(), mousePos, CORNER_SIZE) &&
 					!IsNearby(model.GetMin(), mousePos, CORNER_SIZE) &&
@@ -135,9 +163,11 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				name.clicked = CLICKED::NOT;
 			}
 			offset = { RESET_VEC2 };
+
 			break;
 
 		case TYPE::MOUSE_DOWN: {
+
 			if (name.selected) {
 				switch (name.clicked) {
 				case CLICKED::NE:
@@ -213,8 +243,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				}
 					break;
 				case CLICKED::INSIDE:
-					//transform.position.x = std::clamp(mousePos.x - offset.x, -(GRAPHICS::w)+(transform.position.x - model.GetMin().x), (GRAPHICS::w)-(model.GetMax().x - transform.position.x));
-					//transform.position.y = std::clamp(mousePos.y - offset.y, -(GRAPHICS::h)+(transform.position.y - model.GetMin().y), (GRAPHICS::h)-(model.GetMax().y - transform.position.y));
 					transform.position.x = mousePos.x - offset.x;
 					transform.position.y = mousePos.y - offset.y;
 					break;
@@ -230,11 +258,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		}
 	}
 	
-	//if (newSelection == entity) {
-	//	newSelection = 0;
-	//	name.selected = true;
-	//}
-
 	if (name.selected) {
 
 		if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), mousePos, CORNER_SIZE) || IsNearby(model.GetMin(), mousePos, CORNER_SIZE))) {
@@ -252,8 +275,13 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 	}
 }
 
-
-
+/******************************************************************************
+*
+*	@brief Unselects all entities
+*
+*	-
+*
+******************************************************************************/
 void UnselectAll() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -262,12 +290,5 @@ void UnselectAll() {
 			nameArray.GetData(entity).selected = false;
 		}
 	}
-}
-
-
-void SelectGroup() {
-
-
-
 }
 

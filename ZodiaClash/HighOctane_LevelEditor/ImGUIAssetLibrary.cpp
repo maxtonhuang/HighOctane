@@ -1,3 +1,39 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiAssetLibrary.cpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Functions to update the Asset Library panel in the editor
+*
+*	The Asset Library panel is used to display all the master entities that
+*	are available for the user to use. The user can also create new master
+*	entities from this panel by importing images. New Master Entities will
+*	automatically be created from the imported images. The user will also be
+*	able to choose whether the image to be imported is a static image or a
+*	spritesheet.
+*
+******************************************************************************/
+
 #include "ImGuiAssetLibrary.h"
 #include "Serialization.h"
 #include "EntityFactory.h"
@@ -17,6 +53,21 @@ constexpr float spacing = 30.f;
 static Entity selectedEntity;
 static Entity selectedMaster;
 static bool clicked;
+
+/******************************************************************************
+*
+*	@brief Creates the Asset Library panel and handles importing of images
+*
+*	Creates the Asset Library panel. The user can import images by clicking
+*	on the "Create New Master Entity From Image" button. The user can then
+*	choose the image to import. The user can only import images of the format
+*	".png", ".jpg", ".jpeg", or ".bmp". The user can also choose whether the
+*	image to be imported is a static image or a spritesheet. If the user 
+*	cancels the import, the image will not be imported. If the user chooses
+*	to import the image, the image will be copied to the Assets/Textures
+*	folder and a new Master Entity will be created from the image.
+*
+******************************************************************************/
 void UpdateAssetLibrary() {
 	
 	static bool showDialog = false;
@@ -99,9 +150,16 @@ void UpdateAssetLibrary() {
 
 }
 
-
-
-
+/******************************************************************************
+*
+*	@brief Creates the popup dialog for importing images
+*
+*	Creates the popup dialog for the user to choose the type of image to be
+*	imported. The user can choose between a static image or a spritesheet.
+*	If the user chooses to import a spritesheet, the user will have to enter
+*	the number of rows and columns in the spritesheet.
+*
+******************************************************************************/
 void CheckImageTypeDialog(bool & showDialog) {
 
 

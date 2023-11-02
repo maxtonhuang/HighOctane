@@ -1,3 +1,38 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiLayer.cpp
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		3 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Functions to display the layering system in the Layers Panel
+*
+*	This file contains functions to create the Layers Panel and display the
+*	layering system in the panel. It also contains buttons to create new
+*	layers and delete layers. It also contains functions to drag and drop
+*	layers and entities to reorder them. It also contains functions to make
+*	layers and entities visible/hidden and lock/unlock layers and entities.
+*
+******************************************************************************/
+
 #include "ImGuiLib.h"
 #include "ImGuiLayer.h"
 #include "EntityFactory.h"
@@ -10,9 +45,18 @@
 
 constexpr float buttonHeight = 40.f;
 int index{};
-//Entity entity{};
 
 extern std::map<std::string, ImTextureID> loadedIcons;
+/******************************************************************************
+*
+*	@brief Shows the Layers Panel
+*
+*	This function creates the Layers Panel and displays the layering system. It
+*	also enables drag and drop of layers and entities to reorder them. There
+*	are also buttons to create new layers and delete layers. Checkboxes allow
+*	the user to make layers and entities visible/hidden and lock/unlock layers.
+*
+******************************************************************************/
 void UpdateLayer() {
 
 	// retrieving name that has already been deleted.
@@ -87,7 +131,6 @@ void UpdateLayer() {
 
 			}
 
-
 			for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
 				Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
 				if (entityName.selected) {
@@ -137,12 +180,6 @@ void UpdateLayer() {
 		}
 	}
 
-
-
-
-
-	///// To here
-
 	ImGui::EndChild();
 
 	float panelWidth = ImGui::GetContentRegionAvail().x;
@@ -158,8 +195,5 @@ void UpdateLayer() {
 	}
 
 	ImGui::End();
-
-	//printf("XXXXXXXXXX--- END GUILAYER SYSTEM ---XXXXXXXXXX");
-
 
 }

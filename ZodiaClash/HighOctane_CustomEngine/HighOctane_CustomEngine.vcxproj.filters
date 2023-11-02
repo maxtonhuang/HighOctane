@@ -396,9 +396,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ECS.hpp">
-      <Filter>EngineArchitecture</Filter>
-    </None>
     <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
