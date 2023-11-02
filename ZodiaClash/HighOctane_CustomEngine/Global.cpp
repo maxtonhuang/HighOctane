@@ -43,14 +43,15 @@
 // Declare global variables here
 
 float g_dt;
-bool button_clicked{ false };
+float accumulatedTime{};
+bool button_clicked{ true };
 bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
-bool playButton{ false };
+bool playButton{ true };
 bool stopButton{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
@@ -68,6 +69,7 @@ bool popupMasterRightClicked{ false };
 bool clearAllSelection{ false };
 std::string sceneName{};
 bool newScene{ true };
+bool initLevel{ true };
 std::string newSceneName{};
 
 size_t currentLayer{ std::numeric_limits<size_t>::max() };
@@ -83,7 +85,7 @@ std::array<bool, 100000> entitiesToSkip{};
 std::array<bool, 10000> layersToLock{};
 std::array<bool, 100000> entitiesToLock{};
 
-//std::shared_ptr<EditingSystem> edit_ptr;
+std::shared_ptr<EditingSystem> edit_ptr;
 std::shared_ptr<SerializationSystem> s_ptr;
 std::deque<std::string> importFileList;
 size_t importFileCount{ };

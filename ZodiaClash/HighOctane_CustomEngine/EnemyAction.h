@@ -1,9 +1,9 @@
-#pragma once
-#include "Battle.h"
-#include "CharacterStats.h"
-#include "vmath.h"
-#include <thread>
-#include <chrono>
+//#pragma once
+//#include "Battle.h"
+//#include "CharacterStats.h"
+//#include "vmath.h"
+//#include <thread>
+//#include <chrono>
 
 //class EnemyAction
 //{

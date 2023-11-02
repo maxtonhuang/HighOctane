@@ -42,12 +42,18 @@
 
 #define RESET_VEC2 0.f, 0.f
 
+////////// Defines for fixed dt system. ///////////////////////////////////////
+#define FIXED_DT 1.0f/60.f
+#define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
+///////////////////////////////////////////////////////////////////////////////
+
 const HCURSOR hDefaultCursor{ LoadCursor(NULL, IDC_ARROW) };
 const HCURSOR hNWSECursor{ LoadCursor(NULL, IDC_SIZENWSE) };
 const HCURSOR hNESWCursor{ LoadCursor(NULL, IDC_SIZENESW) };
 const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
 
 extern float g_dt;
+extern float accumulatedTime;
 extern bool button_clicked;
 extern bool edit_mode;
 extern bool hoveringPanel;
@@ -72,22 +78,23 @@ extern bool popupMasterRightClicked;
 extern bool clearAllSelection;
 extern std::string sceneName;
 extern bool newScene;
+extern bool initLevel;
 extern std::string newSceneName;
 
 
 extern size_t currentLayer;
 extern size_t selectedLayer;
-extern size_t layerCounter; // serialize
+extern size_t layerCounter; 
 extern size_t selectedGroup;
-extern size_t groupCounter; // serialize
-extern std::deque<std::string> layerNames; // seialize
+extern size_t groupCounter; 
+extern std::deque<std::string> layerNames; 
 extern std::deque< std::deque<Entity> > layering;
 extern std::array<bool, 10000> layersToSkip;
 extern std::array<bool, 100000> entitiesToSkip;
 extern std::array<bool, 10000> layersToLock;
 extern std::array<bool, 100000> entitiesToLock;
 
-//extern std::shared_ptr<EditingSystem> edit_ptr;
+extern std::shared_ptr<EditingSystem> edit_ptr;
 extern std::shared_ptr<SerializationSystem> s_ptr;
 extern std::deque<std::string> importFileList;
 extern size_t importFileCount;

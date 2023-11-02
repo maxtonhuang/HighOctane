@@ -1,8 +1,19 @@
 [
     {
+        "LayeringSystems": {
+            "layerCounter": 1,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0"
+            ]
+        }
+    },
+    {
         "Entity": {
             "Name": "master_00001",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -51,7 +62,9 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Clone": {},
         "Color": {
@@ -95,12 +108,15 @@
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0
-        }
+        },
+        "Movable": {}
     },
     {
         "Entity": {
             "Name": "Cat",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 1
         },
         "Clone": {},
         "Color": {
@@ -162,7 +178,9 @@
     {
         "Entity": {
             "Name": "entity_00007",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 2
         },
         "Clone": {},
         "Color": {
@@ -191,7 +209,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -209,7 +227,9 @@
     {
         "Entity": {
             "Name": "entity_00011",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 3
         },
         "Clone": {},
         "Color": {
@@ -245,7 +265,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -255,11 +275,19 @@
             "Text String": "Use Skill 1",
             "r": 0.0,
             "g": 0.0,
-            "b": 1.0,
-            "a": 1.0,
+            "b": 0.0,
+            "a": 0.0,
             "Color Preset": "black"
         },
         "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 0.0,
+            "Button A": 0.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "1",
             "Padding Top": 30.0,
@@ -271,7 +299,9 @@
     {
         "Entity": {
             "Name": "entity_00013",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 4
         },
         "Clone": {},
         "Color": {
@@ -321,7 +351,9 @@
     {
         "Entity": {
             "Name": "Guard",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 5
         },
         "Clone": {},
         "Color": {
@@ -382,7 +414,9 @@
     {
         "Entity": {
             "Name": "entity_00011_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 6
         },
         "Clone": {},
         "Color": {
@@ -418,7 +452,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -428,11 +462,19 @@
             "Text String": "Use Skill 2",
             "r": 0.0,
             "g": 0.0,
-            "b": 1.0,
-            "a": 1.0,
+            "b": 0.0,
+            "a": 0.0,
             "Color Preset": "black"
         },
         "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 0.0,
+            "Button A": 0.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "2",
             "Padding Top": 30.0,
@@ -444,7 +486,9 @@
     {
         "Entity": {
             "Name": "entity_00011_CLONE_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 7
         },
         "Clone": {},
         "Color": {
@@ -480,7 +524,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -490,11 +534,19 @@
             "Text String": "Use Skill 3",
             "r": 0.0,
             "g": 0.0,
-            "b": 1.0,
-            "a": 1.0,
+            "b": 0.0,
+            "a": 0.0,
             "Color Preset": "black"
         },
         "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 0.0,
+            "Button A": 0.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "3",
             "Padding Top": 30.0,

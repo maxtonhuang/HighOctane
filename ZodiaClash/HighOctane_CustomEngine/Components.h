@@ -36,6 +36,8 @@
 #include "GraphLib.h"
 #include "FontLib.h"
 #include "Texture.h"
+#include "Reflections.h"
+
 //#include "Editing.h"
 
 using Vec2 = vmath::Vector2;
@@ -140,21 +142,11 @@ struct Screen {
     bool                    isActive{false};
 };
 
+
 struct Script {
-    std::string             className{};     // ID of owner
-    // ID of owner
-    //Entity entityID;
-    //vector of the names on scripts
+    std::string className{};  // ID of owner
     std::vector<std::string> scriptNameVec{};
 
-    //vector of script instances
-    //std::vector<std::shared_ptr<ScriptInstance>> monoScriptObj; //This is every C# component
-
-
-    //// string to be added (display for ImGui side)
-    //std::string currentAddingScript = "";
-    //// string currently selected (display for ImGui side)
-    //std::string currentSelectedScript = "";
 };
 
 struct Tag {

@@ -93,7 +93,7 @@ void Animator::ResizeOnChange(Tex& texData, Size& sizeData) {
 
 // called for time-based animations; advances to next frame at set intervals (frameDisplayDuration)
 void Animator::AnimateOnInterval(Tex& texData) {
-	frameTimeElapsed += g_dt;
+	frameTimeElapsed += FIXED_DT;
 	if (frameTimeElapsed > frameDisplayDuration) {
 		AdvanceAnimation( texData);
 		frameTimeElapsed = 0.f;

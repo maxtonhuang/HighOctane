@@ -47,6 +47,7 @@
 #include "CharacterStats.h"
 #include "UIComponents.h"
 #include <memory>
+#include "Layering.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -148,6 +149,9 @@ rapidjson::Value SerializeName(const Name& entityName, rapidjson::Document::Allo
 	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
 	nameObject.AddMember("Name", nameValue, allocator);
 	nameObject.AddMember("Selected", entityName.selected, allocator);
+	nameObject.AddMember("Current Layer", static_cast<uint64_t>(entityName.serializationLayer), allocator);
+	nameObject.AddMember("Order in Layer", static_cast<uint64_t>(entityName.serializationOrderInLayer), allocator);
+
 	return nameObject;
 
 }
@@ -240,6 +244,7 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	for (const std::string& name : script.scriptNameVec) {
 		scriptNameArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
 	}
+
 	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
 
 	return scriptObject;
@@ -330,6 +335,56 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	document.SetArray();
 	rapidjson::Document::AllocatorType& allocator = document.GetAllocator();
 
+	/************************FOR LAYERING***************************/
+	PrepareLayeringForSerialization();
+	rapidjson::Value layeringHeader(rapidjson::kObjectType);
+
+	// Create a "Layering" JSON object to group the global variables
+	rapidjson::Value layeringObject(rapidjson::kObjectType);
+
+	layeringObject.AddMember("layerCounter", layerCounter, allocator);
+	layeringObject.AddMember("groupCounter", groupCounter, allocator);
+	if (!layerNames.empty()) {
+		rapidjson::Value layerNamesArray(rapidjson::kArrayType);
+		for (const std::string& layerName : layerNames) {
+			layerNamesArray.PushBack(rapidjson::Value(layerName.c_str(), allocator), allocator);
+		}
+		layeringObject.AddMember("layerNames", layerNamesArray, allocator);
+	}
+	//// Serialize layersToSkip
+	//rapidjson::Value layersToSkipArray(rapidjson::kArrayType);
+	//for (bool skip : layersToSkip) {
+	//	layersToSkipArray.PushBack(skip, allocator);
+	//}
+	//layeringObject.AddMember("layersToSkip", layersToSkipArray, allocator);
+	//// Serialize entitiesToSkip
+	//rapidjson::Value entitiesToSkipArray(rapidjson::kArrayType);
+	//for (bool skip : entitiesToSkip) {
+	//	entitiesToSkipArray.PushBack(skip, allocator);
+	//}
+	//layeringObject.AddMember("entitiesToSkip", entitiesToSkipArray, allocator);
+
+	//// Serialize layersToLock
+	//rapidjson::Value layersToLockArray(rapidjson::kArrayType);
+	//for (bool lock : layersToLock) {
+	//	layersToLockArray.PushBack(lock, allocator);
+	//}
+	//layeringObject.AddMember("layersToLock", layersToLockArray, allocator);
+
+	//// Serialize entitiesToLock
+	//rapidjson::Value entitiesToLockArray(rapidjson::kArrayType);
+	//for (bool lock : entitiesToLock) {
+	//	entitiesToLockArray.PushBack(lock, allocator);
+	//}
+	//layeringObject.AddMember("entitiesToLock", entitiesToLockArray, allocator);
+
+	// Add the "Layering" object to the root
+	layeringHeader.AddMember("LayeringSystems", layeringObject, allocator);
+
+	// Add the root object to the JSON document
+	document.PushBack(layeringHeader, allocator);
+
+	/*******************For ENTITIES****************/
 	Color* color = nullptr;
 	Transform* transform = nullptr;
 	Tex* tex = nullptr;
@@ -465,6 +520,73 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	}
 }
 
+void LoadLayeringData(const rapidjson::Value& layeringObject) {
+	
+	if (layeringObject.HasMember("layerCounter")) {
+		layerCounter = layeringObject["layerCounter"].GetUint();
+	}
+	if (layeringObject.HasMember("groupCounter")) {
+		groupCounter = layeringObject["groupCounter"].GetUint();
+	}
+
+	if (layeringObject.HasMember("layerNames") && layeringObject["layerNames"].IsArray()) {
+		const rapidjson::Value& layerNamesArray = layeringObject["layerNames"];
+		layerNames.clear();
+		for (rapidjson::SizeType i = 0; i < layerNamesArray.Size(); ++i) {
+			if (layerNamesArray[i].IsString()) {
+				layerNames.push_back(layerNamesArray[i].GetString());
+			}
+		}
+	}
+	//// Deserialize layersToSkip
+	//if (layeringObject.HasMember("layersToSkip") && layeringObject["layersToSkip"].IsArray()) {
+	//	const rapidjson::Value& layersToSkipArray = layeringObject["layersToSkip"];
+	//	if (layersToSkipArray.Size() == layersToSkip.size()) {
+	//		for (rapidjson::SizeType i = 0; i < layersToSkipArray.Size(); ++i) {
+	//			if (layersToSkipArray[i].IsBool()) {
+	//				layersToSkip[i] = layersToSkipArray[i].GetBool();
+	//			}
+	//		}
+	//	}
+	//}
+
+	//// Deserialize entitiesToSkip
+	//if (layeringObject.HasMember("entitiesToSkip") && layeringObject["entitiesToSkip"].IsArray()) {
+	//	const rapidjson::Value& entitiesToSkipArray = layeringObject["entitiesToSkip"];
+	//	if (entitiesToSkipArray.Size() == entitiesToSkip.size()) {
+	//		for (rapidjson::SizeType i = 0; i < entitiesToSkipArray.Size(); ++i) {
+	//			if (entitiesToSkipArray[i].IsBool()) {
+	//				entitiesToSkip[i] = entitiesToSkipArray[i].GetBool();
+	//			}
+	//		}
+	//	}
+	//}
+
+	//// Deserialize layersToLock
+	//if (layeringObject.HasMember("layersToLock") && layeringObject["layersToLock"].IsArray()) {
+	//	const rapidjson::Value& layersToLockArray = layeringObject["layersToLock"];
+	//	if (layersToLockArray.Size() == layersToLock.size()) {
+	//		for (rapidjson::SizeType i = 0; i < layersToLockArray.Size(); ++i) {
+	//			if (layersToLockArray[i].IsBool()) {
+	//				layersToLock[i] = layersToLockArray[i].GetBool();
+	//			}
+	//		}
+	//	}
+	//}
+
+	//// Deserialize entitiesToLock
+	//if (layeringObject.HasMember("entitiesToLock") && layeringObject["entitiesToLock"].IsArray()) {
+	//	const rapidjson::Value& entitiesToLockArray = layeringObject["entitiesToLock"];
+	//	if (entitiesToLockArray.Size() == entitiesToLock.size()) {
+	//		for (rapidjson::SizeType i = 0; i < entitiesToLockArray.Size(); ++i) {
+	//			if (entitiesToLockArray[i].IsBool()) {
+	//				entitiesToLock[i] = entitiesToLockArray[i].GetBool();
+	//			}
+	//		}
+	//	}
+	//}
+}
+
 bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 	rapidjson::Document document;
 	std::ifstream file(fileName);
@@ -475,16 +597,20 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 	}
 	rapidjson::IStreamWrapper isw(file);
 	document.ParseStream(isw);
-
+	//const rapidjson::Value& layeringObject = document[i];
 	if (document.HasParseError()) {
 		std::cerr << "Failed to parse .json file: " << fileName << std::endl;
 	}
-
 	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
+
 
 	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
 		const rapidjson::Value& entityObject = document[i];
-
+		
+		if (document.Size() > 0 && document[0].HasMember("LayeringSystems")) {
+			const rapidjson::Value& layeringObject = document[0]["LayeringSystems"];
+			LoadLayeringData(layeringObject);
+		}
 		Entity entity = ECS::ecs().CreateEntity();
 
 		if (entityObject.HasMember("Entity")) {
@@ -494,6 +620,12 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			Name name{};
 			name.name = nameObject["Name"].GetString();
 			name.selected = nameObject["Selected"].GetBool();
+			if (nameObject.HasMember("Current Layer")) {
+				name.serializationLayer = nameObject["Current Layer"].GetUint64();
+			}
+			if (nameObject.HasMember("Order in Layer")) {
+				name.serializationOrderInLayer = nameObject["Order in Layer"].GetUint64();
+			}
 			ECS::ecs().AddComponent<Name>(entity, name);
 		}
 
@@ -621,10 +753,14 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 		if (entityObject.HasMember("Clone")) {
 			ECS::ecs().AddComponent(entity, Clone{});
 			//////////////////////////////////////////////////////////////////////////// <-------
-			// im guessing this means to serialise layering but i put 0 first so it doesnt crash
-			//layering[selectedLayer].push_back(entity);
-			layering[0].push_back(entity);
-			++(EntityFactory::entityFactory().cloneCounter);
+			if (!stopButton) {
+				//stop crashing if there is no selected layer
+				if (selectedLayer == std::numeric_limits<size_t>::max()) {
+					selectedLayer = 0;
+				}
+				layering[selectedLayer].push_back(entity);
+			}
+			(EntityFactory::entityFactory().cloneCounter)++;
 		}
 		if (entityObject.HasMember("MainCharacter")) {
 			ECS::ecs().AddComponent(entity, MainCharacter{});
@@ -768,51 +904,4 @@ void WriteSpriteConfig(const char* filename, int rows, int cols) {
 
 	// Close the file
 	ofs.close();
-}
-
-// Load the scripting for scripting on start up
-std::vector<std::string> LoadScripting(Entity entity) {
-	std::vector<std::string> scriptVec;
-	std::string filePath = assetmanager.GetDefaultPath() + "Scenes/TestWY1.json";
-	// Open the file here	
-	std::ifstream ifs(filePath);
-	//std::ifstream ifs("../Assets/Scenes/TestWY2.json");
-
-	// Check if can open
-	if (!ifs.is_open()) {
-		// Check if the file is open
-		std::cerr << "Unable to load Scene file for scripting" << std::endl;
-	}
-	rapidjson::Document document;
-
-	rapidjson::IStreamWrapper isw(ifs);
-	document.ParseStream(isw);
-
-	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
-		const rapidjson::Value& entityObject = document[i];
-
-		// If the entity contains entity ID
-		if (entityObject.HasMember("Entity ID") && entityObject["Entity ID"].GetInt() == entity) {
-		
-			// Check if the entity has scripts
-			if (entityObject.HasMember("Scripts")) {
-				const rapidjson::Value& scriptObject = entityObject["Scripts"];
-				Script script;
-				
-				// Check if the entity has the script vector
-				if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
-					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
-					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
-						if (scriptNameArray[j].IsString()) {
-							scriptVec.push_back(scriptNameArray[j].GetString());
-						}
-					}
-				}
-			}
-		
-		}
- 		
-	}
-	// Return the scriptMap
-	return scriptVec;
 }

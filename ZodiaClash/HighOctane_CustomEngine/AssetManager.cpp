@@ -10,10 +10,16 @@
 *
 *	@file		AssetManager.cpp
 *
-*	@author		Kai Alexander Van Adrichem Boogaert
+*	@author		Kai Alexander Van Adrichem Boogaert (Initial creation)
 *
 *	@email		kaialexander.v\@digipen.edu
 *
+* 
+*	@co-author	Foong Pun Yuen Nigel (Redone for loading of all assets)
+*
+*	@email		p.foong\@digipen.edu 
+* 
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -26,15 +32,7 @@
 *	@brief
 *
 *	This file contains all the definitions for managing assets such as textures, 
-    audio and fonts.
-
-*	!--Future Updates--!
-* 
-*   -M1 checkpoint-
-*	- Attempt at a general get and unload functions
-*   - Improve on functionalities look into implementing better functions to 
-*     provide more functionalities
-*   - Research more on what an asset manager needs
+*   audio and fonts.
 ******************************************************************************/
 
 #include "AssetManager.h"

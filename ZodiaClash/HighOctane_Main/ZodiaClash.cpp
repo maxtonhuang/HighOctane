@@ -70,12 +70,14 @@
 #include "Layering.h"
 
 
+
+
 bool gConsoleInitalized{ false };
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
 constexpr bool GAME_MODE{ false };
-constexpr bool EDITOR_MODE{ true };
+constexpr bool EDITOR_MODE{ false };
 constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -144,22 +146,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
-	testFunc();
-	/*-----------THIS IS FOR SCRIPTING------------*/
-	//REGISTER_TYPE(int);
-	//REGISTER_TYPE(double);
-	//REGISTER_TYPE(std::vector<int>);
+	/*-----------THIS IS FOR REFLECTION------------*/
+	
+	// Use the macro to declare variables
+	DECLARE(int, test, 3);
+	DECLARE(float, test2, 3.14f);
+	DECLARE(std::string, test3, "Hello");
+	DECLARE(bool, test4, true);
 
-	//const TypeInformation* intTypeInfo = g_TypeRegistry.GetType("int");
-	//if (intTypeInfo) {
-	//	intTypeInfo->Print();
-	//}
+	// The rest of your code can stay the same
 
-	//const TypeInformation* vectorTypeInfo = g_TypeRegistry.GetType("std::vector<int>");
-	//if (vectorTypeInfo) {
-	//	vectorTypeInfo->Print();
-	//}
-	/*-----------THIS IS FOR SCRIPTING------------*/
+
+	// Iterate over registered variables and print their values
+	for (const auto& var : variablesTEST) {
+		std::cout << var.name << " = " << var.read() << std::endl;
+	}
+
+
+
+	/*-----------THIS IS FOR REFLECTION------------*/
 
     LOG_INFO("Program started");
 
@@ -285,9 +290,6 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
 	systemList.emplace_back(scriptingSystem, "Scripting System");
 
-	std::shared_ptr<GameplaySystem> gameplaySystem = ECS::ecs().RegisterSystem<GameplaySystem>();
-	systemList.emplace_back(gameplaySystem, "Gameplay System");
-
 	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
 	runSystemList.emplace_back(battleSystem, "Battle System");
 	systemList.emplace_back(battleSystem, "Battle System");
@@ -310,6 +312,7 @@ void EngineCore::Run(bool const& mode) {
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 	editSystemList.emplace_back(editingSystem, "Editing System");
 	systemList.emplace_back(editingSystem, "Editing System");
+	edit_ptr = editingSystem;
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");
@@ -418,7 +421,6 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
 		signature.set(ECS::ecs().GetComponentType<Tag>());
-		ECS::ecs().SetSystemSignature<GameplaySystem>(signature);
 	}
 
 	{
@@ -467,6 +469,8 @@ void EngineCore::Run(bool const& mode) {
 
 	CreateNewLayer();
 
+	edit_mode = EDITOR_MODE;
+
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
 	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
@@ -485,7 +489,7 @@ void EngineCore::Run(bool const& mode) {
 	}
 
 	//fonts.Initialize();
-	EntityFactory::entityFactory().LoadMasterModel();
+	//EntityFactory::entityFactory().LoadMasterModel();
 
 	//Serializer::SerializeCSV("../Assets/CSV/ZodiaClashCharacters.csv");
 
@@ -578,13 +582,11 @@ void EngineCore::Run(bool const& mode) {
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
 
-		if (newScene) {
+		if (initLevel) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
-			Attack test;
-			test.attackName = "Test";
-			assetmanager.attacks.SaveAttack(test);
+			initLevel = false;
 			newScene = false;
 		}
 
@@ -603,31 +605,40 @@ void EngineCore::Run(bool const& mode) {
 		Mail::mail().SendMails();
 
 		// Call each system in the System List
-		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+		accumulatedTime += g_dt;
+		if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+			accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
+		}
+		while (accumulatedTime >= FIXED_DT) {
 
-#if ENABLE_DEBUG_PROFILE
-			debugSysProfile.ResetTimer(sys.second);
-			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-			//std::cout << sys.second << std::endl;
-#endif
-			sys.first->Update();
+			for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
-#if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+				#if ENABLE_DEBUG_PROFILE
+				debugSysProfile.ResetTimer(sys.second);
+				debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
+				//std::cout << sys.second << std::endl;
+				#endif
+				sys.first->Update();
 
+				#if ENABLE_DEBUG_PROFILE
+				debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
+				#endif
+
+			}
+			Mail::mail().ClearMails();
+			accumulatedTime -= FIXED_DT;
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
-#if ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+			#endif
 			sys.first->Draw();
 
-#if ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+			#endif
 
 		}
 
@@ -651,7 +662,7 @@ void EngineCore::Run(bool const& mode) {
 			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
 
-		Mail::mail().ClearMails();
+		//Mail::mail().ClearMails();
 
 	}
 

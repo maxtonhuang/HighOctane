@@ -19,7 +19,7 @@
 *
 *	@section	Section A
 *
-*	@date		22 September 2023
+*	@date		22 October 2023
 *
 * *****************************************************************************
 *
@@ -39,6 +39,11 @@
 #include "ECS.h"
 #include <algorithm>
 
+/**
+ * @brief Constructor that copies the state of another BattleSystem instance.
+ *
+ * @param input A constant reference to another BattleSystem object.
+ */
 BattleSystem::BattleSystem(BattleSystem const& input) {
     battleState = input.battleState;
     roundManage = input.roundManage;
@@ -72,11 +77,17 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
     roundInProgress = input.roundInProgress;
 }
 
+/**
+ * @brief Initializes the battle system by setting the battle state to NEWGAME.
+ */
 void BattleSystem::Initialize() 
 {
     battleState = NEWGAME;
 }
 
+/**
+ * @brief Starts the battle, initializes event connections, and determines the turn order.
+ */
 void BattleSystem::StartBattle() {
     LOG_WARNING("Initializing battle system");
     events.ConnectBattleSystem(this);
@@ -89,13 +100,16 @@ void BattleSystem::StartBattle() {
     printf("\nBeginning battle:\n");
     for (auto& c : turnManage.characterList) {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
-        DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+        DEBUG_PRINT("Character loaded: %s, remaining health: %f", name.c_str(), c.stats.health);
         printf("Character loaded: %s, remaining health: %f\n", name.c_str(), c.stats.health);
     }
 
     battleState = NEWROUND;
 }
 
+/**
+ * @brief Updates the state of the battle each frame, manages the game logic depending on the current battle state.
+ */
 void BattleSystem::Update() 
 {
     int enemyAmount = 0;
@@ -128,7 +142,11 @@ void BattleSystem::Update()
         }
         break;
     case NEXTTURN:
-        LOG_WARNING("State: Next Turn");
+        if (m_Entities.size() > 0) {
+            printf("\nState: Next Turn\n");
+            LOG_WARNING("State: Next Turn");
+        }
+        
 
         //then check if player has won
         for (auto& c : turnManage.characterList) {
@@ -142,18 +160,20 @@ void BattleSystem::Update()
         if (!enemyAmount) //no enemies left
         {
             if (m_Entities.size() > 0) {
-                printf("\nYOU WIN!\n");
+                printf("\nState: Win\n");
+                LOG_WARNING("State: Win");
             }
-            LOG_WARNING("State: Win");
+            
             battleState = WIN;
         }
         //then check if enemy has won
         else if (!playerAmount) //no players left
         {
             if (m_Entities.size() > 0) {
-                printf("\nYOU LOSE!\n");
+                printf("\nState: Lose\n");
+                LOG_WARNING("State: Lose");
             }
-            LOG_WARNING("State: Lose");
+            
             battleState = LOSE;
         }
         //continue battle
@@ -168,7 +188,10 @@ void BattleSystem::Update()
                     turnManage.activeEnemy = activeCharacter->gameObject.name;
                     turnManage.activePlayer = "";
 
-                    LOG_WARNING("State: Enemy Turn");
+                    if (m_Entities.size() > 0) {
+                        printf("\nState: Enemy Turn\n");
+                        LOG_WARNING("State: Enemy Turn");
+                    }
 
                     battleState = ENEMYTURN;
                 }
@@ -177,7 +200,10 @@ void BattleSystem::Update()
                     turnManage.activePlayer = activeCharacter->gameObject.name;
                     turnManage.activeEnemy = "";
 
-                    LOG_WARNING("State: Player Turn");
+                    if (m_Entities.size() > 0) {
+                        printf("\nState: Player Turn\n");
+                        LOG_WARNING("State: Player Turn");
+                    }
 
                     battleState = PLAYERTURN;
                 }
@@ -188,7 +214,10 @@ void BattleSystem::Update()
             }
             else
             {
-                LOG_WARNING("State: End Round");
+                if (m_Entities.size() > 0) {
+                    printf("\nState: End Round\n");
+                    LOG_WARNING("State: End Round");
+                }
                 battleState = NEWROUND;
 
                 activeCharacter->gameObject.isnull = true;
@@ -204,6 +233,8 @@ void BattleSystem::Update()
         if (activeCharacter->action.entityState == WAITING) {
             gameAI.Search(this);
         }
+        //NO BREAK BY DESIGN, IT NEEDS TO UPDATE ENTITY STATE
+        //break;
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
         if (activeCharacter->action.entityState == EntityState::ENDING) {
@@ -252,6 +283,9 @@ void BattleSystem::Update()
     }
 }
 
+/**
+ * @brief Determines the turn order of characters based on their stats and adds them to the turn management lists.
+ */
 void BattleSystem::DetermineTurnOrder()
 {
     //charactersList
@@ -281,6 +315,11 @@ void BattleSystem::DetermineTurnOrder()
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
 }
 
+/**
+ * @brief Retrieves a list of CharacterStats pointers to all player characters.
+ *
+ * @return std::vector<CharacterStats*> A vector containing pointers to the player characters.
+ */
 std::vector<CharacterStats*> BattleSystem::GetPlayers() {
     std::vector<CharacterStats*> output;
     for (auto& c : turnManage.characterList) {
@@ -290,6 +329,12 @@ std::vector<CharacterStats*> BattleSystem::GetPlayers() {
     }
     return output;
 }
+
+/**
+ * @brief Retrieves a list of CharacterStats pointers to all enemy characters.
+ *
+ * @return std::vector<CharacterStats*> A vector containing pointers to the enemy characters.
+ */
 std::vector<CharacterStats*> BattleSystem::GetEnemies() {
     std::vector<CharacterStats*> output;
     for (auto& c : turnManage.characterList) {
@@ -300,6 +345,11 @@ std::vector<CharacterStats*> BattleSystem::GetEnemies() {
     return output;
 }
 
+/**
+ * @brief Moves a character's turn order immediately after the next character in the current turn order list.
+ *
+ * @param target A pointer to the CharacterStats of the target character.
+ */
 void BattleSystem::SwitchTurnOrder(CharacterStats* target)
 {
     turnManage.turnOrderList.remove(target);
@@ -308,6 +358,11 @@ void BattleSystem::SwitchTurnOrder(CharacterStats* target)
     turnManage.turnOrderList.insert(iterator, target);
 }
 
+/**
+ * @brief Reverts the turn order change for a character to its original position.
+ *
+ * @param target A pointer to the CharacterStats of the target character.
+ */
 void BattleSystem::RevertTurnOrder(CharacterStats* target)
 {
     auto& ogTurnList = turnManage.originalTurnOrderList;

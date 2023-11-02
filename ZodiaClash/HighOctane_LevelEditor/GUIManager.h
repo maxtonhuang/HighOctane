@@ -52,7 +52,7 @@ public:
         void Update();
 
 private:
-  
+    bool initialized{ false };
 
 };
 

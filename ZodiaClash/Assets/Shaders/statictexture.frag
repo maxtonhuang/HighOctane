@@ -9,11 +9,5 @@ layout (location=0) out vec4 fFragColor;
 uniform sampler2D[150] uTex2d;
 
 void main () {
-if (int(vIndex) != 0) {
-	fFragColor = texture2D(uTex2d[int(vIndex)],vTex) * vColor;
-}
-else {
-	fFragColor = vColor;
-}
-
+fFragColor = texture2D(uTex2d[int(vIndex)],vTex) * vColor;
 }

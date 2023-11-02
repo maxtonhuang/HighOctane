@@ -1,4 +1,4 @@
-staticline
+staticflat
 statictexture.vert
 flat.frag
-GL_LINES
+GL_TRIANGLES

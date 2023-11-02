@@ -114,6 +114,7 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 	static Renderer* textureRenderer = &graphics.renderer["texture"];
 	static Renderer* staticRenderer = &graphics.renderer["static"];
 	static Renderer* flatRenderer = &graphics.renderer["flat"];
+	static Renderer* staticflatRenderer = &graphics.renderer["staticflat"];
 
 	Renderer* renderer;
 	if (entity != nullptr) {
@@ -133,7 +134,7 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 	else {
 		switch (type) {
 		case ModelType::UI:
-			renderer = staticRenderer;
+			renderer = staticflatRenderer;
 			break;
 		default:
 			renderer = flatRenderer;

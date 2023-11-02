@@ -75,16 +75,17 @@ bool firstSet = false;
 //FrameBuffer frameBuffer;
 GUIManager::GUIManager()
 {
-	ImGui::CreateContext();
     //ImPlot::CreateContext();
     //GUIWindow = nullptr;
 }
 
 GUIManager::~GUIManager()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    if (initialized) {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
     //ImPlot::DestroyContext();
 }
 
@@ -92,6 +93,7 @@ GUIManager::~GUIManager()
 
 void GUIManager::Init()
 {
+    ImGui::CreateContext();
     GLFWwindow* window = graphics.GetWindow();
         
     const char* glsl_version = "#version 450";
@@ -149,6 +151,7 @@ void GUIManager::Init()
     std::fill(layersToLock.begin(), layersToLock.end(), true);
     std::fill(entitiesToLock.begin(), entitiesToLock.end(), true);
 
+    initialized = true;
 }
 
 void GUIManager::Update()

@@ -4,19 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
-//struct Rigidbody2D
-//{
-//    Vector2 velocity;
-//    Vector2 force;
-//    float mass;
-//    float drag;
-//    float angularVelocity;
-//    float torque;
-//    bool isKinematic;
-//}
-
 public static class Debug
 {
     public static void Log(string message)

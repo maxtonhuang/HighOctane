@@ -1,3 +1,36 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		CharacterStats.h
+*
+*	@author		Liu WanTing
+*
+*	@email		wanting.liu\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		22 September 2023
+*
+* *****************************************************************************
+*
+*	@brief		Battle Character Statistics
+*
+*	This file contains implementations of functions related to a character's
+*	statistics and actions during a battle scene. These functions are part of the game
+*	logic and are called by the Game State Manager (GSM) during battle events.
+*
+******************************************************************************/
+
 #pragma once
 #include "CharacterCommon.h"
 #include "CharacterAction.h"

@@ -1,0 +1,65 @@
+ZODIACLASH Project Guide File
+
+================================================================
+
+Game name: ZodiaClash
+Version: v0.1 M1 build
+
+Programmers:
+Huang Maxton Xinghua (m.huang@digipen.edu)
+Liu Wanting (wanting.liu@digipen.edu)
+Foong Pun Yuen Nigel (p.foong@digipen.edu)
+Koh Wen Yuen (k.wenyuan@digipen.edu)
+Chua Zhen Rong (c.zhenrong@digipen.edu)
+Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
+
+Designer:
+Yau Yee Onn Oliver (y.yau@digipen.edu)
+
+Artist:
+Loo Zhi Ying (zhiying.loo@digipen.edu)
+
+================================================================
+Input Keys(General)
+- Use mouse to click on buttons to navigate to the relevant scene
+- Press Esc to exit game at anytime
+- Press F11 to toggle fullscreen or windowed mode
+- ENSURE GAME IS NOT PAUSED FOR BUTTONS TO WORK
+
+Input Keys(During play in exploration scene):
+
+- W, A, S, D to move the duck
+- P, O to scale the game objects
+- Q to rotate main character anticlockwise
+- E to rotate main character clockwise
+
+- X toggles main character's animationType between time-based and event-based
+- C if main character's animationType is set to event-based, iterates to the next frame
+- V if main character has more than 1 animation (texVariants), changes animation to the next texVariant. Entity's size dimensions are resized based on the new sprite
+
+- 0 to toggle physics debug drawing mode, showing character position, velocity and AABB box
+- 8 to move the character with respect to each frame
+- 9 to toggle step by step mode
+
+- Use mouse to select and edit entities
+
+Tests:
+
+- To test for Collison:
+	1. Play in exploration scene.
+	2. WASD to move main character duck(dynamic object) to collide with the stone (static object). Upon collision, the duck will stop.
+
+- To test outline:
+	1. Select an entity in editor.
+	2. DrawOutline() and DrawPoint() will be called to draw the entity's outline.
+
+- To test drawing lines for an object's direction: 
+	1. Press '0' during gameplay to draw AABB box
+	2. When moving the entity with "W,A,S,D", line will be drawn to represent object's direction.
+
+- To test audio:
+	1. Click on "Sound Test" in main menu
+	2. Press the buttons to play the sound / sound setting as per the label
+	3. Please note that pressing "Play Music" multiple times will overlap the music
+
+ 

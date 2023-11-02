@@ -513,13 +513,6 @@ public:
     void Update() override;
 };
 
-class GameplaySystem : public System {
-public:
-    void Initialize();
-    void Update() override;
-};
-
-
 class EditingSystem : public System {
 public:
     void Update() override;

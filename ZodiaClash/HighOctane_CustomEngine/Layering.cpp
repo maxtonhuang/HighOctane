@@ -114,7 +114,7 @@ void RebuildLayeringAfterDeserialization() {
 	layering.clear();
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	std::set<Entity> * e = &(s_ptr->m_Entities);
+	std::set<Entity> * e = &(edit_ptr->m_Entities);
 	for (const Entity & entity : *e) {
 		Name & n = nameArray.GetData(entity);
 		if (n.serializationLayer < layering.size()) {
@@ -126,11 +126,11 @@ void RebuildLayeringAfterDeserialization() {
 			}
 		}
 		else {
-			while (layering.size() < n.serializationLayer) {
+			while (layering.size() <= n.serializationLayer) {
 				std::deque<Entity> temp;
 				layering.emplace_back(temp);
 			}
-			layering[n.serializationLayer].emplace_back(entity);
+ 			layering[n.serializationLayer].emplace_back(entity);
 		}
 	}
 }

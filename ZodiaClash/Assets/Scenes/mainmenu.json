@@ -1,8 +1,19 @@
 [
     {
+        "LayeringSystems": {
+            "layerCounter": 1,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0"
+            ]
+        }
+    },
+    {
         "Entity": {
             "Name": "master_00001",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -51,7 +62,9 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": true
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Clone": {},
         "Color": {
@@ -61,7 +74,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": 1.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -85,7 +98,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.0833333358168602,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -95,12 +108,15 @@
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0
-        }
+        },
+        "Movable": {}
     },
     {
         "Entity": {
             "Name": "entity_00003",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 1
         },
         "Clone": {},
         "Color": {
@@ -155,7 +171,9 @@
     {
         "Entity": {
             "Name": "entity_00005",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 2
         },
         "Clone": {},
         "Color": {
@@ -202,7 +220,9 @@
     {
         "Entity": {
             "Name": "entity_00009",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 3
         },
         "Clone": {},
         "Color": {
@@ -212,8 +232,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 438.0,
-            "position_y": -314.25,
+            "position_x": 454.0,
+            "position_y": -325.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -272,7 +292,9 @@
     {
         "Entity": {
             "Name": "entity_00009_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 4
         },
         "Clone": {},
         "Color": {
@@ -342,7 +364,9 @@
     {
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -387,7 +411,9 @@
     {
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 5
         },
         "Clone": {},
         "Color": {
@@ -421,7 +447,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.0833333358168602,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -437,7 +463,9 @@
     {
         "Entity": {
             "Name": "entity_00009_CLONE_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 6
         },
         "Clone": {},
         "Color": {
@@ -507,7 +535,9 @@
     {
         "Entity": {
             "Name": "master_00003",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -559,7 +589,9 @@
     {
         "Entity": {
             "Name": "master_00004",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -611,7 +643,9 @@
     {
         "Entity": {
             "Name": "master_00005",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -663,7 +697,9 @@
     {
         "Entity": {
             "Name": "master_00006",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -715,7 +751,9 @@
     {
         "Entity": {
             "Name": "master_00007",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -767,7 +805,9 @@
     {
         "Entity": {
             "Name": "master_00008",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -816,5 +856,79 @@
             "Collider Enum": 0
         }
     },
-    {}
+    {
+        "Entity": {
+            "Name": "entity_00009_CLONE",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 7
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 449.0,
+            "position_y": -450.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 321.0,
+            "height": 117.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Exit Game",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Exit Game",
+            "Event Input": "no input needed for exit",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    }
 ]

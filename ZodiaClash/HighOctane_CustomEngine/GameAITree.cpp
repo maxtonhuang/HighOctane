@@ -1,3 +1,49 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		GameAITree.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		19 October 2023
+*
+* *****************************************************************************
+*
+*	@brief
+*
+*	This file contains AI for the game using an evaluation decision tree 
+*	calculating all possible moves
+* 
+*	Works as follows:
+*	For all possible moves and targets, create a new node and increase its
+*	depth counter, and add it to list of nodes to continue branching if
+*	the game state is still ongoing. After that, advance the gamestate
+*	stored in the node to the next turn.
+* 
+*	Continue branching nodes until all nodes reaches the MAXDEPTH value or
+*	until the AI finds a state that it can win
+* 
+*	If the AI finds a win state, it chooses that move.
+*	If not, it evaluates all the final nodes in all branches and then
+*	picks the node with the highest evaluated value.
+*
+******************************************************************************/
+
+
 #include "GameAITree.h"
 #include <random>
 #include <limits>
@@ -243,7 +289,7 @@ void TreeManager::Search(BattleSystem* start) {
 	for (auto& c : start->turnManage.characterList) {
 		std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
 		printf("%s remaining health: %f\n", name.c_str(), c.stats.health);
-		//DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+		DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
 	}
 
 	printf("\nAI decision made:\n");
@@ -257,6 +303,18 @@ void TreeManager::Search(BattleSystem* start) {
 	}
 	printf("Evaluation value: %i\n", (int)currentEval);
 	printf("CHOSEN SKILL: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
+
+	DEBUG_PRINT("AI decision made:");
+	DEBUG_PRINT("Total nodes created: %d", nodeCount);
+	DEBUG_PRINT("Printing branch:");
+	for (int i = (int)branch.size() - 1; i >= 0; i--) {
+		std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
+		std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
+		std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
+		DEBUG_PRINT("%s used %s on %s: Evaluation amount %d", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
+	}
+	DEBUG_PRINT("Evaluation value: %i", (int)currentEval);
+	DEBUG_PRINT("CHOSEN SKILL: %s", start->activeCharacter->action.selectedSkill.attackName.c_str());
 
 	return;
 }

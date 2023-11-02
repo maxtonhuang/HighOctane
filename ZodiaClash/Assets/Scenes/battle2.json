@@ -1,8 +1,19 @@
 [
     {
+        "LayeringSystems": {
+            "layerCounter": 1,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0"
+            ]
+        }
+    },
+    {
         "Entity": {
             "Name": "master_00001",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Master": {},
         "Color": {
@@ -51,7 +62,9 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
         },
         "Clone": {},
         "Color": {
@@ -73,7 +86,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "background.jpeg"
+            "Texture File Path": "mockup_BG_03.png"
         },
         "Visible": {
             "isVisible": true
@@ -85,7 +98,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -95,12 +108,15 @@
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0
-        }
+        },
+        "Movable": {}
     },
     {
         "Entity": {
             "Name": "Red Cat",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 1
         },
         "Clone": {},
         "Color": {
@@ -134,7 +150,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -162,7 +178,9 @@
     {
         "Entity": {
             "Name": "entity_00007",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 2
         },
         "Clone": {},
         "Color": {
@@ -183,7 +201,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 319.5,
+            "width": 421.5,
             "height": 59.5
         },
         "Scripts": {
@@ -198,9 +216,9 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "ZodiaClash v0.1",
-            "r": 0.0,
-            "g": 0.0,
+            "Text String": "ZodiaClash M2 Build",
+            "r": 1.0,
+            "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white"
@@ -209,7 +227,9 @@
     {
         "Entity": {
             "Name": "entity_00011",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 3
         },
         "Clone": {},
         "Color": {
@@ -219,8 +239,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -729.0,
-            "position_y": -420.0,
+            "position_x": -722.0,
+            "position_y": -414.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -269,7 +289,7 @@
             "Text B": 0.0,
             "Text A": 1.0,
             "Event Name": "Select Skill",
-            "Event Input": "2",
+            "Event Input": "1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -278,58 +298,10 @@
     },
     {
         "Entity": {
-            "Name": "entity_00013",
-            "Selected": false
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 647.0,
-            "position_y": -264.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 2,
-            "Frame Time Elapsed": 0.06197899580001831,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
-    },
-    {
-        "Entity": {
             "Name": "Guard",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 4
         },
         "Clone": {},
         "Color": {
@@ -363,7 +335,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -378,7 +350,7 @@
             "Speed": 1,
             "Skills": [
                 "Normal Attack",
-                "No",
+                "Normal AOE",
                 "Test"
             ]
         },
@@ -391,7 +363,9 @@
     {
         "Entity": {
             "Name": "Blue Cat",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 5
         },
         "Clone": {},
         "Color": {
@@ -425,7 +399,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -453,7 +427,9 @@
     {
         "Entity": {
             "Name": "Green Cat",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 6
         },
         "Clone": {},
         "Color": {
@@ -487,7 +463,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.06197899580001831,
+            "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -515,7 +491,9 @@
     {
         "Entity": {
             "Name": "entity_00011_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 7
         },
         "Clone": {},
         "Color": {
@@ -585,7 +563,9 @@
     {
         "Entity": {
             "Name": "entity_00011_CLONE",
-            "Selected": false
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 8
         },
         "Clone": {},
         "Color": {
@@ -650,6 +630,58 @@
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
             "Padding Right": 60.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "entity_00007_CLONE",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 9
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 302.0,
+            "position_y": 458.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 1058.0,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "PLEASE REFER TO CONSOLE FOR BATTLE OUTPUT",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white"
+        },
+        "Collider": {
+            "Collider Enum": 0
         }
     }
 ]
