@@ -135,7 +135,78 @@ void RebuildLayeringAfterDeserialization() {
 	}
 }
 
+void EmbedSkipLockForSerialization() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	std::set<Entity>* e = &(s_ptr->m_Entities);
+	for (const Entity& entity : *e) {
+		Name& n = nameArray.GetData(entity);
+		n.skip = entitiesToSkip[static_cast<int>(entity)];
+		n.lock = entitiesToLock[static_cast<int>(entity)];
+	}
+}
 
+void ExtractSkipLockAfterDeserialization() {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	std::set<Entity>* e = &(s_ptr->m_Entities);
+	for (const Entity& entity : *e) {
+		Name& n = nameArray.GetData(entity);
+		entitiesToSkip[static_cast<int>(entity)] = n.skip;
+		entitiesToLock[static_cast<int>(entity)] = n.lock;
+	}
+	std::fill(layersToSkip.begin(), layersToSkip.end(), true);
+	std::fill(layersToLock.begin(), layersToLock.end(), true);
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		bool allFalse1 = true;
+		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+			if (entitiesToSkip[layering[layer_it][entity_it]]) {
+				allFalse1 = false;
+				break;
+			}
+		}
+		if (allFalse1) {
+			layersToSkip[layer_it] = false;
+		}
+		bool allFalse2 = true;
+		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+			if (entitiesToLock[layering[layer_it][entity_it]]) {
+				allFalse2 = false;
+				break;
+			}
+		}
+		if (allFalse2) {
+			layersToLock[layer_it] = false;
+		}
+	}
+}
 
+bool CheckSkipLayerAllTrue(size_t layer_it) {
+	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+		if (entitiesToSkip[layering[layer_it][entity_it]]) {
+			return true;
+		}
+	}
+	return false;
+}
 
+bool CheckLockLayerAllTrue(size_t layer_it) {
+	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+		if (entitiesToLock[layering[layer_it][entity_it]]) {
+			return true;
+		}
+	}
+	return false;
+}
 
+void SetWholeSkipLayer(size_t layer_it) {
+	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+		entitiesToSkip[layering[layer_it][entity_it]] = layersToSkip[layer_it];
+	}
+}
+
+void SetWholeLockLayer(size_t layer_it) {
+	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+		entitiesToLock[layering[layer_it][entity_it]] = layersToLock[layer_it];
+	}
+}

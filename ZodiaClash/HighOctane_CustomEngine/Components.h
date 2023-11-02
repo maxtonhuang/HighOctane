@@ -128,6 +128,8 @@ struct Name {
     size_t                  group{};
     size_t                  serializationLayer{};
     size_t                  serializationOrderInLayer{};
+    bool                    skip{ true };
+    bool                    lock{ true };
 };
 
 struct Movable {

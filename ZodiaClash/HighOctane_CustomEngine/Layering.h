@@ -17,3 +17,10 @@ void RemoveEntityFromLayering(Entity entity);
 void PrepareLayeringForSerialization();
 void RebuildLayeringAfterDeserialization();
 
+void EmbedSkipLockForSerialization();
+void ExtractSkipLockAfterDeserialization();
+bool CheckSkipLayerAllTrue(size_t layer_it);
+bool CheckLockLayerAllTrue(size_t layer_it);
+
+void SetWholeSkipLayer(size_t layer_it);
+void SetWholeLockLayer(size_t layer_it);

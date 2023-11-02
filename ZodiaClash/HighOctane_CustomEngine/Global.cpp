@@ -63,6 +63,7 @@ std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
+bool popupMasterRightClicked{ false };
 
 bool clearAllSelection{ false };
 std::string sceneName{};

@@ -67,6 +67,7 @@ extern std::vector<Entity> selectedEntities; // for destruction
 extern Entity newSelection;
 extern bool popupHovered;
 extern bool anyObjectSelected; // whether any object is selected
+extern bool popupMasterRightClicked;
 
 extern bool clearAllSelection;
 extern std::string sceneName;
