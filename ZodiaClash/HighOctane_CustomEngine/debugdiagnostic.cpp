@@ -249,7 +249,7 @@ namespace debug {
         freopen_s(&newStdout, "CONOUT$", "w", stdout); // If need to write to console
 
         // Just for fun
-        std::cout << "ZodiaClash Engine Version 0.1\n";
+        std::cout << "ZodiaClash Engine Version 1\n";
 
     }
 

@@ -58,7 +58,13 @@ struct VariableInfo {
 
 extern std::vector<VariableInfo> variablesTEST;
 
-// Helper template to define string_to_variable conversions
+/*!
+* \brief Converts a string to the corresponding variable type.
+*
+* \tparam T Type to convert the string into.
+* \param val The string value to convert.
+* \return The value of type T after conversion from the string.
+*/
 template<typename T>
 T VariableInfo::string_to_variable(const std::string& val) {
 	if constexpr (std::is_same_v<T, int>) {
@@ -78,7 +84,13 @@ T VariableInfo::string_to_variable(const std::string& val) {
 	}
 }
 
-// Helper templates to define to_string conversions
+/*!
+* \brief Converts a variable to a string.
+*
+* \tparam T Type of the variable to convert to string.
+* \param value The variable to convert to a string.
+* \return The variable represented as a string.
+*/
 template<typename T>
 std::string variable_to_string(T value) {
 	if constexpr (std::is_same_v<T, int>) {
@@ -105,7 +117,13 @@ std::string variable_to_string(T value) {
 // Macro to convert string to variable based on its type
 #define STRING_TO_VAR(var, val) var = VariableInfo::string_to_variable<decltype(var)>(val)
 
-// Macro to declare a variable and register it
+/*!
+* \brief Declares a variable and registers it into the system.
+*
+* \param TYPE The type of the variable to declare.
+* \param NAME The name of the variable.
+* \param VALUE The initial value of the variable.
+*/
 #define DECLARE(TYPE, NAME, VALUE) \
     TYPE NAME = VALUE; \
     variablesTEST.emplace_back(#NAME, &NAME, [&NAME]() -> std::string { return VAR_TO_STRING(NAME); });
