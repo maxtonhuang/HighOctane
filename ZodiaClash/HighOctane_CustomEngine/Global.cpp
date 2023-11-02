@@ -43,14 +43,14 @@
 // Declare global variables here
 
 float g_dt;
-bool button_clicked{ false };
+bool button_clicked{ true };
 bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
-bool playButton{ false };
+bool playButton{ true };
 bool stopButton{ false };
 bool rightClick{ false };
 bool toDestroy{ false };

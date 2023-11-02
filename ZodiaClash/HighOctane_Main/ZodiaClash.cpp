@@ -583,10 +583,11 @@ void EngineCore::Run(bool const& mode) {
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
 
-		if (newScene) {
+		if (initLevel) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
+			initLevel = false;
 			newScene = false;
 		}
 

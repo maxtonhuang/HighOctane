@@ -473,13 +473,14 @@ void SerializationSystem::Update() {
 			assetmanager.LoadAssets(newSceneName);
 		}
 		initLevel = true;
-		//newScene = false;
+		newScene = false;
 	}
 
 	if (playButton) {
 		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
 		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
 		std::cout << "Total m_entities" << m_Entities.size() << std::endl;
+		initLevel = true;
 		playButton = false;
 	}
 
