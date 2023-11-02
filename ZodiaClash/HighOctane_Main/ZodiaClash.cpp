@@ -471,7 +471,7 @@ void EngineCore::Run(bool const& mode) {
 
 	CreateNewLayer();
 
-	edit_mode = EDITOR_MODE;
+	edit_mode = mode;
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
@@ -644,7 +644,7 @@ void EngineCore::Run(bool const& mode) {
 
 		}
 
-		if (EDITOR_MODE) {
+		if (game_mode) {
 			debugSysProfile.StartTimer("Level Editor", GetTime());
 			guiManager.Update();
 			debugSysProfile.ResetTimer("Level Editor");

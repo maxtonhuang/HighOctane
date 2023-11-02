@@ -261,7 +261,7 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 
 	for (Attack const& a : stats.action.skills) {
 		rapidjson::Value attackName;
-		attackName.SetString(a.attackName.c_str(), a.attackName.length(), allocator);
+		attackName.SetString(a.attackName.c_str(), static_cast<rapidjson::SizeType>(a.attackName.length()), allocator);
 		attacks.PushBack(attackName, allocator);
 	}
 	charstats.AddMember("Skills", attacks, allocator);

@@ -98,7 +98,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06666667014360428,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -150,7 +150,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06666667014360428,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -209,7 +209,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -239,8 +239,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -722.0,
-            "position_y": -414.0,
+            "position_x": -730.0,
+            "position_y": -408.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -265,7 +265,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -280,9 +280,9 @@
             "Color Preset": "black"
         },
         "Button": {
-            "Button R": 0.0,
+            "Button R": 0.12099599838256836,
             "Button G": 0.0,
-            "Button B": 0.0,
+            "Button B": 1.0,
             "Button A": 1.0,
             "Text R": 0.0,
             "Text G": 0.0,
@@ -335,7 +335,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06666667014360428,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -399,7 +399,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06666667014360428,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -463,7 +463,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.06666667014360428,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -503,8 +503,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -333.0003662109375,
-            "position_y": -415.0003356933594,
+            "position_x": -326.0,
+            "position_y": -411.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.000018648035620572045,
@@ -529,7 +529,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -544,9 +544,9 @@
             "Color Preset": "black"
         },
         "Button": {
-            "Button R": 0.0,
+            "Button R": 0.07829141616821289,
             "Button G": 0.0,
-            "Button B": 0.0,
+            "Button B": 1.0,
             "Button A": 1.0,
             "Text R": 0.0,
             "Text G": 0.0,
@@ -575,8 +575,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 71.999267578125,
-            "position_y": -414.0003356933594,
+            "position_x": 100.0,
+            "position_y": -413.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.000018648035620572045,
@@ -601,7 +601,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -616,9 +616,9 @@
             "Color Preset": "black"
         },
         "Button": {
-            "Button R": 0.0,
+            "Button R": 0.07829141616821289,
             "Button G": 0.0,
-            "Button B": 0.0,
+            "Button B": 1.0,
             "Button A": 1.0,
             "Text R": 0.0,
             "Text G": 0.0,
@@ -666,7 +666,7 @@
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
@@ -679,6 +679,81 @@
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white"
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "entity_00011_CLONE_CLONE",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 10
+        },
+        "Clone": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 685.0,
+            "position_y": -290.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.00001542271456855815,
+            "velocity_y": 0.00001542271456855815
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 538.0,
+            "height": 117.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Return to main menu",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.09964418411254883,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Change Scene",
+            "Event Input": "mainmenu.scn",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
         },
         "Collider": {
             "Collider Enum": 0
