@@ -269,7 +269,6 @@ void SceneEntityComponents(Entity entity) {
 				}
 				else {
 					ScriptEngine::RunTimeAddScript(entity, currentScriptForIMGUI);
-					DEBUG_PRINT("Added script %s to entity %d", currentScriptForIMGUI, entity);
 					currentScriptForIMGUI = NULL;
 					
 				}
@@ -295,7 +294,6 @@ void SceneEntityComponents(Entity entity) {
 				}
 				else {
 					ScriptEngine::RunTimeRemoveScript(entity, currentScriptAttachedForIMGUI);
-					DEBUG_PRINT("Removed script %s from entity %d", currentScriptAttachedForIMGUI, entity);
 					currentScriptAttachedForIMGUI = NULL;
 				}
 			}

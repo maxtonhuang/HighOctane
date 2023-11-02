@@ -30,7 +30,7 @@
 
 #include "ScriptEngine.h"
 #include "DebugDiagnostic.h"
-#include "InternalCalls.cpp"
+#include "InternalCalls.h"
 
 // Extern for the vector to contain the full name for ImGui
 extern std::vector<std::string> fullNameVecImGUI;
@@ -166,6 +166,7 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     // If not, add it to the vectors
     sc.scriptNameVec.push_back(scriptName);
     scriptNamesAttachedforIMGUI[entity].push_back(scriptName);
+    DEBUG_PRINT("Script %s added to entity %d", scriptName, entity)
 
     auto& entityScripts = scriptData->EntityInstances[entity];
     std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(scriptData->EntityClasses[scriptName], entity);
@@ -193,6 +194,7 @@ void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
         if (sc.scriptNameVec[i] == scriptName) {
             sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
             scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
+            DEBUG_PRINT("Script %s removed from entity %d", scriptName, entity);
             break;
         }
         else {

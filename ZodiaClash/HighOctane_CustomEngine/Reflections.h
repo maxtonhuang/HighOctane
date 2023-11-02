@@ -34,6 +34,8 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <fstream>
+#include <sstream>
 
 struct VariableInfo {
 	std::string name;
@@ -58,7 +60,13 @@ struct VariableInfo {
 
 extern std::vector<VariableInfo> variablesTEST;
 
-// Helper template to define string_to_variable conversions
+/*!
+* \brief Converts a string to the corresponding variable type.
+*
+* \tparam T Type to convert the string into.
+* \param val The string value to convert.
+* \return The value of type T after conversion from the string.
+*/
 template<typename T>
 T VariableInfo::string_to_variable(const std::string& val) {
 	if constexpr (std::is_same_v<T, int>) {
@@ -78,7 +86,13 @@ T VariableInfo::string_to_variable(const std::string& val) {
 	}
 }
 
-// Helper templates to define to_string conversions
+/*!
+* \brief Converts a variable to a string.
+*
+* \tparam T Type of the variable to convert to string.
+* \param value The variable to convert to a string.
+* \return The variable represented as a string.
+*/
 template<typename T>
 std::string variable_to_string(T value) {
 	if constexpr (std::is_same_v<T, int>) {
@@ -105,7 +119,41 @@ std::string variable_to_string(T value) {
 // Macro to convert string to variable based on its type
 #define STRING_TO_VAR(var, val) var = VariableInfo::string_to_variable<decltype(var)>(val)
 
-// Macro to declare a variable and register it
+/*!
+* \brief Declares a variable and registers it into the system.
+*
+* \param TYPE The type of the variable to declare.
+* \param NAME The name of the variable.
+* \param VALUE The initial value of the variable.
+*/
 #define DECLARE(TYPE, NAME, VALUE) \
     TYPE NAME = VALUE; \
     variablesTEST.emplace_back(#NAME, &NAME, [&NAME]() -> std::string { return VAR_TO_STRING(NAME); });
+
+/**
+ * Serializes a collection of VariableInfo instances into a string.
+ * @param variables A vector containing VariableInfo instances to serialize.
+ * @return A string containing the serialized data.
+ */
+std::string SerializeVariables(const std::vector<VariableInfo>& variables);
+
+/**
+ * Deserializes a string to populate a vector of VariableInfo instances.
+ * @param data A string containing serialized data to be deserialized.
+ * @param variables A vector to store deserialized VariableInfo instances.
+ */
+void DeserializeVariables(const std::string& data, std::vector<VariableInfo>& variables);
+
+/**
+ * Serializes a collection of VariableInfo instances and writes the data to a file.
+ * @param filename Name of the file to serialize the data into.
+ * @param variables A vector containing VariableInfo instances to serialize.
+ */
+void SerializeVariablesToFile(const std::string& filename, const std::vector<VariableInfo>& variables);
+
+/**
+ * Reads serialized data from a file and populates a vector of VariableInfo instances.
+ * @param filename Name of the file to read the serialized data from.
+ * @param variables A vector to store deserialized VariableInfo instances.
+ */
+void DeserializeVariablesFromFile(const std::string& filename, std::vector<VariableInfo>& variables);

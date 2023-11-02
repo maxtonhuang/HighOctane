@@ -509,6 +509,7 @@ void SerializationSystem::Update() {
 	
 }
 
+
 /******************************************************************************
 *
 *	@brief Initialies the Script System
@@ -517,18 +518,16 @@ void SerializationSystem::Update() {
 *   ScriptInit function for each entity with a script component.
 *
 ******************************************************************************/
+bool FirstInitScriptSystem = true;
 void ScriptSystem::Initialize() {
-
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
+	//auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
-
-		ScriptEngine::ScriptInit(entity);
 
 		// Get the script component
 		Script* s = &ECS::ecs().GetComponent<Script>(entity);
@@ -537,10 +536,12 @@ void ScriptSystem::Initialize() {
 			continue;
 		}
 
+		// Only allows the scrpit system to init once
+		if (FirstInitScriptSystem) {
 			ScriptEngine::ScriptInit(entity);
-
+			FirstInitScriptSystem = false;
+		}
 	}
-
 }
 
 
@@ -562,10 +563,14 @@ void ScriptSystem::Update() {
 
 		Script* scriptData = &scriptArray.GetData(entity);
 
-		for (auto& scriptName : scriptData->scriptNameVec) {
-			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
+		for (size_t i = 0; i < scriptData->scriptNameVec.size(); ++i) {
 			ScriptEngine::ScriptUpdate(entity);
 		}
+
+		//for (auto& scriptName : scriptData->scriptNameVec) {
+		//	//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
+		//	ScriptEngine::ScriptUpdate(entity);
+		//}
 	}
 
 }

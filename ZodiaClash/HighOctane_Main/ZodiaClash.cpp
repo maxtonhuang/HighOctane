@@ -67,8 +67,7 @@
 #include "Reflections.h"
 #include "Events.h"
 #include "Layering.h"
-#include <rttr/type.h>
-
+//#include <rttr/type.h>
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -83,13 +82,6 @@ constexpr bool EDITOR_MODE{ true }; // Do not edit this
 constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////
-
-
-
-class myClass {
-
-};
-
 
 
 /******************************************************************************
@@ -144,26 +136,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
     // To enable the console
     Console();
+
 	/*-----------THIS IS FOR REFLECTION------------*/
 	
+	// A simple test to see reflection in action
 	// Use the macro to declare variables
 	//DECLARE(int, test, 3);
 	//DECLARE(float, test2, 3.14f);
 	//DECLARE(std::string, test3, "Hello");
 	//DECLARE(bool, test4, true);
 
-	auto type{ rttr::type::get<myClass>() };
-	auto const& sysKey{ type.get_name().to_string() }; //gets name of _system type
-	std::cout << "This is from rttr: " << sysKey << std::endl;
-	// The rest of your code can stay the same
-
-
 	// Iterate over registered variables and print their values
 	for (const auto& var : variablesTEST) {
 		std::cout << var.name << " = " << var.read() << std::endl;
 	}
-
-
 
 	/*-----------THIS IS FOR REFLECTION------------*/
 
@@ -259,7 +245,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
 	ECS::ecs().RegisterComponent<Name>();
-	ECS::ecs().RegisterComponent<Screen>();
 	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
