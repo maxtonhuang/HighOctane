@@ -1,12 +1,39 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ScriptEngine.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		20 October 2023
+*
+* *****************************************************************************
+*
+*	@brief		cpp files for the scripting engine
+*
+*	This file contains the definition of the functions for the scripting engine
+******************************************************************************/
+
 #include "ScriptEngine.h"
 #include "DebugDiagnostic.h"
 #include "InternalCalls.cpp"
 
 // Extern for the vector to contain the full name for ImGui
 extern std::vector<std::string> fullNameVecImGUI;
-
-// Forward declaration
-
 
 struct ScriptEngineData {
     MonoDomain* RootDomain = nullptr;
@@ -47,7 +74,7 @@ void ScriptEngine::Init() {
     // This is to add all the internal calls
     internalcalls::AddInternalCall();
 
-    // Find all the methods that has entity, basically is 'monoBehaviour'
+    // Find all the methods that has entity
     scriptData->EntityClass = ScriptClass("", "Entity");
 }
 
@@ -60,49 +87,21 @@ void ScriptEngine::InitMono() {
     // Setting the path to the mono
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
 
-
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
     if (std::filesystem::exists(filePath)) {
         mono_set_assemblies_path(filePath.c_str());
         
     }
     else {
-        filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
-        if (std::filesystem::exists(filePath)) {
-            mono_set_assemblies_path(filePath.c_str());
-        }
-        else {
-            filePath = std::filesystem::current_path().replace_filename("HighOctane_CustomEngine/Extern/Mono/lib/mono/4.5").string();
-            mono_set_assemblies_path(filePath.c_str());
-        }
+        //filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
+        //if (std::filesystem::exists(filePath)) {
+        //    mono_set_assemblies_path(filePath.c_str());
+        //}
+        //else {
+        //    filePath = std::filesystem::current_path().replace_filename("HighOctane_CustomEngine/Extern/Mono/lib/mono/4.5").string();
+        //    mono_set_assemblies_path(filePath.c_str());
+        //}
+        DEBUG_PRINT("Mono path not found");
     }
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
-    /*-------------------HARD CODE---------------------*/
     
     MonoDomain* rootDomain = mono_jit_init("HighOctaneRuntime");
 
@@ -164,10 +163,9 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
         }
     }
 
-    // If not, add it to the vector
+    // If not, add it to the vectors
     sc.scriptNameVec.push_back(scriptName);
     scriptNamesAttachedforIMGUI[entity].push_back(scriptName);
-    //scriptNamesAttachedforIMGUI.push_back(currentScriptForIMGUI);
 
     auto& entityScripts = scriptData->EntityInstances[entity];
     std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(scriptData->EntityClasses[scriptName], entity);
@@ -181,15 +179,17 @@ void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
     for (std::vector<std::shared_ptr<ScriptInstance>>::iterator it = scriptData->EntityInstances[entity].begin(); it != scriptData->EntityInstances[entity].end(); ++it) {
 
         if ((*it)->GetScriptName() == scriptName) {
+
+            // Remove the script instance from the vector
 			scriptData->EntityInstances[entity].erase(it);
 
-            // I need to clear the sc.scriptNameVec too, not sure if this is right
             for (int i = 0; i < sc.scriptNameVec.size(); i++) {
 
                 if (sc.scriptNameVec[i] == scriptName) {
+
+                    // Remove the script name from the vector
 					sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
                     scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
-                    //scriptNamesAttachedforIMGUI.erase(scriptNamesAttachedforIMGUI.begin() + i);
 				}
 			}
 			break;
@@ -226,10 +226,14 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         const char* nameSpace = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAMESPACE]);
         const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
         std::string fullName;
+
+        // Check if there's namespace
         if (strlen(nameSpace) != 0) {
             fullName = std::string(nameSpace) + "." + std::string(name);
         }
         else {
+
+            // If there's no namespace, just use the name
 			fullName = std::string(name);
         }
         MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
@@ -279,9 +283,12 @@ MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, 
 ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity) : m_ScriptClass(scriptClass) {
 	m_Instance = scriptClass->Instantiate();
 
+    // Get the constructor and the OnCreate method
     m_Constructor = scriptData->EntityClass.GetMethod(".ctor", 1);
-    m_OnCreateMethod = scriptClass->GetMethod("Start", 0);
-    m_OnUpdateMethod = scriptClass->GetMethod("Update", 0);
+
+    // Get the OnUpdate method
+    m_StartMethod = scriptClass->GetMethod("Start", 0);
+    m_UpdateMethod = scriptClass->GetMethod("Update", 0);
 
     // Call entity constructor
     {
@@ -293,11 +300,11 @@ ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity 
 }
 
 void ScriptInstance::InvokeOnCreate() {
-	m_ScriptClass->InvokeMethod(m_Instance, m_OnCreateMethod);
+	m_ScriptClass->InvokeMethod(m_Instance, m_StartMethod);
 }
 
 void ScriptInstance::InvokeOnUpdate() {
-	m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod);
+	m_ScriptClass->InvokeMethod(m_Instance, m_UpdateMethod);
 }
 
 std::string ScriptInstance::GetScriptName() const {

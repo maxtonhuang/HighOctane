@@ -114,7 +114,7 @@ public static class InternalCalls
 
     #region Entity
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static bool EntityHasComponent(UInt32 entity, Type componentType);
+    internal extern static bool EntityHasComponent(UInt32 entity);
 
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal extern static void EntityAddComponent(UInt32 entity, Type componentType);
