@@ -70,14 +70,16 @@
 #include "Layering.h"
 
 
-
-
 bool gConsoleInitalized{ false };
+constexpr bool GAME_MODE{ false }; // Do not edit this
+constexpr bool EDITOR_MODE{ true }; // Do not edit this
+
+
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
-constexpr bool GAME_MODE{ false };
-constexpr bool EDITOR_MODE{ false };
+// Set to GAME_MODE to run in game mode.
+// Set to EDITOR_MODE to run in editor mode.
 constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////

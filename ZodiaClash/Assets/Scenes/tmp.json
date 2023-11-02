@@ -74,7 +74,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": 1.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -86,7 +86,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_BG_03.png"
+            "Texture File Path": "mockup_main_menu.png"
         },
         "Visible": {
             "isVisible": true
@@ -113,7 +113,7 @@
     },
     {
         "Entity": {
-            "Name": "Red Cat",
+            "Name": "entity_00003",
             "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 1
@@ -126,32 +126,19 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -530.0,
-            "position_y": 64.00003051757813,
+            "position_x": 411.0,
+            "position_y": 471.0,
             "rotation": 0.0,
-            "scale": 1.484375238418579,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_cat.png"
         },
         "Visible": {
             "isVisible": true
         },
         "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
+            "width": 0.0,
+            "height": 0.0
         },
         "Scripts": {
             "className": "",
@@ -159,25 +146,31 @@
         },
         "CharacterStats": {
             "Character type": 0,
-            "Max Health": 150.0,
-            "Attack": 15.0,
-            "Defense": 50.0,
-            "Speed": 4,
-            "Skills": [
-                "Scarlet Claw",
-                "Five Elements Bloodbath",
-                "Dance of Fury"
-            ]
+            "Max Health": 0.0,
+            "Attack": 0.0,
+            "Defense": 0.0,
+            "Speed": 0,
+            "Skills": []
         },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "mikachan",
+            "Font Variant": "Regular",
+            "Text String": "PRESS F1 ANYTIME TO RETURN TO THIS SCREEN",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white"
+        }
     },
     {
         "Entity": {
-            "Name": "entity_00007",
+            "Name": "entity_00005",
             "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 2
@@ -190,8 +183,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 648.0,
-            "position_y": -429.0,
+            "position_x": -687.0,
+            "position_y": -470.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -201,8 +194,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 421.5,
-            "height": 59.5
+            "width": 0.0,
+            "height": 0.0
         },
         "Scripts": {
             "className": "",
@@ -216,7 +209,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "ZodiaClash M2 Build",
+            "Text String": "ZodiaClash M2 BUILD",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -226,7 +219,7 @@
     },
     {
         "Entity": {
-            "Name": "entity_00011",
+            "Name": "entity_00009",
             "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 3
@@ -239,8 +232,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -722.0,
-            "position_y": -414.0,
+            "position_x": 454.0,
+            "position_y": -325.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -257,7 +250,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 339.5,
+            "width": 334.0,
             "height": 119.5
         },
         "Scripts": {
@@ -272,7 +265,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Use Skill 1",
+            "Text String": "Sound Test",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -282,14 +275,14 @@
         "Button": {
             "Button R": 0.0,
             "Button G": 0.0,
-            "Button B": 0.0,
+            "Button B": 1.0,
             "Button A": 1.0,
             "Text R": 0.0,
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Select Skill",
-            "Event Input": "1",
+            "Event Name": "Change Scene",
+            "Event Input": "soundtest.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -298,7 +291,7 @@
     },
     {
         "Entity": {
-            "Name": "Guard",
+            "Name": "entity_00009_CLONE",
             "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 4
@@ -311,10 +304,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 564.999267578125,
-            "position_y": 106.99966430664063,
+            "position_x": 445.0,
+            "position_y": -37.0,
             "rotation": 0.0,
-            "scale": 1.484375238418579,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -323,14 +316,86 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_guard.png"
+            "Texture File Path": "mockup_playbutton_04.png"
         },
         "Visible": {
             "isVisible": true
         },
         "Size": {
-            "width": 256.0,
-            "height": 256.0
+            "width": 333.0,
+            "height": 119.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Battle Test",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Change Scene",
+            "Event Input": "battle2.scn",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "mockup_title_logo_02 (1).png",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_title_logo_02 (1).png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
         },
         "Animation": {
             "Animation Type": 1,
@@ -338,31 +403,14 @@
             "Frame Time Elapsed": 0.0,
             "Frame Display Duration": 0.10000000149011612
         },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 1,
-            "Max Health": 120.0,
-            "Attack": 10.0,
-            "Defense": 15.0,
-            "Speed": 1,
-            "Skills": [
-                "Normal Attack",
-                "Normal AOE",
-                "Test"
-            ]
-        },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0
-        },
-        "Movable": {}
+        }
     },
     {
         "Entity": {
-            "Name": "Blue Cat",
+            "Name": "mockup_title_logo_02 (1).png_CLONE",
             "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 5
@@ -375,10 +423,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -341.0,
-            "position_y": 344.0,
+            "position_x": 458.0,
+            "position_y": 141.0,
             "rotation": 0.0,
-            "scale": 1.484375238418579,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -387,14 +435,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_cat.png"
+            "Texture File Path": "mockup_title_logo_02 (1).png"
         },
         "Visible": {
             "isVisible": true
         },
         "Size": {
-            "width": 256.0,
-            "height": 256.0
+            "width": 512.0,
+            "height": 512.0
         },
         "Animation": {
             "Animation Type": 1,
@@ -406,18 +454,6 @@
             "className": "",
             "scriptNameVec": []
         },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 150.0,
-            "Attack": 15.0,
-            "Defense": 50.0,
-            "Speed": 4,
-            "Skills": [
-                "Scarlet Claw",
-                "Five Elements Bloodbath",
-                "Dance of Fury"
-            ]
-        },
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0
@@ -426,7 +462,7 @@
     },
     {
         "Entity": {
-            "Name": "Green Cat",
+            "Name": "entity_00009_CLONE_CLONE",
             "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 6
@@ -439,76 +475,12 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -242.0,
-            "position_y": -81.0,
-            "rotation": 0.0,
-            "scale": 1.484375238418579,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_cat.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 150.0,
-            "Attack": 15.0,
-            "Defense": 0.0,
-            "Speed": 4,
-            "Skills": [
-                "Scarlet Claw",
-                "Five Elements Bloodbath",
-                "Dance of Fury"
-            ]
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
-    },
-    {
-        "Entity": {
-            "Name": "entity_00011_CLONE",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 7
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -333.0003662109375,
-            "position_y": -415.0003356933594,
+            "position_x": 447.0,
+            "position_y": -172.0,
             "rotation": 0.0,
             "scale": 1.0,
-            "velocity_x": 0.000018648035620572045,
-            "velocity_y": 0.000018648035620572045
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         },
         "Texture": {
             "Texture Index": 0,
@@ -521,8 +493,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 346.5,
-            "height": 119.5
+            "width": 444.0,
+            "height": 121.5
         },
         "Scripts": {
             "className": "",
@@ -536,7 +508,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Use Skill 2",
+            "Text String": "Exploration Test",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -546,14 +518,14 @@
         "Button": {
             "Button R": 0.0,
             "Button G": 0.0,
-            "Button B": 0.0,
+            "Button B": 1.0,
             "Button A": 1.0,
             "Text R": 0.0,
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Select Skill",
-            "Event Input": "2",
+            "Event Name": "Change Scene",
+            "Event Input": "exploration.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -562,10 +534,334 @@
     },
     {
         "Entity": {
-            "Name": "entity_00011_CLONE",
+            "Name": "master_00003",
             "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 8
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "master_00004",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "master_00005",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "master_00006",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "master_00007",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "master_00008",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 0
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "duck.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 21.0,
+            "height": 128.0
+        },
+        "Animation": {
+            "Animation Type": 1,
+            "Frame Index": 0,
+            "Frame Time Elapsed": 0.0,
+            "Frame Display Duration": 0.10000000149011612
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "entity_00009_CLONE",
+            "Selected": false,
+            "Current Layer": 0,
+            "Order in Layer": 7
         },
         "Clone": {},
         "Color": {
@@ -575,12 +871,12 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 71.999267578125,
-            "position_y": -414.0003356933594,
+            "position_x": 449.0,
+            "position_y": -450.0,
             "rotation": 0.0,
             "scale": 1.0,
-            "velocity_x": 0.000018648035620572045,
-            "velocity_y": 0.000018648035620572045
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         },
         "Texture": {
             "Texture Index": 0,
@@ -593,22 +889,22 @@
             "isVisible": true
         },
         "Size": {
-            "width": 345.5,
-            "height": 119.5
+            "width": 321.0,
+            "height": 117.5
         },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Use Skill 3",
+            "Text String": "Exit Game",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -618,70 +914,22 @@
         "Button": {
             "Button R": 0.0,
             "Button G": 0.0,
-            "Button B": 0.0,
+            "Button B": 1.0,
             "Button A": 1.0,
             "Text R": 0.0,
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Select Skill",
-            "Event Input": "3",
+            "Event Name": "Exit Game",
+            "Event Input": "no input needed for exit",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
             "Padding Right": 60.0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "entity_00007_CLONE",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 9
-        },
-        "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 302.0,
-            "position_y": 458.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 1058.0,
-            "height": 59.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "PLEASE REFER TO CONSOLE FOR BATTLE OUTPUT",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "white"
         },
         "Collider": {
             "Collider Enum": 0
         }
-    }
+    },
+    {}
 ]
