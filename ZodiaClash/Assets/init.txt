@@ -1,6 +1,7 @@
 parallax.renderer
 texture.renderer
 statictexture.renderer
+staticflat.renderer
 flat.renderer
 font.renderer
 point.renderer

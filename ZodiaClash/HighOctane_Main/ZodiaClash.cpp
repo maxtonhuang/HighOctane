@@ -70,14 +70,16 @@
 #include "Layering.h"
 
 
-
-
 bool gConsoleInitalized{ false };
+constexpr bool GAME_MODE{ false }; // Do not edit this
+constexpr bool EDITOR_MODE{ true }; // Do not edit this
+
+
 
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
-constexpr bool GAME_MODE{ false };
-constexpr bool EDITOR_MODE{ true };
+// Set to GAME_MODE to run in game mode.
+// Set to EDITOR_MODE to run in editor mode.
 constexpr bool game_mode{ EDITOR_MODE };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -288,9 +290,6 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
 	systemList.emplace_back(scriptingSystem, "Scripting System");
 
-	std::shared_ptr<GameplaySystem> gameplaySystem = ECS::ecs().RegisterSystem<GameplaySystem>();
-	systemList.emplace_back(gameplaySystem, "Gameplay System");
-
 	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
 	runSystemList.emplace_back(battleSystem, "Battle System");
 	systemList.emplace_back(battleSystem, "Battle System");
@@ -422,7 +421,6 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
 		signature.set(ECS::ecs().GetComponentType<Tag>());
-		ECS::ecs().SetSystemSignature<GameplaySystem>(signature);
 	}
 
 	{
@@ -470,6 +468,8 @@ void EngineCore::Run(bool const& mode) {
 	//////////////////////////////////////////////////////
 
 	CreateNewLayer();
+
+	edit_mode = EDITOR_MODE;
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
@@ -607,31 +607,40 @@ void EngineCore::Run(bool const& mode) {
 		Mail::mail().SendMails();
 
 		// Call each system in the System List
-		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+		accumulatedTime += g_dt;
+		if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+			accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
+		}
+		while (accumulatedTime >= FIXED_DT) {
 
-#if ENABLE_DEBUG_PROFILE
-			debugSysProfile.ResetTimer(sys.second);
-			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-			//std::cout << sys.second << std::endl;
-#endif
-			sys.first->Update();
+			for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
-#if ENABLE_DEBUG_PROFILE
-			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+				#if ENABLE_DEBUG_PROFILE
+				debugSysProfile.ResetTimer(sys.second);
+				debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
+				//std::cout << sys.second << std::endl;
+				#endif
+				sys.first->Update();
 
+				#if ENABLE_DEBUG_PROFILE
+				debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
+				#endif
+
+			}
+			Mail::mail().ClearMails();
+			accumulatedTime -= FIXED_DT;
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
 
-#if ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+			#endif
 			sys.first->Draw();
 
-#if ENABLE_DEBUG_PROFILE
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
-#endif
+			#endif
 
 		}
 
@@ -655,7 +664,7 @@ void EngineCore::Run(bool const& mode) {
 			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
 
-		Mail::mail().ClearMails();
+		//Mail::mail().ClearMails();
 
 	}
 

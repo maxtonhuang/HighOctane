@@ -8,7 +8,7 @@
 *
 * *****************************************************************************
 *
-*	@file		GameStateManager.h
+*	@file		GameStateManager.cpp
 *
 *	@author		Liu WanTing
 *
@@ -19,15 +19,16 @@
 *
 *	@section	Section A
 *
-*	@date		22 October 2023
+*	@date		26 October 2023
 *
 * *****************************************************************************
 *
-*	@brief		Game State Manager
+*	@brief		Game State Management
 *
-*	This file contains the main update function for the Game State Manager. It
-*	loads the corresponding function pointers when the state of the game is
-*	changed. 
+*	This file contains the implementation of the game state management system.
+*	It manages the different states of the game such as loading, running, and
+*	unloading game states. The system is used by the Game State Manager (GSM)
+*	to transition between different phases of the game.
 *
 ******************************************************************************/
 
@@ -36,7 +37,9 @@
 #include "CharacterStats.h"
 #include "enginecore.h"
 
-// Constructors and member functions for GameState
+/**
+ * @brief Constructor for GameState. Initializes state indices and function pointers.
+ */
 GameState::GameState() :
                         idx{ -1 }, // indicates whether state is in use or not. -ve for not in use
                         loadFunc{ nullptr },
@@ -46,6 +49,9 @@ GameState::GameState() :
                         freeFunc{ nullptr },
                         unloadFunc{ nullptr } {};
 
+/**
+ * @brief Sets the game state and associates the provided functions with the state's lifecycle.
+ */
 void GameState::SetGameState(int gsIdx, LoadFunc load, InitFunc init, UpdateFunc update, DrawFunc draw, FreeFunc free, UnloadFunc unload) 
 {
     idx = gsIdx;
@@ -57,36 +63,58 @@ void GameState::SetGameState(int gsIdx, LoadFunc load, InitFunc init, UpdateFunc
     unloadFunc = unload;
 }
 
+/**
+ * @brief Calls the load function associated with this game state, if any.
+ */
 void GameState::GSM_Load() 
 {
     if (loadFunc) loadFunc();
 }
 
+/**
+ * @brief Calls the init function associated with this game state, if any.
+ */
 void GameState::GSM_Init() 
 {
     if (initFunc) initFunc();
 }
 
-void GameState::GSM_Update(float dt) 
+/**
+ * @brief Calls the update function associated with this game state, passing in the delta time.
+ */
+void GameState::GSM_Update(double dt) 
 {
     if (updateFunc) updateFunc(dt);
 }
 
-void GameState::GSM_Draw(float dt) 
+/**
+ * @brief Calls the draw function associated with this game state, passing in the delta time.
+ */
+void GameState::GSM_Draw(double dt) 
 {
     if (drawFunc) drawFunc(dt);
 }
 
+/**
+ * @brief Calls the free function associated with this game state, used for resource deallocation.
+ */
 void GameState::GSM_Free() 
 {
     if (freeFunc) freeFunc();
 }
 
+/**
+ * @brief Calls the unload function associated with this game state, signaling the end of the state.
+ */
 void GameState::GSM_Unload() 
 {
     if (unloadFunc) unloadFunc();
 }
 
+/**
+ * @brief Returns the index of this game state.
+ * @return int The index of the game state.
+ */
 int GameState::GetIdx() 
 { 
     return idx; 
@@ -95,6 +123,9 @@ int GameState::GetIdx()
 // Constructors, destructors, and member functions for GameStateMgr
 GameStateMgr* GameStateMgr::gamestatemgr_ = nullptr;
 
+/**
+ * @brief Constructor for GameStateMgr. Initializes the manager with the specified number of game states.
+ */
 GameStateMgr::GameStateMgr(unsigned gsCount) :
                                                 gsmState{ GSLOAD },
                                                 gameStateCount{ gsCount },
@@ -104,6 +135,9 @@ GameStateMgr::GameStateMgr(unsigned gsCount) :
                                                 isRunning{ true },
                                                 continueNextState{ true } {}
 
+/**
+ * @brief Destructor for GameStateMgr. Cleans up dynamic memory used for storing game states.
+ */
 GameStateMgr::~GameStateMgr() 
 {
     // Assuming these managers are present elsewhere in your code
@@ -113,27 +147,43 @@ GameStateMgr::~GameStateMgr()
     delete[] stateArray;
 }
 
+/**
+ * @brief Retrieves the singleton instance of the GameStateMgr, creating it with the specified state count if necessary.
+ */
 GameStateMgr* GameStateMgr::GetInstance(unsigned gsCount) 
 {
     if (!gamestatemgr_) gamestatemgr_ = new GameStateMgr(gsCount);
     return gamestatemgr_;
 }
 
+/**
+ * @brief Retrieves the singleton instance of the GameStateMgr.
+ * @return GameStateMgr* The singleton instance of GameStateMgr.
+ */
 GameStateMgr* GameStateMgr::GetInstance() 
 { 
     return gamestatemgr_;
 }
 
+/**
+ * @brief Deletes the singleton instance of the GameStateMgr, if it exists.
+ */
 void GameStateMgr::RemoveInstance() {
     if (gamestatemgr_) delete gamestatemgr_;
     gamestatemgr_ = nullptr;
 }
 
+/**
+ * @brief Inserts a new game state into the manager at the specified index.
+ */
 void GameStateMgr::InsertGameState(int gsIdx, LoadFunc load, InitFunc init, UpdateFunc update, DrawFunc draw, FreeFunc free, UnloadFunc unload) {
     std::cout << "inserting game state at idx " << gsIdx << std::endl;
     stateArray[gsIdx].SetGameState(gsIdx, load, init, update, draw, free, unload);
 }
 
+/**
+ * @brief Updates the state of the GameStateMgr, transitioning between game states as needed.
+ */
 void GameStateMgr::UpdateGameStateMgr()
 {
     if (!isRunning) return;
@@ -146,7 +196,7 @@ void GameStateMgr::UpdateGameStateMgr()
     std::shared_ptr<PhysicsSystem> physics = ecs.RegisterSystem<PhysicsSystem>();
     std::shared_ptr<CollisionSystem> collision = ecs.RegisterSystem<CollisionSystem>();
 
-    float dt = GetTime();
+    double dt = static_cast<double>(GetTime());
 
     switch (gsmState) {
     case GSLOAD:
@@ -196,12 +246,17 @@ void GameStateMgr::UpdateGameStateMgr()
     }
 }
 
-
+/**
+ * @brief Signals the GameStateMgr to transition to the game state with the specified index.
+ */
 void GameStateMgr::ChangeGameState(int gsIdx) 
 {
     nextState = gsIdx;
 }
 
+/**
+ * @brief Signals the GameStateMgr to quit the game, setting the next state to 0 and stopping further transitions.
+ */
 void GameStateMgr::QuitGame() 
 {
     continueNextState = false; nextState = 0;

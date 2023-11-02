@@ -19,7 +19,7 @@
 *
 *	@section	Section A
 *
-*	@date		22 September 2023
+*	@date		22 October 2023
 *
 * *****************************************************************************
 *
@@ -38,6 +38,12 @@
 
 class CharacterStats;
 
+/**
+ * @enum BattleState
+ * @brief Enumerates the possible states of a battle in the game.
+ *
+ * This enumeration defines the various stages a battle can be in, from the start of a new game to the outcome of the battle.
+ */
 enum BattleState
 {
 	NEWGAME,
@@ -48,6 +54,14 @@ enum BattleState
 	WIN,
 	LOSE
 };
+
+/**
+ * @struct TurnManagement
+ * @brief Manages the turn order and active characters in a battle.
+ *
+ * This structure maintains the order in which characters take their turns,
+ * as well as the active player and enemy for the current turn.
+ */
 struct TurnManagement
 {
 	std::string activePlayer;
@@ -56,12 +70,27 @@ struct TurnManagement
 	std::list <CharacterStats*> turnOrderList;
 	std::list <CharacterStats*> originalTurnOrderList;
 };
+
+/**
+ * @struct RoundManagement
+ * @brief Manages the rounds within a battle.
+ *
+ * This structure keeps track of the number of characters that have taken their turn
+ * and the total number of rounds that have passed in the battle.
+ */
 struct RoundManagement
 {
 	int characterCount;
 	int roundCounter;
 };
 
+/**
+ * @class BattleSystem
+ * @brief Handles the turn-based battle logic within the game.
+ *
+ * The BattleSystem class is responsible for managing the state of the battle, including
+ * initialization, updating turns, and maintaining the turn and round order of characters.
+ */
 class BattleSystem : public System 
 {
 public:

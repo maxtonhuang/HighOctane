@@ -57,7 +57,7 @@
 #include "Layering.h"
 
 #define FIXED_DT 1.0f/60.f
-#define MAX_ACCUMULATED_TIME 0.1f //to avoid the "spiral of death" if the system cannot keep up
+#define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -75,12 +75,12 @@ extern std::vector<std::string> fullNameVecImGUI;
 ******************************************************************************/
 void PhysicsSystem::Update() {
 
-	static double accumulatedTime = 0.0;
-	accumulatedTime += g_dt; // Ensure that g_dt is the time since the last frame.
+	//static double accumulatedTime = 0.0;
+	//accumulatedTime += g_dt; // Ensure that g_dt is the time since the last frame.
 
-	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
-	}
+	//if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+	//	accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
+	//}
 
 	//process mesaage here
 	bool reqStep{ false };
@@ -101,7 +101,7 @@ void PhysicsSystem::Update() {
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
-	while (accumulatedTime >= FIXED_DT) {
+	//while (accumulatedTime >= FIXED_DT) {
 		// Access component arrays through the ComponentManager
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -140,8 +140,8 @@ void PhysicsSystem::Update() {
 				//physics::PHYSICS->DebugDraw(transData);
 			}
 		}
-		accumulatedTime -= FIXED_DT;
-	}
+		//accumulatedTime -= FIXED_DT;
+	//}
 }
 
 void PhysicsSystem::Draw() {
@@ -167,14 +167,14 @@ void PhysicsSystem::Draw() {
 ******************************************************************************/
 void CollisionSystem::Update() {
 
-	static double accumulatedTime = 0.0;
-	accumulatedTime += g_dt;
+	//static double accumulatedTime = 0.0;
+	//accumulatedTime += g_dt;
 
-	if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-		accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents excessive accumulation.
-	}
+	//if (accumulatedTime > MAX_ACCUMULATED_TIME) {
+	//	accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents excessive accumulation.
+	//}
 
-	while (accumulatedTime >= FIXED_DT) {
+	//while (accumulatedTime >= FIXED_DT) {
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -188,36 +188,41 @@ void CollisionSystem::Update() {
 				Transform* transData1 = &transformArray.GetData(entity1);
 				Collider* collideData1 = &colliderArray.GetData(entity1);
 
+				bool hasCollided = false;
+
 				for (Entity const& entity2 : m_Entities) {
 					if (entity1 != entity2) {
 						Transform* transData2 = &transformArray.GetData(entity2);
 						Collider* collideData2 = &colliderArray.GetData(entity2);
 
-						bool collided{};
 						if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-							collided = physics::CheckCollisionBoxBox(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionBoxBox(*transData1, *transData2);
 						}
 						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-							collided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
 						}
 						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-							collided = physics::CheckCollisionCircleBox(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionCircleBox(*transData1, *transData2);
 						}
 						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-							collided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
+							hasCollided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
 						}
-						else
-							collided = false;
-
-						if (collided == true) { physics::DynamicStaticResponse(*transData1); }
+						if (hasCollided == true) 
+						{ 
+							physics::DynamicStaticResponse(*transData1);
+							break;
+						}
 					}
 				}
-				/*transData1->velocity = { RESET_VEC2 };*/
+				// Update the character's position if no collision occurred
+				if (!hasCollided) {
+					physics::PHYSICS->Integrate(*transData1);
+				}
 			}
 		}
 		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
-		accumulatedTime -= FIXED_DT;
-	}
+		//accumulatedTime -= FIXED_DT;
+	//}
 }
 
 /******************************************************************************
@@ -360,12 +365,12 @@ void GraphicsSystem::Update() {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_DOWN) {
 			switch (msg.info) {
-			case INFO::KEY_Y:   camera.AddZoom(0.1f * g_dt);        break;
-			case INFO::KEY_U:   camera.AddZoom(-0.1f * g_dt);       break;
-			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * g_dt);   break;
-			case INFO::KEY_J:   camera.AddPos(-200.f * g_dt, 0.f);  break;
-			case INFO::KEY_K:   camera.AddPos(0, -200.f * g_dt);    break;
-			case INFO::KEY_L:   camera.AddPos(200.f * g_dt, 0.f);   break;
+			case INFO::KEY_Y:   camera.AddZoom(0.1f * FIXED_DT);        break;
+			case INFO::KEY_U:   camera.AddZoom(-0.1f * FIXED_DT);       break;
+			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * FIXED_DT);   break;
+			case INFO::KEY_J:   camera.AddPos(-200.f * FIXED_DT, 0.f);  break;
+			case INFO::KEY_K:   camera.AddPos(0, -200.f * FIXED_DT);    break;
+			case INFO::KEY_L:   camera.AddPos(200.f * FIXED_DT, 0.f);   break;
 			default: break;
 			}
 		}
@@ -398,10 +403,10 @@ void GraphicsSystem::Draw() {
 	//	m->Draw(tex, anim);
 	//}
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it]) {
+		if (layersToSkip[layer_it] || !edit_mode) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity]) {
+				if (entitiesToSkip[entity] || !edit_mode) {
 					Tex* tex{};
 					Animator* anim{};
 					Model* m{};
@@ -477,9 +482,25 @@ void SerializationSystem::Update() {
 	}
 
 	if (playButton) {
-		std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
-		Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
-		std::cout << "Total m_entities" << m_Entities.size() << std::endl;
+		//std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
+		//Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
+		//std::cout << "Total m_entities" << m_Entities.size() << std::endl;
+
+		std::string scenePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.scn"};
+		if (scenePath != "") {
+			std::ofstream sceneFile{ scenePath.c_str() };
+
+			std::string jsonPath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
+			Serializer::SaveEntityToJson(jsonPath, m_Entities);
+
+			auto files = assetmanager.GetFiles();
+			for (auto& f : files) {
+				sceneFile << f << "\n";
+			}
+			sceneFile << "tmp.json";
+			sceneFile.close();
+		}
+
 		initLevel = true;
 		playButton = false;
 	}
@@ -487,9 +508,15 @@ void SerializationSystem::Update() {
 	
 }
 
-// Loads the script at startup from TestWY1.json
+/******************************************************************************
+*
+*	@brief Initialies the Script System
+* 
+*   This function initializes the Script System by calling the ScriptEngine's
+*   ScriptInit function for each entity with a script component.
+*
+******************************************************************************/
 void ScriptSystem::Initialize() {
-	//std::cout << "ScriptSystem::Initialize()" << std::endl;
 
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
@@ -500,8 +527,7 @@ void ScriptSystem::Initialize() {
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
 
-		ScriptEngine::OnCreateEntity(entity);
-		//std::vector<std::string> scriptVec = LoadScripting(entity);
+		ScriptEngine::ScriptInit(entity);
 
 		// Get the script component
 		Script* s = &ECS::ecs().GetComponent<Script>(entity);
@@ -510,38 +536,22 @@ void ScriptSystem::Initialize() {
 			continue;
 		}
 
-		// Get the name component
-		//Script& script = scriptArray.GetData(entity);
-		//std::vector<std::string> temp;
-		//for (auto& scriptString : scriptVec) {
-		//	
-		//	temp.push_back(scriptString);
-		//	
-		//	// If not in the global vec for imgui
-		//	if (std::find(fullNameVecImGUI.begin(), fullNameVecImGUI.end(), scriptString) == fullNameVecImGUI.end()) {
-		//		fullNameVecImGUI.push_back(scriptString);
-		//	}
-		//}
+			ScriptEngine::ScriptInit(entity);
 
-		//scriptMap.insert({ entity, {temp} });
-
-		//// Get the script names from the entityScripts map
-		//for (auto& [key, value] : scriptMap) {
-		//	if (key == entity) {
-		//		script.scriptNameVec = value;
-		//	}
-		//}
-
-		// If the script has a className, then initialize it in the script engine.
-		//if (!script.scriptNameVec.empty()) {
-			ScriptEngine::OnCreateEntity(entity);
-		//}
 	}
 
 }
 
 
-// Scripting
+/******************************************************************************
+*
+*   @brief Updates the Script System
+* 
+*   This function updates the Script System by calling the ScriptEngine's
+*   ScriptUpdate function for each entity with a script component.
+* 
+******************************************************************************/
+
 void ScriptSystem::Update() {
 
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -553,7 +563,7 @@ void ScriptSystem::Update() {
 
 		for (auto& scriptName : scriptData->scriptNameVec) {
 			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
-			ScriptEngine::OnUpdateEntity(entity);
+			ScriptEngine::ScriptUpdate(entity);
 		}
 	}
 
@@ -638,22 +648,6 @@ void EditingSystem::Draw() {
 		if (n->selected) {
 			m->DrawOutline();
 		}
-	}
-}
-
-void GameplaySystem::Update() {
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	// Access component arrays through the ComponentManager
-	//auto& entityArray = componentManager.GetComponentArrayRef<Entity>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& characterArray = componentManager.GetComponentArrayRef<CharacterStats>();
-
-	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		Transform* transform = &transformArray.GetData(entity);
-		CharacterStats* cs = &characterArray.GetData(entity);
 	}
 }
 

@@ -65,7 +65,7 @@
     {
         "Entity": {
             "Name": "entity_00001",
-            "Selected": false,
+            "Selected": true,
             "Current Layer": 0,
             "Order in Layer": 0
         },
@@ -101,7 +101,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.01666666753590107,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -235,8 +235,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 768.0,
-            "position_y": -459.0,
+            "position_x": 633.0,
+            "position_y": -422.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -253,7 +253,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 252.0,
+            "width": 538.0,
             "height": 117.5
         },
         "Scripts": {
@@ -268,7 +268,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Button",
+            "Text String": "Return to main menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -284,8 +284,8 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Test",
-            "Event Input": "Test message",
+            "Event Name": "Change Scene",
+            "Event Input": "mainmenu.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -307,8 +307,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -34.0,
-            "position_y": -113.0,
+            "position_x": 71.9487533569336,
+            "position_y": 42.42146682739258,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -330,8 +330,8 @@
         },
         "Animation": {
             "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Index": 2,
+            "Frame Time Elapsed": 0.01666666753590107,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
@@ -437,7 +437,7 @@
         "Animation": {
             "Animation Type": 1,
             "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
+            "Frame Time Elapsed": 0.01666666753590107,
             "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {

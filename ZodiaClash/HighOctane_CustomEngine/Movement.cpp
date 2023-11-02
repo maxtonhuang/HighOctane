@@ -27,18 +27,12 @@ void UpdateMovement(Transform & transform, Model & model) {
 			case INFO::KEY_S:   case INFO::KEY_DOWN:    direction = { RESET_VEC2 }; transform.force.y = -100; break;
 			case INFO::KEY_A:   case INFO::KEY_LEFT:    direction = { RESET_VEC2 }; transform.force.x = -100; break;
 			case INFO::KEY_D:   case INFO::KEY_RIGHT:   direction = { RESET_VEC2 }; transform.force.x = 100; break;
-			case INFO::KEY_O:   transform.scale += 1.f * g_dt; break;
-			case INFO::KEY_P:   transform.scale -= 1.f * g_dt; break;
-			case INFO::KEY_Q:   transform.rotation -= 1.f * g_dt;   break;
-			case INFO::KEY_E:   transform.rotation += 1.f * g_dt;   break;
-			case INFO::KEY_1:   model.AddAlpha(0.2f * g_dt);        break;
-			case INFO::KEY_2:   model.AddAlpha(-0.2f * g_dt);       break;
-			case INFO::KEY_3:   camera.AddZoom(0.1f * g_dt);        break;
-			case INFO::KEY_4:   camera.AddZoom(-0.1f * g_dt);       break;
-			case INFO::KEY_I:   camera.AddPos(0.f, 200.f * g_dt);   break;
-			case INFO::KEY_J:   camera.AddPos(-200.f * g_dt, 0.f);  break;
-			case INFO::KEY_K:   camera.AddPos(0, -200.f * g_dt);    break;
-			case INFO::KEY_L:   camera.AddPos(200.f * g_dt, 0.f);   break;
+			case INFO::KEY_O:   transform.scale += 1.f * FIXED_DT; break;
+			case INFO::KEY_P:   transform.scale -= 1.f * FIXED_DT; break;
+			case INFO::KEY_Q:   transform.rotation -= 1.f * FIXED_DT;   break;
+			case INFO::KEY_E:   transform.rotation += 1.f * FIXED_DT;   break;
+			case INFO::KEY_1:   model.AddAlpha(0.2f * FIXED_DT);        break;
+			case INFO::KEY_2:   model.AddAlpha(-0.2f * FIXED_DT);       break;
 			default: break;
 			}
 			break;
@@ -66,12 +60,4 @@ void UpdateMovement(Transform & transform, Model & model) {
 	if (transform.scale < 0.f) {
 		transform.scale = 0.f;
 	}
-	//transform.position += transform.velocity;
-	//transform.velocity = {0,0};
-	
-
-	//if (transform.position.distance(finalPos) > 2.f) {
-	//	transform.force += direction * speed * g_dt;
-	//}
-
 }

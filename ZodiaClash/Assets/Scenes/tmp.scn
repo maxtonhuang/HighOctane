@@ -1,4 +1,4 @@
-NEW_bg.png
+background.jpeg
 duck2.spritesheet
 duck.spritesheet
 cat.png
@@ -6,8 +6,8 @@ mockup_cat.png
 mockup_ox.png
 mockup_goat.png
 mockup_playbutton_04.png
-mockup_guard.png
-mockup_BG_03.png
+mockup_title_logo_02 (1).png
+mockup_main_menu.png
 bonk.wav
 ping.wav
 MainMenu1.wav
@@ -32,4 +32,4 @@ Five Elements Bloodbath.skill
 Normal AOE.skill
 Scarlet Claw.skill
 OHKO.skill
-battle2.json
+tmp.json

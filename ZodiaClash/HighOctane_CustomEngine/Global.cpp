@@ -43,6 +43,7 @@
 // Declare global variables here
 
 float g_dt;
+float accumulatedTime{};
 bool button_clicked{ true };
 bool edit_mode{ true };
 bool hoveringPanel{ false };
@@ -64,6 +65,7 @@ std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
+bool popupMasterRightClicked{ false };
 
 bool clearAllSelection{ false };
 std::string sceneName{};

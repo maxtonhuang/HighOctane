@@ -42,12 +42,18 @@
 
 #define RESET_VEC2 0.f, 0.f
 
+////////// Defines for fixed dt system. ///////////////////////////////////////
+#define FIXED_DT 1.0f/60.f
+#define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
+///////////////////////////////////////////////////////////////////////////////
+
 const HCURSOR hDefaultCursor{ LoadCursor(NULL, IDC_ARROW) };
 const HCURSOR hNWSECursor{ LoadCursor(NULL, IDC_SIZENWSE) };
 const HCURSOR hNESWCursor{ LoadCursor(NULL, IDC_SIZENESW) };
 const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
 
 extern float g_dt;
+extern float accumulatedTime;
 extern bool button_clicked;
 extern bool edit_mode;
 extern bool hoveringPanel;
@@ -68,6 +74,7 @@ extern std::vector<Entity> selectedEntities; // for destruction
 extern Entity newSelection;
 extern bool popupHovered;
 extern bool anyObjectSelected; // whether any object is selected
+extern bool popupMasterRightClicked;
 
 extern bool clearAllSelection;
 extern std::string sceneName;

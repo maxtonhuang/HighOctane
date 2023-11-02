@@ -746,6 +746,10 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			ECS::ecs().AddComponent(entity, Clone{});
 			//////////////////////////////////////////////////////////////////////////// <-------
 			if (!stopButton) {
+				//stop crashing if there is no selected layer
+				if (selectedLayer == std::numeric_limits<size_t>::max()) {
+					selectedLayer = 0;
+				}
 				layering[selectedLayer].push_back(entity);
 			}
 			(EntityFactory::entityFactory().cloneCounter)++;

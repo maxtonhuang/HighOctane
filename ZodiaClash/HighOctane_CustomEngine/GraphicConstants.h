@@ -41,6 +41,6 @@ namespace GRAPHICS {
 	extern float h;
 	extern float ar; //aspect ratio
 	const int vertexBufferSize = 20000; //number of vertices to buffer
-	const int MAXTEXTURES = 1000;
+	const int MAXTEXTURES = 150;
 	const int CIRCLE_SLICES = 100; //number of triangles in a circle
 }

@@ -19,14 +19,16 @@
 *
 *	@section	Section A
 *
-*	@date		22 October 2023
+*	@date		26 October 2023
 *
 * *****************************************************************************
 *
-*	@brief		Game State Manager
+*	@brief		Game State Management
 *
-*	This file contains the declarations of the different parts of the Game
-*	State Manager.
+*	This file contains the implementation of the game state management system.
+*	It manages the different states of the game such as loading, running, and
+*	unloading game states. The system is used by the Game State Manager (GSM)
+*	to transition between different phases of the game.
 *
 ******************************************************************************/
 
@@ -35,11 +37,15 @@
 // game state functions typedef
 typedef void (*LoadFunc)();
 typedef void (*InitFunc)();
-typedef void (*UpdateFunc)(float dt);
-typedef void (*DrawFunc)(float dt);
+typedef void (*UpdateFunc)(double dt);
+typedef void (*DrawFunc)(double dt);
 typedef void (*FreeFunc)();
 typedef void (*UnloadFunc)();
 
+/**
+ * Enumerates the different game states that can exist within the game.
+ * These states represent different screens or phases of the game such as menus, gameplay, etc.
+ */
 enum GS_STATES
 {
 	GS_MAINMENU = 0,
@@ -50,6 +56,9 @@ enum GS_STATES
 	GS_RESTART
 };
 
+/**
+ * Class representing an individual game state, with function pointers for each lifecycle event.
+ */
 class GameState {
 private:
 	int idx;
@@ -64,13 +73,16 @@ public:
 	void SetGameState(int gsIdx, LoadFunc load, InitFunc init, UpdateFunc update, DrawFunc draw, FreeFunc free, UnloadFunc unload);
 	void GSM_Load();
 	void GSM_Init();
-	void GSM_Update(float dt);
-	void GSM_Draw(float dt);
+	void GSM_Update(double dt);
+	void GSM_Draw(double dt);
 	void GSM_Free();
 	void GSM_Unload();
 	int GetIdx();
 };
 
+/**
+ * Singleton class managing the different game states and transitions between them.
+ */
 class GameStateMgr {
 private:
 	enum 
