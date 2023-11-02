@@ -1,12 +1,48 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		InternalCalls.cpp
+*
+*	@author		Koh Wen Yuan
+*
+*	@email		k.wenyuan\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		20 October 2023
+*
+* *****************************************************************************
+*
+*	@brief		Internal calls to be linked with c# side
+*
+*	This file contains all the definition of the functions to be linked to
+*   C# side. This is to be used with the scripting system.
+******************************************************************************/
+
 #include "Scripting.h"
 #include "ScriptEngine.h"
 #include "vmath.h"
 
-// Change this to a class in the future, change it to scriptglue.cpp, put the functions in there and namespace InternalCalls::
 
 namespace internalcalls {
 
-    // This function is to log things into my console on C# side
+/*!
+* \brief Logging function
+*
+* This function is responsible for logging the message from C# side
+*
+* \param managedMessage The message to be logged
+*/
     static void Log(MonoString* managedMessage)
     {
         // Convert a C# string in to a C++ string
@@ -17,7 +53,15 @@ namespace internalcalls {
         std::cout << message << std::endl;
     }
 
-    // This function is an example of the vectors
+
+/*!
+* \brief Logging function for vector3 type
+*
+* This function is responsible for logging the message from C# side
+*
+* \param param The message to be logged
+* \param result The message to be logged
+*/
     static void LogVector3(vmath::Vector3* param, vmath::Vector3* result)
     {
         std::cout << *param << std::endl;
@@ -26,7 +70,15 @@ namespace internalcalls {
     }
 
 
-    // This function is to check whether the key is pressed or not on C# side
+/*!
+* \brief GetKeyDown function
+*
+* This function is responsible for checking if the key is down
+*
+* \param key The key to be checked
+* 
+* \return True if the key is down, false otherwise
+*/
     static bool GetKeyDown(INFO key) {
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
             switch (msg.type) {
@@ -40,7 +92,16 @@ namespace internalcalls {
         return false;
     }
 
-    // This function is to get the horizontal axis on C# side
+/*!
+* \brief GetAxisHorizontal function
+*
+* This function is responsible for checking if the keys to
+* go left and right are pressed
+*
+* \param key The key to be checked
+* 
+* \return int -1 if left is pressed, 1 if right is pressed, 0 otherwise
+*/
     static int GetAxisHorizontal() {
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
             switch (msg.type) {
@@ -57,87 +118,17 @@ namespace internalcalls {
 		return 0;
 	}
 
-    static void EntityGetPosition(Entity entity, vmath::Vector2* outPosition) {
 
-        // If the entity is 0, then it is not valid
-        if (entity == 0) {
-            return;
-        }
-
-        //vmath::Vector2 tmp = ECS::ecs().GetComponent<Transform>(entity).position;
-        //*outTranslation = { tmp.x, tmp.y, 0.0f };
-        *outPosition = ECS::ecs().GetComponent<Transform>(entity).position;
-    }
-
-    static void EntitySetPosition(Entity entity, vmath::Vector2* position) {
-
-        // If the entity is 0, then it is not valid
-        if (entity == 0) {
-            return;
-        }
-
-
-        ECS::ecs().GetComponent<Transform>(entity).position = *position;
-    }
-
-    // This is to get the force
-    static void EntityGetForce(Entity entity, vmath::Vector2* outForce) {
-		// If the entity is 0, then it is not valid
-        if (entity == 0) {
-			return;
-		}
-
-		*outForce = ECS::ecs().GetComponent<Transform>(entity).force;
-	}
-
-    static void EntitySetForce(Entity entity, vmath::Vector2* forceAdd) {
-
-        // If the entity is 0, then it is not valid
-        if (entity == 0) {
-            return;
-        }
-        ECS::ecs().GetComponent<Transform>(entity).force = *forceAdd;
-    }
-
-    static void EntityGetRotation(Entity entity, float* outRotation) {
-		// If the entity is 0, then it is not valid
-        if (entity == 0) {
-			*outRotation = 0.0f;
-		}
-
-		*outRotation = ECS::ecs().GetComponent<Transform>(entity).rotation;
-	}
-
-    static void EntitySetRotation(Entity entity, float* rotationAdd) {
-
-        // If the entity is 0, then it is not valid
-        if (entity == 0) {
-            return;
-        }
-        ECS::ecs().GetComponent<Transform>(entity).rotation = *rotationAdd;
-    }
-
-    static void EntityGetScale(Entity entity, float* outScale) {
-        // If the entity is 0, then it is not valid
-        if (entity == 0) {
-            return;
-        }
-
-        *outScale = ECS::ecs().GetComponent<Transform>(entity).scale;
-
-    }
-
-    static void EntitySetScale(Entity entity, float* scaleAdd) {
-        // If the entity is 0, then it is not valid
-        if (entity == 0) {
-            return;
-        }
-
-        ECS::ecs().GetComponent<Transform>(entity).scale = *scaleAdd;
-
-    }
-
-    // This function is to get the vertical axis on C# side
+/*!
+* \brief GetAxisVertical function
+*
+* This function is responsible for checking if the keys to
+* go up and down are pressed
+*
+* \param key The key to be checked
+*
+* \return int -1 if down is pressed, 1 if up is pressed, 0 otherwise
+*/
     static int GetAxisVertical() {
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
             switch (msg.type) {
@@ -154,39 +145,230 @@ namespace internalcalls {
         return 0;
     }
 
-    // Get the delta time / fixed delta time
+/*!
+* \brief Gets the position of an entity.
+*
+* This function retrieves the position of the specified entity and stores it in the provided vector.
+*
+* \param entity The entity to query for position.
+* \param outPosition Pointer to a vmath::Vector2 where the position will be stored.
+*/
+    static void EntityGetPosition(Entity entity, vmath::Vector2* outPosition) {
+
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+
+        //vmath::Vector2 tmp = ECS::ecs().GetComponent<Transform>(entity).position;
+        //*outTranslation = { tmp.x, tmp.y, 0.0f };
+        *outPosition = ECS::ecs().GetComponent<Transform>(entity).position;
+    }
+
+/*!
+* \brief Sets the position of an entity.
+*
+* This function updates the position of the specified entity with the provided position.
+*
+* \param entity The entity to update.
+* \param position Pointer to a vmath::Vector2 containing the new position.
+*/
+    static void EntitySetPosition(Entity entity, vmath::Vector2* position) {
+
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+
+
+        ECS::ecs().GetComponent<Transform>(entity).position = *position;
+    }
+
+/*!
+* \brief Gets the force of an entity.
+*
+* This function retrieves the force acting on the specified entity and stores it in the provided vector.
+*
+* \param entity The entity to query for force.
+* \param outForce Pointer to a vmath::Vector2 where the force will be stored.
+*/
+    // This is to get the force
+    static void EntityGetForce(Entity entity, vmath::Vector2* outForce) {
+		// If the entity is 0, then it is not valid
+        if (entity == 0) {
+			return;
+		}
+
+		*outForce = ECS::ecs().GetComponent<Transform>(entity).force;
+	}
+
+/*!
+* \brief Sets the force of an entity.
+*
+* This function updates the force acting on the specified entity with the provided force.
+*
+* \param entity The entity to update.
+* \param forceAdd Pointer to a vmath::Vector2 containing the force to be set.
+*/
+    static void EntitySetForce(Entity entity, vmath::Vector2* forceAdd) {
+
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+        ECS::ecs().GetComponent<Transform>(entity).force = *forceAdd;
+    }
+
+/*!
+* \brief Gets the rotation of an entity.
+*
+* This function retrieves the rotation of the specified entity and stores it in the provided float.
+*
+* \param entity The entity to query for rotation.
+* \param outRotation Pointer to a float where the rotation will be stored.
+*/
+    static void EntityGetRotation(Entity entity, float* outRotation) {
+		// If the entity is 0, then it is not valid
+        if (entity == 0) {
+			*outRotation = 0.0f;
+		}
+
+		*outRotation = ECS::ecs().GetComponent<Transform>(entity).rotation;
+	}
+
+/*!
+* \brief Sets the rotation of an entity.
+*
+* This function updates the rotation of the specified entity with the provided rotation.
+*
+* \param entity The entity to update.
+* \param rotationAdd Pointer to a float containing the rotation to be set.
+*/
+    static void EntitySetRotation(Entity entity, float* rotationAdd) {
+
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+        ECS::ecs().GetComponent<Transform>(entity).rotation = *rotationAdd;
+    }
+
+/*!
+* \brief Gets the scale of an entity.
+*
+* This function retrieves the scale of the specified entity and stores it in the provided float.
+*
+* \param entity The entity to query for scale.
+* \param outScale Pointer to a float where the scale will be stored.
+*/
+    static void EntityGetScale(Entity entity, float* outScale) {
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+
+        *outScale = ECS::ecs().GetComponent<Transform>(entity).scale;
+
+    }
+
+/*!
+* \brief Sets the scale of an entity.
+*
+* This function updates the scale of the specified entity with the provided scale.
+*
+* \param entity The entity to update.
+* \param scaleAdd Pointer to a float containing the scale to be set.
+*/
+    static void EntitySetScale(Entity entity, float* scaleAdd) {
+        // If the entity is 0, then it is not valid
+        if (entity == 0) {
+            return;
+        }
+
+        ECS::ecs().GetComponent<Transform>(entity).scale = *scaleAdd;
+
+    }
+
+/*!
+* \brief Gets the delta time.
+*
+* This function retrieves the delta time and stores it in the provided float.
+*
+* \param outScale Pointer to a float where the delta time will be stored.
+*/
     static void GetDeltaTime(float* outScale) {
 		*outScale = g_dt;
 	}
 
-    // Entities
+/*!
+* \brief Checks if an entity has a specific component.
+*
+* This function checks if the specified entity has a particular component.
+*
+* \param entity The entity to check.
+* \param componentName The name or type of the component to be checked.
+* \return true if the entity has the component, false otherwise.
+*/
     static bool EntityHasComponent(Entity entity, MonoReflectionType* componentName) {
         return ECS::ecs().HasComponent<MonoReflectionType*>(entity);
 	}
 
+/*!
+* \brief Adds a component to an entity.
+*
+* This function adds a component of a specified type to the provided entity.
+*
+* \param entity The entity to add the component to.
+* \param componentName The name or type of the component to be added.
+*/
     static void EntityAddComponent(Entity entity, MonoReflectionType* componentName) {
 		ECS::ecs().AddComponent<MonoReflectionType*>(entity, componentName);
 	}
 
+/*!
+* \brief Removes a component from an entity.
+*
+* This function removes a component from the specified entity.
+*
+* \param entity The entity to remove the component from.
+*/
     static void EntityRemoveComponent(Entity entity) {
         ECS::ecs().RemoveComponent<MonoReflectionType*>(entity);
     }
 
+/*!
+* \brief Gets a component from an entity.
+*
+* This function retrieves a component from the specified entity.
+*
+* \param entity The entity to get the component from.
+* \return The component associated with the entity.
+*/
     static MonoReflectionType* EntityGetComponent(Entity entity) {
 		return ECS::ecs().GetComponent<MonoReflectionType*>(entity);
 	}
 
-    // Entities
 
+/*!
+* \brief Adds internal calls for various methods.
+*
+* This method adds internal calls to corresponding functions for use with mono_add_internal_call.
+* It associates the provided methods with their respective names for internal calls.
+*/
 #define ADD_INTERNAL_CALL(name) mono_add_internal_call("InternalCalls::" #name, name);
 
-    // This should be a class
     void AddInternalCall() {
+
+        // Logging
         ADD_INTERNAL_CALL(Log);
         ADD_INTERNAL_CALL(GetKeyDown);
         ADD_INTERNAL_CALL(LogVector3);
+
+        // Get the axis
         ADD_INTERNAL_CALL(GetAxisHorizontal);
         ADD_INTERNAL_CALL(GetAxisVertical);
+
+        // Get the position
         ADD_INTERNAL_CALL(EntityGetPosition);
         ADD_INTERNAL_CALL(EntitySetPosition);
 

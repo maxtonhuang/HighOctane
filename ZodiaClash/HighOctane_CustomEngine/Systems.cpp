@@ -500,7 +500,7 @@ void ScriptSystem::Initialize() {
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
 
-		ScriptEngine::OnCreateEntity(entity);
+		ScriptEngine::ScriptInit(entity);
 		//std::vector<std::string> scriptVec = LoadScripting(entity);
 
 		// Get the script component
@@ -534,7 +534,7 @@ void ScriptSystem::Initialize() {
 
 		// If the script has a className, then initialize it in the script engine.
 		//if (!script.scriptNameVec.empty()) {
-			ScriptEngine::OnCreateEntity(entity);
+			ScriptEngine::ScriptInit(entity);
 		//}
 	}
 
@@ -553,7 +553,7 @@ void ScriptSystem::Update() {
 
 		for (auto& scriptName : scriptData->scriptNameVec) {
 			//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
-			ScriptEngine::OnUpdateEntity(entity);
+			ScriptEngine::ScriptUpdate(entity);
 		}
 	}
 
