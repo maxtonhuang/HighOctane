@@ -9,7 +9,7 @@ Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
 Liu Wanting (wanting.liu@digipen.edu)
 Foong Pun Yuen Nigel (p.foong@digipen.edu)
-Koh Wen Yuen (k.wenyuan@digipen.edu)
+Koh Wen Yuan (k.wenyuan@digipen.edu)
 Chua Zhen Rong (c.zhenrong@digipen.edu)
 Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
 

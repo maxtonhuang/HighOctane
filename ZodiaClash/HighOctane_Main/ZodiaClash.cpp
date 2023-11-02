@@ -154,7 +154,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	auto type{ rttr::type::get<myClass>() };
 	auto const& sysKey{ type.get_name().to_string() }; //gets name of _system type
-	std::cout << sysKey << std::endl;
+	std::cout << "This is from rttr: " << sysKey << std::endl;
 	// The rest of your code can stay the same
 
 
