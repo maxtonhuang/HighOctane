@@ -561,9 +561,9 @@ void EngineCore::Run(bool const& mode) {
 	/*serializationSystem->Update();*/
 
 	{
-		Entity entity = ECS::ecs().CreateEntity();
+		/*Entity entity = ECS::ecs().CreateEntity();
 
-		ECS::ecs().AddComponent(entity, Screen{ true });
+		ECS::ecs().AddComponent(entity, Screen{ true });*/
 
 	}
 

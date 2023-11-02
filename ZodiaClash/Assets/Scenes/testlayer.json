@@ -232,7 +232,7 @@
             "Current Layer": 0,
             "Order in Layer": 3,
             "isLocked": true,
-            "isSkipped": true
+            "isSkipped": false
         },
         "Clone": {},
         "Color": {
@@ -429,7 +429,7 @@
             "Current Layer": 0,
             "Order in Layer": 5,
             "isLocked": true,
-            "isSkipped": true
+            "isSkipped": false
         },
         "Clone": {},
         "Color": {
@@ -962,6 +962,5 @@
         "Collider": {
             "Collider Enum": 0
         }
-    },
-    {}
+    }
 ]

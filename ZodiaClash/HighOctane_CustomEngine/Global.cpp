@@ -51,7 +51,7 @@ bool fileDropped{ false };
 float dropTimer{};
 bool destroyAll{ false };
 bool saveFile{ false };
-bool playButton{ true };
+bool playButton{ false };
 bool stopButton{ false };
 bool sceneChangedWhilePlay{ false };
 bool rightClick{ false };

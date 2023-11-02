@@ -442,6 +442,8 @@ void GraphicsSystem::Draw() {
 ******************************************************************************/
 void SerializationSystem::Update() {
 	if (saveFile) {
+		PrepareLayeringForSerialization();
+		//EmbedSkipLockForSerialization();
 		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
 		if (scenePath != "") {
 			std::ofstream sceneFile{ scenePath.c_str() };
