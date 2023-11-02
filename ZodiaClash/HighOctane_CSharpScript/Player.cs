@@ -5,24 +5,6 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Players
-{
-    internal class Player : MonoBehaviour
-    {
-        public override void Start()
-        {
-            Console.WriteLine("Player OnCreate" + ID);
-            //Console.WriteLine("Player OnCreate");
-
-        }
-
-        public override void Update()
-        {
-
-        }
-    }
-
-}
 namespace PlayerController
 {
     internal class PlayerMovement : MonoBehaviour
@@ -77,27 +59,6 @@ namespace PlayerController
                 //Debug.Log("Down");
                 Console.WriteLine("Down");
             }
-        }
-    }
-}
-
-namespace JustTest
-{
-    internal class Test : MonoBehaviour
-    {
-        public override void Start()
-        {
-            Console.WriteLine("Test OnCreate");
-        }
-
-        public override void Update()
-        {
-            float deltaTime = DeltaTime;
-            //Console.WriteLine(deltaTime);
-            //float speed = 0.001f;
-            //float scale = Scale;
-            //scale += Input.GetAxisHorizontal() * speed;
-            //Scale = scale;
         }
     }
 }
