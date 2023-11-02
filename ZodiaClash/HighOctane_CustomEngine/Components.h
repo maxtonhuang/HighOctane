@@ -133,9 +133,6 @@ struct Movable {
     // empty by design
 };
 
-struct Screen {
-    bool                    isActive{false};
-};
 
 
 struct Script {

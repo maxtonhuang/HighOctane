@@ -141,10 +141,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
 	// A simple test to see reflection in action
 	// Use the macro to declare variables
-	DECLARE(int, test, 3);
-	DECLARE(float, test2, 3.14f);
-	DECLARE(std::string, test3, "Hello");
-	DECLARE(bool, test4, true);
+	//DECLARE(int, test, 3);
+	//DECLARE(float, test2, 3.14f);
+	//DECLARE(std::string, test3, "Hello");
+	//DECLARE(bool, test4, true);
 
 	// Iterate over registered variables and print their values
 	for (const auto& var : variablesTEST) {
@@ -245,7 +245,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Clone>();
 	ECS::ecs().RegisterComponent<Collider>();
 	ECS::ecs().RegisterComponent<Name>();
-	ECS::ecs().RegisterComponent<Screen>();
 	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();

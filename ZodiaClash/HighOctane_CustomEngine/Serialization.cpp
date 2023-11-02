@@ -51,6 +51,8 @@
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
+extern std::vector<VariableInfo> variablesTEST;
+
 bool Serializer::Open(const std::string& file)
 {
 	stream.open(file.c_str());
@@ -419,6 +421,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			color = &ECS::ecs().GetComponent<Color>(entity);
 			rapidjson::Value colorObject = SerializeColor(*color, allocator);
 			entityObject.AddMember("Color", colorObject, allocator);
+			DECLARE(float, redCol, color->color.r);
+			DECLARE(float, greenCol, color->color.g);
+			DECLARE(float, blueCol, color->color.b);
+			DECLARE(float, alphaCol, color->color.a);
 		}
 		if (ECS::ecs().HasComponent<Transform>(entity)) {
 			transform = &ECS::ecs().GetComponent<Transform>(entity);
@@ -449,6 +455,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			circle = &ECS::ecs().GetComponent<Circle>(entity);
 			rapidjson::Value circleObject = SerializeCircle(*circle, allocator);
 			entityObject.AddMember("Circle", circleObject, allocator);
+
 		}
 		if (ECS::ecs().HasComponent<AABB>(entity)) {
 			aabb = &ECS::ecs().GetComponent<AABB>(entity);
@@ -499,7 +506,6 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
 	}
-	
 	// Save the JSON document to a file
 	std::ofstream ofs(fileName);
 	if (ofs.is_open()) {
@@ -513,6 +519,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	else {
 		std::cerr << "Failed to open file: " << fileName << std::endl;
 	}
+
+	// To save the state to a file for reflection
+	SerializeVariablesToFile("variables.sav", variablesTEST);
 }
 
 void LoadLayeringData(const rapidjson::Value& layeringObject) {
@@ -864,6 +873,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 	ExtractSkipLockAfterDeserialization();
 	//std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
 	printf("Total entites loading %d \n", static_cast<int>(s_ptr->m_Entities.size()));
+
+	// To load the state from a file for reflection
+	//DeserializeVariablesFromFile("variables.sav", variablesTEST);
 	return true;
 }
 

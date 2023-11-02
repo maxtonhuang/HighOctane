@@ -34,6 +34,8 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <fstream>
+#include <sstream>
 
 struct VariableInfo {
 	std::string name;
@@ -127,3 +129,31 @@ std::string variable_to_string(T value) {
 #define DECLARE(TYPE, NAME, VALUE) \
     TYPE NAME = VALUE; \
     variablesTEST.emplace_back(#NAME, &NAME, [&NAME]() -> std::string { return VAR_TO_STRING(NAME); });
+
+/**
+ * Serializes a collection of VariableInfo instances into a string.
+ * @param variables A vector containing VariableInfo instances to serialize.
+ * @return A string containing the serialized data.
+ */
+std::string SerializeVariables(const std::vector<VariableInfo>& variables);
+
+/**
+ * Deserializes a string to populate a vector of VariableInfo instances.
+ * @param data A string containing serialized data to be deserialized.
+ * @param variables A vector to store deserialized VariableInfo instances.
+ */
+void DeserializeVariables(const std::string& data, std::vector<VariableInfo>& variables);
+
+/**
+ * Serializes a collection of VariableInfo instances and writes the data to a file.
+ * @param filename Name of the file to serialize the data into.
+ * @param variables A vector containing VariableInfo instances to serialize.
+ */
+void SerializeVariablesToFile(const std::string& filename, const std::vector<VariableInfo>& variables);
+
+/**
+ * Reads serialized data from a file and populates a vector of VariableInfo instances.
+ * @param filename Name of the file to read the serialized data from.
+ * @param variables A vector to store deserialized VariableInfo instances.
+ */
+void DeserializeVariablesFromFile(const std::string& filename, std::vector<VariableInfo>& variables);
