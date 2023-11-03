@@ -44,6 +44,12 @@ vmath::Vector2 uiMousePos{ RESET_VEC2 };
 ******** TEXTLABEL ********
 **************************/
 
+/*!
+* \brief TextLabel default constructor
+*
+* Initializes TextLabel component, with no parameters as specifiers.
+*
+*/
 TextLabel::TextLabel() {
 	font = fonts.GetDefaultFont();
 	textString = "TextLabel";
@@ -52,6 +58,12 @@ TextLabel::TextLabel() {
 	textColor = colors.colorMap["black"];
 }
 
+/*!
+* \brief TextLabel default constructor
+*
+* Initializes TextLabel component, with text and color strings provided.
+*
+*/
 TextLabel::TextLabel(std::string str, std::string txtColor) {
 	font = fonts.GetDefaultFont();
 	textString = str;
@@ -61,6 +73,12 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 	initClr = txtColor;
 }
 
+/*!
+* \brief TextLabel default constructor
+*
+* Initializes TextLabel component, with text string and glm::vec4 color provided.
+*
+*/
 TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	font = fonts.GetDefaultFont();
 	textString = str;
@@ -69,18 +87,43 @@ TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	textColor = clr;	
 }
 
+/*!
+* \brief textColor getter
+*
+* Retrieves color set for TextLabel
+*
+*/
 glm::vec4& TextLabel::GetTextColor() {
 	return textColor;
 }
 
+/*!
+* \brief textString setter
+*
+* Retrieves color set for TextLabel
+*
+*/
 void TextLabel::SetTextString(std::string txtStr) {
 	textString = txtStr;
 }
 
+/*!
+* \brief textColor setter
+*
+* Sets color for TextLabel
+*
+*/
 void TextLabel::SetTextColor(glm::vec4 txtColor) {
 	textColor = txtColor;
 }
 
+/*!
+* \brief font setter
+*
+* Usage: imgui font selector. variant is set to Regular on default to prevent passing
+* variant name of old font, which new font may not have, when calling GetFont()
+*
+*/
 void TextLabel::SetFontFamily(std::string newFamily) {
 	Font* newFont = fonts.GetFont(newFamily, "Regular");
 	if (!newFont) {
@@ -92,6 +135,12 @@ void TextLabel::SetFontFamily(std::string newFamily) {
 	font = newFont;
 }
 
+/*!
+* \brief font setter
+*
+* Usage: imgui font selector. Retrieves requested font when calling GetFont()
+*
+*/
 void TextLabel::SetFontVariant(std::string newFamily, std::string newVariant) {
 	Font* newFont = fonts.GetFont(newFamily, newVariant);
 	if (!newFont) {
@@ -100,6 +149,12 @@ void TextLabel::SetFontVariant(std::string newFamily, std::string newVariant) {
 	font = newFont;
 }
 
+/*!
+* \brief text string boolean checker
+*
+* Usage: imgui font selector. Retrieves requested font when calling GetFont()
+*
+*/
 bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 	if (txtLblData.textString != txtLblData.prevTextString) {
 		prevTextString = txtLblData.textString;
@@ -108,6 +163,13 @@ bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 	return false;
 }
 
+/*!
+* \brief calculate offset
+*
+* Usage: called after UITextLabelSystem Upate(). calculates min width and height
+* required for drawing text string.
+*
+*/
 void TextLabel::CalculateOffset() {
 	//DEBUG_PRINT("Recalculating...");
 	// reset variables
@@ -137,13 +199,139 @@ void TextLabel::CalculateOffset() {
 	textHeight = posOffset.y;
 }
 
+/*!
+* \brief rel transform setter
+*
+* Internal function. currently re-centers textString's glyphs to middle of entity model
+* FUTURE IMPLEMENTATIONS: will likely change when alignment is implemented.
+*
+*/
 void TextLabel::UpdateOffset(Transform const& transformData) {
 	CalculateOffset();
 	relTransform.x = (transformData.position.x - (0.5f * posOffset.x));
 	relTransform.y = (transformData.position.y - (0.25f * posOffset.y));
 }
 
+/*!
+* \brief TextLabel Update()
+*
+* Called in UITextLabelSystem's update. Updates currentState accordingly.
+*
+*/
 void TextLabel::Update(Model& modelData, Name& nameData) {
+	// get cursorPos, compare with pos in Transform, return if no match
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
+		switch (msg.type) {
+		case(TYPE::MOUSE_MOVE):
+			uiMousePos = { msg.posX, msg.posY };
+			break;
+		}		
+	}
+
+	if (nameData.selected && edit_mode) {
+		currentState = STATE::FOCUSED;
+	}
+	else if (IsWithinObject(modelData, uiMousePos)) {
+		currentState = STATE::HOVERED;
+	}
+	else {
+		currentState = STATE::NONE;
+	}
+}
+
+/**************************
+********* BUTTON **********
+**************************/
+/*!
+* \brief Button default constructor
+*
+* Initializes Button component, with no parameters as specifiers.
+*
+*/
+Button::Button() {
+	std::string txtStr = "TextString";
+	std::string btnColor = "white";
+	std::string txtColor = "blue";
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
+}
+
+/*!
+* \brief Button default constructor
+*
+* Initializes Button component, with button color string and text color values provided.
+*
+*/
+Button::Button(std::string btnColor, glm::vec4 txtColor) {
+	std::string txtStr = "TextString";
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
+}
+
+/*!
+* \brief Button default constructor
+*
+* Initializes Button component, with button and text color values provided.
+*
+*/
+Button::Button(glm::vec4 btnColor, glm::vec4 txtColor) {
+	std::string txtStr = "TextString";
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
+}
+
+/*!
+* \brief Button default color getter
+*
+* Retrieves default text color currently set.
+*
+*/
+glm::vec4& Button::GetDefaultTextColor() {
+	return defaultColor.textColor;
+}
+
+/*!
+* \brief Button default color getter
+*
+* Retrieves default button color currently set.
+*
+*/
+glm::vec4& Button::GetDefaultButtonColor() {
+	return defaultColor.buttonColor;
+}
+
+
+/*!
+* \brief Button color getter
+*
+* Retrieves button color based on current state. Used for determining what color to pass
+* on to the Model component when updating the button's color.
+*
+*/
+glm::vec4 Button::GetButtonColor() {
+	switch (currentState) {
+	case(STATE::HOVERED):
+		return hoveredColor.buttonColor;
+		break;
+	case(STATE::FOCUSED):
+		return focusedColor.buttonColor;
+		break;
+	default:
+		return defaultColor.buttonColor;
+		break;
+	}
+}
+
+/*!
+* \brief Button Update()
+*
+* Called in UIButtonSystem's update. Updates currentState accordingly.
+*
+*/
+void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) {
 	// get cursorPos, compare with pos in Transform, return if no match
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -152,38 +340,67 @@ void TextLabel::Update(Model& modelData, Name& nameData) {
 			break;
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
-				//OnClick(modelData, nameData);
+				//on click event trigger (outside edit mode)
+				if (!edit_mode && !eventName.empty() && !eventInput.empty()) {
+					events.Call(eventName, eventInput);
+				}
 			}
 			break;
-		}		
+		}
 	}
 
-	if (nameData.selected) {
-		//SetTextString("Focused Text");
+	// update button and text colors
+	if (nameData.selected && edit_mode) {
 		currentState = STATE::FOCUSED;
-		//modelData.SetColor(focusedColor.r, focusedColor.g, focusedColor.b);
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
-		//SetTextString("Hovered Text");
 		currentState = STATE::HOVERED;
-		//modelData.SetColor(hoveredColor.r, hoveredColor.g, hoveredColor.b);
 	}
 	else {
-		//SetTextString("TextString");
 		currentState = STATE::NONE;
-		//modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
 	}
 
-	/*if (!nameData.selected && !transformData.isStatic) {
-		if (IsWithinObject(modelData, uiMousePos)) {
-			OnHover(modelData, nameData);
+	//outside edit mode, color change accordingly to state. otherwise show default
+	if (!edit_mode) {
+		switch (currentState) {
+		case(STATE::HOVERED):
+			textLabelData.textColor = hoveredColor.textColor;
+			break;
+		case(STATE::FOCUSED):
+			textLabelData.textColor = focusedColor.textColor;
+			break;
+		default:
+			textLabelData.textColor = defaultColor.textColor;
+			break;
 		}
-		else {
-			SetTextString("TextString");
-			modelData.SetColor(defaultColor.r, defaultColor.g, defaultColor.b);
-		}
-	}*/
+	}
+	//else {
+	//	//UpdateColorSets(GetDefaultButtonColor(), GetDefaultTextColor());
+	//	textLabelData.textColor = defaultColor.textColor;
+	//}	
+
+	textLabelData.currentState = this->currentState;
+	buttonWidth = textLabelData.textWidth + padding.left + padding.right;
+	buttonHeight = textLabelData.textHeight + padding.top + padding.bottom;
 }
+
+/*!
+* \brief Button Update ColorSets
+*
+* Outside of editor mode, constantly ensures hovered ColorSet and focused ColorSet are
+* up to date based on default ColorSet
+*
+*/
+void Button::UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor) {
+	defaultColor = { btnColor, txtColor };
+	hoveredColor = { txtColor, btnColor };
+	focusedColor = { txtColor, btnColor };
+}
+
+
+/**************************
+********* ARCHIVED ********
+**************************/
 
 //void TextLabel::OnClick(Model& modelData, Name& nameData) {
 //	//change color based Name->selected bool state
@@ -207,146 +424,7 @@ void TextLabel::Update(Model& modelData, Name& nameData) {
 //	// open properties perhaps?
 //	// likely to trigger together with onClick
 //}
-
-
-
-/**************************
-********* BUTTON **********
-**************************/
-
-Button::Button() {
-	std::string txtStr = "TextString";
-	std::string btnColor = "white";
-	std::string txtColor = "blue";
-	defaultColor = { btnColor, txtColor };
-	hoveredColor = { txtColor, btnColor };
-	focusedColor = { txtColor, btnColor };
-}
-
-Button::Button(std::string btnColor, glm::vec4 txtColor) {
-	std::string txtStr = "TextString";
-	defaultColor = { btnColor, txtColor };
-	hoveredColor = { txtColor, btnColor };
-	focusedColor = { txtColor, btnColor };
-}
-
-Button::Button(glm::vec4 btnColor, glm::vec4 txtColor) {
-	std::string txtStr = "TextString";
-	defaultColor = { btnColor, txtColor };
-	hoveredColor = { txtColor, btnColor };
-	focusedColor = { txtColor, btnColor };
-}
-
-glm::vec4& Button::GetDefaultTextColor() {
-	return defaultColor.textColor;
-}
-
-glm::vec4& Button::GetDefaultButtonColor() {
-	return defaultColor.buttonColor;
-}
-
-glm::vec4 Button::GetButtonColor() {
-	switch (currentState) {
-	case(STATE::HOVERED):
-		return hoveredColor.buttonColor;
-		break;
-	case(STATE::FOCUSED):
-		return focusedColor.buttonColor;
-		break;
-	default:
-		return defaultColor.buttonColor;
-		break;
-	}
-}
-
-void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) {
-	// get cursorPos, compare with pos in Transform, return if no match
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
-		switch (msg.type) {
-		case(TYPE::MOUSE_MOVE):
-			uiMousePos = { msg.posX, msg.posY };
-			break;
-		case(TYPE::MOUSE_CLICK):
-			if (IsWithinObject(modelData, uiMousePos)) {
-				//on click event trigger (outside edit mode)
-				if (!edit_mode && !eventName.empty() && !eventInput.empty()) {
-					events.Call(eventName, eventInput);
-					//eventTrigger(eventInput);
-				}
-
-				//DEBUG_PRINT("btnWidth: %f , btnHeight: %f", buttonWidth, buttonHeight);
-				//DEBUG_PRINT("txtWidth: %f , txtHeight: %f", textLabelData.textWidth, textLabelData.textHeight);
-
-				//test updateColor
-				/*glm::vec4 newColor = { 0.09f, 0.63f, 0.72f, 1.0f };
-				colors.UpdateColor("blue", newColor);*/
-			}
-			break;
-		}
-	}
-
-	// update button and text colors
-	if (nameData.selected && edit_mode) {
-		//textLabel.SetTextString("Focused Text");
-		//modelData.SetColor(focusedColor.buttonColor->r, focusedColor.buttonColor->g, focusedColor.buttonColor->b);
-		//textLabelData.textColor = focusedColor.textColor;
-		currentState = STATE::FOCUSED;
-	}
-	else if (IsWithinObject(modelData, uiMousePos)) {
-		//textLabel.SetTextString("Hovered Text");
-		//modelData.SetColor(hoveredColor.buttonColor->r, hoveredColor.buttonColor->g, hoveredColor.buttonColor->b);
-		//textLabelData.textColor = hoveredColor.textColor;
-		currentState = STATE::HOVERED;
-	}
-	else {
-		//textLabel.SetTextString("TextString");
-		//modelData.SetColor(defaultColor.buttonColor->r, defaultColor.buttonColor->g, defaultColor.buttonColor->b);
-		//textLabelData.textColor = defaultColor.textColor;
-		currentState = STATE::NONE;
-	}
-
-	//outside edit mode, color change accordingly to state. otherwise show default
-	if (!edit_mode) {
-		switch (currentState) {
-		case(STATE::HOVERED):
-			textLabelData.textColor = hoveredColor.textColor;
-			break;
-		case(STATE::FOCUSED):
-			textLabelData.textColor = focusedColor.textColor;
-			break;
-		default:
-			textLabelData.textColor = defaultColor.textColor;
-			break;
-		}
-
-		UpdateColorSets(GetDefaultButtonColor(), GetDefaultTextColor());
-	}
-	else {
-		textLabelData.textColor = defaultColor.textColor;
-	}	
-
-	textLabelData.currentState = this->currentState;
-	buttonWidth = textLabelData.textWidth + padding.left + padding.right;
-	buttonHeight = textLabelData.textHeight + padding.top + padding.bottom;
-
-	//if (!nameData.selected) {
-	//	if (IsWithinObject(modelData, uiMousePos)) {
-	//		//OnHover(modelData, nameData);
-	//	}
-	//	else {
-	//		textLabel.SetTextString("TextString");
-	//		currentState = STATE::NONE;
-	//		modelData.SetColor(defaultColor.buttonColor.r, defaultColor.buttonColor.g, defaultColor.buttonColor.b);
-	//	}
-	//}
-}
-
-void Button::UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor) {
-	defaultColor = { btnColor, txtColor };
-	hoveredColor = { txtColor, btnColor };
-	focusedColor = { txtColor, btnColor };
-}
-
+// 
 //void Button::DrawButton(Model& modelData, TextLabel& textLabelData) {
 //	
 //	switch (currentState) {

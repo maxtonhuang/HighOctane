@@ -614,10 +614,10 @@ void EditingSystem::Draw() {
 
 
 void UITextLabelSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
@@ -636,8 +636,6 @@ void UITextLabelSystem::Update() {
 		}
 
 		textLabelData->UpdateOffset(*transformData);
-
-		//note: find a way to update size!!
 	}
 }
 

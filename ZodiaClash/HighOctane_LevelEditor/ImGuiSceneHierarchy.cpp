@@ -224,7 +224,7 @@ void SceneEntityComponents(Entity entity) {
 			auto& btnColor = button.GetDefaultButtonColor();
 			ImGui::ColorEdit3("Color", (float*)&btnColor);
 			//if (button.currentState == STATE::FOCUSED) {
-				//button.UpdateColorSets(btnColor, button.GetDefaultTextColor()); //TO FIX!!
+				//button.UpdateColorSets(btnColor, button.GetDefaultTextColor());
 			//}
 
 			ImGui::TreePop();
