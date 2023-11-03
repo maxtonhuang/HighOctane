@@ -666,10 +666,10 @@ void EditingSystem::Draw() {
 
 
 void UITextLabelSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
@@ -681,7 +681,6 @@ void UITextLabelSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		//Button* buttonData{};
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
@@ -689,8 +688,6 @@ void UITextLabelSystem::Update() {
 		}
 
 		textLabelData->UpdateOffset(*transformData);
-
-		//note: find a way to update size!!
 	}
 }
 
@@ -698,18 +695,14 @@ void UITextLabelSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	
 	for (Entity const& entity : m_Entities) {
-		//Transform* transformData = &transformArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-		//Name* nameData = &nameArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 		Tex* texData = nullptr;
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
@@ -728,7 +721,6 @@ void UITextLabelSystem::Draw() {
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
-		//graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
 		if (!buttonData && !texData) {
 			if (edit_mode) {
@@ -750,7 +742,6 @@ void UIButtonSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -759,16 +750,12 @@ void UIButtonSystem::Update() {
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		//Transform* transformData = &transformArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
-		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
-			//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
-		//}
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
@@ -780,6 +767,12 @@ void UIButtonSystem::Update() {
 		sizeData->height = buttonData->buttonHeight;
 	}
 }
+
+
+
+/**************************
+********* ARCHIVED ********
+**************************/
 
 //void UIButtonSystem::Draw() {
 //	//// Access the ComponentManager through the ECS class

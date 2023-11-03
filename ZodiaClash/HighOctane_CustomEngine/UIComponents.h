@@ -99,23 +99,42 @@ public:
 	// FUTURE IMPLEMENTATIONS
 	// -> multiline, auto/fixed height
 	// -> line height
-	
+
+	/**************************
+	******* CONSRUCTORS *******
+	**************************/
 	TextLabel();
 	TextLabel(std::string str, std::string txtColor);
 	TextLabel(std::string str, glm::vec4 clr);
 
+	/**************************
+	********* GETTERS *********
+	**************************/
 	glm::vec4& GetTextColor();
 
+	/**************************
+	********* SETTERS *********
+	**************************/
 	void SetTextString(std::string txtStr);
 	void SetTextColor(glm::vec4 txtColor);
 	void SetFontFamily(std::string newFamily);
 	void SetFontVariant(std::string newFamily, std::string newVariant);
 
+	/**************************
+	******* OTHER UTILS *******
+	**************************/
 	bool CheckStringUpdated(TextLabel& txtLblData);	
 	void CalculateOffset();
 	void UpdateOffset(Transform const& transformData);
 
+	/**************************
+	******* SYSTEM CALLS ******
+	**************************/
 	void Update(Model& modelData, Name& nameData);
+
+	/**************************
+	******* DEPRECATED ********
+	**************************/
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;
 	void OnFocus() override;*/
