@@ -3,7 +3,7 @@ ZODIACLASH Project Guide File
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.1 M1 build
+Version: v0.1 M2 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
@@ -46,6 +46,9 @@ Layering system:
 - Drag any entity from any layer to other layers. E.g. if an entity is in layer 1, it will be drawn above layer 0 and below layer 2.
 - Delete layer by selecting delete layer button
 - Right click on an entity within system, select from 4 choices, "Bring forward", "Bring to front", "Send backward", "Send to back"
+
+Create new text entity:
+- Creating entity panel select create entity button.
 
 Scene Hiearchy:
 - Displays all entities within the scene
