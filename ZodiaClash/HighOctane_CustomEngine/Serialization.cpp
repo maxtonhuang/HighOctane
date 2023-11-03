@@ -93,6 +93,10 @@ void StreamRead(Serializer& stream, std::string& str)
 void Serializer::SerializeCSV(const std::string& file) {
 	Serializer stream;
 	ASSERT(!(stream.Open(file)), "Unable to open file");
+	if (!stream.Open(file)) {
+		ASSERT(true, "Unable to open file");
+		return;
+	}
 	std::string line, header;
 	PseudoCharacter characterStats;
 	std::getline(stream.stream, header);  // Read the header line and discard it
@@ -347,7 +351,6 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Tex* tex = nullptr;
 	Visible* visible = nullptr;
 	Size* size = nullptr;
-	MainCharacter* mainCharacter = nullptr;
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
 	Animator* anim = nullptr;
