@@ -248,6 +248,9 @@
     <ClInclude Include="InternalCalls.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="UndoRedo.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -393,6 +396,9 @@
     <ClCompile Include="PlayerAction.cpp" />
     <ClCompile Include="Reflections.cpp">
       <Filter>Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="UndoRedo.cpp">
+      <Filter>Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

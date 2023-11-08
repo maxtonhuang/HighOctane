@@ -81,6 +81,9 @@ T VariableInfo::string_to_variable(const std::string& val) {
 	else if constexpr (std::is_same_v<T, bool>) {
 		return val == "true";
 	}
+	else if constexpr (std::is_same_v<T, size_t>) {
+		return std::stoull(val);
+	}
 	else {
 		return T();
 	}
@@ -106,6 +109,9 @@ std::string variable_to_string(T value) {
 	}
 	else if constexpr (std::is_same_v<T, bool>) {
 		return value ? "true" : "false";
+	}
+	else if constexpr (std::is_same_v<T, size_t>) {
+		return std::to_string(value);
 	}
 	else {
 		return "<Unsupported type>";

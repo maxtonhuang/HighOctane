@@ -242,6 +242,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UndoRedo.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="UIComponents.h" />
     <ClInclude Include="Viewport.h" />
@@ -296,6 +297,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="UIComponents.cpp" />
+    <ClCompile Include="UndoRedo.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="WindowsInterlink.cpp" />
