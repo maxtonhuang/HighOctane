@@ -91,9 +91,6 @@ void UpdateContentBrowser() {
 			if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !isDirectory && relativePath.has_extension() && relativePath.extension() == ".scn") {
 
 				if (ImGui::BeginDragDropSource()) {
-					//std::string str{ filenameString };
-					//const char* itemPath = str.c_str();
-					// size = strlen(itemPath) + 1;
 					ImGui::SetDragDropPayload("SCENE_ITEM", filenameString.c_str(), (strlen(filenameString.c_str()) + 1));
 					ImGui::EndDragDropSource();
 				}
