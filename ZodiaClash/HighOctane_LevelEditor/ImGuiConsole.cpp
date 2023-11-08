@@ -34,6 +34,7 @@
 #include "GUIManager.h"
 #include "MultiThreading.h"
 #include "debugdiagnostic.h"
+#include "ScriptEngine.h"
 
 // This is the buffer size allowable before clearing the buffer
 constexpr int MAX_BUFFER_SIZE = 20000;
@@ -64,6 +65,14 @@ void InitConsole() {
 *
 */
 void UpdateConsole() { 
+
+    ImGui::Begin("Testing script thing");
+    ImGui::Text("Hello world");
+    if (ImGui::Button("Test add script")) {
+        isHotReload = true;
+        std::cout << "Just a test" << std::endl;
+    }
+    ImGui::End();
 
     static char filterBuffer[256] = "";
     static char fileNameBuffer[31] = "";

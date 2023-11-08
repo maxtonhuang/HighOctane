@@ -496,6 +496,53 @@ void ScriptSystem::Initialize() {
 
 void ScriptSystem::Update() {
 
+	// Here should be in another thread
+	//ScriptEngine::HotReloadScript();
+	//namespace fs = std::filesystem;
+	//std::unordered_map<fs::path, fs::file_time_type> last_modified_times;
+	//
+	//fs::path p = fs::current_path();
+	////printf("Current path is: %s\n", p.string().c_str());
+
+	//fs::path target_path;
+
+	//for (const auto& part : p) {
+	//	target_path /= part; // Append the path component
+	//	if (part == "ZodiaClash") {
+	//		break; // Stop if we've reached the "ZodiaClash" directory
+	//	}
+	//}
+	//
+	//target_path += "\\HighOctane_CSharpScript";
+	////printf("Target path is: %s\n", target_path.string().c_str());
+
+	//// Initial population of the map
+	//for (const auto& file : fs::directory_iterator(target_path)) {
+	//	if (file.path().extension() == ".cs") {
+	//		last_modified_times[file.path()] = fs::last_write_time(file);
+	//	}
+	//}
+	////std::this_thread::sleep_for(std::chrono::seconds(1)); // Polling interval
+
+	////printf("Polling for changes...\n");
+	//for (const auto& file : fs::directory_iterator(target_path)) {
+	//	
+	//	auto current_file_last_write_time = fs::last_write_time(file);
+	//	if (last_modified_times[file.path()] != current_file_last_write_time) {
+	//		// File was modified
+	//		printf("Last modified: %s\n", file.path().string().c_str());
+	//		if (file.path().extension() == ".cs") {
+	//			printf("File modified: %s\n", file.path().string().c_str());
+	//			//std::cout << "File modified: " << file.path() << std::endl;
+	//			last_modified_times[file.path()] = current_file_last_write_time;
+	//		}
+	//		// Here you would typically call a function to handle the file change,
+	//		// such as recompiling a script or reloading a resource.
+	//	}
+	//}
+
+	// Here should be in another thread
+
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
@@ -505,6 +552,7 @@ void ScriptSystem::Update() {
 
 		for (size_t i = 0; i < scriptData->scriptNameVec.size(); ++i) {
 			ScriptEngine::ScriptUpdate(entity);
+
 		}
 
 	}

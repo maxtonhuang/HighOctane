@@ -98,3 +98,5 @@ const char* currentScriptForIMGUI{ NULL };
 std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI{};
 
 const char* currentScriptAttachedForIMGUI{ NULL };
+
+bool isHotReload{ false };

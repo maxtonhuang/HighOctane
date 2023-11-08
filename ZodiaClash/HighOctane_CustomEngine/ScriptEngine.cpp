@@ -116,12 +116,39 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
 {
     // Create an App Domain
     scriptData->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
-    mono_domain_set(scriptData->AppDomain, true);
+    mono_domain_set(scriptData->AppDomain, false);
     if (!LoadMonoAssembly(filePath)) {
         scriptData->CoreAssembly = LoadMonoAssembly("HighOctane_CSharpScript.dll");
     }
     else scriptData->CoreAssembly = LoadMonoAssembly(filePath);
     scriptData->CoreAssemblyImage = mono_assembly_get_image(scriptData->CoreAssembly);
+}
+
+void ScriptEngine::UnloadAssembly() {
+    if (scriptData->AppDomain) {
+        scriptData->AppDomain = nullptr;
+    }
+}
+
+void ScriptEngine::HotReloadScript() {
+    std::cout << "HotRealoadScript called" << std::endl;
+
+    // If debug mode
+#if (ENABLE_DEBUG_DIAG)
+    // Relative path to the C# assembly
+    const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
+#elif (!ENABLE_DEBUG_DIAG)
+    const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
+#endif
+    std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+
+    if (isHotReload) {
+        std::cout << "Hot reload" << std::endl;
+		UnloadAssembly();
+		LoadAssembly(fullAssemblyPath);
+		//LoadAssemblyClasses(scriptData->CoreAssembly);
+		isHotReload = false;
+	}
 }
 
 bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {

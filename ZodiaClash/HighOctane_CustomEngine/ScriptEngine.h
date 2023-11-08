@@ -78,6 +78,10 @@ public:
 	 */
 	static void LoadAssembly(const std::filesystem::path& filePath);
 
+	static void UnloadAssembly();
+
+	static void HotReloadScript();
+
 	/*!
 	 * \brief Checks if the specified entity class exists within the script engine.
 	 *
