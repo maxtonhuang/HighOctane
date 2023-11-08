@@ -64,14 +64,6 @@ void InitConsole() {
 *
 */
 void UpdateConsole() { 
-    
-    ImGui::Begin("Testing script thing");
-
-    ImGui::Text("Hello world");
-    if (ImGui::Button("Test add script")) {
-        std::cout << "Script added" << std::endl;
-    }
-    ImGui::End();
 
     static char filterBuffer[256] = "";
     static char fileNameBuffer[31] = "";
