@@ -43,6 +43,7 @@
 #include "UIComponents.h"
 #include <memory>
 #include "Layering.h"
+#include "Animation.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -318,6 +319,56 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	return buttonObject;
 }
 
+rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value set(rapidjson::kArrayType);
+
+	for (auto const& a : animSet.animationSet) {
+		rapidjson::Value group(rapidjson::kObjectType);
+		rapidjson::Value animations(rapidjson::kArrayType);
+		rapidjson::Value groupName;
+		group.AddMember("Total Frames", a.totalFrames, allocator);
+		group.AddMember("Group Name", rapidjson::Value(a.name.c_str(), allocator).Move(), allocator);
+		for (auto const& anim : a.animations) {
+			rapidjson::Value perAnimation(rapidjson::kObjectType);
+			rapidjson::Value keyFrames(rapidjson::kArrayType);
+			std::string animType{ anim->GetType() };
+			perAnimation.AddMember("Animation Type", rapidjson::Value(animType.c_str(), allocator).Move(), allocator);
+			if (animType == "Sprite") {
+				const std::shared_ptr<SpriteAnimation> sprite{ std::dynamic_pointer_cast<SpriteAnimation>(anim) };
+				for (auto const& k : sprite->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyFrames.PushBack(keyframe,allocator);
+				}
+			}
+			else if (animType == "TextureChange") {
+				const std::shared_ptr<ChangeTexAnimation> texchange{ std::dynamic_pointer_cast<ChangeTexAnimation>(anim) };
+				for (auto const& k : texchange->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Texture", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Sound") {
+				const std::shared_ptr<SoundAnimation> sound{ std::dynamic_pointer_cast<SoundAnimation>(anim) };
+				for (auto const& k : sound->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Sound", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			perAnimation.AddMember("Key Frames", keyFrames, allocator);
+			animations.PushBack(perAnimation, allocator);
+		}
+		group.AddMember("Animations", animations, allocator);
+		set.PushBack(group, allocator);
+	}
+
+	return set;
+}
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -361,6 +412,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
 	Collider* collider = nullptr;
+	AnimationSet* animset = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		
@@ -458,6 +510,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
 			rapidjson::Value colliderObject = SerializeCollider(*collider, allocator);
 			entityObject.AddMember("Collider", colliderObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<AnimationSet>(entity)) {
+			animset = &ECS::ecs().GetComponent<AnimationSet>(entity);
+			rapidjson::Value animsetObject = SerializeAnimationSet(*animset, allocator);
+			entityObject.AddMember("Animation Set", animsetObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -784,6 +841,45 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				}
 
 				ECS::ecs().AddComponent(entity, button);
+			}
+			if (entityObject.HasMember("Animation Set")) {
+				AnimationSet animset{};
+				for (auto& animGroups : entityObject["Animation Set"].GetArray()) {
+					AnimationGroup anigrp{};
+					anigrp.totalFrames = animGroups["Total Frames"].GetInt();
+					anigrp.name = animGroups["Group Name"].GetString();
+					for (auto& animations : animGroups["Animations"].GetArray()) {
+						std::string animType = animations["Animation Type"].GetString();
+						if (animType == "Sprite") {
+							SpriteAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<SpriteAnimation>(a));
+						}
+						else if (animType == "TextureChange") {
+							ChangeTexAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Texture"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ChangeTexAnimation>(a));
+						}
+						else if (animType == "Sound") {
+							SoundAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Sound"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<SoundAnimation>(a));
+						}
+					}
+					animset.animationSet.push_back(anigrp);
+				}
+				ECS::ecs().AddComponent(entity, animset);
+			}
+			else {
+				ECS::ecs().AddComponent(entity, AnimationSet{});
 			}
 		}
 	}

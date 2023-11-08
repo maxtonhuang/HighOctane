@@ -67,6 +67,7 @@
 #include "Reflections.h"
 #include "Events.h"
 #include "Layering.h"
+#include "Animation.h"
 //#include <rttr/type.h>
 
 bool gConsoleInitalized{ false };
@@ -249,6 +250,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
+	ECS::ecs().RegisterComponent<AnimationSet>();
 	//ECS::ecs().RegisterComponent<PlayerAction>();
 	//ECS::ecs().RegisterComponent<EnemyAction>();
 

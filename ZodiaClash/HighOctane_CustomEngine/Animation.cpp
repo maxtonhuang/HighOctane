@@ -2,16 +2,34 @@
 #include "AssetManager.h"
 #include "Events.h"
 
-void Animation::Start() {
+void AnimationGroup::Start() {
 	active = true;
 	currentFrame = 0;
+	for (auto& a : animations) {
+		a->Start();
+	}
+}
+
+void AnimationGroup::Update() {
+	if (active == false) {
+		return;
+	}
+	for (auto& a : animations) {
+		if (a->IsActive()) {
+			a->Update(currentFrame);
+		}
+	}
+	currentFrame++;
+	if (currentFrame >= totalFrames) {
+		active = false;
+	}
 }
 
 bool Animation::IsActive() {
 	return active;
 }
 
-std::string Animation::GetType() {
+std::string Animation::GetType() const {
 	return type;
 }
 
@@ -24,28 +42,24 @@ SpriteAnimation::SpriteAnimation() {
 }
 
 void SpriteAnimation::Start() {
-	active = true;
-	currentFrame = 0;
 	if (keyframes.size() == 0) {
 		return;
 	}
 	nextKeyframe = keyframes.begin();
+	active = true;
 }
 
-void SpriteAnimation::Update() {
+void SpriteAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
 		return;
 	}
-	if (currentFrame > totalFrames) {
-		return;
-	}
-	currentFrame++;
-	if (currentFrame >= nextKeyframe->frameNum) {
+	if (frameNum >= nextKeyframe->frameNum) {
 		//Advance animation
 		Tex& tex{ ECS::ecs().GetComponent<Tex>(parent) };
 		tex.frameIndex = (tex.frameIndex + 1) % tex.tex->GetSheetSize();
-		if (nextKeyframe != keyframes.end()) {
-			nextKeyframe++;
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
 		}
 	}
 }
@@ -61,40 +75,51 @@ void SpriteAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<int>{frameNum});
 }
 
+bool SpriteAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
 ChangeTexAnimation::ChangeTexAnimation() {
 	type = "TextureChange";
 }
 
 void ChangeTexAnimation::Start() {
-	active = true;
-	currentFrame = 0;
 	if (keyframes.size() == 0) {
 		return;
 	}
 	nextKeyframe = keyframes.begin();
+	active = true;
 }
 
-void ChangeTexAnimation::Update() {
+void ChangeTexAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
 		return;
 	}
-	if (currentFrame > totalFrames) {
-		return;
-	}
-	currentFrame++;
-	if (currentFrame >= nextKeyframe->frameNum) {
+	if (frameNum >= nextKeyframe->frameNum) {
 		//Change texture
 		Tex& tex{ ECS::ecs().GetComponent<Tex>(parent) };
 		tex.tex = assetmanager.texture.Get(nextKeyframe->data.c_str());
 		tex.frameIndex = 0;
-		if (nextKeyframe != keyframes.end()) {
-			nextKeyframe++;
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
 		}
 	}
 }
 
 void ChangeTexAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	Keyframe<std::string> frame{ frameNum, *(static_cast<std::string*>(frameData)) };
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
+	else {
+		frame.data = "";
+	}
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
@@ -103,42 +128,62 @@ void ChangeTexAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<std::string>{frameNum});
 }
 
-void ChangeTexAnimation::Start() {
-	active = true;
-	currentFrame = 0;
+bool ChangeTexAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void SoundAnimation::Start() {
 	if (keyframes.size() == 0) {
 		return;
 	}
 	nextKeyframe = keyframes.begin();
+	active = true;
 }
 
 SoundAnimation::SoundAnimation() {
 	type = "Sound";
 }
 
-void SoundAnimation::Update() {
+void SoundAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
 		return;
 	}
-	if (currentFrame > totalFrames) {
-		return;
-	}
-	currentFrame++;
-	if (currentFrame >= nextKeyframe->frameNum) {
+	if (frameNum >= nextKeyframe->frameNum) {
 		//Play sound
 		events.Call("Play Sound", nextKeyframe->data);
-		if (nextKeyframe != keyframes.end()) {
-			nextKeyframe++;
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
 		}
 	}
 }
 
 void SoundAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	Keyframe<std::string> frame{ frameNum, *(static_cast<std::string*>(frameData)) };
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
+	else {
+		frame.data = "";
+	}
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
 
 void SoundAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<std::string>{frameNum});
+}
+
+bool SoundAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
 }

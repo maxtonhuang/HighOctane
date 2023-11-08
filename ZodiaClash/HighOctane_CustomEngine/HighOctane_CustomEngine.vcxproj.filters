@@ -251,6 +251,9 @@
     <ClInclude Include="UndoRedo.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -399,6 +402,9 @@
     </ClCompile>
     <ClCompile Include="UndoRedo.cpp">
       <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
