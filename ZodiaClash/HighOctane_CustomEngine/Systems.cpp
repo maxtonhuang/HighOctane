@@ -56,7 +56,7 @@
 #include "Layering.h"
 
 #define FIXED_DT 1.0f/60.f
-#define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
+#define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -73,13 +73,6 @@ extern std::vector<std::string> fullNameVecImGUI;
 *
 ******************************************************************************/
 void PhysicsSystem::Update() {
-
-	//static double accumulatedTime = 0.0;
-	//accumulatedTime += g_dt; // Ensure that g_dt is the time since the last frame.
-
-	//if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-	//	accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
-	//}
 
 	//process mesaage here
 	bool reqStep{ false };
@@ -100,7 +93,6 @@ void PhysicsSystem::Update() {
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
-	//while (accumulatedTime >= FIXED_DT) {
 		// Access component arrays through the ComponentManager
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -119,10 +111,6 @@ void PhysicsSystem::Update() {
 		// Check step mode and integrate physics
 		if (physics::PHYSICS->GetStepModeActive()) {
 			// Debug draw all entities
-			/*for (Entity const& entity : m_Entities) {
-				Transform& transData = transformArray.GetData(entity);
-				physics::PHYSICS->DebugDraw(transData);
-			}*/
 			// If step is required, integrate physics for all entities
 			if (reqStep) {
 				for (Entity const& entity : m_Entities) {
@@ -136,11 +124,8 @@ void PhysicsSystem::Update() {
 			for (Entity const& entity : m_Entities) {
 				Transform& transData = transformArray.GetData(entity);
 				physics::PHYSICS->Integrate(transData);
-				//physics::PHYSICS->DebugDraw(transData);
 			}
 		}
-		//accumulatedTime -= FIXED_DT;
-	//}
 }
 
 void PhysicsSystem::Draw() {
@@ -166,14 +151,6 @@ void PhysicsSystem::Draw() {
 ******************************************************************************/
 void CollisionSystem::Update() {
 
-	//static double accumulatedTime = 0.0;
-	//accumulatedTime += g_dt;
-
-	//if (accumulatedTime > MAX_ACCUMULATED_TIME) {
-	//	accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents excessive accumulation.
-	//}
-
-	//while (accumulatedTime >= FIXED_DT) {
 		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -181,7 +158,6 @@ void CollisionSystem::Update() {
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-		//std::cout << m_Entities.size() << std::endl;
 		for (Entity const& entity1 : m_Entities) {
 			if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 				Transform* transData1 = &transformArray.GetData(entity1);
@@ -220,8 +196,6 @@ void CollisionSystem::Update() {
 			}
 		}
 		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
-		//accumulatedTime -= FIXED_DT;
-	//}
 }
 
 /******************************************************************************
@@ -234,7 +208,6 @@ void CollisionSystem::Update() {
 ******************************************************************************/
 // For MainCharacter only
 void MovementSystem::Update() {
-	//std::cout << "MovementSystem's m_Entities Size(): " << m_Entities.size() <<std::endl;
 
 	if (!inEditing || viewportWindowHovered) {
 
@@ -259,12 +232,9 @@ void MovementSystem::Update() {
 			UpdateMovement(*transformData, *modelData);
 
 			animatorData->UpdateAnimationMC(*texData, *sizeData);
-			//modelData->DrawOutline();
-			//graphics.backgroundsystem.SetFocusEntity(entity);
 			camera.SetPos(-transformData->position.x, -transformData->position.y);
 		}
 	}
-	//Mail::mail().mailbox[ADDRESS::MOVEMENT].clear();
 }
 
 /******************************************************************************
@@ -288,10 +258,8 @@ void AnimatorSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 		Animator* animatorData = &animatorArray.GetData(entity);
 		Tex* texData = &texArray.GetData(entity);
-		//Size* sizeData = &sizeArray.GetData(entity);
 		animatorData->UpdateAnimation(*texData);
 	}
-	//Mail::mail().mailbox[ADDRESS::ANIMATOR].clear();
 }
 
 
@@ -303,14 +271,7 @@ void AnimatorSystem::Update() {
 *
 ******************************************************************************/
 void ModelSystem::Update() {
-
-	// Access the ComponentManager through the ECS class
-	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	//// Access component arrays through the ComponentManager
-	//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	////auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	// Empty
 }
 
 /******************************************************************************
@@ -341,7 +302,6 @@ void GraphicsSystem::Initialize() {
 *
 ******************************************************************************/
 void GraphicsSystem::Update() {
-	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -378,7 +338,6 @@ void GraphicsSystem::Update() {
 }
 
 void GraphicsSystem::Draw() {
-	//std::cout << "GraphicsSystem's m_Entities Size(): " << m_Entities.size() << std::endl;
 // Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -389,18 +348,6 @@ void GraphicsSystem::Draw() {
 	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 
 	graphics.viewport.Unuse();
-	//for (Entity const& entity : m_Entities) {
-	//	Model* m = &modelArray.GetData(entity);
-	//	Tex* tex = nullptr;
-	//	Animator* anim = nullptr;
-	//	if (texArray.HasComponent(entity)) {
-	//		tex = &texArray.GetData(entity);
-	//	}
-	//	if (animatorArray.HasComponent(entity)) {
-	//		anim = &animatorArray.GetData(entity);
-	//	}
-	//	m->Draw(tex, anim);
-	//}
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] || !edit_mode) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
@@ -483,9 +430,6 @@ void SerializationSystem::Update() {
 	}
 
 	if (playButton) {
-		//std::string savePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
-		//Serializer::SaveEntityToJson(savePath.c_str(), m_Entities);
-		//std::cout << "Total m_entities" << m_Entities.size() << std::endl;
 
 		std::string scenePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.scn"};
 		if (scenePath != "") {
@@ -521,10 +465,6 @@ void SerializationSystem::Update() {
 bool FirstInitScriptSystem = true;
 void ScriptSystem::Initialize() {
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
-
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	//auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
 
 	// Iterate through all entities with a script component
 	for (const Entity& entity : m_Entities) {
@@ -567,16 +507,18 @@ void ScriptSystem::Update() {
 			ScriptEngine::ScriptUpdate(entity);
 		}
 
-		//for (auto& scriptName : scriptData->scriptNameVec) {
-		//	//std::cout << "ScriptSystem::Update::scriptName: " << scriptName << std::endl;
-		//	ScriptEngine::ScriptUpdate(entity);
-		//}
 	}
 
 }
 
 
-
+/******************************************************************************
+*
+*	@brief Update Function for the Editing System
+*
+*	Sends the corresponding Entity data to the Editing System (Editing.cpp)
+*
+******************************************************************************/
 void EditingSystem::Update() {
 	anyObjectSelected = false;
 	selectedEntities.clear();
@@ -640,6 +582,12 @@ void EditingSystem::Update() {
 	}
 }
 
+
+/******************************************************************************
+*
+*	@brief Draws the green outline for selected entities
+*
+******************************************************************************/
 void EditingSystem::Draw() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -666,10 +614,10 @@ void EditingSystem::Draw() {
 
 
 void UITextLabelSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
@@ -681,7 +629,6 @@ void UITextLabelSystem::Update() {
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		//Button* buttonData{};
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
@@ -689,8 +636,6 @@ void UITextLabelSystem::Update() {
 		}
 
 		textLabelData->UpdateOffset(*transformData);
-
-		//note: find a way to update size!!
 	}
 }
 
@@ -698,18 +643,14 @@ void UITextLabelSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	
 	for (Entity const& entity : m_Entities) {
-		//Transform* transformData = &transformArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-		//Name* nameData = &nameArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 		Tex* texData = nullptr;
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
@@ -728,7 +669,6 @@ void UITextLabelSystem::Draw() {
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
-		//graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 
 		if (!buttonData && !texData) {
 			if (edit_mode) {
@@ -750,7 +690,6 @@ void UIButtonSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -759,16 +698,12 @@ void UIButtonSystem::Update() {
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		//Transform* transformData = &transformArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
-		//if (buttonData->textLabel.CheckStringUpdated(buttonData->textLabel)) {
-			//buttonData->textLabel.UpdateOffset(*transformData, *sizeData);
-		//}
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
@@ -781,36 +716,3 @@ void UIButtonSystem::Update() {
 	}
 }
 
-//void UIButtonSystem::Draw() {
-//	//// Access the ComponentManager through the ECS class
-//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-//
-//	//// Access component arrays through the ComponentManager
-//	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-//	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-//	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-//	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-//	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-//	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
-//	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-//
-//	for (Entity const& entity : m_Entities) {
-//		//Transform* transformData = &transformArray.GetData(entity);
-//		Size* sizeData = &sizeArray.GetData(entity);
-//		Model* modelData = &modelArray.GetData(entity);
-//		//Name* nameData = &nameArray.GetData(entity);
-//		Tex* texData = nullptr;
-//		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-//		Button* buttonData = &buttonArray.GetData(entity);
-//
-//		//modelData->SetAlpha(1.f);
-//
-//		//if (texArray.HasComponent(entity)) {
-//		//	texData = &texArray.GetData(entity);
-//		//	buttonData->DrawButtonTex(*modelData, *texData, *textLabelData);
-//		//}
-//		//else {
-//		//	buttonData->DrawButton(*modelData, *textLabelData);
-//		//}
-//	}
-//}

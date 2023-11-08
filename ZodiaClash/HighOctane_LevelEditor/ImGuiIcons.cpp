@@ -68,12 +68,7 @@ void LoadIcons() {
 void UnloadIcons() {
 	for (const auto& iconPair : loadedIcons) {
 		ImTextureID imTextureID = iconPair.second;
-		Texture* iconTexture = reinterpret_cast<Texture*>(imTextureID);
-
-		/*if (iconTexture) {
-			GLuint textureID = imTextureID->GetID();
-			glDeleteTextures(1, &textureID);
-		}*/
+		
 		glDeleteTextures(1, reinterpret_cast<GLuint*>(&imTextureID));
 	}
 

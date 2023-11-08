@@ -73,7 +73,6 @@ void UpdateLayer() {
 
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -bh), false);
 
-	size_t potentialDropTarget = ULLONG_MAX;
 	size_t checkboxCounter = 0;
 
 	for (int layer_it = (static_cast<int>(layering.size()) - 1); layer_it >= 0; --layer_it) {

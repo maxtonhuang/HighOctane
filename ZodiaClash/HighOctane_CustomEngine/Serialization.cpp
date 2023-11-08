@@ -93,6 +93,10 @@ void StreamRead(Serializer& stream, std::string& str)
 void Serializer::SerializeCSV(const std::string& file) {
 	Serializer stream;
 	ASSERT(!(stream.Open(file)), "Unable to open file");
+	if (!stream.Open(file)) {
+		ASSERT(true, "Unable to open file");
+		return;
+	}
 	std::string line, header;
 	PseudoCharacter characterStats;
 	std::getline(stream.stream, header);  // Read the header line and discard it
@@ -347,7 +351,6 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Tex* tex = nullptr;
 	Visible* visible = nullptr;
 	Size* size = nullptr;
-	MainCharacter* mainCharacter = nullptr;
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
 	Animator* anim = nullptr;
@@ -459,6 +462,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
 	}
+	selectedLayer = 0;
+	currentLayer = 0;
+	
 	// Save the JSON document to a file
 	std::ofstream ofs(fileName);
 	if (ofs.is_open()) {
@@ -495,6 +501,7 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 			}
 		}
 	}
+	
 }
 
 bool Serializer::LoadEntityFromJson(const std::string& fileName) {
@@ -511,6 +518,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 	if (document.HasParseError()) {
 		std::cerr << "Failed to parse .json file: " << fileName << std::endl;
 	}
+	layering.clear();
 	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
 
 	printf("Total entites before loading %d \n", static_cast<int>(s_ptr->m_Entities.size()));
@@ -673,10 +681,14 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				//////////////////////////////////////////////////////////////////////////// <-------
 				if (!stopButton) {
 					//stop crashing if there is no selected layer
-					if (selectedLayer == std::numeric_limits<size_t>::max()) {
-						selectedLayer = 0;
+					//if (selectedLayer == std::numeric_limits<size_t>::max()) {
+						selectedLayer = currentLayer = 0;
+					//}
+					/*if (layering.size() == 0) {
+						std::deque<Entity> temp;
+						layering.emplace_back(temp);
 					}
-					layering[selectedLayer].push_back(entity);
+					layering[selectedLayer].push_back(entity);*/
 				}
 				(EntityFactory::entityFactory().cloneCounter)++;
 			}

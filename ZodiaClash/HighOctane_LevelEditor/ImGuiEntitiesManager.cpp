@@ -110,7 +110,7 @@ void UpdateEntitiesManager() {
         //*****************************TEXT LABELS********************//
         // Display the font entity configuration options if selected
         if (showFontEntityConfig) {
-            Entity fontEntity = ECS::ecs().CreateEntity();
+            //Entity fontEntity = ECS::ecs().CreateEntity();
             static std::string entityName; //For name
             static std::string inputText; //For input text
 
@@ -183,21 +183,21 @@ void UpdateEntitiesManager() {
                     ImGui::CloseCurrentPopup();
                 }
                 if (ImGui::Button("Create")) {
-                    Entity fontEntity = ECS::ecs().CreateEntity();
-                    ECS::ecs().AddComponent<Name>(fontEntity, Name{ entityName });
+                    Entity createFontEntity = ECS::ecs().CreateEntity();
+                    ECS::ecs().AddComponent<Name>(createFontEntity, Name{ entityName });
                     if (presetColorSelected) {
-                        ECS::ecs().AddComponent<TextLabel>(fontEntity, TextLabel{ inputText, presetColors[selectedColorIndex] });
+                        ECS::ecs().AddComponent<TextLabel>(createFontEntity, TextLabel{ inputText, presetColors[selectedColorIndex] });
                         presetColorSelected = false;
                     }
                     if (selfChosenColor) {
-                        ECS::ecs().AddComponent<TextLabel>(fontEntity, TextLabel{ inputText, clr });
+                        ECS::ecs().AddComponent<TextLabel>(createFontEntity, TextLabel{ inputText, clr });
                         selfChosenColor = false;
                     }
-                    ECS::ecs().AddComponent<Transform>(fontEntity, Transform{ });
-                    ECS::ecs().AddComponent<Size>(fontEntity, Size{100.f,100.f});
-                    ECS::ecs().AddComponent<Model>(fontEntity, Model{ ModelType::UI });
-                    ECS::ecs().AddComponent<Clone>(fontEntity, Clone{});
-                    ECS::ecs().AddComponent<Movable>(fontEntity, Movable{});
+                    ECS::ecs().AddComponent<Transform>(createFontEntity, Transform{ });
+                    ECS::ecs().AddComponent<Size>(createFontEntity, Size{100.f,100.f});
+                    ECS::ecs().AddComponent<Model>(createFontEntity, Model{ ModelType::UI });
+                    ECS::ecs().AddComponent<Clone>(createFontEntity, Clone{});
+                    ECS::ecs().AddComponent<Movable>(createFontEntity, Movable{});
                     showFontEntityConfig = false;
                     ImGui::CloseCurrentPopup();
                     entityName.clear();
