@@ -46,12 +46,6 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
@@ -102,12 +96,6 @@
         "Size": {
             "width": 1920.0,
             "height": 1080.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
             "className": "",
@@ -324,11 +312,11 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -139.0,
-            "position_y": -18.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
+            "position_x": -260.3314208984375,
+            "position_y": 13.0,
+            "rotation": 6.283176898956299,
+            "scale": 1.0000003576278687,
+            "velocity_x": -0.01077725738286972,
             "velocity_y": 0.0
         },
         "Texture": {
@@ -345,12 +333,6 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
@@ -366,27 +348,73 @@
         },
         "Animation Set": [
             {
-                "Total Frames": 3,
+                "Total Frames": 36,
                 "Group Name": "Animation 0",
+                "Loop": true,
                 "Animations": [
                     {
                         "Animation Type": "Sprite",
-                        "Key Frames": []
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0
+                            },
+                            {
+                                "Frame Number": 6
+                            },
+                            {
+                                "Frame Number": 12
+                            },
+                            {
+                                "Frame Number": 18
+                            },
+                            {
+                                "Frame Number": 24
+                            },
+                            {
+                                "Frame Number": 30
+                            }
+                        ]
                     },
                     {
                         "Animation Type": "Sound",
+                        "Key Frames": []
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Animation 1",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
                         "Key Frames": [
                             {
-                                "Frame Number": 0,
-                                "Sound": "ping.wav"
+                                "Frame Number": 29,
+                                "X movement": 100.0,
+                                "Y movement": 0.0,
+                                "Rotation": 180.0,
+                                "Scale": 0.0
                             },
                             {
-                                "Frame Number": 1,
-                                "Sound": "ping.wav"
+                                "Frame Number": 59,
+                                "X movement": -100.0,
+                                "Y movement": 0.0,
+                                "Rotation": 180.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 29,
+                                "Alpha": 0.0
                             },
                             {
-                                "Frame Number": 2,
-                                "Sound": "ping.wav"
+                                "Frame Number": 59,
+                                "Alpha": 1.0
                             }
                         ]
                     }
@@ -431,12 +459,6 @@
         "Size": {
             "width": 256.0,
             "height": 256.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
         },
         "Model": {
             "Model type": 0,
@@ -484,12 +506,6 @@
         "Size": {
             "width": 256.0,
             "height": 256.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
         },
         "Scripts": {
             "className": "",

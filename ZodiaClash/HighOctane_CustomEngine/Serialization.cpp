@@ -328,6 +328,7 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 		rapidjson::Value groupName;
 		group.AddMember("Total Frames", a.totalFrames, allocator);
 		group.AddMember("Group Name", rapidjson::Value(a.name.c_str(), allocator).Move(), allocator);
+		group.AddMember("Loop", a.loop, allocator);
 		for (auto const& anim : a.animations) {
 			rapidjson::Value perAnimation(rapidjson::kObjectType);
 			rapidjson::Value keyFrames(rapidjson::kArrayType);
@@ -356,6 +357,34 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					rapidjson::Value keyframe(rapidjson::kObjectType);
 					keyframe.AddMember("Frame Number", k.frameNum, allocator);
 					keyframe.AddMember("Sound", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Swap") {
+				const std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(anim) };
+				rapidjson::Value keyframe(rapidjson::kObjectType);
+				keyframe.AddMember("Frame Number", swap->keyframes.frameNum, allocator);
+				keyframe.AddMember("Destination", rapidjson::Value(swap->keyframes.data.c_str(), allocator).Move(), allocator);
+				keyFrames.PushBack(keyframe, allocator);
+			}
+			else if (animType == "TransformDirect") {
+				const std::shared_ptr<TransformDirectAnimation> transDirect{ std::dynamic_pointer_cast<TransformDirectAnimation>(anim) };
+				for (auto const& k : transDirect->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("X movement", k.data.position.x, allocator);
+					keyframe.AddMember("Y movement", k.data.position.y, allocator);
+					keyframe.AddMember("Rotation", k.data.rotation, allocator);
+					keyframe.AddMember("Scale", k.data.scale, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Fade") {
+				const std::shared_ptr<FadeAnimation> fade{ std::dynamic_pointer_cast<FadeAnimation>(anim) };
+				for (auto const& k : fade->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Alpha", k.data, allocator);
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
@@ -690,18 +719,18 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				ECS::ecs().AddComponent<AABB>(entity, aabb);
 			}
 
-			if (entityObject.HasMember("Animation")) {
-				const rapidjson::Value& animObject = entityObject["Animation"];
-				Animator anim{
-					static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
-					animObject["Frame Display Duration"].GetFloat()
-				};
-				//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
-				//anim.frameIndex = animObject["Frame Index"].GetUint();
-				//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
-				//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
-				ECS::ecs().AddComponent<Animator>(entity, anim);
-			}
+			//if (entityObject.HasMember("Animation")) {
+			//	const rapidjson::Value& animObject = entityObject["Animation"];
+			//	Animator anim{
+			//		static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
+			//		animObject["Frame Display Duration"].GetFloat()
+			//	};
+			//	//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
+			//	//anim.frameIndex = animObject["Frame Index"].GetUint();
+			//	//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
+			//	//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
+			//	ECS::ecs().AddComponent<Animator>(entity, anim);
+			//}
 			if (entityObject.HasMember("Scripts")) {
 				const rapidjson::Value& scriptObject = entityObject["Scripts"];
 				Script script;
@@ -848,6 +877,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 					AnimationGroup anigrp{};
 					anigrp.totalFrames = animGroups["Total Frames"].GetInt();
 					anigrp.name = animGroups["Group Name"].GetString();
+					anigrp.loop = animGroups["Loop"].GetBool();
 					for (auto& animations : animGroups["Animations"].GetArray()) {
 						std::string animType = animations["Animation Type"].GetString();
 						if (animType == "Sprite") {
@@ -873,13 +903,38 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 							}
 							anigrp.animations.push_back(std::make_shared<SoundAnimation>(a));
 						}
+						else if (animType == "Swap") {
+							SwapAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Destination"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<SwapAnimation>(a));
+						}
+						else if (animType == "TransformDirect") {
+							TransformDirectAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								Transform data{};
+								data.position.x = k["X movement"].GetFloat();
+								data.position.y = k["Y movement"].GetFloat();
+								data.rotation = k["Rotation"].GetFloat();
+								data.scale = k["Scale"].GetFloat();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<TransformDirectAnimation>(a));
+						}
+						else if (animType == "Fade") {
+							FadeAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								float data{ k["Alpha"].GetFloat() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<FadeAnimation>(a));
+						}
 					}
 					animset.animationSet.push_back(anigrp);
 				}
 				ECS::ecs().AddComponent(entity, animset);
-			}
-			else {
-				ECS::ecs().AddComponent(entity, AnimationSet{});
 			}
 		}
 	}

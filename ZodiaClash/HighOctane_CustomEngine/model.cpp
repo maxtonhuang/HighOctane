@@ -109,7 +109,7 @@ void Model::Update(Transform const& entity, Size const& size) {
 	}
 }
 
-void Model::Draw(Tex* const entity, Animator* const ani) {
+void Model::Draw(Tex* const entity) {
 	static Renderer* parallaxRenderer = &graphics.renderer["parallax"];
 	static Renderer* textureRenderer = &graphics.renderer["texture"];
 	static Renderer* staticRenderer = &graphics.renderer["static"];
@@ -150,13 +150,7 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 
 	if (entity != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
-		int frameIndex;
-		if (ani != nullptr) {
-			frameIndex = (int)ani->GetFrameIndex();
-		}
-		else {
-			frameIndex = 0;
-		}
+		int frameIndex{entity->frameIndex};
 		renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,0), texID });
 		renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
 		renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
@@ -220,6 +214,10 @@ void Model::AddAlpha(float a) {
 	if (color.a < 0.f) {
 		color.a = 0.f;
 	}
+}
+
+float Model::GetAlpha() {
+	return color.a;
 }
 
 vmath::Vector2 Model::GetMin() {

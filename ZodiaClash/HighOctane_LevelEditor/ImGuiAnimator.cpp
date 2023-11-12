@@ -9,7 +9,7 @@ void UpdateAnimator() {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 	const ImGuiWindowFlags flag{ ImGuiWindowFlags_HorizontalScrollbar };
 
-	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound"};
+	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","TransformDirect","Swap (Ends current animation)" };
 	
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -33,9 +33,22 @@ void UpdateAnimator() {
 		}
 
 		if (selectedAnimGroup != nullptr) {
+			if (ImGui::Button("Play")) {
+				if (animationSet.paused == true) {
+					animationSet.paused = false;
+				}
+				else {
+					animationSet.Start(selectedAnimGroup->name, currentSelectedEntity);
+				}
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Pause")) {
+				animationSet.paused = true;
+			}
+			ImGui::SameLine();
 			if (ImGui::Button("Advance Frame")) {
 				if (selectedAnimGroup->active == false) {
-					selectedAnimGroup->Start();
+					selectedAnimGroup->Start(currentSelectedEntity);
 				}
 				else {
 					selectedAnimGroup->Update();
@@ -43,6 +56,9 @@ void UpdateAnimator() {
 			}
 		}
 
+		if (selectedAnim == "" && animationSet.animationSet.size() > 0) {
+			selectedAnim = animationSet.animationSet[0].name;
+		}
 		if (ImGui::BeginCombo("Animations Available", selectedAnim.c_str())) {
 			for (int n = 0; n < animationSet.animationSet.size(); n++) {
 				bool is_selected = (selectedAnim == animationSet.animationSet[n].name);
@@ -82,6 +98,8 @@ void UpdateAnimator() {
 		}
 
 		if (selectedAnimGroup != nullptr) {
+			ImGui::Checkbox("Animation Loop", &selectedAnimGroup->loop);
+
 			ImGui::InputInt("Total Frames", &selectedAnimGroup->totalFrames);
 
 			if (ImGui::BeginCombo("Types Available", selectedType.c_str())) {
@@ -117,13 +135,20 @@ void UpdateAnimator() {
 					else if (selectedType == "Sound") {
 						selectedAnimGroup->animations.push_back(std::make_shared<SoundAnimation>());
 					}
+					else if (selectedType == "Fade") {
+						selectedAnimGroup->animations.push_back(std::make_shared<FadeAnimation>());
+					}
+					else if (selectedType == "TransformDirect") {
+						selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
+					}
+					else if (selectedType == "Swap (Ends current animation)") {
+						selectedAnimGroup->animations.push_back(std::make_shared<SwapAnimation>());
+					}
 				}
 			}
 
 			if (selectedFrame >= 0) {
-				std::stringstream frameNum{};
-				frameNum << "Selected frame: " << selectedFrame;
-				ImGui::Text(frameNum.str().c_str());
+				ImGui::InputInt("Selected frame", &selectedFrame);
 			}
 
 			if (selectedAnimation != nullptr) {
@@ -157,6 +182,40 @@ void UpdateAnimator() {
 						}
 						if (keyframe != nullptr) {
 							ImGui::InputText("Sound to play", &keyframe->data);
+						}
+					}
+					else if (selectedAnimation->GetType() == "TransformDirect") {
+						std::shared_ptr<TransformDirectAnimation> transDirect{ std::dynamic_pointer_cast<TransformDirectAnimation>(selectedAnimation) };
+						Keyframe<Transform>* keyframe{ nullptr };
+						for (auto& k : transDirect->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							ImGui::InputFloat2("Position", &keyframe->data.position[0]);
+							ImGui::InputFloat("Rotation", &keyframe->data.rotation);
+							ImGui::InputFloat("Scale", &keyframe->data.scale);
+						}
+					}
+					else if (selectedAnimation->GetType() == "Fade") {
+						std::shared_ptr<FadeAnimation> fade{ std::dynamic_pointer_cast<FadeAnimation>(selectedAnimation) };
+						Keyframe<float>* keyframe{ nullptr };
+						for (auto& k : fade->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							ImGui::InputFloat("Alpha to change to", &keyframe->data);
+						}
+					}
+					else if (selectedAnimation->GetType() == "Swap") {
+						std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(selectedAnimation) };
+						if (swap->keyframes.frameNum != -1) {
+							ImGui::InputText("Animation to swap to", &swap->keyframes.data);
 						}
 					}
 					if (ImGui::Button("Remove keyframe")) {

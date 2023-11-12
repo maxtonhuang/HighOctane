@@ -493,6 +493,12 @@ public:
     void Update() override;
 };
 
+//Intended to overwrite animator system
+class AnimationSystem : public System {
+public:
+    void Update() override;
+};
+
 class GraphicsSystem : public System {
 public:
     void Initialize();

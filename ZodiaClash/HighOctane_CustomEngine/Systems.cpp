@@ -54,6 +54,7 @@
 #include "UIComponents.h"
 #include "AssetManager.h"
 #include "Layering.h"
+#include "Animation.h"
 
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
@@ -190,9 +191,9 @@ void CollisionSystem::Update() {
 					}
 				}
 				// Update the character's position if no collision occurred
-				if (!hasCollided) {
-					physics::PHYSICS->Integrate(*transData1);
-				}
+				//if (!hasCollided) {
+				//	physics::PHYSICS->Integrate(*transData1);
+				//}
 			}
 		}
 		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
@@ -217,21 +218,21 @@ void MovementSystem::Update() {
 		//// Access component arrays through the ComponentManager
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-		auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-		auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+		//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+		//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+		//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 		for (Entity const& entity : m_Entities) {
 			Transform* transformData = &transformArray.GetData(entity);
 			Model* modelData = &modelArray.GetData(entity);
 
-			Animator* animatorData = &animatorArray.GetData(entity);
-			Tex* texData = &texArray.GetData(entity);
-			Size* sizeData = &sizeArray.GetData(entity);
+			//Animator* animatorData = &animatorArray.GetData(entity);
+			//Tex* texData = &texArray.GetData(entity);
+			//Size* sizeData = &sizeArray.GetData(entity);
 
 			UpdateMovement(*transformData, *modelData);
 
-			animatorData->UpdateAnimationMC(*texData, *sizeData);
+			//animatorData->UpdateAnimationMC(*texData, *sizeData);
 			camera.SetPos(-transformData->position.x, -transformData->position.y);
 		}
 	}
@@ -245,23 +246,35 @@ void MovementSystem::Update() {
 *	has any animation.
 *
 ******************************************************************************/
-void AnimatorSystem::Update() {
+//void AnimatorSystem::Update() {
+//
+//	// Access the ComponentManager through the ECS class
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//
+//	// Access component arrays through the ComponentManager
+//	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
+//	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+//	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+//
+//	for (Entity const& entity : m_Entities) {
+//		Animator* animatorData = &animatorArray.GetData(entity);
+//		Tex* texData = &texArray.GetData(entity);
+//		animatorData->UpdateAnimation(*texData);
+//	}
+//}
 
+void AnimationSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 
 	for (Entity const& entity : m_Entities) {
-		Animator* animatorData = &animatorArray.GetData(entity);
-		Tex* texData = &texArray.GetData(entity);
-		animatorData->UpdateAnimation(*texData);
+		AnimationSet* animationData = &animationArray.GetData(entity);
+		animationData->Update();
 	}
 }
-
 
 /******************************************************************************
 *
@@ -347,7 +360,6 @@ void GraphicsSystem::Draw() {
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
 	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 
 	graphics.viewport.Unuse();
@@ -357,17 +369,13 @@ void GraphicsSystem::Draw() {
 				Entity entity = layering[layer_it][entity_it];
 				if (entitiesToSkip[entity] || !edit_mode) {
 					Tex* tex{};
-					Animator* anim{};
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 						if (texArray.HasComponent(entity)) {
 							tex = &texArray.GetData(entity);
 						}
-						if (animatorArray.HasComponent(entity)) {
-							anim = &animatorArray.GetData(entity);
-						}
-						m->Draw(tex, anim);
+						m->Draw(tex);
 						if (textlabelArray.HasComponent(entity)) {
 							TextLabel* textLabelData = &textlabelArray.GetData(entity);
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
@@ -617,6 +625,8 @@ void EditingSystem::Draw() {
 
 
 void UITextLabelSystem::Update() {
+	//MOVE OVER TO DRAW FUNCTION AS OFFSETS ONLY CALCULATED AFTER MODELS UPDATES ARE DONE
+	/*
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -626,7 +636,7 @@ void UITextLabelSystem::Update() {
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-
+	
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
@@ -640,6 +650,7 @@ void UITextLabelSystem::Update() {
 
 		textLabelData->UpdateOffset(*transformData);
 	}
+	*/
 }
 
 void UITextLabelSystem::Draw() {
@@ -651,14 +662,17 @@ void UITextLabelSystem::Draw() {
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-	
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 		Tex* texData = nullptr;
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = nullptr;
-		
+		Name* nameData = &nameArray.GetData(entity);
+		Transform* transformData = &transformArray.GetData(entity);
 		
 		//if entity has button component, drawing managed by button
 		if (buttonArray.HasComponent(entity)) {
@@ -667,7 +681,11 @@ void UITextLabelSystem::Draw() {
 		else {
 			sizeData->width = textLabelData->textWidth;
 			sizeData->height = textLabelData->textHeight;
+
+			textLabelData->Update(*modelData, *nameData);
 		}
+
+		textLabelData->UpdateOffset(*transformData);
 
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
