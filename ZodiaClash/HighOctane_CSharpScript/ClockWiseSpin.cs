@@ -15,10 +15,8 @@ internal class ClockWiseSpin : MonoBehaviour
     public override void Update()
     {
         float speed = 1f;
-        float deltaTime = DeltaTime;
         float rotation = Rotation;
-        rotation += speed * deltaTime;
+        rotation += speed * DeltaTime;
         Rotation = rotation;
     }
 }
-

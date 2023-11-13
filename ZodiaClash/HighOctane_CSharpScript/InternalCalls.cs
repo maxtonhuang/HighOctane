@@ -108,7 +108,10 @@ public static class InternalCalls
 
     #region deltaTime
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void GetDeltaTime(out float outScale);
+    internal extern static void GetDeltaTime(out float outDeltaTime);
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void GetFixedDeltaTime(out float outFixedDeltaTime);
 
     #endregion
 

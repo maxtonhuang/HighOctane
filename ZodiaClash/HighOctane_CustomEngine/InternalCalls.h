@@ -297,8 +297,14 @@ namespace internalcalls {
     *
     * \param outScale Pointer to a float where the delta time will be stored.
     */
-    static void GetDeltaTime(float* outScale) {
-        *outScale = g_dt;
+    static void GetDeltaTime(float* outDeltaTime) {
+        *outDeltaTime = g_dt;
+    }
+
+
+    static void GetFixedDeltaTime(float* outFixedDeltaTime) {
+        // FIXED_DT is now 1.0f / 60.0f
+        *outFixedDeltaTime = FIXED_DT;
     }
 
     /*!
@@ -387,6 +393,7 @@ namespace internalcalls {
 
         // Get the delta time
         ADD_INTERNAL_CALL(GetDeltaTime);
+        ADD_INTERNAL_CALL(GetFixedDeltaTime);
 
         // Entities
         ADD_INTERNAL_CALL(EntityHasComponent);

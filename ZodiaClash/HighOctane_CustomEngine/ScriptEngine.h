@@ -274,7 +274,7 @@ public:
 	void InvokeOnUpdate();
 
 	/*!
-	 * \brief Retrieves the name of the associated script class for the ScriptInstance.
+	 * \brief Retrieves the name of5 the associated script class for the ScriptInstance.
 	 *
 	 * Returns the full name of the script class associated with this ScriptInstance.
 	 *

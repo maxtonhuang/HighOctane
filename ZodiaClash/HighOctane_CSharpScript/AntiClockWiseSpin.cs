@@ -10,15 +10,13 @@ internal class AntiClockWiseSpin : MonoBehaviour
     public override void Start()
     {
         Console.WriteLine("AntiClockWiseSpin OnCreate" + ID);
-
     }
 
     public override void Update()
     {
         float speed = 1f;
-        float deltaTime = DeltaTime;
         float rotation = Rotation;
-        rotation -= speed * deltaTime;
+        rotation -= speed * DeltaTime;
         Rotation = rotation;
     }
 }
