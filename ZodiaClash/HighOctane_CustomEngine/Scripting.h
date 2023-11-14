@@ -33,7 +33,9 @@
 #include <mono/metadata/mono-config.h>
 #include <mono/metadata/mono-debug.h>
 #include <mono/metadata/exception.h>
-
+#include <mono/metadata/attrdefs.h>
+#include <mono/metadata/class.h>
+#include <mono/metadata/debug-helpers.h>
 
 #pragma once
 // Empty header file

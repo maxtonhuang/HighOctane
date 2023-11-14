@@ -31,34 +31,17 @@
 #include "ScriptEngine.h"
 #include "DebugDiagnostic.h"
 #include "InternalCalls.h"
-#include <mono/metadata/assembly.h>
-#include <mono/metadata/attrdefs.h>
-#include <mono/metadata/class.h>
-#include <mono/metadata/debug-helpers.h>
+
 
 // Extern for the vector to contain the full name for ImGui
 extern std::vector<std::string> fullNameVecImGUI;
 
-struct ScriptEngineData {
-    MonoDomain* RootDomain = nullptr;
-    MonoDomain* AppDomain = nullptr;
-    
-    MonoAssembly* CoreAssembly = nullptr;
-    MonoImage* CoreAssemblyImage = nullptr;
-
-    ScriptClass EntityClass;
-
-    std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
-    std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
-
-    // v maybe move this to a global, see how
-    std::unordered_map <std::string , std::vector<std::pair<std::string, uint32_t>>> FieldMap; // <Class name, <Field name, field access>>
-};
-
-static ScriptEngineData* scriptData = nullptr;
+//static ScriptEngineData* scriptData = nullptr;
+ScriptEngineData* ScriptEngine::scriptData = nullptr;
 
 void ScriptEngine::Init() {
-    scriptData = new ScriptEngineData(); 
+    //scriptData = new ScriptEngineData(); 
+    scriptData = GetInstance();
     InitMono();
 
     // If debug mode
@@ -348,7 +331,7 @@ MonoObject* ScriptEngine::InstantiateClass(MonoClass* classToInstantiate) {
 }
 
 ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className) : m_ClassNamespace(classNamespace), m_ClassName(className) {
-    m_MonoClass = mono_class_from_name(scriptData->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
+    m_MonoClass = mono_class_from_name(ScriptEngine::scriptData->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
 }
 
 MonoObject* ScriptClass::Instantiate() {
@@ -368,7 +351,7 @@ ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity 
 	m_Instance = scriptClass->Instantiate();
 
     // Get the constructor and the OnCreate method
-    m_Constructor = scriptData->EntityClass.GetMethod(".ctor", 1);
+    m_Constructor = ScriptEngine::scriptData->EntityClass.GetMethod(".ctor", 1);
 
     // Get the OnUpdate method
     m_StartMethod = scriptClass->GetMethod("Start", 0);

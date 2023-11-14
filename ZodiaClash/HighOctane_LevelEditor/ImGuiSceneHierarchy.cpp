@@ -10,6 +10,7 @@
 #include "UIComponents.h"
 #include "ScriptEngine.h"
 #include "CharacterStats.h"
+#include "Scripting.h"
 #include <sstream>
 
 bool testingggg{ false };
@@ -406,5 +407,25 @@ void SceneEntityComponents(Entity entity) {
 			LOG_INFO("Test button thing");
 			std::cout << testingggg << std::endl;
 		}
+		// Test to see how to retrieve the things
+		//ScriptEngineData* scriptData = ScriptEngine::GetInstance();
+		//for (auto& name : fullNameVecImGUI) {
+		//	if (scriptData->FieldMap[name].size() != 0) {
+		//		for (auto& field : scriptData->FieldMap[name]) {
+		//			
+		//			std::cout << name << std::endl;
+		//			switch (field.second) {
+		//			case MONO_FIELD_ATTR_PUBLIC:
+		//				//std::cout << "Public" << std::endl;5
+		//				ImGui::Button("Testttttttttt");
+		//				break;
+
+		//				//case MONO_FIELD_ATTR_PRIVATE:
+		//				//    break;
+		//			}
+		//		}
+		//	}
+		//}
+
 	}
 }
