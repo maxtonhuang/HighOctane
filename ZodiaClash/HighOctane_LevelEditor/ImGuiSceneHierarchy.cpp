@@ -12,6 +12,7 @@
 #include "CharacterStats.h"
 #include <sstream>
 
+bool testingggg{ false };
 Entity currentSelectedEntity{};
 static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
@@ -371,9 +372,39 @@ void SceneEntityComponents(Entity entity) {
 				}
 				ImGui::EndCombo();
 			}
-			
-
 			ImGui::TreePop();
+		}
+	}
+
+	// Testing here
+	if (ECS::ecs().HasComponent<Script>(entity)) {
+
+		// If master entity is selected, do not allow editing of scripts
+		if (ECS::ecs().HasComponent<Master>(entity)) {
+			return;
+		}
+
+		if (testingggg) {
+			ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Testing");
+
+			// Maybe have a vector of bool here
+			// For every vector of bool, if true then make it appear so that it can be changed
+			// Something like this here
+			if (ECS::ecs().HasComponent<Transform>(entity)) {
+				auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
+				auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
+				auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
+				ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
+				ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
+				ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::Button("Test button thing")) {
+			testingggg = !testingggg;
+			LOG_INFO("Test button thing");
+			std::cout << testingggg << std::endl;
 		}
 	}
 }

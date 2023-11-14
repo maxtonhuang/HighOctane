@@ -31,6 +31,10 @@
 #include "ScriptEngine.h"
 #include "DebugDiagnostic.h"
 #include "InternalCalls.h"
+#include <mono/metadata/assembly.h>
+#include <mono/metadata/attrdefs.h>
+#include <mono/metadata/class.h>
+#include <mono/metadata/debug-helpers.h>
 
 // Extern for the vector to contain the full name for ImGui
 extern std::vector<std::string> fullNameVecImGUI;
@@ -47,6 +51,8 @@ struct ScriptEngineData {
     std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
     std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
 
+    // v maybe move this to a global, see how
+    std::unordered_map <std::string , std::vector<std::pair<std::string, uint32_t>>> FieldMap; // <Class name, <Field name, field access>>
 };
 
 static ScriptEngineData* scriptData = nullptr;
@@ -176,7 +182,6 @@ void ScriptEngine::ScriptInit(Entity entity) {
 }
 
 void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
-
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     // Checks if the currentScriptForIMGUI is already in scriptNameVec
     for (int i = 0; i < sc.scriptNameVec.size(); i++) {
@@ -251,6 +256,9 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
     // This is the one that will call the classes that inherit MonoBehaviour
     MonoClass* entityClass = mono_class_from_name(image, "", "MonoBehaviour");
 
+    // Unordered map of class name to vector of bool?
+	std::unordered_map<std::string, std::vector<bool>> classToBoolMap;
+
     for (int32_t i = 0; i < numTypes; i++)
     {
         uint32_t cols[MONO_TYPEDEF_SIZE];
@@ -261,7 +269,7 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         const char* name = mono_metadata_string_heap(image, cols[MONO_TYPEDEF_NAME]);
         std::string fullName;
 
-        // Check if there's namespace
+        /*-------CHECK IF HAVE NAMESPACE--------*/
         if (strlen(nameSpace) != 0) {
             fullName = std::string(nameSpace) + "." + std::string(name);
         }
@@ -274,16 +282,58 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 
         if (monoClass == entityClass) {
             continue;
-        }
+        }  
+        /*-------CHECK IF HAVE NAMESPACE--------*/
 
-        // Check if it is a subclass
+        /*-------CHECK IF SUBCLASS OR NOT--------*/
         bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
         if (isEntity) {
             scriptData->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
             fullNameVecImGUI.emplace_back(fullName);
-        } 
+
+            /*-------CHECK IF PRIVATE OR PUBLIC--------*/
+            void* iter = nullptr;
+            MonoClassField* field;
+
+            while ((field = mono_class_get_fields(monoClass, &iter)) != nullptr) {
+                std::string fieldName = mono_field_get_name(field);
+                uint32_t flags = mono_field_get_flags(field) & MONO_FIELD_ATTR_FIELD_ACCESS_MASK;
+                
+                switch (flags) {
+                    case MONO_FIELD_ATTR_PUBLIC:
+					    scriptData->FieldMap[fullName].push_back({ fieldName, MONO_FIELD_ATTR_PUBLIC });
+					    break;
+
+					case MONO_FIELD_ATTR_PRIVATE:
+					    scriptData->FieldMap[fullName].push_back({ fieldName, MONO_FIELD_ATTR_PRIVATE });
+					    break;
+                }
+
+                // Add more checks here if needed (e.g., for protected or internal fields)
+            }
+            /*-------CHECK IF PRIVATE OR PUBLIC--------*/
+        }
+        /*-------CHECK IF SUBCLASS OR NOT--------*/
     }
 
+    // Test to see how to retrieve the things
+ //   for (auto& name : fullNameVecImGUI) {
+ //       if (scriptData->FieldMap[name].size() != 0) {
+ //           for (auto& field : scriptData->FieldMap[name]) {
+ //               switch (field.second) {
+ //                   case MONO_FIELD_ATTR_PUBLIC:
+	//					std::cout << "Class name: " << name << " ";
+ //                       std::cout << field.first << " " << "is public" << std::endl;
+	//					break;
+
+ //                   case MONO_FIELD_ATTR_PRIVATE:
+ //                       std::cout << "Class name: " << name << " ";
+ //                       std::cout << field.first << " " << "is private" << std::endl;
+ //                       break;
+ //               }
+	//		}
+ //       }
+	//}
 }
 
 void ScriptEngine::ShutdownMono() {

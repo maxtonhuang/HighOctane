@@ -47,6 +47,7 @@ extern "C" {
 	typedef struct _MonoImage MonoImage;
 	typedef struct _MonoDomain MonoDomain;
 	typedef struct _MonoAssemblyName MonoAssemblyName;
+	typedef struct _MonoClassField MonoClassField;
 
 }
 

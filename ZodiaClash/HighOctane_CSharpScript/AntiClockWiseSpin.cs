@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 internal class AntiClockWiseSpin : MonoBehaviour
 {
+    public float speed = 1f;
+
     public override void Start()
     {
         Console.WriteLine("AntiClockWiseSpin OnCreate" + ID);
@@ -14,10 +16,7 @@ internal class AntiClockWiseSpin : MonoBehaviour
 
     public override void Update()
     {
-        float speed = 1f;
-        float rotation = Rotation;
-        rotation -= speed * DeltaTime;
-        Rotation = rotation;
+        Rotation -= speed * DeltaTime;
     }
 }
 
