@@ -49,6 +49,7 @@ void AudioManager::Initialize() {
     {
         ASSERT(1, "Unable to initialise FMOD system!");
     }
+    system->getMasterChannelGroup(&group["Master"]);
     CreateGroup("SFX");
     CreateGroup("BGM");
 }

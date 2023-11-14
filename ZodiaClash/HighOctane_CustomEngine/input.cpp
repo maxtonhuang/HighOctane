@@ -169,3 +169,12 @@ void InputManager::MouseCheck() {
         }
     }
 }
+
+void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
+    if (focused) {
+        assetmanager.audio.ResumeGroup("Master");
+    }
+    else {
+        assetmanager.audio.PauseGroup("Master");
+    }
+}
