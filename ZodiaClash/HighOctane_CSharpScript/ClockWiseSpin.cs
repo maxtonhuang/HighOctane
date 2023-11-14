@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 internal class ClockWiseSpin : MonoBehaviour
 {
+    public float speed = 1f;
     public override void Start()
     {
         Console.WriteLine("ClockWiseSpin OnCreate" + ID);
@@ -14,11 +15,7 @@ internal class ClockWiseSpin : MonoBehaviour
 
     public override void Update()
     {
-        float speed = 1f;
-        float deltaTime = DeltaTime;
-        float rotation = Rotation;
-        rotation += speed * deltaTime;
-        Rotation = rotation;
+
+        Rotation += speed * DeltaTime;
     }
 }
-

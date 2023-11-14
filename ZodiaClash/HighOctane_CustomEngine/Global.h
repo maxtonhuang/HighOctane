@@ -109,3 +109,5 @@ extern const char* currentScriptForIMGUI;
 extern std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI;
 
 extern const char* currentScriptAttachedForIMGUI;
+
+extern bool isHotReload;

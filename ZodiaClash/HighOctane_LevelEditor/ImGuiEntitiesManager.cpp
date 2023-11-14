@@ -37,6 +37,7 @@
 #include "Global.h"
 #include "AssetManager.h"
 #include "UIComponents.h"
+#include "EntityFactory.h"
 
 
 /****************************FOR FONTS***********************************/
@@ -92,7 +93,7 @@ void UpdateEntitiesManager() {
 
         // Handle entity type selection in a centered popup modal
         if (ImGui::BeginPopupModal("Entity Type", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-            if (ImGui::MenuItem("Font Entity")) {
+            if (ImGui::MenuItem("Text Box Entity")) {
                 showFontEntityConfig = true;
                 showAudioEntityConfig = false;
                 showColorPicker = false;
@@ -184,7 +185,7 @@ void UpdateEntitiesManager() {
                 }
                 if (ImGui::Button("Create")) {
                     Entity createFontEntity = ECS::ecs().CreateEntity();
-                    ECS::ecs().AddComponent<Name>(createFontEntity, Name{ entityName });
+                    ECS::ecs().AddComponent<Name>(createFontEntity, Name{ entityName});
                     if (presetColorSelected) {
                         ECS::ecs().AddComponent<TextLabel>(createFontEntity, TextLabel{ inputText, presetColors[selectedColorIndex] });
                         presetColorSelected = false;
@@ -198,6 +199,8 @@ void UpdateEntitiesManager() {
                     ECS::ecs().AddComponent<Model>(createFontEntity, Model{ ModelType::UI });
                     ECS::ecs().AddComponent<Clone>(createFontEntity, Clone{});
                     ECS::ecs().AddComponent<Movable>(createFontEntity, Movable{});
+                    layering[selectedLayer].emplace_back(createFontEntity);
+                    EntityFactory::entityFactory().cloneCounter++;
                     showFontEntityConfig = false;
                     ImGui::CloseCurrentPopup();
                     entityName.clear();

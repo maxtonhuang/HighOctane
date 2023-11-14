@@ -15,6 +15,7 @@ internal class AutoMoveX : MonoBehaviour
     public override void Update()
     {
         float speed = 1.0f;
+
         Vector2 translation = Translation;
 
         if (movingRight)
@@ -23,6 +24,7 @@ internal class AutoMoveX : MonoBehaviour
 
             if (translation.X >= 800)
                 movingRight = false;
+            // If
         }
         else
         {

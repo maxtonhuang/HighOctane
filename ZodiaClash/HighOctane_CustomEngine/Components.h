@@ -86,6 +86,7 @@ struct Color {
 struct Tex {
     Texture*                tex{};
     std::vector<Texture*>   texVariants{};
+    int                     frameIndex{};
     uint32_t                texVariantIndex{};
     uint32_t                rows{};
     uint32_t                cols{};
