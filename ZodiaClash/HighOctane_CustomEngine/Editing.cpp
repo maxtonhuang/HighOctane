@@ -47,7 +47,6 @@
 #define UNREFERENCED_PARAMETER(P) (P)
 
 vmath::Vector2 mousePos{ RESET_VEC2 };
-vmath::Vector2 offset{ RESET_VEC2 };
 
 constexpr float CORNER_SIZE = 10.f;
 
@@ -62,6 +61,7 @@ constexpr float CORNER_SIZE = 10.f;
 void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
 
 	UNREFERENCED_PARAMETER(entity);
+	UNREFERENCED_PARAMETER(layer_it);
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
@@ -84,71 +84,71 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			mousePos = { msg.posX, msg.posY };
 			break;
 
-		case TYPE::MOUSE_CLICK: // selection of entity done here
-			switch (msg.info) {
-				case INFO::MOUSE_LEFT: {
-					if (viewportWindowHovered) {
-						if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
-							// clear all previous selection
-							UnselectAll();
-							name.selected = true;
-							currentLayer = selectedLayer = layer_it;
-							name.clicked = CLICKED::NE;
-						}
-						else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
-							UnselectAll();
-							name.selected = true;
-							currentLayer = selectedLayer = layer_it;
-							name.clicked = CLICKED::SW;
-						}
-						else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
-							UnselectAll();
-							name.selected = true;
-							currentLayer = selectedLayer = layer_it;
-							name.clicked = CLICKED::SE;
-						}
-						else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
-							UnselectAll();
-							name.selected = true;
-							currentLayer = selectedLayer = layer_it;
-							name.clicked = CLICKED::NW;
-						}
-						else if (IsWithinObject(model, mousePos)) {
-							UnselectAll();
-							name.selected = true;
-							currentLayer = selectedLayer = layer_it;
-							name.clicked = CLICKED::INSIDE;
-							offset = GetOffset(transform.position, mousePos);
-						}
-						else {
-							if (!popupHovered) {
-								rightClick = false;
-								name.selected = false;
-								currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
-								name.clicked = CLICKED::NOT;
-							}
-						}
-						if (name.selected) {
-							printf("Entity %d is selected on Layer %d\n", static_cast<int>(entity), static_cast<int>(layer_it));
-						}
-					}
-				}
-				break;
-				
-				case INFO::MOUSE_RIGHT:
-					
-					if (IsWithinObject(model, mousePos)) {
-						UnselectAll();
-						name.selected = true;
-						newSelection = entity;
-						rightClick = true;
-						rightClickPos = mousePos;
-					}
+		//case TYPE::MOUSE_CLICK: // selection of entity done here
+		//	switch (msg.info) {
+		//		case INFO::MOUSE_LEFT: {
+		//			if (viewportWindowHovered) {
+		//				if (IsNearby(model.GetMax(), mousePos, CORNER_SIZE)) {
+		//					// clear all previous selection
+		//					UnselectAll();
+		//					name.selected = true;
+		//					currentLayer = selectedLayer = layer_it;
+		//					name.clicked = CLICKED::NE;
+		//				}
+		//				else if (IsNearby(model.GetMin(), mousePos, CORNER_SIZE)) {
+		//					UnselectAll();
+		//					name.selected = true;
+		//					currentLayer = selectedLayer = layer_it;
+		//					name.clicked = CLICKED::SW;
+		//				}
+		//				else if (IsNearby({ model.GetMax().x, model.GetMin().y }, mousePos, CORNER_SIZE)) {
+		//					UnselectAll();
+		//					name.selected = true;
+		//					currentLayer = selectedLayer = layer_it;
+		//					name.clicked = CLICKED::SE;
+		//				}
+		//				else if (IsNearby({ model.GetMin().x, model.GetMax().y }, mousePos, CORNER_SIZE)) {
+		//					UnselectAll();
+		//					name.selected = true;
+		//					currentLayer = selectedLayer = layer_it;
+		//					name.clicked = CLICKED::NW;
+		//				}
+		//				else if (IsWithinObject(model, mousePos)) {
+		//					UnselectAll();
+		//					name.selected = true;
+		//					currentLayer = selectedLayer = layer_it;
+		//					name.clicked = CLICKED::INSIDE;
+		//					offset = GetOffset(transform.position, mousePos);
+		//				}
+		//				else {
+		//					if (!popupHovered) {
+		//						rightClick = false;
+		//						name.selected = false;
+		//						currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		//						name.clicked = CLICKED::NOT;
+		//					}
+		//				}
+		//				if (name.selected) {
+		//					printf("Entity %d is selected on Layer %d\n", static_cast<int>(entity), static_cast<int>(layer_it));
+		//				}
+		//			}
+		//		}
+		//		break;
+		//		
+		//		case INFO::MOUSE_RIGHT:
+		//			
+		//			if (IsWithinObject(model, mousePos)) {
+		//				UnselectAll();
+		//				name.selected = true;
+		//				newSelection = entity;
+		//				rightClick = true;
+		//				rightClickPos = mousePos;
+		//			}
 
-					break;
-			}
+		//			break;
+		//	}
 
-			break;
+		//	break;
 
 		case TYPE::MOUSE_UP:
 
@@ -162,7 +162,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			else {
 				name.clicked = CLICKED::NOT;
 			}
-			offset = { RESET_VEC2 };
+			draggingOffset = { RESET_VEC2 };
 
 			break;
 
@@ -243,8 +243,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				}
 					break;
 				case CLICKED::INSIDE:
-					transform.position.x = mousePos.x - offset.x;
-					transform.position.y = mousePos.y - offset.y;
+					transform.position.x = mousePos.x - draggingOffset.x;
+					transform.position.y = mousePos.y - draggingOffset.y;
 					break;
 				default:
 					break;
@@ -275,20 +275,20 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 	}
 }
 
-/******************************************************************************
-*
-*	@brief Unselects all entities
-*
-*	-
-*
-******************************************************************************/
-void UnselectAll() {
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	for (auto& layer : layering) {
-		for (auto& entity : layer) {
-			nameArray.GetData(entity).selected = false;
-		}
-	}
-}
+///******************************************************************************
+//*
+//*	@brief Unselects all entities
+//*
+//*	-
+//*
+//******************************************************************************/
+//void UnselectAll() {
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+//	for (auto& layer : layering) {
+//		for (auto& entity : layer) {
+//			nameArray.GetData(entity).selected = false;
+//		}
+//	}
+//}
 

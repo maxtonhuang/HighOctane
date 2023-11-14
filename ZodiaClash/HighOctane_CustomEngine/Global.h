@@ -73,8 +73,11 @@ extern vmath::Vector2 rightClickPos;
 extern std::vector<Entity> selectedEntities; // for destruction
 extern Entity newSelection;
 extern bool popupHovered;
-extern bool anyObjectSelected; // whether any object is selected
+//extern bool anyObjectSelected; // whether any object is selected
+extern size_t selectedCount;
 extern bool popupMasterRightClicked;
+extern vmath::Vector2 draggingOffset;
+extern bool clickedThisCycle;
 
 extern bool clearAllSelection;
 extern std::string sceneName;

@@ -253,7 +253,7 @@ void GUIManager::Update()
         }
         // need to edit popupHovered
         popupHovered = false;
-        if (rightClick && anyObjectSelected) {
+        if (rightClick && selectedCount > 0) {
             
             if (ImGui::BeginPopupContextWindow()) {
                 if (ImGui::IsWindowHovered()) {

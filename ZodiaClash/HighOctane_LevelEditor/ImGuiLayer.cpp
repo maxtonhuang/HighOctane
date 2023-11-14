@@ -38,6 +38,7 @@
 #include "EntityFactory.h"
 #include "Layering.h"
 #include "Editing.h"
+#include "Selection.h"
 #include <iterator>
 #include <limits>
 #include "Global.h"

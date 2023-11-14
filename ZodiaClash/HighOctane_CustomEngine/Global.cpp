@@ -64,8 +64,12 @@ vmath::Vector2 rightClickPos{ RESET_VEC2 };
 std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
-bool anyObjectSelected{ false };
+//bool anyObjectSelected{ false };
+size_t selectedCount{};
 bool popupMasterRightClicked{ false };
+vmath::Vector2 draggingOffset{ RESET_VEC2 };
+bool clickedThisCycle{ false };
+
 
 bool clearAllSelection{ false };
 std::string sceneName{};

@@ -54,6 +54,7 @@
 #include "UIComponents.h"
 #include "AssetManager.h"
 #include "Layering.h"
+#include "Selection.h"
 
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
@@ -520,8 +521,11 @@ void ScriptSystem::Update() {
 *
 ******************************************************************************/
 void EditingSystem::Update() {
-	anyObjectSelected = false;
-	selectedEntities.clear();
+
+
+
+	clickedThisCycle = false;
+
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -529,25 +533,24 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+	for (int layer_it = static_cast<int>(layering.size() - 1); layer_it >= 0; --layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
-			for (Entity & entity : layering[layer_it]) {
+			for (int entity_it = static_cast<int>(layering[layer_it].size() - 1); entity_it >= 0; --entity_it) {
+				Entity entity = layering[layer_it][entity_it];
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
-					Name* n = &nameArray.GetData(entity);
-					Transform* t = &transformArray.GetData(entity);
-					Model* m = &modelArray.GetData(entity);
+					Name n = nameArray.GetData(entity);
+					Transform t = transformArray.GetData(entity);
+					Model m = modelArray.GetData(entity);
 
-					// edit entity's properties
-					UpdateProperties(entity, *n, *t, *m, layer_it);
+					Selection(entity, n, t, m, static_cast<size_t>(layer_it));
 				}
-			}
+			}	
 		}
 	}
-
+	
 	selectedEntities.clear();
 	for (Entity entity : m_Entities) {
 		if (nameArray.GetData(entity).selected) {
-			anyObjectSelected = true;
 			selectedEntities.emplace_back(entity);
 		}
 	}
@@ -564,7 +567,6 @@ void EditingSystem::Update() {
 		}
 		toCopy = false;
 		selectedEntities.clear();
-		anyObjectSelected = false;
 		UnselectAll();
 	}
 
@@ -577,9 +579,34 @@ void EditingSystem::Update() {
 		toDestroy = false;
 		selectedEntities.clear();
 		UnselectAll();
-		anyObjectSelected = false;
 		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 	}
+
+
+
+
+	//// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+
+	//for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+	//	if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+	//		for (Entity & entity : layering[layer_it]) {
+	//			if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+	//				Name* n = &nameArray.GetData(entity);
+	//				Transform* t = &transformArray.GetData(entity);
+	//				Model* m = &modelArray.GetData(entity);
+
+	//				// edit entity's properties
+	//				UpdateProperties(entity, *n, *t, *m, layer_it);
+	//			}
+	//		}
+	//	}
+	//}
+
 }
 
 

@@ -54,3 +54,6 @@ bool CheckLockLayerAllTrue(size_t layer_it);
 
 void SetWholeSkipLayer(size_t layer_it);
 void SetWholeLockLayer(size_t layer_it);
+
+bool CheckAnySelectedInLayer(size_t layer_it);
+size_t GetHightestLayerWithSelection();
