@@ -9,7 +9,7 @@ void UpdateAnimator() {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 	const ImGuiWindowFlags flag{ ImGuiWindowFlags_HorizontalScrollbar };
 
-	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","TransformDirect","Swap (Ends current animation)" };
+	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformDirect","Swap (Ends current animation)"};
 	
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -138,6 +138,9 @@ void UpdateAnimator() {
 					else if (selectedType == "Fade") {
 						selectedAnimGroup->animations.push_back(std::make_shared<FadeAnimation>());
 					}
+					else if (selectedType == "Color") {
+						selectedAnimGroup->animations.push_back(std::make_shared<ColorAnimation>());
+					}
 					else if (selectedType == "TransformDirect") {
 						selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
 					}
@@ -210,6 +213,19 @@ void UpdateAnimator() {
 						}
 						if (keyframe != nullptr) {
 							ImGui::InputFloat("Alpha to change to", &keyframe->data);
+						}
+					}
+					else if (selectedAnimation->GetType() == "Color") {
+						std::shared_ptr<ColorAnimation> fade{ std::dynamic_pointer_cast<ColorAnimation>(selectedAnimation) };
+						Keyframe<glm::vec3>* keyframe{ nullptr };
+						for (auto& k : fade->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							ImGui::InputFloat3("Color to change to", &keyframe->data[0]);
 						}
 					}
 					else if (selectedAnimation->GetType() == "Swap") {

@@ -220,17 +220,17 @@ float Model::GetAlpha() {
 	return color.a;
 }
 
-vmath::Vector2 Model::GetMin() {
+vmath::Vector2 Model::GetMin() const {
 	//return vmath::Vector2{ botleft.x * GRAPHICS::w + camera.GetPos().x, botleft.y * GRAPHICS::h + camera.GetPos().y};
 	return minimum;
 }
 
-vmath::Vector2 Model::GetMax() {
+vmath::Vector2 Model::GetMax() const {
 	//return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
 	return maximum;
 }
 
-glm::vec4 Model::GetColor() {
+glm::vec4 Model::GetColor() const {
 	return color;
 }
 

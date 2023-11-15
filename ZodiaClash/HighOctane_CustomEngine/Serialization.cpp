@@ -392,6 +392,17 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
+			else if (animType == "Color") {
+				const std::shared_ptr<ColorAnimation> fade{ std::dynamic_pointer_cast<ColorAnimation>(anim) };
+				for (auto const& k : fade->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Red", k.data.r, allocator);
+					keyframe.AddMember("Green", k.data.g, allocator);
+					keyframe.AddMember("Blue", k.data.b, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -935,6 +946,17 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<TransformDirectAnimation>(a));
+						}
+						else if (animType == "Color") {
+							ColorAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								glm::vec3 data{};
+								data.r = k["Red"].GetFloat();
+								data.g = k["Green"].GetFloat();
+								data.b = k["Blue"].GetFloat();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ColorAnimation>(a));
 						}
 						else if (animType == "Fade") {
 							FadeAnimation a{};

@@ -253,6 +253,9 @@ TransformDirectAnimation::TransformDirectAnimation() {
 	type = "TransformDirect";
 }
 void TransformDirectAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
 	active = true;
 	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
 	nextKeyframe = keyframes.begin();
@@ -315,6 +318,9 @@ FadeAnimation::FadeAnimation() {
 	type = "Fade";
 }
 void FadeAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
 	active = true;
 	entityModel = &ECS::ecs().GetComponent<Model>(parent);
 	nextKeyframe = keyframes.begin();
@@ -352,6 +358,65 @@ void FadeAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<float>{frameNum});
 }
 bool FadeAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+ColorAnimation::ColorAnimation() {
+	type = "Color";
+}
+void ColorAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	active = true;
+	entityModel = &ECS::ecs().GetComponent<Model>(parent);
+	nextKeyframe = keyframes.begin();
+	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount;
+	color.g = (nextKeyframe->data.g - entityModel->GetColor().g) / frameCount;
+	color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount;
+}
+void ColorAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+
+	glm::vec4& entityColor{ entityModel->GetColorRef() };
+	entityColor.r += color.r;
+	entityColor.g += color.g;
+	entityColor.b += color.b;
+
+	if (frameNum >= nextKeyframe->frameNum) {
+		float frameCount{ (float)nextKeyframe->frameNum };
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+		else {
+			frameCount = nextKeyframe->frameNum - frameCount;
+			color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount;
+			color.g = (nextKeyframe->data.g - entityModel->GetColor().g) / frameCount;
+			color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount;
+		}
+	}
+}
+void ColorAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<glm::vec3> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<glm::vec3*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void ColorAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<glm::vec3>{frameNum});
+}
+bool ColorAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
 		if (k.frameNum == frameNum) {
 			return true;

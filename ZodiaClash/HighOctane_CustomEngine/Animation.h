@@ -159,3 +159,19 @@ private:
 	float alpha;
 	std::list<Keyframe<float>>::iterator nextKeyframe{};
 };
+
+class ColorAnimation : public Animation {
+public:
+	ColorAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<glm::vec3>> keyframes;
+private:
+	Model* entityModel;
+	glm::vec3 color;
+	std::list<Keyframe<glm::vec3>>::iterator nextKeyframe{};
+};
