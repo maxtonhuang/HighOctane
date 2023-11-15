@@ -53,7 +53,8 @@ vmath::Vector2 uiMousePos{ RESET_VEC2 };
 TextLabel::TextLabel() {
 	font = fonts.GetDefaultFont();
 	textString = "TextLabel";
-	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap["black"];
 }
@@ -67,7 +68,8 @@ TextLabel::TextLabel() {
 TextLabel::TextLabel(std::string str, std::string txtColor) {
 	font = fonts.GetDefaultFont();
 	textString = str;
-	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap[txtColor];
 	initClr = txtColor;
@@ -82,9 +84,10 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	font = fonts.GetDefaultFont();
 	textString = str;
-	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
 	relFontSize = 0.5f;
-	textColor = clr;	
+	textColor = clr;
 }
 
 /*!
@@ -173,7 +176,8 @@ bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 void TextLabel::CalculateOffset() {
 	//DEBUG_PRINT("Recalculating...");
 	// reset variables
-	posOffset = { 0.f, 0.f };
+	textWidth = 0.f;
+	textHeight = 0.f;
 	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
 
 	std::string::const_iterator c;
@@ -185,18 +189,15 @@ void TextLabel::CalculateOffset() {
 		float h = ch.size.y * relFontSize;
 
 		// calculate size needed
-		if (*c != textString[textString.size() - 1]) {
-			posOffset.x += ((ch.advance >> 6) * relFontSize) - w;
+		if (*c != textString[textString.size()]) {
+			textWidth += ((ch.advance >> 6) * relFontSize) - w;
 		}
-		posOffset.x += (w + (ch.bearing.x * relFontSize));
-		posOffset.y = std::max(posOffset.y, h);		
+		textWidth += (w + (ch.bearing.x * relFontSize));
+		textHeight = std::max(textHeight, h);
 	}
 
-	//finalise y-offset
-	posOffset.y += verticalPadding;
-
-	textWidth = posOffset.x;
-	textHeight = posOffset.y;
+	//finalise y-offset (font data)
+	textHeight += verticalPadding;
 }
 
 /*!
@@ -206,10 +207,38 @@ void TextLabel::CalculateOffset() {
 * FUTURE IMPLEMENTATIONS: will likely change when alignment is implemented.
 *
 */
-void TextLabel::UpdateOffset(Transform const& transformData) {
+void TextLabel::UpdateOffset(Transform const& transformData, Size const& sizeData, Padding const& paddingData) {
 	CalculateOffset();
-	relTransform.x = (transformData.position.x - (0.5f * posOffset.x));
-	relTransform.y = (transformData.position.y - (0.25f * posOffset.y));
+
+	switch (hAlignment) {
+	case(UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN):
+		//left align
+		relTransform.x = transformData.position.x - (0.5f * sizeData.width) + paddingData.left;
+		break;
+	case(UI_HORIZONTAL_ALIGNMENT::H_RIGHT_ALIGN):
+		//right align
+		relTransform.x = transformData.position.x - textWidth + (0.5f * sizeData.width) - paddingData.right;
+		break;
+	default:
+		//center align
+		relTransform.x = transformData.position.x - (0.5f * textWidth);
+		break;
+	}
+	
+	switch (vAlignment) {
+	case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
+		//top align
+		relTransform.y = transformData.position.y + (0.5f * sizeData.height - textHeight) - paddingData.top;
+		break;
+	case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
+		//bottom align
+		relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + paddingData.bottom;
+		break;
+	default:
+		//center align
+		relTransform.y = transformData.position.y - (0.25f * textHeight);
+		break;
+	}
 }
 
 /*!
@@ -377,11 +406,13 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	//else {
 	//	//UpdateColorSets(GetDefaultButtonColor(), GetDefaultTextColor());
 	//	textLabelData.textColor = defaultColor.textColor;
-	//}	
+	//}
 
+
+	// note: padding should NOT affect overall size of button, since it acts within the button confines
 	textLabelData.currentState = this->currentState;
-	buttonWidth = textLabelData.textWidth + padding.left + padding.right;
-	buttonHeight = textLabelData.textHeight + padding.top + padding.bottom;
+	buttonWidth = textLabelData.textWidth /*+ padding.left + padding.right*/;
+	buttonHeight = textLabelData.textHeight /*+ padding.top + padding.bottom*/;
 }
 
 /*!

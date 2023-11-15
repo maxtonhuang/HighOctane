@@ -287,7 +287,7 @@ void EngineCore::Run(bool const& mode) {
 
 	std::shared_ptr<UIButtonSystem> uiButtonSystem = ECS::ecs().RegisterSystem<UIButtonSystem>();
 	runSystemList.emplace_back(uiButtonSystem, "UI Button System");
-	editSystemList.emplace_back(uiButtonSystem, "UI Text Label System");
+	editSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();

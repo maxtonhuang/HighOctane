@@ -292,6 +292,8 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 	
 	textObject.AddMember("Color Preset", rapidjson::Value(textLabel.initClr.c_str(), allocator), allocator);
 	
+	textObject.AddMember("Horizontal Alignment", (int)textLabel.hAlignment, allocator);
+	textObject.AddMember("Vertical Alignment", (int)textLabel.vAlignment, allocator);
 
 	return textObject;
 }
@@ -314,6 +316,7 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	buttonObject.AddMember("Padding Bottom", button.padding.bottom, allocator);
 	buttonObject.AddMember("Padding Left", button.padding.left, allocator);
 	buttonObject.AddMember("Padding Right", button.padding.right, allocator);
+	buttonObject.AddMember("Padding Setting", button.padding.setting, allocator);
 
 	return buttonObject;
 }
@@ -740,6 +743,12 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 				textLabel.initClr = textObject["Color Preset"].GetString();
 				//TextLabel(textLabel.textString, textLabel.textColor);
+
+				if (textObject.HasMember("Horizontal Alignment") && textObject.HasMember("Vertical Alignment")) {
+					textLabel.hAlignment = (UI_HORIZONTAL_ALIGNMENT)(textObject["Horizontal Alignment"].GetInt());
+					textLabel.vAlignment = (UI_VERTICAL_ALIGNMENT)(textObject["Vertical Alignment"].GetInt());
+				}
+
 				ECS::ecs().AddComponent(entity, textLabel);
 			}
 			if (entityObject.HasMember("Button")) {
@@ -773,6 +782,9 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 					button.padding.bottom = buttonObject["Padding Bottom"].GetFloat();
 					button.padding.left = buttonObject["Padding Left"].GetFloat();
 					button.padding.right = buttonObject["Padding Right"].GetFloat();
+					if (buttonObject.HasMember("Padding Setting")) {
+						button.padding.setting = buttonObject["Padding Setting"].GetInt();
+					}					
 				}
 
 				if (buttonObject.HasMember("Event Name")) {

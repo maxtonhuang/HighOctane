@@ -44,8 +44,8 @@ enum class UI_HORIZONTAL_ALIGNMENT {
 	H_RIGHT_ALIGN
 };
 enum class UI_VERTICAL_ALIGNMENT {
-	V_CENTER_ALIGN,
 	V_TOP_ALIGN,	
+	V_CENTER_ALIGN,
 	V_BOTTOM_ALIGN
 };
 // enums for state lookup
@@ -61,8 +61,10 @@ struct Padding {
 	float right;
 	float top;
 	float bottom;
+	int setting{1};
 
 	Padding() : left{ 40.f }, right{ 40.f }, top{ 20.f }, bottom{ 20.f } {}
+	Padding(float singleVal): left{ singleVal }, right{ singleVal }, top{ singleVal }, bottom{ singleVal } {}
 	Padding(float horizontalVal, float verticalVal) : left{ horizontalVal }, right{ horizontalVal }, top{ verticalVal }, bottom{ verticalVal } {}
 	Padding(float leftVal, float rightVal, float topVal, float bottomVal) : left{ leftVal }, right{ rightVal }, top{ topVal }, bottom{ bottomVal } {}
 };
@@ -85,13 +87,14 @@ public:
 	Font* font{}; 
 	std::string textString{}; 
 	std::string prevTextString{};
-	Vec2 posOffset{}; //offset from transform
+	//Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
 	glm::vec4 textColor{}; 
 	float relFontSize{};
 	float textWidth{};
 	float textHeight{};
-	UI_HORIZONTAL_ALIGNMENT textAlignment{};
+	UI_HORIZONTAL_ALIGNMENT hAlignment{};
+	UI_VERTICAL_ALIGNMENT vAlignment{};
 	STATE currentState{};
 
 	std::string initClr;
@@ -123,9 +126,9 @@ public:
 	/**************************
 	******* OTHER UTILS *******
 	**************************/
-	bool CheckStringUpdated(TextLabel& txtLblData);	
+	bool CheckStringUpdated(TextLabel& txtLblData);
 	void CalculateOffset();
-	void UpdateOffset(Transform const& transformData);
+	void UpdateOffset(Transform const& transformData, Size const& sizeData, Padding const& paddingData = { 0.f,0.f,0.f,0.f });
 
 	/**************************
 	******* SYSTEM CALLS ******

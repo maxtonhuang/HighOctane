@@ -271,8 +271,8 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::ve
 
     // enforce relFontSize to be in range [0.f, 1.f]
     float fontSize = txtLblData.relFontSize;
-    fontSize = std::max(0.f, fontSize);
-    fontSize = std::min(fontSize, 1.f);
+    /*fontSize = std::max(0.f, fontSize);
+    fontSize = std::min(fontSize, 1.f);*/
 
     // TODO some sort of non null checking for fontData?
     // find font in fontCollection (null checking included)

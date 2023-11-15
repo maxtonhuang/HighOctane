@@ -671,19 +671,25 @@ void UITextLabelSystem::Update() {
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		Button* buttonData = {};
 		Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);		
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
 			textLabelData->Update(*modelData, *nameData);
+			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}
-
-		textLabelData->UpdateOffset(*transformData);
+		else {
+			buttonData = &buttonArray.GetData(entity);
+			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
+		}
 	}
 }
 
@@ -710,8 +716,8 @@ void UITextLabelSystem::Draw() {
 			buttonData = &buttonArray.GetData(entity);
 		}
 		else {
-			sizeData->width = textLabelData->textWidth;
-			sizeData->height = textLabelData->textHeight;
+			sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
+			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);
 		}
 
 		if (texArray.HasComponent(entity)) {
@@ -759,8 +765,9 @@ void UIButtonSystem::Update() {
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 
-		sizeData->width = buttonData->buttonWidth;
-		sizeData->height = buttonData->buttonHeight;
+		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
+		sizeData->height = std::max(buttonData->buttonHeight,sizeData->height);
+
 	}
 }
 

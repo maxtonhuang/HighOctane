@@ -191,8 +191,21 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
+		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(TextLabel).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Text Label")) {
 			std::pair<std::string, std::string> fontInfo = textlabel.font->GetInfo();
+
+			if (!ECS::ecs().HasComponent<Button>(entity)) {
+				// size adjustments
+				float& lblHeight = sizeData.height;
+				float& lblWidth = sizeData.width;
+				float lblDims[2] = { lblHeight, lblWidth };
+				ImGui::DragFloat2("Label Size", lblDims, 0.5f);
+				lblDims[0] = std::max(lblDims[0], 0.f);
+				lblDims[1] = std::max(lblDims[1], 0.f);
+				sizeData.height = lblDims[0];
+				sizeData.width = lblDims[1];
+			}
 
 			// font properties
 			std::vector<std::string> ftFamilyList = fonts.GetFontFamilyList();
@@ -250,9 +263,57 @@ void SceneEntityComponents(Entity entity) {
 				}
 			}
 
+			// font size adjustment
+			int fontSizeDisplayVal = static_cast<int>(textlabel.relFontSize * 100);
+			if (ImGui::DragInt("Size", &fontSizeDisplayVal, 1, 0, 100)) {
+				fontSizeDisplayVal = std::clamp(fontSizeDisplayVal, 0, 100);
+				textlabel.relFontSize = static_cast<float>(fontSizeDisplayVal) / 100.0f;
+			}
 
 			// text box to reflect current string
-			ImGui::InputText("Text", &textlabel.textString);
+			if (ImGui::InputText("Text", &textlabel.textString)) {
+				textlabel.CalculateOffset();
+			}
+
+			// alignment grid
+			static int selectedIdx = (3 * static_cast<int>(textlabel.vAlignment) + static_cast<int>(textlabel.hAlignment));
+			static UI_HORIZONTAL_ALIGNMENT horizontalAlignmentGrid[3][3];
+			static UI_VERTICAL_ALIGNMENT verticalAlignmentGrid[3][3];
+			const float itemWidthFraction = 0.3f;
+			float panelWidth = ImGui::GetContentRegionAvail().x * 0.6f;
+
+			// Calculate the responsive itemWidth
+			float itemWidth = panelWidth * itemWidthFraction;
+
+			for (int y = 0; y < 3; y++)
+			{
+				for (int x = 0; x < 3; x++)
+				{
+					// Display horizontal and vertical alignment labels centered on the selectable item
+					char label[16];
+					sprintf_s(label, "%c/%c",
+						(y == 0) ? 'T' : (y == 1) ? 'M' : 'B',
+						(x == 0) ? 'L' : (x == 1) ? 'M' : 'R');
+
+					bool isSelected = selectedIdx == (3 * y + x);
+					if (isSelected)
+					{
+						horizontalAlignmentGrid[y][x] = static_cast<UI_HORIZONTAL_ALIGNMENT>(x);
+						verticalAlignmentGrid[y][x] = static_cast<UI_VERTICAL_ALIGNMENT>(y);
+					}
+
+					if (x > 0) ImGui::SameLine(0, ImGui::GetStyle().ItemSpacing.x);  // Adjust for spacing
+
+					if (ImGui::Selectable(label, isSelected, ImGuiSelectableFlags_None, ImVec2(itemWidth, 50.f)))
+					{
+						selectedIdx = (3 * y + x);
+						textlabel.hAlignment = static_cast<UI_HORIZONTAL_ALIGNMENT>(x);
+						textlabel.vAlignment = static_cast<UI_VERTICAL_ALIGNMENT>(y);
+					}
+				}
+			}
+			ImGui::SameLine();
+			ImGui::Text("Alignment");
 
 			ImGui::TreePop();
 		}
@@ -260,6 +321,8 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<Button>(entity)) {
 		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
+		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
+		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
 		const char* currentEvent{ button.eventName.c_str() };
 		if (ImGui::TreeNodeEx((void*)typeid(Button).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
 			std::vector<const char*> functionNames{ events.GetFunctionNames() };
@@ -280,11 +343,73 @@ void SceneEntityComponents(Entity entity) {
 
 			ImGui::InputText("Event Input",&button.eventInput);
 
+			// size adjustments
+			float& btnHeight = sizeData.height;
+			float& btnWidth = sizeData.width;
+			float btnDims[2] = { btnHeight, btnWidth };
+			ImGui::DragFloat2("Button Size", btnDims, 0.5f);
+				btnDims[0] = std::max(btnDims[0], 0.f);
+				btnDims[1] = std::max(btnDims[1], 0.f);
+				sizeData.height = btnDims[0];
+				sizeData.width = btnDims[1];			
+			
+
+			// padding adjustments
+			float& btnPadTop = button.padding.top;
+			float& btnPadBtm = button.padding.bottom;
+			float& btnPadLeft = button.padding.left;
+			float& btnPadRight = button.padding.right;
+			int& btnPadSetting = button.padding.setting;
+
+			const char* paddingOptions[] = { "Uniform", "Balanced (Vertical, Horizontal)", "Custom (Top, Bottom, Left, Right)" };
+			static int item_current = 0;
+			ImGui::Combo("Padding Setting", &btnPadSetting, paddingOptions, IM_ARRAYSIZE(paddingOptions));
+
+			float btnBalancedPad[2] = { btnPadTop, btnPadLeft };
+			float btnCustomPad[4] = { btnPadTop, btnPadBtm, btnPadLeft, btnPadRight };
+
+			//note: consider drawing padding to reflect the change?
+			switch (btnPadSetting) {
+			case(0):
+				// uniform, show 1 value
+				if (ImGui::DragFloat("Padding Value", &btnPadLeft, 0.5f)) {
+					btnPadLeft = std::clamp(btnPadLeft, 0.f, 0.5f * textlabel.textWidth);
+					btnPadTop = btnPadLeft;
+					btnPadBtm = btnPadLeft;
+					btnPadRight = btnPadLeft;
+				}
+				break;
+			case(1):
+				// balanced, show 2 values
+				if (ImGui::DragFloat2("Padding Value", btnBalancedPad, 0.5f)) {
+					btnBalancedPad[0] = std::clamp(btnBalancedPad[0], 0.f, 0.5f * textlabel.textWidth);
+					btnBalancedPad[1] = std::clamp(btnBalancedPad[1], 0.f, 0.5f * textlabel.textWidth);
+
+					button.padding.top = btnBalancedPad[0];
+					button.padding.bottom = btnBalancedPad[0];
+					button.padding.left = btnBalancedPad[1];
+					button.padding.right = btnBalancedPad[1];
+				}
+				break;
+			default:
+				// custom, show 4 values
+				if (ImGui::DragFloat4("Padding Value", btnCustomPad, 0.5f)) {
+					btnCustomPad[0] = std::clamp(btnCustomPad[0], 0.f, 0.5f * textlabel.textWidth);
+					btnCustomPad[1] = std::clamp(btnCustomPad[1], 0.f, 0.5f * textlabel.textWidth);
+					btnCustomPad[2] = std::clamp(btnCustomPad[2], 0.f, 0.5f * textlabel.textWidth);
+					btnCustomPad[3] = std::clamp(btnCustomPad[3], 0.f, 0.5f * textlabel.textWidth);
+
+					button.padding.top = btnCustomPad[0];
+					button.padding.bottom = btnCustomPad[1];
+					button.padding.left = btnCustomPad[2];
+					button.padding.right = btnCustomPad[3];
+				}
+				break;
+			}
+
+			// color properties
 			auto& btnColor = button.GetDefaultButtonColor();
 			ImGui::ColorEdit3("Color", (float*)&btnColor);
-			//if (button.currentState == STATE::FOCUSED) {
-				//button.UpdateColorSets(btnColor, button.GetDefaultTextColor());
-			//}
 
 			ImGui::TreePop();
 
