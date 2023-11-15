@@ -50,6 +50,14 @@ extern "C" {
 	typedef struct _MonoClassField MonoClassField;
 
 }
+
+struct ScriptVariableInfo {
+	std::string className;
+	int typeName;
+	std::string variableName;
+	uint32_t fieldType;
+};
+
 /*!
  * \brief Represents a class in the script engine.
  *
@@ -208,8 +216,7 @@ public:
 	std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
 	std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
 
-	// v maybe move this to a global, see how
-	std::unordered_map <std::string, std::vector<std::pair<std::string, uint32_t>>> FieldMap; // <Class name, <Field name, field access>>
+	std::vector<ScriptVariableInfo> ScriptInfoVec; // 
 };
 
 class ScriptEngine {
@@ -339,4 +346,3 @@ private:
 	friend class ScriptClass;
 	friend class ScriptInstance;
 };
-

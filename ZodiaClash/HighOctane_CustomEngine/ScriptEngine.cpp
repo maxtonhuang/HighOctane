@@ -40,7 +40,6 @@ extern std::vector<std::string> fullNameVecImGUI;
 ScriptEngineData* ScriptEngine::scriptData = nullptr;
 
 void ScriptEngine::Init() {
-    //scriptData = new ScriptEngineData(); 
     scriptData = GetInstance();
     InitMono();
 
@@ -280,15 +279,22 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 
             while ((field = mono_class_get_fields(monoClass, &iter)) != nullptr) {
                 std::string fieldName = mono_field_get_name(field);
+
+                // Get the typeName
+                MonoType* typeName = mono_field_get_type(field);
+                int typeCode = mono_type_get_type(typeName);
+
+
                 uint32_t flags = mono_field_get_flags(field) & MONO_FIELD_ATTR_FIELD_ACCESS_MASK;
-                
+                //std::cout << typeCode << std::endl;
+
                 switch (flags) {
                     case MONO_FIELD_ATTR_PUBLIC:
-					    scriptData->FieldMap[fullName].push_back({ fieldName, MONO_FIELD_ATTR_PUBLIC });
+                        scriptData->ScriptInfoVec.push_back({fullName, typeCode, fieldName, MONO_FIELD_ATTR_PUBLIC});
 					    break;
 
 					case MONO_FIELD_ATTR_PRIVATE:
-					    scriptData->FieldMap[fullName].push_back({ fieldName, MONO_FIELD_ATTR_PRIVATE });
+                        scriptData->ScriptInfoVec.push_back({ fullName, typeCode, fieldName, MONO_FIELD_ATTR_PRIVATE });
 					    break;
                 }
 
@@ -298,25 +304,6 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         }
         /*-------CHECK IF SUBCLASS OR NOT--------*/
     }
-
-    // Test to see how to retrieve the things
- //   for (auto& name : fullNameVecImGUI) {
- //       if (scriptData->FieldMap[name].size() != 0) {
- //           for (auto& field : scriptData->FieldMap[name]) {
- //               switch (field.second) {
- //                   case MONO_FIELD_ATTR_PUBLIC:
-	//					std::cout << "Class name: " << name << " ";
- //                       std::cout << field.first << " " << "is public" << std::endl;
-	//					break;
-
- //                   case MONO_FIELD_ATTR_PRIVATE:
- //                       std::cout << "Class name: " << name << " ";
- //                       std::cout << field.first << " " << "is private" << std::endl;
- //                       break;
- //               }
-	//		}
- //       }
-	//}
 }
 
 void ScriptEngine::ShutdownMono() {

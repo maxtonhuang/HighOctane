@@ -18,6 +18,63 @@ Entity currentSelectedEntity{};
 static bool check;
 extern std::vector<std::string> fullNameVecImGUI;
 
+//int test = 0;
+
+std::array<int, 10> testing{};
+std::array<float, 10> testing2{};
+
+void DrawScriptTreeWithImGui(std::string className, Entity entity) {
+
+	//if (ImGui::TreeNodeEx("Testing", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+	//	// Maybe have a vector of bool here
+	//	// For every vector of bool, if true then make it appear so that it can be changed
+	//	// Something like this here
+	//	auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
+	//	auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
+	//	auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
+	//	ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
+	//	ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
+	//	ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
+	//	ImGui::TreePop();
+	//}
+
+	int i{};
+	ScriptEngineData* scriptData = ScriptEngine::GetInstance();
+	// Iterate over each class in the ScriptInfoVec
+	if (ImGui::TreeNodeEx(className.c_str())) {
+	// If the classname is same as the one in the fieldmap, then do the thing
+		for (auto& classEntry : scriptData->ScriptInfoVec) {
+
+			if (classEntry.className != className) {
+				continue;
+			}
+
+			if (classEntry.fieldType != MONO_FIELD_ATTR_PUBLIC) {
+				continue;
+			}
+
+			// Iterate over each field in the class
+			std::string fieldInfo = classEntry.variableName;
+
+			switch (classEntry.typeName) {
+			case MONO_TYPE_I4: // int
+				ImGui::DragInt(fieldInfo.c_str(), &testing[i], 1.0f);
+				break;
+
+			case MONO_TYPE_R4: // float
+				ImGui::DragFloat(fieldInfo.c_str(), &testing2[i], 1.0f);
+				break;
+
+			case MONO_TYPE_BOOLEAN: // bool
+				ImGui::Checkbox(fieldInfo.c_str(), &check);
+				break;
+			}
+			i++;
+		}
+	ImGui::TreePop();
+	}	
+}
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
 	for (const Entity& entity : s_ptr->m_Entities) {
@@ -386,46 +443,29 @@ void SceneEntityComponents(Entity entity) {
 		}
 
 		if (testingggg) {
-			ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Testing");
+			if (ImGui::TreeNodeEx("Testing", ImGuiTreeNodeFlags_DefaultOpen)) {
 
-			// Maybe have a vector of bool here
-			// For every vector of bool, if true then make it appear so that it can be changed
-			// Something like this here
-			if (ECS::ecs().HasComponent<Transform>(entity)) {
+				// Maybe have a vector of bool here
+				// For every vector of bool, if true then make it appear so that it can be changed
+				// Something like this here
 				auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
 				auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
 				auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
 				ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
 				ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
 				ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
+				ImGui::TreePop();
 			}
-			ImGui::TreePop();
 		}
 
 		if (ImGui::Button("Test button thing")) {
 			testingggg = !testingggg;
 			LOG_INFO("Test button thing");
-			std::cout << testingggg << std::endl;
 		}
-		// Test to see how to retrieve the things
-		//ScriptEngineData* scriptData = ScriptEngine::GetInstance();
-		//for (auto& name : fullNameVecImGUI) {
-		//	if (scriptData->FieldMap[name].size() != 0) {
-		//		for (auto& field : scriptData->FieldMap[name]) {
-		//			
-		//			std::cout << name << std::endl;
-		//			switch (field.second) {
-		//			case MONO_FIELD_ATTR_PUBLIC:
-		//				//std::cout << "Public" << std::endl;5
-		//				ImGui::Button("Testttttttttt");
-		//				break;
 
-		//				//case MONO_FIELD_ATTR_PRIVATE:
-		//				//    break;
-		//			}
-		//		}
-		//	}
-		//}
-
+		// For everything in the vector, draw the tree
+		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
+			DrawScriptTreeWithImGui(scriptNaming, entity);
+		}
 	}
 }
