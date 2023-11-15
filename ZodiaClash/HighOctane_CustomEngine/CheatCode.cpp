@@ -13,3 +13,11 @@ void RestoreFullHealth(CharacterStats& character) {
 void ToggleGodMode() {
 	godModeOn = !godModeOn; // reset the state back to non god mode
 }
+
+void ActivateNextLevel() {
+	GameStateMgr::GetInstance()->NextLevel();
+}
+
+void ActivateEndGame() {
+	GameStateMgr::GetInstance()->GoToEndLevel();
+}

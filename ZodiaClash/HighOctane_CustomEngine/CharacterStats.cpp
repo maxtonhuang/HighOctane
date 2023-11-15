@@ -35,6 +35,7 @@
 #include "CharacterAction.h"
 #include "PlayerAction.h"
 #include "Battle.h"
+#include "CheatCode.h"
 #include <thread>
 
 /**
@@ -94,12 +95,23 @@ void CharacterStats::Start()
  */
 void CharacterStats::TakeDamage(float damage) 
 {
+    if (godModeOn && this->tag == CharacterType::PLAYER) {
+        // in God Mode, the player does not take damage
+        return;
+    }
+
+    if (godModeOn && this->tag == CharacterType::ENEMY) {
+        // in God Mode, the enemy takes double the damage from the player
+        damage *= 2;
+    }
+
     if (parent->m_Entities.size() > 0) {
         std::string name{ ECS::ecs().GetComponent<Name>(entity).name };
         printf("%s took %f damage!\n", name.c_str(), damage);
         DEBUG_PRINT("%s took %f damage!", name.c_str(), damage);
     }
-    stats.health -= damage;
+
+    this->stats.health -= damage;
     if (stats.health <= 0)
     {
         if (parent->m_Entities.size() > 0) {

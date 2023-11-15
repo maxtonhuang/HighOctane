@@ -126,10 +126,11 @@ GameStateMgr* GameStateMgr::gamestatemgr_ = nullptr;
 /**
  * @brief Constructor for GameStateMgr. Initializes the manager with the specified number of game states.
  */
-GameStateMgr::GameStateMgr(unsigned gsCount) :
+GameStateMgr::GameStateMgr(unsigned gsCount, int totalLevels) :
                                                 gsmState{ GSLOAD },
                                                 gameStateCount{ gsCount },
                                                 stateArray{ new GameState[gameStateCount]{} },
+                                                gameLevel{ new GameLevel(totalLevels) },
                                                 state{ 0 }, //gsm will run the first state in the array when initialized
                                                 nextState{ -1 },
                                                 isRunning{ true },
@@ -140,19 +141,16 @@ GameStateMgr::GameStateMgr(unsigned gsCount) :
  */
 GameStateMgr::~GameStateMgr() 
 {
-    // Assuming these managers are present elsewhere in your code
-   /* PhysicsSystem::removeInstance();
-    CollisionMgr::removeInstance();
-    EntityMgr::removeInstance();*/
     delete[] stateArray;
+    delete gameLevel;
 }
 
 /**
  * @brief Retrieves the singleton instance of the GameStateMgr, creating it with the specified state count if necessary.
  */
-GameStateMgr* GameStateMgr::GetInstance(unsigned gsCount) 
+GameStateMgr* GameStateMgr::GetInstance(unsigned gsCount, int totalCount) 
 {
-    if (!gamestatemgr_) gamestatemgr_ = new GameStateMgr(gsCount);
+    if (!gamestatemgr_) gamestatemgr_ = new GameStateMgr(gsCount, totalCount);
     return gamestatemgr_;
 }
 
@@ -260,4 +258,25 @@ void GameStateMgr::ChangeGameState(int gsIdx)
 void GameStateMgr::QuitGame() 
 {
     continueNextState = false; nextState = 0;
+}
+
+void GameStateMgr::NextLevel() {
+    gameLevel->IncreaseLevel();
+
+    // Check if there is a specific game state associated with each level
+    int newLevel = gameLevel->GetCurrentLevel();
+    if (newLevel < gameStateCount) {
+        // Assuming each level has a corresponding game state
+        ChangeGameState(newLevel);
+    }
+    else {
+        // If the new level exceeds the number of game states, perhaps loop back or end the game
+        ChangeGameState(GS_QUIT); // or any other end state
+    }
+}
+
+void GameStateMgr::GoToEndLevel() {
+    gameLevel->JumpToEndLevel();
+    //last game state is the end state
+    ChangeGameState(gameStateCount - 1);
 }

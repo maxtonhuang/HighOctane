@@ -75,6 +75,14 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_G == key) {
             ToggleGodMode();
         }
+        if (GLFW_KEY_N == key) 
+        {
+            ActivateNextLevel();
+        }
+        if (GLFW_KEY_E == key) 
+        {
+            ActivateEndGame();
+        }
 
         // key input for toggling mass rendering
         //if (GLFW_KEY_Y == key) {
