@@ -267,6 +267,10 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 	rapidjson::Value modelObject(rapidjson::kObjectType);
 	modelObject.AddMember("Model type", (int)model.type, allocator);
 	modelObject.AddMember("Background scroll speed", model.backgroundScrollSpeed, allocator);
+	modelObject.AddMember("Red", model.GetColor().r, allocator);
+	modelObject.AddMember("Green", model.GetColor().g, allocator);
+	modelObject.AddMember("Blue", model.GetColor().b, allocator);
+	modelObject.AddMember("Alpha", model.GetColor().a, allocator);
 	return modelObject;
 }
 
@@ -784,6 +788,15 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			if (entityObject.HasMember("Model")) {
 				const rapidjson::Value& modelObject = entityObject["Model"];
 				Model model{ modelObject["Model type"].GetInt(),modelObject["Background scroll speed"].GetFloat() };
+				if (modelObject.HasMember("Red")) {
+					glm::vec4 modelColor{};
+					modelColor.r = modelObject["Red"].GetFloat();
+					modelColor.g = modelObject["Green"].GetFloat();
+					modelColor.b = modelObject["Blue"].GetFloat();
+					modelColor.a = modelObject["Alpha"].GetFloat();
+					model.SetColor(modelColor.r, modelColor.g, modelColor.b);
+					model.SetAlpha(modelColor.a);
+				}
 				ECS::ecs().AddComponent(entity, Model{});
 			}
 			if (entityObject.HasMember("Collider")) {

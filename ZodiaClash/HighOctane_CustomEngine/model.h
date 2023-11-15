@@ -63,10 +63,10 @@ public:
 
 	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 
-	vmath::Vector2 GetMin(); //returns minimum point in screen coordinates
-	vmath::Vector2 GetMax(); //returns maximum point in screen coordinates
+	vmath::Vector2 GetMin() const; //returns minimum point in screen coordinates
+	vmath::Vector2 GetMax() const; //returns maximum point in screen coordinates
 
-	glm::vec4 GetColor(); // retrieve color stored
+	glm::vec4 GetColor() const; // retrieve color stored
 	glm::vec4& GetColorRef(); //retrieve color reference
 
 	ModelType type{};

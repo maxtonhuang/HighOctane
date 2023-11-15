@@ -224,9 +224,23 @@ void UpdateAnimator() {
 				}
 			}
 
-			int buttonID = 0;
+			int buttonID {0};
+			ImVec2 padding{};
+			for (auto& animation : selectedAnimGroup->animations) {
+				ImVec2 checkPadding{ ImGui::CalcTextSize(animation->GetType().c_str()) };
+				if (checkPadding.x > padding.x) {
+					padding = checkPadding;
+				}
+			}
 			for (auto& animation : selectedAnimGroup->animations) {
 				ImGui::Text(animation->GetType().c_str());
+				float paddingSpaceX{ padding.x - ImGui::CalcTextSize(animation->GetType().c_str()).x };
+				if (paddingSpaceX > 0) {
+					ImGui::SameLine(0,0);
+					ImGui::InvisibleButton("  ", ImVec2{paddingSpaceX, padding.y});
+				}
+				
+				
 				ImGui::SameLine();
 				for (int i = 0; i < selectedAnimGroup->totalFrames; i++) {
 					bool colorChanged{ true };
