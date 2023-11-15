@@ -125,9 +125,6 @@
     <ClInclude Include="Movement.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Serialization.h">
-      <Filter>Serialization</Filter>
-    </ClInclude>
     <ClInclude Include="File.h">
       <Filter>File</Filter>
     </ClInclude>
@@ -251,6 +248,9 @@
     <ClInclude Include="UndoRedo.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="CheatCode.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -297,9 +297,6 @@
     </ClCompile>
     <ClCompile Include="Systems.cpp">
       <Filter>EngineArchitecture</Filter>
-    </ClCompile>
-    <ClCompile Include="Serialization.cpp">
-      <Filter>Serialization</Filter>
     </ClCompile>
     <ClCompile Include="File.cpp">
       <Filter>File</Filter>
@@ -391,14 +388,14 @@
     <ClCompile Include="Layering.cpp">
       <Filter>EngineArchitecture</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAction.cpp" />
-    <ClCompile Include="GuardAction.cpp" />
-    <ClCompile Include="PlayerAction.cpp" />
     <ClCompile Include="Reflections.cpp">
       <Filter>Reflection</Filter>
     </ClCompile>
     <ClCompile Include="UndoRedo.cpp">
       <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="CheatCode.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
