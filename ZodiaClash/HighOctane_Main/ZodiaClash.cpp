@@ -235,7 +235,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().Init();
 	ECS::ecs().RegisterComponent<Transform>();
 	ECS::ecs().RegisterComponent<Color>();
-	ECS::ecs().RegisterComponent<Texture>();
 	ECS::ecs().RegisterComponent<Size>();
 	ECS::ecs().RegisterComponent<Visible>();
 	ECS::ecs().RegisterComponent<Tex>();

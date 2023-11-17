@@ -87,7 +87,6 @@ Signature EntityManager::GetSignature(Entity entity) {
 ////////// COMPONENT //////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-
 // ---------- Component Manager ---------- //
 
 void ComponentManager::EntityDestroyed(Entity entity) {
@@ -163,6 +162,10 @@ uint32_t ECS::GetEntityCount() {
 // for faster access to large amounts of data
 ComponentManager& ECS::GetComponentManager() {
     return *m_ComponentManager;
+}
+
+std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>>& ECS::GetTypeManager() {
+    return m_TypeManager;
 }
 
 // Destroys the Entity and updates the corresponding arrays

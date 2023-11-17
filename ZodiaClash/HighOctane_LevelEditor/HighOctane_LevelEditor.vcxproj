@@ -164,6 +164,7 @@
     <ClCompile Include="ImGuiAnimator.cpp" />
     <ClCompile Include="ImGuiAssetLibrary.cpp" />
     <ClCompile Include="GUIManager.cpp" />
+    <ClCompile Include="ImGuiComponents.cpp" />
     <ClCompile Include="ImGuiConsole.cpp" />
     <ClCompile Include="ImGuiContentBrowser.cpp" />
     <ClCompile Include="ImGuiEntitiesManager.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="ImGuiAnimator.h" />
     <ClInclude Include="ImGuiAssetLibrary.h" />
     <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="ImGuiComponents.h" />
     <ClInclude Include="ImGuiConsole.h" />
     <ClInclude Include="ImGuiContentBrowser.h" />
     <ClInclude Include="ImGuiEntitiesManager.h" />

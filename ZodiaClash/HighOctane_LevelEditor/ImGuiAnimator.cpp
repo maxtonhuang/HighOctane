@@ -23,6 +23,7 @@ void UpdateAnimator() {
 	if (ECS::ecs().HasComponent<AnimationSet>(currentSelectedEntity)) {
 		AnimationSet& animationSet = ECS::ecs().GetComponent<AnimationSet>(currentSelectedEntity);
 
+		//Reset for new entity
 		if (previousEntity != currentSelectedEntity) {
 			previousEntity = currentSelectedEntity;
 			selectedType.clear();
@@ -32,6 +33,7 @@ void UpdateAnimator() {
 			selectedAnimGroup = nullptr;
 		}
 
+		//Animation preview buttons
 		if (selectedAnimGroup != nullptr) {
 			if (ImGui::Button("Play")) {
 				if (animationSet.paused == true) {
@@ -56,9 +58,12 @@ void UpdateAnimator() {
 			}
 		}
 
+		//Initialize selected animation
 		if (selectedAnim == "" && animationSet.animationSet.size() > 0) {
 			selectedAnim = animationSet.animationSet[0].name;
 		}
+
+		//Dropdown for available animations
 		if (ImGui::BeginCombo("Animations Available", selectedAnim.c_str())) {
 			for (int n = 0; n < animationSet.animationSet.size(); n++) {
 				bool is_selected = (selectedAnim == animationSet.animationSet[n].name);
@@ -85,6 +90,7 @@ void UpdateAnimator() {
 			ImGui::EndCombo();
 		}
 
+		//Assign pointer for animation group
 		for (int n = 0; n < animationSet.animationSet.size(); n++) {
 			if (selectedAnim == animationSet.animationSet[n].name) {
 				selectedAnimGroup = &animationSet.animationSet[n];
@@ -92,16 +98,20 @@ void UpdateAnimator() {
 			}
 		}
 
+		//Input text for animation name
 		if (selectedAnim != "" && selectedAnimGroup != nullptr) {
 			ImGui::InputText("Animation Name", &selectedAnim);
 			selectedAnimGroup->name = selectedAnim;
 		}
 
 		if (selectedAnimGroup != nullptr) {
+			//If animation loops or not
 			ImGui::Checkbox("Animation Loop", &selectedAnimGroup->loop);
 
+			//Total frames for the animation
 			ImGui::InputInt("Total Frames", &selectedAnimGroup->totalFrames);
 
+			//Combo box for available animation types
 			if (ImGui::BeginCombo("Types Available", selectedType.c_str())) {
 				for (int n = 0; n < animTypeNames.size(); n++) {
 					bool is_selected = (selectedType.c_str() == animTypeNames[n]);
@@ -115,6 +125,7 @@ void UpdateAnimator() {
 				ImGui::EndCombo();
 			}
 			
+			//Check if animation type is already added
 			bool hasType{ false };
 			for (auto& t : selectedAnimGroup->animations) {
 				if (selectedType == t->GetType()) {
@@ -123,37 +134,54 @@ void UpdateAnimator() {
 				}
 			}
 
-			if (!hasType) {
-				ImGui::SameLine();
-				if (ImGui::Button("Add Animation Type")) {
-					if (selectedType == "Sprite") {
-						selectedAnimGroup->animations.push_back(std::make_shared<SpriteAnimation>());
+			//To add animation types
+			if (selectedType != "") {
+				if (!hasType) {
+					ImGui::SameLine();
+					if (ImGui::Button("Add Animation Type")) {
+						if (selectedType == "Sprite") {
+							selectedAnimGroup->animations.push_back(std::make_shared<SpriteAnimation>());
+						}
+						else if (selectedType == "TextureChange") {
+							selectedAnimGroup->animations.push_back(std::make_shared<ChangeTexAnimation>());
+						}
+						else if (selectedType == "Sound") {
+							selectedAnimGroup->animations.push_back(std::make_shared<SoundAnimation>());
+						}
+						else if (selectedType == "Fade") {
+							selectedAnimGroup->animations.push_back(std::make_shared<FadeAnimation>());
+						}
+						else if (selectedType == "Color") {
+							selectedAnimGroup->animations.push_back(std::make_shared<ColorAnimation>());
+						}
+						else if (selectedType == "TransformDirect") {
+							selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
+						}
+						else if (selectedType == "Swap (Ends current animation)") {
+							selectedAnimGroup->animations.push_back(std::make_shared<SwapAnimation>());
+						}
 					}
-					else if (selectedType == "TextureChange") {
-						selectedAnimGroup->animations.push_back(std::make_shared<ChangeTexAnimation>());
-					}
-					else if (selectedType == "Sound") {
-						selectedAnimGroup->animations.push_back(std::make_shared<SoundAnimation>());
-					}
-					else if (selectedType == "Fade") {
-						selectedAnimGroup->animations.push_back(std::make_shared<FadeAnimation>());
-					}
-					else if (selectedType == "Color") {
-						selectedAnimGroup->animations.push_back(std::make_shared<ColorAnimation>());
-					}
-					else if (selectedType == "TransformDirect") {
-						selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
-					}
-					else if (selectedType == "Swap (Ends current animation)") {
-						selectedAnimGroup->animations.push_back(std::make_shared<SwapAnimation>());
+				}
+				else {
+					ImGui::SameLine();
+					if (ImGui::Button("Remove Animation Type")) {
+						std::vector<std::shared_ptr<Animation>> newAnimationVector{};
+						for (auto& a : selectedAnimGroup->animations) {
+							if (a->GetType() != selectedType) {
+								newAnimationVector.push_back(a);
+							}
+						}
+						selectedAnimGroup->animations = newAnimationVector;
 					}
 				}
 			}
 
+			//Selected animation frame
 			if (selectedFrame >= 0) {
 				ImGui::InputInt("Selected frame", &selectedFrame);
 			}
 
+			//Change current keyframe details
 			if (selectedAnimation != nullptr) {
 				if (!selectedAnimation->HasKeyFrame(selectedFrame)) {
 					if (ImGui::Button("Add new keyframe")) {
@@ -240,6 +268,7 @@ void UpdateAnimator() {
 				}
 			}
 
+			//Padding for animation timeline later
 			int buttonID {0};
 			ImVec2 padding{};
 			for (auto& animation : selectedAnimGroup->animations) {
@@ -248,6 +277,8 @@ void UpdateAnimator() {
 					padding = checkPadding;
 				}
 			}
+
+			//Animation timeline
 			for (auto& animation : selectedAnimGroup->animations) {
 				ImGui::Text(animation->GetType().c_str());
 				float paddingSpaceX{ padding.x - ImGui::CalcTextSize(animation->GetType().c_str()).x };

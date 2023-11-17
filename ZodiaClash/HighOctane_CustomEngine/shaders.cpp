@@ -117,13 +117,13 @@ void Shader::DeleteShader() {
 }
 
 void Shader::Use() {
+	static GLuint currenthandle{};
 	if (handle > 0) {
-		glUseProgram(handle);
+		if (currenthandle != handle) {
+			glUseProgram(handle);
+			currenthandle = handle;
+		}
 	}
-}
-
-void Shader::UnUse() {
-	glUseProgram(0);
 }
 
 GLuint Shader::GetHandle() const {

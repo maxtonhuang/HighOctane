@@ -544,12 +544,14 @@ void EditingSystem::Update() {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity & entity : layering[layer_it]) {
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
-					Name* n = &nameArray.GetData(entity);
-					Transform* t = &transformArray.GetData(entity);
-					Model* m = &modelArray.GetData(entity);
+					if (nameArray.HasComponent(entity) && transformArray.HasComponent(entity) && modelArray.HasComponent(entity)) {
+						Name* n = &nameArray.GetData(entity);
+						Transform* t = &transformArray.GetData(entity);
+						Model* m = &modelArray.GetData(entity);
 
-					// edit entity's properties
-					UpdateProperties(entity, *n, *t, *m, layer_it);
+						// edit entity's properties
+						UpdateProperties(entity, *n, *t, *m, layer_it);
+					}
 				}
 			}
 		}
