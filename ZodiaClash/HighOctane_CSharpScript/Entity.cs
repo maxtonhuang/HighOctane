@@ -32,12 +32,21 @@ public class Entity
         }
     }
     
-    public float DeltaTime
+    public static float DeltaTime
     {
         get
         {
             InternalCalls.GetDeltaTime(out float deltaTime);
             return deltaTime;
+        }
+    }
+
+    public static float FixedDeltaTime
+    {
+        get
+        {
+            InternalCalls.GetFixedDeltaTime(out float fixedDeltaTime);
+            return fixedDeltaTime;
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +58,26 @@ public enum INFO
 
 public static class InternalCalls
 {
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void DebugTrace(string message);
+
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void DebugInfo(string message);
+
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+
+    internal static extern void DebugWarning(string message);
+
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void DebugError(string message);
+
+    // Adds the log function into internal call table
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern void DebugFatal(string message);
 
     // Adds the Get Key Down function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
@@ -108,7 +129,10 @@ public static class InternalCalls
 
     #region deltaTime
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    internal extern static void GetDeltaTime(out float outScale);
+    internal extern static void GetDeltaTime(out float outDeltaTime);
+
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal extern static void GetFixedDeltaTime(out float outFixedDeltaTime);
 
     #endregion
 
@@ -130,4 +154,5 @@ public static class InternalCalls
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal extern static bool EntityIsComponentTypeRegistered(UInt32 entity);
     #endregion
+
 }

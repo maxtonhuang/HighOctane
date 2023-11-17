@@ -39,6 +39,7 @@
 #include <unordered_map>
 #include "AssetManager.h"
 #include "Events.h"
+#include "CheatCode.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -70,6 +71,17 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
                 fullscreen = true;
             }
             graphics.Fullscreen(fullscreen);
+        }
+        if (GLFW_KEY_G == key) {
+            ToggleGodMode();
+        }
+        if (GLFW_KEY_N == key) 
+        {
+            ActivateNextLevel();
+        }
+        if (GLFW_KEY_E == key) 
+        {
+            ActivateEndGame();
         }
 
         // key input for toggling mass rendering

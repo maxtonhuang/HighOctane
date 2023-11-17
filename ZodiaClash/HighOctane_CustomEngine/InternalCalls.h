@@ -37,6 +37,36 @@
 
 namespace internalcalls {
 
+    static void DebugTrace(MonoString* message) {
+        char* msg = mono_string_to_utf8(message);
+        LOG_TRACE(msg);
+        mono_free(msg);
+    }
+
+    static void DebugInfo(MonoString* message) {
+		char* msg = mono_string_to_utf8(message);
+		LOG_INFO(msg);
+        mono_free(msg);
+	}
+
+    static void DebugWarning(MonoString* message) {
+        char* msg = mono_string_to_utf8(message);
+        LOG_WARNING(msg);
+        mono_free(msg);
+    }
+
+    static void DebugError(MonoString* message) {
+		char* msg = mono_string_to_utf8(message);
+		LOG_ERROR(msg);
+        mono_free(msg);
+	}
+
+    static void DebugFatal(MonoString* message) {
+		char* msg = mono_string_to_utf8(message);
+		LOG_FATAL(msg);
+        mono_free(msg);
+	}
+
     /*!
     * \brief Logging function
     *
@@ -44,14 +74,14 @@ namespace internalcalls {
     *
     * \param managedMessage The message to be logged
     */
-    static void Log(MonoString* managedMessage)
+    static void Log(MonoString* message)
     {
         // Convert a C# string in to a C++ string
-        char* message = mono_string_to_utf8(managedMessage);
+        char* msg = mono_string_to_utf8(message);
         // Print message
 
-        mono_free(message);
-        std::cout << message << std::endl;
+        LOG_DEBUG(msg);
+        mono_free(msg);
     }
 
 
@@ -297,8 +327,14 @@ namespace internalcalls {
     *
     * \param outScale Pointer to a float where the delta time will be stored.
     */
-    static void GetDeltaTime(float* outScale) {
-        *outScale = g_dt;
+    static void GetDeltaTime(float* outDeltaTime) {
+        *outDeltaTime = g_dt;
+    }
+
+
+    static void GetFixedDeltaTime(float* outFixedDeltaTime) {
+        // FIXED_DT is now 1.0f / 60.0f
+        *outFixedDeltaTime = FIXED_DT;
     }
 
     /*!
@@ -362,6 +398,12 @@ namespace internalcalls {
 
         // Logging
         ADD_INTERNAL_CALL(Log);
+        ADD_INTERNAL_CALL(DebugTrace);
+        ADD_INTERNAL_CALL(DebugInfo);
+        ADD_INTERNAL_CALL(DebugWarning);
+        ADD_INTERNAL_CALL(DebugError);
+        ADD_INTERNAL_CALL(DebugFatal);
+
         ADD_INTERNAL_CALL(GetKeyDown);
         ADD_INTERNAL_CALL(LogVector3);
 
@@ -387,6 +429,7 @@ namespace internalcalls {
 
         // Get the delta time
         ADD_INTERNAL_CALL(GetDeltaTime);
+        ADD_INTERNAL_CALL(GetFixedDeltaTime);
 
         // Entities
         ADD_INTERNAL_CALL(EntityHasComponent);
