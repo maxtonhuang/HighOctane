@@ -109,7 +109,7 @@ void Model::Update(Transform const& entity, Size const& size) {
 	}
 }
 
-void Model::Draw(Tex* const entity, Animator* const ani) {
+void Model::Draw(Tex* const entity) {
 	static Renderer* parallaxRenderer = &graphics.renderer["parallax"];
 	static Renderer* textureRenderer = &graphics.renderer["texture"];
 	static Renderer* staticRenderer = &graphics.renderer["static"];
@@ -150,13 +150,7 @@ void Model::Draw(Tex* const entity, Animator* const ani) {
 
 	if (entity != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
-		int frameIndex;
-		if (ani != nullptr) {
-			frameIndex = (int)ani->GetFrameIndex();
-		}
-		else {
-			frameIndex = 0;
-		}
+		int frameIndex{entity->frameIndex};
 		renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,0), texID });
 		renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
 		renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
@@ -222,17 +216,21 @@ void Model::AddAlpha(float a) {
 	}
 }
 
-vmath::Vector2 Model::GetMin() {
+float Model::GetAlpha() {
+	return color.a;
+}
+
+vmath::Vector2 Model::GetMin() const {
 	//return vmath::Vector2{ botleft.x * GRAPHICS::w + camera.GetPos().x, botleft.y * GRAPHICS::h + camera.GetPos().y};
 	return minimum;
 }
 
-vmath::Vector2 Model::GetMax() {
+vmath::Vector2 Model::GetMax() const {
 	//return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
 	return maximum;
 }
 
-glm::vec4 Model::GetColor() {
+glm::vec4 Model::GetColor() const {
 	return color;
 }
 

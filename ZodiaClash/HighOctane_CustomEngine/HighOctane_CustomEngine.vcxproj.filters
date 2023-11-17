@@ -248,6 +248,9 @@
     <ClInclude Include="UndoRedo.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Animator</Filter>
+	</ClInclude>
     <ClInclude Include="CheatCode.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -394,6 +397,9 @@
     <ClCompile Include="UndoRedo.cpp">
       <Filter>Miscellaneous</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Animator</Filter>
+	</ClCompile>
     <ClCompile Include="CheatCode.cpp">
       <Filter>Game</Filter>
     </ClCompile>

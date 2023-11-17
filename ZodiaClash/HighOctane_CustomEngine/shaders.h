@@ -39,7 +39,6 @@ public:
 	bool Compile(std::vector<std::pair<GLenum, std::string>> vec); //Compiles shader using input shader files, returns false if compile failure
 	void DeleteShader(); //deletes shader from OpenGL system
 	void Use(); //Use the shader for drawing
-	void UnUse(); //Unuse the shader from drawing
 	GLuint GetHandle() const; //returns handle of the shader
 private:
 	GLuint handle{}; //handle of shader from OpenGL

@@ -57,6 +57,8 @@
 #include <vector>
 #include "AssetManager.h"
 #include "Layering.h"
+#include "ImGuiAnimator.h"
+#include "ImGuiComponents.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -321,7 +323,8 @@ void GUIManager::Update()
     UpdateSceneHierachy();
     UpdateContentBrowser();
     UpdateLayer();
-
+    UpdateAnimator();
+    UpdateComponentViewer();
 
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console

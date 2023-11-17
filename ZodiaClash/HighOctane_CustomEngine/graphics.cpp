@@ -91,6 +91,7 @@ void GraphicsManager::Initialize(int w, int h) {
     glfwSetMouseButtonCallback(window, InputManager::MouseButtonCallback);
     glfwSetCursorPosCallback(window, InputManager::CursorPosCallback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetWindowFocusCallback(window, InputManager::WindowFocusCallback);
     
     HWND hwnd = glfwGetWin32Window(window);
     DragAcceptFiles(hwnd, TRUE);  // Allow the window to accept dropped files

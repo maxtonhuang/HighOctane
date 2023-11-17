@@ -43,6 +43,7 @@
 #include "UIComponents.h"
 #include <memory>
 #include "Layering.h"
+#include "Animation.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -266,6 +267,10 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 	rapidjson::Value modelObject(rapidjson::kObjectType);
 	modelObject.AddMember("Model type", (int)model.type, allocator);
 	modelObject.AddMember("Background scroll speed", model.backgroundScrollSpeed, allocator);
+	modelObject.AddMember("Red", model.GetColor().r, allocator);
+	modelObject.AddMember("Green", model.GetColor().g, allocator);
+	modelObject.AddMember("Blue", model.GetColor().b, allocator);
+	modelObject.AddMember("Alpha", model.GetColor().a, allocator);
 	return modelObject;
 }
 
@@ -321,6 +326,96 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	return buttonObject;
 }
 
+rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value set(rapidjson::kArrayType);
+
+	for (auto const& a : animSet.animationSet) {
+		rapidjson::Value group(rapidjson::kObjectType);
+		rapidjson::Value animations(rapidjson::kArrayType);
+		rapidjson::Value groupName;
+		group.AddMember("Total Frames", a.totalFrames, allocator);
+		group.AddMember("Group Name", rapidjson::Value(a.name.c_str(), allocator).Move(), allocator);
+		group.AddMember("Loop", a.loop, allocator);
+		for (auto const& anim : a.animations) {
+			rapidjson::Value perAnimation(rapidjson::kObjectType);
+			rapidjson::Value keyFrames(rapidjson::kArrayType);
+			std::string animType{ anim->GetType() };
+			perAnimation.AddMember("Animation Type", rapidjson::Value(animType.c_str(), allocator).Move(), allocator);
+			if (animType == "Sprite") {
+				const std::shared_ptr<SpriteAnimation> sprite{ std::dynamic_pointer_cast<SpriteAnimation>(anim) };
+				for (auto const& k : sprite->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyFrames.PushBack(keyframe,allocator);
+				}
+			}
+			else if (animType == "TextureChange") {
+				const std::shared_ptr<ChangeTexAnimation> texchange{ std::dynamic_pointer_cast<ChangeTexAnimation>(anim) };
+				for (auto const& k : texchange->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Texture", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Sound") {
+				const std::shared_ptr<SoundAnimation> sound{ std::dynamic_pointer_cast<SoundAnimation>(anim) };
+				for (auto const& k : sound->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Sound", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Swap") {
+				const std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(anim) };
+				rapidjson::Value keyframe(rapidjson::kObjectType);
+				keyframe.AddMember("Frame Number", swap->keyframes.frameNum, allocator);
+				keyframe.AddMember("Destination", rapidjson::Value(swap->keyframes.data.c_str(), allocator).Move(), allocator);
+				keyFrames.PushBack(keyframe, allocator);
+			}
+			else if (animType == "TransformDirect") {
+				const std::shared_ptr<TransformDirectAnimation> transDirect{ std::dynamic_pointer_cast<TransformDirectAnimation>(anim) };
+				for (auto const& k : transDirect->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("X movement", k.data.position.x, allocator);
+					keyframe.AddMember("Y movement", k.data.position.y, allocator);
+					keyframe.AddMember("Rotation", k.data.rotation, allocator);
+					keyframe.AddMember("Scale", k.data.scale, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Fade") {
+				const std::shared_ptr<FadeAnimation> fade{ std::dynamic_pointer_cast<FadeAnimation>(anim) };
+				for (auto const& k : fade->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Alpha", k.data, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Color") {
+				const std::shared_ptr<ColorAnimation> fade{ std::dynamic_pointer_cast<ColorAnimation>(anim) };
+				for (auto const& k : fade->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Red", k.data.r, allocator);
+					keyframe.AddMember("Green", k.data.g, allocator);
+					keyframe.AddMember("Blue", k.data.b, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			perAnimation.AddMember("Key Frames", keyFrames, allocator);
+			animations.PushBack(perAnimation, allocator);
+		}
+		group.AddMember("Animations", animations, allocator);
+		set.PushBack(group, allocator);
+	}
+
+	return set;
+}
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -364,6 +459,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
 	Collider* collider = nullptr;
+	AnimationSet* animset = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		
@@ -461,6 +557,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
 			rapidjson::Value colliderObject = SerializeCollider(*collider, allocator);
 			entityObject.AddMember("Collider", colliderObject, allocator);
+		}
+		if (ECS::ecs().HasComponent<AnimationSet>(entity)) {
+			animset = &ECS::ecs().GetComponent<AnimationSet>(entity);
+			rapidjson::Value animsetObject = SerializeAnimationSet(*animset, allocator);
+			entityObject.AddMember("Animation Set", animsetObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -636,18 +737,18 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				ECS::ecs().AddComponent<AABB>(entity, aabb);
 			}
 
-			if (entityObject.HasMember("Animation")) {
-				const rapidjson::Value& animObject = entityObject["Animation"];
-				Animator anim{
-					static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
-					animObject["Frame Display Duration"].GetFloat()
-				};
-				//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
-				//anim.frameIndex = animObject["Frame Index"].GetUint();
-				//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
-				//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
-				ECS::ecs().AddComponent<Animator>(entity, anim);
-			}
+			//if (entityObject.HasMember("Animation")) {
+			//	const rapidjson::Value& animObject = entityObject["Animation"];
+			//	Animator anim{
+			//		static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
+			//		animObject["Frame Display Duration"].GetFloat()
+			//	};
+			//	//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
+			//	//anim.frameIndex = animObject["Frame Index"].GetUint();
+			//	//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
+			//	//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
+			//	ECS::ecs().AddComponent<Animator>(entity, anim);
+			//}
 			if (entityObject.HasMember("Scripts")) {
 				const rapidjson::Value& scriptObject = entityObject["Scripts"];
 				Script script;
@@ -701,6 +802,15 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			if (entityObject.HasMember("Model")) {
 				const rapidjson::Value& modelObject = entityObject["Model"];
 				Model model{ modelObject["Model type"].GetInt(),modelObject["Background scroll speed"].GetFloat() };
+				if (modelObject.HasMember("Red")) {
+					glm::vec4 modelColor{};
+					modelColor.r = modelObject["Red"].GetFloat();
+					modelColor.g = modelObject["Green"].GetFloat();
+					modelColor.b = modelObject["Blue"].GetFloat();
+					modelColor.a = modelObject["Alpha"].GetFloat();
+					model.SetColor(modelColor.r, modelColor.g, modelColor.b);
+					model.SetAlpha(modelColor.a);
+				}
 				ECS::ecs().AddComponent(entity, Model{});
 			}
 			if (entityObject.HasMember("Collider")) {
@@ -796,6 +906,82 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				}
 
 				ECS::ecs().AddComponent(entity, button);
+			}
+			if (entityObject.HasMember("Animation Set")) {
+				AnimationSet animset{};
+				for (auto& animGroups : entityObject["Animation Set"].GetArray()) {
+					AnimationGroup anigrp{};
+					anigrp.totalFrames = animGroups["Total Frames"].GetInt();
+					anigrp.name = animGroups["Group Name"].GetString();
+					anigrp.loop = animGroups["Loop"].GetBool();
+					for (auto& animations : animGroups["Animations"].GetArray()) {
+						std::string animType = animations["Animation Type"].GetString();
+						if (animType == "Sprite") {
+							SpriteAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<SpriteAnimation>(a));
+						}
+						else if (animType == "TextureChange") {
+							ChangeTexAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Texture"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ChangeTexAnimation>(a));
+						}
+						else if (animType == "Sound") {
+							SoundAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Sound"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<SoundAnimation>(a));
+						}
+						else if (animType == "Swap") {
+							SwapAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Destination"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<SwapAnimation>(a));
+						}
+						else if (animType == "TransformDirect") {
+							TransformDirectAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								Transform data{};
+								data.position.x = k["X movement"].GetFloat();
+								data.position.y = k["Y movement"].GetFloat();
+								data.rotation = k["Rotation"].GetFloat();
+								data.scale = k["Scale"].GetFloat();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<TransformDirectAnimation>(a));
+						}
+						else if (animType == "Color") {
+							ColorAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								glm::vec3 data{};
+								data.r = k["Red"].GetFloat();
+								data.g = k["Green"].GetFloat();
+								data.b = k["Blue"].GetFloat();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ColorAnimation>(a));
+						}
+						else if (animType == "Fade") {
+							FadeAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								float data{ k["Alpha"].GetFloat() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<FadeAnimation>(a));
+						}
+					}
+					animset.animationSet.push_back(anigrp);
+				}
+				ECS::ecs().AddComponent(entity, animset);
 			}
 		}
 	}

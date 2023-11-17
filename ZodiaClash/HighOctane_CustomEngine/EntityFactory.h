@@ -58,8 +58,6 @@ public:
 	void CreateMasterModel(const char* filename);
 	void CreateMasterModel(const char* filename, int rows, int cols);
 	//extern std::unordered_map<std::string, Entity> masterEntitiesList;
-	//FUNCTIONS CREATED BY NIGEL FOR TEMP / TESTING PURPOSES
-	Entity CreateModel();
 
 
 	//FUNCTIONS FOR MASS RENDERING - SUBJECT TO APPROVAL

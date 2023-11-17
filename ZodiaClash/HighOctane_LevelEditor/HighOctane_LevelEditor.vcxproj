@@ -161,8 +161,10 @@
     <ClCompile Include="..\Extern\imgui-1.87\imgui_tables.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\imgui_widgets.cpp" />
     <ClCompile Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="ImGuiAnimator.cpp" />
     <ClCompile Include="ImGuiAssetLibrary.cpp" />
     <ClCompile Include="GUIManager.cpp" />
+    <ClCompile Include="ImGuiComponents.cpp" />
     <ClCompile Include="ImGuiConsole.cpp" />
     <ClCompile Include="ImGuiContentBrowser.cpp" />
     <ClCompile Include="ImGuiEntitiesManager.cpp" />
@@ -187,8 +189,10 @@
     <ClInclude Include="..\Extern\imgui-1.87\imstb_textedit.h" />
     <ClInclude Include="..\Extern\imgui-1.87\imstb_truetype.h" />
     <ClInclude Include="..\Extern\imgui-1.87\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="ImGuiAnimator.h" />
     <ClInclude Include="ImGuiAssetLibrary.h" />
     <ClInclude Include="GUIManager.h" />
+    <ClInclude Include="ImGuiComponents.h" />
     <ClInclude Include="ImGuiConsole.h" />
     <ClInclude Include="ImGuiContentBrowser.h" />
     <ClInclude Include="ImGuiEntitiesManager.h" />

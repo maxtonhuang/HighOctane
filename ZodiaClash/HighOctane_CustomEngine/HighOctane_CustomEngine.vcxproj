@@ -190,6 +190,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Extern\freetype-2.9\include\ft2build.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Attack.h" />
     <ClInclude Include="CharacterAction.h" />
     <ClInclude Include="CharacterCommon.h" />
@@ -250,6 +251,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="WindowsInterlink.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="CharacterAction.cpp" />
     <ClCompile Include="CheatCode.cpp" />

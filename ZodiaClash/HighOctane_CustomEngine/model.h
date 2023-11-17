@@ -53,19 +53,20 @@ public:
 	Model(ModelType = ModelType::GAMEPLAY, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
 	Model(int modelType, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
-	void Draw(Tex* const entity, Animator* const ani); //Add vertices to renderer
+	void Draw(Tex* const entity); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
 
 	void SetColor(float r, float g, float b); //Set color of model (colour bounds are between 0 and 1)
 	void SetAlpha(float a); //Set alpha of model (alpha bounds are between 0 and 1)
 	void AddAlpha(float a); //Add alpha of model (alpha bounds are between 0 and 1)
+	float GetAlpha(); //Get alpha of model (alpha bounds are between 0 and 1)
 
 	bool CheckTransformUpdated(Transform& transform, Size& size); //Check if transform was updated since last frame, returns true if transform was updated
 
-	vmath::Vector2 GetMin(); //returns minimum point in screen coordinates
-	vmath::Vector2 GetMax(); //returns maximum point in screen coordinates
+	vmath::Vector2 GetMin() const; //returns minimum point in screen coordinates
+	vmath::Vector2 GetMax() const; //returns maximum point in screen coordinates
 
-	glm::vec4 GetColor(); // retrieve color stored
+	glm::vec4 GetColor() const; // retrieve color stored
 	glm::vec4& GetColorRef(); //retrieve color reference
 
 	ModelType type{};

@@ -66,6 +66,7 @@
 #include <unordered_map>
 #include <set>
 #include <memory>
+#include <functional>
 #include "debugdiagnostic.h"
 #include "Components.h"
 
@@ -113,6 +114,23 @@ private:
 
 
 ////////// COMPONENT //////////////////////////////////////////////////////////
+class ComponentFunctions {
+public:
+    virtual void AddComponent(Entity) = 0;
+    virtual void RemoveComponent(Entity) = 0;
+    virtual bool HasComponent(Entity) = 0;
+    virtual void CopyComponent(Entity dst, Entity src) = 0;
+    std::string name{};
+};
+
+template <typename T>
+class IComponentFunctions : public ComponentFunctions {
+public:
+    void AddComponent(Entity e);
+    void RemoveComponent(Entity e);
+    bool HasComponent(Entity e);
+    void CopyComponent(Entity dst, Entity src);
+};
 
 class IComponentArray {
 public:
@@ -395,6 +413,11 @@ public:
     // Component methods ------------------------------------------------------
     template<typename T>
     void RegisterComponent() {
+        //Add type to type manager
+        std::shared_ptr<IComponentFunctions<T>> f{ std::make_shared<IComponentFunctions<T>>() };
+        f->name = typeid(T).name();
+        m_TypeManager[typeid(T).name()] = f;
+
         m_ComponentManager->RegisterComponent<T>();
     }
 
@@ -443,6 +466,8 @@ public:
 
     ComponentManager& GetComponentManager();
 
+    std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>>& GetTypeManager();
+
     // System methods ---------------------------------------------------------
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
@@ -462,13 +487,32 @@ public:
 private:
 
     ECS() {}
-
+    std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> m_TypeManager;
     std::unique_ptr<ComponentManager> m_ComponentManager;
     std::unique_ptr<EntityManager> m_EntityManager;
     std::unique_ptr<SystemManager> m_SystemManager;
 };
 
+////////// Definitions of IComponentFunctions //////////////////////////////////
+template <typename T>
+void IComponentFunctions<T>::AddComponent(Entity e) {
+    ECS::ecs().AddComponent<T>(e, T{});
+}
 
+template <typename T>
+void IComponentFunctions<T>::RemoveComponent(Entity e) {
+    ECS::ecs().RemoveComponent<T>(e);
+}
+
+template <typename T>
+bool IComponentFunctions<T>::HasComponent(Entity e) {
+    return ECS::ecs().HasComponent<T>(e);
+}
+
+template <typename T>
+void IComponentFunctions<T>::CopyComponent(Entity dst, Entity src) {
+    ECS::ecs().GetComponent<T>(dst) = ECS::ecs().GetComponent<T>(src);
+}
 
 ////////// System Declarations ////////////////////////////////////////////////
 
@@ -489,6 +533,12 @@ public:
 };
 
 class AnimatorSystem : public System {
+public:
+    void Update() override;
+};
+
+//Intended to overwrite animator system
+class AnimationSystem : public System {
 public:
     void Update() override;
 };
