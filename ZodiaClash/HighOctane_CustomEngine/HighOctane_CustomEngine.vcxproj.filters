@@ -250,7 +250,7 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Animator</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="CheatCode.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -399,7 +399,7 @@
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>Animator</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="CheatCode.cpp">
       <Filter>Game</Filter>
     </ClCompile>

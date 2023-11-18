@@ -72,6 +72,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             }
             graphics.Fullscreen(fullscreen);
         }
+        /*
         if (GLFW_KEY_G == key) {
             ToggleGodMode();
         }
@@ -83,6 +84,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         {
             ActivateEndGame();
         }
+        */
 
         // key input for toggling mass rendering
         //if (GLFW_KEY_Y == key) {

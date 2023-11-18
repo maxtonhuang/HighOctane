@@ -12,6 +12,8 @@
 #include "CharacterStats.h"
 #include "Scripting.h"
 #include <sstream>
+#include "ImGuiComponents.h"
+#include "Serialization.h"
 
 bool testingggg{ false };
 Entity currentSelectedEntity{};
@@ -98,6 +100,49 @@ void UpdateSceneHierachy() {
 		if()
 		SceneEntityComponents(entity);
 	}*/
+	ImGui::End();
+}
+
+void UpdatePrefabHierachy() {
+	static std::string prefabName{};
+	ImGui::Begin("Prefab Editor");
+
+	auto prefabList{ assetmanager.GetPrefabPaths() };
+	Entity prefabID{ assetmanager.GetPrefab(prefabName) };
+
+	if (ImGui::BeginCombo("Prefabs Available", prefabName.c_str())) {
+		for (int n = 0; n < prefabList.size(); n++) {
+			bool is_selected = (prefabName == prefabList[n]);
+			if (ImGui::Selectable(prefabList[n].c_str(), is_selected)) {
+				prefabName = prefabList[n];
+				if (assetmanager.GetPrefab(prefabName) == 0) {
+					assetmanager.LoadPrefab(prefabName);
+				}
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	if (prefabID) {
+		if (ImGui::Button("Save Prefab")) {
+			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
+			std::set<Entity> entityToSave{ prefabID };
+			Serializer::SaveEntityToJson(prefabPath, entityToSave);
+		}
+
+		if (ImGui::Button("Create Instance")) {
+			Entity clone = EntityFactory::entityFactory().CloneMaster(prefabID);
+			ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
+		}
+
+		SceneEntityComponents(prefabID);
+		ImGui::Separator();
+		ComponentBrowser(prefabID);
+	}
+
 	ImGui::End();
 }
 
@@ -278,7 +323,39 @@ void SceneEntityComponents(Entity entity) {
 				}
 			}
 
-			ImGui::InputText("Event Input",&button.eventInput);
+			if (button.eventName == "Play Sound") {
+				if (ImGui::BeginCombo("Event Input", button.eventInput.c_str())) {
+					std::vector<std::string> soundNames{ assetmanager.audio.GetSoundPaths() };
+					for (int n = 0; n < soundNames.size(); n++) {
+						bool is_selected = (button.eventInput == soundNames[n]);
+						if (ImGui::Selectable(soundNames[n].c_str(), is_selected)) {
+							button.eventInput = soundNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			else if (button.eventName == "Play Music") {
+				if (ImGui::BeginCombo("Event Input", button.eventInput.c_str())) {
+					std::vector<std::string> soundNames{ assetmanager.audio.GetMusicPaths() };
+					for (int n = 0; n < soundNames.size(); n++) {
+						bool is_selected = (button.eventInput == soundNames[n]);
+						if (ImGui::Selectable(soundNames[n].c_str(), is_selected)) {
+							button.eventInput = soundNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			else {
+				ImGui::InputText("Event Input", &button.eventInput);
+			}
 
 			auto& btnColor = button.GetDefaultButtonColor();
 			ImGui::ColorEdit3("Color", (float*)&btnColor);

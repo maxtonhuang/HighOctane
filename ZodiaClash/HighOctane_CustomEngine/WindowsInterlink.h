@@ -41,4 +41,4 @@ void FileDropCallback(GLFWwindow* window, int count, const char** paths);
 
 std::string SaveFileDialog(std::string extensionName, std::string extensionDescription);
 
-std::string OpenSingleFileDialog();
+std::string OpenSingleFileDialog(std::string extensionName = std::string{}, std::string extensionDescription = std::string{});

@@ -233,7 +233,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 *	This function clones new game objects from another entity.
 *
 ******************************************************************************/
-void EntityFactory::CloneMaster(Entity& masterEntity) {
+Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	static auto& typeMap{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
 	
@@ -242,6 +242,9 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 			ecsType.second->AddComponent(entity);
 			ecsType.second->CopyComponent(entity, masterEntity);
 		}
+	}
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		ECS::ecs().RemoveComponent<Clone>(entity);
 	}
 	ECS::ecs().AddComponent(entity, Clone{});
 
@@ -298,7 +301,7 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	}
 	
 	++cloneCounter;
-
+	return entity;
 }
 
 /******************************************************************************

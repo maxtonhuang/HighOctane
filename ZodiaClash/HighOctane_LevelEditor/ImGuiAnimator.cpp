@@ -1,6 +1,7 @@
 #include "ImGuiAnimator.h"
 #include "ImGuiSceneHierarchy.h"
 #include "Animation.h"
+#include "AssetManager.h"
 
 void UpdateAnimator() {
 	const ImVec2 buttonsize{ 15,15 };
@@ -212,7 +213,19 @@ void UpdateAnimator() {
 							}
 						}
 						if (keyframe != nullptr) {
-							ImGui::InputText("Sound to play", &keyframe->data);
+							if (ImGui::BeginCombo("Sounds Available", keyframe->data.c_str())) {
+								std::vector<std::string> soundPaths{ assetmanager.audio.GetSoundPaths() };
+								for (int n = 0; n < soundPaths.size(); n++) {
+									bool is_selected = (keyframe->data == soundPaths[n]);
+									if (ImGui::Selectable(soundPaths[n].c_str(), is_selected)) {
+										keyframe->data = soundPaths[n];
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
 						}
 					}
 					else if (selectedAnimation->GetType() == "TransformDirect") {

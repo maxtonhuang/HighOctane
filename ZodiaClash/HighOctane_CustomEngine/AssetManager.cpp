@@ -68,6 +68,7 @@ void AssetManager::Initialize() {
         }
     }
 
+    UpdatePrefabPaths();
     colors.ReadColors();
 }
 
@@ -76,6 +77,7 @@ void AssetManager::UnloadAll() {
     texture.Clear();
     audio.ReleaseAllSounds();
     fonts.Clear();
+    prefabMap.clear();
 }
 
 /**************************************TEXTURES**************************************************/
@@ -200,6 +202,39 @@ void AssetManager::LoadAttack(const std::string& attackPath) {
     attacks.LoadAttack(fullPath);
 }
 
+/**************************************PREFABS*************************************************/
+void AssetManager::LoadPrefab(const std::string& prefabPath) {
+    std::string fullPath{ defaultPath + "Prefabs/" + prefabPath };
+    Entity entity{ Serializer::LoadEntityFromJson(fullPath, true) };
+    prefabMap[prefabPath] = entity;
+}
+
+void AssetManager::UnloadPrefab(const std::string& prefabName) {
+    prefabMap.erase(prefabName);
+}
+
+Entity AssetManager::GetPrefab(const std::string& prefabName) {
+    if (prefabName != "" && prefabMap.count(prefabName) == 0) {
+        LoadPrefab(prefabName);
+    }
+    return prefabMap[prefabName];
+}
+
+void AssetManager::UpdatePrefabPaths() {
+    std::filesystem::path prefabFolder{ assetmanager.GetDefaultPath() + "Prefabs/" };
+    std::vector<std::string> newPrefabPaths{};
+    for (auto& entry : std::filesystem::directory_iterator(prefabFolder)) {
+        std::string path{ entry.path().string() };
+        path = path.substr(path.find_last_of("/") + 1);
+        newPrefabPaths.push_back(path);
+    }
+    prefabPaths = newPrefabPaths;
+}
+
+std::vector<std::string> AssetManager::GetPrefabPaths() {
+    return prefabPaths;
+}
+
 /**********************************GENERIC METHODS*********************************************/
 bool AssetManager::FileExists(const std::string& path) {
     std::fstream f{ path };
@@ -295,7 +330,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else {
         // Error Handling
-        ASSERT(true,"Unsupported asset type: ");
+        ASSERT(true,"Unsupported asset type");
     }
     loadedFiles.push_back(assetPath);
 }
