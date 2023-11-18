@@ -25,6 +25,9 @@ extern std::vector<std::string> fullNameVecImGUI;
 std::array<int, 10> testing{};
 std::array<float, 10> testing2{};
 
+//FOR PREFAB HIERACHY
+std::string prefabName{};
+
 void DrawScriptTreeWithImGui(std::string className, Entity entity) {
 
 	//if (ImGui::TreeNodeEx("Testing", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -104,7 +107,6 @@ void UpdateSceneHierachy() {
 }
 
 void UpdatePrefabHierachy() {
-	static std::string prefabName{};
 	ImGui::Begin("Prefab Editor");
 
 	auto prefabList{ assetmanager.GetPrefabPaths() };
@@ -168,6 +170,20 @@ void SceneEntityNode(Entity entity) {
 }
 
 void SceneEntityComponents(Entity entity) {
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
+		if (entityClone.prefab == "") {
+			ImGui::Text("Entity has no prefabs");
+		}
+		else {
+			std::string text{ "Prefab: " + entityClone.prefab };
+			ImGui::Text(text.c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Select in Prefab Editor")) {
+				prefabName = entityClone.prefab;
+			}
+		}
+	}
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
 
