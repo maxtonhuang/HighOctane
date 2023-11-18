@@ -32,6 +32,7 @@
 
 #pragma once
 #include "Components.h"
+#include "CharacterStats.h"
 #include "model.h"
 #include "Font.h"
 #include "Colors.h"
@@ -96,6 +97,7 @@ public:
 	UI_HORIZONTAL_ALIGNMENT hAlignment{};
 	UI_VERTICAL_ALIGNMENT vAlignment{};
 	STATE currentState{};
+	bool hasBackground{};
 
 	std::string initClr;
 
@@ -198,9 +200,33 @@ public:
 	void DrawButtonTex(Model& modelData, Tex& texData, TextLabel& textLabelData);*/
 };
 
-class LayoutGroup : UIComponent {
+class HealthBar : UIComponent {
 public:
-	Vec2 margin{};
-	//vector of component pointers? just to keep track what components are in the group?
-	std::vector<std::shared_ptr<UIComponent>>components;
+	CharacterStats* charaStatsRef{};
+	float currentHealth{};
+	float maxHealth{};	
+	float healthPct{};
+
+	float barWidth{};
+	float barHeight{};
+	Vec2 relTransform{};
+
+	bool showHealthStat{};
+	bool showValOrPct{};
+
+	UI_VERTICAL_ALIGNMENT vAlignment{};
+
+	HealthBar();
+	HealthBar(CharacterStats& charaStats);
+	float GetCurrentHealth();
+	float GetMaxHealth();
+	float GetHealthPct();
+
+	void SetCurrentHealth(float currentHp);
+	void SetMaxHealth(float maxHp);
+	void UpdateHealth(CharacterStats& charaStatsData);
+	void UpdateHealth(Size& sizeData, CharacterStats& charaStatsData, TextLabel& textLabelData);
+
+	void UpdateOffset(Transform const& transformData, Size const& sizeData);
+	void UpdateColors(Model& modelData, CharacterStats& charaStatsData, TextLabel& textLabelData);
 };

@@ -195,7 +195,8 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(TextLabel).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Text Label")) {
 			std::pair<std::string, std::string> fontInfo = textlabel.font->GetInfo();
 
-			if (!ECS::ecs().HasComponent<Button>(entity)) {
+			//note: to consider alt method to check entity has no other UI components?
+			if (!ECS::ecs().HasComponent<Button>(entity) && !ECS::ecs().HasComponent<HealthBar>(entity)) {
 				// size adjustments
 				float& lblHeight = sizeData.height;
 				float& lblWidth = sizeData.width;
@@ -226,6 +227,9 @@ void SceneEntityComponents(Entity entity) {
 				auto& txtColor = textlabel.GetTextColor();
 				ImGui::ColorEdit3("Color", (float*)&txtColor);
 			}
+
+			bool& lblBackground = textlabel.hasBackground;
+			ImGui::Checkbox("Has Background", &lblBackground);
 
 			// combo box for font family
 			if (!ftFamilyList.empty()) {
@@ -413,6 +417,49 @@ void SceneEntityComponents(Entity entity) {
 
 			ImGui::TreePop();
 
+		}
+	}
+
+	if (ECS::ecs().HasComponent<HealthBar>(entity)) {
+		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
+		HealthBar& hpBar{ ECS::ecs().GetComponent<HealthBar>(entity) };
+
+		if (ImGui::TreeNodeEx((void*)typeid(HealthBar).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Health Bar")) {
+			float currentHp = hpBar.currentHealth;
+			float maxHp = hpBar.maxHealth;
+			float hpPct = hpBar.healthPct;
+
+			// size adjustments
+			float& barHeight = sizeData.height;
+			float& barWidth = sizeData.width;
+			float barDims[2] = { barHeight, barWidth };
+			ImGui::DragFloat2("HP Bar Size", barDims, 0.5f);
+			barDims[0] = std::max(barDims[0], 0.f);
+			barDims[1] = std::max(barDims[1], 0.f);
+			sizeData.height = barDims[0];
+			sizeData.width = barDims[1];
+
+			if (ImGui::DragFloat("Current HP", &currentHp, 0.5f)) {
+				hpBar.SetCurrentHealth(currentHp);
+			}
+			hpBar.SetMaxHealth(maxHp);
+
+			ImGui::Text("%.2f/%.2f (%.2f%%)", currentHp, maxHp, hpPct);
+			ImGui::SameLine(260); //to seek alternatives
+			ImGui::Text("HP Percentage");
+
+			ImGui::Text("%.2f, %.2f", hpBar.barWidth, hpBar.barHeight);
+			ImGui::SameLine(260); //to seek alternatives
+			ImGui::Text("Current HP dimensions");
+
+			bool& hpShowHealth = hpBar.showHealthStat;
+			ImGui::Checkbox("Show Health", &hpShowHealth);
+			int hpShowValOrPct = (int)hpBar.showValOrPct;
+			ImGui::RadioButton("Show Value", &hpShowValOrPct, 0); ImGui::SameLine();
+			ImGui::RadioButton("Show HP percentage", &hpShowValOrPct, 1);
+			hpBar.showValOrPct = (bool)hpShowValOrPct;
+			
+			ImGui::TreePop();
 		}
 	}
 

@@ -361,6 +361,7 @@ void GraphicsSystem::Draw() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
@@ -380,7 +381,6 @@ void GraphicsSystem::Draw() {
 							TextLabel* textLabelData = &textlabelArray.GetData(entity);
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 						}
-
 					}
 				}
 			}
@@ -749,7 +749,9 @@ void UITextLabelSystem::Draw() {
 
 		if (!buttonData && !texData) {
 			if (edit_mode) {
-				(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
+					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) 
+					: modelData->SetAlpha(0.2f);
 			}
 			else {
 				modelData->SetAlpha(0.0f);
@@ -794,3 +796,43 @@ void UIButtonSystem::Update() {
 	}
 }
 
+void UIHealthBarSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+
+	for (Entity const& entity : m_Entities) {
+		Size* sizeData = &sizeArray.GetData(entity);
+		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+
+		healthBarData->UpdateHealth(*sizeData, *charaStatsData, *textLabelData);
+	}
+}
+
+void UIHealthBarSystem::Draw() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+
+	for (Entity const& entity : m_Entities) {
+		Model* modelData = &modelArray.GetData(entity);
+		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+
+		//update offset
+		healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
+	}
+}

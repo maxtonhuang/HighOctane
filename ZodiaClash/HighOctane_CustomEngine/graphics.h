@@ -66,7 +66,7 @@ public:
 	void Fullscreen(bool); //true to set fullscreen on, false to set fullscreen off
 	GLFWwindow* GetWindow(); //returns window of graphics system
 	Renderer& AddRenderer(std::string name);
-	//void DrawLabel(std::string labelText, Font* ftData, float relFontSize, Vec2 relTextPos, glm::vec4 color);
+	
 	void DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::vec4 color);
 
 	//DEBUG DRAW FUNCTIONS

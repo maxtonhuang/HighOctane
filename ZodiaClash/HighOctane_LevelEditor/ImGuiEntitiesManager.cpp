@@ -62,10 +62,13 @@ float presetColorValues[][4] = {
     {0.09f, 0.63f, 0.72f, 1.0f}
 };
 
-bool showFontEntityConfig = false;
 bool showColorPicker = false;
 int selectedColorIndex = -1; // Index of the selected preset color
 
+/****************************FOR UI***********************************/
+bool showFontEntityConfig = false;
+bool showButtonEntityConfig = false;
+bool showHealthBarEntityConfig = false;
 
 /****************************FOR AUDIO***********************************/
 bool showAudioEntityConfig = false;
@@ -93,14 +96,32 @@ void UpdateEntitiesManager() {
 
         // Handle entity type selection in a centered popup modal
         if (ImGui::BeginPopupModal("Entity Type", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-            if (ImGui::MenuItem("Text Box Entity")) {
-                showFontEntityConfig = true;
-                showAudioEntityConfig = false;
-                showColorPicker = false;
-            }
             if (ImGui::MenuItem("Audio Entity")) {
                 showFontEntityConfig = false;
                 showAudioEntityConfig = true;
+                showButtonEntityConfig = false;
+                showHealthBarEntityConfig = false;
+                showColorPicker = false;
+            }
+            if (ImGui::MenuItem("Text Label Entity")) {
+                showFontEntityConfig = true;
+                showAudioEntityConfig = false;
+                showButtonEntityConfig = false;
+                showHealthBarEntityConfig = false;
+                showColorPicker = false;
+            }
+            if (ImGui::MenuItem("Button Entity")) {
+                showFontEntityConfig = false;
+                showAudioEntityConfig = false;
+                showButtonEntityConfig = true;
+                showHealthBarEntityConfig = false;
+                showColorPicker = false;
+            }
+            if (ImGui::MenuItem("Health Bar Entity")) {
+                showFontEntityConfig = false;
+                showAudioEntityConfig = false;
+                showButtonEntityConfig = false;
+                showHealthBarEntityConfig = true;
                 showColorPicker = false;
             }
             if (ImGui::Button("Close")) {
@@ -125,11 +146,11 @@ void UpdateEntitiesManager() {
             static bool selfChosenColor = false;
 
 
-            ImGui::OpenPopup("Font Entity");
+            ImGui::OpenPopup("Text Label Entity");
             // Create the centered popup modal for font entity configuration
-            if (ImGui::BeginPopupModal("Font Entity", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            if (ImGui::BeginPopupModal("Text Label Entity", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
                 // Add your font entity configuration UI here
-                ImGui::Text("Font Entity Configuration");
+                ImGui::Text("Text Label Entity Configuration");
                 /*********************ENTER NAME********************************/
               
                 {
@@ -211,6 +232,52 @@ void UpdateEntitiesManager() {
                 ImGui::EndPopup();
             }
         }
+
+        //************************BUTTON******************************************//
+        // Display the button entity configuration options if selected
+        if (showButtonEntityConfig) {
+            // Add your button entity configuration UI here
+            ImGui::OpenPopup("Button Entity");
+            // Create the centered popup modal for button entity configuration
+            if (ImGui::BeginPopupModal("Button Entity", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+                // Add your button entity configuration UI here
+                ImGui::Text("Button entity WIP!");
+                if (ImGui::Button("Close")) {
+                    ImGui::CloseCurrentPopup();
+                    showHealthBarEntityConfig = false;
+                }
+                ImGui::EndPopup();
+            }
+        }
+        
+        //************************HEALTH BAR******************************************//
+        // Display the hp bar entity configuration options if selected
+        if (showHealthBarEntityConfig) {
+            // Add your audio entity configuration UI here
+            ImGui::OpenPopup("Health Bar Entity");
+            // Create the centered popup modal for hp bar entity configuration
+            if (ImGui::BeginPopupModal("Health Bar Entity", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+                // Add your hp bar entity configuration UI here
+                Entity createHealthBarEntity = ECS::ecs().CreateEntity();
+                ECS::ecs().AddComponent<Name>(createHealthBarEntity, Name{ "healthBar"});
+                ECS::ecs().AddComponent<Transform>(createHealthBarEntity, Transform{ });
+                ECS::ecs().AddComponent<Size>(createHealthBarEntity, Size{ 100.f,100.f });
+                ECS::ecs().AddComponent<Model>(createHealthBarEntity, Model{ ModelType::UI });
+                ECS::ecs().AddComponent<Clone>(createHealthBarEntity, Clone{});
+                ECS::ecs().AddComponent<Movable>(createHealthBarEntity, Movable{});
+
+                ECS::ecs().AddComponent<CharacterStats>(createHealthBarEntity, CharacterStats{});
+                ECS::ecs().GetComponent<CharacterStats>(createHealthBarEntity).stats.maxHealth = 1000.f;
+                ECS::ecs().AddComponent<TextLabel>(createHealthBarEntity, TextLabel{});
+                ECS::ecs().GetComponent<TextLabel>(createHealthBarEntity).hasBackground = 1;
+                ECS::ecs().AddComponent<HealthBar>(createHealthBarEntity, HealthBar{ ECS::ecs().GetComponent<CharacterStats>(createHealthBarEntity) });
+                layering[selectedLayer].emplace_back(createHealthBarEntity);
+                EntityFactory::entityFactory().cloneCounter++;
+                showHealthBarEntityConfig = false;
+                ImGui::EndPopup();
+            }
+        }
+
         
         //************************AUDIO**********************************************//
         // Display the audio entity configuration options if selected

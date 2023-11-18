@@ -578,6 +578,12 @@ public:
     void Update() override;
 };
 
+class UIHealthBarSystem : public System {
+public:
+    void Update() override;
+    void Draw() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;
