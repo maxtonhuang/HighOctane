@@ -1,0 +1,62 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 1,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0"
+            ]
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "mockup_title_logo_02 (1).png_CLONE",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 351.0,
+            "position_y": 181.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_title_logo_02 (1).png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {}
+    }
+]
