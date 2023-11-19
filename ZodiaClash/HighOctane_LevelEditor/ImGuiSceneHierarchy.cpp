@@ -61,7 +61,7 @@ void DrawScriptTreeWithImGui(const std::string& className, Entity entity) {
 
 	if (ImGui::TreeNodeEx(className.c_str())) {
 		for (auto& classEntry : scriptData->ScriptInfoVec) {
-			std::cout << scriptData->ScriptInfoVec.size() << std::endl;
+			//std::cout << scriptData->ScriptInfoVec.size() << std::endl;
 			//std::cout << classEntry.typeName << std::endl;
 			if (classEntry.className != className) {
 				continue;
