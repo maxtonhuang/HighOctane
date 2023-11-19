@@ -34,7 +34,7 @@
 
 #pragma once
 
-// game state functions typedef
+// game state function pointers typedef
 typedef void (*LoadFunc)();
 typedef void (*InitFunc)();
 typedef void (*UpdateFunc)(double dt);
@@ -48,9 +48,8 @@ typedef void (*UnloadFunc)();
  */
 enum GS_STATES
 {
-	GS_MAINMENU = 0,
-	GS_CREDITS,
-	GS_EXPLORE,
+	GS_MENU = 0,
+	GS_MAP,
 	GS_BATTLE,
 	GS_QUIT,
 	GS_RESTART
@@ -77,7 +76,33 @@ public:
 	void GSM_Draw(double dt);
 	void GSM_Free();
 	void GSM_Unload();
-	int GetIdx();
+	int  GetIdx();
+};
+
+class GameLevel {
+private:
+	int currentLevel;
+	int totalLevels;
+
+public:
+	GameLevel(int total) : totalLevels(total), currentLevel(0) {}
+
+	void IncreaseLevel()
+	{
+		if (currentLevel < totalLevels) {
+			currentLevel++;
+		}
+	}
+
+	void JumpToEndLevel()
+	{
+		currentLevel = totalLevels - 1;
+	}
+
+	int GetCurrentLevel() const
+	{
+		return currentLevel;
+	}
 };
 
 /**
@@ -100,21 +125,21 @@ private:
 	int nextState;
 	bool continueNextState;
 	static GameStateMgr* gamestatemgr_;
-	GameStateMgr(unsigned gsmCount);
+	GameStateMgr(unsigned gsmCount, int totalLevels);
+	GameLevel* gameLevel;
 
 public:
 	bool isRunning;
-	static GameStateMgr* GetInstance(unsigned gsmCount);
-	/// ONLY USE THIS IN YOUR INIT FUNCTION
+	static GameStateMgr* GetInstance(unsigned gsmCount, int totalCount);
 	static GameStateMgr* GetInstance();
 	static void RemoveInstance();
-	/// <summary>
-	/// sets game state at stateArray[gsIdx]
-	/// </summary>
 	void InsertGameState(int gsmIdx, LoadFunc load, InitFunc init, UpdateFunc update, DrawFunc draw, FreeFunc free, UnloadFunc unload);
 	void UpdateGameStateMgr();
 	void ChangeGameState(int gsmIdx);
 	void QuitGame();
+	void NextLevel();
+	void GoToEndLevel();
 	~GameStateMgr();
 };
+
 

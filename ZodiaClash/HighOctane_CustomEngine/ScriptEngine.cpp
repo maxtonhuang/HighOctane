@@ -40,7 +40,6 @@ extern std::vector<std::string> fullNameVecImGUI;
 ScriptEngineData* ScriptEngine::scriptData = nullptr;
 
 void ScriptEngine::Init() {
-    //scriptData = new ScriptEngineData(); 
     scriptData = GetInstance();
     InitMono();
 
@@ -164,12 +163,13 @@ void ScriptEngine::ScriptInit(Entity entity) {
     }
 }
 
-void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
+void ScriptEngine::AttachScriptToEntity(Entity entity, std::string scriptName) {
+
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     // Checks if the currentScriptForIMGUI is already in scriptNameVec
     for (int i = 0; i < sc.scriptNameVec.size(); i++) {
         if (sc.scriptNameVec[i] == scriptName) {
-            DEBUG_PRINT("Script %s already exists in entity %d", scriptName, entity);
+            DEBUG_PRINT("Script %s already exists in entity %d", scriptName.c_str(), entity);
             return;
         }
 
@@ -181,14 +181,14 @@ void ScriptEngine::RunTimeAddScript(Entity entity, const char* scriptName) {
     // If not, add it to the vectors
     sc.scriptNameVec.push_back(scriptName);
     scriptNamesAttachedforIMGUI[entity].push_back(scriptName);
-    DEBUG_PRINT("Script %s added to entity %d", scriptName, entity)
+    DEBUG_PRINT("Script %s added to entity %d", scriptName.c_str(), entity)
 
     auto& entityScripts = scriptData->EntityInstances[entity];
     std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(scriptData->EntityClasses[scriptName], entity);
     entityScripts.push_back(instance);
 }
 
-void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
+void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName) {
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
 
     // Remove the script instances from the vector
@@ -209,7 +209,7 @@ void ScriptEngine::RunTimeRemoveScript(Entity entity, const char* scriptName) {
         if (sc.scriptNameVec[i] == scriptName) {
             sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
             scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
-            DEBUG_PRINT("Script %s removed from entity %d", scriptName, entity);
+            DEBUG_PRINT("Script %s removed from entity %d", scriptName.c_str(), entity);
             break;
         }
         else {
@@ -280,15 +280,26 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 
             while ((field = mono_class_get_fields(monoClass, &iter)) != nullptr) {
                 std::string fieldName = mono_field_get_name(field);
+
+
+                // Get the typeName
+                MonoType* typeName = mono_field_get_type(field);
+                int typeCode = mono_type_get_type(typeName);
+                int value;
+
+                MonoObject* instance = InstantiateClass(monoClass);
+                //mono_field_get_value(instance, field, &value);
+
                 uint32_t flags = mono_field_get_flags(field) & MONO_FIELD_ATTR_FIELD_ACCESS_MASK;
-                
+                //std::cout << typeCode << std::endl;
+
                 switch (flags) {
                     case MONO_FIELD_ATTR_PUBLIC:
-					    scriptData->FieldMap[fullName].push_back({ fieldName, MONO_FIELD_ATTR_PUBLIC });
+                        scriptData->ScriptInfoVec.push_back({fullName, typeCode, fieldName, MONO_FIELD_ATTR_PUBLIC});
 					    break;
 
 					case MONO_FIELD_ATTR_PRIVATE:
-					    scriptData->FieldMap[fullName].push_back({ fieldName, MONO_FIELD_ATTR_PRIVATE });
+                        scriptData->ScriptInfoVec.push_back({ fullName, typeCode, fieldName, MONO_FIELD_ATTR_PRIVATE });
 					    break;
                 }
 
@@ -298,25 +309,6 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         }
         /*-------CHECK IF SUBCLASS OR NOT--------*/
     }
-
-    // Test to see how to retrieve the things
- //   for (auto& name : fullNameVecImGUI) {
- //       if (scriptData->FieldMap[name].size() != 0) {
- //           for (auto& field : scriptData->FieldMap[name]) {
- //               switch (field.second) {
- //                   case MONO_FIELD_ATTR_PUBLIC:
-	//					std::cout << "Class name: " << name << " ";
- //                       std::cout << field.first << " " << "is public" << std::endl;
-	//					break;
-
- //                   case MONO_FIELD_ATTR_PRIVATE:
- //                       std::cout << "Class name: " << name << " ";
- //                       std::cout << field.first << " " << "is private" << std::endl;
- //                       break;
- //               }
-	//		}
- //       }
-	//}
 }
 
 void ScriptEngine::ShutdownMono() {
@@ -442,4 +434,37 @@ static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
     delete[] fileData;
 
     return assembly;
+}
+
+
+void ScriptEngine::SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value) {
+    auto it = scriptData->EntityClasses.find(className);
+    if (it != scriptData->EntityClasses.end()) {
+        std::shared_ptr<ScriptClass> scriptClass = it->second;
+
+        // Instantiate the script class if needed
+        MonoObject* instance = nullptr;
+        auto instancesIt = scriptData->EntityInstances.find(entity);
+        if (instancesIt != scriptData->EntityInstances.end()) {
+            // Find the instance of the specific class
+            for (auto& scriptInstance : instancesIt->second) {
+                if (scriptInstance->GetScriptName() == className) {
+                    instance = scriptInstance->GetInstance();
+                    break;
+                }
+            }
+        }
+
+        if (!instance) {
+            instance = scriptClass->Instantiate();
+            // You might want to store this instance in EntityInstances if needed
+        }
+
+        // Set the property
+        MonoClassField* field = mono_class_get_field_from_name(scriptClass->GetMonoClass(), propertyName.c_str());
+        if (field) {
+            mono_field_set_value(instance, field, value);
+        }
+    }
+    //std::cout << "SetScriptProperty called" << std::endl;
 }

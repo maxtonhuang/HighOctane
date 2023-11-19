@@ -37,6 +37,8 @@
 #include <string>
 #include <memory>
 #include <limits>
+#include "Components.h"
+#include "model.h"
 
 #define RESET_VEC2 0.f, 0.f
 
@@ -79,6 +81,8 @@ bool withinSomething{ false };
 bool shiftKeyPressed{ false };
 bool controlKeyPressed{ false };
 
+std::unordered_set<std::string> defaultUniqueComponents{ typeid(Transform).name(), typeid(Name).name(), typeid(Model).name() };
+
 bool clearAllSelection{ false };
 std::string sceneName{};
 bool newScene{ true };
@@ -104,11 +108,10 @@ std::deque<std::string> importFileList;
 size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};
 
-const char* currentScriptForIMGUI{ NULL };
+std::string currentScriptForIMGUI{};
 
+std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI{};
 
-std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI{};
-
-const char* currentScriptAttachedForIMGUI{ NULL };
+std::string currentScriptAttachedForIMGUI{};
 
 bool isHotReload{ false };

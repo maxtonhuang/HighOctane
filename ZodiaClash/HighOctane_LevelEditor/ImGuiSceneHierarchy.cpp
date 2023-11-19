@@ -6,17 +6,106 @@
 #include "WindowsInterlink.h"
 #include "AssetManager.h"
 #include "vmath.h"
+#include <variant>
 #include "model.h"
 #include "UIComponents.h"
 #include "ScriptEngine.h"
 #include "CharacterStats.h"
 #include "Scripting.h"
 #include <sstream>
+#include "ImGuiComponents.h"
+#include "Serialization.h"
 
-bool testingggg{ false };
+/*----------For the scripting, may move somewhere else in the future---------*/
+struct EntityFieldKey {
+	Entity entity;
+	std::string fieldName;
+
+	EntityFieldKey(Entity e, const std::string& fName) : entity(e), fieldName(fName) {}
+
+	bool operator==(const EntityFieldKey& other) const {
+		return entity == other.entity && fieldName == other.fieldName;
+	}
+};
+
+template <>
+struct std::hash<EntityFieldKey> {
+	std::size_t operator()(const EntityFieldKey& key) const {
+
+		// Compute individual hash values for entity and fieldName
+		// and combine them using a bitwise operation (e.g., XOR)
+		std::size_t h1 = std::hash<Entity>()(key.entity);
+		std::size_t h2 = std::hash<std::string>()(key.fieldName);
+		return h1 ^ (h2 << 1);
+	}
+};
+/*----------For the scripting, may move somewhere else in the future---------*/
+
+/*--------Variables for scripting--------*/
+using FieldValue = std::variant<int, float, bool>;  // Define a variant type to hold int, float, and bool
+
+std::unordered_map<EntityFieldKey, FieldValue> fieldValues;  // Map to hold the current values of each field
+
 Entity currentSelectedEntity{};
-static bool check;
+
 extern std::vector<std::string> fullNameVecImGUI;
+/*--------Variables for scripting--------*/
+
+static bool check;
+
+//FOR PREFAB HIERACHY
+std::string prefabName{};
+
+void DrawScriptTreeWithImGui(const std::string& className, Entity entity) {
+	ScriptEngineData* scriptData = ScriptEngine::GetInstance();
+
+	if (ImGui::TreeNodeEx(className.c_str())) {
+		for (auto& classEntry : scriptData->ScriptInfoVec) {
+			//std::cout << scriptData->ScriptInfoVec.size() << std::endl;
+			//std::cout << classEntry.typeName << std::endl;
+			if (classEntry.className != className) {
+				continue;
+			}
+
+			if (classEntry.fieldType != MONO_FIELD_ATTR_PUBLIC) {
+				continue;
+			}
+
+			std::string fieldInfo = classEntry.variableName;
+
+			// Initialize the field value in the map if it doesn't exist
+			if (fieldValues.find(EntityFieldKey(entity, fieldInfo)) == fieldValues.end()) {
+				switch (classEntry.typeName) {
+				case MONO_TYPE_I4: fieldValues[EntityFieldKey(entity, fieldInfo)] = 0; break;
+				case MONO_TYPE_R4: fieldValues[EntityFieldKey(entity, fieldInfo)] = 0.0f; break;
+				case MONO_TYPE_BOOLEAN: fieldValues[EntityFieldKey(entity, fieldInfo)] = false; break;
+				}
+			}
+
+			FieldValue& currentValue = fieldValues[EntityFieldKey(entity, fieldInfo)];
+
+
+			switch (classEntry.typeName) {
+			case MONO_TYPE_I4: // int
+				ImGui::DragInt(fieldInfo.c_str(), &std::get<int>(currentValue), 1.0f);
+
+				break;
+
+			case MONO_TYPE_R4: // float
+				ImGui::DragFloat(fieldInfo.c_str(), &std::get<float>(currentValue), 0.1f);
+				break;
+
+			case MONO_TYPE_BOOLEAN: // bool
+				ImGui::Checkbox(fieldInfo.c_str(), &std::get<bool>(currentValue));
+				break;
+			}
+
+			// Update the script property
+			ScriptEngine::SetScriptProperty(entity, classEntry.className, fieldInfo, &currentValue);
+		}
+		ImGui::TreePop();
+	}
+}
 
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
@@ -44,6 +133,64 @@ void UpdateSceneHierachy() {
 	ImGui::End();
 }
 
+void UpdatePrefabHierachy() {
+	ImGui::Begin("Prefab Editor");
+
+	auto prefabList{ assetmanager.GetPrefabPaths() };
+	Entity prefabID{ assetmanager.GetPrefab(prefabName) };
+
+	if (ImGui::BeginCombo("Prefabs Available", prefabName.c_str())) {
+		for (int n = 0; n < prefabList.size(); n++) {
+			bool is_selected = (prefabName == prefabList[n]);
+			if (ImGui::Selectable(prefabList[n].c_str(), is_selected)) {
+				prefabName = prefabList[n];
+				if (assetmanager.GetPrefab(prefabName) == 0) {
+					assetmanager.LoadPrefab(prefabName);
+				}
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	if (prefabID) {
+		if (ImGui::Button("Save Prefab")) {
+			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
+			std::set<Entity> entityToSave{ prefabID };
+			Serializer::SaveEntityToJson(prefabPath, entityToSave);
+		}
+
+		if (ImGui::Button("Create Instance")) {
+			Entity clone = EntityFactory::entityFactory().CloneMaster(prefabID);
+			ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
+		}
+
+		SceneEntityComponents(prefabID);
+		ImGui::Separator();
+		ComponentBrowser(prefabID);
+	}
+
+	auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
+	auto& typeManager{ ECS::ecs().GetTypeManager() };
+	auto cloneIDArray{ cloneArray.GetEntityArray() };
+	
+	//Real-time prefab updating, very unoptimised
+	for (auto& cloneEntity : cloneIDArray) {
+		Clone clone{ cloneArray.GetData(cloneEntity) };
+		if (clone.prefab == prefabName) {
+			for (auto& ecsType : typeManager) {
+				if (ecsType.second->HasComponent(prefabID) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
+					ecsType.second->CopyComponent(cloneEntity, prefabID);
+				}
+			}
+		}
+	}
+
+	ImGui::End();
+}
+
 void SceneEntityNode(Entity entity) {
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
@@ -66,6 +213,20 @@ void SceneEntityNode(Entity entity) {
 }
 
 void SceneEntityComponents(Entity entity) {
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
+		if (entityClone.prefab == "") {
+			ImGui::Text("Entity has no prefabs");
+		}
+		else {
+			std::string text{ "Prefab: " + entityClone.prefab };
+			ImGui::Text(text.c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Select in Prefab Editor")) {
+				prefabName = entityClone.prefab;
+			}
+		}
+	}
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
 
@@ -221,7 +382,39 @@ void SceneEntityComponents(Entity entity) {
 				}
 			}
 
-			ImGui::InputText("Event Input",&button.eventInput);
+			if (button.eventName == "Play Sound") {
+				if (ImGui::BeginCombo("Event Input", button.eventInput.c_str())) {
+					std::vector<std::string> soundNames{ assetmanager.audio.GetSoundPaths() };
+					for (int n = 0; n < soundNames.size(); n++) {
+						bool is_selected = (button.eventInput == soundNames[n]);
+						if (ImGui::Selectable(soundNames[n].c_str(), is_selected)) {
+							button.eventInput = soundNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			else if (button.eventName == "Play Music") {
+				if (ImGui::BeginCombo("Event Input", button.eventInput.c_str())) {
+					std::vector<std::string> soundNames{ assetmanager.audio.GetMusicPaths() };
+					for (int n = 0; n < soundNames.size(); n++) {
+						bool is_selected = (button.eventInput == soundNames[n]);
+						if (ImGui::Selectable(soundNames[n].c_str(), is_selected)) {
+							button.eventInput = soundNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			else {
+				ImGui::InputText("Event Input", &button.eventInput);
+			}
 
 			auto& btnColor = button.GetDefaultButtonColor();
 			ImGui::ColorEdit3("Color", (float*)&btnColor);
@@ -241,22 +434,19 @@ void SceneEntityComponents(Entity entity) {
 			return;
 		}
 		
+		// For everything in the vector, draw the tree
+		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
+			DrawScriptTreeWithImGui(scriptNaming, entity);
+		}
+
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
 			if (!fullNameVecImGUI.empty()) {
-				
-				// Convert script names to const char*
-				std::vector<const char*> scriptNamesCStrings;
-				scriptNamesCStrings.reserve(fullNameVecImGUI.size());
-				for (const std::string& scriptName : fullNameVecImGUI) {
-					scriptNamesCStrings.push_back(scriptName.c_str());
-				}
-
-
-				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI)) {
-					for (int n = 0; n < scriptNamesCStrings.size(); n++) {
-						bool is_selected = (currentScriptForIMGUI == scriptNamesCStrings[n]);
-						if (ImGui::Selectable(scriptNamesCStrings[n], is_selected)) {
-							currentScriptForIMGUI = scriptNamesCStrings[n];
+		
+				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI.c_str())) {
+					for (int n = 0; n < fullNameVecImGUI.size(); n++) {
+						bool is_selected = (currentScriptForIMGUI == fullNameVecImGUI[n]);
+						if (ImGui::Selectable(fullNameVecImGUI[n].c_str(), is_selected)) {
+							currentScriptForIMGUI = fullNameVecImGUI[n];
 						}
 						if (is_selected) {
 							ImGui::SetItemDefaultFocus();
@@ -266,21 +456,21 @@ void SceneEntityComponents(Entity entity) {
 				}
 
 			if (ImGui::Button("Add Script")) {
-				if (currentScriptForIMGUI == NULL) {
+				if (currentScriptForIMGUI.empty()) {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
-					ScriptEngine::RunTimeAddScript(entity, currentScriptForIMGUI);
-					currentScriptForIMGUI = NULL;
+					ScriptEngine::AttachScriptToEntity(entity, currentScriptForIMGUI);
+					currentScriptForIMGUI = "";
 					
 				}
 			}
 
 			// This part is for the scripts that are already attached to the entity
-			if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI)) {
+			if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI.c_str())) {
 				for (int n = 0; n < scriptNamesAttachedforIMGUI[entity].size(); n++) {
-					bool is_selected = (currentScriptAttachedForIMGUI ==  scriptNamesAttachedforIMGUI[entity][n]);
-					if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n], is_selected)) {
+					bool is_selected = (currentScriptAttachedForIMGUI == scriptNamesAttachedforIMGUI[entity][n]);
+					if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n].c_str(), is_selected)) {
 						currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n];
 					}
 					if (is_selected) {
@@ -291,18 +481,20 @@ void SceneEntityComponents(Entity entity) {
 			}
 			//ImGui::SameLine();
 			if (ImGui::Button("Delete Script")) {
-				if (currentScriptAttachedForIMGUI == NULL) {
+				if (currentScriptAttachedForIMGUI.empty()) {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
-					ScriptEngine::RunTimeRemoveScript(entity, currentScriptAttachedForIMGUI);
-					currentScriptAttachedForIMGUI = NULL;
+					ScriptEngine::RemoveScriptFromEntity(entity, currentScriptAttachedForIMGUI);
+					currentScriptAttachedForIMGUI = "";
 				}
 			}
 
 			ImGui::TreePop();
 			}
 		}
+		
+
 	}
 
 	if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
@@ -375,57 +567,5 @@ void SceneEntityComponents(Entity entity) {
 			}
 			ImGui::TreePop();
 		}
-	}
-
-	// Testing here
-	if (ECS::ecs().HasComponent<Script>(entity)) {
-
-		// If master entity is selected, do not allow editing of scripts
-		if (ECS::ecs().HasComponent<Master>(entity)) {
-			return;
-		}
-
-		if (testingggg) {
-			ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Testing");
-
-			// Maybe have a vector of bool here
-			// For every vector of bool, if true then make it appear so that it can be changed
-			// Something like this here
-			if (ECS::ecs().HasComponent<Transform>(entity)) {
-				auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
-				auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
-				auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
-				ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-				ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
-				ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
-			}
-			ImGui::TreePop();
-		}
-
-		if (ImGui::Button("Test button thing")) {
-			testingggg = !testingggg;
-			LOG_INFO("Test button thing");
-			std::cout << testingggg << std::endl;
-		}
-		// Test to see how to retrieve the things
-		//ScriptEngineData* scriptData = ScriptEngine::GetInstance();
-		//for (auto& name : fullNameVecImGUI) {
-		//	if (scriptData->FieldMap[name].size() != 0) {
-		//		for (auto& field : scriptData->FieldMap[name]) {
-		//			
-		//			std::cout << name << std::endl;
-		//			switch (field.second) {
-		//			case MONO_FIELD_ATTR_PUBLIC:
-		//				//std::cout << "Public" << std::endl;5
-		//				ImGui::Button("Testttttttttt");
-		//				break;
-
-		//				//case MONO_FIELD_ATTR_PRIVATE:
-		//				//    break;
-		//			}
-		//		}
-		//	}
-		//}
-
 	}
 }

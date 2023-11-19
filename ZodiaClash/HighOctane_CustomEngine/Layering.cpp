@@ -211,8 +211,12 @@ void RebuildLayeringAfterDeserialization() {
 	layering.clear();
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	std::set<Entity> * e = &(edit_ptr->m_Entities);
 	for (const Entity & entity : *e) {
+		if (!cloneArray.HasComponent(entity)) {
+			continue;
+		}
 		Name & n = nameArray.GetData(entity);
 		if (n.serializationLayer < layering.size()) {
 			if (n.serializationOrderInLayer < layering[n.serializationLayer].size()) {

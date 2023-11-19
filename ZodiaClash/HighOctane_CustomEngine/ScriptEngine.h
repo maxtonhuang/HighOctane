@@ -50,6 +50,14 @@ extern "C" {
 	typedef struct _MonoClassField MonoClassField;
 
 }
+
+struct ScriptVariableInfo {
+	std::string className;
+	int typeName;
+	std::string variableName;
+	uint32_t fieldType;
+};
+
 /*!
  * \brief Represents a class in the script engine.
  *
@@ -116,6 +124,10 @@ public:
 	 */
 	std::string GetMClassName() const;
 
+	MonoClass* GetMonoClass() const {
+		return m_MonoClass;
+	}
+
 private:
 	std::string m_ClassNamespace; /*!< The namespace of the script class. */
 	std::string m_ClassName; /*!< The name of the script class. */
@@ -161,6 +173,11 @@ public:
 	 * \return std::string The name of the script class.
 	 */
 	std::string GetScriptName() const;
+
+	MonoObject* GetInstance() const {
+				return m_Instance;
+	}
+
 
 private:
 
@@ -208,8 +225,7 @@ public:
 	std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
 	std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
 
-	// v maybe move this to a global, see how
-	std::unordered_map <std::string, std::vector<std::pair<std::string, uint32_t>>> FieldMap; // <Class name, <Field name, field access>>
+	std::vector<ScriptVariableInfo> ScriptInfoVec; // 
 };
 
 class ScriptEngine {
@@ -279,7 +295,7 @@ public:
 	 * \param entity The entity to which the script will be added.
 	 * \param scriptName The name of the script to add.
 	 */
-	static void RunTimeAddScript(Entity entity, const char* scriptName);
+	static void AttachScriptToEntity(Entity entity, std::string scriptName);
 
 	/*!
 	 * \brief Removes a script from an entity at runtime.
@@ -289,7 +305,9 @@ public:
 	 * \param entity The entity from which the script will be removed.
 	 * \param scriptName The name of the script to remove.
 	 */
-	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
+	static void RemoveScriptFromEntity(Entity entity, std::string scriptName);
+
+	static void SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value);
 
 	static ScriptEngineData* GetInstance() {
 		if (!scriptData) {
@@ -339,4 +357,3 @@ private:
 	friend class ScriptClass;
 	friend class ScriptInstance;
 };
-

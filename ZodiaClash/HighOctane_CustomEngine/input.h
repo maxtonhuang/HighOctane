@@ -109,6 +109,8 @@ This functions receives the cursor position, measured in screen coordinates but
 relative to the top-left corner of the window client area.
 *****************************************************************************/
 		static void CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos);
+
+		static void WindowFocusCallback(GLFWwindow* pwin, int focused);
 	private:
 		static double cursorposX;
 		static double cursorposY;

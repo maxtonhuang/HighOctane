@@ -233,9 +233,22 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 *	This function clones new game objects from another entity.
 *
 ******************************************************************************/
-void EntityFactory::CloneMaster(Entity& masterEntity) {
+Entity EntityFactory::CloneMaster(Entity& masterEntity) {
+	static auto& typeMap{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
 	
+	for (auto& ecsType : typeMap) {
+		if (ecsType.second->HasComponent(masterEntity)) {
+			ecsType.second->AddComponent(entity);
+			ecsType.second->CopyComponent(entity, masterEntity);
+		}
+	}
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		ECS::ecs().RemoveComponent<Clone>(entity);
+	}
+	ECS::ecs().AddComponent(entity, Clone{});
+
+	/*
 	ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
 
 	ECS::ecs().AddComponent(entity, Color{ ECS::ecs().GetComponent<Color>(masterEntity) });
@@ -253,7 +266,6 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 		ECS::ecs().AddComponent(entity, Tex{ ECS::ecs().GetComponent<Tex>(masterEntity) });
 	}
 	
-
 	ECS::ecs().AddComponent(entity, Visible{ true });
 	ECS::ecs().AddComponent(entity, Size{ ECS::ecs().GetComponent<Size>(masterEntity) });
 	ECS::ecs().AddComponent(entity, Model{});
@@ -278,6 +290,7 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	if (ECS::ecs().HasComponent<MainCharacter>(masterEntity)) {
 		ECS::ecs().AddComponent<MainCharacter>(entity, MainCharacter{ ECS::ecs().GetComponent<MainCharacter>(masterEntity) });
 	}
+	*/
 	
 	std::pair<size_t, size_t> p = FindInLayer(masterEntity);
 	if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
@@ -288,7 +301,7 @@ void EntityFactory::CloneMaster(Entity& masterEntity) {
 	}
 	
 	++cloneCounter;
-
+	return entity;
 }
 
 /******************************************************************************

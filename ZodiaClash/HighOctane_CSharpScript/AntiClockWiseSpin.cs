@@ -17,6 +17,8 @@ internal class AntiClockWiseSpin : MonoBehaviour
     public override void Update()
     {
         Rotation -= speed * DeltaTime;
+
+        Console.WriteLine("AntiClockWiseSpin OnUpdate" + speed);
     }
 }
 

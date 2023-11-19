@@ -43,6 +43,8 @@
 #include "UIComponents.h"
 #include <memory>
 #include "Layering.h"
+#include "Animation.h"
+#include "ScriptEngine.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -145,7 +147,7 @@ rapidjson::Value SerializeName(const Name& entityName, rapidjson::Document::Allo
 	rapidjson::Value nameValue;
 	nameValue.SetString(entityName.name.c_str(), static_cast<rapidjson::SizeType>(entityName.name.length()), allocator);
 	nameObject.AddMember("Name", nameValue, allocator);
-	nameObject.AddMember("Selected", entityName.selected, allocator);
+	//nameObject.AddMember("Selected", entityName.selected, allocator);
 	nameObject.AddMember("Current Layer", static_cast<uint64_t>(entityName.serializationLayer), allocator);
 	nameObject.AddMember("Order in Layer", static_cast<uint64_t>(entityName.serializationOrderInLayer), allocator);
 	nameObject.AddMember("isLocked", entityName.lock, allocator);
@@ -233,12 +235,12 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	scriptObject.AddMember("className", rapidjson::Value(script.className.c_str(), allocator).Move(), allocator);
 
 	// Serialize the scriptNameVec
-	rapidjson::Value scriptNameArray(rapidjson::kArrayType);
+	rapidjson::Value scriptAttachedNameVec(rapidjson::kArrayType);
 	for (const std::string& name : script.scriptNameVec) {
-		scriptNameArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
+		scriptAttachedNameVec.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
 	}
 
-	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
+	scriptObject.AddMember("scriptAttachedNameVec", scriptAttachedNameVec, allocator);
 
 	return scriptObject;
 }
@@ -266,6 +268,10 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 	rapidjson::Value modelObject(rapidjson::kObjectType);
 	modelObject.AddMember("Model type", (int)model.type, allocator);
 	modelObject.AddMember("Background scroll speed", model.backgroundScrollSpeed, allocator);
+	modelObject.AddMember("Red", model.GetColor().r, allocator);
+	modelObject.AddMember("Green", model.GetColor().g, allocator);
+	modelObject.AddMember("Blue", model.GetColor().b, allocator);
+	modelObject.AddMember("Alpha", model.GetColor().a, allocator);
 	return modelObject;
 }
 
@@ -318,6 +324,110 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	return buttonObject;
 }
 
+rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value set(rapidjson::kArrayType);
+
+	for (auto const& a : animSet.animationSet) {
+		rapidjson::Value group(rapidjson::kObjectType);
+		rapidjson::Value animations(rapidjson::kArrayType);
+		rapidjson::Value groupName;
+		group.AddMember("Total Frames", a.totalFrames, allocator);
+		group.AddMember("Group Name", rapidjson::Value(a.name.c_str(), allocator).Move(), allocator);
+		group.AddMember("Loop", a.loop, allocator);
+		for (auto const& anim : a.animations) {
+			rapidjson::Value perAnimation(rapidjson::kObjectType);
+			rapidjson::Value keyFrames(rapidjson::kArrayType);
+			std::string animType{ anim->GetType() };
+			perAnimation.AddMember("Animation Type", rapidjson::Value(animType.c_str(), allocator).Move(), allocator);
+			if (animType == "Sprite") {
+				const std::shared_ptr<SpriteAnimation> sprite{ std::dynamic_pointer_cast<SpriteAnimation>(anim) };
+				for (auto const& k : sprite->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyFrames.PushBack(keyframe,allocator);
+				}
+			}
+			else if (animType == "TextureChange") {
+				const std::shared_ptr<ChangeTexAnimation> texchange{ std::dynamic_pointer_cast<ChangeTexAnimation>(anim) };
+				for (auto const& k : texchange->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Texture", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Sound") {
+				const std::shared_ptr<SoundAnimation> sound{ std::dynamic_pointer_cast<SoundAnimation>(anim) };
+				for (auto const& k : sound->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Sound", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Swap") {
+				const std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(anim) };
+				rapidjson::Value keyframe(rapidjson::kObjectType);
+				keyframe.AddMember("Frame Number", swap->keyframes.frameNum, allocator);
+				keyframe.AddMember("Destination", rapidjson::Value(swap->keyframes.data.c_str(), allocator).Move(), allocator);
+				keyFrames.PushBack(keyframe, allocator);
+			}
+			else if (animType == "TransformDirect") {
+				const std::shared_ptr<TransformDirectAnimation> transDirect{ std::dynamic_pointer_cast<TransformDirectAnimation>(anim) };
+				for (auto const& k : transDirect->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("X movement", k.data.position.x, allocator);
+					keyframe.AddMember("Y movement", k.data.position.y, allocator);
+					keyframe.AddMember("Rotation", k.data.rotation, allocator);
+					keyframe.AddMember("Scale", k.data.scale, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Fade") {
+				const std::shared_ptr<FadeAnimation> fade{ std::dynamic_pointer_cast<FadeAnimation>(anim) };
+				for (auto const& k : fade->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Alpha", k.data, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Color") {
+				const std::shared_ptr<ColorAnimation> fade{ std::dynamic_pointer_cast<ColorAnimation>(anim) };
+				for (auto const& k : fade->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Red", k.data.r, allocator);
+					keyframe.AddMember("Green", k.data.g, allocator);
+					keyframe.AddMember("Blue", k.data.b, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			perAnimation.AddMember("Key Frames", keyFrames, allocator);
+			animations.PushBack(perAnimation, allocator);
+		}
+		group.AddMember("Animations", animations, allocator);
+		set.PushBack(group, allocator);
+	}
+
+	return set;
+}
+
+/*
+Helper function to check if class should be serialized
+*/
+template <typename T>
+bool CheckSerialize(const Entity& entity, const bool& isPrefabClone, const std::unordered_set<std::string>* uComponentMap) {
+	if (!isPrefabClone || (bool)(uComponentMap->count(typeid(T).name()))) {
+		return ECS::ecs().HasComponent<T>(entity);
+	}
+	else {
+		return false;
+	}
+}
+
+
 void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
@@ -353,7 +463,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Size* size = nullptr;
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
-	Animator* anim = nullptr;
+	//Animator* anim = nullptr;
 	Name* name = nullptr;
 	Script* script = nullptr;
 	CharacterStats* charstats = nullptr;
@@ -361,24 +471,40 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
 	Collider* collider = nullptr;
+	AnimationSet* animset = nullptr;
 
 	for (const Entity& entity : m_entity) {
 		
 		rapidjson::Value entityObject(rapidjson::kObjectType);
 
+		bool isPrefabClone{ false };
+		std::unordered_set<std::string>* uComponentMap{};
 
-		if (ECS::ecs().HasComponent<Name>(entity)) {
+		if (ECS::ecs().HasComponent<Clone>(entity)) {
+			rapidjson::Value cloneObject(rapidjson::kObjectType);
+			std::string prefabName{ ECS::ecs().GetComponent<Clone>(entity).prefab };
+			if (prefabName != "") {
+				rapidjson::Value typeObject(rapidjson::kArrayType);
+				cloneObject.AddMember("Prefab", rapidjson::Value(prefabName.c_str(), allocator).Move(), allocator);
+				isPrefabClone = true;
+				uComponentMap = &ECS::ecs().GetComponent<Clone>(entity).unique_components;
+				for (auto& u : *uComponentMap) {
+					typeObject.PushBack(rapidjson::Value(u.c_str(), allocator).Move(), allocator);
+				}
+				cloneObject.AddMember("Unique Components", typeObject, allocator);
+			}
+			entityObject.AddMember("Clone", cloneObject, allocator);
+		}
+
+		if (CheckSerialize<Name>(entity, isPrefabClone,uComponentMap)) {
 			name = &ECS::ecs().GetComponent<Name>(entity);
 			rapidjson::Value nameObject = SerializeName(*name, allocator);
 			entityObject.AddMember("Entity", nameObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Master>(entity)) {
+		if (CheckSerialize<Master>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("Master", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
-		if (ECS::ecs().HasComponent<Clone>(entity)) {
-			entityObject.AddMember("Clone", rapidjson::Value(rapidjson::kObjectType), allocator);
-		}
-		if (ECS::ecs().HasComponent<Color>(entity)) {
+		if (CheckSerialize<Color>(entity, isPrefabClone, uComponentMap)) {
 			color = &ECS::ecs().GetComponent<Color>(entity);
 			rapidjson::Value colorObject = SerializeColor(*color, allocator);
 			entityObject.AddMember("Color", colorObject, allocator);
@@ -387,77 +513,82 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			DECLARE(float, blueCol, color->color.b);
 			DECLARE(float, alphaCol, color->color.a);
 		}
-		if (ECS::ecs().HasComponent<Transform>(entity)) {
+		if (CheckSerialize<Transform>(entity, isPrefabClone, uComponentMap)) {
 			transform = &ECS::ecs().GetComponent<Transform>(entity);
 			rapidjson::Value transformObject = SerializeTransform(*transform, allocator);
 			entityObject.AddMember("Transform", transformObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Tex>(entity)) {
+		if (CheckSerialize<Tex>(entity, isPrefabClone, uComponentMap)) {
 			tex = &ECS::ecs().GetComponent<Tex>(entity);
 			rapidjson::Value textureObject = SerializeTex(*tex, allocator);
 			entityObject.AddMember("Texture", textureObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Visible>(entity)) {
+		if (CheckSerialize<Visible>(entity, isPrefabClone, uComponentMap)) {
 			visible = &ECS::ecs().GetComponent<Visible>(entity);
 			rapidjson::Value visibleObject = SerializeVisible(*visible, allocator);
 			entityObject.AddMember("Visible", visibleObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Size>(entity)) {
+		if (CheckSerialize<Size>(entity, isPrefabClone, uComponentMap)) {
 			size = &ECS::ecs().GetComponent<Size>(entity);
 			rapidjson::Value sizeObject = SerializeSize(*size, allocator);
 			entityObject.AddMember("Size", sizeObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Circle>(entity)) {
+		if (CheckSerialize<Circle>(entity, isPrefabClone, uComponentMap)) {
 			circle = &ECS::ecs().GetComponent<Circle>(entity);
 			rapidjson::Value circleObject = SerializeCircle(*circle, allocator);
 			entityObject.AddMember("Circle", circleObject, allocator);
 
 		}
-		if (ECS::ecs().HasComponent<AABB>(entity)) {
+		if (CheckSerialize<AABB>(entity, isPrefabClone, uComponentMap)) {
 			aabb = &ECS::ecs().GetComponent<AABB>(entity);
 			rapidjson::Value aabbObject = SerializeAABB(*aabb, allocator);
 			entityObject.AddMember("Collision", aabbObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Animator>(entity)) {
-			anim = &ECS::ecs().GetComponent<Animator>(entity);
-			rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
-			entityObject.AddMember("Animation", animationObject, allocator);
-		}
-		if (ECS::ecs().HasComponent<Script>(entity)) {
+		//if (CheckSerialize<Animator>(entity, isPrefabClone, uComponentMap)) {
+		//	anim = &ECS::ecs().GetComponent<Animator>(entity);
+		//	rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
+		//	entityObject.AddMember("Animation", animationObject, allocator);
+		//}
+		if (CheckSerialize<Script>(entity, isPrefabClone, uComponentMap)) {
 			script = &ECS::ecs().GetComponent<Script>(entity);
 			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
 			entityObject.AddMember("Scripts", scriptObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
+		if (CheckSerialize<CharacterStats>(entity, isPrefabClone, uComponentMap)) {
 			charstats = &ECS::ecs().GetComponent<CharacterStats>(entity);
 			rapidjson::Value charstatsObject = SerializeCharacterStats(*charstats, allocator);
 			entityObject.AddMember("CharacterStats", charstatsObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Model>(entity)) {
+		if (CheckSerialize<Model>(entity, isPrefabClone, uComponentMap)) {
 			model = &ECS::ecs().GetComponent<Model>(entity);
 			rapidjson::Value modelObject = SerializeModel(*model, allocator);
 			entityObject.AddMember("Model", modelObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Movable>(entity)) {
+		if (CheckSerialize<Movable>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("Movable", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
-		if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
+		if (CheckSerialize<MainCharacter>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("MainCharacter", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
-		if (ECS::ecs().HasComponent<TextLabel>(entity)) {
+		if (CheckSerialize<TextLabel>(entity, isPrefabClone, uComponentMap)) {
 			textLabel = &ECS::ecs().GetComponent<TextLabel>(entity);
 			rapidjson::Value textObject = SerializeTextLabel(*textLabel, allocator);
 			entityObject.AddMember("Text Label", textObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Button>(entity)) {
+		if (CheckSerialize<Button>(entity, isPrefabClone, uComponentMap)) {
 			button = &ECS::ecs().GetComponent<Button>(entity);
 			rapidjson::Value buttonObject = SerializeButton(*button, allocator);
 			entityObject.AddMember("Button", buttonObject, allocator);
 		}
-		if (ECS::ecs().HasComponent<Collider>(entity)) {
+		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
 			rapidjson::Value colliderObject = SerializeCollider(*collider, allocator);
 			entityObject.AddMember("Collider", colliderObject, allocator);
+		}
+		if (CheckSerialize<AnimationSet>(entity, isPrefabClone, uComponentMap)) {
+			animset = &ECS::ecs().GetComponent<AnimationSet>(entity);
+			rapidjson::Value animsetObject = SerializeAnimationSet(*animset, allocator);
+			entityObject.AddMember("Animation Set", animsetObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -504,13 +635,14 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 	
 }
 
-bool Serializer::LoadEntityFromJson(const std::string& fileName) {
+Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab) {
 	rapidjson::Document document;
 	std::ifstream file(fileName);
+	Entity entity{0};
 	if (!file.is_open()) {
 		std::cerr << "Failed to open file: " << fileName << std::endl;
 		//Assert("Failed to open .json file %s", fileName);
-		return false;
+		return entity;
 	}
 	rapidjson::IStreamWrapper isw(file);
 	document.ParseStream(isw);
@@ -531,7 +663,45 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 			LoadLayeringData(layeringObject);
 		}
 		else {
-			Entity entity = ECS::ecs().CreateEntity();
+			//entity = ECS::ecs().CreateEntity();
+			if (entityObject.HasMember("Clone")) {
+				const rapidjson::Value& cloneObject = entityObject["Clone"];
+				//ECS::ecs().AddComponent(entity, Clone{});
+				if (cloneObject.HasMember("Prefab")) {
+					std::string prefabName = cloneObject["Prefab"].GetString();
+					Entity prefabID{ assetmanager.GetPrefab(prefabName) };
+					entity = EntityFactory::entityFactory().CloneMaster(prefabID);
+					const rapidjson::Value& componentSet{ cloneObject["Unique Components"] };
+					Clone& cloneComponent{ ECS::ecs().GetComponent<Clone>(entity) };
+					cloneComponent.prefab = prefabName;
+					for (rapidjson::SizeType s = 0; s < componentSet.Size(); s++) {
+						std::string componentName{ componentSet[s].GetString() };
+						cloneComponent.unique_components.insert(componentName);
+					}
+				}
+				else {
+					entity = ECS::ecs().CreateEntity();
+					(EntityFactory::entityFactory().cloneCounter)++;
+					ECS::ecs().AddComponent(entity, Clone{});
+				}
+				//////////////////////////////////////////////////////////////////////////// <-------
+				if (!stopButton) {
+					//stop crashing if there is no selected layer
+					//if (selectedLayer == std::numeric_limits<size_t>::max()) {
+					selectedLayer = currentLayer = 0;
+					//}
+					/*if (layering.size() == 0) {
+						std::deque<Entity> temp;
+						layering.emplace_back(temp);
+					}
+					layering[selectedLayer].push_back(entity);*/
+				}
+			}
+
+			if (entity == 0) {
+				entity = ECS::ecs().CreateEntity();
+				(EntityFactory::entityFactory().cloneCounter)++;
+			}
 
 			if (entityObject.HasMember("Entity")) {
 				//std::string entityName = entityObject["Entity Name"].GetString();
@@ -539,7 +709,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				const rapidjson::Value& nameObject = entityObject["Entity"];
 				Name name{};
 				name.name = nameObject["Name"].GetString();
-				name.selected = nameObject["Selected"].GetBool();
+				//name.selected = nameObject["Selected"].GetBool();
 				if (nameObject.HasMember("Current Layer")) {
 					name.serializationLayer = nameObject["Current Layer"].GetUint64();
 				}
@@ -552,7 +722,13 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				if (nameObject.HasMember("isSkipped")) {
 					name.skip = nameObject["isSkipped"].GetBool();
 				}
-				ECS::ecs().AddComponent<Name>(entity, name);
+
+				if (ECS::ecs().HasComponent<Name>(entity)) {
+					ECS::ecs().GetComponent<Name>(entity) = name;
+				}
+				else {
+					ECS::ecs().AddComponent<Name>(entity, name);
+				}
 			}
 
 			if (entityObject.HasMember("Color")) {
@@ -562,7 +738,13 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				color.color.g = colorObject["g"].GetFloat();
 				color.color.b = colorObject["b"].GetFloat();
 				color.color.a = colorObject["a"].GetFloat();
-				ECS::ecs().AddComponent<Color>(entity, color);
+
+				if (ECS::ecs().HasComponent<Color>(entity)) {
+					ECS::ecs().GetComponent<Color>(entity) = color;
+				}
+				else {
+					ECS::ecs().AddComponent<Color>(entity, color);
+				}
 			}
 
 			if (entityObject.HasMember("Transform")) {
@@ -574,7 +756,13 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				transform.scale = transformObject["scale"].GetFloat();
 				transform.velocity.x = transformObject["velocity_x"].GetFloat();
 				transform.velocity.y = transformObject["velocity_y"].GetFloat();
-				ECS::ecs().AddComponent<Transform>(entity, transform);
+
+				if (ECS::ecs().HasComponent<Transform>(entity)) {
+					ECS::ecs().GetComponent<Transform>(entity) = transform;
+				}
+				else {
+					ECS::ecs().AddComponent<Transform>(entity, transform);
+				}
 			}
 
 			if (entityObject.HasMember("Texture")) {
@@ -596,14 +784,25 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 					tex.tex = texture;
 				}
 
-				ECS::ecs().AddComponent<Tex>(entity, tex);
+				if (ECS::ecs().HasComponent<Tex>(entity)) {
+					ECS::ecs().GetComponent<Tex>(entity) = tex;
+				}
+				else {
+					ECS::ecs().AddComponent<Tex>(entity, tex);
+				}
 			}
 
 			if (entityObject.HasMember("Visible")) {
 				const rapidjson::Value& visibleObject = entityObject["Visible"];
 				Visible visible{};
 				visible.isVisible = visibleObject["isVisible"].GetBool();
-				ECS::ecs().AddComponent<Visible>(entity, visible);
+
+				if (ECS::ecs().HasComponent<Visible>(entity)) {
+					ECS::ecs().GetComponent<Visible>(entity) = visible;
+				}
+				else {
+					ECS::ecs().AddComponent<Visible>(entity, visible);
+				}
 			}
 
 			if (entityObject.HasMember("Size")) {
@@ -611,14 +810,26 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				Size size{};
 				size.width = sizeObject["width"].GetFloat();
 				size.height = sizeObject["height"].GetFloat();
-				ECS::ecs().AddComponent<Size>(entity, size);
+
+				if (ECS::ecs().HasComponent<Size>(entity)) {
+					ECS::ecs().GetComponent<Size>(entity) = size;
+				}
+				else {
+					ECS::ecs().AddComponent<Size>(entity, size);
+				}
 			}
 
 			if (entityObject.HasMember("Circle")) {
 				const rapidjson::Value& circleObject = entityObject["Circle"];
 				Circle circle{};
 				circle.radius = circleObject["radius"].GetFloat();
-				ECS::ecs().AddComponent<Circle>(entity, circle);
+
+				if (ECS::ecs().HasComponent<Circle>(entity)) {
+					ECS::ecs().GetComponent<Circle>(entity) = circle;
+				}
+				else {
+					ECS::ecs().AddComponent<Circle>(entity, circle);
+				}
 			}
 
 			if (entityObject.HasMember("Collision")) {
@@ -630,85 +841,104 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				aabb.max.y = aabbObject["Max Y"].GetFloat();
 				aabb.extents.x = aabbObject["Extent X"].GetFloat();
 				aabb.extents.y = aabbObject["Extent Y"].GetFloat();
-				ECS::ecs().AddComponent<AABB>(entity, aabb);
+
+				if (ECS::ecs().HasComponent<AABB>(entity)) {
+					ECS::ecs().GetComponent<AABB>(entity) = aabb;
+				}
+				else {
+					ECS::ecs().AddComponent<AABB>(entity, aabb);
+				}
 			}
 
-			if (entityObject.HasMember("Animation")) {
-				const rapidjson::Value& animObject = entityObject["Animation"];
-				Animator anim{
-					static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
-					animObject["Frame Display Duration"].GetFloat()
-				};
-				//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
-				//anim.frameIndex = animObject["Frame Index"].GetUint();
-				//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
-				//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
-				ECS::ecs().AddComponent<Animator>(entity, anim);
-			}
+			//if (entityObject.HasMember("Animation")) {
+			//	const rapidjson::Value& animObject = entityObject["Animation"];
+			//	Animator anim{
+			//		static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
+			//		animObject["Frame Display Duration"].GetFloat()
+			//	};
+			//	//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
+			//	//anim.frameIndex = animObject["Frame Index"].GetUint();
+			//	//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
+			//	//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
+			//	ECS::ecs().AddComponent<Animator>(entity, anim);
+			//}
 			if (entityObject.HasMember("Scripts")) {
 				const rapidjson::Value& scriptObject = entityObject["Scripts"];
+
 				Script script;
+				if (ECS::ecs().HasComponent<Script>(entity)) {
+					ECS::ecs().GetComponent<Script>(entity) = script;
+				}
+				else {
+					ECS::ecs().AddComponent<Script>(entity, script);
+				}
+
 
 				if (scriptObject.HasMember("className")) {
 					script.className = scriptObject["className"].GetString();
 				}
-				if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
-					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
+
+				// Check if there's any script in the loaded scene
+				if (scriptObject.HasMember("scriptAttachedNameVec") && scriptObject["scriptAttachedNameVec"].IsArray()) {
+					const rapidjson::Value& scriptNameArray = scriptObject["scriptAttachedNameVec"];
 					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
 						if (scriptNameArray[j].IsString()) {
-							script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+							//script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+							ScriptEngine::AttachScriptToEntity(entity, scriptNameArray[j].GetString());
 						}
 					}
 				}
-				if (scriptObject.HasMember("scriptNameVecForImGui") && scriptObject["scriptNameVecForImGui"].IsArray()) {
-					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVecForImGui"];
-					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
-						if (scriptNameArray[j].IsString()) {
-							script.scriptNameVec.push_back(scriptNameArray[j].GetString());
-						}
-					}
-				}
-				ECS::ecs().AddComponent<Script>(entity, script);
 
 			}
 			if (entityObject.HasMember("Master")) {
-				ECS::ecs().AddComponent(entity, Master{});
-				EntityFactory::entityFactory().masterEntitiesList[ECS::ecs().GetComponent<Name>(entity).name] = entity;
-				++(EntityFactory::entityFactory().masterCounter);
-			}
-			if (entityObject.HasMember("Clone")) {
-				ECS::ecs().AddComponent(entity, Clone{});
-				//////////////////////////////////////////////////////////////////////////// <-------
-				if (!stopButton) {
-					//stop crashing if there is no selected layer
-					//if (selectedLayer == std::numeric_limits<size_t>::max()) {
-						selectedLayer = currentLayer = 0;
-					//}
-					/*if (layering.size() == 0) {
-						std::deque<Entity> temp;
-						layering.emplace_back(temp);
-					}
-					layering[selectedLayer].push_back(entity);*/
+				if (!ECS::ecs().HasComponent<Master>(entity)) {
+					ECS::ecs().AddComponent(entity, Master{});
+					EntityFactory::entityFactory().masterEntitiesList[ECS::ecs().GetComponent<Name>(entity).name] = entity;
+					++(EntityFactory::entityFactory().masterCounter);
 				}
-				(EntityFactory::entityFactory().cloneCounter)++;
 			}
 			if (entityObject.HasMember("MainCharacter")) {
-				ECS::ecs().AddComponent(entity, MainCharacter{});
+				if (!ECS::ecs().HasComponent<MainCharacter>(entity)) {
+					ECS::ecs().AddComponent(entity, MainCharacter{});
+				}
 			}
 			if (entityObject.HasMember("Model")) {
 				const rapidjson::Value& modelObject = entityObject["Model"];
 				Model model{ modelObject["Model type"].GetInt(),modelObject["Background scroll speed"].GetFloat() };
-				ECS::ecs().AddComponent(entity, Model{});
+				if (modelObject.HasMember("Red")) {
+					glm::vec4 modelColor{};
+					modelColor.r = modelObject["Red"].GetFloat();
+					modelColor.g = modelObject["Green"].GetFloat();
+					modelColor.b = modelObject["Blue"].GetFloat();
+					modelColor.a = modelObject["Alpha"].GetFloat();
+					model.SetColor(modelColor.r, modelColor.g, modelColor.b);
+					model.SetAlpha(modelColor.a);
+				}
+
+				if (ECS::ecs().HasComponent<Model>(entity)) {
+					ECS::ecs().GetComponent<Model>(entity) = model;
+				}
+				else {
+					ECS::ecs().AddComponent<Model>(entity, model);
+				}
 			}
 			if (entityObject.HasMember("Collider")) {
 				const rapidjson::Value& colliderObject = entityObject["Collider"];
 				Collider collider;
 				int enumID = colliderObject["Collider Enum"].GetInt();
 				collider.bodyShape = static_cast<Collider::SHAPE_ID>(enumID);
-				ECS::ecs().AddComponent(entity, collider);
+
+				if (ECS::ecs().HasComponent<Collider>(entity)) {
+					ECS::ecs().GetComponent<Collider>(entity) = collider;
+				}
+				else {
+					ECS::ecs().AddComponent<Collider>(entity, collider);
+				}
 			}
 			if (entityObject.HasMember("Movable")) {
-				ECS::ecs().AddComponent(entity, Movable{});
+				if (!ECS::ecs().HasComponent<Movable>(entity)) {
+					ECS::ecs().AddComponent(entity, Movable{});
+				}
 			}
 			if (entityObject.HasMember("CharacterStats")) {
 				const rapidjson::Value& statsObject = entityObject["CharacterStats"];
@@ -722,7 +952,13 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 				for (auto& a : statsObject["Skills"].GetArray()) {
 					charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
 				}
-				ECS::ecs().AddComponent(entity, charstats);
+
+				if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
+					ECS::ecs().GetComponent<CharacterStats>(entity) = charstats;
+				}
+				else {
+					ECS::ecs().AddComponent<CharacterStats>(entity, charstats);
+				}
 			}
 			if (entityObject.HasMember("Text Label")) {
 				const rapidjson::Value& textObject = entityObject["Text Label"];
@@ -740,7 +976,13 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 				textLabel.initClr = textObject["Color Preset"].GetString();
 				//TextLabel(textLabel.textString, textLabel.textColor);
-				ECS::ecs().AddComponent(entity, textLabel);
+
+				if (ECS::ecs().HasComponent<TextLabel>(entity)) {
+					ECS::ecs().GetComponent<TextLabel>(entity) = textLabel;
+				}
+				else {
+					ECS::ecs().AddComponent<TextLabel>(entity, textLabel);
+				}
 			}
 			if (entityObject.HasMember("Button")) {
 				const rapidjson::Value& buttonObject = entityObject["Button"];
@@ -783,9 +1025,99 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 					button.eventInput = buttonObject["Event Input"].GetString();
 				}
 
-				ECS::ecs().AddComponent(entity, button);
+				if (ECS::ecs().HasComponent<Button>(entity)) {
+					ECS::ecs().GetComponent<Button>(entity) = button;
+				}
+				else {
+					ECS::ecs().AddComponent<Button>(entity, button);
+				}
+			}
+			if (entityObject.HasMember("Animation Set")) {
+				AnimationSet animset{};
+				for (auto& animGroups : entityObject["Animation Set"].GetArray()) {
+					AnimationGroup anigrp{};
+					anigrp.totalFrames = animGroups["Total Frames"].GetInt();
+					anigrp.name = animGroups["Group Name"].GetString();
+					anigrp.loop = animGroups["Loop"].GetBool();
+					for (auto& animations : animGroups["Animations"].GetArray()) {
+						std::string animType = animations["Animation Type"].GetString();
+						if (animType == "Sprite") {
+							SpriteAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<SpriteAnimation>(a));
+						}
+						else if (animType == "TextureChange") {
+							ChangeTexAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Texture"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ChangeTexAnimation>(a));
+						}
+						else if (animType == "Sound") {
+							SoundAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Sound"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<SoundAnimation>(a));
+						}
+						else if (animType == "Swap") {
+							SwapAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{ k["Destination"].GetString() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<SwapAnimation>(a));
+						}
+						else if (animType == "TransformDirect") {
+							TransformDirectAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								Transform data{};
+								data.position.x = k["X movement"].GetFloat();
+								data.position.y = k["Y movement"].GetFloat();
+								data.rotation = k["Rotation"].GetFloat();
+								data.scale = k["Scale"].GetFloat();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<TransformDirectAnimation>(a));
+						}
+						else if (animType == "Color") {
+							ColorAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								glm::vec3 data{};
+								data.r = k["Red"].GetFloat();
+								data.g = k["Green"].GetFloat();
+								data.b = k["Blue"].GetFloat();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ColorAnimation>(a));
+						}
+						else if (animType == "Fade") {
+							FadeAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								float data{ k["Alpha"].GetFloat() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<FadeAnimation>(a));
+						}
+					}
+					animset.animationSet.push_back(anigrp);
+				}
+
+				if (ECS::ecs().HasComponent<AnimationSet>(entity)) {
+					ECS::ecs().GetComponent<AnimationSet>(entity) = animset;
+				}
+				else {
+					ECS::ecs().AddComponent<AnimationSet>(entity, animset);
+				}
 			}
 		}
+	}
+	if (isPrefab && ECS::ecs().HasComponent<Clone>(entity)) {
+		ECS::ecs().RemoveComponent<Clone>(entity);
 	}
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
@@ -794,7 +1126,7 @@ bool Serializer::LoadEntityFromJson(const std::string& fileName) {
 
 	// To load the state from a file for reflection
 	//DeserializeVariablesFromFile("variables.sav", variablesTEST);
-	return true;
+	return entity;
 }
 
 void LoadConfig() {

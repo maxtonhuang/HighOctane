@@ -39,6 +39,7 @@
 #include <unordered_map>
 #include "AssetManager.h"
 #include "Events.h"
+#include "CheatCode.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -71,6 +72,19 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             }
             graphics.Fullscreen(fullscreen);
         }
+        /*
+        if (GLFW_KEY_G == key) {
+            ToggleGodMode();
+        }
+        if (GLFW_KEY_N == key) 
+        {
+            ActivateNextLevel();
+        }
+        if (GLFW_KEY_E == key) 
+        {
+            ActivateEndGame();
+        }
+        */
 
         // key input for toggling mass rendering
         //if (GLFW_KEY_Y == key) {
@@ -174,5 +188,14 @@ void InputManager::MouseCheck() {
         if (val.second != INFO::NONE) {
             Mail::mail().CreatePostcard(TYPE::MOUSE_DOWN, ADDRESS::INPUT, val.second, 0.f, 0.f);
         }
+    }
+}
+
+void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
+    if (focused) {
+        assetmanager.audio.ResumeGroup("Master");
+    }
+    else {
+        assetmanager.audio.PauseGroup("Master");
     }
 }

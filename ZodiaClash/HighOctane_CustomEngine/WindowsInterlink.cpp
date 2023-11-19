@@ -215,7 +215,7 @@ std::string SaveFileDialog(std::string extensionName, std::string extensionDescr
 *	retrieve the file path of a selected file.
 *
 ******************************************************************************/
-std::string OpenSingleFileDialog() {
+std::string OpenSingleFileDialog(std::string extensionName, std::string extensionDescription) {
 
 	std::string selectedFilePath;
 
@@ -227,6 +227,21 @@ std::string OpenSingleFileDialog() {
 	HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&p_fod));
 
 	if (SUCCEEDED(hr)) {
+		// Set file type filters
+		COMDLG_FILTERSPEC fileTypes[] = {
+			{ L"Text Files", L"*.txt;*.doc;*.docx" }, // Example filter for text files and Word documents
+			{ L"All Files", L"*.*" } // Option to show all files
+		};
+		
+		if (extensionName != "") {
+			std::wstring edtemp = std::wstring(extensionDescription.begin(), extensionDescription.end());
+			LPCWSTR eDescription = edtemp.c_str();
+			std::wstring entemp = std::wstring(extensionName.begin(), extensionName.end());
+			LPCWSTR eName = entemp.c_str();
+			COMDLG_FILTERSPEC extension[]{ {eDescription, eName} };
+			hr = p_fod->SetFileTypes(_countof(extension), extension);
+		}
+
 		// Set the options for multiple file selection
 		DWORD dwOptions;
 		hr = p_fod->GetOptions(&dwOptions);

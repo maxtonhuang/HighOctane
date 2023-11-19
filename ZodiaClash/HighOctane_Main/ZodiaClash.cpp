@@ -67,6 +67,7 @@
 #include "Reflections.h"
 #include "Events.h"
 #include "Layering.h"
+#include "Animation.h"
 //#include <rttr/type.h>
 
 bool gConsoleInitalized{ false };
@@ -234,12 +235,11 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().Init();
 	ECS::ecs().RegisterComponent<Transform>();
 	ECS::ecs().RegisterComponent<Color>();
-	ECS::ecs().RegisterComponent<Texture>();
 	ECS::ecs().RegisterComponent<Size>();
 	ECS::ecs().RegisterComponent<Visible>();
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
-	ECS::ecs().RegisterComponent<Animator>();
+	//ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Master>();
 	ECS::ecs().RegisterComponent<Clone>();
@@ -249,6 +249,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
+	ECS::ecs().RegisterComponent<AnimationSet>();
 	//ECS::ecs().RegisterComponent<PlayerAction>();
 	//ECS::ecs().RegisterComponent<EnemyAction>();
 
@@ -268,9 +269,13 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(collisionSystem, "Collison System");
 	systemList.emplace_back(collisionSystem, "Collison System");	
 
-	std::shared_ptr<AnimatorSystem> animatorSystem = ECS::ecs().RegisterSystem<AnimatorSystem>();
-	runSystemList.emplace_back(animatorSystem, "Animator System");
-	systemList.emplace_back(animatorSystem, "Animator System");
+	//std::shared_ptr<AnimatorSystem> animatorSystem = ECS::ecs().RegisterSystem<AnimatorSystem>();
+	//runSystemList.emplace_back(animatorSystem, "Animator System");
+	//systemList.emplace_back(animatorSystem, "Animator System");
+
+	std::shared_ptr<AnimationSystem> animationSystem = ECS::ecs().RegisterSystem<AnimationSystem>();
+	runSystemList.emplace_back(animationSystem, "Animation System");
+	systemList.emplace_back(animationSystem, "Animation System");
 
 	std::shared_ptr<ScriptSystem> scriptingSystem = ECS::ecs().RegisterSystem<ScriptSystem>();
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
@@ -304,6 +309,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(modelSystem, "Model System");
 	systemList.emplace_back(modelSystem, "Model System");
 
+	std::shared_ptr<AudioSystem> audioSystem = ECS::ecs().RegisterSystem<AudioSystem>();
+	runSystemList.emplace_back(audioSystem, "Audio System");
+	editSystemList.emplace_back(audioSystem, "Audio System");
+	systemList.emplace_back(audioSystem, "Audio System");
+
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	runSystemList.emplace_back(graphicsSystem, "Graphics System");
 	editSystemList.emplace_back(graphicsSystem, "Graphics System");
@@ -334,22 +344,30 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
-		signature.set(ECS::ecs().GetComponentType<Animator>());
+		//signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
 
 		ECS::ecs().SetSystemSignature<MovementSystem>(signature);
 	}
 
+	//{
+	//	Signature signature;
+	//	signature.set(ECS::ecs().GetComponentType<Size>());
+	//	signature.set(ECS::ecs().GetComponentType<Tex>());
+	//	signature.set(ECS::ecs().GetComponentType<Animator>());
+	//	signature.set(ECS::ecs().GetComponentType<Model>());
+	//	signature.set(ECS::ecs().GetComponentType<Clone>());
+
+	//	ECS::ecs().SetSystemSignature<AnimatorSystem>(signature);
+	//}
+
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Size>());
-		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<Animator>());
-		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<AnimationSet>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
-		ECS::ecs().SetSystemSignature<AnimatorSystem>(signature);
+		ECS::ecs().SetSystemSignature<AnimationSystem>(signature);
 	}
 
 	{
@@ -361,6 +379,11 @@ void EngineCore::Run(bool const& mode) {
 		//signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		ECS::ecs().SetSystemSignature<AudioSystem>(signature);
 	}
 
 	{
@@ -395,6 +418,7 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Movable>());
 		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
 	}

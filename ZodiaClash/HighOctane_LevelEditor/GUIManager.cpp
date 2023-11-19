@@ -57,6 +57,8 @@
 #include <vector>
 #include "AssetManager.h"
 #include "Layering.h"
+#include "ImGuiAnimator.h"
+#include "ImGuiComponents.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -295,6 +297,17 @@ void GUIManager::Update()
                     rightClick = false;
 
                 }
+                ImGui::Separator();
+                if (ImGui::MenuItem("Save as prefab")) {
+                    std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
+                    std::set<Entity> entityToSave{ newSelection };
+                    if (prefabPath != "") {
+                        Serializer::SaveEntityToJson(prefabPath, entityToSave);
+                        std::string prefabName{ prefabPath.substr(prefabPath.find_last_of("\\") + 1) };
+                        ECS::ecs().GetComponent<Clone>(newSelection).prefab = prefabName;
+                    }
+                    assetmanager.UpdatePrefabPaths();
+                }
                 ImGui::EndPopup();
             }
         }
@@ -321,7 +334,9 @@ void GUIManager::Update()
     UpdateSceneHierachy();
     UpdateContentBrowser();
     UpdateLayer();
-
+    UpdateAnimator();
+    UpdateComponentViewer();
+    UpdatePrefabHierachy();
 
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console

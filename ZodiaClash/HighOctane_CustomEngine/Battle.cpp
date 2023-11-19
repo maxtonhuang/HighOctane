@@ -31,7 +31,6 @@
 ******************************************************************************/
 
 #include "Battle.h"
-#include "CharacterStats.h"
 #include "GameStateManager.h"
 #include "debuglog.h"
 #include "Events.h"
@@ -39,6 +38,7 @@
 #include "ECS.h"
 #include <algorithm>
 #include <iostream>
+#include "CheatCode.h"
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -238,6 +238,15 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
+        if (godModeOn) {
+            // Ensure the active player character has full health
+            for (Entity entity : m_Entities) {
+                CharacterStats* cs = &statsArray->GetData(entity);
+                if (cs->tag == CharacterType::PLAYER) {
+                    RestoreFullHealth(*cs);
+                }
+            }
+        }
         if (activeCharacter->action.entityState == EntityState::ENDING) {
             if (m_Entities.size() > 0) {
                 for (auto& c : turnManage.characterList) {

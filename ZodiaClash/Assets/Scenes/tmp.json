@@ -11,7 +11,6 @@
     {
         "Entity": {
             "Name": "master_00001",
-            "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
@@ -46,31 +45,28 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         }
     },
     {
+        "Clone": {},
         "Entity": {
-            "Name": "entity_00001",
-            "Selected": false,
+            "Name": "Play Sound 3 Button",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -78,7 +74,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1.0,
+            "position_x": -1.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -99,32 +95,28 @@
             "width": 1920.0,
             "height": 1080.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00003",
-            "Selected": false,
             "Current Layer": 0,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -132,8 +124,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 411.0,
-            "position_y": 471.0,
+            "position_x": 17.0,
+            "position_y": 484.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -143,8 +135,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 1050.5,
-            "height": 61.0
+            "width": 260.5,
+            "height": 58.5
         },
         "Scripts": {
             "className": "",
@@ -160,13 +152,17 @@
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "mikachan",
             "Font Variant": "Regular",
-            "Text String": "PRESS F1 ANYTIME TO RETURN TO THIS SCREEN",
+            "Text String": "SOUND TEST",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -175,15 +171,14 @@
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00005",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -191,8 +186,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -687.0,
-            "position_y": -470.0,
+            "position_x": -700.0,
+            "position_y": -485.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -211,7 +206,11 @@
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
         },
         "Movable": {},
         "Text Label": {
@@ -226,15 +225,14 @@
         }
     },
     {
+        "Clone": {},
         "Entity": {
-            "Name": "entity_00009",
-            "Selected": true,
+            "Name": "Play Sound 1 Button",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -242,8 +240,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 454.0,
-            "position_y": -325.0,
+            "position_x": -573.0,
+            "position_y": 49.75,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -260,7 +258,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 334.0,
+            "width": 373.5,
             "height": 119.5
         },
         "Scripts": {
@@ -269,13 +267,17 @@
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Sound Test",
+            "Text String": "Play Sound 1",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -291,8 +293,8 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Change Scene",
-            "Event Input": "soundtest.scn",
+            "Event Name": "Play Sound",
+            "Event Input": "Cat Atk 1_Edited.wav",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -300,85 +302,11 @@
         }
     },
     {
-        "Entity": {
-            "Name": "entity_00009_CLONE",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 4,
-            "isLocked": true,
-            "isSkipped": true
-        },
         "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 445.0,
-            "position_y": -37.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 333.0,
-            "height": 119.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Battle Test",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
-        },
-        "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
-            "Event Name": "Change Scene",
-            "Event Input": "battle2.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0
-        }
-    },
-    {
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 0,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -390,8 +318,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": -269.0,
+            "position_y": 56.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -402,36 +330,88 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_title_logo_02 (1).png"
+            "Texture File Path": "mockup_playbutton_04.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 512.0,
-            "height": 512.0
+            "width": 540.5,
+            "height": 119.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
         },
         "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        }
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Pause / Resume BGM",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Pause/Resume Group",
+            "Event Input": "BGM",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 30,
+                "Group Name": "Animation 0",
+                "Loop": true,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Cat Atk 1_Edited.wav"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 0,
+                "Group Name": "Animation 1",
+                "Loop": false,
+                "Animations": []
+            }
+        ]
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -439,8 +419,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 458.0,
-            "position_y": 141.0,
+            "position_x": 31.0,
+            "position_y": 333.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -460,32 +440,30 @@
             "width": 512.0,
             "height": 512.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
             "scriptNameVec": []
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
-            "Name": "entity_00009_CLONE_CLONE",
-            "Selected": false,
+            "Name": "master_00006",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
-        "Clone": {},
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -493,8 +471,88 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 447.0,
-            "position_y": -172.0,
+            "position_x": -21.0,
+            "position_y": -272.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 340.0,
+            "height": 119.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Play Music",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Play Music",
+            "Event Input": "ZodiaClash_Battle3 V1.wav",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "Play Sound 2 Button",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -576.0,
+            "position_y": -86.25,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -511,7 +569,167 @@
             "isVisible": true
         },
         "Size": {
-            "width": 444.0,
+            "width": 380.5,
+            "height": 119.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Play Sound 2",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Play Sound",
+            "Event Input": "Repeat cat.wav",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "entity_00009_CLONE_CLONE",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -576.0,
+            "position_y": -225.25,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 379.5,
+            "height": 119.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "Play Sound 3",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black"
+        },
+        "Button": {
+            "Button R": 0.0,
+            "Button G": 0.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Play Sound",
+            "Event Input": "Skill Select_Edited.wav",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0
+        },
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "Stop Music Button",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -8.0,
+            "position_y": -73.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_playbutton_04.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 341.5,
             "height": 121.5
         },
         "Scripts": {
@@ -520,13 +738,17 @@
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Exploration Test",
+            "Text String": "Stop Music",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -542,360 +764,26 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Change Scene",
-            "Event Input": "exploration.scn",
+            "Event Name": "Stop Group",
+            "Event Input": "BGM",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
             "Padding Right": 60.0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "master_00003",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
         },
         "Collider": {
             "Collider Enum": 0
         }
     },
     {
-        "Entity": {
-            "Name": "master_00004",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "master_00005",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "master_00006",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "master_00007",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "master_00008",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Collider": {
-            "Collider Enum": 0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "entity_00009_CLONE",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 7,
-            "isLocked": true,
-            "isSkipped": true
-        },
         "Clone": {},
+        "Entity": {
+            "Name": "Pause BGM Button_CLONE",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -903,8 +791,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 449.0,
-            "position_y": -450.0,
+            "position_x": 576.0,
+            "position_y": -46.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -921,7 +809,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 321.0,
+            "width": 538.0,
             "height": 117.5
         },
         "Scripts": {
@@ -930,13 +818,17 @@
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "Exit Game",
+            "Text String": "Return to main menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -952,8 +844,8 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Exit Game",
-            "Event Input": "no input needed for exit",
+            "Event Name": "Change Scene",
+            "Event Input": "mainmenu.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
