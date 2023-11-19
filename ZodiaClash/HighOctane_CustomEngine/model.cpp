@@ -60,6 +60,13 @@ Model::Model(int modelType, float bgScrollSpeed) {
 	backgroundScrollSpeed = bgScrollSpeed;
 }
 
+Model& Model::operator= (const Model& rhs) {
+	type = rhs.type;
+	backgroundScrollSpeed = rhs.backgroundScrollSpeed;
+	color = rhs.color;
+	return *this;
+}
+
 void Model::Update(Transform const& entity, Size const& size) {
 	if (type == ModelType::BACKGROUNDLOOP) {
 		float x = camera.GetPos().x / GRAPHICS::w;

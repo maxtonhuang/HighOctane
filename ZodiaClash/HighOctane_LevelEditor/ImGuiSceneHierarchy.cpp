@@ -172,6 +172,22 @@ void UpdatePrefabHierachy() {
 		ComponentBrowser(prefabID);
 	}
 
+	auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
+	auto& typeManager{ ECS::ecs().GetTypeManager() };
+	auto cloneIDArray{ cloneArray.GetEntityArray() };
+	
+	//Real-time prefab updating, very unoptimised
+	for (auto& cloneEntity : cloneIDArray) {
+		Clone clone{ cloneArray.GetData(cloneEntity) };
+		if (clone.prefab == prefabName) {
+			for (auto& ecsType : typeManager) {
+				if (ecsType.second->HasComponent(prefabID) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
+					ecsType.second->CopyComponent(cloneEntity, prefabID);
+				}
+			}
+		}
+	}
+
 	ImGui::End();
 }
 

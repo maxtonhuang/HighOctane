@@ -76,6 +76,8 @@ extern bool popupHovered;
 extern bool anyObjectSelected; // whether any object is selected
 extern bool popupMasterRightClicked;
 
+extern std::unordered_set<std::string> defaultUniqueComponents;
+
 extern bool clearAllSelection;
 extern std::string sceneName;
 extern bool newScene;

@@ -37,6 +37,8 @@
 #include <string>
 #include <memory>
 #include <limits>
+#include "Components.h"
+#include "model.h"
 
 #define RESET_VEC2 0.f, 0.f
 
@@ -66,6 +68,8 @@ Entity newSelection{};
 bool popupHovered{ false };
 bool anyObjectSelected{ false };
 bool popupMasterRightClicked{ false };
+
+std::unordered_set<std::string> defaultUniqueComponents{ typeid(Transform).name(), typeid(Name).name(), typeid(Model).name() };
 
 bool clearAllSelection{ false };
 std::string sceneName{};
