@@ -295,7 +295,7 @@ public:
 	 * \param entity The entity to which the script will be added.
 	 * \param scriptName The name of the script to add.
 	 */
-	static void RunTimeAddScript(Entity entity, const char* scriptName);
+	static void AttachScriptToEntity(Entity entity, std::string scriptName);
 
 	/*!
 	 * \brief Removes a script from an entity at runtime.
@@ -305,7 +305,7 @@ public:
 	 * \param entity The entity from which the script will be removed.
 	 * \param scriptName The name of the script to remove.
 	 */
-	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
+	static void RemoveScriptFromEntity(Entity entity, std::string scriptName);
 
 	static void SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value);
 

@@ -47,7 +47,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 0,
@@ -74,7 +74,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -2.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -97,7 +97,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 0,
@@ -141,7 +141,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 0,
@@ -203,7 +203,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -264,7 +264,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -342,7 +342,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -396,9 +396,9 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 488.0,
-            "position_y": 146.0,
-            "rotation": 13.595229148864746,
+            "position_x": 170.0,
+            "position_y": -434.0,
+            "rotation": 209.49624633789063,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -419,8 +419,9 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": [
-                "ClockWiseSpin"
+            "scriptAttachedNameVec": [
+                "ClockWiseSpin",
+                "AutoMoveY"
             ]
         },
         "Model": {
@@ -473,7 +474,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -553,7 +554,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
