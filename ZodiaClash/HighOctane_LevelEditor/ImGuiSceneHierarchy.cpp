@@ -434,22 +434,19 @@ void SceneEntityComponents(Entity entity) {
 			return;
 		}
 		
+		// For everything in the vector, draw the tree
+		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
+			DrawScriptTreeWithImGui(scriptNaming, entity);
+		}
+
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
 			if (!fullNameVecImGUI.empty()) {
-				
-				// Convert script names to const char*
-				std::vector<const char*> scriptNamesCStrings;
-				scriptNamesCStrings.reserve(fullNameVecImGUI.size());
-				for (const std::string& scriptName : fullNameVecImGUI) {
-					scriptNamesCStrings.push_back(scriptName.c_str());
-				}
-
-
-				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI)) {
-					for (int n = 0; n < scriptNamesCStrings.size(); n++) {
-						bool is_selected = (currentScriptForIMGUI == scriptNamesCStrings[n]);
-						if (ImGui::Selectable(scriptNamesCStrings[n], is_selected)) {
-							currentScriptForIMGUI = scriptNamesCStrings[n];
+		
+				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI.c_str())) {
+					for (int n = 0; n < fullNameVecImGUI.size(); n++) {
+						bool is_selected = (currentScriptForIMGUI == fullNameVecImGUI[n]);
+						if (ImGui::Selectable(fullNameVecImGUI[n].c_str(), is_selected)) {
+							currentScriptForIMGUI = fullNameVecImGUI[n];
 						}
 						if (is_selected) {
 							ImGui::SetItemDefaultFocus();
@@ -459,12 +456,12 @@ void SceneEntityComponents(Entity entity) {
 				}
 
 			if (ImGui::Button("Add Script")) {
-				if (currentScriptForIMGUI == NULL) {
+				if (currentScriptForIMGUI.empty()) {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
-					ScriptEngine::RunTimeAddScript(entity, currentScriptForIMGUI);
-					currentScriptForIMGUI = NULL;
+					ScriptEngine::AttachScriptToEntity(entity, currentScriptForIMGUI);
+					currentScriptForIMGUI = "";
 					
 				}
 			}
@@ -472,9 +469,9 @@ void SceneEntityComponents(Entity entity) {
 			// This part is for the scripts that are already attached to the entity
 			if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI.c_str())) {
 				for (int n = 0; n < scriptNamesAttachedforIMGUI[entity].size(); n++) {
-					bool is_selected = (currentScriptAttachedForIMGUI.c_str() == scriptNamesAttachedforIMGUI[entity][n]);
+					bool is_selected = (currentScriptAttachedForIMGUI == scriptNamesAttachedforIMGUI[entity][n]);
 					if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n].c_str(), is_selected)) {
-						currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n].c_str();
+						currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n];
 					}
 					if (is_selected) {
 						ImGui::SetItemDefaultFocus();
@@ -484,11 +481,11 @@ void SceneEntityComponents(Entity entity) {
 			}
 			//ImGui::SameLine();
 			if (ImGui::Button("Delete Script")) {
-				if (currentScriptAttachedForIMGUI == "") {
+				if (currentScriptAttachedForIMGUI.empty()) {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
-					ScriptEngine::RunTimeRemoveScript(entity, currentScriptAttachedForIMGUI.c_str());
+					ScriptEngine::RemoveScriptFromEntity(entity, currentScriptAttachedForIMGUI);
 					currentScriptAttachedForIMGUI = "";
 				}
 			}
@@ -497,10 +494,7 @@ void SceneEntityComponents(Entity entity) {
 			}
 		}
 		
-		// For everything in the vector, draw the tree
-		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
-			DrawScriptTreeWithImGui(scriptNaming, entity);
-		}
+
 	}
 
 	if (ECS::ecs().HasComponent<CharacterStats>(entity)) {

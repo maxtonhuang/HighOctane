@@ -96,13 +96,10 @@ std::deque<std::string> importFileList;
 size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};
 
-const char* currentScriptForIMGUI{ NULL };
+std::string currentScriptForIMGUI{};
 
-
-//std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI{};
 std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI{};
 
-//const char* currentScriptAttachedForIMGUI{ NULL };
-std::string currentScriptAttachedForIMGUI{ NULL };
+std::string currentScriptAttachedForIMGUI{};
 
 bool isHotReload{ false };
