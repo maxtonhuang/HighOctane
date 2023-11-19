@@ -876,14 +876,19 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
 						if (scriptNameArray[j].IsString()) {
 							script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+							//scriptNamesAttachedforIMGUI[entity].push_back("Test");
+							scriptNamesAttachedforIMGUI[entity].push_back(scriptNameArray[j].GetString());
 						}
 					}
 				}
+
 				if (scriptObject.HasMember("scriptNameVecForImGui") && scriptObject["scriptNameVecForImGui"].IsArray()) {
 					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVecForImGui"];
 					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
 						if (scriptNameArray[j].IsString()) {
 							script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+							//scriptNamesAttachedforIMGUI[entity].push_back("test");
+							scriptNamesAttachedforIMGUI[entity].push_back(scriptNameArray[j].GetString());
 						}
 					}
 				}
@@ -894,6 +899,11 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				else {
 					ECS::ecs().AddComponent<Script>(entity, script);
 				}
+
+				//auto& sc = ECS::ecs().GetComponent<Script>(entity);
+				//for (auto& s : sc.scriptNameVec) {
+				//	std::cout << "This is it << " << s << std::endl;
+				//}
 			}
 			if (entityObject.HasMember("Master")) {
 				if (!ECS::ecs().HasComponent<Master>(entity)) {

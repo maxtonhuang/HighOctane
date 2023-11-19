@@ -83,6 +83,9 @@ public static class InternalCalls
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern bool GetKeyDown(INFO key);
 
+    [MethodImplAttribute(MethodImplOptions.InternalCall)]
+    internal static extern bool GetKeyUp(INFO key);
+
     // Adds the log function into internal call table
     [MethodImplAttribute(MethodImplOptions.InternalCall)]
     internal static extern void Log(string message);
