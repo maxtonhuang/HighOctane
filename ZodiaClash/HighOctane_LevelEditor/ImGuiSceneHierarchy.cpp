@@ -454,11 +454,11 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			// This part is for the scripts that are already attached to the entity
-			if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI)) {
+			if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI.c_str())) {
 				for (int n = 0; n < scriptNamesAttachedforIMGUI[entity].size(); n++) {
-					bool is_selected = (currentScriptAttachedForIMGUI ==  scriptNamesAttachedforIMGUI[entity][n]);
-					if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n], is_selected)) {
-						currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n];
+					bool is_selected = (currentScriptAttachedForIMGUI.c_str() == scriptNamesAttachedforIMGUI[entity][n]);
+					if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n].c_str(), is_selected)) {
+						currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n].c_str();
 					}
 					if (is_selected) {
 						ImGui::SetItemDefaultFocus();
@@ -468,12 +468,12 @@ void SceneEntityComponents(Entity entity) {
 			}
 			//ImGui::SameLine();
 			if (ImGui::Button("Delete Script")) {
-				if (currentScriptAttachedForIMGUI == NULL) {
+				if (currentScriptAttachedForIMGUI == "") {
 					DEBUG_PRINT("No script selected");
 				}
 				else {
-					ScriptEngine::RunTimeRemoveScript(entity, currentScriptAttachedForIMGUI);
-					currentScriptAttachedForIMGUI = NULL;
+					ScriptEngine::RunTimeRemoveScript(entity, currentScriptAttachedForIMGUI.c_str());
+					currentScriptAttachedForIMGUI = "";
 				}
 			}
 

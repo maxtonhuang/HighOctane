@@ -95,8 +95,10 @@ std::vector<std::string> fullNameVecImGUI{};
 const char* currentScriptForIMGUI{ NULL };
 
 
-std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI{};
+//std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI{};
+std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI{};
 
-const char* currentScriptAttachedForIMGUI{ NULL };
+//const char* currentScriptAttachedForIMGUI{ NULL };
+std::string currentScriptAttachedForIMGUI{ NULL };
 
 bool isHotReload{ false };
