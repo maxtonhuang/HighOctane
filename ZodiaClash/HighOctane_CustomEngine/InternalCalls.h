@@ -123,6 +123,19 @@ namespace internalcalls {
         return false;
     }
 
+    static bool GetKeyUp(INFO key) {
+        for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::SCRIPTING]) {
+            switch (msg.type) {
+            case TYPE::KEY_UP:
+                if (msg.info == key) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
+
     /*!
     * \brief GetAxisHorizontal function
     *

@@ -103,8 +103,10 @@ extern std::vector<std::string> fullNameVecImGUI;
 
 extern const char* currentScriptForIMGUI;
 
-extern std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI;
+//extern std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI;
+extern std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI;
 
-extern const char* currentScriptAttachedForIMGUI;
+//extern const char* currentScriptAttachedForIMGUI;
+extern std::string currentScriptAttachedForIMGUI;
 
 extern bool isHotReload;
