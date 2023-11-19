@@ -51,7 +51,7 @@ public:
 	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
 	
 	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
-	void CloneMaster(Entity& masterEntity);
+	Entity CloneMaster(Entity& masterEntity);
 	//void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();

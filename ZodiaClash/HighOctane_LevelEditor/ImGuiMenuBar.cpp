@@ -49,7 +49,7 @@ void UpdateMenuBar() {
     if (ImGui::BeginMenuBar()) {
         if (ImGui::BeginMenu("Files")) {
             if (ImGui::MenuItem("Load Scene")) {
-                std::string path{ OpenSingleFileDialog() };
+                std::string path{ OpenSingleFileDialog("*.scn","Scene File") };
                 if (path != "") {
                     if (FilePath::GetFileExtension(path) == ".scn") {
                         size_t pos = path.find_last_of("\\");

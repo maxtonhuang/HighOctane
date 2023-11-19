@@ -78,9 +78,18 @@ public:
     //Attack methods
     void LoadAttack(const std::string& attackPath);
 
+    //Prefab methods
+    void LoadPrefab(const std::string& prefabPath);
+    void UnloadPrefab(const std::string& prefabName);
+    Entity GetPrefab(const std::string& prefabName);
+    void UpdatePrefabPaths();
+    std::vector<std::string> GetPrefabPaths();
+
 private:
     std::string defaultPath{};
     std::vector<std::string> loadedFiles{};
+    std::unordered_map<std::string, Entity> prefabMap{};
+    std::vector<std::string> prefabPaths{}; //list of all prefabs in prefab folder
     //std::unordered_multimap<std::string, FontEntry> m_fonts;
 };
 

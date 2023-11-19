@@ -6,46 +6,63 @@
 #include "WindowsInterlink.h"
 #include "AssetManager.h"
 #include "vmath.h"
+#include <variant>
 #include "model.h"
 #include "UIComponents.h"
 #include "ScriptEngine.h"
 #include "CharacterStats.h"
 #include "Scripting.h"
 #include <sstream>
+#include "ImGuiComponents.h"
+#include "Serialization.h"
 
-bool testingggg{ false };
+/*----------For the scripting, may move somewhere else in the future---------*/
+struct EntityFieldKey {
+	Entity entity;
+	std::string fieldName;
+
+	EntityFieldKey(Entity e, const std::string& fName) : entity(e), fieldName(fName) {}
+
+	bool operator==(const EntityFieldKey& other) const {
+		return entity == other.entity && fieldName == other.fieldName;
+	}
+};
+
+template <>
+struct std::hash<EntityFieldKey> {
+	std::size_t operator()(const EntityFieldKey& key) const {
+
+		// Compute individual hash values for entity and fieldName
+		// and combine them using a bitwise operation (e.g., XOR)
+		std::size_t h1 = std::hash<Entity>()(key.entity);
+		std::size_t h2 = std::hash<std::string>()(key.fieldName);
+		return h1 ^ (h2 << 1);
+	}
+};
+/*----------For the scripting, may move somewhere else in the future---------*/
+
+/*--------Variables for scripting--------*/
+using FieldValue = std::variant<int, float, bool>;  // Define a variant type to hold int, float, and bool
+
+std::unordered_map<EntityFieldKey, FieldValue> fieldValues;  // Map to hold the current values of each field
+
 Entity currentSelectedEntity{};
-static bool check;
+
 extern std::vector<std::string> fullNameVecImGUI;
+/*--------Variables for scripting--------*/
 
-//int test = 0;
+static bool check;
 
-std::array<int, 10> testing{};
-std::array<float, 10> testing2{};
+//FOR PREFAB HIERACHY
+std::string prefabName{};
 
-void DrawScriptTreeWithImGui(std::string className, Entity entity) {
-
-	//if (ImGui::TreeNodeEx("Testing", ImGuiTreeNodeFlags_DefaultOpen)) {
-
-	//	// Maybe have a vector of bool here
-	//	// For every vector of bool, if true then make it appear so that it can be changed
-	//	// Something like this here
-	//	auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
-	//	auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
-	//	auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
-	//	ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-	//	ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
-	//	ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
-	//	ImGui::TreePop();
-	//}
-
-	int i{};
+void DrawScriptTreeWithImGui(const std::string& className, Entity entity) {
 	ScriptEngineData* scriptData = ScriptEngine::GetInstance();
-	// Iterate over each class in the ScriptInfoVec
-	if (ImGui::TreeNodeEx(className.c_str())) {
-	// If the classname is same as the one in the fieldmap, then do the thing
-		for (auto& classEntry : scriptData->ScriptInfoVec) {
 
+	if (ImGui::TreeNodeEx(className.c_str())) {
+		for (auto& classEntry : scriptData->ScriptInfoVec) {
+			//std::cout << scriptData->ScriptInfoVec.size() << std::endl;
+			//std::cout << classEntry.typeName << std::endl;
 			if (classEntry.className != className) {
 				continue;
 			}
@@ -54,27 +71,42 @@ void DrawScriptTreeWithImGui(std::string className, Entity entity) {
 				continue;
 			}
 
-			// Iterate over each field in the class
 			std::string fieldInfo = classEntry.variableName;
+
+			// Initialize the field value in the map if it doesn't exist
+			if (fieldValues.find(EntityFieldKey(entity, fieldInfo)) == fieldValues.end()) {
+				switch (classEntry.typeName) {
+				case MONO_TYPE_I4: fieldValues[EntityFieldKey(entity, fieldInfo)] = 0; break;
+				case MONO_TYPE_R4: fieldValues[EntityFieldKey(entity, fieldInfo)] = 0.0f; break;
+				case MONO_TYPE_BOOLEAN: fieldValues[EntityFieldKey(entity, fieldInfo)] = false; break;
+				}
+			}
+
+			FieldValue& currentValue = fieldValues[EntityFieldKey(entity, fieldInfo)];
+
 
 			switch (classEntry.typeName) {
 			case MONO_TYPE_I4: // int
-				ImGui::DragInt(fieldInfo.c_str(), &testing[i], 1.0f);
+				ImGui::DragInt(fieldInfo.c_str(), &std::get<int>(currentValue), 1.0f);
+
 				break;
 
 			case MONO_TYPE_R4: // float
-				ImGui::DragFloat(fieldInfo.c_str(), &testing2[i], 1.0f);
+				ImGui::DragFloat(fieldInfo.c_str(), &std::get<float>(currentValue), 0.1f);
 				break;
 
 			case MONO_TYPE_BOOLEAN: // bool
-				ImGui::Checkbox(fieldInfo.c_str(), &check);
+				ImGui::Checkbox(fieldInfo.c_str(), &std::get<bool>(currentValue));
 				break;
 			}
-			i++;
+
+			// Update the script property
+			ScriptEngine::SetScriptProperty(entity, classEntry.className, fieldInfo, &currentValue);
 		}
-	ImGui::TreePop();
-	}	
+		ImGui::TreePop();
+	}
 }
+
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
 	for (const Entity& entity : s_ptr->m_Entities) {
@@ -101,6 +133,48 @@ void UpdateSceneHierachy() {
 	ImGui::End();
 }
 
+void UpdatePrefabHierachy() {
+	ImGui::Begin("Prefab Editor");
+
+	auto prefabList{ assetmanager.GetPrefabPaths() };
+	Entity prefabID{ assetmanager.GetPrefab(prefabName) };
+
+	if (ImGui::BeginCombo("Prefabs Available", prefabName.c_str())) {
+		for (int n = 0; n < prefabList.size(); n++) {
+			bool is_selected = (prefabName == prefabList[n]);
+			if (ImGui::Selectable(prefabList[n].c_str(), is_selected)) {
+				prefabName = prefabList[n];
+				if (assetmanager.GetPrefab(prefabName) == 0) {
+					assetmanager.LoadPrefab(prefabName);
+				}
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	if (prefabID) {
+		if (ImGui::Button("Save Prefab")) {
+			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
+			std::set<Entity> entityToSave{ prefabID };
+			Serializer::SaveEntityToJson(prefabPath, entityToSave);
+		}
+
+		if (ImGui::Button("Create Instance")) {
+			Entity clone = EntityFactory::entityFactory().CloneMaster(prefabID);
+			ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
+		}
+
+		SceneEntityComponents(prefabID);
+		ImGui::Separator();
+		ComponentBrowser(prefabID);
+	}
+
+	ImGui::End();
+}
+
 void SceneEntityNode(Entity entity) {
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
@@ -123,6 +197,20 @@ void SceneEntityNode(Entity entity) {
 }
 
 void SceneEntityComponents(Entity entity) {
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
+		if (entityClone.prefab == "") {
+			ImGui::Text("Entity has no prefabs");
+		}
+		else {
+			std::string text{ "Prefab: " + entityClone.prefab };
+			ImGui::Text(text.c_str());
+			ImGui::SameLine();
+			if (ImGui::Button("Select in Prefab Editor")) {
+				prefabName = entityClone.prefab;
+			}
+		}
+	}
 	if (ECS::ecs().HasComponent<Name>(entity)) {
 		auto& entityName = ECS::ecs().GetComponent<Name>(entity).name;
 
@@ -345,7 +433,39 @@ void SceneEntityComponents(Entity entity) {
 				}
 			}
 
-			ImGui::InputText("Event Input",&button.eventInput);
+			if (button.eventName == "Play Sound") {
+				if (ImGui::BeginCombo("Event Input", button.eventInput.c_str())) {
+					std::vector<std::string> soundNames{ assetmanager.audio.GetSoundPaths() };
+					for (int n = 0; n < soundNames.size(); n++) {
+						bool is_selected = (button.eventInput == soundNames[n]);
+						if (ImGui::Selectable(soundNames[n].c_str(), is_selected)) {
+							button.eventInput = soundNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			else if (button.eventName == "Play Music") {
+				if (ImGui::BeginCombo("Event Input", button.eventInput.c_str())) {
+					std::vector<std::string> soundNames{ assetmanager.audio.GetMusicPaths() };
+					for (int n = 0; n < soundNames.size(); n++) {
+						bool is_selected = (button.eventInput == soundNames[n]);
+						if (ImGui::Selectable(soundNames[n].c_str(), is_selected)) {
+							button.eventInput = soundNames[n];
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			else {
+				ImGui::InputText("Event Input", &button.eventInput);
+			}
 
 			// size adjustments
 			float& btnHeight = sizeData.height;
@@ -532,6 +652,11 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 			}
 		}
+		
+		// For everything in the vector, draw the tree
+		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
+			DrawScriptTreeWithImGui(scriptNaming, entity);
+		}
 	}
 
 	if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
@@ -603,41 +728,6 @@ void SceneEntityComponents(Entity entity) {
 				ImGui::EndCombo();
 			}
 			ImGui::TreePop();
-		}
-	}
-
-	// Testing here
-	if (ECS::ecs().HasComponent<Script>(entity)) {
-
-		// If master entity is selected, do not allow editing of scripts
-		if (ECS::ecs().HasComponent<Master>(entity)) {
-			return;
-		}
-
-		if (testingggg) {
-			if (ImGui::TreeNodeEx("Testing", ImGuiTreeNodeFlags_DefaultOpen)) {
-
-				// Maybe have a vector of bool here
-				// For every vector of bool, if true then make it appear so that it can be changed
-				// Something like this here
-				auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
-				auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
-				auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
-				ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-				ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
-				ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
-				ImGui::TreePop();
-			}
-		}
-
-		if (ImGui::Button("Test button thing")) {
-			testingggg = !testingggg;
-			LOG_INFO("Test button thing");
-		}
-
-		// For everything in the vector, draw the tree
-		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
-			DrawScriptTreeWithImGui(scriptNaming, entity);
 		}
 	}
 }

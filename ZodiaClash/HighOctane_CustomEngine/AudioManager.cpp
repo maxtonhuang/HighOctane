@@ -32,8 +32,10 @@
 ******************************************************************************/
 
 #include "AudioManager.h"
+#include "AssetManager.h"
 #include "DebugDiagnostic.h"
 #include <iostream>
+#include <filesystem>
 
 void AudioManager::Initialize() {
     FMOD_RESULT result;
@@ -52,6 +54,27 @@ void AudioManager::Initialize() {
     system->getMasterChannelGroup(&group["Master"]);
     CreateGroup("SFX");
     CreateGroup("BGM");
+
+    UpdateAudioDirectory();
+}
+
+void AudioManager::UpdateAudioDirectory() {
+    std::filesystem::path soundFolder{ assetmanager.GetDefaultPath() + "Sound/" };
+    std::vector <std::string> newSoundPaths{};
+    std::vector <std::string> newMusicPaths{};
+    for (auto& entry : std::filesystem::directory_iterator(soundFolder)) {
+        std::string path{ entry.path().string() };
+        path = path.substr(path.find_last_of("/") + 1);
+        newSoundPaths.push_back(path);
+    }
+    std::filesystem::path musicFolder{ assetmanager.GetDefaultPath() + "Music/" };
+    for (auto& entry : std::filesystem::directory_iterator(musicFolder)) {
+        std::string path{ entry.path().string() };
+        path = path.substr(path.find_last_of("/") + 1);
+        newMusicPaths.push_back(path);
+    }
+    soundPaths = newSoundPaths;
+    musicPaths = newMusicPaths;
 }
 
 void AudioManager::Release() {
@@ -91,7 +114,7 @@ bool AudioManager::IsGroupPaused(const char* name) {
 }
 
 FMOD::Sound* AudioManager::AddSound(const char* path, const char* name) {
-    if (data.count(name)) {
+    if (data.count(name) && data[name] != nullptr) {
         return data[name];
     }
     FMOD_RESULT result;
@@ -116,6 +139,9 @@ FMOD::Sound* AudioManager::AddMusic(const char* path, const char* name) {
 
 void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
     FMOD::Channel* tmp;
+    if (data[sound] == nullptr) {
+        assetmanager.LoadAssets(sound);
+    }
     if (channelGroup == nullptr) {
         system->playSound(data[sound], 0, false, &tmp);
     }
@@ -146,4 +172,12 @@ std::vector<std::string> AudioManager::GetSoundNames() {
         output.push_back(name.first);
     }
     return output;
+}
+
+std::vector<std::string> AudioManager::GetSoundPaths() {
+    return soundPaths;
+}
+
+std::vector<std::string> AudioManager::GetMusicPaths() {
+    return musicPaths;
 }

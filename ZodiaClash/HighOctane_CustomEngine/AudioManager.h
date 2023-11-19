@@ -56,8 +56,14 @@ public:
 	FMOD::System* GetSystem();
 
 	std::vector<std::string> GetSoundNames();
+	std::vector<std::string> GetSoundPaths();
+	std::vector<std::string> GetMusicPaths();
+	void UpdateAudioDirectory();
 private:
 	FMOD::System* system{};
 	std::unordered_map<std::string, FMOD::Sound*> data{};
 	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
+
+	std::vector<std::string> soundPaths{};
+	std::vector<std::string> musicPaths{};
 };

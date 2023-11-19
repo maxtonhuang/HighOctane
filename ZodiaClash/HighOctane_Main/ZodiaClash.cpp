@@ -414,6 +414,7 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Movable>());
 		ECS::ecs().SetSystemSignature<EditingSystem>(signature);
 	}

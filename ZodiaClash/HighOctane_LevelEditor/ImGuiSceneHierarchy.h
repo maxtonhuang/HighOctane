@@ -5,5 +5,6 @@
 extern Entity currentSelectedEntity;
 
 void UpdateSceneHierachy();
+void UpdatePrefabHierachy();
 void SceneEntityNode(Entity entity);
 void SceneEntityComponents(Entity entity);

@@ -167,7 +167,7 @@ public:
  \return
 	Upon succesful loading of file would return true
  *************************************************************************/
-	static bool LoadEntityFromJson(const std::string& fileName);
+	static Entity LoadEntityFromJson(const std::string& fileName, bool isPrefab = false);
 
 };
 

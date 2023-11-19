@@ -37,6 +37,7 @@
 #include "FontLib.h"
 #include "Texture.h"
 #include "Reflections.h"
+#include <unordered_set>
 
 using Vec2 = vmath::Vector2;
 
@@ -115,10 +116,6 @@ struct Master {
     // empty by design
 };
 
-struct Clone {
-    // empty by design
-};
-
 struct Name {
     std::string             name{};
     bool                    selected{ false };
@@ -128,6 +125,11 @@ struct Name {
     size_t                  serializationOrderInLayer{};
     bool                    skip{ true };
     bool                    lock{ true };
+};
+
+struct Clone {
+    std::string prefab{};
+    std::unordered_set<std::string> unique_components{ typeid(Transform).name(), typeid(Name).name() };
 };
 
 struct Movable {
