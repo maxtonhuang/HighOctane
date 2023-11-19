@@ -532,13 +532,18 @@ public:
     void Update() override;
 };
 
-class AnimatorSystem : public System {
+//class AnimatorSystem : public System {
+//public:
+//    void Update() override;
+//};
+
+//Intended to overwrite animator system
+class AnimationSystem : public System {
 public:
     void Update() override;
 };
 
-//Intended to overwrite animator system
-class AnimationSystem : public System {
+class AudioSystem : public System {
 public:
     void Update() override;
 };

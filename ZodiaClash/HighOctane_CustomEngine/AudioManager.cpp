@@ -58,6 +58,10 @@ void AudioManager::Initialize() {
     UpdateAudioDirectory();
 }
 
+void AudioManager::Update() {
+    system->update();
+}
+
 void AudioManager::UpdateAudioDirectory() {
     std::filesystem::path soundFolder{ assetmanager.GetDefaultPath() + "Sound/" };
     std::vector <std::string> newSoundPaths{};
