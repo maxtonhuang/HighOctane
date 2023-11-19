@@ -228,7 +228,7 @@
     {
         "Entity": {
             "Name": "entity_00009",
-            "Selected": false,
+            "Selected": true,
             "Current Layer": 0,
             "Order in Layer": 3,
             "isLocked": true,

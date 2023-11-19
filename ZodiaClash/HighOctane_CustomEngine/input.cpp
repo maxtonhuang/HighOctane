@@ -132,7 +132,14 @@ void InputManager::MouseButtonCallback(GLFWwindow* pwin, int button, int action,
         break;
     case GLFW_RELEASE:
         mouseStatus[button] = INFO::NONE;
-        Mail::mail().CreatePostcard(TYPE::MOUSE_UP, ADDRESS::INPUT, static_cast<INFO>(button), 0.f, 0.f);
+        switch (button) {
+        case GLFW_MOUSE_BUTTON_LEFT:
+            Mail::mail().CreatePostcard(TYPE::MOUSE_UP, ADDRESS::INPUT, INFO::MOUSE_LEFT, 0.f, 0.f);
+            break;
+        case GLFW_MOUSE_BUTTON_RIGHT:
+            Mail::mail().CreatePostcard(TYPE::MOUSE_UP, ADDRESS::INPUT, INFO::MOUSE_RIGHT, 0.f, 0.f);
+            break;
+        }
         break;
     default:
         break;

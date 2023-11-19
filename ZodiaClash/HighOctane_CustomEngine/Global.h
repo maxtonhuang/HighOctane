@@ -77,7 +77,15 @@ extern bool popupHovered;
 extern size_t selectedCount;
 extern bool popupMasterRightClicked;
 extern vmath::Vector2 draggingOffset;
-extern bool clickedThisCycle;
+extern bool thereWasAClickThisCycle;
+extern bool somethingWasSelectedThisCycle;
+extern bool draggingThisCycle;
+extern vmath::Vector2 currentMousePosition;
+extern bool mouseMoved;
+extern bool withinSomething;
+
+extern bool shiftKeyPressed;
+extern bool controlKeyPressed;
 
 extern bool clearAllSelection;
 extern std::string sceneName;

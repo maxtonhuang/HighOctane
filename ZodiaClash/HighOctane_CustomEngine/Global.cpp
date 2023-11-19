@@ -40,6 +40,7 @@
 
 #define RESET_VEC2 0.f, 0.f
 
+
 // Declare global variables here
 
 float g_dt;
@@ -68,8 +69,15 @@ bool popupHovered{ false };
 size_t selectedCount{};
 bool popupMasterRightClicked{ false };
 vmath::Vector2 draggingOffset{ RESET_VEC2 };
-bool clickedThisCycle{ false };
+bool thereWasAClickThisCycle{ false };
+bool somethingWasSelectedThisCycle{ false };
+bool draggingThisCycle{ false };
+vmath::Vector2 currentMousePosition{ RESET_VEC2 };
+bool mouseMoved{ false };
+bool withinSomething{ false };
 
+bool shiftKeyPressed{ false };
+bool controlKeyPressed{ false };
 
 bool clearAllSelection{ false };
 std::string sceneName{};

@@ -8,4 +8,12 @@ void Selection(Entity& entity, Name& name, Transform& transform, Model& model, s
 
 void UnselectAll();
 
-void ProcessSelection(Name& name, size_t layer_it, CLICKED corner);
+void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/);
+
+void GroupSelection();
+
+void UngroupSelection();
+
+void SelectWholeGroup(size_t groupNumber);
+
+void UnselectWholeGroup(size_t groupNumber);
