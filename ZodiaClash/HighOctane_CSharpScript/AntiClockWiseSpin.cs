@@ -8,9 +8,6 @@ using System.Threading.Tasks;
 internal class AntiClockWiseSpin : MonoBehaviour
 {
     public float speed = 1f;
-    public int testing = 1;
-    public float test = 0.0f;
-    public bool yes = false;
 
     public override void Start()
     {
@@ -20,6 +17,8 @@ internal class AntiClockWiseSpin : MonoBehaviour
     public override void Update()
     {
         Rotation -= speed * DeltaTime;
+
+        Console.WriteLine("AntiClockWiseSpin OnUpdate" + speed);
     }
 }
 

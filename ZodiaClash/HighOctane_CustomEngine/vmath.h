@@ -281,6 +281,12 @@ namespace vmath {
 					return false;
 				}
 			}
+
+			static std::string getName() {
+				std::string test = typeid(Vector2).name();
+				std::string retString = test.substr(6, test.length() - 6);
+				return retString;
+			}
 	};
 
 	/**************************************************************************/

@@ -280,10 +280,14 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
             while ((field = mono_class_get_fields(monoClass, &iter)) != nullptr) {
                 std::string fieldName = mono_field_get_name(field);
 
+
                 // Get the typeName
                 MonoType* typeName = mono_field_get_type(field);
                 int typeCode = mono_type_get_type(typeName);
+                int value;
 
+                MonoObject* instance = InstantiateClass(monoClass);
+                //mono_field_get_value(instance, field, &value);
 
                 uint32_t flags = mono_field_get_flags(field) & MONO_FIELD_ATTR_FIELD_ACCESS_MASK;
                 //std::cout << typeCode << std::endl;
@@ -429,4 +433,37 @@ static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
     delete[] fileData;
 
     return assembly;
+}
+
+
+void ScriptEngine::SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value) {
+    auto it = scriptData->EntityClasses.find(className);
+    if (it != scriptData->EntityClasses.end()) {
+        std::shared_ptr<ScriptClass> scriptClass = it->second;
+
+        // Instantiate the script class if needed
+        MonoObject* instance = nullptr;
+        auto instancesIt = scriptData->EntityInstances.find(entity);
+        if (instancesIt != scriptData->EntityInstances.end()) {
+            // Find the instance of the specific class
+            for (auto& scriptInstance : instancesIt->second) {
+                if (scriptInstance->GetScriptName() == className) {
+                    instance = scriptInstance->GetInstance();
+                    break;
+                }
+            }
+        }
+
+        if (!instance) {
+            instance = scriptClass->Instantiate();
+            // You might want to store this instance in EntityInstances if needed
+        }
+
+        // Set the property
+        MonoClassField* field = mono_class_get_field_from_name(scriptClass->GetMonoClass(), propertyName.c_str());
+        if (field) {
+            mono_field_set_value(instance, field, value);
+        }
+    }
+    //std::cout << "SetScriptProperty called" << std::endl;
 }

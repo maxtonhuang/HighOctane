@@ -124,6 +124,10 @@ public:
 	 */
 	std::string GetMClassName() const;
 
+	MonoClass* GetMonoClass() const {
+		return m_MonoClass;
+	}
+
 private:
 	std::string m_ClassNamespace; /*!< The namespace of the script class. */
 	std::string m_ClassName; /*!< The name of the script class. */
@@ -169,6 +173,11 @@ public:
 	 * \return std::string The name of the script class.
 	 */
 	std::string GetScriptName() const;
+
+	MonoObject* GetInstance() const {
+				return m_Instance;
+	}
+
 
 private:
 
@@ -297,6 +306,8 @@ public:
 	 * \param scriptName The name of the script to remove.
 	 */
 	static void RunTimeRemoveScript(Entity entity, const char* scriptName);
+
+	static void SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value);
 
 	static ScriptEngineData* GetInstance() {
 		if (!scriptData) {
