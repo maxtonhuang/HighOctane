@@ -64,9 +64,12 @@ void UpdatePlayStop() {
 		
 		buffer = false;
 	}
+
 	if (ImGui::Button("Stop", { 100,50 })) {
-		events.Call("Change Scene", "tmp.scn");
-		edit_mode = true;
+		if (!playButton) {
+			events.Call("Change Scene", "tmp.scn");
+			edit_mode = true;
+		}
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Pause", { 100,50 })) {
