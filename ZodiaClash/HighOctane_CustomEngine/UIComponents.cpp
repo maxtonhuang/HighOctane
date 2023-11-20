@@ -37,6 +37,7 @@
 #include "Font.h"
 #include "graphics.h"
 #include "Colors.h"
+#include "AssetManager.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -527,8 +528,39 @@ void HealthBar::UpdateColors(Model& modelData, CharacterStats& charaStatsData, T
 	else {
 		modelData.SetColor(1.f, 1.f, 1.f);
 		textLabelData.SetTextColor({ 0.f,0.f,0.f,1.f });
-	}	
+	}
 }
+
+
+/**************************
+***** SKILLPT SYSTEM ******
+**************************/
+SkillPointHUD::SkillPointHUD() {
+	//battleSys = events.GetBattleSystem();
+	//skillPointBalance = battleSys.skillPoints;
+	maxSkillPoints = 5;
+	skillPointBalance = maxSkillPoints;
+}
+
+void SkillPointHUD::UpdateBalance() {
+	//skillPointBalance = battleSys.skillPoints;
+}
+
+SkillPoint::SkillPoint() {
+	isActive = 1;
+	// condition: must be listed in scn file
+	activeTexString = "mockup_chi_icon.png";
+	std::string activeFilepath = "../Assets/Textures/" + activeTexString;
+	inactiveTexString = "mockup_chi_icon_lineart.png";
+	std::string inactiveFilepath = "../Assets/Textures/" + inactiveTexString;
+	/*activeTex = assetmanager.texture.Add(activeFilepath.c_str(), activeTexString.c_str());
+	inactiveTex = assetmanager.texture.Add(inactiveFilepath.c_str(), inactiveTexString.c_str());*/
+}
+
+void SkillPoint::UpdateState(Tex& texData) {
+	texData.tex = (isActive) ? activeTex : inactiveTex;
+}
+
 
 /**************************
 ********* ARCHIVED ********

@@ -229,6 +229,7 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(Model).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
 			auto& colorComponent = ECS::ecs().GetComponent<Model>(entity).GetColorRef();
 			//ImVec4 imColor = ((ImVec4)color.color);
+			// note: switch to color edit4 for A value?
 			ImGui::ColorEdit3("Edit Color", (float*)&colorComponent);
 
 			ImGui::TreePop();
@@ -559,6 +560,7 @@ void SceneEntityComponents(Entity entity) {
 			sizeData.height = barDims[0];
 			sizeData.width = barDims[1];
 
+			//TODO: change max HP only?
 			if (ImGui::DragFloat("Current HP", &currentHp, 0.5f)) {
 				hpBar.SetCurrentHealth(currentHp);
 			}
@@ -581,6 +583,29 @@ void SceneEntityComponents(Entity entity) {
 			
 			ImGui::TreePop();
 		}
+	}
+
+	if (ECS::ecs().HasComponent<SkillPointHUD>(entity)) {
+		SkillPointHUD& spHUD{ ECS::ecs().GetComponent<SkillPointHUD>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(SkillPointHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "SkillPointHUD")) {
+			if (ImGui::BeginCombo("Points Balance", std::to_string(spHUD.skillPointBalance).c_str())) {
+				std::vector<std::string> skillPointItems;
+				for (int i = 0; i <= spHUD.maxSkillPoints; ++i) {
+					skillPointItems.push_back(std::to_string(i));
+				}
+				for (int n = 0; n < skillPointItems.size(); n++) {
+					bool is_selected = (spHUD.skillPointBalance == std::stoi(skillPointItems[n]));
+					if (ImGui::Selectable(skillPointItems[n].c_str(), is_selected)) {
+						spHUD.skillPointBalance = std::stoi(skillPointItems[n]);
+					}
+					if (is_selected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::TreePop();
+		}		
 	}
 
 	if (ECS::ecs().HasComponent<Script>(entity)) {

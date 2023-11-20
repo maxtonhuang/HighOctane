@@ -230,3 +230,92 @@ public:
 	void UpdateOffset(Transform const& transformData, Size const& sizeData);
 	void UpdateColors(Model& modelData, CharacterStats& charaStatsData, TextLabel& textLabelData);
 };
+
+
+class SkillPointHUD : UIComponent {
+public:
+	//parent entity of SkillPoint (x5)
+	//need to retrieve from battle system instead
+	BattleSystem* battleSys{};
+	int skillPointBalance{};
+	int maxSkillPoints{};
+	std::vector<Entity> childEntities;
+	
+	SkillPointHUD();
+	void UpdateBalance();
+};
+
+class SkillPoint : UIComponent {
+public:
+	// to pass info to Tex component!!
+	bool isActive{};
+	Texture* activeTex{};
+	Texture* inactiveTex{};
+	std::string activeTexString{};
+	std::string inactiveTexString{};
+	SkillPoint();
+	void UpdateState(Tex& texData);
+	//update transform?
+};
+
+
+class AttackSkillsHUD : UIComponent {
+public:
+	//parent entity of AttackSkill (x3)
+	CharacterStats* charaStatsRef{};
+	const std::vector<Attack>& atkSkills{};
+};
+
+class AttackSkill : UIComponent {
+public:
+	//parent entity of SkillIcon, SkillCost, AttackType
+	//include button event functionality
+	int skillIndex{};
+	/*SkillIcon skillIcon;
+	SkillCost skillCost;
+	SkillAttackType skillAtkType;*/
+};
+
+class SkillIcon : UIComponent {
+	// empty by design? to modify 
+};
+
+class SkillCost : UIComponent {
+	// TextLabel + Tex/SkillPoint
+};
+
+class SkillAttackType : UIComponent {
+	// TextLabel + Tex
+	AttackType atkType;
+};
+
+class EnemyHUD : UIComponent {
+
+};
+
+class TurnIndicator : UIComponent {
+
+};
+
+
+class EffectsPanel : UIComponent {
+public:
+	UI_HORIZONTAL_ALIGNMENT hAlignment{};
+
+	/*
+	* notes:
+	* - parent entity to hold multiple "Effect" (prefab?)
+	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
+	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
+	*/
+
+	//void UpdateOffset();
+};
+
+class Effect : UIComponent {
+public:
+	/*
+	* notes:
+	* - composite of icon (Tex) and stacks (TextLabel)
+	*/
+};

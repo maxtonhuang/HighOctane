@@ -584,6 +584,11 @@ public:
     void Draw() override;
 };
 
+class UISkillPointSystem : public System {
+public:
+    void Update() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;

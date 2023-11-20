@@ -836,3 +836,33 @@ void UIHealthBarSystem::Draw() {
 		healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
 	}
 }
+
+void UISkillPointSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
+	auto& skillPtArray = componentManager.GetComponentArrayRef<SkillPoint>();
+	for (Entity const& entity : m_Entities) {
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		SkillPointHUD* skillPtHudData = &skillPtHudArray.GetData(entity);
+		skillPtHudData->UpdateBalance();
+		textLabelData->SetTextString(std::to_string(skillPtHudData->skillPointBalance));
+		
+		for (int count = 0; count < skillPtHudData->maxSkillPoints; count++) {
+			Entity childEntity = skillPtHudData->childEntities[count];
+			//Tex* texData = &texArray.GetData(*childEntity);
+			SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
+
+			//color testing, to replace with tex!!
+			Model* modelData = &modelArray.GetData(childEntity);
+			skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
+			skillPtData->isActive ? modelData->SetColor(0.f, 1.f, 0.f) : modelData->SetColor(1.f, 0.f, 0.f);
+			//skillPtData->UpdateState(*texData);
+		}
+	}
+}

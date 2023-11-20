@@ -256,6 +256,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
 	ECS::ecs().RegisterComponent<HealthBar>();
+	ECS::ecs().RegisterComponent<SkillPointHUD>();
+	ECS::ecs().RegisterComponent<SkillPoint>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -300,6 +302,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
 	editSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
 	systemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
+
+	std::shared_ptr<UISkillPointSystem> uiSkillPointSystem = ECS::ecs().RegisterSystem<UISkillPointSystem>();
+	runSystemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
+	editSystemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
+	systemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -469,6 +476,19 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<HealthBar>());
 
 		ECS::ecs().SetSystemSignature<UIHealthBarSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<TextLabel>());
+		signature.set(ECS::ecs().GetComponentType<SkillPointHUD>());
+
+		ECS::ecs().SetSystemSignature<UISkillPointSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////
