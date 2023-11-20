@@ -3,6 +3,7 @@
 #include "ECS.h"
 
 extern Entity currentSelectedEntity;
+extern Entity currentSelectedPrefab;
 
 void UpdateSceneHierachy();
 void UpdatePrefabHierachy();

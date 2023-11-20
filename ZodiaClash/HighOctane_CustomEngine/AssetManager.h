@@ -82,6 +82,7 @@ public:
     void LoadPrefab(const std::string& prefabPath);
     void UnloadPrefab(const std::string& prefabName);
     Entity GetPrefab(const std::string& prefabName);
+    std::string GetPrefabName(Entity prefabID);
     void UpdatePrefabPaths();
     std::vector<std::string> GetPrefabPaths();
 

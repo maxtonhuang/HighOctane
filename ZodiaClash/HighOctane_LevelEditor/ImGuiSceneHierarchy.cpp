@@ -16,6 +16,8 @@
 #include "ImGuiComponents.h"
 #include "Serialization.h"
 
+Entity currentSelectedPrefab;
+
 /*----------For the scripting, may move somewhere else in the future---------*/
 struct EntityFieldKey {
 	Entity entity;
@@ -137,7 +139,7 @@ void UpdatePrefabHierachy() {
 	ImGui::Begin("Prefab Editor");
 
 	auto prefabList{ assetmanager.GetPrefabPaths() };
-	Entity prefabID{ assetmanager.GetPrefab(prefabName) };
+	currentSelectedPrefab =  assetmanager.GetPrefab(prefabName);
 
 	if (ImGui::BeginCombo("Prefabs Available", prefabName.c_str())) {
 		for (int n = 0; n < prefabList.size(); n++) {
@@ -155,20 +157,20 @@ void UpdatePrefabHierachy() {
 		ImGui::EndCombo();
 	}
 
-	if (prefabID) {
+	if (currentSelectedPrefab) {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
-			SaveAsPrefab(prefabPath, prefabID);
+			SaveAsPrefab(prefabPath, currentSelectedPrefab);
 		}
 
 		if (ImGui::Button("Create Instance")) {
-			Entity clone = EntityFactory::entityFactory().CloneMaster(prefabID);
+			Entity clone = EntityFactory::entityFactory().CloneMaster(currentSelectedPrefab);
 			ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
 		}
 
-		SceneEntityComponents(prefabID);
+		SceneEntityComponents(currentSelectedPrefab);
 		ImGui::Separator();
-		ComponentBrowser(prefabID);
+		ComponentBrowser(currentSelectedPrefab);
 	}
 
 	auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
@@ -176,17 +178,18 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating, very unoptimised
-	for (auto& cloneEntity : cloneIDArray) {
-		Clone clone{ cloneArray.GetData(cloneEntity) };
-		if (clone.prefab == prefabName) {
-			for (auto& ecsType : typeManager) {
-				if (ecsType.second->HasComponent(prefabID) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
-					ecsType.second->CopyComponent(cloneEntity, prefabID);
+	if (edit_mode) {
+		for (auto& cloneEntity : cloneIDArray) {
+			Clone clone{ cloneArray.GetData(cloneEntity) };
+			if (clone.prefab == prefabName) {
+				for (auto& ecsType : typeManager) {
+					if (ecsType.second->HasComponent(currentSelectedPrefab) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
+						ecsType.second->CopyComponent(cloneEntity, currentSelectedPrefab);
+					}
 				}
 			}
 		}
 	}
-
 	ImGui::End();
 }
 

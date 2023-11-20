@@ -150,21 +150,7 @@ void UpdateAssetLibrary() {
 
 }
 
-/******************************************************************************
-*
-*	@brief Creates the popup dialog for importing images
-*
-*	Creates the popup dialog for the user to choose the type of image to be
-*	imported. The user can choose between a static image or a spritesheet.
-*	If the user chooses to import a spritesheet, the user will have to enter
-*	the number of rows and columns in the spritesheet.
-*
-******************************************************************************/
-void CheckImageTypeDialog(bool & showDialog) {
-
-
-	ImGui::SetNextWindowSize(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
-	ImGui::SetNextWindowPos(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+void ImportImage(bool& showDialog) {
 	ImGui::OpenPopup("Import Image");
 
 
@@ -194,7 +180,7 @@ void CheckImageTypeDialog(bool & showDialog) {
 		}
 		counter = 1;
 		std::string destinationFilename = destinationFilePath.substr(destinationFilePath.find_last_of('\\') + 1, destinationFilePath.size() - destinationFilePath.find_last_of('\\') + 1);
-					
+
 		ImGui::Dummy(ImVec2(0.0f, spacing));
 
 		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
@@ -329,4 +315,21 @@ void CheckImageTypeDialog(bool & showDialog) {
 		}
 		ImGui::EndPopup();
 	}
+}
+
+/******************************************************************************
+*
+*	@brief Creates the popup dialog for importing images
+*
+*	Creates the popup dialog for the user to choose the type of image to be
+*	imported. The user can choose between a static image or a spritesheet.
+*	If the user chooses to import a spritesheet, the user will have to enter
+*	the number of rows and columns in the spritesheet.
+*
+******************************************************************************/
+void CheckImageTypeDialog(bool & showDialog) {
+	ImGui::SetNextWindowSize(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+	ImGui::SetNextWindowPos(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+	
+	ImportImage(showDialog);
 }
