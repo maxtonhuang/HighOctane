@@ -322,6 +322,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(modelSystem, "Model System");
 	systemList.emplace_back(modelSystem, "Model System");
 
+	std::shared_ptr<AudioSystem> audioSystem = ECS::ecs().RegisterSystem<AudioSystem>();
+	runSystemList.emplace_back(audioSystem, "Audio System");
+	editSystemList.emplace_back(audioSystem, "Audio System");
+	systemList.emplace_back(audioSystem, "Audio System");
+
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	runSystemList.emplace_back(graphicsSystem, "Graphics System");
 	editSystemList.emplace_back(graphicsSystem, "Graphics System");
@@ -387,6 +392,11 @@ void EngineCore::Run(bool const& mode) {
 		//signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		ECS::ecs().SetSystemSignature<AudioSystem>(signature);
 	}
 
 	{

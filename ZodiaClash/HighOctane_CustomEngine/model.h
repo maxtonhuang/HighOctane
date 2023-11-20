@@ -42,7 +42,8 @@
 #include "vmath.h"
 #include <vector>
 
-class Texture; //forward declaration
+//forward declaration
+class Texture; 
 
 enum ModelType {
 	GAMEPLAY, BACKGROUND, BACKGROUNDLOOP, UI
@@ -51,6 +52,7 @@ enum ModelType {
 class Model {
 public:
 	Model(ModelType = ModelType::GAMEPLAY, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
+	Model& operator= (const Model&); //assignment operator overload in order for pre-computed values to not be overwritten
 	Model(int modelType, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
 	void Draw(Tex* const entity); //Add vertices to renderer
@@ -84,8 +86,8 @@ private:
 	vmath::Vector2 minimum{};
 	vmath::Vector2 maximum{};
 
-	Transform previous{}; //used for check if previous is same as current
-	Size previous_size{}; //used for check if previous is same as current
+	Transform previous; //used for check if previous is same as current
+	Size previous_size; //used for check if previous is same as current
 };
 
 extern Renderer* previousRenderer; //FOR LAYERING

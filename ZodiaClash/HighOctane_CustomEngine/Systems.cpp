@@ -54,10 +54,14 @@
 #include "UIComponents.h"
 #include "AssetManager.h"
 #include "Layering.h"
+#include "Selection.h"
+#include "Utilities.h"
 #include "Animation.h"
 
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
+
+constexpr float CORNER_SIZE = 10.f;
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -278,13 +282,24 @@ void AnimationSystem::Update() {
 
 /******************************************************************************
 *
-*	@brief Handles model data for each entity, if any
+*	@brief Unused
 *
 *	Handles ...
 *
 ******************************************************************************/
 void ModelSystem::Update() {
 	// Empty
+}
+
+/******************************************************************************
+*
+*	@brief Handles audio for the engine
+*
+*	Handles ...
+*
+******************************************************************************/
+void AudioSystem::Update() {
+	assetmanager.audio.Update();
 }
 
 /******************************************************************************
@@ -579,8 +594,14 @@ void ScriptSystem::Update() {
 *
 ******************************************************************************/
 void EditingSystem::Update() {
-	anyObjectSelected = false;
-	selectedEntities.clear();
+
+
+
+	thereWasAClickThisCycle = false;
+	somethingWasSelectedThisCycle = false;
+
+	//printf("first: %d\n", draggingThisCycle);
+
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -588,28 +609,145 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
-			for (Entity & entity : layering[layer_it]) {
-				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
-					if (nameArray.HasComponent(entity) && transformArray.HasComponent(entity) && modelArray.HasComponent(entity)) {
-						Name* n = &nameArray.GetData(entity);
-						Transform* t = &transformArray.GetData(entity);
-						Model* m = &modelArray.GetData(entity);
 
-						// edit entity's properties
-						UpdateProperties(entity, *n, *t, *m, layer_it);
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
+		switch (msg.type) {
+		case TYPE::KEY_TRIGGERED: {
+			switch (msg.info) {
+			case INFO::KEY_G:
+				if (controlKeyPressed && !shiftKeyPressed && (selectedEntities.size() > 1)) {
+					GroupSelection();
+				}
+				else if (controlKeyPressed && shiftKeyPressed && (selectedEntities.size() > 1)) {
+					UngroupSelection();
+				}
+					break;
+			}
+		}
+		break;
+
+		case TYPE::MOUSE_MOVE:
+			currentMousePosition = { msg.posX, msg.posY };
+
+			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+				if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+					for (Entity & entity : layering[layer_it]) {
+						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+							Name & n = nameArray.GetData(entity);
+							if (n.selected) {
+								//Transform & t = transformArray.GetData(entity);
+								Model & m = modelArray.GetData(entity);
+								if (IsNearby(m.GetMax(), currentMousePosition, CORNER_SIZE) || IsNearby(m.GetMin(), currentMousePosition, CORNER_SIZE) || IsNearby({ m.GetMax().x, m.GetMin().y }, currentMousePosition, CORNER_SIZE) || IsNearby({ m.GetMin().x, m.GetMax().y }, currentMousePosition, CORNER_SIZE) || IsWithinObject(m, currentMousePosition)) {
+									withinSomething = true;
+								}
+							}
+						}
 					}
 				}
 			}
+
+
+			mouseMoved = true;
+			break;
 		}
 	}
 
+
+
+
+
+
+	//if (name.selected) {
+
+	//	if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE) || IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE))) {
+	//		SetCursor(hNESWCursor);
+	//		//withinSomething = true;
+	//	}
+	//	else if (name.clicked == CLICKED::NW || name.clicked == CLICKED::SE || IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE) || IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
+	//		SetCursor(hNWSECursor);
+	//		//withinSomething = true;
+	//	}
+	//	else if (IsWithinObject(model, currentMousePosition)) {
+	//		SetCursor(hAllDirCursor);
+	//		//withinSomething = true;
+	//	}
+	//	else {
+	//		SetCursor(hDefaultCursor);
+	//	}
+	//}
+
+
+
+
+
+
+	
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
+		switch (msg.type) {
+		case TYPE::MOUSE_CLICK:
+
+
+			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+				//if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+				for (Entity& entity : layering[layer_it]) {
+					//if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+					Name& n = nameArray.GetData(entity);
+					//if (n.selected) {
+					Transform& t = transformArray.GetData(entity);
+					n.draggingOffset = GetOffset(t.position, currentMousePosition);
+
+					//withinSomething = true;
+					//}
+				//}
+				}
+				//}
+			}
+
+
+
+
+			break;
+		}
+	}
+
+	// Selection starts here
+
+	for (int layer_it = static_cast<int>(layering.size() - 1); layer_it >= 0; --layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (int entity_it = static_cast<int>(layering[layer_it].size() - 1); entity_it >= 0; --entity_it) {
+				Entity entity = layering[layer_it][entity_it];
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+					Name & n = nameArray.GetData(entity);
+					Transform & t = transformArray.GetData(entity);
+					Model & m = modelArray.GetData(entity);
+					
+					Selection(entity, n, t, m, static_cast<size_t>(layer_it));
+					if (somethingWasSelectedThisCycle) {
+						break;
+					}
+				}
+			}	
+		}
+		if (somethingWasSelectedThisCycle) {
+			break;
+		}
+	}
+
+	//printf("%d\n", somethingWasSelectedThisCycle);
+
+	if (thereWasAClickThisCycle && !somethingWasSelectedThisCycle) {
+		printf("YES\n");
+		UnselectAll();
+	}
+
+	
+	
 	selectedEntities.clear();
 	for (Entity entity : m_Entities) {
 		if (nameArray.GetData(entity).selected) {
-			anyObjectSelected = true;
 			selectedEntities.emplace_back(entity);
+			//printf("Selected: %s\n", nameArray.GetData(entity).name.c_str());
 		}
 	}
 
@@ -625,7 +763,6 @@ void EditingSystem::Update() {
 		}
 		toCopy = false;
 		selectedEntities.clear();
-		anyObjectSelected = false;
 		UnselectAll();
 	}
 
@@ -638,9 +775,56 @@ void EditingSystem::Update() {
 		toDestroy = false;
 		selectedEntities.clear();
 		UnselectAll();
-		anyObjectSelected = false;
 		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
 	}
+
+
+
+	//printf("%d\n", selectedEntities.size());
+
+
+
+	// Editing starts here
+	
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity & entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+					Name & n = nameArray.GetData(entity);
+					Transform & t = transformArray.GetData(entity);
+					Model & m = modelArray.GetData(entity);
+
+					// edit entity's properties
+					UpdateProperties(entity, n, t, m, layer_it);
+				}
+			}
+		}
+	}
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
+		switch (msg.type) {
+		case TYPE::MOUSE_UP:
+			draggingThisCycle = false;
+			//printf("IN HERE");
+			break;
+		}
+	}
+
+	printf("GC: %d\n", groupCounter);
+
+	mouseMoved = false;
+	withinSomething = false;
+
+	//printf("second: %d\n", draggingThisCycle);
+
+	//// Access the ComponentManager through the ECS class
+	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+
+
 }
 
 

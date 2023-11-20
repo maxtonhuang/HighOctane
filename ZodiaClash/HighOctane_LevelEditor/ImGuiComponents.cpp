@@ -53,11 +53,14 @@ void ComponentBrowser(Entity currentEntity) {
 					ecsType.second->RemoveComponent(currentEntity);
 				}
 				ImGui::PopID();
+
 				if (hasPrefab) {
 					bool isUnique{ (bool)(uniqueComponents->count(ecsType.first)) };
 					bool checkbox{ isUnique };
 					ImGui::SameLine();
+					ImGui::PushID(buttonID++);
 					ImGui::Checkbox("Unique", &checkbox);
+					ImGui::PopID();
 					if (checkbox != isUnique && checkbox == false) {
 						uniqueComponents->erase(ecsType.first);
 					}

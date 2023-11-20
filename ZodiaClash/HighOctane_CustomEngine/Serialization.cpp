@@ -44,6 +44,7 @@
 #include <memory>
 #include "Layering.h"
 #include "Animation.h"
+#include "ScriptEngine.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -234,12 +235,12 @@ rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::Allo
 	scriptObject.AddMember("className", rapidjson::Value(script.className.c_str(), allocator).Move(), allocator);
 
 	// Serialize the scriptNameVec
-	rapidjson::Value scriptNameArray(rapidjson::kArrayType);
+	rapidjson::Value scriptAttachedNameVec(rapidjson::kArrayType);
 	for (const std::string& name : script.scriptNameVec) {
-		scriptNameArray.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
+		scriptAttachedNameVec.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
 	}
 
-	scriptObject.AddMember("scriptNameVec", scriptNameArray, allocator);
+	scriptObject.AddMember("scriptAttachedNameVec", scriptAttachedNameVec, allocator);
 
 	return scriptObject;
 }
@@ -866,33 +867,8 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			//}
 			if (entityObject.HasMember("Scripts")) {
 				const rapidjson::Value& scriptObject = entityObject["Scripts"];
+
 				Script script;
-
-				if (scriptObject.HasMember("className")) {
-					script.className = scriptObject["className"].GetString();
-				}
-				if (scriptObject.HasMember("scriptNameVec") && scriptObject["scriptNameVec"].IsArray()) {
-					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVec"];
-					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
-						if (scriptNameArray[j].IsString()) {
-							script.scriptNameVec.push_back(scriptNameArray[j].GetString());
-							//scriptNamesAttachedforIMGUI[entity].push_back("Test");
-							scriptNamesAttachedforIMGUI[entity].push_back(scriptNameArray[j].GetString());
-						}
-					}
-				}
-
-				if (scriptObject.HasMember("scriptNameVecForImGui") && scriptObject["scriptNameVecForImGui"].IsArray()) {
-					const rapidjson::Value& scriptNameArray = scriptObject["scriptNameVecForImGui"];
-					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
-						if (scriptNameArray[j].IsString()) {
-							script.scriptNameVec.push_back(scriptNameArray[j].GetString());
-							//scriptNamesAttachedforIMGUI[entity].push_back("test");
-							scriptNamesAttachedforIMGUI[entity].push_back(scriptNameArray[j].GetString());
-						}
-					}
-				}
-
 				if (ECS::ecs().HasComponent<Script>(entity)) {
 					ECS::ecs().GetComponent<Script>(entity) = script;
 				}
@@ -900,10 +876,22 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<Script>(entity, script);
 				}
 
-				//auto& sc = ECS::ecs().GetComponent<Script>(entity);
-				//for (auto& s : sc.scriptNameVec) {
-				//	std::cout << "This is it << " << s << std::endl;
-				//}
+
+				if (scriptObject.HasMember("className")) {
+					script.className = scriptObject["className"].GetString();
+				}
+
+				// Check if there's any script in the loaded scene
+				if (scriptObject.HasMember("scriptAttachedNameVec") && scriptObject["scriptAttachedNameVec"].IsArray()) {
+					const rapidjson::Value& scriptNameArray = scriptObject["scriptAttachedNameVec"];
+					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
+						if (scriptNameArray[j].IsString()) {
+							//script.scriptNameVec.push_back(scriptNameArray[j].GetString());
+							ScriptEngine::AttachScriptToEntity(entity, scriptNameArray[j].GetString());
+						}
+					}
+				}
+
 			}
 			if (entityObject.HasMember("Master")) {
 				if (!ECS::ecs().HasComponent<Master>(entity)) {

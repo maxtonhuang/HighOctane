@@ -125,6 +125,7 @@ struct Name {
     size_t                  serializationOrderInLayer{};
     bool                    skip{ true };
     bool                    lock{ true };
+    vmath::Vector2          draggingOffset{};
 };
 
 struct Clone {

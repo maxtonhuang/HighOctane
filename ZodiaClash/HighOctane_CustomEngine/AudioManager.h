@@ -38,6 +38,7 @@
 class AudioManager {
 public:
 	void Initialize(); //Creates FMOD system
+	void Update();
 	void Release(); //DELETES THE AUDIO SYSTEM, ONLY CALL AT END OF PROGRAM
 
 	//FUNCTIONS FOR CHANNEL GROUPS

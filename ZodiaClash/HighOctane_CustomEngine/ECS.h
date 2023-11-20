@@ -232,6 +232,14 @@ public:
         //return m_RegisteredArray[entity];
     }
 
+    std::vector<Entity> GetEntityArray() {
+        std::vector<Entity> array{};
+        for (auto& e : m_EntityToIndexMap) {
+            array.push_back(e.first);
+        }
+        return array;
+    }
+
 private:
     // The packed array of components (of generic type T),
     // set to a specified maximum amount, matching the maximum number
@@ -511,7 +519,12 @@ bool IComponentFunctions<T>::HasComponent(Entity e) {
 
 template <typename T>
 void IComponentFunctions<T>::CopyComponent(Entity dst, Entity src) {
-    ECS::ecs().GetComponent<T>(dst) = ECS::ecs().GetComponent<T>(src);
+    if (ECS::ecs().HasComponent<T>(dst)) {
+        ECS::ecs().GetComponent<T>(dst) = ECS::ecs().GetComponent<T>(src);
+    }
+    else {
+        ECS::ecs().AddComponent<T>(dst, ECS::ecs().GetComponent<T>(src));
+    }
 }
 
 ////////// System Declarations ////////////////////////////////////////////////
@@ -532,13 +545,18 @@ public:
     void Update() override;
 };
 
-class AnimatorSystem : public System {
+//class AnimatorSystem : public System {
+//public:
+//    void Update() override;
+//};
+
+//Intended to overwrite animator system
+class AnimationSystem : public System {
 public:
     void Update() override;
 };
 
-//Intended to overwrite animator system
-class AnimationSystem : public System {
+class AudioSystem : public System {
 public:
     void Update() override;
 };

@@ -35,6 +35,7 @@
 #include "Global.h"
 #include "Editing.h"
 #include "ECS.h"
+#include "Selection.h"
 #include <sstream>
 #include <algorithm>
 #include <limits>
@@ -356,4 +357,33 @@ void SetWholeLockLayer(size_t layer_it) {
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 		entitiesToLock[layering[layer_it][entity_it]] = layersToLock[layer_it];
 	}
+}
+
+
+
+
+
+
+bool CheckAnySelectedInLayer(size_t layer_it) {
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	//std::set<Entity>* e = &(s_ptr->m_Entities);
+	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+		Name& n = nameArray.GetData(layering[layer_it][entity_it]);
+		if (n.selected) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+size_t GetHightestLayerWithSelection() {
+	for (int layer_it = static_cast<int>(layering.size() - 1); layer_it >= 0; --layer_it) {
+		if (CheckAnySelectedInLayer(static_cast<size_t>(layer_it))) {
+			return static_cast<size_t>(layer_it);
+		}
+	}
+	return std::numeric_limits<size_t>::max();
 }

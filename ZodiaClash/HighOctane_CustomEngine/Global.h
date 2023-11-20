@@ -73,8 +73,21 @@ extern vmath::Vector2 rightClickPos;
 extern std::vector<Entity> selectedEntities; // for destruction
 extern Entity newSelection;
 extern bool popupHovered;
-extern bool anyObjectSelected; // whether any object is selected
+//extern bool anyObjectSelected; // whether any object is selected
+extern size_t selectedCount;
 extern bool popupMasterRightClicked;
+extern vmath::Vector2 draggingOffset;
+extern bool thereWasAClickThisCycle;
+extern bool somethingWasSelectedThisCycle;
+extern bool draggingThisCycle;
+extern vmath::Vector2 currentMousePosition;
+extern bool mouseMoved;
+extern bool withinSomething;
+
+extern bool shiftKeyPressed;
+extern bool controlKeyPressed;
+
+extern std::unordered_set<std::string> defaultUniqueComponents;
 
 extern bool clearAllSelection;
 extern std::string sceneName;
@@ -101,12 +114,10 @@ extern std::deque<std::string> importFileList;
 extern size_t importFileCount;
 extern std::vector<std::string> fullNameVecImGUI;
 
-extern const char* currentScriptForIMGUI;
+extern std::string currentScriptForIMGUI;
 
-//extern std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI;
 extern std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI;
 
-//extern const char* currentScriptAttachedForIMGUI;
 extern std::string currentScriptAttachedForIMGUI;
 
 extern bool isHotReload;

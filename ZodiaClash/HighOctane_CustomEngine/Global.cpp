@@ -37,8 +37,11 @@
 #include <string>
 #include <memory>
 #include <limits>
+#include "Components.h"
+#include "model.h"
 
 #define RESET_VEC2 0.f, 0.f
+
 
 // Declare global variables here
 
@@ -64,8 +67,21 @@ vmath::Vector2 rightClickPos{ RESET_VEC2 };
 std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
-bool anyObjectSelected{ false };
+//bool anyObjectSelected{ false };
+size_t selectedCount{};
 bool popupMasterRightClicked{ false };
+vmath::Vector2 draggingOffset{ RESET_VEC2 };
+bool thereWasAClickThisCycle{ false };
+bool somethingWasSelectedThisCycle{ false };
+bool draggingThisCycle{ false };
+vmath::Vector2 currentMousePosition{ RESET_VEC2 };
+bool mouseMoved{ false };
+bool withinSomething{ false };
+
+bool shiftKeyPressed{ false };
+bool controlKeyPressed{ false };
+
+std::unordered_set<std::string> defaultUniqueComponents{ typeid(Transform).name(), typeid(Name).name(), typeid(Model).name() };
 
 bool clearAllSelection{ false };
 std::string sceneName{};
@@ -92,13 +108,10 @@ std::deque<std::string> importFileList;
 size_t importFileCount{ };
 std::vector<std::string> fullNameVecImGUI{};
 
-const char* currentScriptForIMGUI{ NULL };
+std::string currentScriptForIMGUI{};
 
-
-//std::unordered_map<Entity, std::vector<const char*>> scriptNamesAttachedforIMGUI{};
 std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI{};
 
-//const char* currentScriptAttachedForIMGUI{ NULL };
-std::string currentScriptAttachedForIMGUI{ NULL };
+std::string currentScriptAttachedForIMGUI{};
 
 bool isHotReload{ false };

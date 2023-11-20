@@ -245,6 +245,9 @@
     <ClInclude Include="InternalCalls.h">
       <Filter>Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="Selection.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
     <ClInclude Include="UndoRedo.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
@@ -396,6 +399,9 @@
     </ClCompile>
     <ClCompile Include="Reflections.cpp">
       <Filter>Reflection</Filter>
+    </ClCompile>
+    <ClCompile Include="Selection.cpp">
+      <Filter>EngineArchitecture</Filter>
     </ClCompile>
     <ClCompile Include="UndoRedo.cpp">
       <Filter>Miscellaneous</Filter>
