@@ -158,8 +158,7 @@ void UpdatePrefabHierachy() {
 	if (prefabID) {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
-			std::set<Entity> entityToSave{ prefabID };
-			Serializer::SaveEntityToJson(prefabPath, entityToSave);
+			SaveAsPrefab(prefabPath, prefabID);
 		}
 
 		if (ImGui::Button("Create Instance")) {
@@ -213,19 +212,15 @@ void SceneEntityNode(Entity entity) {
 }
 
 void SceneEntityComponents(Entity entity) {
+	auto& componentManager{ ECS::ecs().GetComponentManager() };
+
 	if (ECS::ecs().HasComponent<Clone>(entity)) {
 		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
 		if (entityClone.prefab == "") {
 			ImGui::Text("Entity has no prefabs");
 			if (ImGui::Button("Save as prefab")) {
 				std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
-				std::set<Entity> entityToSave{ entity };
-				if (prefabPath != "") {
-					Serializer::SaveEntityToJson(prefabPath, entityToSave);
-					std::string prefabName{ prefabPath.substr(prefabPath.find_last_of("\\") + 1) };
-					ECS::ecs().GetComponent<Clone>(entity).prefab = prefabName;
-				}
-				assetmanager.UpdatePrefabPaths();
+				SaveAsPrefab(prefabPath, entity);
 			}
 		}
 		else {
@@ -251,6 +246,62 @@ void SceneEntityComponents(Entity entity) {
 	if (ImGui::Checkbox("Movement",&check)) {
 		
 	}
+
+	if (ECS::ecs().HasComponent<Parent>(entity)) {
+		if (ImGui::TreeNodeEx((void*)typeid(Parent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Parent")) {
+
+			auto& entityParent = ECS::ecs().GetComponent<Parent>(entity);
+			auto& nameArray{ componentManager.GetComponentArrayRef<Name>() };
+
+			if (entityParent.children.size() > 0) {
+				ImGui::Text("Children:");
+				for (auto& child : entityParent.children) {
+					ImGui::Text(nameArray.GetData(child).name.c_str());
+				}
+			}
+
+			auto namePairArray{ nameArray.GetPairArray() };
+			std::vector<std::pair<Entity, Name*>> validChildArray{};
+			for (auto& namePair : namePairArray) {
+				if (ECS::ecs().HasComponent<Child>(namePair.first)) {
+					continue;
+				}
+				if (!ECS::ecs().HasComponent<Clone>(namePair.first)) {
+					continue;
+				}
+				if (namePair.second->name == "") {
+					continue;
+				}
+				validChildArray.push_back(namePair);
+			}
+
+			static std::pair<Entity, std::string> preview{ validChildArray[0].first, validChildArray[0].second->name.c_str() };
+			if (validChildArray.size() > 0) {
+				if (ImGui::BeginCombo("Choose child to add", preview.second.c_str())) {
+					for (int c = 0; c < validChildArray.size(); c++) {
+						std::string childName{ validChildArray[c].second->name };
+						bool is_selected = (preview.second == childName);
+						if (ImGui::Selectable(childName.c_str(), is_selected)) {
+							preview.first = validChildArray[c].first;
+							preview.second = childName;
+						}
+						if (is_selected) {
+							ImGui::SetItemDefaultFocus();
+						}
+					}
+					ImGui::EndCombo();
+				}
+			}
+			if (ImGui::Button("Add as child")) {
+				ECS::ecs().AddComponent<Child>(preview.first, Child{ entity });
+				entityParent.children.push_back(preview.first);
+			}
+
+			ImGui::TreePop();
+		}
+
+	}
+
 	if (ECS::ecs().HasComponent<Model>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Model).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
 			auto& colorComponent = ECS::ecs().GetComponent<Model>(entity).GetColorRef();
@@ -261,10 +312,14 @@ void SceneEntityComponents(Entity entity) {
 		}
 	}
 	if (ECS::ecs().HasComponent<Transform>(entity)) {
+		Transform* entityTransform{ &ECS::ecs().GetComponent<Transform>(entity) };
+		if (ECS::ecs().HasComponent<Child>(entity)) {
+			entityTransform = &ECS::ecs().GetComponent<Child>(entity).offset;
+		}
 		if (ImGui::TreeNodeEx((void*)typeid(Transform).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform")) {
-			auto& positionComponent = ECS::ecs().GetComponent<Transform>(entity).position;
-			auto& rotationComponent = ECS::ecs().GetComponent<Transform>(entity).rotation;
-			auto& scaleComponent = ECS::ecs().GetComponent<Transform>(entity).scale;
+			auto& positionComponent = entityTransform->position;
+			auto& rotationComponent = entityTransform->rotation;
+			auto& scaleComponent = entityTransform->scale;
 			ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
 			ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
 			ImGui::DragFloat("Scale", &scaleComponent,0.5f,1.f,100.f);

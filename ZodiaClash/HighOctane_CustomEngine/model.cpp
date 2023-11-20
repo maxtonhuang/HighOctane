@@ -155,7 +155,7 @@ void Model::Draw(Tex* const entity) {
 		previousRenderer = renderer;
 	}
 
-	if (entity != nullptr) {
+	if (entity != nullptr && entity->tex != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
 		int frameIndex{entity->frameIndex};
 		renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,0), texID });

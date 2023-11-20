@@ -421,7 +421,11 @@ void SerializationSystem::Update() {
 			std::ofstream sceneFile{ scenePath.c_str() };
 
 			std::string jsonPath{ scenePath.substr(0,scenePath.find(".scn")) + ".json" };
-			Serializer::SaveEntityToJson(jsonPath, m_Entities);
+			std::vector<Entity> entityList{};
+			for (auto& e : m_Entities) {
+				entityList.push_back(e);
+			}
+			Serializer::SaveEntityToJson(jsonPath, entityList);
 
 			auto files = assetmanager.GetFiles();
 			for (auto& f : files) {
@@ -462,7 +466,11 @@ void SerializationSystem::Update() {
 			std::ofstream sceneFile{ scenePath.c_str() };
 
 			std::string jsonPath{ assetmanager.GetDefaultPath() + "Scenes/tmp.json" };
-			Serializer::SaveEntityToJson(jsonPath, m_Entities);
+			std::vector<Entity> entityList{};
+			for (auto& e : m_Entities) {
+				entityList.push_back(e);
+			}
+			Serializer::SaveEntityToJson(jsonPath, entityList);
 
 			auto files = assetmanager.GetFiles();
 			for (auto& f : files) {
@@ -971,3 +979,33 @@ void UIButtonSystem::Update() {
 	}
 }
 
+void ChildSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+
+	std::vector<Entity> toDestroyList{};
+
+	for (Entity const& entity : m_Entities) {
+		Child* childData = &childArray.GetData(entity);
+		Entity parent = childData->parent;
+
+		if (!ECS::ecs().EntityExists(parent)) {
+			toDestroyList.push_back(entity);
+			continue;
+		}
+
+		Transform* childTransform = &transformArray.GetData(entity);
+		Transform* parentTransform = &transformArray.GetData(parent);
+
+		*childTransform = childData->offset + *parentTransform;
+	}
+
+	for (auto& e : toDestroyList) {
+		ECS::ecs().DestroyEntity(e);
+		RemoveEntityFromLayering(e);
+	}
+}

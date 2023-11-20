@@ -40,6 +40,7 @@
 #include <unordered_set>
 
 using Vec2 = vmath::Vector2;
+using Entity = std::uint32_t;
 
 enum class CLICKED {
     NE,
@@ -64,6 +65,9 @@ struct Transform {
     Vec2                    acceleration{};
     Vec2                    force{acceleration * mass};
 };
+
+//Operator overload for child offset calculations
+Transform operator+ (const Transform& lhs, const Transform& rhs);
 
 struct Collider {
     enum SHAPE_ID {
@@ -128,6 +132,10 @@ struct Name {
     vmath::Vector2          draggingOffset{};
 };
 
+struct Parent {
+    std::vector<Entity> children{};
+};
+
 struct Clone {
     std::string prefab{};
     std::unordered_set<std::string> unique_components{ typeid(Transform).name(), typeid(Name).name() };
@@ -137,8 +145,6 @@ struct Movable {
     // empty by design
 };
 
-
-
 struct Script {
     std::string className{};  // ID of owner
     std::vector<std::string> scriptNameVec{};
@@ -147,4 +153,9 @@ struct Script {
 
 struct Tag {
     std::string             tag;
+};
+
+struct Child {
+    Entity parent{};
+    Transform offset{};
 };

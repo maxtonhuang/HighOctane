@@ -428,7 +428,7 @@ bool CheckSerialize(const Entity& entity, const bool& isPrefabClone, const std::
 }
 
 
-void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
+void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
 	document.SetArray();
@@ -494,6 +494,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 				cloneObject.AddMember("Unique Components", typeObject, allocator);
 			}
 			entityObject.AddMember("Clone", cloneObject, allocator);
+		}
+
+		if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Child>(entity)) {
+			continue;
 		}
 
 		if (CheckSerialize<Name>(entity, isPrefabClone,uComponentMap)) {
@@ -590,6 +594,14 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value animsetObject = SerializeAnimationSet(*animset, allocator);
 			entityObject.AddMember("Animation Set", animsetObject, allocator);
 		}
+		if (CheckSerialize<Parent>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("Parent", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<Child>(entity, isPrefabClone, uComponentMap)) {
+			transform = &ECS::ecs().GetComponent<Child>(entity).offset;
+			rapidjson::Value transformObject = SerializeTransform(*transform, allocator);
+			entityObject.AddMember("Child", transformObject, allocator);
+		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
 	}
@@ -639,6 +651,8 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	rapidjson::Document document;
 	std::ifstream file(fileName);
 	Entity entity{0};
+	Parent* parent{};
+	Entity parentID{};
 	if (!file.is_open()) {
 		std::cerr << "Failed to open file: " << fileName << std::endl;
 		//Assert("Failed to open .json file %s", fileName);
@@ -664,6 +678,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 		}
 		else {
 			//entity = ECS::ecs().CreateEntity();
+			entity = 0;
 			if (entityObject.HasMember("Clone")) {
 				const rapidjson::Value& cloneObject = entityObject["Clone"];
 				//ECS::ecs().AddComponent(entity, Clone{});
@@ -1114,6 +1129,24 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<AnimationSet>(entity, animset);
 				}
 			}
+			if (entityObject.HasMember("Parent")) {
+				ECS::ecs().AddComponent<Parent>(entity, Parent{});
+				parent = &ECS::ecs().GetComponent<Parent>(entity);
+				parentID = entity;
+			}
+			if (entityObject.HasMember("Child") && parent != nullptr) {
+				const rapidjson::Value& transformObject = entityObject["Child"];
+				Transform transform;
+				transform.position.x = transformObject["position_x"].GetFloat();
+				transform.position.y = transformObject["position_y"].GetFloat();
+				transform.rotation = transformObject["rotation"].GetFloat();
+				transform.scale = transformObject["scale"].GetFloat();
+				transform.velocity.x = transformObject["velocity_x"].GetFloat();
+				transform.velocity.y = transformObject["velocity_y"].GetFloat();
+
+				ECS::ecs().AddComponent<Child>(entity, Child{ parentID, transform });
+				parent->children.push_back(entity);
+			}
 		}
 	}
 	if (isPrefab && ECS::ecs().HasComponent<Clone>(entity)) {
@@ -1126,7 +1159,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 	// To load the state from a file for reflection
 	//DeserializeVariablesFromFile("variables.sav", variablesTEST);
-	return entity;
+	if (parentID == 0) {
+		return entity;
+	}
+	else {
+		return parentID;
+	}
 }
 
 void LoadConfig() {

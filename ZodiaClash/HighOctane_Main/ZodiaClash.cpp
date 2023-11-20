@@ -252,9 +252,10 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<AnimationSet>();
 	//ECS::ecs().RegisterComponent<PlayerAction>();
 	//ECS::ecs().RegisterComponent<EnemyAction>();
-
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
+	ECS::ecs().RegisterComponent<Parent>();
+	ECS::ecs().RegisterComponent<Child>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -304,6 +305,11 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(editingSystem, "Editing System");
 	systemList.emplace_back(editingSystem, "Editing System");
 	edit_ptr = editingSystem;
+
+	std::shared_ptr<ChildSystem> childSystem = ECS::ecs().RegisterSystem<ChildSystem>();
+	runSystemList.emplace_back(childSystem, "Child System");
+	editSystemList.emplace_back(childSystem, "Child System");
+	systemList.emplace_back(childSystem, "Child System");
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");
@@ -368,6 +374,15 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<AnimationSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Child>());
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+
+		ECS::ecs().SetSystemSignature<ChildSystem>(signature);
 	}
 
 	{

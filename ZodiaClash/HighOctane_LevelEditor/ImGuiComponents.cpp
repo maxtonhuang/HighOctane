@@ -1,6 +1,9 @@
 #include "ImGuiComponents.h"
 #include "ImGuiSceneHierarchy.h"
 #include "ECS.h"
+#include "WindowsInterlink.h"
+#include "AssetManager.h"
+#include "Serialization.h"
 #include <sstream>
 
 void UpdateComponentViewer() {
@@ -10,6 +13,27 @@ void UpdateComponentViewer() {
 	ComponentBrowser(currentSelectedEntity);
 
 	ImGui::End();
+}
+
+void SaveAsPrefab(std::string prefabPath, Entity entity) {
+	if (prefabPath != "") {
+		std::vector<Entity> entityToSave{ entity };
+		std::string prefabName{ prefabPath.substr(prefabPath.find_last_of("\\") + 1) };
+		ECS::ecs().RemoveComponent<Clone>(entity);
+		if (ECS::ecs().HasComponent<Parent>(entity)) {
+			Parent& parent{ ECS::ecs().GetComponent<Parent>(entity) };
+			for (auto& child : parent.children) {
+				entityToSave.push_back(child);
+				ECS::ecs().RemoveComponent<Clone>(child);
+			}
+		}
+		Serializer::SaveEntityToJson(prefabPath, entityToSave);
+		for (auto& e : entityToSave) {
+			ECS::ecs().AddComponent<Clone>(e,Clone{});
+		}
+		ECS::ecs().GetComponent<Clone>(entity).prefab = prefabName;
+	}
+	assetmanager.UpdatePrefabPaths();
 }
 
 void ComponentBrowser(Entity currentEntity) {

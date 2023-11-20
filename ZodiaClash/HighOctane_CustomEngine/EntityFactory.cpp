@@ -248,6 +248,33 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	}
 	ECS::ecs().AddComponent(entity, Clone{});
 
+	if (ECS::ecs().HasComponent<Parent>(masterEntity)) {
+		ECS::ecs().GetComponent<Parent>(entity).children.clear();
+		for (auto& child : ECS::ecs().GetComponent<Parent>(masterEntity).children) {
+			Entity childClone = ECS::ecs().CreateEntity();
+			for (auto& ecsType : typeMap) {
+				if (ecsType.second->HasComponent(child)) {
+					ecsType.second->AddComponent(childClone);
+					ecsType.second->CopyComponent(childClone, child);
+				}
+			}
+			ECS::ecs().AddComponent<Clone>(childClone,Clone{});
+			ECS::ecs().GetComponent<Child>(childClone).parent = entity;
+			ECS::ecs().GetComponent<Parent>(entity).children.push_back(childClone);
+
+			std::pair<size_t, size_t> p = FindInLayer(child);
+			if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
+				layering[p.first].emplace_back(childClone);
+			}
+			else {
+				if (layering.size() == 0) {
+					layering.emplace_back(std::deque<Entity>{});
+				}
+				layering[layering.size() - 1].emplace_back(childClone);
+			}
+		}
+	}
+
 	/*
 	ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
 
@@ -297,6 +324,9 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		layering[p.first].emplace_back(entity);
 	}
 	else {
+		if (layering.size() == 0) {
+			layering.emplace_back(std::deque<Entity>{});
+		}
 		layering[layering.size() - 1].emplace_back(entity);
 	}
 	

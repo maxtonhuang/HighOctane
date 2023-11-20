@@ -157,7 +157,7 @@ public:
  \return
 	Saved json file to set path
  *************************************************************************/
-	static void SaveEntityToJson(const std::string& fileName, const std::set<Entity>& entity);
+	static void SaveEntityToJson(const std::string& fileName, const std::vector<Entity>& entity);
 
 /*!***********************************************************************
  \brief
