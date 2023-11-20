@@ -25,8 +25,6 @@ class AnimationGroup {
 public:
 	void Start(Entity entity);
 	void Update();
-	//operator overload to ensure active and currentframe are not overwritten
-	AnimationGroup operator= (AnimationGroup const&);
 
 	std::vector<std::shared_ptr<Animation>> animations;
 	int totalFrames{};
@@ -44,7 +42,6 @@ class AnimationSet {
 public:
 	void Start(std::string animationName, Entity entity);
 	void Update();
-	AnimationSet operator= (AnimationSet const&);
 	std::vector<AnimationGroup> animationSet;
 	bool paused;
 private:
