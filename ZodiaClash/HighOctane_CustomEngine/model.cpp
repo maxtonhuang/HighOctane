@@ -68,6 +68,8 @@ Model& Model::operator= (const Model& rhs) {
 }
 
 void Model::Update(Transform const& entity, Size const& size) {
+	const float rotationLineLength{ 100 };
+
 	if (type == ModelType::BACKGROUNDLOOP) {
 		float x = camera.GetPos().x / GRAPHICS::w;
 		float y = camera.GetPos().y / GRAPHICS::h;
@@ -91,6 +93,11 @@ void Model::Update(Transform const& entity, Size const& size) {
 	botright = glm::vec2{ bottomright3.x,bottomright3.y };
 	topleft = glm::vec2{ topleft3.x,topleft3.y };
 	topright = glm::vec2{ topright3.x,topright3.y };
+
+	glm::vec2 rotationvector{ sin(entity.rotation),cos(entity.rotation) };
+	glm::vec2 topmidpoint{ (topright.x + topleft.x) / 2, (topright.y + topleft.y) / 2 };
+	rotationpoint.x = (topmidpoint.x * GRAPHICS::w) + (rotationvector.x * rotationLineLength);
+	rotationpoint.y = (topmidpoint.y * GRAPHICS::h) + (rotationvector.y * rotationLineLength);
 
 	minimum.x = fmin(botleft.x, botright.x);
 	minimum.x = fmin(minimum.x, topleft.x);
@@ -177,6 +184,9 @@ void Model::Draw(Tex* const entity) {
 
 void Model::DrawOutline() {
 	Renderer* render{ nullptr };
+
+	glm::vec2 topmidpoint{ (topright.x + topleft.x) / 2, (topright.y + topleft.y) / 2 };
+
 	if (type == UI) {
 		render = &graphics.renderer["staticline"];
 	}
@@ -184,7 +194,8 @@ void Model::DrawOutline() {
 	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	
+	graphics.DrawLine(topmidpoint.x * GRAPHICS::w, topmidpoint.y * GRAPHICS::h, rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);
+
 	if (type == UI) {
 		render = &graphics.renderer["staticpoint"];
 	}
@@ -192,6 +203,7 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);
 }
 
 bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
@@ -243,4 +255,8 @@ glm::vec4 Model::GetColor() const {
 
 glm::vec4& Model::GetColorRef() {
 	return color;
+}
+
+vmath::Vector2 Model::GetRotPoint() const {
+	return vmath::Vector2{ rotationpoint.x,rotationpoint.y };
 }
