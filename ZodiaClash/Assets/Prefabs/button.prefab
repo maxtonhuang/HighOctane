@@ -9,10 +9,8 @@
         }
     },
     {
-        "Clone": {},
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png",
-            "Selected": true,
             "Current Layer": 0,
             "Order in Layer": 5,
             "isLocked": true,
@@ -49,7 +47,7 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,

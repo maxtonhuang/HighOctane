@@ -19,7 +19,11 @@ void SaveAsPrefab(std::string prefabPath, Entity entity) {
 	if (prefabPath != "") {
 		std::vector<Entity> entityToSave{ entity };
 		std::string prefabName{ prefabPath.substr(prefabPath.find_last_of("\\") + 1) };
-		ECS::ecs().RemoveComponent<Clone>(entity);
+		bool isClone{ false };
+		if (ECS::ecs().HasComponent<Clone>(entity)) {
+			ECS::ecs().RemoveComponent<Clone>(entity);
+			isClone = true;
+		}
 		if (ECS::ecs().HasComponent<Parent>(entity)) {
 			Parent& parent{ ECS::ecs().GetComponent<Parent>(entity) };
 			for (auto& child : parent.children) {
@@ -28,10 +32,12 @@ void SaveAsPrefab(std::string prefabPath, Entity entity) {
 			}
 		}
 		Serializer::SaveEntityToJson(prefabPath, entityToSave);
-		for (auto& e : entityToSave) {
-			ECS::ecs().AddComponent<Clone>(e,Clone{});
+		if (isClone) {
+			for (auto& e : entityToSave) {
+				ECS::ecs().AddComponent<Clone>(e, Clone{});
+			}
+			ECS::ecs().GetComponent<Clone>(entity).prefab = prefabName;
 		}
-		ECS::ecs().GetComponent<Clone>(entity).prefab = prefabName;
 	}
 	assetmanager.UpdatePrefabPaths();
 }
