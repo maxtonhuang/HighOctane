@@ -148,7 +148,8 @@ void UpdateLayer() {
 					UnselectAll();
 				}
 				ImGui::SameLine();
-				if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), entityName.name.c_str())) {
+				std::string temp = (entityName.group > 0) ? ("(G" + std::to_string(entityName.group) + ") " + entityName.name) : entityName.name;
+				if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), temp.c_str())) {
 					
 					if (ImGui::IsItemClicked()) {
 						UnselectAll();
