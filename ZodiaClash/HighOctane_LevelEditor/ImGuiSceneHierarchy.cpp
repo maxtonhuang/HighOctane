@@ -217,6 +217,16 @@ void SceneEntityComponents(Entity entity) {
 		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
 		if (entityClone.prefab == "") {
 			ImGui::Text("Entity has no prefabs");
+			if (ImGui::Button("Save as prefab")) {
+				std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
+				std::set<Entity> entityToSave{ entity };
+				if (prefabPath != "") {
+					Serializer::SaveEntityToJson(prefabPath, entityToSave);
+					std::string prefabName{ prefabPath.substr(prefabPath.find_last_of("\\") + 1) };
+					ECS::ecs().GetComponent<Clone>(entity).prefab = prefabName;
+				}
+				assetmanager.UpdatePrefabPaths();
+			}
 		}
 		else {
 			std::string text{ "Prefab: " + entityClone.prefab };
