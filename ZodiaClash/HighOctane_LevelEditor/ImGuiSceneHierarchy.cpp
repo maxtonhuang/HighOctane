@@ -111,7 +111,7 @@ void UpdatePrefabHierachy() {
 		}
 		ImGui::EndDragDropTarget();
 	}
-	if (prefabID) {
+	if (currentSelectedPrefab) {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
 			SaveAsPrefab(prefabPath, currentSelectedPrefab);
