@@ -66,43 +66,53 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 				if (!draggingThisCycle) {
 					thereWasAClickThisCycle = true;
 					if (viewportWindowHovered) {
-						if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
-							ProcessSelection(name, layer_it/*, CLICKED::NE*/);
-							somethingWasSelectedThisCycle = true;
-							return;
-						}
-						else if (IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
-							ProcessSelection(name, layer_it/*, CLICKED::SW*/);
-							somethingWasSelectedThisCycle = true;
-							return;
-						}
-						else if (IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
-							ProcessSelection(name, layer_it/*, CLICKED::SE*/);
-							somethingWasSelectedThisCycle = true;
-							return;
-						}
-						else if (IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
-							ProcessSelection(name, layer_it/*, CLICKED::NW*/);
-							somethingWasSelectedThisCycle = true;
-							return;
-						}
-						else if (IsWithinObject(model, currentMousePosition)) {
-							//printf("Within Object");
-							ProcessSelection(name, layer_it/*, CLICKED::INSIDE*/);
-							somethingWasSelectedThisCycle = true;
-							return;
-
-						}
-						/*else {
-							if (!popupHovered) {
-								rightClick = false;
-								name.selected = false;
-								currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
-								name.clicked = CLICKED::NOT;
+						if (&model != nullptr) {
+							if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+								ProcessSelection(name, layer_it/*, CLICKED::NE*/);
+								somethingWasSelectedThisCycle = true;
+								return;
 							}
-						}*/
-						if (name.selected) {
-							printf("Entity %d is selected on Layer %d\n", static_cast<int>(entity), static_cast<int>(layer_it));
+							else if (IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
+								ProcessSelection(name, layer_it/*, CLICKED::SW*/);
+								somethingWasSelectedThisCycle = true;
+								return;
+							}
+							else if (IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
+								ProcessSelection(name, layer_it/*, CLICKED::SE*/);
+								somethingWasSelectedThisCycle = true;
+								return;
+							}
+							else if (IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
+								ProcessSelection(name, layer_it/*, CLICKED::NW*/);
+								somethingWasSelectedThisCycle = true;
+								return;
+							}
+							else if (IsWithinObject(model, currentMousePosition)) {
+								//printf("Within Object");
+								ProcessSelection(name, layer_it/*, CLICKED::INSIDE*/);
+								somethingWasSelectedThisCycle = true;
+								return;
+
+							}
+							/*else {
+								if (!popupHovered) {
+									rightClick = false;
+									name.selected = false;
+									currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+									name.clicked = CLICKED::NOT;
+								}
+							}*/
+							if (name.selected) {
+								printf("Entity %d is selected on Layer %d\n", static_cast<int>(entity), static_cast<int>(layer_it));
+							}
+						}
+						else {
+							//Selection for attach points
+							if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+								ProcessSelection(name, layer_it);
+								somethingWasSelectedThisCycle = true;
+								return;
+							}
 						}
 					}
 				}

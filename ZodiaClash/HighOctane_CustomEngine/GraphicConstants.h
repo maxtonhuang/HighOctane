@@ -43,4 +43,5 @@ namespace GRAPHICS {
 	const int vertexBufferSize = 20000; //number of vertices to buffer
 	const int MAXTEXTURES = 150;
 	const int CIRCLE_SLICES = 100; //number of triangles in a circle
+	const float DEBUG_CIRCLE_RADIUS = 30.f;
 }

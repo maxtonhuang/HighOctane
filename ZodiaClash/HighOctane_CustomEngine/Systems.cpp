@@ -378,6 +378,8 @@ void GraphicsSystem::Draw() {
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
@@ -396,6 +398,16 @@ void GraphicsSystem::Draw() {
 						if (textlabelArray.HasComponent(entity)) {
 							TextLabel* textLabelData = &textlabelArray.GetData(entity);
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+						}
+					}
+					else if (edit_mode && transformArray.HasComponent(entity)) {
+						Transform* transform{ &transformArray.GetData(entity) };
+						Name* name{ &nameArray.GetData(entity) };
+						if (name->selected) {
+							graphics.DrawCircle(transform->position.x, transform->position.y, GRAPHICS::DEBUG_CIRCLE_RADIUS, 0.f, 1.f, 0.f, 0.2f);
+						}
+						else {
+							graphics.DrawCircle(transform->position.x, transform->position.y, GRAPHICS::DEBUG_CIRCLE_RADIUS, 1.f, 1.f, 1.f, 0.2f);
 						}
 					}
 				}
@@ -650,10 +662,17 @@ void EditingSystem::Update() {
 						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
 							Name & n = nameArray.GetData(entity);
 							if (n.selected) {
-								//Transform & t = transformArray.GetData(entity);
-								Model & m = modelArray.GetData(entity);
-								if (IsNearby(m.GetMax(), currentMousePosition, CORNER_SIZE) || IsNearby(m.GetMin(), currentMousePosition, CORNER_SIZE) || IsNearby({ m.GetMax().x, m.GetMin().y }, currentMousePosition, CORNER_SIZE) || IsNearby({ m.GetMin().x, m.GetMax().y }, currentMousePosition, CORNER_SIZE) || IsWithinObject(m, currentMousePosition)) {
-									withinSomething = true;
+								if (modelArray.HasComponent(entity)) {
+									Model& m = modelArray.GetData(entity);
+									if (IsNearby(m.GetMax(), currentMousePosition, CORNER_SIZE) || IsNearby(m.GetMin(), currentMousePosition, CORNER_SIZE) || IsNearby({ m.GetMax().x, m.GetMin().y }, currentMousePosition, CORNER_SIZE) || IsNearby({ m.GetMin().x, m.GetMax().y }, currentMousePosition, CORNER_SIZE) || IsWithinObject(m, currentMousePosition)) {
+										withinSomething = true;
+									}
+								}
+								else {
+									Transform & t = transformArray.GetData(entity);
+									if (t.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+										withinSomething = true;
+									}
 								}
 							}
 						}
@@ -734,9 +753,13 @@ void EditingSystem::Update() {
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
 					Name & n = nameArray.GetData(entity);
 					Transform & t = transformArray.GetData(entity);
-					Model & m = modelArray.GetData(entity);
+					Model* m{};
+					if (modelArray.HasComponent(entity)) {
+						m = &modelArray.GetData(entity);
+					}
+					//Model & m = modelArray.GetData(entity);
 					
-					Selection(entity, n, t, m, static_cast<size_t>(layer_it));
+					Selection(entity, n, t, *m, static_cast<size_t>(layer_it));
 					if (somethingWasSelectedThisCycle) {
 						break;
 					}
@@ -806,10 +829,15 @@ void EditingSystem::Update() {
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
 					Name & n = nameArray.GetData(entity);
 					Transform & t = transformArray.GetData(entity);
-					Model & m = modelArray.GetData(entity);
+					Model* m{};
+
+					if (modelArray.HasComponent(entity)) {
+						m = &modelArray.GetData(entity);
+					}
+					//Model & m = modelArray.GetData(entity);
 
 					// edit entity's properties
-					UpdateProperties(entity, n, t, m, layer_it);
+					UpdateProperties(entity, n, t, *m, layer_it);
 				}
 			}
 		}
@@ -856,9 +884,8 @@ void EditingSystem::Draw() {
 
 	for (Entity entity : m_Entities) {
 		Name* n = &nameArray.GetData(entity);
-		Model* m = &modelArray.GetData(entity);
-
-		if (n->selected) {
+		if (n->selected && modelArray.HasComponent(entity)) {
+			Model* m = &modelArray.GetData(entity);
 			m->DrawOutline();
 		}
 	}

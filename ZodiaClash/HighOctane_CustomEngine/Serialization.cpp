@@ -401,6 +401,15 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 				keyframe.AddMember("Destination", rapidjson::Value(swap->keyframes.data.c_str(), allocator).Move(), allocator);
 				keyFrames.PushBack(keyframe, allocator);
 			}
+			else if (animType == "TransformAttach") {
+				const std::shared_ptr<TransformAttachAnimation> transAttach{ std::dynamic_pointer_cast<TransformAttachAnimation>(anim) };
+				for (auto const& k : transAttach->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Target", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
 			else if (animType == "TransformDirect") {
 				const std::shared_ptr<TransformDirectAnimation> transDirect{ std::dynamic_pointer_cast<TransformDirectAnimation>(anim) };
 				for (auto const& k : transDirect->keyframes) {
@@ -1164,6 +1173,14 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<SwapAnimation>(a));
+						}
+						else if (animType == "TransformAttach") {
+							TransformAttachAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data = k["Target"].GetString();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<TransformAttachAnimation>(a));
 						}
 						else if (animType == "TransformDirect") {
 							TransformDirectAnimation a{};

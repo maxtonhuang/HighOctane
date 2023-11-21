@@ -9,7 +9,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 containsCol{ 1.f,1.f,0.f,1.f };
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
-	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformDirect","Swap (Ends current animation)" };
+	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect","Swap (Ends current animation)" };
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -154,6 +154,9 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "Color") {
 							selectedAnimGroup->animations.push_back(std::make_shared<ColorAnimation>());
 						}
+						else if (selectedType == "TransformAttach") {
+							selectedAnimGroup->animations.push_back(std::make_shared<TransformAttachAnimation>());
+						}
 						else if (selectedType == "TransformDirect") {
 							selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
 						}
@@ -221,6 +224,33 @@ void AnimatorWindow(Entity entity) {
 									}
 									if (is_selected) {
 										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
+						}
+					}
+					else if (selectedAnimation->GetType() == "TransformAttach") {
+						std::shared_ptr<TransformAttachAnimation> transDirect{ std::dynamic_pointer_cast<TransformAttachAnimation>(selectedAnimation) };
+						Keyframe<std::string>* keyframe{ nullptr };
+						for (auto& k : transDirect->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							if (ImGui::BeginCombo("Entities Available", keyframe->data.c_str())) {
+								auto nameList{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Name>().GetPairArray() };
+								for (int n = 0; n < nameList.size(); n++) {
+									if (ECS::ecs().HasComponent<Clone>(nameList[n].first)) {
+										bool is_selected = (keyframe->data == nameList[n].second->name);
+										if (ImGui::Selectable(nameList[n].second->name.c_str(), is_selected)) {
+											keyframe->data = nameList[n].second->name;
+										}
+										if (is_selected) {
+											ImGui::SetItemDefaultFocus();
+										}
 									}
 								}
 								ImGui::EndCombo();

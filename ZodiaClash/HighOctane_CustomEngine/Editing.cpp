@@ -72,8 +72,15 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 
 
 	if (name.selected) {
-
-		if (selectedEntities.size() == 1 && IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+		if (&model == nullptr) {
+			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+				SetCursor(hAllDirCursor);
+			}
+			else {
+				SetCursor(hDefaultCursor);
+			}
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
 			//name.clicked == CLICKED::NE;
 			SetCursor(hNESWCursor);
 		}
@@ -125,7 +132,13 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 
 			if (name.selected) {
 				undoRedo.RecordCurrent(entity);
-				if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+				if (&model == nullptr) {
+					if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+						name.clicked = CLICKED::INSIDE;
+						printf("INSIDE ------");
+					}
+				}
+				else if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
 					name.clicked = CLICKED::NE;
 					printf("NE ------");
 				}
