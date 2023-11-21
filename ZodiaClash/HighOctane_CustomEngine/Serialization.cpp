@@ -327,6 +327,32 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	return buttonObject;
 }
 
+rapidjson::Value SerializeSkillPointHUD(const SkillPointHUD& spHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value spHudObject(rapidjson::kObjectType);
+	spHudObject.AddMember("Skill Point Balance", spHUD.skillPointBalance, allocator);
+	spHudObject.AddMember("Skill Point Cap", spHUD.maxSkillPoints, allocator);
+	return spHudObject;
+}
+
+rapidjson::Value SerializeSkillPoint(const SkillPoint& skillpt, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value skillPtObject(rapidjson::kObjectType);
+	skillPtObject.AddMember("Active State", skillpt.isActive, allocator);
+	return skillPtObject;
+}
+
+//rapidjson::Value SerializeParent(const Parent& parent, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value parentObject(rapidjson::kObjectType);
+//	//parentObject.AddMember("Children Entities", parent.children, allocator);
+//	return parentObject;
+//}
+//
+//rapidjson::Value SerializeChild(const Child& child, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value childObject(rapidjson::kObjectType);
+//	childObject.AddMember("Parent Entity", child.parent, allocator);
+//	//serialize transform
+//	return childObject;
+//}
+
 rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value set(rapidjson::kArrayType);
 
@@ -417,6 +443,9 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 	return set;
 }
 
+
+
+
 /*
 Helper function to check if class should be serialized
 */
@@ -473,6 +502,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	Model* model = nullptr;
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
+	SkillPointHUD* spHUD = nullptr;
+	SkillPoint* skillpt = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 
@@ -586,6 +617,16 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			button = &ECS::ecs().GetComponent<Button>(entity);
 			rapidjson::Value buttonObject = SerializeButton(*button, allocator);
 			entityObject.AddMember("Button", buttonObject, allocator);
+		}
+		if (CheckSerialize<SkillPointHUD>(entity, isPrefabClone, uComponentMap)) {
+			spHUD = &ECS::ecs().GetComponent<SkillPointHUD>(entity);
+			rapidjson::Value spHudObject = SerializeSkillPointHUD(*spHUD, allocator);
+			entityObject.AddMember("SkillPointHUD", spHudObject, allocator);
+		}
+		if (CheckSerialize<SkillPoint>(entity, isPrefabClone, uComponentMap)) {
+			skillpt = &ECS::ecs().GetComponent<SkillPoint>(entity);
+			rapidjson::Value skillPtObject = SerializeSkillPoint(*skillpt, allocator);
+			entityObject.AddMember("SkillPoint", skillPtObject, allocator);
 		}
 		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
@@ -1059,6 +1100,31 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<Button>(entity, button);
 				}
 			}
+			if (entityObject.HasMember("SkillPointHUD")) {
+				SkillPointHUD spHud;
+				const rapidjson::Value& spHudObject = entityObject["SkillPointHUD"];
+				spHud.skillPointBalance = spHudObject["Skill Point Balance"].GetInt();
+				spHud.maxSkillPoints = spHudObject["Skill Point Cap"].GetInt();
+
+				if (ECS::ecs().HasComponent<SkillPointHUD>(entity)) {
+					ECS::ecs().GetComponent<SkillPointHUD>(entity) = spHud;
+				}
+				else {
+					ECS::ecs().AddComponent<SkillPointHUD>(entity, spHud);
+				}
+			}
+			if (entityObject.HasMember("SkillPoint")) {
+				SkillPoint skillpt;
+				const rapidjson::Value& spObject = entityObject["SkillPoint"];
+				skillpt.isActive = spObject["Active State"].GetBool();
+
+				if (ECS::ecs().HasComponent<SkillPoint>(entity)) {
+					ECS::ecs().GetComponent<SkillPoint>(entity) = skillpt;
+				}
+				else {
+					ECS::ecs().AddComponent<SkillPoint>(entity, skillpt);
+				}
+			}
 			if (entityObject.HasMember("Animation Set")) {
 				AnimationSet animset{};
 				for (auto& animGroups : entityObject["Animation Set"].GetArray()) {
@@ -1141,7 +1207,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<AnimationSet>(entity, animset);
 				}
 			}
-			if (entityObject.HasMember("Parent")) {
+			if (entityObject.HasMember("Parent") && !ECS::ecs().HasComponent<Parent>(entity)) {
 				ECS::ecs().AddComponent<Parent>(entity, Parent{});
 				parent = &ECS::ecs().GetComponent<Parent>(entity);
 				parentID = entity;

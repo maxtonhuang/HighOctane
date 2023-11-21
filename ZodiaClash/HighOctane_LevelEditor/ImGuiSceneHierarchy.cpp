@@ -619,24 +619,22 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<SkillPointHUD>(entity)) {
 		SkillPointHUD& spHUD{ ECS::ecs().GetComponent<SkillPointHUD>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(SkillPointHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "SkillPointHUD")) {
-			if (ImGui::BeginCombo("Points Balance", std::to_string(spHUD.skillPointBalance).c_str())) {
-				std::vector<std::string> skillPointItems;
-				for (int i = 0; i <= spHUD.maxSkillPoints; ++i) {
-					skillPointItems.push_back(std::to_string(i));
-				}
-				for (int n = 0; n < skillPointItems.size(); n++) {
-					bool is_selected = (spHUD.skillPointBalance == std::stoi(skillPointItems[n]));
-					if (ImGui::Selectable(skillPointItems[n].c_str(), is_selected)) {
-						spHUD.skillPointBalance = std::stoi(skillPointItems[n]);
-					}
-					if (is_selected) {
-						ImGui::SetItemDefaultFocus();
-					}
-				}
-				ImGui::EndCombo();
-			}
+			// input setting for skillPointBalance
+			ImGui::InputInt("Skill Point Balance", &spHUD.skillPointBalance);
+			spHUD.skillPointBalance = std::clamp(spHUD.skillPointBalance, 0, spHUD.maxSkillPoints);
+
 			ImGui::TreePop();
 		}		
+	}
+
+	if (ECS::ecs().HasComponent<SkillPoint>(entity)) {
+		SkillPoint& sp{ ECS::ecs().GetComponent<SkillPoint>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(SkillPoint).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "SkillPoint")) {
+			// display active state
+			sp.isActive ? ImGui::Text("State: Active") : ImGui::Text("State: Not Active");
+
+			ImGui::TreePop();
+		}
 	}
 
 	// if (ECS::ecs().HasComponent<Script>(entity)) {

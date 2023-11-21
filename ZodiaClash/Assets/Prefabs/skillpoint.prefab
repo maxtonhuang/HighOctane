@@ -10,7 +10,7 @@
     },
     {
         "Entity": {
-            "Name": "mockup_title_logo_02 (1).png",
+            "Name": "skillpt",
             "Current Layer": 0,
             "Order in Layer": 5,
             "isLocked": true,
@@ -36,14 +36,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
+            "Texture File Path": "mockup_chi_icon.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 333.0,
-            "height": 119.5
+            "width": 128.0,
+            "height": 128.0
         },
         "Scripts": {
             "className": "",
@@ -58,34 +58,36 @@
             "Alpha": 1.0
         },
         "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Text String": "Battle Test",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+        "SkillPoint": {
+            "Active State": true
         },
-        "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
-            "Event Name": "Change Scene",
-            "Event Input": "battle2.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
-        }
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Animation 0",
+                "Loop": true,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 0,
+                "Group Name": "Animation 1",
+                "Loop": false,
+                "Animations": []
+            }
+        ]
     }
 ]

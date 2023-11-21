@@ -239,7 +239,7 @@ public:
 	BattleSystem* battleSys{};
 	int skillPointBalance{};
 	int maxSkillPoints{};
-	std::vector<Entity> childEntities;
+	//std::vector<Entity> childEntities;
 	
 	SkillPointHUD();
 	void UpdateBalance();
@@ -249,10 +249,10 @@ class SkillPoint : UIComponent {
 public:
 	// to pass info to Tex component!!
 	bool isActive{};
-	Texture* activeTex{};
+	/*Texture* activeTex{};
 	Texture* inactiveTex{};
 	std::string activeTexString{};
-	std::string inactiveTexString{};
+	std::string inactiveTexString{};*/
 	SkillPoint();
 	void UpdateState(Tex& texData);
 	//update transform?

@@ -264,7 +264,7 @@ void UpdateEntitiesManager() {
         //************************SKILLPT SYS******************************************//
         // Display the button entity configuration options if selected
         if (showSkillPtSystemConfig) {
-            Entity skillPtSystem = ECS::ecs().CreateEntity();
+            /*Entity skillPtSystem = ECS::ecs().CreateEntity();
             ECS::ecs().AddComponent<Name>(skillPtSystem, Name{ "skillPtSystem" });
             ECS::ecs().AddComponent<Transform>(skillPtSystem, Transform{ });
             ECS::ecs().AddComponent<Size>(skillPtSystem, Size{ 100.f,100.f });
@@ -296,7 +296,7 @@ void UpdateEntitiesManager() {
 
             layering[selectedLayer].emplace_back(skillPtSystem);
             EntityFactory::entityFactory().cloneCounter++;
-            showSkillPtSystemConfig = false;
+            showSkillPtSystemConfig = false;*/
         }
 
         

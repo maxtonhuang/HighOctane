@@ -497,6 +497,7 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
 		signature.set(ECS::ecs().GetComponentType<TextLabel>());
 		signature.set(ECS::ecs().GetComponentType<HealthBar>());
 
@@ -512,6 +513,7 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Name>());
 		signature.set(ECS::ecs().GetComponentType<TextLabel>());
 		signature.set(ECS::ecs().GetComponentType<SkillPointHUD>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UISkillPointSystem>(signature);
 	}

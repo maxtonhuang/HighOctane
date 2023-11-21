@@ -548,17 +548,18 @@ void SkillPointHUD::UpdateBalance() {
 
 SkillPoint::SkillPoint() {
 	isActive = 1;
-	// condition: must be listed in scn file
-	activeTexString = "mockup_chi_icon.png";
+	/*activeTexString = "mockup_chi_icon.png";
 	std::string activeFilepath = "../Assets/Textures/" + activeTexString;
 	inactiveTexString = "mockup_chi_icon_lineart.png";
-	std::string inactiveFilepath = "../Assets/Textures/" + inactiveTexString;
+	std::string inactiveFilepath = "../Assets/Textures/" + inactiveTexString;*/
 	/*activeTex = assetmanager.texture.Add(activeFilepath.c_str(), activeTexString.c_str());
 	inactiveTex = assetmanager.texture.Add(inactiveFilepath.c_str(), inactiveTexString.c_str());*/
 }
 
 void SkillPoint::UpdateState(Tex& texData) {
-	texData.tex = (isActive) ? activeTex : inactiveTex;
+	if (texData.texVariants.size() == 2) {
+		texData.tex = (isActive) ? texData.texVariants[0] : texData.texVariants[1];
+	}
 }
 
 

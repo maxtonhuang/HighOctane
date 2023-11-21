@@ -1018,16 +1018,42 @@ void UIHealthBarSystem::Draw() {
 	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+
+	size_t group{};
 
 	for (Entity const& entity : m_Entities) {
+		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		HealthBar* healthBarData = &healthBarArray.GetData(entity);
 
+		group = nameData->group;
+		//update offset
+		//healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
+
+	}
+
+	for (Entity const& entity : m_Entities) {
+		Name* nameData = &nameArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+
+		//group = nameData->group;
+		
+		/*if (nameData.group == group) {
+
+		}*/
+
 		//update offset
 		healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
+	
+
 	}
+
 }
 
 void UISkillPointSystem::Update() {
@@ -1040,22 +1066,30 @@ void UISkillPointSystem::Update() {
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
 	auto& skillPtArray = componentManager.GetComponentArrayRef<SkillPoint>();
+	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
 	for (Entity const& entity : m_Entities) {
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		SkillPointHUD* skillPtHudData = &skillPtHudArray.GetData(entity);
+		Parent* parentData = &parentArray.GetData(entity);
+
 		skillPtHudData->UpdateBalance();
 		textLabelData->SetTextString(std::to_string(skillPtHudData->skillPointBalance));
 		
-		for (int count = 0; count < skillPtHudData->maxSkillPoints; count++) {
-			Entity childEntity = skillPtHudData->childEntities[count];
-			//Tex* texData = &texArray.GetData(*childEntity);
-			SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
+		if (!parentData->children.empty()) {
+			for (int count = 0; count < parentData->children.size(); count++) {
+				Entity childEntity = parentData->children[count];
+				//Tex* texData = &texArray.GetData(*childEntity);
 
-			//color testing, to replace with tex!!
-			Model* modelData = &modelArray.GetData(childEntity);
-			skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
-			skillPtData->isActive ? modelData->SetColor(0.f, 1.f, 0.f) : modelData->SetColor(1.f, 0.f, 0.f);
-			//skillPtData->UpdateState(*texData);
+				if (skillPtArray.HasComponent(childEntity)) {
+					SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
+					//color testing, to replace with tex!!
+					Model* modelData = &modelArray.GetData(childEntity);
+					skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
+					skillPtData->isActive ? modelData->SetColor(0.f, 1.f, 0.f) : modelData->SetColor(1.f, 0.f, 0.f);
+				}
+				
+				//skillPtData->UpdateState(*texData);
+			}
 		}
 	}
 }
