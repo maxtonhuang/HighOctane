@@ -37,6 +37,7 @@
 #include "Font.h"
 #include "graphics.h"
 #include "Colors.h"
+#include "AssetManager.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -53,7 +54,8 @@ vmath::Vector2 uiMousePos{ RESET_VEC2 };
 TextLabel::TextLabel() {
 	font = fonts.GetDefaultFont();
 	textString = "TextLabel";
-	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap["black"];
 }
@@ -67,7 +69,8 @@ TextLabel::TextLabel() {
 TextLabel::TextLabel(std::string str, std::string txtColor) {
 	font = fonts.GetDefaultFont();
 	textString = str;
-	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap[txtColor];
 	initClr = txtColor;
@@ -82,9 +85,10 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	font = fonts.GetDefaultFont();
 	textString = str;
-	textAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
 	relFontSize = 0.5f;
-	textColor = clr;	
+	textColor = clr;
 }
 
 /*!
@@ -173,7 +177,8 @@ bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 void TextLabel::CalculateOffset() {
 	//DEBUG_PRINT("Recalculating...");
 	// reset variables
-	posOffset = { 0.f, 0.f };
+	textWidth = 0.f;
+	textHeight = 0.f;
 	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
 
 	std::string::const_iterator c;
@@ -185,18 +190,15 @@ void TextLabel::CalculateOffset() {
 		float h = ch.size.y * relFontSize;
 
 		// calculate size needed
-		if (*c != textString[textString.size() - 1]) {
-			posOffset.x += ((ch.advance >> 6) * relFontSize) - w;
+		if (*c != textString[textString.size()]) {
+			textWidth += ((ch.advance >> 6) * relFontSize) - w;
 		}
-		posOffset.x += (w + (ch.bearing.x * relFontSize));
-		posOffset.y = std::max(posOffset.y, h);		
+		textWidth += (w + (ch.bearing.x * relFontSize));
+		textHeight = std::max(textHeight, h);
 	}
 
-	//finalise y-offset
-	posOffset.y += verticalPadding;
-
-	textWidth = posOffset.x;
-	textHeight = posOffset.y;
+	//finalise y-offset (font data)
+	textHeight += verticalPadding;
 }
 
 /*!
@@ -206,10 +208,38 @@ void TextLabel::CalculateOffset() {
 * FUTURE IMPLEMENTATIONS: will likely change when alignment is implemented.
 *
 */
-void TextLabel::UpdateOffset(Transform const& transformData) {
+void TextLabel::UpdateOffset(Transform const& transformData, Size const& sizeData, Padding const& paddingData) {
 	CalculateOffset();
-	relTransform.x = (transformData.position.x - (0.5f * posOffset.x));
-	relTransform.y = (transformData.position.y - (0.25f * posOffset.y));
+
+	switch (hAlignment) {
+	case(UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN):
+		//left align
+		relTransform.x = transformData.position.x - (0.5f * sizeData.width) + paddingData.left;
+		break;
+	case(UI_HORIZONTAL_ALIGNMENT::H_RIGHT_ALIGN):
+		//right align
+		relTransform.x = transformData.position.x - textWidth + (0.5f * sizeData.width) - paddingData.right;
+		break;
+	default:
+		//center align
+		relTransform.x = transformData.position.x - (0.5f * textWidth);
+		break;
+	}
+	
+	switch (vAlignment) {
+	case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
+		//top align
+		relTransform.y = transformData.position.y + (0.5f * sizeData.height - textHeight) - paddingData.top;
+		break;
+	case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
+		//bottom align
+		relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + paddingData.bottom;
+		break;
+	default:
+		//center align
+		relTransform.y = transformData.position.y - (0.25f * textHeight);
+		break;
+	}
 }
 
 /*!
@@ -377,11 +407,13 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	//else {
 	//	//UpdateColorSets(GetDefaultButtonColor(), GetDefaultTextColor());
 	//	textLabelData.textColor = defaultColor.textColor;
-	//}	
+	//}
 
+
+	// note: padding should NOT affect overall size of button, since it acts within the button confines
 	textLabelData.currentState = this->currentState;
-	buttonWidth = textLabelData.textWidth + padding.left + padding.right;
-	buttonHeight = textLabelData.textHeight + padding.top + padding.bottom;
+	buttonWidth = textLabelData.textWidth /*+ padding.left + padding.right*/;
+	buttonHeight = textLabelData.textHeight /*+ padding.top + padding.bottom*/;
 }
 
 /*!
@@ -395,6 +427,123 @@ void Button::UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor) {
 	defaultColor = { btnColor, txtColor };
 	hoveredColor = { txtColor, btnColor };
 	focusedColor = { txtColor, btnColor };
+}
+
+
+/**************************
+********* HP BAR **********
+**************************/
+HealthBar::HealthBar() {
+	maxHealth = 1000.f;
+	currentHealth = maxHealth;
+	healthPct = (currentHealth / maxHealth) * 100.f;
+	showHealthStat = true;
+	showValOrPct = true;
+}
+
+HealthBar::HealthBar(CharacterStats& charaStats) {
+	charaStatsRef = &charaStats;
+	maxHealth = charaStatsRef->stats.maxHealth;
+	currentHealth = maxHealth;
+	healthPct = (currentHealth / maxHealth) * 100.f;
+	showHealthStat = true;
+	showValOrPct = true;
+}
+
+float HealthBar::GetCurrentHealth() {
+	return currentHealth;
+}
+
+float HealthBar::GetMaxHealth() {
+	return maxHealth;
+}
+
+float HealthBar::GetHealthPct() {
+	return healthPct;
+}
+
+void HealthBar::SetCurrentHealth(float currentHp) {
+	currentHealth = (currentHp <= maxHealth) ? currentHp : maxHealth;
+}
+
+void HealthBar::SetMaxHealth(float maxHp) {
+	maxHealth = (maxHp > 0) ? maxHp : 1.f;
+	SetCurrentHealth(currentHealth);
+}
+
+void HealthBar::UpdateHealth(Size& sizeData, CharacterStats& charaStatsData, TextLabel& textLabelData) {
+	maxHealth = charaStatsData.stats.maxHealth;
+	healthPct = (currentHealth / maxHealth) * 100.f;
+
+	if (showHealthStat) {
+		std::ostringstream oss;
+		if (!showValOrPct) {
+			//show val
+			oss << std::fixed << std::setprecision(1) << currentHealth << " / " << maxHealth;
+		}
+		else {
+			//show percentage
+			oss << std::fixed << std::setprecision(1) << healthPct << "%";
+		}
+		textLabelData.textString = oss.str();
+	}
+	else {
+		textLabelData.textString = "";
+	}
+
+	//for current HP bar (TO UPDATE!)
+	barWidth = sizeData.width * (healthPct / 100.f);
+	barHeight = sizeData.height;
+}
+
+void HealthBar::UpdateOffset(Transform const& transformData, Size const& sizeData) {
+	//horizontal left align
+	relTransform.x = transformData.position.x - (0.5f * sizeData.width)/* + paddingData.left*/;
+
+	switch (vAlignment) {
+	case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
+		//top align
+		relTransform.y = transformData.position.y + (0.5f * sizeData.height - barHeight) /*- paddingData.top*/;
+		break;
+	case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
+		//bottom align
+		relTransform.y = transformData.position.y /*- textHeight*/ - (0.5f * sizeData.height - barHeight)/* + paddingData.bottom*/;
+		break;
+	default:
+		//center align
+		relTransform.y = transformData.position.y - (0.25f * barHeight);
+		break;
+	}
+}
+
+void HealthBar::UpdateColors(Model& modelData, CharacterStats& charaStatsData, TextLabel& textLabelData) {
+	if (charaStatsData.tag == CharacterType::PLAYER) {
+		modelData.SetColor(0.f,1.f,0.f);
+		textLabelData.SetTextColor({ 1.f,1.f,1.f,1.f });
+	}
+	else if (charaStatsData.tag == CharacterType::ENEMY) {
+		modelData.SetColor(1.f, 0.f, 0.f);
+		textLabelData.SetTextColor({ 1.f,1.f,1.f,1.f });
+	}
+	else {
+		modelData.SetColor(1.f, 1.f, 1.f);
+		textLabelData.SetTextColor({ 0.f,0.f,0.f,1.f });
+	}
+}
+
+
+/**************************
+***** SKILLPT SYSTEM ******
+**************************/
+SkillPointHUD::SkillPointHUD() {
+	//battleSys = events.GetBattleSystem();
+	//skillPointBalance = battleSys.skillPoints;
+	maxSkillPoints = 5;
+	skillPointBalance = maxSkillPoints;
+}
+
+void SkillPointHUD::UpdateBalance() {
+	//skillPointBalance = battleSys.skillPoints;
 }
 
 

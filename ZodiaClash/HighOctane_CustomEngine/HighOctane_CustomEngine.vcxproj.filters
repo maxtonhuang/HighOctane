@@ -415,6 +415,9 @@
     <ClCompile Include="Serialization.cpp">
       <Filter>Serialization</Filter>
     </ClCompile>
+    <ClCompile Include="Components.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

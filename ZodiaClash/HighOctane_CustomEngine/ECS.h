@@ -101,9 +101,13 @@ public:
         return m_LivingEntityCount;
     }
 
+    bool EntityExists(Entity entity);
+
 private:
     // Queue of unused entity IDs
     std::queue<Entity> m_AvailableEntities{};
+
+    std::set<Entity> m_ExistingEntities{};
 
     // Array of signatures where the index corresponds to the entity ID
     std::array<Signature, MAX_ENTITIES> m_Signatures{};
@@ -236,6 +240,22 @@ public:
         std::vector<Entity> array{};
         for (auto& e : m_EntityToIndexMap) {
             array.push_back(e.first);
+        }
+        return array;
+    }
+
+    std::vector<T*> GetDataArray() {
+        std::vector<T*> array{};
+        for (auto& e : m_EntityToIndexMap) {
+            array.push_back(&m_ComponentArray[e.second]);
+        }
+        return array;
+    }
+
+    std::vector<std::pair<Entity, T*>> GetPairArray() {
+        std::vector<std::pair<Entity, T*>> array{};
+        for (auto& e : m_EntityToIndexMap) {
+            array.push_back(std::pair<Entity,T*>{e.first, &m_ComponentArray[e.second]});
         }
         return array;
     }
@@ -492,8 +512,11 @@ public:
         m_SystemManager->SetSignature<T>(signature);
     }
 
-private:
+    bool EntityExists(Entity entity) {
+        return m_EntityManager->EntityExists(entity);
+    }
 
+private:
     ECS() {}
     std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> m_TypeManager;
     std::unique_ptr<ComponentManager> m_ComponentManager;
@@ -596,7 +619,23 @@ public:
     void Update() override;
 };
 
+class UIHealthBarSystem : public System {
+public:
+    void Update() override;
+    void Draw() override;
+};
+
+class UISkillPointSystem : public System {
+public:
+    void Update() override;
+};
+
 class ModelSystem : public System {
+public:
+    void Update() override;
+};
+
+class ChildSystem : public System {
 public:
     void Update() override;
 };

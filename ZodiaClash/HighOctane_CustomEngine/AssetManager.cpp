@@ -220,6 +220,15 @@ Entity AssetManager::GetPrefab(const std::string& prefabName) {
     return prefabMap[prefabName];
 }
 
+std::string AssetManager::GetPrefabName(Entity prefabID) {
+    for (auto& prefab : prefabMap) {
+        if (prefab.second == prefabID) {
+            return prefab.first;
+        }
+    }
+    return std::string{};
+}
+
 void AssetManager::UpdatePrefabPaths() {
     std::filesystem::path prefabFolder{ assetmanager.GetDefaultPath() + "Prefabs/" };
     std::vector<std::string> newPrefabPaths{};

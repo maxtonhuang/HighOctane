@@ -297,6 +297,8 @@ void TransformDirectAnimation::AddKeyFrame(int frameNum, void* frameData) {
 	Keyframe<Transform> frame{ frameNum };
 	if (frameData != nullptr) {
 		frame.data = *(static_cast<Transform*>(frameData));
+	}
+	else {
 		frame.data.scale = 0;
 	}
 	keyframes.push_back(frame);

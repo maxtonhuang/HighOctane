@@ -51,6 +51,7 @@ Entity EntityManager::CreateEntity() {
     // Take an ID from the front of the queue
     Entity id = m_AvailableEntities.front();
     m_AvailableEntities.pop();
+    m_ExistingEntities.insert(id);
     ++m_LivingEntityCount;
 
     return id;
@@ -64,6 +65,7 @@ void EntityManager::DestroyEntity(Entity entity) {
 
     // Put the destroyed ID at the back of the queue
     m_AvailableEntities.push(entity);
+    m_ExistingEntities.erase(entity);
     --m_LivingEntityCount;
 }
 
@@ -81,6 +83,9 @@ Signature EntityManager::GetSignature(Entity entity) {
     return m_Signatures[entity];
 }
 
+bool EntityManager::EntityExists(Entity entity) {
+    return (bool)(m_ExistingEntities.count(entity));
+}
 
 
 ///////////////////////////////////////////////////////////////////////////
