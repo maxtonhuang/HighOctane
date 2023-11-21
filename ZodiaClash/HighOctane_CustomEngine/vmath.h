@@ -550,5 +550,11 @@ namespace vmath {
 				vector.z = this->z + zIn;
 				return vector;
 			}
+
+			static std::string getName() {
+				std::string test = typeid(Vector3).name();
+				std::string retString = test.substr(6, test.length() - 6);
+				return retString;
+			}
 	};
 }

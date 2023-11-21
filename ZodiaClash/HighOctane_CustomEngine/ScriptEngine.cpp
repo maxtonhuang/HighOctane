@@ -549,3 +549,7 @@ ScriptFieldType MonoTypeToScriptFieldType(MonoType* monoType)
 
     return it->second;
 }
+
+
+
+// I need a serialization function here to get the things

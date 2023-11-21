@@ -14,11 +14,9 @@ internal class PlayerTest : MonoBehaviour
     public float testtime = 0f;
 
     public bool yes = false;
-    public float rotation;
+    public float rotation = 0f;
 
-    public Vector2 position;
-    public float positionX;
-    public float positionY;
+    public Vector2 position = new Vector2(0f, 0f);
 
     public override void Start()
     {
@@ -28,8 +26,6 @@ internal class PlayerTest : MonoBehaviour
     {
         testtime += DeltaTime;
         // Maybe this is something you need to do
-        position.X = positionX;
-        position.Y = positionY;
         Translation = position;
 
         Rotation = rotation;
