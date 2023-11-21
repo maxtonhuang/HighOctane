@@ -97,12 +97,30 @@ void SelectSkill(std::string input) {
 	std::stringstream ss{ input };
 	int skillnum;
 	ss >> skillnum;
+
+	// ensure the skill number is valid, incase user later input skill 10 or smth
+	if (skillnum < 1 || skillnum > bs->activeCharacter->action.skills.size()) {
+		//can add error msg if we want 
+		return;
+	}
+
 	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
+
+	// check if the character has enough Chi to perform the skill
+	if (bs->activeCharacter->stats.chi >= bs->activeCharacter->action.selectedSkill.chiCost) {
+		auto targets = bs->GetEnemies();
+		bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+		bs->activeCharacter->action.entityState = ATTACKING;
+	}
+	else {
+		// handle not enough Chi, ZR part?
+	}
 
 	auto targets = bs->GetEnemies();
 	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 	bs->activeCharacter->action.entityState = ATTACKING;
 }
+
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }

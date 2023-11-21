@@ -253,6 +253,7 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 	charstats.AddMember("Attack", stats.stats.attack, allocator);
 	charstats.AddMember("Defense", stats.stats.defense, allocator);
 	charstats.AddMember("Speed", stats.stats.speed, allocator);
+	charstats.AddMember("Bleedstack", stats.debuffs.bleedStack, allocator);
 
 	for (Attack const& a : stats.action.skills) {
 		rapidjson::Value attackName;
@@ -1016,6 +1017,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
 				charstats.stats.health = charstats.stats.maxHealth;
 				charstats.stats.speed = statsObject["Speed"].GetInt();
+				charstats.debuffs.bleedStack = statsObject["Bleedstack"].GetInt();
 				charstats.tag = (CharacterType)statsObject["Character type"].GetInt();
 				for (auto& a : statsObject["Skills"].GetArray()) {
 					charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);

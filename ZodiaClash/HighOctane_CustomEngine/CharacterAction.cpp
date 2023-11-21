@@ -93,7 +93,14 @@ void CharacterAction::ApplySkill() {
         printf("Using skill: %s\n", selectedSkill.attackName.c_str());
         DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
     }
-    
+    // deduct the respective chi cost when a skill is used
+    characterStats->stats.chi -= selectedSkill.chiCost;
+
+    // increase chi cost by 1 when skill 1 is used
+    if (selectedSkill.attackName == "Skill 1") {
+        characterStats->stats.chi += 1;
+    }
+
     if (selectedSkill.attacktype == AttackType::NORMAL) {
         selectedSkill.UseAttack(targetSelect.selectedTarget);
     }

@@ -60,13 +60,19 @@ public:
         float           attack;
         float           defense;
         int             speed;
+        int             chi;
     }; stats stats{};
+
+    //negative effects 
+    struct debuff {
+        int             bleedStack{ 3 }; //decrease the health
+    }; debuff debuffs{};
 
     void TakeDamage(float damage);
     void HealBuff(float buffAmount);
     GameObject gameObject{};
     void Start();
-
+    void InitializeCharacterSkills(CharacterStats& character);
     bool operator==(const CharacterStats&) const;
 private:
     
@@ -102,15 +108,14 @@ private:
 //    [HideInInspector] public bool checkedStatus;*/
 //};
 
-/*struct debuff {
-    int             bleedStack;
-    int             shatterCounter;
-    int             stunCounter;
-    int             tauntCounter;
-};
 
-struct buff {
-    bool            speedCheck;
-    int             enrageCounter;
-    int             armorCounter;
-};*/
+//part of debuff struct
+ //int             shatterCounter; //lower the defense
+//int             stunCounter; //freeze there 
+//int             tauntCounter; //forced to attack the person that taunt me
+        
+//struct buff {
+//    bool            speedCheck;
+//    int             enrageCounter;
+//    int             armorCounter;
+//}
