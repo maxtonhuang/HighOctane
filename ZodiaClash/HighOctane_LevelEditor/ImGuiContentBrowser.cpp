@@ -88,13 +88,20 @@ void UpdateContentBrowser() {
 		ImGui::ImageButton(iconID, { thumbnailSize, thumbnailSize }, { 1, 0 }, { 0, 1 });
 
 		// Handle the directory or file button click
-			if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !isDirectory && relativePath.has_extension() && relativePath.extension() == ".scn") {
+		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !isDirectory && relativePath.has_extension() && relativePath.extension() == ".scn") {
 
-				if (ImGui::BeginDragDropSource()) {
-					ImGui::SetDragDropPayload("SCENE_ITEM", filenameString.c_str(), (strlen(filenameString.c_str()) + 1));
-					ImGui::EndDragDropSource();
-				}
+			if (ImGui::BeginDragDropSource()) {
+				ImGui::SetDragDropPayload("SCENE_ITEM", filenameString.c_str(), (strlen(filenameString.c_str()) + 1));
+				ImGui::EndDragDropSource();
 			}
+		}
+		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !isDirectory && relativePath.has_extension() && relativePath.extension() == ".prefab") {
+
+			if (ImGui::BeginDragDropSource()) {
+				ImGui::SetDragDropPayload("PREFAB_ITEM", filenameString.c_str(), (strlen(filenameString.c_str()) + 1));
+				ImGui::EndDragDropSource();
+			}
+		}
 
 		if (ImGui::IsItemClicked(0)) {
 			if (isDirectory) {

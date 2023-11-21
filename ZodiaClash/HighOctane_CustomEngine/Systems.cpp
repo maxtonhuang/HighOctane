@@ -57,6 +57,7 @@
 #include "Selection.h"
 #include "Utilities.h"
 #include "Animation.h"
+#include "UndoRedo.h"
 
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
@@ -623,6 +624,11 @@ void EditingSystem::Update() {
 					UngroupSelection();
 				}
 					break;
+			case INFO::KEY_Z:
+				if (controlKeyPressed) {
+					undoRedo.Undo();
+				}
+				break;
 			}
 		}
 		break;

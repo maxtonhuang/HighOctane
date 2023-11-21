@@ -15,6 +15,7 @@
 #include <sstream>
 #include "ImGuiComponents.h"
 #include "Serialization.h"
+#include "UndoRedo.h"
 
 /*----------For the scripting, may move somewhere else in the future---------*/
 struct EntityFieldKey {
@@ -154,7 +155,17 @@ void UpdatePrefabHierachy() {
 		}
 		ImGui::EndCombo();
 	}
-
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_ITEM")) {
+			std::string droppedItemPath = (const char*)payload->Data;
+			prefabName = droppedItemPath;
+			if (assetmanager.GetPrefab(prefabName) == 0) {
+				assetmanager.LoadPrefab(prefabName);
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndDragDropTarget();
+	}
 	if (prefabID) {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};

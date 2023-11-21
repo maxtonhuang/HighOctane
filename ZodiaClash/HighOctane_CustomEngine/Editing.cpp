@@ -43,6 +43,7 @@
 #include "EntityFactory.h"
 #include <algorithm>
 #include <limits>
+#include "UndoRedo.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -107,7 +108,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		switch (msg.type) {
 
 		case TYPE::KEY_DOWN:
-
+			
 			switch (msg.info) {
 
 			case INFO::KEY_DEL:   
@@ -123,7 +124,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		case TYPE::MOUSE_CLICK:
 
 			if (name.selected) {
-
+				undoRedo.RecordCurrent(entity);
 				if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
 					name.clicked = CLICKED::NE;
 					printf("NE ------");
