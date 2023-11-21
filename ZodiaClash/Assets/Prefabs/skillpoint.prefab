@@ -63,9 +63,9 @@
         },
         "Animation Set": [
             {
-                "Total Frames": 2,
-                "Group Name": "Animation 0",
-                "Loop": true,
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -83,10 +83,20 @@
                 ]
             },
             {
-                "Total Frames": 0,
-                "Group Name": "Animation 1",
+                "Total Frames": 1,
+                "Group Name": "Inactive",
                 "Loop": false,
-                "Animations": []
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

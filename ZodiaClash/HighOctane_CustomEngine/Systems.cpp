@@ -1063,6 +1063,7 @@ void UISkillPointSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& animationSetArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
 	auto& skillPtArray = componentManager.GetComponentArrayRef<SkillPoint>();
@@ -1082,10 +1083,20 @@ void UISkillPointSystem::Update() {
 
 				if (skillPtArray.HasComponent(childEntity)) {
 					SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
+					skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
+
+					AnimationSet* aniSetData = &animationSetArray.GetData(childEntity);
+					
+
+
 					//color testing, to replace with tex!!
 					Model* modelData = &modelArray.GetData(childEntity);
-					skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
-					skillPtData->isActive ? modelData->SetColor(0.f, 1.f, 0.f) : modelData->SetColor(1.f, 0.f, 0.f);
+					if (skillPtData->isActive) {
+						aniSetData->Start("Active", childEntity);
+					}
+					else {
+						aniSetData->Start("Inactive", childEntity);
+					}
 				}
 				
 				//skillPtData->UpdateState(*texData);
