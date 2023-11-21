@@ -509,7 +509,7 @@ void SerializationSystem::Update() {
 *   ScriptInit function for each entity with a script component.
 *
 ******************************************************************************/
-bool FirstInitScriptSystem = true;
+//bool FirstInitScriptSystem = true;
 void ScriptSystem::Initialize() {
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
@@ -524,10 +524,10 @@ void ScriptSystem::Initialize() {
 		}
 
 		// Only allows the scrpit system to init once
-		if (FirstInitScriptSystem) {
+		//if (FirstInitScriptSystem) {
 			ScriptEngine::ScriptInit(entity);
-			FirstInitScriptSystem = false;
-		}
+		//	FirstInitScriptSystem = false;
+		//}
 	}
 }
 

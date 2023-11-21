@@ -191,6 +191,7 @@ void ScriptEngine::ScriptInit(Entity entity)
 {
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
+
     // For each script associated with this entity
     for (const auto& fullClassName : sc.scriptNameVec) 
     {
@@ -206,6 +207,40 @@ void ScriptEngine::ScriptInit(Entity entity)
 
             // Call the OnCreate method of this script instance
             instance->InvokeOnCreate();
+        }
+    }
+    //// For each script associated with this entity
+    //for (const auto& fullClassName : sc.scriptNameVec)
+    //{
+    //    if (ScriptEngine::EntityClassExists(fullClassName))
+    //    {
+    //        Entity entityID = entity;
+    //        std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(scriptData->EntityClasses[fullClassName], entity);
+    //        scriptData->EntityInstances[entity].push_back(instance);
+    //        // Copy the field values
+    //        if (scriptData->EntityScriptFields.find(entity) != scriptData->EntityScriptFields.end())
+    //        {
+    //            const ScriptFieldMap& fieldMap = scriptData->EntityScriptFields[entity];
+    //            for (const auto& field : fieldMap)
+    //            {
+				//	instance->SetFieldValueInternal(field.first, field.second.m_Buffer);
+				//}
+
+    //            instance->InvokeOnCreate();
+    //        }
+    //    }
+    //}
+}
+
+void ScriptEngine::ScriptUpdate(const Entity& entity)
+{
+    auto it = scriptData->EntityInstances.find(entity);
+    if (it != scriptData->EntityInstances.end())
+    {
+        // Iterate through all script instances associated with this entity.
+        for (auto& scriptInstance : it->second)
+        {
+            scriptInstance->InvokeOnUpdate();
         }
     }
 }
@@ -257,7 +292,6 @@ void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName)
             ++i;
         }
     }
-
     // Now remove the script name from scriptNameVec and scriptNamesAttachedforIMGUI
     for (int i = 0; i < sc.scriptNameVec.size(); )
     {
@@ -283,18 +317,7 @@ std::shared_ptr<ScriptInstance> ScriptEngine::GetEntityScriptInstance(Entity ent
     return it->second[i];
 }
 
-void ScriptEngine::ScriptUpdate(const Entity& entity) 
-{
-    auto it = scriptData->EntityInstances.find(entity);
-    if (it != scriptData->EntityInstances.end()) 
-    {
-        // Iterate through all script instances associated with this entity.
-        for (auto& scriptInstance : it->second) 
-        {
-            scriptInstance->InvokeOnUpdate();
-        }
-    }
-}
+
 
 void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
 {

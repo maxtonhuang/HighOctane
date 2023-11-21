@@ -100,6 +100,8 @@ private:
 	friend class ScriptInstance;
 };
 
+using ScriptFieldMap = std::unordered_map<std::string, ScriptFieldInstance>;
+
 /*!
  * \brief Represents a class in the script engine.
  *
@@ -302,6 +304,7 @@ public:
 
 	std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
 	std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
+	std::unordered_map<Entity, ScriptFieldMap> EntityScriptFields;
 
 };
 
