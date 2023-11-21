@@ -138,7 +138,7 @@ struct Parent {
 
 struct Clone {
     std::string prefab{};
-    std::unordered_set<std::string> unique_components{ typeid(Transform).name(), typeid(Name).name() };
+    std::unordered_set<std::string> unique_components{ typeid(Transform).name(), typeid(Name).name(), typeid(Parent).name()};
 };
 
 struct Movable {
