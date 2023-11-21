@@ -68,6 +68,8 @@ void AnimatorWindow(Entity entity) {
 				if (ImGui::Selectable(animationSet.animationSet[n].name.c_str(), is_selected)) {
 					selectedAnimGroup = &animationSet.animationSet[n];
 					selectedAnim = selectedAnimGroup->name;
+					selectedFrame = -1;
+					selectedType.clear();
 				}
 				if (is_selected) {
 					ImGui::SetItemDefaultFocus();
