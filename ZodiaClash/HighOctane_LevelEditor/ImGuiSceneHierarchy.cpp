@@ -266,6 +266,7 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(Model).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
 			auto& colorComponent = ECS::ecs().GetComponent<Model>(entity).GetColorRef();
 			//ImVec4 imColor = ((ImVec4)color.color);
+			// note: switch to color edit4 for A value?
 			ImGui::ColorEdit3("Edit Color", (float*)&colorComponent);
 
 			ImGui::TreePop();
@@ -320,8 +321,22 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
+		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(TextLabel).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Text Label")) {
 			std::pair<std::string, std::string> fontInfo = textlabel.font->GetInfo();
+
+			//note: to consider alt method to check entity has no other UI components?
+			if (!ECS::ecs().HasComponent<Button>(entity) && !ECS::ecs().HasComponent<HealthBar>(entity)) {
+				// size adjustments
+				float& lblHeight = sizeData.height;
+				float& lblWidth = sizeData.width;
+				float lblDims[2] = { lblHeight, lblWidth };
+				ImGui::DragFloat2("Label Size", lblDims, 0.5f);
+				lblDims[0] = std::max(lblDims[0], 0.f);
+				lblDims[1] = std::max(lblDims[1], 0.f);
+				sizeData.height = lblDims[0];
+				sizeData.width = lblDims[1];
+			}
 
 			// font properties
 			std::vector<std::string> ftFamilyList = fonts.GetFontFamilyList();
@@ -342,6 +357,9 @@ void SceneEntityComponents(Entity entity) {
 				auto& txtColor = textlabel.GetTextColor();
 				ImGui::ColorEdit3("Color", (float*)&txtColor);
 			}
+
+			bool& lblBackground = textlabel.hasBackground;
+			ImGui::Checkbox("Has Background", &lblBackground);
 
 			// combo box for font family
 			if (!ftFamilyList.empty()) {
@@ -379,9 +397,57 @@ void SceneEntityComponents(Entity entity) {
 				}
 			}
 
+			// font size adjustment
+			int fontSizeDisplayVal = static_cast<int>(textlabel.relFontSize * 100);
+			if (ImGui::DragInt("Size", &fontSizeDisplayVal, 1, 0, 100)) {
+				fontSizeDisplayVal = std::clamp(fontSizeDisplayVal, 0, 100);
+				textlabel.relFontSize = static_cast<float>(fontSizeDisplayVal) / 100.0f;
+			}
 
 			// text box to reflect current string
-			ImGui::InputText("Text", &textlabel.textString);
+			if (ImGui::InputText("Text", &textlabel.textString)) {
+				textlabel.CalculateOffset();
+			}
+
+			// alignment grid
+			static int selectedIdx = (3 * static_cast<int>(textlabel.vAlignment) + static_cast<int>(textlabel.hAlignment));
+			static UI_HORIZONTAL_ALIGNMENT horizontalAlignmentGrid[3][3];
+			static UI_VERTICAL_ALIGNMENT verticalAlignmentGrid[3][3];
+			const float itemWidthFraction = 0.3f;
+			float panelWidth = ImGui::GetContentRegionAvail().x * 0.6f;
+
+			// Calculate the responsive itemWidth
+			float itemWidth = panelWidth * itemWidthFraction;
+
+			for (int y = 0; y < 3; y++)
+			{
+				for (int x = 0; x < 3; x++)
+				{
+					// Display horizontal and vertical alignment labels centered on the selectable item
+					char label[16];
+					sprintf_s(label, "%c/%c",
+						(y == 0) ? 'T' : (y == 1) ? 'M' : 'B',
+						(x == 0) ? 'L' : (x == 1) ? 'M' : 'R');
+
+					bool isSelected = selectedIdx == (3 * y + x);
+					if (isSelected)
+					{
+						horizontalAlignmentGrid[y][x] = static_cast<UI_HORIZONTAL_ALIGNMENT>(x);
+						verticalAlignmentGrid[y][x] = static_cast<UI_VERTICAL_ALIGNMENT>(y);
+					}
+
+					if (x > 0) ImGui::SameLine(0, ImGui::GetStyle().ItemSpacing.x);  // Adjust for spacing
+
+					if (ImGui::Selectable(label, isSelected, ImGuiSelectableFlags_None, ImVec2(itemWidth, 50.f)))
+					{
+						selectedIdx = (3 * y + x);
+						textlabel.hAlignment = static_cast<UI_HORIZONTAL_ALIGNMENT>(x);
+						textlabel.vAlignment = static_cast<UI_VERTICAL_ALIGNMENT>(y);
+					}
+				}
+			}
+			ImGui::SameLine();
+			ImGui::Text("Alignment");
 
 			ImGui::TreePop();
 		}
@@ -389,6 +455,8 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<Button>(entity)) {
 		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
+		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
+		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
 		const char* currentEvent{ button.eventName.c_str() };
 		if (ImGui::TreeNodeEx((void*)typeid(Button).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Button Event")) {
 			std::vector<const char*> functionNames{ events.GetFunctionNames() };
@@ -441,17 +509,150 @@ void SceneEntityComponents(Entity entity) {
 				ImGui::InputText("Event Input", &button.eventInput);
 			}
 
+			// size adjustments
+			float& btnHeight = sizeData.height;
+			float& btnWidth = sizeData.width;
+			float btnDims[2] = { btnHeight, btnWidth };
+			ImGui::DragFloat2("Button Size", btnDims, 0.5f);
+				btnDims[0] = std::max(btnDims[0], 0.f);
+				btnDims[1] = std::max(btnDims[1], 0.f);
+				sizeData.height = btnDims[0];
+				sizeData.width = btnDims[1];			
+			
+
+			// padding adjustments
+			float& btnPadTop = button.padding.top;
+			float& btnPadBtm = button.padding.bottom;
+			float& btnPadLeft = button.padding.left;
+			float& btnPadRight = button.padding.right;
+			int& btnPadSetting = button.padding.setting;
+
+			const char* paddingOptions[] = { "Uniform", "Balanced (Vertical, Horizontal)", "Custom (Top, Bottom, Left, Right)" };
+			static int item_current = 0;
+			ImGui::Combo("Padding Setting", &btnPadSetting, paddingOptions, IM_ARRAYSIZE(paddingOptions));
+
+			float btnBalancedPad[2] = { btnPadTop, btnPadLeft };
+			float btnCustomPad[4] = { btnPadTop, btnPadBtm, btnPadLeft, btnPadRight };
+
+			//note: consider drawing padding to reflect the change?
+			switch (btnPadSetting) {
+			case(0):
+				// uniform, show 1 value
+				if (ImGui::DragFloat("Padding Value", &btnPadLeft, 0.5f)) {
+					btnPadLeft = std::clamp(btnPadLeft, 0.f, 0.5f * textlabel.textWidth);
+					btnPadTop = btnPadLeft;
+					btnPadBtm = btnPadLeft;
+					btnPadRight = btnPadLeft;
+				}
+				break;
+			case(1):
+				// balanced, show 2 values
+				if (ImGui::DragFloat2("Padding Value", btnBalancedPad, 0.5f)) {
+					btnBalancedPad[0] = std::clamp(btnBalancedPad[0], 0.f, 0.5f * textlabel.textWidth);
+					btnBalancedPad[1] = std::clamp(btnBalancedPad[1], 0.f, 0.5f * textlabel.textWidth);
+
+					button.padding.top = btnBalancedPad[0];
+					button.padding.bottom = btnBalancedPad[0];
+					button.padding.left = btnBalancedPad[1];
+					button.padding.right = btnBalancedPad[1];
+				}
+				break;
+			default:
+				// custom, show 4 values
+				if (ImGui::DragFloat4("Padding Value", btnCustomPad, 0.5f)) {
+					btnCustomPad[0] = std::clamp(btnCustomPad[0], 0.f, 0.5f * textlabel.textWidth);
+					btnCustomPad[1] = std::clamp(btnCustomPad[1], 0.f, 0.5f * textlabel.textWidth);
+					btnCustomPad[2] = std::clamp(btnCustomPad[2], 0.f, 0.5f * textlabel.textWidth);
+					btnCustomPad[3] = std::clamp(btnCustomPad[3], 0.f, 0.5f * textlabel.textWidth);
+
+					button.padding.top = btnCustomPad[0];
+					button.padding.bottom = btnCustomPad[1];
+					button.padding.left = btnCustomPad[2];
+					button.padding.right = btnCustomPad[3];
+				}
+				break;
+			}
+
+			// color properties
 			auto& btnColor = button.GetDefaultButtonColor();
 			ImGui::ColorEdit3("Color", (float*)&btnColor);
-			//if (button.currentState == STATE::FOCUSED) {
-				//button.UpdateColorSets(btnColor, button.GetDefaultTextColor());
-			//}
 
 			ImGui::TreePop();
 
 		}
 	}
 
+	if (ECS::ecs().HasComponent<HealthBar>(entity)) {
+		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
+		HealthBar& hpBar{ ECS::ecs().GetComponent<HealthBar>(entity) };
+
+		if (ImGui::TreeNodeEx((void*)typeid(HealthBar).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Health Bar")) {
+			float currentHp = hpBar.currentHealth;
+			float maxHp = hpBar.maxHealth;
+			float hpPct = hpBar.healthPct;
+
+			// size adjustments
+			float& barHeight = sizeData.height;
+			float& barWidth = sizeData.width;
+			float barDims[2] = { barHeight, barWidth };
+			ImGui::DragFloat2("HP Bar Size", barDims, 0.5f);
+			barDims[0] = std::max(barDims[0], 0.f);
+			barDims[1] = std::max(barDims[1], 0.f);
+			sizeData.height = barDims[0];
+			sizeData.width = barDims[1];
+
+			//TODO: change max HP only?
+			if (ImGui::DragFloat("Current HP", &currentHp, 0.5f)) {
+				hpBar.SetCurrentHealth(currentHp);
+			}
+			hpBar.SetMaxHealth(maxHp);
+
+			ImGui::Text("%.2f/%.2f (%.2f%%)", currentHp, maxHp, hpPct);
+			ImGui::SameLine(260); //to seek alternatives
+			ImGui::Text("HP Percentage");
+
+			ImGui::Text("%.2f, %.2f", hpBar.barWidth, hpBar.barHeight);
+			ImGui::SameLine(260); //to seek alternatives
+			ImGui::Text("Current HP dimensions");
+
+			bool& hpShowHealth = hpBar.showHealthStat;
+			ImGui::Checkbox("Show Health", &hpShowHealth);
+			int hpShowValOrPct = (int)hpBar.showValOrPct;
+			ImGui::RadioButton("Show Value", &hpShowValOrPct, 0); ImGui::SameLine();
+			ImGui::RadioButton("Show HP percentage", &hpShowValOrPct, 1);
+			hpBar.showValOrPct = (bool)hpShowValOrPct;
+			
+			ImGui::TreePop();
+		}
+	}
+
+	if (ECS::ecs().HasComponent<SkillPointHUD>(entity)) {
+		SkillPointHUD& spHUD{ ECS::ecs().GetComponent<SkillPointHUD>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(SkillPointHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "SkillPointHUD")) {
+			// input setting for skillPointBalance
+			ImGui::InputInt("Skill Point Balance", &spHUD.skillPointBalance);
+			spHUD.skillPointBalance = std::clamp(spHUD.skillPointBalance, 0, spHUD.maxSkillPoints);
+
+			ImGui::TreePop();
+		}		
+	}
+
+	if (ECS::ecs().HasComponent<SkillPoint>(entity)) {
+		SkillPoint& sp{ ECS::ecs().GetComponent<SkillPoint>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(SkillPoint).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "SkillPoint")) {
+			// display active state
+			sp.isActive ? ImGui::Text("State: Active") : ImGui::Text("State: Not Active");
+
+			ImGui::TreePop();
+		}
+	}
+
+	// if (ECS::ecs().HasComponent<Script>(entity)) {
+
+	// 	// If master entity is selected, do not allow editing of scripts
+	// 	if (ECS::ecs().HasComponent<Master>(entity)) {
+	// 		return;
+	// 	}
 	if (ECS::ecs().HasComponent<Script>(entity) && !ECS::ecs().HasComponent<Master>(entity)) {
 		
 		// For everything in the vector, draw the tree

@@ -66,7 +66,9 @@
             "g": 0.0,
             "b": 0.0,
             "a": 1.0,
-            "Color Preset": "black"
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1
         },
         "Button": {
             "Button R": 0.0,
@@ -82,7 +84,8 @@
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     }
 ]

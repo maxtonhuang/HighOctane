@@ -376,6 +376,7 @@ void GraphicsSystem::Draw() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
@@ -395,7 +396,6 @@ void GraphicsSystem::Draw() {
 							TextLabel* textLabelData = &textlabelArray.GetData(entity);
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 						}
-
 					}
 				}
 			}
@@ -883,14 +883,19 @@ void UITextLabelSystem::Update() {
 		Model* modelData = &modelArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		Button* buttonData = {};
 		Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);		
 
 		//if entity has button component, state handling managed by button
 		if (!buttonArray.HasComponent(entity)) {
 			textLabelData->Update(*modelData, *nameData);
+			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}
-
-		textLabelData->UpdateOffset(*transformData);
+		else {
+			buttonData = &buttonArray.GetData(entity);
+			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
+		}
 	}
 	*/
 }
@@ -919,15 +924,16 @@ void UITextLabelSystem::Draw() {
 		//if entity has button component, drawing managed by button
 		if (buttonArray.HasComponent(entity)) {
 			buttonData = &buttonArray.GetData(entity);
+			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
 		}
 		else {
-			sizeData->width = textLabelData->textWidth;
-			sizeData->height = textLabelData->textHeight;
-
+			sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
+			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);
 			textLabelData->Update(*modelData, *nameData);
+			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}
 
-		textLabelData->UpdateOffset(*transformData);
+		//textLabelData->UpdateOffset(*transformData);
 
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
@@ -935,7 +941,9 @@ void UITextLabelSystem::Draw() {
 
 		if (!buttonData && !texData) {
 			if (edit_mode) {
-				(textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) : modelData->SetAlpha(0.2f);
+				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
+					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) 
+					: modelData->SetAlpha(0.2f);
 			}
 			else {
 				modelData->SetAlpha(0.0f);
@@ -974,11 +982,128 @@ void UIButtonSystem::Update() {
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 
-		sizeData->width = buttonData->buttonWidth;
-		sizeData->height = buttonData->buttonHeight;
+		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
+		sizeData->height = std::max(buttonData->buttonHeight,sizeData->height);
+
 	}
 }
 
+void UIHealthBarSystem::Update() {
+
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+
+	for (Entity const& entity : m_Entities) {
+		Size* sizeData = &sizeArray.GetData(entity);
+		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+
+		healthBarData->UpdateHealth(*sizeData, *charaStatsData, *textLabelData);
+	}
+}
+
+void UIHealthBarSystem::Draw() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+
+	size_t group{};
+
+	for (Entity const& entity : m_Entities) {
+		Name* nameData = &nameArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+
+		group = nameData->group;
+		//update offset
+		//healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
+
+	}
+
+	for (Entity const& entity : m_Entities) {
+		Name* nameData = &nameArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+
+		//group = nameData->group;
+		
+		/*if (nameData.group == group) {
+
+		}*/
+
+		//update offset
+		healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
+	
+
+	}
+
+}
+
+void UISkillPointSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& animationSetArray = componentManager.GetComponentArrayRef<AnimationSet>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
+	auto& skillPtArray = componentManager.GetComponentArrayRef<SkillPoint>();
+	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
+	for (Entity const& entity : m_Entities) {
+		TextLabel* textLabelData = &textLabelArray.GetData(entity);
+		SkillPointHUD* skillPtHudData = &skillPtHudArray.GetData(entity);
+		Parent* parentData = &parentArray.GetData(entity);
+
+		skillPtHudData->UpdateBalance();
+		textLabelData->SetTextString(std::to_string(skillPtHudData->skillPointBalance));
+		
+		if (!parentData->children.empty()) {
+			for (int count = 0; count < parentData->children.size(); count++) {
+				Entity childEntity = parentData->children[count];
+				//Tex* texData = &texArray.GetData(*childEntity);
+
+				if (skillPtArray.HasComponent(childEntity)) {
+					SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
+					skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
+
+					AnimationSet* aniSetData = &animationSetArray.GetData(childEntity);
+					
+
+
+					//color testing, to replace with tex!!
+					Model* modelData = &modelArray.GetData(childEntity);
+					if (skillPtData->isActive) {
+						aniSetData->Start("Active", childEntity);
+					}
+					else {
+						aniSetData->Start("Inactive", childEntity);
+					}
+				}
+				
+				//skillPtData->UpdateState(*texData);
+			}
+		}
+	}
+}
 void ChildSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();

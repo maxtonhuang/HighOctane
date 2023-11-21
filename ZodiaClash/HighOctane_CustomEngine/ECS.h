@@ -619,6 +619,17 @@ public:
     void Update() override;
 };
 
+class UIHealthBarSystem : public System {
+public:
+    void Update() override;
+    void Draw() override;
+};
+
+class UISkillPointSystem : public System {
+public:
+    void Update() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;
