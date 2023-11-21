@@ -54,11 +54,10 @@ public:
     float maxAttackMultiplier;
     float critRate;
     float critMultiplier;
-    int chiCost;
-
 private:
     CharacterStats* owner;
     bool critCheck;
+
     float damage;
 };
 
