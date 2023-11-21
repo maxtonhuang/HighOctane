@@ -28,7 +28,9 @@ void SaveAsPrefab(std::string prefabPath, Entity entity) {
 			Parent& parent{ ECS::ecs().GetComponent<Parent>(entity) };
 			for (auto& child : parent.children) {
 				entityToSave.push_back(child);
-				ECS::ecs().RemoveComponent<Clone>(child);
+				if (ECS::ecs().HasComponent<Clone>(child)) {
+					ECS::ecs().RemoveComponent<Clone>(child);
+				}
 			}
 		}
 		Serializer::SaveEntityToJson(prefabPath, entityToSave);

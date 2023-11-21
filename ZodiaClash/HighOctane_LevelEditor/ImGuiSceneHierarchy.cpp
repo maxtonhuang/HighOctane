@@ -160,7 +160,7 @@ void SceneEntityNode(Entity entity) {
 void SceneEntityComponents(Entity entity) {
 	auto& componentManager{ ECS::ecs().GetComponentManager() };
 
-	if (ECS::ecs().HasComponent<Clone>(entity)) {
+	if (ECS::ecs().HasComponent<Clone>(entity) && !ECS::ecs().HasComponent<Child>(entity)) {
 		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
 		if (entityClone.prefab == "") {
 			ImGui::Text("Entity has no prefabs");
@@ -175,6 +175,10 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::SameLine();
 			if (ImGui::Button("Select in Prefab Editor")) {
 				prefabName = entityClone.prefab;
+			}
+			if (ImGui::Button("Save as new prefab")) {
+				std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
+				SaveAsPrefab(prefabPath, entity);
 			}
 		}
 	}
