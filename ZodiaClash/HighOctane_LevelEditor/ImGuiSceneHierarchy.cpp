@@ -120,7 +120,7 @@ void UpdatePrefabHierachy() {
 	auto& typeManager{ ECS::ecs().GetTypeManager() };
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
-	//Real-time prefab updating, very unoptimised
+	//Real-time prefab updating
 	if (edit_mode) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
@@ -160,25 +160,35 @@ void SceneEntityNode(Entity entity) {
 void SceneEntityComponents(Entity entity) {
 	auto& componentManager{ ECS::ecs().GetComponentManager() };
 
-	if (ECS::ecs().HasComponent<Clone>(entity) && !ECS::ecs().HasComponent<Child>(entity)) {
-		auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
-		if (entityClone.prefab == "") {
-			ImGui::Text("Entity has no prefabs");
-			if (ImGui::Button("Save as prefab")) {
-				std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
-				SaveAsPrefab(prefabPath, entity);
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		if (!ECS::ecs().HasComponent<Child>(entity)) {
+			auto& entityClone{ ECS::ecs().GetComponent<Clone>(entity) };
+			if (entityClone.prefab == "") {
+				ImGui::Text("Entity has no prefabs");
+				if (ImGui::Button("Save as prefab")) {
+					std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
+					SaveAsPrefab(prefabPath, entity);
+				}
+			}
+			else {
+				std::string text{ "Prefab: " + entityClone.prefab };
+				ImGui::Text(text.c_str());
+				if (ImGui::Button("Select in Prefab Editor")) {
+					prefabName = entityClone.prefab;
+				}
+				if (ImGui::Button("Save as new prefab")) {
+					std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
+					SaveAsPrefab(prefabPath, entity);
+				}
 			}
 		}
 		else {
-			std::string text{ "Prefab: " + entityClone.prefab };
-			ImGui::Text(text.c_str());
-			ImGui::SameLine();
-			if (ImGui::Button("Select in Prefab Editor")) {
-				prefabName = entityClone.prefab;
-			}
-			if (ImGui::Button("Save as new prefab")) {
-				std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
-				SaveAsPrefab(prefabPath, entity);
+			Child& entityChild{ ECS::ecs().GetComponent<Child>(entity) };
+			std::string parentlabel{ "Parent: " };
+			parentlabel += ECS::ecs().GetComponent<Name>(entityChild.parent).name;
+			ImGui::Text(parentlabel.c_str());
+			if (ImGui::Button("Select parent")) {
+				currentSelectedEntity = entityChild.parent;
 			}
 		}
 	}

@@ -1129,7 +1129,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<AnimationSet>(entity, animset);
 				}
 			}
-			if (entityObject.HasMember("Parent")) {
+			if (entityObject.HasMember("Parent") && !ECS::ecs().HasComponent<Parent>(entity)) {
 				ECS::ecs().AddComponent<Parent>(entity, Parent{});
 				parent = &ECS::ecs().GetComponent<Parent>(entity);
 				parentID = entity;
