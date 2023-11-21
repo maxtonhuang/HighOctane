@@ -68,7 +68,6 @@ int selectedColorIndex = -1; // Index of the selected preset color
 /****************************FOR UI***********************************/
 bool showFontEntityConfig = false;
 bool showHealthBarEntityConfig = false;
-bool showSkillPtSystemConfig = false;
 
 /****************************FOR AUDIO***********************************/
 bool showAudioEntityConfig = false;
@@ -100,28 +99,18 @@ void UpdateEntitiesManager() {
                 showFontEntityConfig = false;
                 showAudioEntityConfig = true;
                 showHealthBarEntityConfig = false;
-                showSkillPtSystemConfig = false;
                 showColorPicker = false;
             }
             if (ImGui::MenuItem("Text Label Entity")) {
                 showFontEntityConfig = true;
                 showAudioEntityConfig = false;
                 showHealthBarEntityConfig = false;
-                showSkillPtSystemConfig = false;
                 showColorPicker = false;
             }
             if (ImGui::MenuItem("Health Bar Entity")) {
                 showFontEntityConfig = false;
                 showAudioEntityConfig = false;
                 showHealthBarEntityConfig = true;
-                showSkillPtSystemConfig = false;
-                showColorPicker = false;
-            }
-            if (ImGui::MenuItem("Skill Point System")) {
-                showFontEntityConfig = false;
-                showAudioEntityConfig = false;
-                showHealthBarEntityConfig = false;
-                showSkillPtSystemConfig = true;
                 showColorPicker = false;
             }
             if (ImGui::Button("Close")) {
@@ -259,44 +248,6 @@ void UpdateEntitiesManager() {
                 showHealthBarEntityConfig = false;
                 ImGui::EndPopup();
             }
-        }
-
-        //************************SKILLPT SYS******************************************//
-        // Display the button entity configuration options if selected
-        if (showSkillPtSystemConfig) {
-            /*Entity skillPtSystem = ECS::ecs().CreateEntity();
-            ECS::ecs().AddComponent<Name>(skillPtSystem, Name{ "skillPtSystem" });
-            ECS::ecs().AddComponent<Transform>(skillPtSystem, Transform{ });
-            ECS::ecs().AddComponent<Size>(skillPtSystem, Size{ 100.f,100.f });
-            ECS::ecs().AddComponent<Model>(skillPtSystem, Model{ ModelType::UI });
-            ECS::ecs().AddComponent<Clone>(skillPtSystem, Clone{});
-            ECS::ecs().AddComponent<Movable>(skillPtSystem, Movable{});
-            ECS::ecs().AddComponent<TextLabel>(skillPtSystem, TextLabel{});
-            ECS::ecs().AddComponent<SkillPointHUD>(skillPtSystem, SkillPointHUD{});
-
-            Vec2 parentPos = ECS::ecs().GetComponent<Transform>(skillPtSystem).position;
-            parentPos.x += 100.f;
-            int numChildEntities = ECS::ecs().GetComponent<SkillPointHUD>(skillPtSystem).maxSkillPoints;
-            for (int count = 0; count < numChildEntities; count++) {
-                Entity childEntity = ECS::ecs().CreateEntity();
-                ECS::ecs().AddComponent<Name>(childEntity, Name{ "skillPtChild" });
-                ECS::ecs().AddComponent<Transform>(childEntity, Transform{});
-                ECS::ecs().AddComponent<Size>(childEntity, Size{ 100.f,100.f });
-                ECS::ecs().AddComponent<Model>(childEntity, Model{ ModelType::UI });
-                ECS::ecs().AddComponent<Clone>(childEntity, Clone{});
-                ECS::ecs().AddComponent<Movable>(childEntity, Movable{});
-                ECS::ecs().AddComponent<SkillPoint>(childEntity, SkillPoint{});
-                ECS::ecs().GetComponent<Transform>(childEntity).position = { parentPos.x, parentPos.y };
-                parentPos.x += 125.f;
-                
-                ECS::ecs().GetComponent<SkillPointHUD>(skillPtSystem).childEntities.push_back(childEntity);
-                layering[selectedLayer].emplace_back(childEntity);
-                EntityFactory::entityFactory().cloneCounter++;
-            }
-
-            layering[selectedLayer].emplace_back(skillPtSystem);
-            EntityFactory::entityFactory().cloneCounter++;
-            showSkillPtSystemConfig = false;*/
         }
 
         

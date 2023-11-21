@@ -1061,8 +1061,6 @@ void UISkillPointSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& animationSetArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
@@ -1075,32 +1073,28 @@ void UISkillPointSystem::Update() {
 
 		skillPtHudData->UpdateBalance();
 		textLabelData->SetTextString(std::to_string(skillPtHudData->skillPointBalance));
+
+		if (parentData->children.empty())
+			continue;
 		
-		if (!parentData->children.empty()) {
-			for (int count = 0; count < parentData->children.size(); count++) {
-				Entity childEntity = parentData->children[count];
-				//Tex* texData = &texArray.GetData(*childEntity);
+		for (int count = 0; count < parentData->children.size(); count++) {
+			Entity childEntity = parentData->children[count];
 
-				if (skillPtArray.HasComponent(childEntity)) {
-					SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
-					skillPtData->isActive = (count < skillPtHudData->skillPointBalance) ? 1 : 0;
+			if (!skillPtArray.HasComponent(childEntity))
+				continue;
+			
+			SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
+			AnimationSet* aniSetData = &animationSetArray.GetData(childEntity);
+			if (skillPtData->isActive == (count < skillPtHudData->skillPointBalance))
+				continue;
 
-					AnimationSet* aniSetData = &animationSetArray.GetData(childEntity);
-					
+			//DEBUG_PRINT("UPDATING SKILLPOINT %d!", count+1)
+			skillPtData->isActive = !(skillPtData->isActive);
 
-
-					//color testing, to replace with tex!!
-					Model* modelData = &modelArray.GetData(childEntity);
-					if (skillPtData->isActive) {
-						aniSetData->Start("Active", childEntity);
-					}
-					else {
-						aniSetData->Start("Inactive", childEntity);
-					}
-				}
-				
-				//skillPtData->UpdateState(*texData);
-			}
+			//note: changes will be reflected outside of edit mode!
+			(skillPtData->isActive) ?
+				aniSetData->Start("Active", childEntity)
+				: aniSetData->Start("Inactive", childEntity);
 		}
 	}
 }

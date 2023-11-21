@@ -546,22 +546,6 @@ void SkillPointHUD::UpdateBalance() {
 	//skillPointBalance = battleSys.skillPoints;
 }
 
-SkillPoint::SkillPoint() {
-	isActive = 1;
-	/*activeTexString = "mockup_chi_icon.png";
-	std::string activeFilepath = "../Assets/Textures/" + activeTexString;
-	inactiveTexString = "mockup_chi_icon_lineart.png";
-	std::string inactiveFilepath = "../Assets/Textures/" + inactiveTexString;*/
-	/*activeTex = assetmanager.texture.Add(activeFilepath.c_str(), activeTexString.c_str());
-	inactiveTex = assetmanager.texture.Add(inactiveFilepath.c_str(), inactiveTexString.c_str());*/
-}
-
-void SkillPoint::UpdateState(Tex& texData) {
-	if (texData.texVariants.size() == 2) {
-		texData.tex = (isActive) ? texData.texVariants[0] : texData.texVariants[1];
-	}
-}
-
 
 /**************************
 ********* ARCHIVED ********
