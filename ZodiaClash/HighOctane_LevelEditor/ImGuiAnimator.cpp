@@ -3,30 +3,27 @@
 #include "Animation.h"
 #include "AssetManager.h"
 
-void UpdateAnimator() {
+void AnimatorWindow(Entity entity) {
 	const ImVec2 buttonsize{ 15,15 };
 	const ImVec4 selectedCol{ 0.f,1.f,0.f,1.f };
 	const ImVec4 containsCol{ 1.f,1.f,0.f,1.f };
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
-	const ImGuiWindowFlags flag{ ImGuiWindowFlags_HorizontalScrollbar };
 
-	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformDirect","Swap (Ends current animation)"};
-	
+	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformDirect","Swap (Ends current animation)" };
+
 	static std::string selectedType{};
 	static std::string selectedAnim{};
-	static int selectedFrame{-1};
+	static int selectedFrame{ -1 };
 	static std::shared_ptr<Animation> selectedAnimation{};
 	static AnimationGroup* selectedAnimGroup{};
 	static Entity previousEntity;
 
-	ImGui::Begin("Animator Window",nullptr,flag);
-
-	if (ECS::ecs().HasComponent<AnimationSet>(currentSelectedEntity)) {
-		AnimationSet& animationSet = ECS::ecs().GetComponent<AnimationSet>(currentSelectedEntity);
+	if (ECS::ecs().HasComponent<AnimationSet>(entity)) {
+		AnimationSet& animationSet = ECS::ecs().GetComponent<AnimationSet>(entity);
 
 		//Reset for new entity
-		if (previousEntity != currentSelectedEntity) {
-			previousEntity = currentSelectedEntity;
+		if (previousEntity != entity) {
+			previousEntity = entity;
 			selectedType.clear();
 			selectedAnim.clear();
 			selectedFrame = -1;
@@ -41,7 +38,7 @@ void UpdateAnimator() {
 					animationSet.paused = false;
 				}
 				else {
-					animationSet.Start(selectedAnimGroup->name, currentSelectedEntity);
+					animationSet.Start(selectedAnimGroup->name, entity);
 				}
 			}
 			ImGui::SameLine();
@@ -51,7 +48,7 @@ void UpdateAnimator() {
 			ImGui::SameLine();
 			if (ImGui::Button("Advance Frame")) {
 				if (selectedAnimGroup->active == false) {
-					selectedAnimGroup->Start(currentSelectedEntity);
+					selectedAnimGroup->Start(entity);
 				}
 				else {
 					selectedAnimGroup->Update();
@@ -125,7 +122,7 @@ void UpdateAnimator() {
 				}
 				ImGui::EndCombo();
 			}
-			
+
 			//Check if animation type is already added
 			bool hasType{ false };
 			for (auto& t : selectedAnimGroup->animations) {
@@ -282,7 +279,7 @@ void UpdateAnimator() {
 			}
 
 			//Padding for animation timeline later
-			int buttonID {0};
+			int buttonID{ 0 };
 			ImVec2 padding{};
 			for (auto& animation : selectedAnimGroup->animations) {
 				ImVec2 checkPadding{ ImGui::CalcTextSize(animation->GetType().c_str()) };
@@ -296,11 +293,11 @@ void UpdateAnimator() {
 				ImGui::Text(animation->GetType().c_str());
 				float paddingSpaceX{ padding.x - ImGui::CalcTextSize(animation->GetType().c_str()).x };
 				if (paddingSpaceX > 0) {
-					ImGui::SameLine(0,0);
-					ImGui::InvisibleButton("  ", ImVec2{paddingSpaceX, padding.y});
+					ImGui::SameLine(0, 0);
+					ImGui::InvisibleButton("  ", ImVec2{ paddingSpaceX, padding.y });
 				}
-				
-				
+
+
 				ImGui::SameLine();
 				for (int i = 0; i < selectedAnimGroup->totalFrames; i++) {
 					bool colorChanged{ true };
@@ -333,5 +330,31 @@ void UpdateAnimator() {
 			}
 		}
 	}
+}
+
+void UpdateAnimator() {
+	const ImGuiWindowFlags flag{ ImGuiWindowFlags_HorizontalScrollbar };
+	static bool prefab{ false };
+	ImGui::Begin("Animator Window",nullptr,flag);
+
+	Entity toAnimate{ currentSelectedEntity };
+	ImGui::Checkbox("Edit prefab?", &prefab);
+
+	std::string editingLabel{ "Editing: " };
+	if (prefab) {
+		toAnimate = currentSelectedPrefab;
+	}
+	if (ECS::ecs().HasComponent<AnimationSet>(toAnimate)) {
+		if (prefab) {
+			editingLabel += assetmanager.GetPrefabName(currentSelectedPrefab);
+		}
+		else {
+			editingLabel += ECS::ecs().GetComponent<Name>(currentSelectedEntity).name;
+		}
+		ImGui::Text(editingLabel.c_str());
+	}
+
+	AnimatorWindow(toAnimate);
+	
 	ImGui::End();
 }

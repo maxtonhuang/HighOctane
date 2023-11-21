@@ -31,6 +31,7 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
+#include <map>
 #include "ECS.h"
 #include "Global.h"
 #include "Message.h"
@@ -51,11 +52,52 @@ extern "C" {
 
 }
 
-struct ScriptVariableInfo {
-	std::string className;
-	int typeName;
-	std::string variableName;
-	uint32_t fieldType;
+enum class ScriptFieldType
+{
+	None = 0,
+	Float, Double,
+	Bool, Char, Byte, Short, Int, Long,
+	UByte, UShort, UInt, ULong,
+	Vector2, Vector3, Vector4,
+	Entity
+};
+
+struct ScriptField
+{
+	ScriptFieldType Type;
+	std::string Name;
+
+	MonoClassField* ClassField;
+};
+
+// ScriptField + data storage
+struct ScriptFieldInstance
+{
+	ScriptField Field;
+
+	ScriptFieldInstance()
+	{
+		memset(m_Buffer, 0, sizeof(m_Buffer));
+	}
+
+	template<typename T>
+	T GetValue()
+	{
+		static_assert(sizeof(T) <= 16, "Type too large!");
+		return *(T*)m_Buffer;
+	}
+
+	template<typename T>
+	void SetValue(T value)
+	{
+		static_assert(sizeof(T) <= 16, "Type too large!");
+		memcpy(m_Buffer, &value, sizeof(T));
+	}
+private:
+	uint8_t m_Buffer[16];
+
+	friend class ScriptEngine;
+	friend class ScriptInstance;
 };
 
 /*!
@@ -124,6 +166,8 @@ public:
 	 */
 	std::string GetMClassName() const;
 
+	const std::map<std::string, ScriptField>& GetFields() const { return m_Fields; }
+
 	MonoClass* GetMonoClass() const {
 		return m_MonoClass;
 	}
@@ -132,6 +176,9 @@ private:
 	std::string m_ClassNamespace; /*!< The namespace of the script class. */
 	std::string m_ClassName; /*!< The name of the script class. */
 	MonoClass* m_MonoClass = nullptr; /*!< The MonoClass instance representing the script class. */
+	std::map<std::string, ScriptField> m_Fields;
+
+	friend class ScriptEngine;
 };
 
 /*!
@@ -165,6 +212,34 @@ public:
 	 */
 	void InvokeOnUpdate();
 
+	std::shared_ptr<ScriptClass> GetScriptClass() { return m_ScriptClass; }
+
+	template<typename T>
+	T GetFieldValue(const std::string& name)
+	{
+		static_assert(sizeof(T) <= 16, "Type too large!");
+
+		bool success = GetFieldValueInternal(name, s_FieldValueBuffer);
+		if (!success)
+			return T();
+
+		return *(T*)s_FieldValueBuffer;
+	}
+
+	template<typename T>
+	void SetFieldValue(const std::string& name, T value)
+	{
+		static_assert(sizeof(T) <= 16, "Type too large!");
+
+		SetFieldValueInternal(name, &value);
+	}
+
+	MonoObject* GetManagedObject() { return m_Instance; }
+
+private:
+	bool GetFieldValueInternal(const std::string& name, void* buffer);
+	bool SetFieldValueInternal(const std::string& name, const void* value);
+
 	/*!
 	 * \brief Retrieves the name of5 the associated script class for the ScriptInstance.
 	 *
@@ -187,7 +262,10 @@ private:
 	MonoMethod* m_StartMethod = nullptr; /*!< The method to invoke when the script is created. */
 	MonoMethod* m_UpdateMethod = nullptr; /*!< The method to invoke for script updates. */
 
+	inline static char s_FieldValueBuffer[16];
 
+	friend class ScriptEngine;
+	friend struct ScriptFieldInstance;
 };
 
 /*!
@@ -225,7 +303,6 @@ public:
 	std::unordered_map<std::string, std::shared_ptr<ScriptClass>> EntityClasses;
 	std::unordered_map<Entity, std::vector<std::shared_ptr<ScriptInstance>>> EntityInstances;
 
-	std::vector<ScriptVariableInfo> ScriptInfoVec; // 
 };
 
 class ScriptEngine {
@@ -307,7 +384,7 @@ public:
 	 */
 	static void RemoveScriptFromEntity(Entity entity, std::string scriptName);
 
-	static void SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value);
+	static std::shared_ptr<ScriptInstance> GetEntityScriptInstance(Entity entityID, int i);
 
 	static ScriptEngineData* GetInstance() {
 		if (!scriptData) {
@@ -357,3 +434,52 @@ private:
 	friend class ScriptClass;
 	friend class ScriptInstance;
 };
+
+
+inline const char* ScriptFieldTypeToString(ScriptFieldType fieldType)
+{
+	switch (fieldType)
+	{
+	case ScriptFieldType::None:    return "None";
+	case ScriptFieldType::Float:   return "Float";
+	case ScriptFieldType::Double:  return "Double";
+	case ScriptFieldType::Bool:    return "Bool";
+	case ScriptFieldType::Char:    return "Char";
+	case ScriptFieldType::Byte:    return "Byte";
+	case ScriptFieldType::Short:   return "Short";
+	case ScriptFieldType::Int:     return "Int";
+	case ScriptFieldType::Long:    return "Long";
+	case ScriptFieldType::UByte:   return "UByte";
+	case ScriptFieldType::UShort:  return "UShort";
+	case ScriptFieldType::UInt:    return "UInt";
+	case ScriptFieldType::ULong:   return "ULong";
+	case ScriptFieldType::Vector2: return "Vector2";
+	case ScriptFieldType::Vector3: return "Vector3";
+	case ScriptFieldType::Vector4: return "Vector4";
+	case ScriptFieldType::Entity:  return "Entity";
+	}
+	return "None";
+}
+
+inline ScriptFieldType ScriptFieldTypeFromString(std::string_view fieldType)
+{
+	if (fieldType == "None")    return ScriptFieldType::None;
+	if (fieldType == "Float")   return ScriptFieldType::Float;
+	if (fieldType == "Double")  return ScriptFieldType::Double;
+	if (fieldType == "Bool")    return ScriptFieldType::Bool;
+	if (fieldType == "Char")    return ScriptFieldType::Char;
+	if (fieldType == "Byte")    return ScriptFieldType::Byte;
+	if (fieldType == "Short")   return ScriptFieldType::Short;
+	if (fieldType == "Int")     return ScriptFieldType::Int;
+	if (fieldType == "Long")    return ScriptFieldType::Long;
+	if (fieldType == "UByte")   return ScriptFieldType::UByte;
+	if (fieldType == "UShort")  return ScriptFieldType::UShort;
+	if (fieldType == "UInt")    return ScriptFieldType::UInt;
+	if (fieldType == "ULong")   return ScriptFieldType::ULong;
+	if (fieldType == "Vector2") return ScriptFieldType::Vector2;
+	if (fieldType == "Vector3") return ScriptFieldType::Vector3;
+	if (fieldType == "Vector4") return ScriptFieldType::Vector4;
+	if (fieldType == "Entity")  return ScriptFieldType::Entity;
+
+	return ScriptFieldType::None;
+}

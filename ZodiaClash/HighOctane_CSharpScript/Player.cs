@@ -9,6 +9,10 @@ namespace PlayerController
 {
     internal class PlayerMovement : MonoBehaviour
     {
+
+        public float speed = 0.0f;
+        public float rotationSpeed = 0.01f;
+
         public override void Start()
         {
             Console.WriteLine("PlayerMovement OnCreate");
@@ -16,14 +20,11 @@ namespace PlayerController
 
         public override void Update()
         {
-            float speed = 1.0f;
             Vector2 translation = Translation;
             translation.X += Input.GetAxisHorizontal() * speed;
             translation.Y += Input.GetAxisVertical() * speed;
             Translation = translation;
 
-
-            float rotationSpeed = 0.01f;
             float rotation = Rotation;
             
 

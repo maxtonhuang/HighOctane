@@ -16,35 +16,10 @@
 #include "ImGuiComponents.h"
 #include "Serialization.h"
 
-/*----------For the scripting, may move somewhere else in the future---------*/
-struct EntityFieldKey {
-	Entity entity;
-	std::string fieldName;
 
-	EntityFieldKey(Entity e, const std::string& fName) : entity(e), fieldName(fName) {}
-
-	bool operator==(const EntityFieldKey& other) const {
-		return entity == other.entity && fieldName == other.fieldName;
-	}
-};
-
-template <>
-struct std::hash<EntityFieldKey> {
-	std::size_t operator()(const EntityFieldKey& key) const {
-
-		// Compute individual hash values for entity and fieldName
-		// and combine them using a bitwise operation (e.g., XOR)
-		std::size_t h1 = std::hash<Entity>()(key.entity);
-		std::size_t h2 = std::hash<std::string>()(key.fieldName);
-		return h1 ^ (h2 << 1);
-	}
-};
-/*----------For the scripting, may move somewhere else in the future---------*/
+Entity currentSelectedPrefab;
 
 /*--------Variables for scripting--------*/
-using FieldValue = std::variant<int, float, bool>;  // Define a variant type to hold int, float, and bool
-
-std::unordered_map<EntityFieldKey, FieldValue> fieldValues;  // Map to hold the current values of each field
 
 Entity currentSelectedEntity{};
 
@@ -56,52 +31,22 @@ static bool check;
 //FOR PREFAB HIERACHY
 std::string prefabName{};
 
-void DrawScriptTreeWithImGui(const std::string& className, Entity entity) {
-	ScriptEngineData* scriptData = ScriptEngine::GetInstance();
-
+// Function to draw a new tree for the script
+void DrawScriptTreeWithImGui(const std::string& className, Entity entity, int i) {
 	if (ImGui::TreeNodeEx(className.c_str())) {
-		for (auto& classEntry : scriptData->ScriptInfoVec) {
-			//std::cout << scriptData->ScriptInfoVec.size() << std::endl;
-			//std::cout << classEntry.typeName << std::endl;
-			if (classEntry.className != className) {
-				continue;
-			}
-
-			if (classEntry.fieldType != MONO_FIELD_ATTR_PUBLIC) {
-				continue;
-			}
-
-			std::string fieldInfo = classEntry.variableName;
-
-			// Initialize the field value in the map if it doesn't exist
-			if (fieldValues.find(EntityFieldKey(entity, fieldInfo)) == fieldValues.end()) {
-				switch (classEntry.typeName) {
-				case MONO_TYPE_I4: fieldValues[EntityFieldKey(entity, fieldInfo)] = 0; break;
-				case MONO_TYPE_R4: fieldValues[EntityFieldKey(entity, fieldInfo)] = 0.0f; break;
-				case MONO_TYPE_BOOLEAN: fieldValues[EntityFieldKey(entity, fieldInfo)] = false; break;
+		auto scriptInstance = ScriptEngine::GetEntityScriptInstance(entity, i);
+		if (scriptInstance) {
+			const auto& fields = scriptInstance->GetScriptClass()->GetFields();
+			for (const auto& [name, field] : fields) {
+				switch (field.Type) {
+				case ScriptFieldType::Float:
+					float data = scriptInstance->GetFieldValue<float>(name);
+					if (ImGui::DragFloat(name.c_str(), &data)) {
+						scriptInstance->SetFieldValue(name, data);
+					}
+					break;
 				}
 			}
-
-			FieldValue& currentValue = fieldValues[EntityFieldKey(entity, fieldInfo)];
-
-
-			switch (classEntry.typeName) {
-			case MONO_TYPE_I4: // int
-				ImGui::DragInt(fieldInfo.c_str(), &std::get<int>(currentValue), 1.0f);
-
-				break;
-
-			case MONO_TYPE_R4: // float
-				ImGui::DragFloat(fieldInfo.c_str(), &std::get<float>(currentValue), 0.1f);
-				break;
-
-			case MONO_TYPE_BOOLEAN: // bool
-				ImGui::Checkbox(fieldInfo.c_str(), &std::get<bool>(currentValue));
-				break;
-			}
-
-			// Update the script property
-			ScriptEngine::SetScriptProperty(entity, classEntry.className, fieldInfo, &currentValue);
 		}
 		ImGui::TreePop();
 	}
@@ -137,7 +82,7 @@ void UpdatePrefabHierachy() {
 	ImGui::Begin("Prefab Editor");
 
 	auto prefabList{ assetmanager.GetPrefabPaths() };
-	Entity prefabID{ assetmanager.GetPrefab(prefabName) };
+	currentSelectedPrefab =  assetmanager.GetPrefab(prefabName);
 
 	if (ImGui::BeginCombo("Prefabs Available", prefabName.c_str())) {
 		for (int n = 0; n < prefabList.size(); n++) {
@@ -155,20 +100,20 @@ void UpdatePrefabHierachy() {
 		ImGui::EndCombo();
 	}
 
-	if (prefabID) {
+	if (currentSelectedPrefab) {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
-			SaveAsPrefab(prefabPath, prefabID);
+			SaveAsPrefab(prefabPath, currentSelectedPrefab);
 		}
 
 		if (ImGui::Button("Create Instance")) {
-			Entity clone = EntityFactory::entityFactory().CloneMaster(prefabID);
+			Entity clone = EntityFactory::entityFactory().CloneMaster(currentSelectedPrefab);
 			ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
 		}
 
-		SceneEntityComponents(prefabID);
+		SceneEntityComponents(currentSelectedPrefab);
 		ImGui::Separator();
-		ComponentBrowser(prefabID);
+		ComponentBrowser(currentSelectedPrefab);
 	}
 
 	auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
@@ -176,17 +121,18 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating, very unoptimised
-	for (auto& cloneEntity : cloneIDArray) {
-		Clone clone{ cloneArray.GetData(cloneEntity) };
-		if (clone.prefab == prefabName) {
-			for (auto& ecsType : typeManager) {
-				if (ecsType.second->HasComponent(prefabID) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
-					ecsType.second->CopyComponent(cloneEntity, prefabID);
+	if (edit_mode) {
+		for (auto& cloneEntity : cloneIDArray) {
+			Clone clone{ cloneArray.GetData(cloneEntity) };
+			if (clone.prefab == prefabName) {
+				for (auto& ecsType : typeManager) {
+					if (ecsType.second->HasComponent(currentSelectedPrefab) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
+						ecsType.second->CopyComponent(cloneEntity, currentSelectedPrefab);
+					}
 				}
 			}
 		}
 	}
-
 	ImGui::End();
 }
 
@@ -689,17 +635,24 @@ void SceneEntityComponents(Entity entity) {
 		}		
 	}
 
-	if (ECS::ecs().HasComponent<Script>(entity)) {
+	// if (ECS::ecs().HasComponent<Script>(entity)) {
 
-		// If master entity is selected, do not allow editing of scripts
-		if (ECS::ecs().HasComponent<Master>(entity)) {
-			return;
-		}
+	// 	// If master entity is selected, do not allow editing of scripts
+	// 	if (ECS::ecs().HasComponent<Master>(entity)) {
+	// 		return;
+	// 	}
+	if (ECS::ecs().HasComponent<Script>(entity) && !ECS::ecs().HasComponent<Master>(entity)) {
 		
 		// For everything in the vector, draw the tree
+		int indexForScript {0 };
 		for (auto& scriptNaming : scriptNamesAttachedforIMGUI[entity]) {
-			DrawScriptTreeWithImGui(scriptNaming, entity);
+
+			DrawScriptTreeWithImGui(scriptNaming, entity, indexForScript);
+
+			// Increment each time a script is added
+			indexForScript++;
 		}
+
 
 		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
 			if (!fullNameVecImGUI.empty()) {
@@ -724,7 +677,6 @@ void SceneEntityComponents(Entity entity) {
 				else {
 					ScriptEngine::AttachScriptToEntity(entity, currentScriptForIMGUI);
 					currentScriptForIMGUI = "";
-					
 				}
 			}
 
@@ -741,6 +693,7 @@ void SceneEntityComponents(Entity entity) {
 				}
 				ImGui::EndCombo();
 			}
+
 			//ImGui::SameLine();
 			if (ImGui::Button("Delete Script")) {
 				if (currentScriptAttachedForIMGUI.empty()) {

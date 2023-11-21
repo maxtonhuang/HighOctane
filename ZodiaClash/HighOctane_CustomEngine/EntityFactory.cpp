@@ -129,9 +129,7 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE });
 	ECS::ecs().AddComponent(entity, Visible{ false });
 	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
-	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Model{});
-	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
 	ECS::ecs().AddComponent(entity, Master{});
 	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
 	assetmanager.LoadTexture(filename);
@@ -158,7 +156,7 @@ void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) 
 	ECS::ecs().AddComponent(entity, Transform{ Vec2{ 0.f,0.f }, 0.f, 1.f, Vec2{ 0,0 }, 0.f, Vec2{}, TRUE });
 	ECS::ecs().AddComponent(entity, Visible{ false });
 	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
-	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
+	//ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Model{});
 	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
 	ECS::ecs().AddComponent(entity, Master{});

@@ -32,6 +32,36 @@
 #include "DebugDiagnostic.h"
 #include "InternalCalls.h"
 
+// Unordered map to map the string to the ScriptFieldType
+static std::unordered_map<std::string, ScriptFieldType> s_ScriptFieldTypeMap =
+{
+    { "System.Single", ScriptFieldType::Float },
+    { "System.Double", ScriptFieldType::Double },
+    { "System.Boolean", ScriptFieldType::Bool },
+    { "System.Char", ScriptFieldType::Char },
+    { "System.Int16", ScriptFieldType::Short },
+    { "System.Int32", ScriptFieldType::Int },
+    { "System.Int64", ScriptFieldType::Long },
+    { "System.Byte", ScriptFieldType::Byte },
+    { "System.UInt16", ScriptFieldType::UShort },
+    { "System.UInt32", ScriptFieldType::UInt },
+    { "System.UInt64", ScriptFieldType::ULong },
+
+    { "Vector2", ScriptFieldType::Vector2 },
+    { "Vector3", ScriptFieldType::Vector3 },
+    { "Vector4", ScriptFieldType::Vector4 },
+
+    { "Entity", ScriptFieldType::Entity },
+};
+
+/*-------FORWARD DECLARATIONS--------*/
+ScriptFieldType MonoTypeToScriptFieldType(MonoType* monoType);
+
+
+static char* ReadBytes(const std::filesystem::path& filepath, uint32_t* outSize);
+/*-------FORWARD DECLARATIONS--------*/
+
+
 
 // Extern for the vector to contain the full name for ImGui
 extern std::vector<std::string> fullNameVecImGUI;
@@ -39,7 +69,9 @@ extern std::vector<std::string> fullNameVecImGUI;
 //static ScriptEngineData* scriptData = nullptr;
 ScriptEngineData* ScriptEngine::scriptData = nullptr;
 
-void ScriptEngine::Init() {
+
+void ScriptEngine::Init() 
+{
     scriptData = GetInstance();
     InitMono();
 
@@ -52,7 +84,8 @@ void ScriptEngine::Init() {
 #endif
     std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
 
-    if (!std::filesystem::exists(fullAssemblyPath)) {
+    if (!std::filesystem::exists(fullAssemblyPath)) 
+    {
         fullAssemblyPath = "HighOctane_CSharpScript.dll";
 	}
     LoadAssembly(fullAssemblyPath);
@@ -66,20 +99,24 @@ void ScriptEngine::Init() {
     scriptData->EntityClass = ScriptClass("", "Entity");
 }
 
-void ScriptEngine::Shutdown() {
+void ScriptEngine::Shutdown() 
+{
     ShutdownMono();
     delete scriptData;
 }
 
-void ScriptEngine::InitMono() {
+void ScriptEngine::InitMono() 
+{
     // Setting the path to the mono
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
 
-    if (std::filesystem::exists(filePath)) {
+    if (std::filesystem::exists(filePath)) 
+    {
         mono_set_assemblies_path(filePath.c_str());
         
     }
-    else {
+    else 
+    {
         //filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
         //if (std::filesystem::exists(filePath)) {
         //    mono_set_assemblies_path(filePath.c_str());
@@ -105,15 +142,18 @@ void ScriptEngine::LoadAssembly(const std::filesystem::path& filePath)
     // Create an App Domain
     scriptData->AppDomain = mono_domain_create_appdomain((char*)("HighOctane"), nullptr);
     mono_domain_set(scriptData->AppDomain, false);
-    if (!LoadMonoAssembly(filePath)) {
+    if (!LoadMonoAssembly(filePath)) 
+    {
         scriptData->CoreAssembly = LoadMonoAssembly("HighOctane_CSharpScript.dll");
     }
     else scriptData->CoreAssembly = LoadMonoAssembly(filePath);
     scriptData->CoreAssemblyImage = mono_assembly_get_image(scriptData->CoreAssembly);
 }
 
-void ScriptEngine::UnloadAssembly() {
-    if (scriptData->AppDomain) {
+void ScriptEngine::UnloadAssembly() 
+{
+    if (scriptData->AppDomain) 
+    {
         scriptData->AppDomain = nullptr;
     }
 }
@@ -130,7 +170,10 @@ void ScriptEngine::HotReloadScript() {
 #endif
     std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
 
-    if (isHotReload) {
+
+    // This is still not working
+    if (isHotReload)
+    {
         std::cout << "Hot reload" << std::endl;
 		UnloadAssembly();
 		LoadAssembly(fullAssemblyPath);
@@ -139,18 +182,22 @@ void ScriptEngine::HotReloadScript() {
 	}
 }
 
-bool ScriptEngine::EntityClassExists(const std::string& fullClassName) {
+bool ScriptEngine::EntityClassExists(const std::string& fullClassName) 
+{
 	return scriptData->EntityClasses.find(fullClassName) != scriptData->EntityClasses.end();
 }
 
-void ScriptEngine::ScriptInit(Entity entity) {
+void ScriptEngine::ScriptInit(Entity entity) 
+{
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     // For each script associated with this entity
-    for (const auto& fullClassName : sc.scriptNameVec) {
+    for (const auto& fullClassName : sc.scriptNameVec) 
+    {
 
         // Check if such a script class exists in our system
-        if (ScriptEngine::EntityClassExists(fullClassName)) {
+        if (ScriptEngine::EntityClassExists(fullClassName)) 
+        {
 
             // Create an instance of this script class
             std::shared_ptr<ScriptInstance> instance = std::make_shared<ScriptInstance>(scriptData->EntityClasses[fullClassName], entity);
@@ -163,17 +210,21 @@ void ScriptEngine::ScriptInit(Entity entity) {
     }
 }
 
-void ScriptEngine::AttachScriptToEntity(Entity entity, std::string scriptName) {
+void ScriptEngine::AttachScriptToEntity(Entity entity, std::string scriptName) 
+{
 
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
     // Checks if the currentScriptForIMGUI is already in scriptNameVec
-    for (int i = 0; i < sc.scriptNameVec.size(); i++) {
-        if (sc.scriptNameVec[i] == scriptName) {
+    for (int i = 0; i < sc.scriptNameVec.size(); i++) 
+    {
+        if (sc.scriptNameVec[i] == scriptName) 
+        {
             DEBUG_PRINT("Script %s already exists in entity %d", scriptName.c_str(), entity);
             return;
         }
 
-        else {
+        else 
+        {
             continue;
         }
     }
@@ -188,25 +239,30 @@ void ScriptEngine::AttachScriptToEntity(Entity entity, std::string scriptName) {
     entityScripts.push_back(instance);
 }
 
-void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName) {
+void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName) 
+{
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
 
     // Remove the script instances from the vector
     auto& instances = scriptData->EntityInstances[entity];
     for (int i = 0; i < instances.size(); ) {
-        if (instances[i]->GetScriptName() == scriptName) {
+        if (instances[i]->GetScriptName() == scriptName) 
+        {
             instances.erase(instances.begin() + i);
             // Do not increment i, as the next element has shifted into the current position
         }
-        else {
+        else 
+        {
             // Increment i only if an element was not erased
             ++i;
         }
     }
 
     // Now remove the script name from scriptNameVec and scriptNamesAttachedforIMGUI
-    for (int i = 0; i < sc.scriptNameVec.size(); ) {
-        if (sc.scriptNameVec[i] == scriptName) {
+    for (int i = 0; i < sc.scriptNameVec.size(); )
+    {
+        if (sc.scriptNameVec[i] == scriptName) 
+        {
             sc.scriptNameVec.erase(sc.scriptNameVec.begin() + i);
             scriptNamesAttachedforIMGUI[entity].erase(scriptNamesAttachedforIMGUI[entity].begin() + i);
             DEBUG_PRINT("Script %s removed from entity %d", scriptName.c_str(), entity);
@@ -219,11 +275,22 @@ void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName)
     }
 }
 
-void ScriptEngine::ScriptUpdate(const Entity& entity) {
+std::shared_ptr<ScriptInstance> ScriptEngine::GetEntityScriptInstance(Entity entity, int i)
+{
     auto it = scriptData->EntityInstances.find(entity);
-    if (it != scriptData->EntityInstances.end()) {
+    if (it == scriptData->EntityInstances.end())
+		return nullptr;
+    return it->second[i];
+}
+
+void ScriptEngine::ScriptUpdate(const Entity& entity) 
+{
+    auto it = scriptData->EntityInstances.find(entity);
+    if (it != scriptData->EntityInstances.end()) 
+    {
         // Iterate through all script instances associated with this entity.
-        for (auto& scriptInstance : it->second) {
+        for (auto& scriptInstance : it->second) 
+        {
             scriptInstance->InvokeOnUpdate();
         }
     }
@@ -253,84 +320,87 @@ void ScriptEngine::LoadAssemblyClasses(MonoAssembly* assembly)
         std::string fullName;
 
         /*-------CHECK IF HAVE NAMESPACE--------*/
-        if (strlen(nameSpace) != 0) {
+        if (strlen(nameSpace) != 0) 
+        {
             fullName = std::string(nameSpace) + "." + std::string(name);
         }
-        else {
+        else 
+        {
 
             // If there's no namespace, just use the name
 			fullName = std::string(name);
         }
         MonoClass* monoClass = mono_class_from_name(image, nameSpace, name);
 
-        if (monoClass == entityClass) {
+        if (monoClass == entityClass) 
+        {
             continue;
         }  
         /*-------CHECK IF HAVE NAMESPACE--------*/
 
         /*-------CHECK IF SUBCLASS OR NOT--------*/
         bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
-        if (isEntity) {
-            scriptData->EntityClasses[fullName] = std::make_shared<ScriptClass>(nameSpace, name);
-            fullNameVecImGUI.emplace_back(fullName);
 
-            /*-------CHECK IF PRIVATE OR PUBLIC--------*/
-            void* iter = nullptr;
-            MonoClassField* field;
+        if (!isEntity) 
+        {
+			continue;
+		}
 
-            while ((field = mono_class_get_fields(monoClass, &iter)) != nullptr) {
-                std::string fieldName = mono_field_get_name(field);
+        std::shared_ptr<ScriptClass> scriptClass = std::make_shared<ScriptClass>(nameSpace, name);
+        scriptData->EntityClasses[fullName] = scriptClass;
+        fullNameVecImGUI.emplace_back(fullName);
 
+        /*-------CHECK IF PRIVATE OR PUBLIC--------*/
+        void* iter = nullptr;
+        MonoClassField* field;
 
-                // Get the typeName
-                MonoType* typeName = mono_field_get_type(field);
-                int typeCode = mono_type_get_type(typeName);
-                int value;
+        while ((field = mono_class_get_fields(monoClass, &iter)) != nullptr) 
+        {
+            const char* fieldName = mono_field_get_name(field);
+            uint32_t flags = mono_field_get_flags(field);
 
-                MonoObject* instance = InstantiateClass(monoClass);
-                //mono_field_get_value(instance, field, &value);
+            // If is public
+            if (flags & MONO_FIELD_ATTR_PUBLIC)
+            {
+                MonoType* type = mono_field_get_type(field);
+                ScriptFieldType fieldType = MonoTypeToScriptFieldType(type);
 
-                uint32_t flags = mono_field_get_flags(field) & MONO_FIELD_ATTR_FIELD_ACCESS_MASK;
-                //std::cout << typeCode << std::endl;
-
-                switch (flags) {
-                    case MONO_FIELD_ATTR_PUBLIC:
-                        scriptData->ScriptInfoVec.push_back({fullName, typeCode, fieldName, MONO_FIELD_ATTR_PUBLIC});
-					    break;
-
-					case MONO_FIELD_ATTR_PRIVATE:
-                        scriptData->ScriptInfoVec.push_back({ fullName, typeCode, fieldName, MONO_FIELD_ATTR_PRIVATE });
-					    break;
-                }
-
-                // Add more checks here if needed (e.g., for protected or internal fields)
+                scriptClass->m_Fields[fieldName] = { fieldType, fieldName, field };
+                
+                //DEBUG_PRINT("Field: %s, Type: %s", fieldName, ScriptFieldTypeToString(fieldType));
             }
-            /*-------CHECK IF PRIVATE OR PUBLIC--------*/
         }
+        /*-------CHECK IF PRIVATE OR PUBLIC--------*/
+
         /*-------CHECK IF SUBCLASS OR NOT--------*/
     }
 }
 
-void ScriptEngine::ShutdownMono() {
+void ScriptEngine::ShutdownMono() 
+{
     scriptData->AppDomain = nullptr;
     mono_jit_cleanup(scriptData->RootDomain);
 }
 
-MonoObject* ScriptEngine::InstantiateClass(MonoClass* classToInstantiate) {
+MonoObject* ScriptEngine::InstantiateClass(MonoClass* classToInstantiate) 
+{
     MonoObject* instance = mono_object_new(scriptData->AppDomain, classToInstantiate);
     mono_runtime_object_init(instance);
     return instance;
 }
 
-ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className) : m_ClassNamespace(classNamespace), m_ClassName(className) {
+ScriptClass::ScriptClass(const std::string& classNamespace, const std::string& className) : m_ClassNamespace(classNamespace), m_ClassName(className) 
+{
     m_MonoClass = mono_class_from_name(ScriptEngine::scriptData->CoreAssemblyImage, classNamespace.c_str(), className.c_str());
 }
 
-MonoObject* ScriptClass::Instantiate() {
+MonoObject* ScriptClass::Instantiate() 
+{
     return ScriptEngine::InstantiateClass(m_MonoClass);
 }
 
-MonoMethod* ScriptClass::GetMethod(const std::string& name, int parameterCount) {
+MonoMethod* ScriptClass::GetMethod(const std::string& name, int parameterCount) 
+{
     return mono_class_get_method_from_name(m_MonoClass, name.c_str(), parameterCount);
 }
 
@@ -339,7 +409,8 @@ MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, 
     return mono_runtime_invoke(method, instance, params, nullptr);
 }
 
-ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity) : m_ScriptClass(scriptClass) {
+ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity entity) : m_ScriptClass(scriptClass) 
+{
 	m_Instance = scriptClass->Instantiate();
 
     // Get the constructor and the OnCreate method
@@ -358,21 +429,26 @@ ScriptInstance::ScriptInstance(std::shared_ptr<ScriptClass> scriptClass, Entity 
 
 }
 
-void ScriptInstance::InvokeOnCreate() {
+void ScriptInstance::InvokeOnCreate() 
+{
 	m_ScriptClass->InvokeMethod(m_Instance, m_StartMethod);
 }
 
-void ScriptInstance::InvokeOnUpdate() {
+void ScriptInstance::InvokeOnUpdate() 
+{
 	m_ScriptClass->InvokeMethod(m_Instance, m_UpdateMethod);
 }
 
-std::string ScriptInstance::GetScriptName() const {
+std::string ScriptInstance::GetScriptName() const 
+{
     if (m_ScriptClass) {
         // Check if there's namespace
-        if (m_ScriptClass->GetMClassNameSpace() == "") {
+        if (m_ScriptClass->GetMClassNameSpace() == "") 
+        {
             return m_ScriptClass->GetMClassName();
         }
-        else {
+        else 
+        {
             // Assuming the full script name is composed of Namespace + "." + ClassName
             return m_ScriptClass->GetMClassNameSpace() + "." + m_ScriptClass->GetMClassName();
         }
@@ -436,35 +512,40 @@ static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
     return assembly;
 }
 
-
-void ScriptEngine::SetScriptProperty(Entity entity, const std::string& className, const std::string& propertyName, void* value) {
-    auto it = scriptData->EntityClasses.find(className);
-    if (it != scriptData->EntityClasses.end()) {
-        std::shared_ptr<ScriptClass> scriptClass = it->second;
-
-        // Instantiate the script class if needed
-        MonoObject* instance = nullptr;
-        auto instancesIt = scriptData->EntityInstances.find(entity);
-        if (instancesIt != scriptData->EntityInstances.end()) {
-            // Find the instance of the specific class
-            for (auto& scriptInstance : instancesIt->second) {
-                if (scriptInstance->GetScriptName() == className) {
-                    instance = scriptInstance->GetInstance();
-                    break;
-                }
-            }
-        }
-
-        if (!instance) {
-            instance = scriptClass->Instantiate();
-            // You might want to store this instance in EntityInstances if needed
-        }
-
-        // Set the property
-        MonoClassField* field = mono_class_get_field_from_name(scriptClass->GetMonoClass(), propertyName.c_str());
-        if (field) {
-            mono_field_set_value(instance, field, value);
-        }
+bool ScriptInstance::GetFieldValueInternal(const std::string& name, void* buffer)
+{
+    const auto& fields = m_ScriptClass->GetFields();
+    auto it = fields.find(name);
+    if (it == fields.end()) {
+        return false;
     }
-    //std::cout << "SetScriptProperty called" << std::endl;
+    const ScriptField& field = it->second;
+    mono_field_get_value(m_Instance, field.ClassField, buffer);
+    return true;
+}
+
+bool ScriptInstance::SetFieldValueInternal(const std::string& name, const void* value)
+{
+    const auto& fields = m_ScriptClass->GetFields();
+    auto it = fields.find(name);
+    if (it == fields.end())
+        return false;
+
+    const ScriptField& field = it->second;
+    mono_field_set_value(m_Instance, field.ClassField, (void*)value);
+    return true;
+}
+
+ScriptFieldType MonoTypeToScriptFieldType(MonoType* monoType)
+{
+    std::string typeName = mono_type_get_name(monoType);
+
+    auto it = s_ScriptFieldTypeMap.find(typeName);
+    if (it == s_ScriptFieldTypeMap.end())
+    {
+        printf("Unknown type: %s\n", typeName.c_str());
+        return ScriptFieldType::None;
+    }
+
+    return it->second;
 }
