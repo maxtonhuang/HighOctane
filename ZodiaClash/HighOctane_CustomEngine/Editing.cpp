@@ -112,200 +112,209 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 	
 	
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
-					switch (msg.type) {
+		switch (msg.type) {
 
-					case TYPE::KEY_DOWN:
-			
-						switch (msg.info) {
+		case TYPE::KEY_DOWN:
 
-						case INFO::KEY_DEL:   
-							toDestroy = true;
-							break;
+			switch (msg.info) {
 
-						default: break;
-			
+			case INFO::KEY_DEL:
+				toDestroy = true;
+				break;
+
+			default: break;
+
+			}
+
+			break;
+
+		case TYPE::MOUSE_CLICK: {
+
+			if (name.selected) {
+				undoRedo.RecordCurrent(entity);
+				if (&model == nullptr) {
+					if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+						name.clicked = CLICKED::INSIDE;
+						printf("INSIDE ------");
+					}
+				}
+				else if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+					name.clicked = CLICKED::NE;
+					printf("NE ------");
+				}
+				else if (IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
+					name.clicked = CLICKED::SW;
+					printf("SW ------");
+				}
+				else if (IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
+					name.clicked = CLICKED::SE;
+					printf("SE ------");
+				}
+				else if (IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
+					name.clicked = CLICKED::NW;
+					printf("NW ------");
+				}
+				else if (IsWithinObject(model, currentMousePosition)) {
+					name.clicked = CLICKED::INSIDE;
+					//printf("INSIDE ------");
+				}
+				else if (IsNearby(model.GetRotPoint(), currentMousePosition, CORNER_SIZE*3.f)) {
+					name.clicked = CLICKED::DOT;
+					//printf("ROTATE ------");
+				}
+				else {
+					name.clicked = CLICKED::NONE;
+				}
+			}
+
+
+		}	break;
+
+		case TYPE::MOUSE_DOWN: {
+
+			switch (selectedEntities.size()) {
+
+			case 1:
+
+				if (name.selected) {
+					//printf("Corner: %d\n ", name.clicked);
+					switch (name.clicked) {
+					case CLICKED::NE:
+					{
+						draggingThisCycle = true;
+						//printf("Mouse Position: %f, %f\n", currentMousePosition.x, currentMousePosition.y);
+						//printf("Model Position: %f, %f\n", model.GetMax().x, model.GetMax().y);
+						float deltaX = currentMousePosition.x - model.GetMax().x;
+						float deltaY = currentMousePosition.y - model.GetMax().y;
+						//printf("Delta: %f, %f\n", deltaX, deltaY);
+						float currWidth = model.GetMax().x - model.GetMin().x;
+						float currHeight = model.GetMax().y - model.GetMin().y;
+						if (deltaX < deltaY) {
+							transform.scale *= (currWidth + deltaX) / currWidth;
+							//transform.position.x += deltaX / 2.f;
+							//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
 						}
-			
+						else {
+							transform.scale *= (currHeight + deltaY) / currHeight;
+							//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
+							//transform.position.y += deltaY / 2.f;
+						}
+					}
+					break;
+					case CLICKED::SW:
+					{
+						draggingThisCycle = true;
+						float deltaX = model.GetMin().x - currentMousePosition.x;
+						float deltaY = model.GetMin().y - currentMousePosition.y;
+						float currWidth = model.GetMax().x - model.GetMin().x;
+						float currHeight = model.GetMax().y - model.GetMin().y;
+						if (deltaX < deltaY) {
+							transform.scale *= (currWidth + deltaX) / currWidth;
+							//transform.position.x -= deltaX / 2.f;
+							//transform.position.y -= (deltaX * currHeight / currWidth) / 2.f;
+						}
+						else {
+							transform.scale *= (currHeight + deltaY) / currHeight;
+							//transform.position.x -= (deltaY * currWidth / currHeight) / 2.f;
+							//transform.position.y -= deltaY / 2.f;
+						}
+					}
+					break;
+					case CLICKED::NW:
+					{
+						draggingThisCycle = true;
+						float deltaX = model.GetMin().x - currentMousePosition.x;
+						float deltaY = currentMousePosition.y - model.GetMax().y;
+						float currWidth = model.GetMax().x - model.GetMin().x;
+						float currHeight = model.GetMax().y - model.GetMin().y;
+						if (deltaX < deltaY) {
+							transform.scale *= (currWidth + deltaX) / currWidth;
+							//transform.position.x -= deltaX / 2.f;
+							//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
+						}
+						else {
+							transform.scale *= (currHeight + deltaY) / currHeight;
+							//transform.position.x -= (deltaY * currWidth / currHeight) / 2.f;
+							//transform.position.y += deltaY / 2.f;
+						}
+					}
+					break;
+					case CLICKED::SE:
+					{
+						draggingThisCycle = true;
+						float deltaX = currentMousePosition.x - model.GetMax().x;
+						float deltaY = model.GetMin().y - currentMousePosition.y;
+						float currWidth = model.GetMax().x - model.GetMin().x;
+						float currHeight = model.GetMax().y - model.GetMin().y;
+						if (deltaX < deltaY) {
+							transform.scale *= (currWidth + deltaX) / currWidth;
+							//transform.position.x += deltaX / 2.f;
+							//transform.position.y -= (deltaX * currHeight / currWidth) / 2.f;
+						}
+						else {
+							transform.scale *= (currHeight + deltaY) / currHeight;
+							//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
+							//transform.position.y -= deltaY / 2.f;
+						}
+					}
+					break;
+					case CLICKED::INSIDE:
+						if (withinSomething) {
+							draggingThisCycle = true;
+							//printf("%f, %f\n", e_mousePosDelta.x, e_mousePosDelta.y);
+							transform.position.x = currentMousePosition.x - name.draggingOffset.x;
+							transform.position.y = currentMousePosition.y - name.draggingOffset.y;
+						}
 						break;
-
-					case TYPE::MOUSE_CLICK: {
-
-						if (name.selected) {
-							undoRedo.RecordCurrent(entity);
-							if (&model == nullptr) {
-								if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
-									name.clicked = CLICKED::INSIDE;
-									printf("INSIDE ------");
-								}
-							}
-							else if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
-								name.clicked = CLICKED::NE;
-								printf("NE ------");
-							}
-							else if (IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
-								name.clicked = CLICKED::SW;
-								printf("SW ------");
-							}
-							else if (IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
-								name.clicked = CLICKED::SE;
-								printf("SE ------");
-							}
-							else if (IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
-								name.clicked = CLICKED::NW;
-								printf("NW ------");
-							}
-							else if (IsWithinObject(model, currentMousePosition)) {
-								name.clicked = CLICKED::INSIDE;
-								//printf("INSIDE ------");
-							}
-						}
-
-						
-					}	break;
-
-					case TYPE::MOUSE_DOWN: {
-										//switch (msg.info) {
-										//case INFO::MOUSE_LEFT: {
-
-																		switch (selectedEntities.size()) {
-
-																		case 1:
-
-																			if (name.selected) {
-																				//printf("Corner: %d\n ", name.clicked);
-																				switch (name.clicked) {
-																				case CLICKED::NE:
-																				{
-																					draggingThisCycle = true;
-																					//printf("Mouse Position: %f, %f\n", currentMousePosition.x, currentMousePosition.y);
-																					//printf("Model Position: %f, %f\n", model.GetMax().x, model.GetMax().y);
-																					float deltaX = currentMousePosition.x - model.GetMax().x;
-																					float deltaY = currentMousePosition.y - model.GetMax().y;
-																					//printf("Delta: %f, %f\n", deltaX, deltaY);
-																					float currWidth = model.GetMax().x - model.GetMin().x;
-																					float currHeight = model.GetMax().y - model.GetMin().y;
-																					if (deltaX < deltaY) {
-																						transform.scale *= (currWidth + deltaX) / currWidth;
-																						//transform.position.x += deltaX / 2.f;
-																						//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
-																					}
-																					else {
-																						transform.scale *= (currHeight + deltaY) / currHeight;
-																						//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
-																						//transform.position.y += deltaY / 2.f;
-																					}
-																				}
-																				break;
-																				case CLICKED::SW:
-																				{
-																					draggingThisCycle = true;
-																					float deltaX = model.GetMin().x - currentMousePosition.x;
-																					float deltaY = model.GetMin().y - currentMousePosition.y;
-																					float currWidth = model.GetMax().x - model.GetMin().x;
-																					float currHeight = model.GetMax().y - model.GetMin().y;
-																					if (deltaX < deltaY) {
-																						transform.scale *= (currWidth + deltaX) / currWidth;
-																						//transform.position.x -= deltaX / 2.f;
-																						//transform.position.y -= (deltaX * currHeight / currWidth) / 2.f;
-																					}
-																					else {
-																						transform.scale *= (currHeight + deltaY) / currHeight;
-																						//transform.position.x -= (deltaY * currWidth / currHeight) / 2.f;
-																						//transform.position.y -= deltaY / 2.f;
-																					}
-																				}
-																				break;
-																				case CLICKED::NW:
-																				{
-																					draggingThisCycle = true;
-																					float deltaX = model.GetMin().x - currentMousePosition.x;
-																					float deltaY = currentMousePosition.y - model.GetMax().y;
-																					float currWidth = model.GetMax().x - model.GetMin().x;
-																					float currHeight = model.GetMax().y - model.GetMin().y;
-																					if (deltaX < deltaY) {
-																						transform.scale *= (currWidth + deltaX) / currWidth;
-																						//transform.position.x -= deltaX / 2.f;
-																						//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
-																					}
-																					else {
-																						transform.scale *= (currHeight + deltaY) / currHeight;
-																						//transform.position.x -= (deltaY * currWidth / currHeight) / 2.f;
-																						//transform.position.y += deltaY / 2.f;
-																					}
-																				}
-																				break;
-																				case CLICKED::SE:
-																				{
-																					draggingThisCycle = true;
-																					float deltaX = currentMousePosition.x - model.GetMax().x;
-																					float deltaY = model.GetMin().y - currentMousePosition.y;
-																					float currWidth = model.GetMax().x - model.GetMin().x;
-																					float currHeight = model.GetMax().y - model.GetMin().y;
-																					if (deltaX < deltaY) {
-																						transform.scale *= (currWidth + deltaX) / currWidth;
-																						//transform.position.x += deltaX / 2.f;
-																						//transform.position.y -= (deltaX * currHeight / currWidth) / 2.f;
-																					}
-																					else {
-																						transform.scale *= (currHeight + deltaY) / currHeight;
-																						//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
-																						//transform.position.y -= deltaY / 2.f;
-																					}
-																				}
-																				break;
-																				case CLICKED::INSIDE:
-																					if (withinSomething) {
-																						draggingThisCycle = true;
-																						//printf("%f, %f\n", e_mousePosDelta.x, e_mousePosDelta.y);
-																						transform.position.x = currentMousePosition.x - name.draggingOffset.x;
-																						transform.position.y = currentMousePosition.y - name.draggingOffset.y;
-																					}
-																					break;
-																				default:
-																					break;
-																				}
-																			}
-
-																			break;
-
-																		default:
-
-																			if (name.selected && withinSomething) {
-																				draggingThisCycle = true;
-																				//switch (name.clicked) {
-
-																				//case CLICKED::INSIDE:
-																					//printf("HERE\n");
-																				transform.position.x = currentMousePosition.x - name.draggingOffset.x;
-																				transform.position.y = currentMousePosition.y - name.draggingOffset.y;
-																				//break;
-																			//default:
-																				//break;
-																			//}
-																			}
-
-																			break;
-
-
-
-
-
-												//} break;
-												//}
-
-
-
-
-							}
-						}	break;
+					case CLICKED::DOT:
+						//if (withinSomething) {
+							draggingThisCycle = true;
+							//printf("%f, %f\n", e_mousePosDelta.x, e_mousePosDelta.y);
+							transform.rotation = (vmath::PI / 2.f) - (atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x)) /** 180.f / vmath::PI*/;
 						//}
-					//}	break;
-		
-
+						break;
 					default:
 						break;
-
 					}
+				}
+
+				break;
+
+			default:
+
+				if (name.selected && withinSomething) {
+					draggingThisCycle = true;
+					//switch (name.clicked) {
+
+					//case CLICKED::INSIDE:
+						//printf("HERE\n");
+					transform.position.x = currentMousePosition.x - name.draggingOffset.x;
+					transform.position.y = currentMousePosition.y - name.draggingOffset.y;
+					//break;
+				//default:
+					//break;
+				//}
+				}
+
+				break;
+
+
+
+
+
+
+
+
+
+			}
+		}	break;
+
+
+
+		default:
+			break;
+
+		}
 	}
 	
 }

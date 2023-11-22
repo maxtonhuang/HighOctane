@@ -48,7 +48,8 @@ enum class CLICKED {
     SW,
     NW,
     INSIDE,
-    NOT
+    DOT,
+    NONE
 };
 
 struct Transform {
@@ -123,7 +124,7 @@ struct Master {
 struct Name {
     std::string             name{};
     bool                    selected{ false };
-    CLICKED                 clicked = CLICKED::NOT;
+    CLICKED                 clicked = CLICKED::NONE;
     size_t                  group{};
     size_t                  serializationLayer{};
     size_t                  serializationOrderInLayer{};

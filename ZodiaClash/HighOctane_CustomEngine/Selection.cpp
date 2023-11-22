@@ -163,7 +163,7 @@ void UnselectAll() {
 		for (auto& entity : layer) {
 			Name& name = nameArray.GetData(entity);
 			name.selected = false;
-			name.clicked = CLICKED::NOT;
+			name.clicked = CLICKED::NONE;
 		}
 	}
 	selectedCount = 0;
