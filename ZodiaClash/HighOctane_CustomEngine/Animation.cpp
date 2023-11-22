@@ -225,29 +225,68 @@ bool SwapAnimation::HasKeyFrame(int frameNum) {
 	return keyframes.frameNum == frameNum;
 }
 
-//TransformAttachAnimation::TransformAttachAnimation() {
-//	type = "TransformAttach";
-//}
-//void TransformAttachAnimation::Start() {
-//	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
-//}
-//void TransformAttachAnimation::Update(int frameNum) {
-//	if (keyframes.size() == 0) {
-//		return;
-//	}
-//
-//	entityTransform->position += velocity;
-//
-//	if (frameNum >= nextKeyframe->frameNum) {
-//		nextKeyframe++;
-//		if (nextKeyframe == keyframes.end()) {
-//			active = false;
-//		}
-//		else {
-//
-//		}
-//	}
-//}
+Transform* TransformAttachAnimation::GetEntityTransform(std::string entityName) {
+	auto namePairArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Name>().GetPairArray() };
+	for (auto& namePair : namePairArray) {
+		if (namePair.second->name == entityName) {
+			if (ECS::ecs().HasComponent<Clone>(namePair.first)) {
+				return &ECS::ecs().GetComponent<Transform>(namePair.first);
+			}
+		}
+	}
+	ASSERT(1,"Unable to find entity for attach animation");
+	return nullptr;
+}
+TransformAttachAnimation::TransformAttachAnimation() {
+	type = "TransformAttach";
+}
+void TransformAttachAnimation::Start() {
+	active = true;
+	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
+	nextKeyframe = keyframes.begin();
+	float frameCount{ (float)(nextKeyframe->frameNum) + 1 };
+	Transform* nextTransform{ GetEntityTransform(nextKeyframe->data) };
+	velocity = (nextTransform->position - entityTransform->position) / frameCount;
+}
+void TransformAttachAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+
+	entityTransform->position += velocity;
+
+	if (frameNum >= nextKeyframe->frameNum) {
+		float frameCount{ (float)(nextKeyframe->frameNum) };
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+		else {
+			frameCount = nextKeyframe->frameNum - frameCount;
+			Transform* nextTransform{ GetEntityTransform(nextKeyframe->data) };
+			velocity = (nextTransform->position - entityTransform->position) / frameCount;
+		}
+	}
+}
+void TransformAttachAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void TransformAttachAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<std::string>{frameNum});
+}
+bool TransformAttachAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
 
 TransformDirectAnimation::TransformDirectAnimation() {
 	type = "TransformDirect";
@@ -297,6 +336,8 @@ void TransformDirectAnimation::AddKeyFrame(int frameNum, void* frameData) {
 	Keyframe<Transform> frame{ frameNum };
 	if (frameData != nullptr) {
 		frame.data = *(static_cast<Transform*>(frameData));
+	}
+	else {
 		frame.data.scale = 0;
 	}
 	keyframes.push_back(frame);

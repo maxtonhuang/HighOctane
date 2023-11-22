@@ -67,7 +67,9 @@ void Renderer::Initialize(char const* vertexshader, char const* fragmentshader, 
     case GL_LINES:
         objvertsize = 2;
         break;
-
+    case GL_TRIANGLE_FAN:
+        objvertsize = 1;
+        break;
     default:
         objvertsize = 0;
     }

@@ -253,6 +253,7 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 	charstats.AddMember("Attack", stats.stats.attack, allocator);
 	charstats.AddMember("Defense", stats.stats.defense, allocator);
 	charstats.AddMember("Speed", stats.stats.speed, allocator);
+	//charstats.AddMember("Bleedstack", stats.debuffs.bleedStack, allocator);
 
 	for (Attack const& a : stats.action.skills) {
 		rapidjson::Value attackName;
@@ -298,6 +299,8 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 	
 	textObject.AddMember("Color Preset", rapidjson::Value(textLabel.initClr.c_str(), allocator), allocator);
 	
+	textObject.AddMember("Horizontal Alignment", (int)textLabel.hAlignment, allocator);
+	textObject.AddMember("Vertical Alignment", (int)textLabel.vAlignment, allocator);
 
 	return textObject;
 }
@@ -320,9 +323,36 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	buttonObject.AddMember("Padding Bottom", button.padding.bottom, allocator);
 	buttonObject.AddMember("Padding Left", button.padding.left, allocator);
 	buttonObject.AddMember("Padding Right", button.padding.right, allocator);
+	buttonObject.AddMember("Padding Setting", button.padding.setting, allocator);
 
 	return buttonObject;
 }
+
+rapidjson::Value SerializeSkillPointHUD(const SkillPointHUD& spHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value spHudObject(rapidjson::kObjectType);
+	spHudObject.AddMember("Skill Point Balance", spHUD.skillPointBalance, allocator);
+	spHudObject.AddMember("Skill Point Cap", spHUD.maxSkillPoints, allocator);
+	return spHudObject;
+}
+
+rapidjson::Value SerializeSkillPoint(const SkillPoint& skillpt, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value skillPtObject(rapidjson::kObjectType);
+	skillPtObject.AddMember("Active State", skillpt.isActive, allocator);
+	return skillPtObject;
+}
+
+//rapidjson::Value SerializeParent(const Parent& parent, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value parentObject(rapidjson::kObjectType);
+//	//parentObject.AddMember("Children Entities", parent.children, allocator);
+//	return parentObject;
+//}
+//
+//rapidjson::Value SerializeChild(const Child& child, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value childObject(rapidjson::kObjectType);
+//	childObject.AddMember("Parent Entity", child.parent, allocator);
+//	//serialize transform
+//	return childObject;
+//}
 
 rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value set(rapidjson::kArrayType);
@@ -372,6 +402,15 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 				keyframe.AddMember("Destination", rapidjson::Value(swap->keyframes.data.c_str(), allocator).Move(), allocator);
 				keyFrames.PushBack(keyframe, allocator);
 			}
+			else if (animType == "TransformAttach") {
+				const std::shared_ptr<TransformAttachAnimation> transAttach{ std::dynamic_pointer_cast<TransformAttachAnimation>(anim) };
+				for (auto const& k : transAttach->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Target", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
 			else if (animType == "TransformDirect") {
 				const std::shared_ptr<TransformDirectAnimation> transDirect{ std::dynamic_pointer_cast<TransformDirectAnimation>(anim) };
 				for (auto const& k : transDirect->keyframes) {
@@ -414,6 +453,9 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 	return set;
 }
 
+
+
+
 /*
 Helper function to check if class should be serialized
 */
@@ -428,7 +470,7 @@ bool CheckSerialize(const Entity& entity, const bool& isPrefabClone, const std::
 }
 
 
-void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<Entity>& m_entity) {
+void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector<Entity>& m_entity) {
 	// Create a JSON document
 	rapidjson::Document document;
 	document.SetArray();
@@ -470,6 +512,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 	Model* model = nullptr;
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
+	SkillPointHUD* spHUD = nullptr;
+	SkillPoint* skillpt = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 
@@ -494,6 +538,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 				cloneObject.AddMember("Unique Components", typeObject, allocator);
 			}
 			entityObject.AddMember("Clone", cloneObject, allocator);
+		}
+
+		if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Child>(entity)) {
+			continue;
 		}
 
 		if (CheckSerialize<Name>(entity, isPrefabClone,uComponentMap)) {
@@ -580,6 +628,16 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			rapidjson::Value buttonObject = SerializeButton(*button, allocator);
 			entityObject.AddMember("Button", buttonObject, allocator);
 		}
+		if (CheckSerialize<SkillPointHUD>(entity, isPrefabClone, uComponentMap)) {
+			spHUD = &ECS::ecs().GetComponent<SkillPointHUD>(entity);
+			rapidjson::Value spHudObject = SerializeSkillPointHUD(*spHUD, allocator);
+			entityObject.AddMember("SkillPointHUD", spHudObject, allocator);
+		}
+		if (CheckSerialize<SkillPoint>(entity, isPrefabClone, uComponentMap)) {
+			skillpt = &ECS::ecs().GetComponent<SkillPoint>(entity);
+			rapidjson::Value skillPtObject = SerializeSkillPoint(*skillpt, allocator);
+			entityObject.AddMember("SkillPoint", skillPtObject, allocator);
+		}
 		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
 			rapidjson::Value colliderObject = SerializeCollider(*collider, allocator);
@@ -589,6 +647,14 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::set<En
 			animset = &ECS::ecs().GetComponent<AnimationSet>(entity);
 			rapidjson::Value animsetObject = SerializeAnimationSet(*animset, allocator);
 			entityObject.AddMember("Animation Set", animsetObject, allocator);
+		}
+		if (CheckSerialize<Parent>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("Parent", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<Child>(entity, isPrefabClone, uComponentMap)) {
+			transform = &ECS::ecs().GetComponent<Child>(entity).offset;
+			rapidjson::Value transformObject = SerializeTransform(*transform, allocator);
+			entityObject.AddMember("Child", transformObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -639,6 +705,8 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	rapidjson::Document document;
 	std::ifstream file(fileName);
 	Entity entity{0};
+	Parent* parent{};
+	Entity parentID{};
 	if (!file.is_open()) {
 		std::cerr << "Failed to open file: " << fileName << std::endl;
 		//Assert("Failed to open .json file %s", fileName);
@@ -664,6 +732,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 		}
 		else {
 			//entity = ECS::ecs().CreateEntity();
+			entity = 0;
 			if (entityObject.HasMember("Clone")) {
 				const rapidjson::Value& cloneObject = entityObject["Clone"];
 				//ECS::ecs().AddComponent(entity, Clone{});
@@ -948,6 +1017,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
 				charstats.stats.health = charstats.stats.maxHealth;
 				charstats.stats.speed = statsObject["Speed"].GetInt();
+				//charstats.debuffs.bleedStack = statsObject["Bleedstack"].GetInt();
 				charstats.tag = (CharacterType)statsObject["Character type"].GetInt();
 				for (auto& a : statsObject["Skills"].GetArray()) {
 					charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
@@ -977,6 +1047,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				textLabel.initClr = textObject["Color Preset"].GetString();
 				//TextLabel(textLabel.textString, textLabel.textColor);
 
+				if (textObject.HasMember("Horizontal Alignment") && textObject.HasMember("Vertical Alignment")) {
+					textLabel.hAlignment = (UI_HORIZONTAL_ALIGNMENT)(textObject["Horizontal Alignment"].GetInt());
+					textLabel.vAlignment = (UI_VERTICAL_ALIGNMENT)(textObject["Vertical Alignment"].GetInt());
+				}
+
+				// ECS::ecs().AddComponent(entity, textLabel);
 				if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 					ECS::ecs().GetComponent<TextLabel>(entity) = textLabel;
 				}
@@ -1015,6 +1091,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					button.padding.bottom = buttonObject["Padding Bottom"].GetFloat();
 					button.padding.left = buttonObject["Padding Left"].GetFloat();
 					button.padding.right = buttonObject["Padding Right"].GetFloat();
+					if (buttonObject.HasMember("Padding Setting")) {
+						button.padding.setting = buttonObject["Padding Setting"].GetInt();
+					}					
 				}
 
 				if (buttonObject.HasMember("Event Name")) {
@@ -1030,6 +1109,31 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 				else {
 					ECS::ecs().AddComponent<Button>(entity, button);
+				}
+			}
+			if (entityObject.HasMember("SkillPointHUD")) {
+				SkillPointHUD spHud;
+				const rapidjson::Value& spHudObject = entityObject["SkillPointHUD"];
+				spHud.skillPointBalance = spHudObject["Skill Point Balance"].GetInt();
+				spHud.maxSkillPoints = spHudObject["Skill Point Cap"].GetInt();
+
+				if (ECS::ecs().HasComponent<SkillPointHUD>(entity)) {
+					ECS::ecs().GetComponent<SkillPointHUD>(entity) = spHud;
+				}
+				else {
+					ECS::ecs().AddComponent<SkillPointHUD>(entity, spHud);
+				}
+			}
+			if (entityObject.HasMember("SkillPoint")) {
+				SkillPoint skillpt;
+				const rapidjson::Value& spObject = entityObject["SkillPoint"];
+				skillpt.isActive = spObject["Active State"].GetBool();
+
+				if (ECS::ecs().HasComponent<SkillPoint>(entity)) {
+					ECS::ecs().GetComponent<SkillPoint>(entity) = skillpt;
+				}
+				else {
+					ECS::ecs().AddComponent<SkillPoint>(entity, skillpt);
 				}
 			}
 			if (entityObject.HasMember("Animation Set")) {
@@ -1071,6 +1175,14 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<SwapAnimation>(a));
+						}
+						else if (animType == "TransformAttach") {
+							TransformAttachAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data = k["Target"].GetString();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<TransformAttachAnimation>(a));
 						}
 						else if (animType == "TransformDirect") {
 							TransformDirectAnimation a{};
@@ -1114,6 +1226,24 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<AnimationSet>(entity, animset);
 				}
 			}
+			if (entityObject.HasMember("Parent") && !ECS::ecs().HasComponent<Parent>(entity)) {
+				ECS::ecs().AddComponent<Parent>(entity, Parent{});
+				parent = &ECS::ecs().GetComponent<Parent>(entity);
+				parentID = entity;
+			}
+			if (entityObject.HasMember("Child") && parent != nullptr) {
+				const rapidjson::Value& transformObject = entityObject["Child"];
+				Transform transform;
+				transform.position.x = transformObject["position_x"].GetFloat();
+				transform.position.y = transformObject["position_y"].GetFloat();
+				transform.rotation = transformObject["rotation"].GetFloat();
+				transform.scale = transformObject["scale"].GetFloat();
+				transform.velocity.x = transformObject["velocity_x"].GetFloat();
+				transform.velocity.y = transformObject["velocity_y"].GetFloat();
+
+				ECS::ecs().AddComponent<Child>(entity, Child{ parentID, transform });
+				parent->children.push_back(entity);
+			}
 		}
 	}
 	if (isPrefab && ECS::ecs().HasComponent<Clone>(entity)) {
@@ -1126,7 +1256,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 	// To load the state from a file for reflection
 	//DeserializeVariablesFromFile("variables.sav", variablesTEST);
-	return entity;
+	if (parentID == 0) {
+		return entity;
+	}
+	else {
+		return parentID;
+	}
 }
 
 void LoadConfig() {

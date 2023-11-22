@@ -294,15 +294,9 @@ void GUIManager::Update()
                     rightClick = false;
                 }
                 ImGui::Separator();
-                if (ImGui::MenuItem("Save as prefab", NULL, false, selectedEntities.size() == 1 ? true : false)) {
+                if (ImGui::MenuItem("Save as Prefab", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
-                    std::set<Entity> entityToSave{ selectedEntities.front() };
-                    if (prefabPath != "") {
-                        Serializer::SaveEntityToJson(prefabPath, entityToSave);
-                        std::string prefabName{ prefabPath.substr(prefabPath.find_last_of("\\") + 1) };
-                        ECS::ecs().GetComponent<Clone>(selectedEntities.front()).prefab = prefabName;
-                    }
-                    assetmanager.UpdatePrefabPaths();
+                    SaveAsPrefab(prefabPath, newSelection);
                 }
                 ImGui::EndPopup();
             }

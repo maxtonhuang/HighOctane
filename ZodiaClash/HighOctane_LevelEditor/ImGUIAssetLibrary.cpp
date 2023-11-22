@@ -45,6 +45,7 @@
 #include <Windows.h>
 #include <shobjidl.h>
 #include <filesystem>
+#include "File.h"
 
 constexpr float thumbnailSize = 128.f;
 constexpr float paddingSize = 20.f;
@@ -150,21 +151,7 @@ void UpdateAssetLibrary() {
 
 }
 
-/******************************************************************************
-*
-*	@brief Creates the popup dialog for importing images
-*
-*	Creates the popup dialog for the user to choose the type of image to be
-*	imported. The user can choose between a static image or a spritesheet.
-*	If the user chooses to import a spritesheet, the user will have to enter
-*	the number of rows and columns in the spritesheet.
-*
-******************************************************************************/
-void CheckImageTypeDialog(bool & showDialog) {
-
-
-	ImGui::SetNextWindowSize(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
-	ImGui::SetNextWindowPos(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+void ImportImage(bool& showDialog) {
 	ImGui::OpenPopup("Import Image");
 
 
@@ -194,7 +181,7 @@ void CheckImageTypeDialog(bool & showDialog) {
 		}
 		counter = 1;
 		std::string destinationFilename = destinationFilePath.substr(destinationFilePath.find_last_of('\\') + 1, destinationFilePath.size() - destinationFilePath.find_last_of('\\') + 1);
-					
+
 		ImGui::Dummy(ImVec2(0.0f, spacing));
 
 		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
@@ -257,7 +244,7 @@ void CheckImageTypeDialog(bool & showDialog) {
 		{
 			if (ImGui::Button("OK", { spacing * 3.f, buttonHeight }))
 			{
-
+		
 				std::filesystem::path srcPath = importFileList[0];
 
 				std::filesystem::path destPath = destinationFilePath;
@@ -328,5 +315,178 @@ void CheckImageTypeDialog(bool & showDialog) {
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::EndPopup();
+	}
+}
+
+void ImportAudio(bool& showDialog) {
+	ImGui::OpenPopup("Import Audio");
+
+
+	// Variables to hold the state and data
+	static bool isSound = true;
+
+	// Create a centered popup
+	//ImGui::SetNextWindowContentSize(ImVec2(400, 0));
+	//bool modalOpen = true;
+	if (ImGui::BeginPopupModal("Import Audio", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		std::string destinationFilename = importFileList[0].substr(importFileList[0].find_last_of('\\') + 1, importFileList[0].size() - importFileList[0].find_last_of('\\') + 1);
+
+		ImGui::Dummy(ImVec2(0.0f, spacing));
+
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text(destinationFilename.c_str());
+
+		// Line 1: Display the main question
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text("Are you importing sound or music?");
+		//ImGui::Spacing();
+
+		// Line 2 & 3: Radio buttons for type selection
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Sound", isSound))
+		{
+			isSound = true;
+		}
+
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Music", !isSound))
+		{
+			isSound = false;
+		}
+
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
+		ImGui::SameLine();
+
+		if (ImGui::Button("OK", { spacing * 3.f, buttonHeight }))
+		{
+			std::string destinationFilePath{ assetmanager.GetDefaultPath() };
+			if (isSound) {
+				destinationFilePath += "Sound/";
+			}
+			else {
+				destinationFilePath += "Music/";
+			}
+			destinationFilePath += importFileList[0].substr(importFileList[0].find_last_of('\\') + 1, importFileList[0].size());
+
+			std::filesystem::path srcPath = importFileList[0];
+
+			std::filesystem::path destPath = destinationFilePath;
+
+			std::cout << "Source path is: " << srcPath << std::endl;
+			std::cout << "Destination path is: " << destPath << std::endl;
+
+			if (!std::filesystem::exists(destPath)) {
+				// check if the source file exists
+				if (!std::filesystem::exists(importFileList[0])) {
+					std::cout << "Source file does not exist: " << importFileList[0] << std::endl;
+				}
+
+				// check if destination exists
+				else if (!std::filesystem::exists(destPath.parent_path())) {
+					std::cout << "Destination directory does not exist: " << destPath << std::endl;
+				}
+				std::filesystem::copy(srcPath, destPath);
+			}
+			else {
+				std::cout << "File already exists in destination directory!" << std::endl;
+			}
+
+			isSound = true;
+
+			importFileList.pop_front();
+			--importFileCount;
+
+			showDialog = false;
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", { spacing * 3.f, buttonHeight }))
+		{
+			// Clear data
+			importFileList.clear();
+			importFileCount = 0;
+			isSound = true;
+			showDialog = false;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+}
+
+void ImportErrorPopup(bool& showDialog) {
+	ImGui::OpenPopup("Import Error");
+
+	if (ImGui::BeginPopupModal("Import Error", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+		std::string destinationFilename = importFileList[0].substr(importFileList[0].find_last_of('\\') + 1, importFileList[0].size() - importFileList[0].find_last_of('\\') + 1);
+
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text("File type is not supported!");
+
+		ImGui::Dummy(ImVec2(spacing, buttonHeight)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text(destinationFilename.c_str());
+
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text("Valid file types:");
+
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text("Textures:");
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text(".png / .jpg / .jpeg files");
+
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text("Audio:");
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		ImGui::Text(".wav / .ogg files");
+
+		ImGui::Dummy(ImVec2(spacing, 0.f)); // Adjusting the height
+		ImGui::SameLine();
+		if (ImGui::Button("OK", { spacing * 5.f, buttonHeight })) {
+			importFileList.pop_front();
+			--importFileCount;
+			showDialog = false;
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
+/******************************************************************************
+*
+*	@brief Creates the popup dialog for importing images
+*
+*	Creates the popup dialog for the user to choose the type of image to be
+*	imported. The user can choose between a static image or a spritesheet.
+*	If the user chooses to import a spritesheet, the user will have to enter
+*	the number of rows and columns in the spritesheet.
+*
+******************************************************************************/
+void CheckImageTypeDialog(bool & showDialog) {
+	ImGui::SetNextWindowSize(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+	ImGui::SetNextWindowPos(ImVec2(GRAPHICS::defaultWidthF / 3.f, GRAPHICS::defaultHeightF / 3.f));
+	
+	std::string extension = FilePath::GetFileExtension(importFileList[0]);
+
+	if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {
+		ImportImage(showDialog);
+	}
+	else if (extension == ".wav" || extension == ".ogg") {
+		ImportAudio(showDialog);
+	}
+	else {
+		ImportErrorPopup(showDialog);
 	}
 }

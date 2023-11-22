@@ -74,8 +74,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -2.0,
-            "position_y": 0.0,
+            "position_x": 0.0,
+            "position_y": -1.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -396,9 +396,9 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 170.0,
-            "position_y": -434.0,
-            "rotation": 209.49624633789063,
+            "position_x": -186.0,
+            "position_y": -203.0,
+            "rotation": 22.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -420,8 +420,7 @@
         "Scripts": {
             "className": "",
             "scriptAttachedNameVec": [
-                "ClockWiseSpin",
-                "AutoMoveY"
+                "PlayerTest"
             ]
         },
         "Model": {

@@ -43,6 +43,7 @@
 #include "EntityFactory.h"
 #include <algorithm>
 #include <limits>
+#include "UndoRedo.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -70,9 +71,16 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 	/*name.draggingOffset = transform.position - currentMousePosition;*/
 
 
-	if (!popupHovered && name.selected) {
-
-		if (selectedEntities.size() == 1 && IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+	if (!popupHoavered && name.selected) {
+		if (&model == nullptr) {
+			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+				SetCursor(hAllDirCursor);
+			}
+			else {
+				SetCursor(hDefaultCursor);
+			}
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
 			//name.clicked == CLICKED::NE;
 			SetCursor(hNESWCursor);
 		}
@@ -107,7 +115,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		switch (msg.type) {
 
 		case TYPE::KEY_DOWN:
-
+			
 			switch (msg.info) {
 
 			case INFO::KEY_DEL:   
@@ -123,8 +131,14 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 		case TYPE::MOUSE_CLICK:
 
 			if (name.selected) {
-
-				if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+				undoRedo.RecordCurrent(entity);
+				if (&model == nullptr) {
+					if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+						name.clicked = CLICKED::INSIDE;
+						printf("INSIDE ------");
+					}
+				}
+				else if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
 					name.clicked = CLICKED::NE;
 					printf("NE ------");
 				}

@@ -32,6 +32,7 @@
 
 #pragma once
 #include "Components.h"
+#include "CharacterStats.h"
 #include "model.h"
 #include "Font.h"
 #include "Colors.h"
@@ -44,8 +45,8 @@ enum class UI_HORIZONTAL_ALIGNMENT {
 	H_RIGHT_ALIGN
 };
 enum class UI_VERTICAL_ALIGNMENT {
-	V_CENTER_ALIGN,
 	V_TOP_ALIGN,	
+	V_CENTER_ALIGN,
 	V_BOTTOM_ALIGN
 };
 // enums for state lookup
@@ -61,8 +62,10 @@ struct Padding {
 	float right;
 	float top;
 	float bottom;
+	int setting{1};
 
 	Padding() : left{ 40.f }, right{ 40.f }, top{ 20.f }, bottom{ 20.f } {}
+	Padding(float singleVal): left{ singleVal }, right{ singleVal }, top{ singleVal }, bottom{ singleVal } {}
 	Padding(float horizontalVal, float verticalVal) : left{ horizontalVal }, right{ horizontalVal }, top{ verticalVal }, bottom{ verticalVal } {}
 	Padding(float leftVal, float rightVal, float topVal, float bottomVal) : left{ leftVal }, right{ rightVal }, top{ topVal }, bottom{ bottomVal } {}
 };
@@ -85,14 +88,16 @@ public:
 	Font* font{}; 
 	std::string textString{}; 
 	std::string prevTextString{};
-	Vec2 posOffset{}; //offset from transform
+	//Vec2 posOffset{}; //offset from transform
 	Vec2 relTransform{};
 	glm::vec4 textColor{}; 
 	float relFontSize{};
 	float textWidth{};
 	float textHeight{};
-	UI_HORIZONTAL_ALIGNMENT textAlignment{};
+	UI_HORIZONTAL_ALIGNMENT hAlignment{};
+	UI_VERTICAL_ALIGNMENT vAlignment{};
 	STATE currentState{};
+	bool hasBackground{};
 
 	std::string initClr;
 
@@ -123,9 +128,9 @@ public:
 	/**************************
 	******* OTHER UTILS *******
 	**************************/
-	bool CheckStringUpdated(TextLabel& txtLblData);	
+	bool CheckStringUpdated(TextLabel& txtLblData);
 	void CalculateOffset();
-	void UpdateOffset(Transform const& transformData);
+	void UpdateOffset(Transform const& transformData, Size const& sizeData, Padding const& paddingData = { 0.f,0.f,0.f,0.f });
 
 	/**************************
 	******* SYSTEM CALLS ******
@@ -195,9 +200,113 @@ public:
 	void DrawButtonTex(Model& modelData, Tex& texData, TextLabel& textLabelData);*/
 };
 
-class LayoutGroup : UIComponent {
+class HealthBar : UIComponent {
 public:
-	Vec2 margin{};
-	//vector of component pointers? just to keep track what components are in the group?
-	std::vector<std::shared_ptr<UIComponent>>components;
+	CharacterStats* charaStatsRef{};
+	float currentHealth{};
+	float maxHealth{};	
+	float healthPct{};
+
+	float barWidth{};
+	float barHeight{};
+	Vec2 relTransform{};
+
+	bool showHealthStat{};
+	bool showValOrPct{};
+
+	UI_VERTICAL_ALIGNMENT vAlignment{};
+
+	HealthBar();
+	HealthBar(CharacterStats& charaStats);
+	float GetCurrentHealth();
+	float GetMaxHealth();
+	float GetHealthPct();
+
+	void SetCurrentHealth(float currentHp);
+	void SetMaxHealth(float maxHp);
+	void UpdateHealth(CharacterStats& charaStatsData);
+	void UpdateHealth(Size& sizeData, CharacterStats& charaStatsData, TextLabel& textLabelData);
+
+	void UpdateOffset(Transform const& transformData, Size const& sizeData);
+	void UpdateColors(Model& modelData, CharacterStats& charaStatsData, TextLabel& textLabelData);
+};
+
+
+class SkillPointHUD : UIComponent {
+public:
+	//parent entity of SkillPoint (x5)
+	//need to retrieve from battle system instead
+	BattleSystem* battleSys{};
+	int skillPointBalance{};
+	int maxSkillPoints{};
+	
+	SkillPointHUD();
+	void UpdateBalance();
+};
+
+class SkillPoint : UIComponent {
+public:
+	bool isActive{};
+};
+
+
+class AttackSkillsHUD : UIComponent {
+public:
+	//parent entity of AttackSkill (x3)
+	CharacterStats* charaStatsRef{};
+	const std::vector<Attack>& atkSkills{};
+};
+
+class AttackSkill : UIComponent {
+public:
+	//parent entity of SkillIcon, SkillCost, AttackType
+	//include button event functionality
+	int skillIndex{};
+	/*SkillIcon skillIcon;
+	SkillCost skillCost;
+	SkillAttackType skillAtkType;*/
+};
+
+class SkillIcon : UIComponent {
+	// empty by design? to modify 
+};
+
+class SkillCost : UIComponent {
+	// TextLabel + Tex/SkillPoint
+};
+
+class SkillAttackType : UIComponent {
+	// TextLabel + Tex
+	AttackType atkType;
+};
+
+class EnemyHUD : UIComponent {
+
+};
+
+class TurnIndicator : UIComponent {
+
+};
+
+
+class EffectsPanel : UIComponent {
+public:
+	UI_HORIZONTAL_ALIGNMENT hAlignment{};
+
+	/*
+	* notes:
+	* - parent entity to hold multiple "Effect" (prefab?)
+	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
+	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
+	*/
+
+	//void UpdateOffset();
+};
+
+class Effect : UIComponent {
+public:
+	/*
+	* notes:
+	* - composite of icon (Tex) and stacks (TextLabel)
+	*/
 };

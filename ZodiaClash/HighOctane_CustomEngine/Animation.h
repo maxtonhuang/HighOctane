@@ -110,21 +110,22 @@ public:
 	Keyframe<std::string> keyframes;
 };
 
-//class TransformAttachAnimation : public Animation {
-//public:
-//	TransformAttachAnimation();
-//	void Start() override;
-//	void Update(int frameNum) override;
-//	void AddKeyFrame(int frameNum, void* frameData) override;
-//	void RemoveKeyFrame(int frameNum) override;
-//	bool HasKeyFrame(int frameNum) override;
-//
-//	std::list<Keyframe<std::string>> keyframes;
-//private:
-//	Transform* entityTransform;
-//	vmath::Vector2 velocity; //per frame velocity
-//	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
-//};
+class TransformAttachAnimation : public Animation {
+public:
+	TransformAttachAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<std::string>> keyframes;
+private:
+	Transform* GetEntityTransform(std::string);
+	Transform* entityTransform;
+	vmath::Vector2 velocity; //per frame velocity
+	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
+};
 
 class TransformDirectAnimation : public Animation {
 public:
