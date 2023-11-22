@@ -41,9 +41,11 @@ private:
 class AnimationSet {
 public:
 	void Start(std::string animationName, Entity entity);
+	void Initialise(Entity entity);
 	void Update();
 	std::vector<AnimationGroup> animationSet;
 	bool paused;
+	std::string defaultAnimation{};
 private:
 	AnimationGroup* activeAnimation;
 };

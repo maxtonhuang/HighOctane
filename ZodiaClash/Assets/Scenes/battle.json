@@ -11,9 +11,10 @@
     {
         "Entity": {
             "Name": "master_00001",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 0
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
         },
         "Master": {},
         "Color": {
@@ -44,81 +45,28 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         }
     },
     {
-        "Entity": {
-            "Name": "entity_00001",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 0
-        },
         "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "background.jpeg"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 1920.0,
-            "height": 1080.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
-    },
-    {
         "Entity": {
             "Name": "Cat",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 1
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -126,10 +74,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -530.0,
-            "position_y": 64.00003051757813,
+            "position_x": -524.0,
+            "position_y": 30.000030517578125,
             "rotation": 0.0,
-            "scale": 1.484375238418579,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -147,15 +95,9 @@
             "width": 256.0,
             "height": 256.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 0,
@@ -171,18 +113,23 @@
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00007",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 2
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -201,16 +148,20 @@
             "isVisible": true
         },
         "Size": {
-            "width": 319.5,
+            "width": 326.5,
             "height": 59.5
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
         },
         "Movable": {},
         "Text Label": {
@@ -221,17 +172,20 @@
             "g": 0.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "white"
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 3
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -262,11 +216,15 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
@@ -277,7 +235,9 @@
             "g": 0.0,
             "b": 0.0,
             "a": 0.0,
-            "Color Preset": "black"
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1
         },
         "Button": {
             "Button R": 0.0,
@@ -293,69 +253,19 @@
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     },
     {
-        "Entity": {
-            "Name": "entity_00013",
-            "Selected": false,
-            "Current Layer": 0,
-            "Order in Layer": 4
-        },
         "Clone": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 647.0,
-            "position_y": -264.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "duck.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
-        "Scripts": {
-            "className": "",
-            "scriptNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0
-        },
-        "Movable": {}
-    },
-    {
         "Entity": {
             "Name": "Guard",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 5
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -363,10 +273,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 594.0,
-            "position_y": 51.0,
+            "position_x": 372.0,
+            "position_y": -5.0,
             "rotation": 0.0,
-            "scale": 1.484375238418579,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -384,15 +294,9 @@
             "width": 256.0,
             "height": 256.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 1,
@@ -407,18 +311,23 @@
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 6
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -449,11 +358,15 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
@@ -464,7 +377,9 @@
             "g": 0.0,
             "b": 0.0,
             "a": 0.0,
-            "Color Preset": "black"
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1
         },
         "Button": {
             "Button R": 0.0,
@@ -480,17 +395,19 @@
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011_CLONE_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 7
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -521,11 +438,15 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
@@ -536,7 +457,9 @@
             "g": 0.0,
             "b": 0.0,
             "a": 0.0,
-            "Color Preset": "black"
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1
         },
         "Button": {
             "Button R": 0.0,
@@ -552,7 +475,204 @@
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
+        }
+    },
+    {
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "NEW_bg.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 1920.0,
+            "height": 1080.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "background_battle.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Attach Point",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -197.0,
+            "position_y": 101.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Movable": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Enemy 2 Position",
+            "Current Layer": 0,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 373.0,
+            "position_y": -24.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Player 1  Position",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -534.0,
+            "position_y": 10.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Enemy 1 Position",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 248.0,
+            "position_y": 141.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Enemy 3 Position",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 491.0,
+            "position_y": -210.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         }
     }
 ]

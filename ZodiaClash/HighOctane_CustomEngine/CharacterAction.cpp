@@ -35,6 +35,7 @@
 
 #include "CharacterAction.h"
 #include "CharacterStats.h"
+#include "Events.h"
 
 /**
  * @brief Updates the state of a character's action within a battle turn.
@@ -94,11 +95,12 @@ void CharacterAction::ApplySkill() {
         DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
     }
     // deduct the respective chi cost when a skill is used
-    characterStats->stats.chi -= selectedSkill.chiCost;
+    BattleSystem* battlesys = events.GetBattleSystem();
+    battlesys->chi -= selectedSkill.chiCost;
 
     // increase chi cost by 1 when skill 1 is used
     if (selectedSkill.attackName == "Skill 1") {
-        characterStats->stats.chi += 1;
+        battlesys->chi += 1;
     }
 
     if (selectedSkill.attacktype == AttackType::NORMAL) {

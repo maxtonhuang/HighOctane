@@ -647,6 +647,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			animset = &ECS::ecs().GetComponent<AnimationSet>(entity);
 			rapidjson::Value animsetObject = SerializeAnimationSet(*animset, allocator);
 			entityObject.AddMember("Animation Set", animsetObject, allocator);
+			entityObject.AddMember("Animation Set Default Animation", rapidjson::Value(animset->defaultAnimation.c_str(), allocator).Move(), allocator);
 		}
 		if (CheckSerialize<Parent>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("Parent", rapidjson::Value(rapidjson::kObjectType), allocator);
@@ -1138,6 +1139,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			}
 			if (entityObject.HasMember("Animation Set")) {
 				AnimationSet animset{};
+				
+				if (entityObject.HasMember("Animation Set Default Animation")) {
+					const rapidjson::Value& defaultanimObject = entityObject["Animation Set Default Animation"];
+					animset.defaultAnimation = defaultanimObject.GetString();
+				}
+
 				for (auto& animGroups : entityObject["Animation Set"].GetArray()) {
 					AnimationGroup anigrp{};
 					anigrp.totalFrames = animGroups["Total Frames"].GetInt();

@@ -107,7 +107,8 @@ void SelectSkill(std::string input) {
 	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
 
 	// check if the character has enough Chi to perform the skill
-	if (bs->activeCharacter->stats.chi >= bs->activeCharacter->action.selectedSkill.chiCost) {
+	BattleSystem* battlesys = events.GetBattleSystem();
+	if (battlesys->chi >= bs->activeCharacter->action.selectedSkill.chiCost) {
 		auto targets = bs->GetEnemies();
 		bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 		bs->activeCharacter->action.entityState = ATTACKING;
