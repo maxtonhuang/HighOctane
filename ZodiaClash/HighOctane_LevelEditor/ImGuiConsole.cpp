@@ -35,6 +35,10 @@
 #include "MultiThreading.h"
 #include "debugdiagnostic.h"
 #include "ScriptEngine.h"
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <string>
 
 // This is the buffer size allowable before clearing the buffer
 constexpr int MAX_BUFFER_SIZE = 20000;
@@ -206,48 +210,7 @@ void UpdateConsole() {
 }
 
 
-/*!
-* \brief Stream buffer for ImGui
-*
-* This function is responsible for creating a stream buffer for ImGui
-* It will be used to redirect std::cout to ImGui
-*
-* \param c The character to be appended to the buffer
-*/
-int ImGuiOutputBuffer::overflow(int c) {
-    if (c != EOF) {
-        // Append the character to a buffer
-        buffer += static_cast<char>(c);
-    }
-    return c;
-}
 
-/*!
-* \brief Get the buffer for ImGui
-*
-* This function is responsible for getting the buffer for ImGui
-* 
-*/
-const std::string& ImGuiOutputBuffer::GetBuffer() const {
-    return buffer;
-}
-
-/*!
-* \brief Clear the buffer for ImGui
-*
-* This function is responsible for clearing the buffer for ImGui
-* 
-*/
-void ImGuiOutputBuffer::ClearBuffer() {
-    buffer.clear();
-}
-
-// Define the instance
-ImGuiOutputBuffer imguiOutputBuffer;
-
-// Redirect std::cout to use the custom stream buffer
-std::ostream imguiCout(&imguiOutputBuffer);
-std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
 
 /*!
 * \brief Export the console content to a file
@@ -257,12 +220,22 @@ std::streambuf* coutBuf = std::cout.rdbuf(imguiCout.rdbuf());
 * \param fileName The name of the file to export to
 */
 void ExportConsoleToFile(const char* fileName) {
-    std::string fullFileName;
+    // Folder where the log file will be saved
+    const std::string folderName = "Logs";
 
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
+    // Create the Logs directory if it doesn't exist
+    std::filesystem::create_directory(folderName);
 
+    // Construct the full file name
+    std::string fullFileName = folderName + "/";
+
+    // Append the file name or use a default name
+    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".log" : fullFileName += "Console.log";
+
+    // Open the file
     std::ofstream outputFile(fullFileName);
 
+    // Check if the file is open (able to be written to)
     ASSERT(!outputFile.is_open(), "Unable to open file to export console");
 
     // Get the console content and write it to the file
@@ -278,7 +251,6 @@ void ExportConsoleToFile(const char* fileName) {
     // Display success message after exporting, optional
     std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
 }
-
 /*!
 * \brief Delete the line from the file
 *
@@ -287,8 +259,22 @@ void ExportConsoleToFile(const char* fileName) {
 * \param fileName The name of the file to delete from
 */
 void DeleteLineFromFile(const char* fileName) {
-    std::string fullFileName;
-    fileName&& fileName[0] != '\0' ? fullFileName = std::string(fileName) + ".log" : fullFileName = "Console.log";
+    // Folder where the log file is located
+    const std::string folderName = "Logs";
+
+    // Construct the full file name
+    std::string fullFileName = folderName + "/";
+
+    // Append the file name or use a default name
+    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".log" : fullFileName += "Console.log";
+
+    // Check if the file exists
+    if (!std::filesystem::exists(fullFileName)) {
+        std::cerr << "File does not exist: " << fullFileName << std::endl;
+        return;
+    }
+
+    // Open the file for reading
     std::ifstream inputFile(fullFileName);
     ASSERT(!inputFile.is_open(), "Unable to open file to read");
 
@@ -304,11 +290,11 @@ void DeleteLineFromFile(const char* fileName) {
 
     inputFile.close();
 
-    // Open the file to write
+    // Open the file to write, truncating its contents
     std::ofstream outputFile(fullFileName, std::ios::trunc);
     ASSERT(!outputFile.is_open(), "Unable to open file to write");
 
-    // Write the string to the file
+    // Write the modified contents back to the file
     outputFile << fileContents;
     outputFile.close();
 }

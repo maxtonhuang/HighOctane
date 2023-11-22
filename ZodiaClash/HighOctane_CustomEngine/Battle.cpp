@@ -182,8 +182,10 @@ void BattleSystem::Update()
         {
             if (roundManage.characterCount < turnManage.characterList.size())
             {
-                turnManage.activeEnemy = activeCharacter->gameObject.name;
-                turnManage.activePlayer = "";
+
+                // Error here, activeCharacter is null
+                //turnManage.activeEnemy = activeCharacter->gameObject.name;
+                //turnManage.activePlayer = "";
 
                 if (m_Entities.size() > 0) {
                     printf("\nState: Enemy Turn\n");

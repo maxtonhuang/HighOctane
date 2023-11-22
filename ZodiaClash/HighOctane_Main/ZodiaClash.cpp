@@ -167,6 +167,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_WARNING("This is a test warning message");
     LOG_ERROR("This is a test error message");
     LOG_FATAL("This is a test fatal message");
+	DEBUG_PRINT("This is a test debug log message")
     /*---------------------------------------------------------------------------------------------*/
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
@@ -180,6 +181,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //////////////////////////////
 
 	EngineCore::engineCore().Run(game_mode);
+
 
     return 0;
 }

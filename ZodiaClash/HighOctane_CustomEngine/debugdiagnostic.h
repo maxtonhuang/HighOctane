@@ -58,6 +58,7 @@
 #include <crtdbg.h>
 #include <cstdlib>
 #include <assert.h>
+#include "DebugBuffer.h"
 
 // Do not need to touch this, it is auto
 // If Debug mode, then enable debug diagnostics

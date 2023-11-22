@@ -196,6 +196,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="CharacterCommon.h" />
     <ClInclude Include="CheatCode.h" />
     <ClInclude Include="Colors.h" />
+    <ClInclude Include="DebugBuffer.h" />
     <ClInclude Include="EnemyAction.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="GameAILogic.h" />
@@ -259,6 +260,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="CheatCode.cpp" />
     <ClCompile Include="Colors.cpp" />
     <ClCompile Include="Components.cpp" />
+    <ClCompile Include="DebugBuffer.cpp" />
     <ClCompile Include="Events.cpp" />
     <ClCompile Include="GameAILogic.cpp" />
     <ClCompile Include="Animator.cpp" />

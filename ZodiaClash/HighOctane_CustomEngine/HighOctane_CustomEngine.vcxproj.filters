@@ -260,6 +260,9 @@
     <ClInclude Include="Serialization.h">
       <Filter>Serialization</Filter>
     </ClInclude>
+    <ClInclude Include="DebugBuffer.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -417,6 +420,9 @@
     </ClCompile>
     <ClCompile Include="Components.cpp">
       <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugBuffer.cpp">
+      <Filter>Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
