@@ -119,7 +119,6 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "Parent": {},
         "Child": {
             "position_x": 40.0,
             "position_y": -120.0,

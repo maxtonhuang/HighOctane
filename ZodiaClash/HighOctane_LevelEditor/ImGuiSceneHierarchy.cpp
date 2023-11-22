@@ -121,7 +121,7 @@ void UpdatePrefabHierachy() {
 	if (currentSystemMode == SystemMode::EDIT) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
-			if (clone.prefab == prefabName) {
+			if (clone.prefab == prefabName && prefabName != "") {
 				for (auto& ecsType : typeManager) {
 					if (ecsType.second->HasComponent(currentSelectedPrefab) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
 						ecsType.second->CopyComponent(cloneEntity, currentSelectedPrefab);
