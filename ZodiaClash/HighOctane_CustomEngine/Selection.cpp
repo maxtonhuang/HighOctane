@@ -16,48 +16,34 @@ constexpr float CORNER_SIZE = 10.f;
 void Selection(Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
 	thereWasAClickThisCycle = false;
 
-
-
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
-		case TYPE::KEY_TRIGGERED: {
+
+		case TYPE::MOUSE_CLICK: {
 			switch (msg.info) {
-			case INFO::KEY_RSHIFT:
-			case INFO::KEY_LSHIFT:
-				shiftKeyPressed = true;
-				break;
-			case INFO::KEY_RCTRL:
-			case INFO::KEY_LCTRL:
-				controlKeyPressed = true;
-				break;
-			/*case INFO::KEY_G:
-				if (controlKeyPressed && !shiftKeyPressed && (selectedEntities.size() > 1)) {
-					GroupSelection();
+			case INFO::MOUSE_RIGHT:
+				thereWasAClickThisCycle = true;
+				//if (viewportWindowHovered) {
+				printf("Right Click Detected\n");
+				if (IsWithinObject(model, currentMousePosition)) {
+					//UnselectAll();
+					//name.selected = true;
+					if (!name.selected) {
+						ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
+					}
+					//newSelection = entity;
+
+					somethingWasSelectedThisCycle = true;
+					rightClick = true;
+					rightClickPos = currentMousePosition;
+					//printf("Selected Count: %d\n", selectedCount);
 				}
-				else if (controlKeyPressed && !shiftKeyPressed && (selectedEntities.size() > 1))
-				break;*/
+				//}
+
+				break;
 			}
 		}
-		break;
-
-		case TYPE::KEY_UP: {
-			switch (msg.info) {
-			case INFO::KEY_RSHIFT:
-			case INFO::KEY_LSHIFT:
-				shiftKeyPressed = false;
-				break;
-			case INFO::KEY_RCTRL:
-			case INFO::KEY_LCTRL:
-				controlKeyPressed = false;
-				break;
-
-			}
-		}
-		break;
-
-		//case TYPE::MOUSE_MOVE:
-		//	currentMousePosition = { msg.posX, msg.posY };
-		//	break;
+			break;
 
 		case TYPE::MOUSE_UP: // selection of entity done here << --- needs a DRAGGED bool to check if it was dragged or not
 			switch (msg.info) {

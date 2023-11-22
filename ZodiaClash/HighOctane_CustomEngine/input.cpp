@@ -175,7 +175,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
     int currPosY = static_cast<int>(static_cast<float>(ypos) - GRAPHICS::h);
 
-    if (currPosX != previousPosX || currPosY != previousPosY) {
+    if (abs(currPosX - previousPosX) > 3 || abs(currPosY - previousPosY) > 3) {
         Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
     }
 

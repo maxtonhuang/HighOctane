@@ -647,6 +647,15 @@ void EditingSystem::Update() {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED: {
 			switch (msg.info) {
+
+			case INFO::KEY_RSHIFT:
+			case INFO::KEY_LSHIFT:
+				shiftKeyPressed = true;
+				break;
+			case INFO::KEY_RCTRL:
+			case INFO::KEY_LCTRL:
+				controlKeyPressed = true;
+				break;
 			case INFO::KEY_G:
 				if (controlKeyPressed && !shiftKeyPressed && (selectedEntities.size() > 1)) {
 					GroupSelection();
@@ -654,15 +663,30 @@ void EditingSystem::Update() {
 				else if (controlKeyPressed && shiftKeyPressed && (selectedEntities.size() > 1)) {
 					UngroupSelection();
 				}
-					break;
+				break;
 			case INFO::KEY_Z:
 				if (controlKeyPressed) {
 					undoRedo.Undo();
 				}
 				break;
+		}
+		break;
+
+		case TYPE::KEY_UP: {
+			switch (msg.info) {
+			case INFO::KEY_RSHIFT:
+			case INFO::KEY_LSHIFT:
+				shiftKeyPressed = false;
+				break;
+			case INFO::KEY_RCTRL:
+			case INFO::KEY_LCTRL:
+				controlKeyPressed = false;
+				break;
 			}
 		}
 		break;
+		}
+		
 
 		case TYPE::MOUSE_MOVE:
 			currentMousePosition = { msg.posX, msg.posY };
