@@ -836,8 +836,8 @@ void EditingSystem::Update() {
 	if (toDestroy) {
 		printf("In Destroy: %lld\n", selectedEntities.size());
 		for (Entity entity : selectedEntities) {
-			EntityFactory::entityFactory().DeleteCloneModel(entity);
-			//RemoveEntityFromLayering(entity);
+			undoRedo.RecordCurrent(entity,ACTION::DELENTITY);
+			ECS::ecs().RemoveComponent<Clone>(entity);
 			entitiesToSkip[entity] = false;
 			entitiesToLock[entity] = false;
 		}

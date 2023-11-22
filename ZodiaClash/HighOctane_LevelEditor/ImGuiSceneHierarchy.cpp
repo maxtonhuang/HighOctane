@@ -40,8 +40,10 @@ std::string prefabName{};
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
 	for (const Entity& entity : s_ptr->m_Entities) {
-		if (ECS::ecs().HasComponent<Name>(entity)) {
-			SceneEntityNode(entity);
+		if (ECS::ecs().HasComponent<Clone>(entity)) {
+			if (ECS::ecs().HasComponent<Name>(entity)) {
+				SceneEntityNode(entity);
+			}
 		}
 	}
 	if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {

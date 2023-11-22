@@ -58,6 +58,7 @@
 #include <iomanip>
 #include <filesystem>
 #include "CharacterStats.h"
+#include "UndoRedo.h"
 
 
 /*
@@ -331,6 +332,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
+	undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
 	return entity;
 }
 

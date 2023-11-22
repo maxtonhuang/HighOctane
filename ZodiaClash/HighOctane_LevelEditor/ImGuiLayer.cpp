@@ -133,23 +133,24 @@ void UpdateLayer() {
 
 			for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
 				Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
-				if (entityName.selected) {
-					currentLayer = layer_it;
-				}
-				layersToSkip[layer_it] = CheckSkipLayerAllTrue(static_cast<size_t>(layer_it));
-				layersToLock[layer_it] = CheckLockLayerAllTrue(static_cast<size_t>(layer_it));
-				std::string label3 = "##label" + std::to_string(checkboxCounter++);
-				if (ImGui::Checkbox(label3.c_str(), &entitiesToSkip[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
-					UnselectAll();
-				}
-				ImGui::SameLine();
-				std::string label4 = "##label" + std::to_string(checkboxCounter++);
-				if (ImGui::Checkbox(label4.c_str(), &entitiesToLock[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
-					UnselectAll();
-				}
-				ImGui::SameLine();
-				std::string temp = (entityName.group > 0) ? ("(G" + std::to_string(entityName.group) + ") " + entityName.name) : entityName.name;
 				if (ECS::ecs().HasComponent<Clone>(layering[layer_it][entity_it])) {
+					if (entityName.selected) {
+						currentLayer = layer_it;
+					}
+					layersToSkip[layer_it] = CheckSkipLayerAllTrue(static_cast<size_t>(layer_it));
+					layersToLock[layer_it] = CheckLockLayerAllTrue(static_cast<size_t>(layer_it));
+					std::string label3 = "##label" + std::to_string(checkboxCounter++);
+					if (ImGui::Checkbox(label3.c_str(), &entitiesToSkip[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
+						UnselectAll();
+					}
+					ImGui::SameLine();
+					std::string label4 = "##label" + std::to_string(checkboxCounter++);
+					if (ImGui::Checkbox(label4.c_str(), &entitiesToLock[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
+						UnselectAll();
+					}
+					ImGui::SameLine();
+					std::string temp = (entityName.group > 0) ? ("(G" + std::to_string(entityName.group) + ") " + entityName.name) : entityName.name;
+				
 					if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), temp.c_str())) {
 
 						if (ImGui::IsItemClicked()) {
