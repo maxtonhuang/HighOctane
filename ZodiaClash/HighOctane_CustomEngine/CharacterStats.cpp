@@ -140,6 +140,16 @@ void CharacterStats::HealBuff(float buffAmount)
     }
 }
 
+void CharacterStats::ApplyBloodStack() 
+{
+    if (debuffs.bloodStack > 0) {
+        float damage = stats.attack * 0.10f;
+        TakeDamage(damage);
+        debuffs.bloodStack--;
+    }
+    else return; //when there is no bloodstack effect
+}
+
 /**
  * @brief Pauses the thread for a given number of seconds.
  * @param seconds The amount of time in seconds to pause the thread.
