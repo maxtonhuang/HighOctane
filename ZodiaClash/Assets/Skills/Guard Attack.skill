@@ -1,6 +1,6 @@
 [
     {
-        "Name": "Normal Attack",
+        "Name": "Guard Attack",
         "Type": 0,
         "Skill Attack": 100,
         "Minimum Attack Multiplier": 1.0,
