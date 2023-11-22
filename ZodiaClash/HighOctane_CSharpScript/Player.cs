@@ -20,10 +20,10 @@ namespace PlayerController
 
         public override void Update()
         {
-            Vector2 translation = Translation;
+            Vector2 translation = Position;
             translation.X += Input.GetAxisHorizontal() * speed;
             translation.Y += Input.GetAxisVertical() * speed;
-            Translation = translation;
+            Position = translation;
 
             float rotation = Rotation;
             

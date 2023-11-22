@@ -394,10 +394,10 @@ void GraphicsSystem::Draw() {
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] || !edit_mode) {
+		if (layersToSkip[layer_it] || currentSystemMode != SystemMode::EDIT) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity] || !edit_mode) {
+				if (entitiesToSkip[entity] || currentSystemMode != SystemMode::EDIT) {
 					Tex* tex{};
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {
@@ -411,7 +411,7 @@ void GraphicsSystem::Draw() {
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 						}
 					}
-					else if (edit_mode && transformArray.HasComponent(entity)) {
+					else if (currentSystemMode == SystemMode::EDIT && transformArray.HasComponent(entity)) {
 						Transform* transform{ &transformArray.GetData(entity) };
 						Name* name{ &nameArray.GetData(entity) };
 						if (name->selected) {
@@ -647,6 +647,15 @@ void EditingSystem::Update() {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED: {
 			switch (msg.info) {
+
+			case INFO::KEY_RSHIFT:
+			case INFO::KEY_LSHIFT:
+				shiftKeyPressed = true;
+				break;
+			case INFO::KEY_RCTRL:
+			case INFO::KEY_LCTRL:
+				controlKeyPressed = true;
+				break;
 			case INFO::KEY_G:
 				if (controlKeyPressed && !shiftKeyPressed && (selectedEntities.size() > 1)) {
 					GroupSelection();
@@ -654,15 +663,30 @@ void EditingSystem::Update() {
 				else if (controlKeyPressed && shiftKeyPressed && (selectedEntities.size() > 1)) {
 					UngroupSelection();
 				}
-					break;
+				break;
 			case INFO::KEY_Z:
 				if (controlKeyPressed) {
 					undoRedo.Undo();
 				}
 				break;
+		}
+		break;
+
+		case TYPE::KEY_UP: {
+			switch (msg.info) {
+			case INFO::KEY_RSHIFT:
+			case INFO::KEY_LSHIFT:
+				shiftKeyPressed = false;
+				break;
+			case INFO::KEY_RCTRL:
+			case INFO::KEY_LCTRL:
+				controlKeyPressed = false;
+				break;
 			}
 		}
 		break;
+		}
+		
 
 		case TYPE::MOUSE_MOVE:
 			currentMousePosition = { msg.posX, msg.posY };
@@ -812,8 +836,8 @@ void EditingSystem::Update() {
 	if (toDestroy) {
 		printf("In Destroy: %lld\n", selectedEntities.size());
 		for (Entity entity : selectedEntities) {
-			EntityFactory::entityFactory().DeleteCloneModel(entity);
-			//RemoveEntityFromLayering(entity);
+			undoRedo.RecordCurrent(entity,ACTION::DELENTITY);
+			ECS::ecs().RemoveComponent<Clone>(entity);
 			entitiesToSkip[entity] = false;
 			entitiesToLock[entity] = false;
 		}
@@ -990,7 +1014,7 @@ void UITextLabelSystem::Draw() {
 		}
 
 		if (!buttonData && !texData) {
-			if (edit_mode) {
+			if (currentSystemMode == SystemMode::EDIT) {
 				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
 					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) 
 					: modelData->SetAlpha(0.2f);
@@ -1029,7 +1053,7 @@ void UIButtonSystem::Update() {
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = (edit_mode) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
+			glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 
@@ -1136,6 +1160,7 @@ void ChildSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	std::vector<Entity> toDestroyList{};
 

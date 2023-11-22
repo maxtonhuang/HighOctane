@@ -46,6 +46,8 @@
 #include <shobjidl.h>
 #include <filesystem>
 #include "File.h"
+#include "ImGuiIcons.h"
+#include "ImGuiComponents.h"
 
 constexpr float thumbnailSize = 128.f;
 constexpr float paddingSize = 20.f;
@@ -100,20 +102,33 @@ void UpdateAssetLibrary() {
 	int columnCount = std::max(1, static_cast<int>(panelWidth / (thumbnailSize + paddingSize)));
 	ImGui::Columns(columnCount, NULL, false);
 
-	for (std::pair<std::string, Entity> val : EntityFactory::entityFactory().masterEntitiesList)
+	//for (std::pair<std::string, Entity> val : EntityFactory::entityFactory().masterEntitiesList)
+	for (std::pair<std::string, Entity> val : assetmanager.GetPrefabMap())
 	{
-		Texture* tex = ECS::ecs().GetComponent<Tex>(val.second).tex;
-		float imageWidth = static_cast<float>(tex->GetWidth());
-		float imageHeight = static_cast<float>(tex->GetHeight());
-		int rowCount = tex->GetRowCount() == 0 ? 1 : tex->GetRowCount();
-		int colCount = tex->GetColCount() == 0 ? 1 : tex->GetColCount();
-		ImGui::ImageButton(reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(tex->GetID())), { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / static_cast<float>(colCount), 1.f / static_cast<float>(rowCount) });
+		if (val.second == 0) {
+			continue;
+		}
+		ImTextureID texID{ loadedIcons["fileIcon"] };
+		float imageWidth{ thumbnailSize };
+		float imageHeight{ thumbnailSize };
+		int rowCount{ 1 };
+		int colCount{ 1 };
+		if (ECS::ecs().HasComponent<Tex>(val.second)) {
+			Texture* tex = ECS::ecs().GetComponent<Tex>(val.second).tex;
+			imageWidth = static_cast<float>(tex->GetWidth());
+			imageHeight = static_cast<float>(tex->GetHeight());
+			rowCount = tex->GetRowCount() == 0 ? 1 : tex->GetRowCount();
+			colCount = tex->GetColCount() == 0 ? 1 : tex->GetColCount();
+			texID = reinterpret_cast<ImTextureID>(static_cast<uintptr_t>(tex->GetID()));
+		}
+		
+		ImGui::ImageButton(texID, { (imageWidth < imageHeight) ? (thumbnailSize * imageWidth / imageHeight) : thumbnailSize, (imageWidth < imageHeight) ? thumbnailSize : (thumbnailSize * imageHeight / imageWidth) }, { 0 , 0 }, { 1.f / static_cast<float>(colCount), 1.f / static_cast<float>(rowCount) });
 		if (ImGui::IsItemHovered()) {
-			if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
-				selectedMaster = val.second;
-				popupMasterRightClicked = true;
-			}
-			else if (ImGui::IsMouseDoubleClicked(0)) {
+			//if (ImGui::IsItemClicked(ImGuiMouseButton_Right)) {
+			//	selectedMaster = val.second;
+			//	popupMasterRightClicked = true;
+			//}
+			if (ImGui::IsMouseDoubleClicked(0)) {
 				selectedMaster = val.second;
 				clicked = true;
 			}
@@ -137,15 +152,15 @@ void UpdateAssetLibrary() {
 		clicked = false;
 	}
 
-	if (popupMasterRightClicked) {
-		if (ImGui::BeginPopupContextWindow("1")) {
-			if (ImGui::MenuItem("Delete")) {
-				EntityFactory::entityFactory().DeleteMasterModel(selectedMaster);
-				popupMasterRightClicked = false;
-			}
-			ImGui::EndPopup();
-		}	
-	}
+	//if (popupMasterRightClicked) {
+	//	if (ImGui::BeginPopupContextWindow("1")) {
+	//		if (ImGui::MenuItem("Delete")) {
+	//			EntityFactory::entityFactory().DeleteMasterModel(selectedMaster);
+	//			popupMasterRightClicked = false;
+	//		}
+	//		ImGui::EndPopup();
+	//	}	
+	//}
 
 	ImGui::End();
 
@@ -266,16 +281,23 @@ void ImportImage(bool& showDialog) {
 					std::filesystem::copy(srcPath, destPath);
 				}
 
+				Entity master{};
 				if (isStaticImageSelected) {
 
-					EntityFactory::entityFactory().CreateMasterModel(destinationFilename.c_str());
+					master = EntityFactory::entityFactory().CreateMasterModel(destinationFilename.c_str());
 
 				}
 				else {
 
-					EntityFactory::entityFactory().CreateMasterModel(destinationFilename.c_str(), enteredRows, enteredCols);
+					master = EntityFactory::entityFactory().CreateMasterModel(destinationFilename.c_str(), enteredRows, enteredCols);
 
 				}
+
+				std::string prefabName{ ECS::ecs().GetComponent<Tex>(master).tex->GetName() };
+				prefabName = prefabName.substr(0, prefabName.find_last_of(".")) + ".prefab";
+				std::string prefabPath = assetmanager.GetDefaultPath() + "Prefabs/" + prefabName;
+				SaveAsPrefab(prefabPath, master);
+				assetmanager.LoadPrefab(prefabName);
 
 				rowsInput[0] = '\0';
 				colsInput[0] = '\0';

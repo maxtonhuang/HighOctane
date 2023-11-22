@@ -55,8 +55,8 @@ public:
 	//void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();
-	void CreateMasterModel(const char* filename);
-	void CreateMasterModel(const char* filename, int rows, int cols);
+	Entity CreateMasterModel(const char* filename);
+	Entity CreateMasterModel(const char* filename, int rows, int cols);
 	//extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
 

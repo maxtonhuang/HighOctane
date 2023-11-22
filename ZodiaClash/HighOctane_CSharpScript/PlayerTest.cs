@@ -9,11 +9,9 @@ using System.Threading.Tasks;
 internal class PlayerTest : MonoBehaviour
 {
     public float speed = 1f;
-
     public float scale = 1f;
-    public float testtime = 0f;
 
-    public bool yes = false;
+    public bool testBool = false;
     public float rotation = 0f;
 
     public Vector2 position = new Vector2(0f, 0f);
@@ -24,9 +22,8 @@ internal class PlayerTest : MonoBehaviour
 
     public override void Update()
     {
-        testtime += DeltaTime;
         // Maybe this is something you need to do
-        Translation = position;
+        Position = position;
 
         Rotation = rotation;
 

@@ -14,7 +14,7 @@ public abstract class Component
 
 //public class TransformComponent : Component
 //{
-    //public Vector2 Translation
+    //public Vector2 Position
     //{
     //    get
     //    {

@@ -40,8 +40,10 @@ std::string prefabName{};
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
 	for (const Entity& entity : s_ptr->m_Entities) {
-		if (ECS::ecs().HasComponent<Name>(entity)) {
-			SceneEntityNode(entity);
+		if (ECS::ecs().HasComponent<Clone>(entity)) {
+			if (ECS::ecs().HasComponent<Name>(entity)) {
+				SceneEntityNode(entity);
+			}
 		}
 	}
 	if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
@@ -51,7 +53,7 @@ void UpdateSceneHierachy() {
 
 	ImGui::Begin("Properties");
 	//if (currentSelectedEntity && selectedEntities.size() == 1) {
-	if (ECS::ecs().EntityExists(currentSelectedEntity)) {
+	if (ECS::ecs().EntityExists(currentSelectedEntity) && ECS::ecs().HasComponent<Clone>(currentSelectedEntity)) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
 	/*Entity entity;
@@ -116,10 +118,10 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating
-	if (edit_mode) {
+	if (currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
-			if (clone.prefab == prefabName) {
+			if (clone.prefab == prefabName && prefabName != "") {
 				for (auto& ecsType : typeManager) {
 					if (ecsType.second->HasComponent(currentSelectedPrefab) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
 						ecsType.second->CopyComponent(cloneEntity, currentSelectedPrefab);

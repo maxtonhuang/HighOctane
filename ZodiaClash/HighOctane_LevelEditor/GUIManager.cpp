@@ -134,7 +134,7 @@ void GUIManager::Init()
     //ImGui::PushFont(latoMedium);
     //currentFontSize = fontSizeM;
 
-    
+    assetmanager.LoadAllPrefabs();
 
 
     ImGui::StyleColorsDark();
@@ -254,12 +254,12 @@ void GUIManager::Update()
             ImGui::EndDragDropTarget();
         }
         // need to edit popupHovered
-        popupHovered = false;
+        //popupHovered = false;
         if (rightClick && selectedEntities.size() > 0) {
             if (ImGui::BeginPopupContextWindow()) {
                 //printf("Popup!\n");
                 //if (ImGui::IsWindowHovered()) {
-                    popupHovered = true;
+                    //popupHovered = true;
                 //}
                 if (ImGui::MenuItem("Copy")) {
                     toCopy = true;
@@ -268,6 +268,7 @@ void GUIManager::Update()
                 //ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Delete")) {
+                    printf("Delete Clicked\n");
                     toDestroy = true;
                     rightClick = false;
                     

@@ -40,8 +40,12 @@
 #include "AssetManager.h"
 #include "Events.h"
 #include "CheatCode.h"
+#include "Global.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
+
+// Higher is less sensitive //
+constexpr int MOUSE_SENSITIVITY = 3;
 
 std::unordered_map<int, INFO> keyStatus;
 std::unordered_map<int, INFO> mouseStatus;
@@ -57,7 +61,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         Mail::mail().CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
 
         if (GLFW_KEY_ESCAPE == key) {
-            glfwSetWindowShouldClose(pwin, GLFW_TRUE);
+            if (currentSystemMode == SystemMode::PAUSE) {
+				currentSystemMode = lastSystemMode;
+                lastSystemMode = SystemMode::PAUSE;
+			}
+            else {
+				lastSystemMode = currentSystemMode;
+				currentSystemMode = SystemMode::PAUSE;
+			}
+            //glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
         if (GLFW_KEY_F1 == key) {
             events.Call("Change Scene", "mainmenu.scn");
@@ -175,7 +187,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
     int currPosY = static_cast<int>(static_cast<float>(ypos) - GRAPHICS::h);
 
-    if (currPosX != previousPosX || currPosY != previousPosY) {
+    if (abs(currPosX - previousPosX) > MOUSE_SENSITIVITY || abs(currPosY - previousPosY) > MOUSE_SENSITIVITY) {
         Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
     }
 

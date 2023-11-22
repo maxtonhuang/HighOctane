@@ -58,6 +58,7 @@
 #include <iomanip>
 #include <filesystem>
 #include "CharacterStats.h"
+#include "UndoRedo.h"
 
 
 /*
@@ -119,7 +120,7 @@ void EntityFactory::LoadMasterModel() {  ///////// MASTER
 *	This function creates new Master Entities with Static Images.
 *
 ******************************************************************************/
-void EntityFactory::CreateMasterModel(const char* filename) {
+Entity EntityFactory::CreateMasterModel(const char* filename) {
 	Entity entity = ECS::ecs().CreateEntity();
 
 	ECS::ecs().AddComponent(entity, Name{ filename });
@@ -131,12 +132,14 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
 	ECS::ecs().AddComponent(entity, Model{});
 	ECS::ecs().AddComponent(entity, Master{});
+	ECS::ecs().AddComponent(entity, Movable{});
 	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
 	assetmanager.LoadTexture(filename);
 	t->texVariants.push_back(assetmanager.texture.Get(filename));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	++masterCounter;
+	return entity;
 }
 
 /******************************************************************************
@@ -146,7 +149,7 @@ void EntityFactory::CreateMasterModel(const char* filename) {
 *	This function creates new Master Entities with Spritesheets.
 *
 ******************************************************************************/
-void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {
+Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) {
 	Entity entity = ECS::ecs().CreateEntity();
 
 	ECS::ecs().AddComponent(entity, Name{ filename });
@@ -160,7 +163,8 @@ void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) 
 	ECS::ecs().AddComponent(entity, Model{});
 	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
 	ECS::ecs().AddComponent(entity, Master{});
-	
+	ECS::ecs().AddComponent(entity, Movable{});
+
 	WriteSpriteConfig(filename, rows, cols);
 	std::string filenameString = filename;
 	std::ostringstream oss;
@@ -172,6 +176,7 @@ void EntityFactory::CreateMasterModel(const char* filename, int rows, int cols) 
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
 	++masterCounter;
+	return entity;
 }
 
 /******************************************************************************
@@ -273,6 +278,10 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		}
 	}
 
+	if (assetmanager.GetPrefabName(masterEntity) != "") {
+		ECS::ecs().GetComponent<Clone>(entity).prefab = assetmanager.GetPrefabName(masterEntity);
+	}
+
 	/*
 	ECS::ecs().AddComponent(entity, Name{ ( (ECS::ecs().GetComponent<Name>(masterEntity).name)+"_CLONE").c_str(),false });
 
@@ -331,6 +340,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
+	undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
 	return entity;
 }
 
