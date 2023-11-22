@@ -60,7 +60,6 @@ public:
         float           attack;
         float           defense;
         int             speed;
-        int             chi;
     }; stats stats{};
 
     //negative effects 

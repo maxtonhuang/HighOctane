@@ -104,6 +104,7 @@ public:
 	CharacterStats* activeCharacter;
 	std::vector<CharacterStats*> GetPlayers();
 	std::vector<CharacterStats*> GetEnemies();
+	int chi{ 5 };
 private:
 	
 	//std::vector <GameObject> gameObjects;

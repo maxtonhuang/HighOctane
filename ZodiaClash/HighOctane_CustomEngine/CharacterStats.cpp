@@ -44,7 +44,6 @@
 CharacterStats::CharacterStats() {
     stats.health = stats.maxHealth;
     action.characterStats = this;
-    stats.chi = 5; //initialize chi to be 5
 }
 
 /**
