@@ -116,7 +116,7 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating
-	if (edit_mode) {
+	if (currentSystemMode == SystemMode::EDIT) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
 			if (clone.prefab == prefabName) {

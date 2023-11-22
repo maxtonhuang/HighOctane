@@ -394,10 +394,10 @@ void GraphicsSystem::Draw() {
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] || !edit_mode) {
+		if (layersToSkip[layer_it] || currentSystemMode != SystemMode::EDIT) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity] || !edit_mode) {
+				if (entitiesToSkip[entity] || currentSystemMode != SystemMode::EDIT) {
 					Tex* tex{};
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {
@@ -411,7 +411,7 @@ void GraphicsSystem::Draw() {
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 						}
 					}
-					else if (edit_mode && transformArray.HasComponent(entity)) {
+					else if (currentSystemMode == SystemMode::EDIT && transformArray.HasComponent(entity)) {
 						Transform* transform{ &transformArray.GetData(entity) };
 						Name* name{ &nameArray.GetData(entity) };
 						if (name->selected) {
@@ -990,7 +990,7 @@ void UITextLabelSystem::Draw() {
 		}
 
 		if (!buttonData && !texData) {
-			if (edit_mode) {
+			if (currentSystemMode == SystemMode::EDIT) {
 				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
 					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) 
 					: modelData->SetAlpha(0.2f);
@@ -1029,7 +1029,7 @@ void UIButtonSystem::Update() {
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
 		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = (edit_mode) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
+			glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		}
 

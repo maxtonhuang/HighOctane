@@ -75,12 +75,13 @@ constexpr bool GAME_MODE{ false }; // Do not edit this
 constexpr bool EDITOR_MODE{ true }; // Do not edit this
 
 
-
 ////////// Set Loading Mode here. /////////////////////////////////////////////
 
 // Set to GAME_MODE to run in game mode.
 // Set to EDITOR_MODE to run in editor mode.
 constexpr bool game_mode{ EDITOR_MODE };
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -107,6 +108,7 @@ DebugProfiling debugSysProfile;
 // Stores the list of systems from the ECS that will be used to cycle through
 std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
+std::vector<std::pair<std::shared_ptr<System>, std::string>> pauseSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 
 
@@ -223,9 +225,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //	return 0;
 //}
 
-
-
-
 void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
@@ -338,11 +337,13 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(audioSystem, "Audio System");
 	editSystemList.emplace_back(audioSystem, "Audio System");
 	systemList.emplace_back(audioSystem, "Audio System");
+	pauseSystemList.emplace_back(audioSystem, "Audio System");
 
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	runSystemList.emplace_back(graphicsSystem, "Graphics System");
 	editSystemList.emplace_back(graphicsSystem, "Graphics System");
 	systemList.emplace_back(graphicsSystem, "Graphics System");
+	pauseSystemList.emplace_back(graphicsSystem, "Graphics System");
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -540,7 +541,13 @@ void EngineCore::Run(bool const& mode) {
 
 	CreateNewLayer();
 
-	edit_mode = mode;
+	//If game mode is editor, initialize the mode to editor pause mode
+	if (mode) {
+		currentSystemMode = SystemMode::EDIT;
+	}
+	else {
+		currentSystemMode = SystemMode::RUN;
+	}
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
@@ -551,13 +558,15 @@ void EngineCore::Run(bool const& mode) {
 
 	events.InitialiseFunctions();
 
+
 	GUIManager guiManager;
-	if (game_mode) {
+	// If game mode is editor
+	if (static_cast<bool>(game_mode)) {
 
 		// LOAD IMGUI HERE !!!!!
 
 		guiManager.Init();
-		inEditing = game_mode;
+		inEditing = static_cast<bool>(game_mode);
 
 	}
 
@@ -586,7 +595,8 @@ void EngineCore::Run(bool const& mode) {
 
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
-
+		//DEBUG_PRINT("Current System Mode: %s", SystemModeToString(currentSystemMode).c_str());
+		//DEBUG_PRINT("Last System Mode: %s", SystemModeToString(lastSystemMode).c_str());
 		if (initLevel) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
@@ -603,6 +613,17 @@ void EngineCore::Run(bool const& mode) {
 
 		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
+		// Switch case for the pause screen
+		auto* systemList{ &runSystemList };
+		switch (currentSystemMode) {
+		case SystemMode::EDIT:
+			systemList = &editSystemList;
+			break;
+		case SystemMode::PAUSE:
+			systemList = &pauseSystemList;
+			break;
+		}
+
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
 
@@ -615,19 +636,21 @@ void EngineCore::Run(bool const& mode) {
 		if (accumulatedTime > MAX_ACCUMULATED_TIME) {
 			accumulatedTime = MAX_ACCUMULATED_TIME; // Prevents "spiral of death".
 		}
+
 		while (accumulatedTime >= FIXED_DT) {
 
-			for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+
+			for (std::pair<std::shared_ptr<System>, std::string>& sys : *systemList) {
 
 				#if ENABLE_DEBUG_PROFILE
-				debugSysProfile.ResetTimer(sys.second);
-				debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-				//std::cout << sys.second << std::endl;
+					debugSysProfile.ResetTimer(sys.second);
+					debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
+					//std::cout << sys.second << std::endl;
 				#endif
-				sys.first->Update();
+					sys.first->Update();
 
 				#if ENABLE_DEBUG_PROFILE
-				debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
+					debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
 				#endif
 
 			}
@@ -635,7 +658,7 @@ void EngineCore::Run(bool const& mode) {
 			accumulatedTime -= FIXED_DT;
 		}
 
-		for (std::pair<std::shared_ptr<System>, std::string>& sys : (edit_mode ? editSystemList : runSystemList)) {
+		for (std::pair<std::shared_ptr<System>, std::string>& sys : *systemList) {
 
 			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
@@ -648,7 +671,13 @@ void EngineCore::Run(bool const& mode) {
 
 		}
 
-		if (game_mode) {
+		//if (currentSystemMode == SystemMode::EDIT) {
+		//	debugSysProfile.StartTimer("Level Editor", GetTime());
+		//	guiManager.Update();
+		//	debugSysProfile.ResetTimer("Level Editor");
+		//	debugSysProfile.StopTimer("Level Editor", GetTime());
+		//}
+		if (static_cast<bool>(game_mode)) {
 			debugSysProfile.StartTimer("Level Editor", GetTime());
 			guiManager.Update();
 			debugSysProfile.ResetTimer("Level Editor");
