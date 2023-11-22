@@ -263,6 +263,9 @@
     <ClInclude Include="DebugBuffer.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">

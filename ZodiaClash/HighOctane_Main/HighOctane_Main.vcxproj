@@ -28,8 +28,12 @@
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.ico" />
+    <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.png" />
     <Image Include="small.ico" />
     <Image Include="ZodiaClash.ico" />
+    <Image Include="zodiaclash_logo.ico" />
+    <Image Include="zodiaclash_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc" />
@@ -148,7 +152,7 @@
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
-</Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,7 +181,7 @@
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
-</Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

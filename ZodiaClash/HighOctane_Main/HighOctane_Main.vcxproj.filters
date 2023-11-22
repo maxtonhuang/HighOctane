@@ -40,6 +40,18 @@
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="zodiaclash_logo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="zodiaclash_logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc">

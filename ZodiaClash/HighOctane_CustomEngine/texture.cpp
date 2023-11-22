@@ -351,3 +351,9 @@ std::vector<std::string> TextureManager::GetTextureNames() {
 	}
 	return output;
 }
+
+void TextureManager::SetWindowIcon(GLFWwindow* window, std::string iconpath) {
+	GLFWimage images[1]; images[0].pixels = stbi_load(iconpath.c_str(), &images[0].width, &images[0].height, 0, 4); //rgba channels
+	glfwSetWindowIcon(window, 1, images); 
+	stbi_image_free(images[0].pixels);
+}
