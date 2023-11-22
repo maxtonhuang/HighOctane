@@ -40,6 +40,7 @@
 #include "AssetManager.h"
 #include "Events.h"
 #include "CheatCode.h"
+#include "Global.h"
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
@@ -57,7 +58,15 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         Mail::mail().CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
 
         if (GLFW_KEY_ESCAPE == key) {
-            glfwSetWindowShouldClose(pwin, GLFW_TRUE);
+            if (currentSystemMode == SystemMode::PAUSE) {
+				currentSystemMode = lastSystemMode;
+                lastSystemMode = SystemMode::PAUSE;
+			}
+            else {
+				lastSystemMode = currentSystemMode;
+				currentSystemMode = SystemMode::PAUSE;
+			}
+            //glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
         if (GLFW_KEY_F1 == key) {
             events.Call("Change Scene", "mainmenu.scn");
