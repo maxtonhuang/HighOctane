@@ -195,3 +195,11 @@ void AttackList::LoadAttack(std::string attackPath) {
     }
     data[atkname] = atk;
 }
+
+void AttackList::LoadAllAttacks() {
+    std::filesystem::path skillFolder{ assetmanager.GetDefaultPath() + "Skills/" };
+    for (auto& entry : std::filesystem::directory_iterator(skillFolder)) {
+        std::string path{ entry.path().string() };
+        LoadAttack(path);
+    }
+}

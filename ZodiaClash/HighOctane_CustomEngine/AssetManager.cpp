@@ -59,6 +59,7 @@ void AssetManager::Initialize() {
 
     audio.Initialize();
     fonts.Initialize();
+    attacks.LoadAllAttacks();
 
     while (!serializer.stream.eof()) {
         path.clear();
@@ -335,7 +336,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
         LoadEntities(assetPath);
     }
     else if (extension == ".skill") {
-        LoadAttack(assetPath);
+        //LoadAttack(assetPath);
     }
     else {
         // Error Handling

@@ -67,5 +67,6 @@ public:
     void SaveAttack(Attack const& attack);
     void LoadAttack(std::string attackPath);
     std::vector<std::string> GetAttackNames();
+    void LoadAllAttacks();
     std::unordered_map<std::string, Attack> data;
 };
