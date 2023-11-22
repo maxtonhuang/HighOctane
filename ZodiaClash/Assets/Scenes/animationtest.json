@@ -60,7 +60,8 @@
         "Collider": {
             "Collider Enum": 0
         },
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -112,7 +113,8 @@
             "Alpha": 1.0
         },
         "Movable": {},
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -177,7 +179,8 @@
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1
         },
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -234,7 +237,8 @@
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1
         },
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -315,7 +319,8 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -333,11 +338,11 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -560.3314208984375,
+            "position_x": -560.3693237304688,
             "position_y": -239.0,
             "rotation": 6.283176898956299,
             "scale": 1.0000003576278687,
-            "velocity_x": -0.01077725738286972,
+            "velocity_x": -0.010051685385406017,
             "velocity_y": 0.0
         },
         "Texture": {
@@ -430,7 +435,8 @@
                     }
                 ]
             }
-        ]
+        ],
+        "Animation Set Default Animation": "Animation 0"
     },
     {
         "Entity": {
@@ -480,7 +486,8 @@
         "Collider": {
             "Collider Enum": 0
         },
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -535,7 +542,8 @@
         "Collider": {
             "Collider Enum": 0
         },
-        "Animation Set": []
+        "Animation Set": [],
+        "Animation Set Default Animation": ""
     },
     {
         "Entity": {
@@ -668,6 +676,31 @@
         "Movable": {}
     },
     {
+        "Entity": {
+            "Name": "Attach Point",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -197.0,
+            "position_y": 101.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Movable": {}
+    },
+    {
         "Clone": {
             "Prefab": "attachpoint.prefab",
             "Unique Components": [
@@ -679,7 +712,7 @@
         "Entity": {
             "Name": "Attach Point 1",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -704,7 +737,7 @@
         "Entity": {
             "Name": "Attach Point 2",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -729,7 +762,7 @@
         "Entity": {
             "Name": "Attach Point 3",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },

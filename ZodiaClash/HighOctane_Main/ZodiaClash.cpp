@@ -577,6 +577,7 @@ void EngineCore::Run(bool const& mode) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
+			animationSystem->Initialize();
 			initLevel = false;
 			newScene = false;
 		}

@@ -2,6 +2,10 @@
 #include "AssetManager.h"
 #include "Events.h"
 
+void AnimationSet::Initialise(Entity entity) {
+	Start(defaultAnimation, entity);
+}
+
 void AnimationSet::Start(std::string animationName, Entity entity) {
 	//Set active animation
 	for (auto& a : animationSet) {

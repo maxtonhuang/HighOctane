@@ -34,17 +34,20 @@ void AnimatorWindow(Entity entity) {
 		//Animation preview buttons
 		if (selectedAnimGroup != nullptr) {
 			if (ImGui::Button("Play")) {
-				if (animationSet.paused == true) {
-					animationSet.paused = false;
-				}
-				else {
-					animationSet.Start(selectedAnimGroup->name, entity);
-				}
+				animationSet.Start(selectedAnimGroup->name, entity);
 			}
 			ImGui::SameLine();
-			if (ImGui::Button("Pause")) {
-				animationSet.paused = true;
+			if (animationSet.paused) {
+				if (ImGui::Button("Resume")) {
+					animationSet.paused = false;
+				}
 			}
+			else {
+				if (ImGui::Button("Pause")) {
+					animationSet.paused = true;
+				}
+			}
+			
 			ImGui::SameLine();
 			if (ImGui::Button("Advance Frame")) {
 				if (selectedAnimGroup->active == false) {
@@ -96,6 +99,20 @@ void AnimatorWindow(Entity entity) {
 				selectedAnimGroup = &animationSet.animationSet[n];
 				break;
 			}
+		}
+
+		//Entity default animation
+		if (ImGui::BeginCombo("Default Animation", animationSet.defaultAnimation.c_str())) {
+			for (int n = 0; n < animationSet.animationSet.size(); n++) {
+				bool is_selected = (animationSet.defaultAnimation == animationSet.animationSet[n].name);
+				if (ImGui::Selectable(animationSet.animationSet[n].name.c_str(), is_selected)) {
+					animationSet.defaultAnimation = animationSet.animationSet[n].name;
+				}
+				if (is_selected) {
+					ImGui::SetItemDefaultFocus();
+				}
+			}
+			ImGui::EndCombo();
 		}
 
 		//Input text for animation name

@@ -36,6 +36,7 @@
 #include "debugdiagnostic.h"
 #include "GraphicConstants.h"
 #include "Font.h"
+#include "AssetManager.h"
 
 #include <iostream>
 #include <sstream>
@@ -266,8 +267,10 @@ Texture* TextureManager::Get(char const* texname) {
 		return &data[texname];
 	}
 	else {
-		ASSERT(1, "Unable to find texture!");
+		std::string texpath{ assetmanager.GetDefaultPath() + "Textures/" + texname };
+		return Add(texpath.c_str(), texname);
 	}
+	ASSERT(1, "Unable to find texture!");
 	return nullptr;
 }
 
