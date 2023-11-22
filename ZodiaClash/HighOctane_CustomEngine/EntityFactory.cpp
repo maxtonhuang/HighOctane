@@ -328,6 +328,9 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		}
 		layering[layering.size() - 1].emplace_back(entity);
 	}
+	
+	RebuildLayeringAfterDeserialization();
+	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
 	undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
 	return entity;

@@ -39,6 +39,7 @@
 #include <limits>
 #include "Components.h"
 #include "model.h"
+#include "Global.h"
 
 #define RESET_VEC2 0.f, 0.f
 
@@ -48,7 +49,6 @@
 float g_dt;
 float accumulatedTime{};
 bool button_clicked{ true };
-bool edit_mode{ true };
 bool hoveringPanel{ false };
 bool fileDropped{ false };
 float dropTimer{};
@@ -115,3 +115,23 @@ std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedforIMGUI
 std::string currentScriptAttachedForIMGUI{};
 
 bool isHotReload{ false };
+
+SystemMode currentSystemMode{ SystemMode::EDIT };
+SystemMode lastSystemMode{ SystemMode::NONE };
+
+std::string SystemModeToString(SystemMode mode)
+{
+	switch (mode)
+	{
+	case SystemMode::RUN:
+		return "RUN";
+	case SystemMode::EDIT:
+		return "EDIT";
+	case SystemMode::PAUSE:
+		return "PAUSE";
+	case SystemMode::NONE:
+		return "NONE";
+	default:
+		return "NONE";
+	}
+}

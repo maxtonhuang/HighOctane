@@ -55,7 +55,6 @@ const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
 extern float g_dt;
 extern float accumulatedTime;
 extern bool button_clicked;
-extern bool edit_mode;
 extern bool hoveringPanel;
 extern bool fileDropped;
 extern float dropTimer;
@@ -121,3 +120,17 @@ extern std::unordered_map<Entity, std::vector<std::string>> scriptNamesAttachedf
 extern std::string currentScriptAttachedForIMGUI;
 
 extern bool isHotReload;
+
+enum class SystemMode 
+{
+	RUN = 0,
+	EDIT,
+	PAUSE,
+	NONE
+
+};
+
+std::string SystemModeToString(SystemMode mode);
+
+extern SystemMode currentSystemMode;
+extern SystemMode lastSystemMode;

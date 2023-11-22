@@ -258,7 +258,7 @@ void TextLabel::Update(Model& modelData, Name& nameData) {
 		}		
 	}
 
-	if (nameData.selected && edit_mode) {
+	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
@@ -371,7 +371,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (!edit_mode && !eventName.empty() && !eventInput.empty()) {
+				if (currentSystemMode == SystemMode::RUN && !eventName.empty() && !eventInput.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -380,7 +380,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	// update button and text colors
-	if (nameData.selected && edit_mode) {
+	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
@@ -391,7 +391,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	//outside edit mode, color change accordingly to state. otherwise show default
-	if (!edit_mode) {
+	if (currentSystemMode == SystemMode::RUN) {
 		switch (currentState) {
 		case(STATE::HOVERED):
 			textLabelData.textColor = hoveredColor.textColor;
@@ -434,52 +434,26 @@ void Button::UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor) {
 ********* HP BAR **********
 **************************/
 HealthBar::HealthBar() {
-	maxHealth = 1000.f;
-	currentHealth = maxHealth;
-	healthPct = (currentHealth / maxHealth) * 100.f;
+	//maxHealth = 1000.f;
+	//currentHealth = maxHealth;
+	//healthPct = (currentHealth / maxHealth) * 100.f;
 	showHealthStat = true;
 	showValOrPct = true;
 }
 
-HealthBar::HealthBar(CharacterStats& charaStats) {
-	charaStatsRef = &charaStats;
-	maxHealth = charaStatsRef->stats.maxHealth;
-	currentHealth = maxHealth;
-	healthPct = (currentHealth / maxHealth) * 100.f;
-	showHealthStat = true;
-	showValOrPct = true;
-}
-
-float HealthBar::GetCurrentHealth() {
-	return currentHealth;
-}
-
-float HealthBar::GetMaxHealth() {
-	return maxHealth;
-}
-
-float HealthBar::GetHealthPct() {
-	return healthPct;
-}
-
-void HealthBar::SetCurrentHealth(float currentHp) {
-	currentHealth = (currentHp <= maxHealth) ? currentHp : maxHealth;
-}
-
-void HealthBar::SetMaxHealth(float maxHp) {
-	maxHealth = (maxHp > 0) ? maxHp : 1.f;
-	SetCurrentHealth(currentHealth);
-}
-
-void HealthBar::UpdateHealth(Size& sizeData, CharacterStats& charaStatsData, TextLabel& textLabelData) {
+void HealthBar::UpdateHealth(CharacterStats& charaStatsData) {
+	//read data from character stats
 	maxHealth = charaStatsData.stats.maxHealth;
+	currentHealth = charaStatsData.stats.health;
 	healthPct = (currentHealth / maxHealth) * 100.f;
+}
 
+void HealthBar::UpdateTextDisplay(TextLabel& textLabelData) {
 	if (showHealthStat) {
 		std::ostringstream oss;
 		if (!showValOrPct) {
 			//show val
-			oss << std::fixed << std::setprecision(1) << currentHealth << " / " << maxHealth;
+			oss << std::fixed << std::setprecision(0) << currentHealth;
 		}
 		else {
 			//show percentage
@@ -490,45 +464,27 @@ void HealthBar::UpdateHealth(Size& sizeData, CharacterStats& charaStatsData, Tex
 	else {
 		textLabelData.textString = "";
 	}
-
-	//for current HP bar (TO UPDATE!)
-	barWidth = sizeData.width * (healthPct / 100.f);
-	barHeight = sizeData.height;
 }
 
-void HealthBar::UpdateOffset(Transform const& transformData, Size const& sizeData) {
-	//horizontal left align
-	relTransform.x = transformData.position.x - (0.5f * sizeData.width)/* + paddingData.left*/;
-
-	switch (vAlignment) {
-	case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
-		//top align
-		relTransform.y = transformData.position.y + (0.5f * sizeData.height - barHeight) /*- paddingData.top*/;
-		break;
-	case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
-		//bottom align
-		relTransform.y = transformData.position.y /*- textHeight*/ - (0.5f * sizeData.height - barHeight)/* + paddingData.bottom*/;
-		break;
-	default:
-		//center align
-		relTransform.y = transformData.position.y - (0.25f * barHeight);
-		break;
-	}
+void HealthRemaining::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize) {
+	childSize.width = parentSize.width * (parentHealthBar.healthPct / 100.f) * 0.95f;
+	childSize.height = parentSize.height * 0.8f; // to make customizable?
 }
 
-void HealthBar::UpdateColors(Model& modelData, CharacterStats& charaStatsData, TextLabel& textLabelData) {
-	if (charaStatsData.tag == CharacterType::PLAYER) {
+void HealthRemaining::UpdateColors(Model& modelData, CharacterStats& parentCharaStats) {
+	if (parentCharaStats.tag == CharacterType::PLAYER) {
 		modelData.SetColor(0.f,1.f,0.f);
-		textLabelData.SetTextColor({ 1.f,1.f,1.f,1.f });
 	}
-	else if (charaStatsData.tag == CharacterType::ENEMY) {
+	else if (parentCharaStats.tag == CharacterType::ENEMY) {
 		modelData.SetColor(1.f, 0.f, 0.f);
-		textLabelData.SetTextColor({ 1.f,1.f,1.f,1.f });
 	}
 	else {
 		modelData.SetColor(1.f, 1.f, 1.f);
-		textLabelData.SetTextColor({ 0.f,0.f,0.f,1.f });
 	}
+}
+
+void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData) {
+	childData.offset.position.x = (-0.5f * parentSize.width) + (parentHealthBar.healthPct / 100.f * 0.5f * parentSize.width);
 }
 
 

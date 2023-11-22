@@ -623,7 +623,6 @@ public:
 class UIHealthBarSystem : public System {
 public:
     void Update() override;
-    void Draw() override;
 };
 
 class UISkillPointSystem : public System {
@@ -637,6 +636,11 @@ public:
 };
 
 class ChildSystem : public System {
+public:
+    void Update() override;
+};
+
+class ParentSystem : public System {
 public:
     void Update() override;
 };

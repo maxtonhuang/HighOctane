@@ -148,6 +148,7 @@
         "CharacterStats": {
             "Character type": 0,
             "Max Health": 0.0,
+            "Health": 0.0,
             "Attack": 0.0,
             "Defense": 0.0,
             "Speed": 0,
@@ -172,7 +173,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -228,7 +230,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -284,7 +287,8 @@
             "a": 1.0,
             "Color Preset": "secondary",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
             "Button R": 1.0,
@@ -309,7 +313,7 @@
         "Entity": {
             "Name": "entity_00009",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -364,7 +368,8 @@
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
             "Button R": 0.0,
@@ -400,8 +405,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": -865.0,
+            "position_y": -380.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -516,7 +521,8 @@
                 "Loop": false,
                 "Animations": []
             }
-        ]
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Entity": {
@@ -595,7 +601,8 @@
                 "Loop": false,
                 "Animations": []
             }
-        ]
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Entity": {
@@ -674,7 +681,8 @@
                 "Loop": false,
                 "Animations": []
             }
-        ]
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Entity": {
@@ -753,7 +761,8 @@
                 "Loop": false,
                 "Animations": []
             }
-        ]
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Entity": {
@@ -807,7 +816,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -862,7 +872,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -917,7 +928,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -972,7 +984,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -1027,7 +1040,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -1082,7 +1096,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -1137,90 +1152,9 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
-    },
-    {
-        "Entity": {
-            "Name": "skillpt",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -739.0,
-            "position_y": 418.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_chi_icon.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0
-        },
-        "Movable": {},
-        "SkillPoint": {
-            "Active State": true
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 2,
-                "Group Name": "Animation 0",
-                "Loop": true,
-                "Animations": [
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "mockup_chi_icon.png"
-                            },
-                            {
-                                "Frame Number": 1,
-                                "Texture": "mockup_chi_icon_lineart.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 0,
-                "Group Name": "Animation 1",
-                "Loop": false,
-                "Animations": []
-            }
-        ]
     },
     {
         "Entity": {
@@ -1302,7 +1236,91 @@
                 "Loop": false,
                 "Animations": []
             }
-        ]
+        ],
+        "Animation Set Default Animation": ""
+    },
+    {
+        "Entity": {
+            "Name": "skillpt",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -739.0,
+            "position_y": 418.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Animation 0",
+                "Loop": true,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 0,
+                "Group Name": "Animation 1",
+                "Loop": false,
+                "Animations": []
+            }
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Entity": {
@@ -1356,7 +1374,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "SkillPointHUD": {
             "Skill Point Balance": 5,
@@ -1445,6 +1464,7 @@
                 "Animations": []
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 100.0,
             "position_y": 0.0,
@@ -1535,6 +1555,7 @@
                 "Animations": []
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 200.0,
             "position_y": 0.0,
@@ -1625,6 +1646,7 @@
                 "Animations": []
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 300.0,
             "position_y": 0.0,
@@ -1715,6 +1737,7 @@
                 "Animations": []
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 400.0,
             "position_y": 0.0,
@@ -1805,6 +1828,7 @@
                 "Animations": []
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 500.0,
             "position_y": 0.0,
@@ -1866,7 +1890,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "SkillPointHUD": {
             "Skill Point Balance": 5,
@@ -1965,6 +1990,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 100.0,
             "position_y": 0.0,
@@ -2065,6 +2091,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 200.0,
             "position_y": 0.0,
@@ -2165,6 +2192,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 300.0,
             "position_y": 0.0,
@@ -2265,6 +2293,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 400.0,
             "position_y": 0.0,
@@ -2365,6 +2394,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 500.0,
             "position_y": 0.0,
@@ -2426,7 +2456,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "SkillPointHUD": {
             "Skill Point Balance": 5,
@@ -2525,6 +2556,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 100.0,
             "position_y": 0.0,
@@ -2625,6 +2657,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 200.0,
             "position_y": 0.0,
@@ -2725,6 +2758,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 300.0,
             "position_y": 0.0,
@@ -2825,6 +2859,7 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 400.0,
             "position_y": 0.0,
@@ -2925,6 +2960,1139 @@
                 ]
             }
         ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 500.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "lbl_skillpt",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -759.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 100.0,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "5",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "SkillPointHUD": {
+            "Skill Point Balance": 5,
+            "Skill Point Cap": 5
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "skillpt01",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -659.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 100.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt2",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -559.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 200.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt3",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -459.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 300.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt4",
+            "Current Layer": 0,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -359.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 400.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt5",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -259.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 500.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "lbl_skillpt",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -759.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 100.0,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "5",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "SkillPointHUD": {
+            "Skill Point Balance": 5,
+            "Skill Point Cap": 5
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "skillpt01",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -659.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 100.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt2",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -559.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 200.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt3",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -459.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 300.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt4",
+            "Current Layer": 0,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -359.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 400.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt5",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -259.0,
+            "position_y": -2.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 500.0,
             "position_y": 0.0,
@@ -2947,13 +4115,13 @@
         "Entity": {
             "Name": "lbl_skillpt",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -777.0,
-            "position_y": 332.0,
+            "position_x": 268.0,
+            "position_y": 275.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -2962,6 +4130,675 @@
         "SkillPointHUD": {
             "Skill Point Balance": 5,
             "Skill Point Cap": 5
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -503.5,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 451.5,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 1000.0,
+            "Health": 1000.0,
+            "Attack": 0.0,
+            "Defense": 0.0,
+            "Speed": 0,
+            "Skills": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthBar": {
+            "Show Health Stat": true,
+            "Show Value or Percentage": true,
+            "Bar Width": 0.0,
+            "Bar Height": 0.0,
+            "Current Health": 1000.0,
+            "Max Health": 1000.0,
+            "Health Percentage": 100.0
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "remaininghealth",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -503.5,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 428.92498779296875,
+            "height": 47.60000228881836
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 1.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthRemaining": {
+            "Current Health": 1000.0
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "displayLbl",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -503.5,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 451.5,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "100.0%",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -503.5,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 451.5,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 1000.0,
+            "Health": 1000.0,
+            "Attack": 0.0,
+            "Defense": 0.0,
+            "Speed": 0,
+            "Skills": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthBar": {
+            "Show Health Stat": true,
+            "Show Value or Percentage": true,
+            "Bar Width": 0.0,
+            "Bar Height": 0.0,
+            "Current Health": 1000.0,
+            "Max Health": 1000.0,
+            "Health Percentage": 100.0
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "remaininghealth",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -503.5,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 428.92498779296875,
+            "height": 47.60000228881836
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 1.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthRemaining": {
+            "Current Health": 1000.0
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "displayLbl",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -503.5,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 451.5,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "100.0%",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "healthbar.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 12,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 582.0,
+            "position_y": 106.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "ally_closeup_icon",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -190.0,
+            "position_y": 208.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_icon_cat.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 256.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "ally_closeup_icon.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "ally_closeup_icon",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -190.0,
+            "position_y": 208.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "ally_healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -150.5,
+            "position_y": 68.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 350.5,
+            "height": 25.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 1000.0,
+            "Health": 1000.0,
+            "Attack": 0.0,
+            "Defense": 0.0,
+            "Speed": 0,
+            "Skills": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthBar": {
+            "Show Health Stat": true,
+            "Show Value or Percentage": false,
+            "Bar Width": 0.0,
+            "Bar Height": 0.0,
+            "Current Health": 1000.0,
+            "Max Health": 1000.0,
+            "Health Percentage": 100.0
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "remaininghealth",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -150.5,
+            "position_y": 68.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 332.9750061035156,
+            "height": 20.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 1.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthRemaining": {
+            "Current Health": 1000.0
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "displayLbl",
+            "Current Layer": 0,
+            "Order in Layer": 11,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -70.5,
+            "position_y": 118.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 150.0,
+            "height": 55.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Text String": "1000",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 2,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "Child": {
+            "position_x": 80.0,
+            "position_y": 50.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "ally_healthbar.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "ally_healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -150.5,
+            "position_y": 68.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         },
         "Parent": {}
     }

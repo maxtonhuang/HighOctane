@@ -202,40 +202,49 @@ public:
 
 class HealthBar : UIComponent {
 public:
-	CharacterStats* charaStatsRef{};
+	//CharacterStats* charaStatsRef{};
 	float currentHealth{};
 	float maxHealth{};	
 	float healthPct{};
 
-	float barWidth{};
-	float barHeight{};
-	Vec2 relTransform{};
-
 	bool showHealthStat{};
 	bool showValOrPct{};
 
-	UI_VERTICAL_ALIGNMENT vAlignment{};
+	float barWidth{};
+	float barHeight{};
+	//Vec2 relTransform{};
 
 	HealthBar();
-	HealthBar(CharacterStats& charaStats);
-	float GetCurrentHealth();
-	float GetMaxHealth();
-	float GetHealthPct();
+	//HealthBar(CharacterStats& charaStats);
+	//float GetCurrentHealth();
+	//float GetMaxHealth();
+	//float GetHealthPct();
 
-	void SetCurrentHealth(float currentHp);
-	void SetMaxHealth(float maxHp);
+	//void SetCurrentHealth(float currentHp);
+	//void SetMaxHealth(float maxHp);
 	void UpdateHealth(CharacterStats& charaStatsData);
-	void UpdateHealth(Size& sizeData, CharacterStats& charaStatsData, TextLabel& textLabelData);
+	void UpdateTextDisplay(TextLabel& textLabelData);
 
-	void UpdateOffset(Transform const& transformData, Size const& sizeData);
-	void UpdateColors(Model& modelData, CharacterStats& charaStatsData, TextLabel& textLabelData);
+	
+	
+};
+
+class HealthRemaining : UIComponent {
+public:
+	// child entity of HealthBar
+	float currentHealth;
+
+	void UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize);
+	void UpdateColors(Model& childModel, CharacterStats& parentCharaStats);
+	void UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData);
+
 };
 
 
 class SkillPointHUD : UIComponent {
 public:
-	//parent entity of SkillPoint (x5)
-	//need to retrieve from battle system instead
+	// parent entity of SkillPoint (x5)
+	// need to retrieve from battle system instead
 	BattleSystem* battleSys{};
 	int skillPointBalance{};
 	int maxSkillPoints{};
@@ -246,6 +255,7 @@ public:
 
 class SkillPoint : UIComponent {
 public:
+	// child entity of SkillPointHUD
 	bool isActive{};
 };
 
