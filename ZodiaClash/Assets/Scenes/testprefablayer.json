@@ -318,7 +318,7 @@
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -400,7 +400,7 @@
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png_CLONE",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -451,7 +451,7 @@
         "Entity": {
             "Name": "master_00008",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -535,7 +535,7 @@
         "Entity": {
             "Name": "entity_00009_CLONE",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 13,
             "isLocked": true,
             "isSkipped": true
         },
@@ -2605,13 +2605,65 @@
         "Entity": {
             "Name": "ally_healthbar",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 17,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -474.5,
+            "position_y": 24.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "ally_hud.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "ally_healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
             "position_x": -150.5,
-            "position_y": 24.5,
+            "position_y": -360.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "ally_hud.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "ally_healthbar",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -150.5,
+            "position_y": -107.5,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

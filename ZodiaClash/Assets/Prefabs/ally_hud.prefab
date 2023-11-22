@@ -1,10 +1,12 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 3,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1",
+                "Layer 2"
             ]
         }
     },
@@ -12,7 +14,7 @@
         "Entity": {
             "Name": "ally_healthbar",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 19,
             "isLocked": true,
             "isSkipped": true
         },
@@ -73,8 +75,8 @@
     {
         "Entity": {
             "Name": "remaininghealth",
-            "Current Layer": 0,
-            "Order in Layer": 10,
+            "Current Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
