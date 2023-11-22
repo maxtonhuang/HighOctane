@@ -1,21 +1,30 @@
 #pragma once
-#include <stack>
+#include <deque>
 #include "EntityFactory.h"
 #include "ECS.h"
 #include "Components.h"
+enum class ACTION
+{
+    NONE,
+    TRANSFORM,
+    ADDENTITY,
+    DELENTITY
+};
 
 class UndoRedo {
 public:
-    void RecordCurrent(Entity entity);
+    void RecordCurrent(Entity entity, ACTION action);
     void Undo();
 
 private:
-    struct EntityState {
-        Entity entity;
-        Transform transform;
+    struct EntityChanges {
+        Entity entity{};
+        Transform transform{};
+        Clone clone{};
+        ACTION action{};
     };
 
-    std::stack<EntityState> undoStack;
+    std::deque<EntityChanges> undoStack;
 };
 
 extern UndoRedo undoRedo;

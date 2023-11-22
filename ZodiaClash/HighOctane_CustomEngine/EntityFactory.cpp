@@ -58,6 +58,7 @@
 #include <iomanip>
 #include <filesystem>
 #include "CharacterStats.h"
+#include "UndoRedo.h"
 
 
 /*
@@ -327,8 +328,8 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		}
 		layering[layering.size() - 1].emplace_back(entity);
 	}
-	
 	++cloneCounter;
+	undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
 	return entity;
 }
 
