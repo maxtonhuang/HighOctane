@@ -1160,6 +1160,7 @@ void ChildSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	std::vector<Entity> toDestroyList{};
 

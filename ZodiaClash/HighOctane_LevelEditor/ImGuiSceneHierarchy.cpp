@@ -53,7 +53,7 @@ void UpdateSceneHierachy() {
 
 	ImGui::Begin("Properties");
 	//if (currentSelectedEntity && selectedEntities.size() == 1) {
-	if (ECS::ecs().EntityExists(currentSelectedEntity)) {
+	if (ECS::ecs().EntityExists(currentSelectedEntity) && ECS::ecs().HasComponent<Clone>(currentSelectedEntity)) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
 	/*Entity entity;
@@ -118,7 +118,7 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating
-	if (currentSystemMode == SystemMode::EDIT) {
+	if (currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
 			if (clone.prefab == prefabName && prefabName != "") {

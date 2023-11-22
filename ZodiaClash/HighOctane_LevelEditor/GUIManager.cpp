@@ -134,7 +134,7 @@ void GUIManager::Init()
     //ImGui::PushFont(latoMedium);
     //currentFontSize = fontSizeM;
 
-    
+    assetmanager.LoadAllPrefabs();
 
 
     ImGui::StyleColorsDark();
