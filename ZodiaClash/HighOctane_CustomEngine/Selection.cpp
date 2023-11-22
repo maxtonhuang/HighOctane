@@ -110,16 +110,23 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 			break;
 
 			case INFO::MOUSE_RIGHT:
-
-
-
-				//if (IsWithinObject(model, mousePos)) {
-				//	UnselectAll();
-				//	name.selected = true;
-				//	newSelection = entity;
-				//	rightClick = true;
-				//	rightClickPos = mousePos;
-				//}
+				thereWasAClickThisCycle = true;
+				if (viewportWindowHovered) {
+					
+					if (IsWithinObject(model, currentMousePosition)) {
+						//UnselectAll();
+						//name.selected = true;
+						if (!name.selected) {
+							ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
+						}
+						//newSelection = entity;
+						
+						somethingWasSelectedThisCycle = true;
+						rightClick = true;
+						rightClickPos = currentMousePosition;
+						//printf("Selected Count: %d\n", selectedCount);
+					}
+				}
 
 			break;
 

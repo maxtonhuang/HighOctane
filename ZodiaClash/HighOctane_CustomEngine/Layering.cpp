@@ -172,6 +172,8 @@ void RemoveEntityFromLayering(Entity entity) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 			if (layering[layer_it][entity_it] == entity) {
 				layering[layer_it].erase(layering[layer_it].begin() + entity_it);
+				//entitiesToLock.erase(entitiesToLock.begin() + entity);
+				//entitiesToSkip.erase(entitiesToSkip.begin() + entity);
 				return;
 			}
 		}
