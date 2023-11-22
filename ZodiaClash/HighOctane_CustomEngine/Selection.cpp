@@ -121,8 +121,8 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 
 			case INFO::MOUSE_RIGHT:
 				thereWasAClickThisCycle = true;
-				if (viewportWindowHovered) {
-					
+				//if (viewportWindowHovered) {
+				printf("Right Click Detected\n");
 					if (IsWithinObject(model, currentMousePosition)) {
 						//UnselectAll();
 						//name.selected = true;
@@ -136,7 +136,7 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 						rightClickPos = currentMousePosition;
 						//printf("Selected Count: %d\n", selectedCount);
 					}
-				}
+				//}
 
 			break;
 

@@ -71,7 +71,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 	/*name.draggingOffset = transform.position - currentMousePosition;*/
 
 
-	if (!popupHoavered && name.selected) {
+	if (!popupHovered && name.selected) {
 		if (&model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 				SetCursor(hAllDirCursor);

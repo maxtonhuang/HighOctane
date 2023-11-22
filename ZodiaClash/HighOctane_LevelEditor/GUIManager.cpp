@@ -256,11 +256,11 @@ void GUIManager::Update()
         // need to edit popupHovered
         popupHovered = false;
         if (rightClick && selectedEntities.size() > 0) {
-            
             if (ImGui::BeginPopupContextWindow()) {
-                if (ImGui::IsWindowHovered()) {
+                //printf("Popup!\n");
+                //if (ImGui::IsWindowHovered()) {
                     popupHovered = true;
-                }
+                //}
                 if (ImGui::MenuItem("Copy")) {
                     toCopy = true;
                     rightClick = false;

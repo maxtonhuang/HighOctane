@@ -149,32 +149,34 @@ void UpdateLayer() {
 				}
 				ImGui::SameLine();
 				std::string temp = (entityName.group > 0) ? ("(G" + std::to_string(entityName.group) + ") " + entityName.name) : entityName.name;
-				if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), temp.c_str())) {
-					
-					if (ImGui::IsItemClicked()) {
-						UnselectAll();
-						entityName.selected = true;
-					}
+				if (ECS::ecs().HasComponent<Clone>(layering[layer_it][entity_it])) {
+					if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), temp.c_str())) {
 
-					if (ImGui::BeginDragDropSource()) {
-						ImGui::SetDragDropPayload("ENTITY", &layering[layer_it][entity_it], sizeof(Entity));
-						ImGui::EndDragDropSource();
-					}
-
-					if (ImGui::BeginDragDropTarget()) {
-						if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) {
-							Entity sourceEntity = *(Entity*)payload->Data;
-							// remove entity from source layer
-							RemoveEntityFromLayering(sourceEntity);
-							// insert entity into target layer
-							layering[layer_it].insert(layering[layer_it].begin() + entity_it, sourceEntity);
+						if (ImGui::IsItemClicked()) {
+							UnselectAll();
+							entityName.selected = true;
 						}
-						ImGui::EndDragDropTarget();
+
+						if (ImGui::BeginDragDropSource()) {
+							ImGui::SetDragDropPayload("ENTITY", &layering[layer_it][entity_it], sizeof(Entity));
+							ImGui::EndDragDropSource();
+						}
+
+						if (ImGui::BeginDragDropTarget()) {
+							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) {
+								Entity sourceEntity = *(Entity*)payload->Data;
+								// remove entity from source layer
+								RemoveEntityFromLayering(sourceEntity);
+								// insert entity into target layer
+								layering[layer_it].insert(layering[layer_it].begin() + entity_it, sourceEntity);
+							}
+							ImGui::EndDragDropTarget();
+						}
+
+
+
+						ImGui::TreePop();
 					}
-
-
-
-					ImGui::TreePop();
 				}
 			}
 			ImGui::TreePop();
