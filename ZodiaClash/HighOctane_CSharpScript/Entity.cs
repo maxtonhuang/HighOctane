@@ -19,7 +19,7 @@ public class Entity
 
     public readonly UInt32 ID = 0;
 
-    public Vector2 Translation
+    public Vector2 Position
     {
         get
         {

@@ -16,7 +16,7 @@ internal class AutoMoveX : MonoBehaviour
     {
         float speed = 1.0f;
 
-        Vector2 translation = Translation;
+        Vector2 translation = Position;
 
         if (movingRight)
         {
@@ -33,7 +33,7 @@ internal class AutoMoveX : MonoBehaviour
             if (translation.X <= -800)
                 movingRight = true;
         }
-        Translation = translation;
+        Position = translation;
     }
 }
 
@@ -48,7 +48,7 @@ internal class AutoMoveY : MonoBehaviour
     public override void Update()
     {
         float speed = 1.0f;
-        Vector2 translation = Translation;
+        Vector2 translation = Position;
 
 
         if (movingUp)
@@ -65,6 +65,6 @@ internal class AutoMoveY : MonoBehaviour
             if (translation.Y <= -500)
                 movingUp = true;
         }
-        Translation = translation;
+        Position = translation;
     }
 }
