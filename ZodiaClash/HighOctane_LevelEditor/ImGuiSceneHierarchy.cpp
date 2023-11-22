@@ -262,7 +262,7 @@ void SceneEntityComponents(Entity entity) {
 			auto& colorComponent = ECS::ecs().GetComponent<Model>(entity).GetColorRef();
 			//ImVec4 imColor = ((ImVec4)color.color);
 			// note: switch to color edit4 for A value?
-			ImGui::ColorEdit3("Edit Color", (float*)&colorComponent);
+			ImGui::ColorEdit4("Edit Color", (float*)&colorComponent);
 
 			ImGui::TreePop();
 		}
@@ -579,6 +579,7 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<HealthBar>(entity)) {
 		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
+		CharacterStats& charaStatsData{ ECS::ecs().GetComponent<CharacterStats>(entity) };
 		HealthBar& hpBar{ ECS::ecs().GetComponent<HealthBar>(entity) };
 
 		if (ImGui::TreeNodeEx((void*)typeid(HealthBar).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Health Bar")) {
@@ -596,19 +597,17 @@ void SceneEntityComponents(Entity entity) {
 			sizeData.height = barDims[0];
 			sizeData.width = barDims[1];
 
-			//TODO: change max HP only?
-			if (ImGui::DragFloat("Current HP", &currentHp, 0.5f)) {
-				hpBar.SetCurrentHealth(currentHp);
+			if (ImGui::DragFloat("HP Percentage", &hpPct, 0.5f)) {
+				hpPct = std::clamp(hpPct, 0.f, 100.f);
+				hpBar.healthPct = hpPct;
+				hpBar.currentHealth = hpPct / 100.f * charaStatsData.stats.maxHealth;
+				charaStatsData.stats.health = hpPct / 100.f * charaStatsData.stats.maxHealth;				
+				//hpBar.currentHealth = currentHp;
 			}
-			hpBar.SetMaxHealth(maxHp);
 
 			ImGui::Text("%.2f/%.2f (%.2f%%)", currentHp, maxHp, hpPct);
-			ImGui::SameLine(260); //to seek alternatives
-			ImGui::Text("HP Percentage");
-
-			ImGui::Text("%.2f, %.2f", hpBar.barWidth, hpBar.barHeight);
-			ImGui::SameLine(260); //to seek alternatives
-			ImGui::Text("Current HP dimensions");
+			//ImGui::SameLine(260); //to seek alternatives
+			//ImGui::Text("HP Percentage");
 
 			bool& hpShowHealth = hpBar.showHealthStat;
 			ImGui::Checkbox("Show Health", &hpShowHealth);
@@ -763,6 +762,7 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			ImGui::InputFloat("Max Health", &charstatsComponent.stats.maxHealth);
+			ImGui::InputFloat("Health", &charstatsComponent.stats.health);
 			ImGui::InputFloat("Attack", &charstatsComponent.stats.attack);
 			ImGui::InputFloat("Defense", &charstatsComponent.stats.defense);
 			ImGui::InputInt("Speed", &charstatsComponent.stats.speed);

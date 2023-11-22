@@ -389,7 +389,6 @@ void GraphicsSystem::Draw() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textlabelArray = componentManager.GetComponentArrayRef<TextLabel>();
-	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
@@ -997,7 +996,8 @@ void UITextLabelSystem::Draw() {
 					: modelData->SetAlpha(0.2f);
 			}
 			else {
-				modelData->SetAlpha(0.0f);
+				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
+					: modelData->SetAlpha(0.0f);
 			}
 		}
 		else if (!buttonData && !texData) {
@@ -1045,66 +1045,45 @@ void UIHealthBarSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& healthRemainingArray = componentManager.GetComponentArrayRef<HealthRemaining>();
+	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
+	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 
 	for (Entity const& entity : m_Entities) {
-		Size* sizeData = &sizeArray.GetData(entity);
+		Size* pSizeData = &sizeArray.GetData(entity);
 		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		HealthBar* healthBarData = &healthBarArray.GetData(entity);
+		Parent* parentData = &parentArray.GetData(entity);
 
-		healthBarData->UpdateHealth(*sizeData, *charaStatsData, *textLabelData);
+		healthBarData->UpdateHealth(*charaStatsData);		
+
+		if (parentData->children.empty())
+			continue;
+
+		for (int count = 0; count < parentData->children.size(); count++) {
+			Entity childEntity = parentData->children[count];
+
+			if (healthRemainingArray.HasComponent(childEntity)) {
+				HealthRemaining* healthRemainingData = &healthRemainingArray.GetData(childEntity);
+				Model* childModel = &modelArray.GetData(childEntity);
+				Child* childData = &childArray.GetData(childEntity);
+				Size* cSizeData = &sizeArray.GetData(childEntity);
+				healthRemainingData->currentHealth = healthBarData->currentHealth;
+				healthRemainingData->UpdateSize(*healthBarData, *pSizeData, *cSizeData);
+				healthRemainingData->UpdateColors(*childModel, *charaStatsData);
+				healthRemainingData->UpdateOffset(*pSizeData, *healthBarData, *childData);
+			}
+			if (textLabelArray.HasComponent(childEntity)) {
+				TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
+				healthBarData->UpdateTextDisplay(*textLabelData);
+			}
+		}
 	}
-}
-
-void UIHealthBarSystem::Draw() {
-	//// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	//// Access component arrays through the ComponentManager
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
-	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
-	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-
-	size_t group{};
-
-	for (Entity const& entity : m_Entities) {
-		Name* nameData = &nameArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
-		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-		HealthBar* healthBarData = &healthBarArray.GetData(entity);
-
-		group = nameData->group;
-		//update offset
-		//healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
-
-	}
-
-	for (Entity const& entity : m_Entities) {
-		Name* nameData = &nameArray.GetData(entity);
-		Model* modelData = &modelArray.GetData(entity);
-		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-		HealthBar* healthBarData = &healthBarArray.GetData(entity);
-
-		//group = nameData->group;
-		
-		/*if (nameData.group == group) {
-
-		}*/
-
-		//update offset
-		healthBarData->UpdateColors(*modelData, *charaStatsData, *textLabelData);
-	
-
-	}
-
 }
 
 void UISkillPointSystem::Update() {
@@ -1149,6 +1128,7 @@ void UISkillPointSystem::Update() {
 		}
 	}
 }
+
 void ChildSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1177,5 +1157,34 @@ void ChildSystem::Update() {
 	for (auto& e : toDestroyList) {
 		ECS::ecs().DestroyEntity(e);
 		RemoveEntityFromLayering(e);
+	}
+}
+
+void ParentSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
+	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+
+	for (Entity const& entity : m_Entities) {
+		Parent* parentData = &parentArray.GetData(entity);
+		
+		std::unordered_set <Entity> childrenToRemove{};
+		for (auto& child : parentData->children) {
+			if (!childArray.HasComponent(child)) {
+				childrenToRemove.insert(child);
+			}
+		}
+		if (!childrenToRemove.empty()) {
+			std::vector<Entity> newChildArray{};
+			for (auto& child : parentData->children) {
+				if (!childrenToRemove.count(child)) {
+					newChildArray.push_back(child);
+				}
+			}
+			parentData->children = newChildArray;
+		}
 	}
 }

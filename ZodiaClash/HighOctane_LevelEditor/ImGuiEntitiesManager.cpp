@@ -67,7 +67,6 @@ int selectedColorIndex = -1; // Index of the selected preset color
 
 /****************************FOR UI***********************************/
 bool showFontEntityConfig = false;
-bool showHealthBarEntityConfig = false;
 
 /****************************FOR AUDIO***********************************/
 bool showAudioEntityConfig = false;
@@ -98,19 +97,16 @@ void UpdateEntitiesManager() {
             if (ImGui::MenuItem("Audio Entity")) {
                 showFontEntityConfig = false;
                 showAudioEntityConfig = true;
-                showHealthBarEntityConfig = false;
                 showColorPicker = false;
             }
             if (ImGui::MenuItem("Text Label Entity")) {
                 showFontEntityConfig = true;
                 showAudioEntityConfig = false;
-                showHealthBarEntityConfig = false;
                 showColorPicker = false;
             }
             if (ImGui::MenuItem("Health Bar Entity")) {
                 showFontEntityConfig = false;
                 showAudioEntityConfig = false;
-                showHealthBarEntityConfig = true;
                 showColorPicker = false;
             }
             if (ImGui::Button("Close")) {
@@ -221,35 +217,6 @@ void UpdateEntitiesManager() {
                 ImGui::EndPopup();
             }
         }
-        
-        //************************HEALTH BAR******************************************//
-        // Display the hp bar entity configuration options if selected
-        if (showHealthBarEntityConfig) {
-            // Add your audio entity configuration UI here
-            ImGui::OpenPopup("Health Bar Entity");
-            // Create the centered popup modal for hp bar entity configuration
-            if (ImGui::BeginPopupModal("Health Bar Entity", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-                // Add your hp bar entity configuration UI here
-                Entity createHealthBarEntity = ECS::ecs().CreateEntity();
-                ECS::ecs().AddComponent<Name>(createHealthBarEntity, Name{ "healthBar"});
-                ECS::ecs().AddComponent<Transform>(createHealthBarEntity, Transform{ });
-                ECS::ecs().AddComponent<Size>(createHealthBarEntity, Size{ 100.f,100.f });
-                ECS::ecs().AddComponent<Model>(createHealthBarEntity, Model{ ModelType::UI });
-                ECS::ecs().AddComponent<Clone>(createHealthBarEntity, Clone{});
-                ECS::ecs().AddComponent<Movable>(createHealthBarEntity, Movable{});
-
-                ECS::ecs().AddComponent<CharacterStats>(createHealthBarEntity, CharacterStats{});
-                ECS::ecs().GetComponent<CharacterStats>(createHealthBarEntity).stats.maxHealth = 1000.f;
-                ECS::ecs().AddComponent<TextLabel>(createHealthBarEntity, TextLabel{});
-                ECS::ecs().GetComponent<TextLabel>(createHealthBarEntity).hasBackground = 1;
-                ECS::ecs().AddComponent<HealthBar>(createHealthBarEntity, HealthBar{ ECS::ecs().GetComponent<CharacterStats>(createHealthBarEntity) });
-                layering[selectedLayer].emplace_back(createHealthBarEntity);
-                EntityFactory::entityFactory().cloneCounter++;
-                showHealthBarEntityConfig = false;
-                ImGui::EndPopup();
-            }
-        }
-
         
         //************************AUDIO**********************************************//
         // Display the audio entity configuration options if selected

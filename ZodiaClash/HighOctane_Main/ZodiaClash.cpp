@@ -255,6 +255,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
 	ECS::ecs().RegisterComponent<HealthBar>();
+	ECS::ecs().RegisterComponent<HealthRemaining>();
 	ECS::ecs().RegisterComponent<SkillPointHUD>();
 	ECS::ecs().RegisterComponent<SkillPoint>();
 	ECS::ecs().RegisterComponent<Parent>();
@@ -318,6 +319,11 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(editingSystem, "Editing System");
 	systemList.emplace_back(editingSystem, "Editing System");
 	edit_ptr = editingSystem;
+
+	std::shared_ptr<ParentSystem> parentSystem = ECS::ecs().RegisterSystem<ParentSystem>();
+	runSystemList.emplace_back(parentSystem, "Parent System");
+	editSystemList.emplace_back(parentSystem, "Parent System");
+	systemList.emplace_back(parentSystem, "Parent System");
 
 	std::shared_ptr<ChildSystem> childSystem = ECS::ecs().RegisterSystem<ChildSystem>();
 	runSystemList.emplace_back(childSystem, "Child System");
@@ -387,6 +393,14 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<AnimationSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+
+		ECS::ecs().SetSystemSignature<ParentSystem>(signature);
 	}
 
 	{
@@ -498,8 +512,8 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
-		signature.set(ECS::ecs().GetComponentType<TextLabel>());
 		signature.set(ECS::ecs().GetComponentType<HealthBar>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UIHealthBarSystem>(signature);
 	}

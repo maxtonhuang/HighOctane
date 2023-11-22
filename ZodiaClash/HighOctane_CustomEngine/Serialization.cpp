@@ -250,6 +250,7 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 	rapidjson::Value attacks(rapidjson::kArrayType);
 	charstats.AddMember("Character type", (int)stats.tag, allocator);
 	charstats.AddMember("Max Health", stats.stats.maxHealth, allocator);
+	charstats.AddMember("Health", stats.stats.health, allocator);
 	charstats.AddMember("Attack", stats.stats.attack, allocator);
 	charstats.AddMember("Defense", stats.stats.defense, allocator);
 	charstats.AddMember("Speed", stats.stats.speed, allocator);
@@ -301,6 +302,7 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 	
 	textObject.AddMember("Horizontal Alignment", (int)textLabel.hAlignment, allocator);
 	textObject.AddMember("Vertical Alignment", (int)textLabel.vAlignment, allocator);
+	textObject.AddMember("Background", (bool)textLabel.hasBackground, allocator);
 
 	return textObject;
 }
@@ -328,6 +330,25 @@ rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::Allo
 	return buttonObject;
 }
 
+rapidjson::Value SerializeHealthBar(const HealthBar& hpBar, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value hpBarObject(rapidjson::kObjectType);
+	hpBarObject.AddMember("Show Health Stat", (bool)hpBar.showHealthStat, allocator);
+	hpBarObject.AddMember("Show Value or Percentage", (bool)hpBar.showValOrPct, allocator);
+	hpBarObject.AddMember("Bar Width", hpBar.barWidth, allocator);
+	hpBarObject.AddMember("Bar Height", hpBar.barHeight, allocator);
+
+	hpBarObject.AddMember("Current Health", hpBar.currentHealth, allocator);
+	hpBarObject.AddMember("Max Health", hpBar.maxHealth, allocator);
+	hpBarObject.AddMember("Health Percentage", hpBar.healthPct, allocator);
+	return hpBarObject;
+}
+
+rapidjson::Value SerializeHealthRemaining(const HealthRemaining& hpRemBar, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value hpRemBarObject(rapidjson::kObjectType);
+	hpRemBarObject.AddMember("Current Health", hpRemBar.currentHealth, allocator);
+	return hpRemBarObject;
+}
+
 rapidjson::Value SerializeSkillPointHUD(const SkillPointHUD& spHUD, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value spHudObject(rapidjson::kObjectType);
 	spHudObject.AddMember("Skill Point Balance", spHUD.skillPointBalance, allocator);
@@ -340,19 +361,6 @@ rapidjson::Value SerializeSkillPoint(const SkillPoint& skillpt, rapidjson::Docum
 	skillPtObject.AddMember("Active State", skillpt.isActive, allocator);
 	return skillPtObject;
 }
-
-//rapidjson::Value SerializeParent(const Parent& parent, rapidjson::Document::AllocatorType& allocator) {
-//	rapidjson::Value parentObject(rapidjson::kObjectType);
-//	//parentObject.AddMember("Children Entities", parent.children, allocator);
-//	return parentObject;
-//}
-//
-//rapidjson::Value SerializeChild(const Child& child, rapidjson::Document::AllocatorType& allocator) {
-//	rapidjson::Value childObject(rapidjson::kObjectType);
-//	childObject.AddMember("Parent Entity", child.parent, allocator);
-//	//serialize transform
-//	return childObject;
-//}
 
 rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value set(rapidjson::kArrayType);
@@ -512,6 +520,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	Model* model = nullptr;
 	TextLabel* textLabel = nullptr;
 	Button* button = nullptr;
+	HealthBar* hpBar = nullptr;
+	HealthRemaining* hpRemBar = nullptr;
 	SkillPointHUD* spHUD = nullptr;
 	SkillPoint* skillpt = nullptr;
 	Collider* collider = nullptr;
@@ -627,6 +637,16 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			button = &ECS::ecs().GetComponent<Button>(entity);
 			rapidjson::Value buttonObject = SerializeButton(*button, allocator);
 			entityObject.AddMember("Button", buttonObject, allocator);
+		}
+		if (CheckSerialize<HealthBar>(entity, isPrefabClone, uComponentMap)) {
+			hpBar = &ECS::ecs().GetComponent<HealthBar>(entity);
+			rapidjson::Value hpBarObject = SerializeHealthBar(*hpBar, allocator);
+			entityObject.AddMember("HealthBar", hpBarObject, allocator);
+		}
+		if (CheckSerialize<HealthRemaining>(entity, isPrefabClone, uComponentMap)) {
+			hpRemBar = &ECS::ecs().GetComponent<HealthRemaining>(entity);
+			rapidjson::Value hpRemBarObject = SerializeHealthRemaining(*hpRemBar, allocator);
+			entityObject.AddMember("HealthRemaining", hpRemBarObject, allocator);
 		}
 		if (CheckSerialize<SkillPointHUD>(entity, isPrefabClone, uComponentMap)) {
 			spHUD = &ECS::ecs().GetComponent<SkillPointHUD>(entity);
@@ -1053,6 +1073,10 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					textLabel.vAlignment = (UI_VERTICAL_ALIGNMENT)(textObject["Vertical Alignment"].GetInt());
 				}
 
+				if (textObject.HasMember("Background")) {
+					textLabel.hasBackground = textObject["Background"].GetBool();
+				}				
+
 				// ECS::ecs().AddComponent(entity, textLabel);
 				if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 					ECS::ecs().GetComponent<TextLabel>(entity) = textLabel;
@@ -1110,6 +1134,41 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 				else {
 					ECS::ecs().AddComponent<Button>(entity, button);
+				}
+			}
+			if (entityObject.HasMember("HealthBar")) {
+				HealthBar hpBar;
+				const rapidjson::Value& hpBarObject = entityObject["HealthBar"];
+
+				if (hpBarObject.HasMember("Show Health Stat") && hpBarObject.HasMember("Show Value or Percentage")) {
+					hpBar.showHealthStat = hpBarObject["Show Health Stat"].GetBool();
+					hpBar.showValOrPct = hpBarObject["Show Value or Percentage"].GetBool();
+				}
+				
+				hpBar.barWidth = hpBarObject["Bar Width"].GetFloat();
+				hpBar.barHeight = hpBarObject["Bar Height"].GetFloat();
+
+				hpBar.currentHealth = hpBarObject["Current Health"].GetFloat();
+				hpBar.maxHealth = hpBarObject["Max Health"].GetFloat();
+				hpBar.healthPct = hpBarObject["Health Percentage"].GetFloat();
+
+				if (ECS::ecs().HasComponent<HealthBar>(entity)) {
+					ECS::ecs().GetComponent<HealthBar>(entity) = hpBar;
+				}
+				else {
+					ECS::ecs().AddComponent<HealthBar>(entity, hpBar);
+				}
+			}
+			if (entityObject.HasMember("HealthRemaining")) {
+				HealthRemaining hpRemBar;
+				const rapidjson::Value& hpBarObject = entityObject["HealthRemaining"];
+				hpRemBar.currentHealth = hpBarObject["Current Health"].GetFloat();
+
+				if (ECS::ecs().HasComponent<HealthRemaining>(entity)) {
+					ECS::ecs().GetComponent<HealthRemaining>(entity) = hpRemBar;
+				}
+				else {
+					ECS::ecs().AddComponent<HealthRemaining>(entity, hpRemBar);
 				}
 			}
 			if (entityObject.HasMember("SkillPointHUD")) {
