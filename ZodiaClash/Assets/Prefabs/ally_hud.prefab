@@ -14,7 +14,7 @@
         "Entity": {
             "Name": "ally_healthbar",
             "Current Layer": 0,
-            "Order in Layer": 19,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -25,8 +25,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -150.5,
-            "position_y": 24.5,
+            "position_x": -740.0,
+            "position_y": -450.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -36,7 +36,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 350.5,
+            "width": 275.0,
             "height": 25.0
         },
         "Scripts": {
@@ -87,8 +87,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -150.5,
-            "position_y": 24.5,
+            "position_x": -740.0,
+            "position_y": -450.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -98,7 +98,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 332.9750061035156,
+            "width": 261.25,
             "height": 20.0
         },
         "Scripts": {
@@ -130,7 +130,7 @@
         "Entity": {
             "Name": "displayLbl",
             "Current Layer": 0,
-            "Order in Layer": 11,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -141,8 +141,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -70.5,
-            "position_y": 74.5,
+            "position_x": -680.0,
+            "position_y": -410.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -171,6 +171,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.36000001430511475,
             "Text String": "1000",
             "r": 1.0,
             "g": 1.0,
@@ -182,8 +183,8 @@
             "Background": false
         },
         "Child": {
-            "position_x": 80.0,
-            "position_y": 50.0,
+            "position_x": 60.0,
+            "position_y": 40.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -205,10 +206,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -205.5,
-            "position_y": 158.0,
+            "position_x": -780.0,
+            "position_y": -350.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.75,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -240,10 +241,10 @@
         },
         "Movable": {},
         "Child": {
-            "position_x": -55.0,
-            "position_y": 133.5,
+            "position_x": -40.0,
+            "position_y": 100.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.75,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

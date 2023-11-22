@@ -1,21 +1,23 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 2,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "textLabel",
-            "Current Layer": 0,
-            "Order in Layer": 2,
+            "Name": "pause_menuitem",
+            "Current Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -31,11 +33,11 @@
             "velocity_y": 0.0
         },
         "Visible": {
-            "isVisible": true
+            "isVisible": false
         },
         "Size": {
-            "width": 200.0,
-            "height": 60.0
+            "width": 360.0,
+            "height": 80.0
         },
         "Scripts": {
             "className": "",
@@ -47,21 +49,39 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.20000000298023224
+            "Alpha": 0.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Text String": "TextLabel",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
+            "Font Size": 0.5,
+            "Text String": "Battle Test",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
             "a": 1.0,
-            "Color Preset": "white",
+            "Color Preset": "black",
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Background": false
+        },
+        "Button": {
+            "Button R": 1.0,
+            "Button G": 1.0,
+            "Button B": 1.0,
+            "Button A": 1.0,
+            "Text R": 0.0,
+            "Text G": 0.0,
+            "Text B": 0.0,
+            "Text A": 1.0,
+            "Event Name": "Change Scene",
+            "Event Input": "",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     }
 ]

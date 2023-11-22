@@ -291,6 +291,7 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 		textObject.AddMember("Font Family", rapidjson::Value(fontInfo.first.c_str(), allocator).Move(), allocator);
 		textObject.AddMember("Font Variant", rapidjson::Value(fontInfo.second.c_str(), allocator).Move(), allocator);
 	}
+	textObject.AddMember("Font Size", textLabel.relFontSize, allocator);
 	textObject.AddMember("Text String", rapidjson::Value(textLabel.textString.c_str(), allocator).Move(), allocator);
 	textObject.AddMember("r", textLabel.textColor.r, allocator);
 	textObject.AddMember("g", textLabel.textColor.g, allocator);
@@ -1057,6 +1058,10 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				std::string fontFamily = textObject["Font Family"].GetString();
 				std::string fontvariant = textObject["Font Variant"].GetString();
 				textLabel.font = fonts.GetFont(fontFamily, fontvariant);
+
+				if (textObject.HasMember("Font Size")) {
+					textLabel.relFontSize = textObject["Font Size"].GetFloat();
+				}
 
 				textLabel.textString = textObject["Text String"].GetString();
 

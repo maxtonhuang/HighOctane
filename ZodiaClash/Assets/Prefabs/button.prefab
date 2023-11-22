@@ -10,7 +10,7 @@
     },
     {
         "Entity": {
-            "Name": "mockup_title_logo_02 (1).png",
+            "Name": "button",
             "Current Layer": 0,
             "Order in Layer": 5,
             "isLocked": true,
@@ -61,6 +61,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Battle Test",
             "r": 0.0,
             "g": 0.0,
@@ -68,7 +69,8 @@
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
             "Button R": 0.0,
