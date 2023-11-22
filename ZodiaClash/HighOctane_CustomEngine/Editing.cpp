@@ -131,7 +131,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					case TYPE::MOUSE_CLICK: {
 
 						if (name.selected) {
-							undoRedo.RecordCurrent(entity);
+							undoRedo.RecordCurrent(entity,ACTION::TRANSFORM);
 							if (&model == nullptr) {
 								if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 									name.clicked = CLICKED::INSIDE;
