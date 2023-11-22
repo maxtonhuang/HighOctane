@@ -422,10 +422,11 @@ void EntityFactory::DeleteMasterModel(Entity entity) {
 void EntityFactory::DeleteCloneModel(Entity entity) {
 	ECS::ecs().DestroyEntity(entity);
 	// find entity > remove from layer
-	std::pair<size_t, size_t> pos = FindInLayer(entity);
+	/*std::pair<size_t, size_t> pos = FindInLayer(entity);
 	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
 		layering[pos.first].erase(layering[pos.first].begin() + pos.second);
-	}
+	}*/
+	RemoveEntityFromLayering(entity);
 	--cloneCounter;
 }
 

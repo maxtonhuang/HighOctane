@@ -51,7 +51,7 @@ void UpdateSceneHierachy() {
 
 	ImGui::Begin("Properties");
 	//if (currentSelectedEntity && selectedEntities.size() == 1) {
-	if (currentSelectedEntity) {
+	if (ECS::ecs().EntityExists(currentSelectedEntity)) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
 	/*Entity entity;

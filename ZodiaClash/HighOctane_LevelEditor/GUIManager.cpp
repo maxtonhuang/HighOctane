@@ -255,17 +255,17 @@ void GUIManager::Update()
         }
         // need to edit popupHovered
         popupHovered = false;
-        if (rightClick && selectedCount > 0) {
-            
+        if (rightClick && selectedEntities.size() > 0) {
             if (ImGui::BeginPopupContextWindow()) {
-                if (ImGui::IsWindowHovered()) {
+                //printf("Popup!\n");
+                //if (ImGui::IsWindowHovered()) {
                     popupHovered = true;
-                }
+                //}
                 if (ImGui::MenuItem("Copy")) {
                     toCopy = true;
                     rightClick = false;
                 }
-                ImGui::MenuItem("Paste", NULL, false, false);
+                //ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Delete")) {
                     toDestroy = true;
@@ -273,32 +273,28 @@ void GUIManager::Update()
                     
                 }
                 ImGui::Separator();
-                if (ImGui::MenuItem("Bring Forward")) {
+                if (ImGui::MenuItem("Bring Forward", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     //
-                    LayerOrderBringForward(newSelection);
+                    LayerOrderBringForward(selectedEntities.front());
                     rightClick = false;
-
                 }
-                if (ImGui::MenuItem("Bring to Front")) {
+                if (ImGui::MenuItem("Bring to Front", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     //
-                    LayerOrderBringToFront(newSelection);
+                    LayerOrderBringToFront(selectedEntities.front());
                     rightClick = false;
-
                 }
-                if (ImGui::MenuItem("Send Backward")) {
+                if (ImGui::MenuItem("Send Backward", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     //
-                    LayerOrderSendBackward(newSelection);
+                    LayerOrderSendBackward(selectedEntities.front());
                     rightClick = false;
-
                 }
-                if (ImGui::MenuItem("Send to Back")) {
+                if (ImGui::MenuItem("Send to Back", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     //
-                    LayerOrderSendToBack(newSelection);
+                    LayerOrderSendToBack(selectedEntities.front());
                     rightClick = false;
-
                 }
                 ImGui::Separator();
-                if (ImGui::MenuItem("Save as prefab")) {
+                if (ImGui::MenuItem("Save as Prefab", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
                     SaveAsPrefab(prefabPath, newSelection);
                 }

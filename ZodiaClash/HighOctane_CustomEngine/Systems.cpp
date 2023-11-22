@@ -786,19 +786,12 @@ void EditingSystem::Update() {
 	//printf("%d\n", somethingWasSelectedThisCycle);
 
 	if (thereWasAClickThisCycle && !somethingWasSelectedThisCycle) {
-		printf("YES\n");
+		//printf("YES\n");
 		UnselectAll();
 	}
 
 	
 	
-	selectedEntities.clear();
-	for (Entity entity : m_Entities) {
-		if (nameArray.GetData(entity).selected) {
-			selectedEntities.emplace_back(entity);
-			//printf("Selected: %s\n", nameArray.GetData(entity).name.c_str());
-		}
-	}
 
 	if (toCopy || toDestroy) {
 		for (Entity entity : selectedEntities) {
@@ -807,6 +800,7 @@ void EditingSystem::Update() {
 	}
 
 	if (toCopy) {
+		printf("In Copy\n");
 		for (Entity entity : selectedEntities) {
 			EntityFactory::entityFactory().CloneMaster(entity);
 		}
@@ -817,9 +811,12 @@ void EditingSystem::Update() {
 
 
 	if (toDestroy) {
+		printf("In Destroy: %lld\n", selectedEntities.size());
 		for (Entity entity : selectedEntities) {
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
-			RemoveEntityFromLayering(entity);
+			//RemoveEntityFromLayering(entity);
+			entitiesToSkip[entity] = false;
+			entitiesToLock[entity] = false;
 		}
 		toDestroy = false;
 		selectedEntities.clear();
@@ -831,6 +828,15 @@ void EditingSystem::Update() {
 
 	//printf("%d\n", selectedEntities.size());
 
+	selectedEntities.clear();
+	//printf("=== Selected Entities ===\n");
+	for (Entity entity : m_Entities) {
+		if (nameArray.GetData(entity).selected) {
+			selectedEntities.emplace_back(entity);
+			//printf("-> %s\n", nameArray.GetData(entity).name.c_str());
+		}
+	}
+	//printf("=========================\n\n");
 
 
 	// Editing starts here
@@ -864,7 +870,7 @@ void EditingSystem::Update() {
 		}
 	}
 
-	printf("GC: %d\n", groupCounter);
+	//printf("GC: %d\n", groupCounter);
 
 	mouseMoved = false;
 	withinSomething = false;

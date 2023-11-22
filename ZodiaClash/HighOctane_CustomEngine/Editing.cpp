@@ -71,7 +71,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 	/*name.draggingOffset = transform.position - currentMousePosition;*/
 
 
-	if (name.selected) {
+	if (!popupHovered && name.selected) {
 		if (&model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 				SetCursor(hAllDirCursor);
@@ -156,7 +156,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				}
 				else if (IsWithinObject(model, currentMousePosition)) {
 					name.clicked = CLICKED::INSIDE;
-					printf("INSIDE ------");
+					//printf("INSIDE ------");
 				}
 			}
 
@@ -259,6 +259,19 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 
 			break;*/
 
+
+		//case INFO::MOUSE_RIGHT:
+		//					
+		//	if (IsWithinObject(model, currentMousePosition)) {
+		//		UnselectAll();
+		//		name.selected = true;
+		//		newSelection = entity;
+		//		rightClick = true;
+		//		rightClickPos = currentMousePosition;
+		//	}
+
+		//	break;
+
 		case TYPE::MOUSE_DOWN: {
 			
 				
@@ -272,11 +285,11 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 							case CLICKED::NE:
 							{
 								draggingThisCycle = true;
-								printf("Mouse Position: %f, %f\n", currentMousePosition.x, currentMousePosition.y);
-								printf("Model Position: %f, %f\n", model.GetMax().x, model.GetMax().y);
+								//printf("Mouse Position: %f, %f\n", currentMousePosition.x, currentMousePosition.y);
+								//printf("Model Position: %f, %f\n", model.GetMax().x, model.GetMax().y);
 								float deltaX = currentMousePosition.x - model.GetMax().x;
 								float deltaY = currentMousePosition.y - model.GetMax().y;
-								printf("Delta: %f, %f\n", deltaX, deltaY);
+								//printf("Delta: %f, %f\n", deltaX, deltaY);
 								float currWidth = model.GetMax().x - model.GetMin().x;
 								float currHeight = model.GetMax().y - model.GetMin().y;
 								if (deltaX < deltaY) {
