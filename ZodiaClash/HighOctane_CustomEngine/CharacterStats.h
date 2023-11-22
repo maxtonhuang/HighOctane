@@ -64,14 +64,13 @@ public:
 
     //negative effects 
     struct debuff {
-        int             bleedStack{ 3 }; //decrease the health
+       int    bleedStack{ 3 }; //decrease the health
     }; debuff debuffs{};
 
     void TakeDamage(float damage);
     void HealBuff(float buffAmount);
     GameObject gameObject{};
     void Start();
-    void InitializeCharacterSkills(CharacterStats& character);
     bool operator==(const CharacterStats&) const;
 private:
     

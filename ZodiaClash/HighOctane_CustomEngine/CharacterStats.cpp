@@ -160,20 +160,3 @@ bool CharacterStats::operator==(const CharacterStats& input) const {
     }
     return false;
 }
-
-void InitializeCharacterSkills(CharacterStats& character) {
-    Attack skill1;
-    skill1.attackName = "Skill 1";
-    skill1.chiCost = 1;
-    character.action.skills.push_back(skill1);
-
-    Attack skill2;
-    skill2.attackName = "Skill 2";
-    skill2.chiCost = 2;
-    character.action.skills.push_back(skill2);
-
-    Attack skill3;
-    skill3.attackName = "Skill 3";
-    skill3.chiCost = 3;
-    character.action.skills.push_back(skill3);
-}

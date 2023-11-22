@@ -115,6 +115,7 @@ void AttackList::SaveAttack(Attack const& attack) {
     object.AddMember("Maximum Attack Multiplier", attack.maxAttackMultiplier, allocator);
     object.AddMember("Crit Rate", attack.critRate, allocator);
     object.AddMember("Crit Multiplier", attack.critMultiplier, allocator);
+    object.AddMember("Chi Cost", attack.chiCost, allocator);
     document.PushBack(object, allocator);
 
     // Save the JSON document to a file
@@ -185,6 +186,11 @@ void AttackList::LoadAttack(std::string attackPath) {
         if (mainObject.HasMember("Crit Multiplier")) {
             const rapidjson::Value& object = mainObject["Crit Multiplier"];
             atk.critMultiplier = object.GetFloat();
+        }
+
+        if (mainObject.HasMember("Chi Cost")) {
+            const rapidjson::Value& object = mainObject["Chi Cost"];
+            atk.chiCost = object.GetInt();
         }
     }
     data[atkname] = atk;
