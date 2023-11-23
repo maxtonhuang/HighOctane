@@ -121,7 +121,25 @@ void SelectSkill(std::string input) {
 	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 	bs->activeCharacter->action.entityState = ATTACKING;
 }
-
+void TogglePause(std::string input) {
+	(void)input;
+	static Entity pausemenu{};
+	if (currentSystemMode == SystemMode::PAUSE) {
+		currentSystemMode = lastSystemMode;
+		lastSystemMode = SystemMode::PAUSE;
+		if (pausemenu != 0) {
+			ECS::ecs().DestroyEntity(pausemenu);
+			pausemenu = 0;
+		}
+	}
+	else {
+		lastSystemMode = currentSystemMode;
+		currentSystemMode = SystemMode::PAUSE;
+		if (pausemenu == 0) {
+			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
+		}	
+	}
+}
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
@@ -134,6 +152,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Pause/Resume Group"] = PauseResumeGroup;
 	functions["Stop Group"] = StopGroup;
 	functions["Select Skill"] = SelectSkill;
+	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
 	functions["Test"] = TestFunction;

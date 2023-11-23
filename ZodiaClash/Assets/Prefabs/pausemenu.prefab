@@ -149,7 +149,7 @@
         "Entity": {
             "Name": "pause_menuitem1",
             "Current Layer": 5,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -211,7 +211,7 @@
             "Text G": 0.0,
             "Text B": 0.0,
             "Text A": 1.0,
-            "Event Name": "Change Scene",
+            "Event Name": "Toggle Pause",
             "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -232,7 +232,7 @@
         "Entity": {
             "Name": "pause_menuitem2",
             "Current Layer": 5,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -315,7 +315,7 @@
         "Entity": {
             "Name": "pause_menuitem3",
             "Current Layer": 5,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },

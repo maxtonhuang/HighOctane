@@ -52,6 +52,7 @@ public:
 	
 	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
 	Entity CloneMaster(Entity& masterEntity);
+	Entity ClonePrefab(std::string prefabName);
 	//void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
 	void LoadMasterModel();

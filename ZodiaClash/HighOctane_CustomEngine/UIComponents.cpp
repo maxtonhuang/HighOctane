@@ -371,7 +371,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (currentSystemMode == SystemMode::RUN && !eventName.empty() && !eventInput.empty()) {
+				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) && !eventName.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -391,7 +391,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	//outside edit mode, color change accordingly to state. otherwise show default
-	if (currentSystemMode == SystemMode::RUN) {
+	if (currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) {
 		switch (currentState) {
 		case(STATE::HOVERED):
 			textLabelData.textColor = hoveredColor.textColor;

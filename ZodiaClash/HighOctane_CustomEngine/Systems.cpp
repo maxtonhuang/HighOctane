@@ -694,7 +694,7 @@ void EditingSystem::Update() {
 			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 				if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 					for (Entity & entity : layering[layer_it]) {
-						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
 							Name & n = nameArray.GetData(entity);
 							if (n.selected) {
 								if (modelArray.HasComponent(entity)) {
@@ -760,6 +760,9 @@ void EditingSystem::Update() {
 				//if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 				for (Entity& entity : layering[layer_it]) {
 					//if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+					if (!ECS::ecs().EntityExists(entity)) {
+						continue;
+					}
 					Name& n = nameArray.GetData(entity);
 					//if (n.selected) {
 					Transform& t = transformArray.GetData(entity);
@@ -785,7 +788,7 @@ void EditingSystem::Update() {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (int entity_it = static_cast<int>(layering[layer_it].size() - 1); entity_it >= 0; --entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
 					Name & n = nameArray.GetData(entity);
 					Transform & t = transformArray.GetData(entity);
 					Model* m{};
@@ -867,7 +870,7 @@ void EditingSystem::Update() {
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity & entity : layering[layer_it]) {
-				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
 					Name & n = nameArray.GetData(entity);
 					Transform & t = transformArray.GetData(entity);
 					Model* m{};

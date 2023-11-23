@@ -234,8 +234,9 @@ void RebuildLayeringAfterDeserialization() {
 		}
 		else {
 			while (layering.size() <= n.serializationLayer) {
-				std::deque<Entity> temp;
-				layering.emplace_back(temp);
+				//std::deque<Entity> temp;
+				//layering.emplace_back(temp);
+				CreateNewLayer();
 			}
  			layering[n.serializationLayer].emplace_back(entity);
 		}

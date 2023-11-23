@@ -300,6 +300,7 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	editSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
+	pauseSystemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	std::shared_ptr<UIHealthBarSystem> uiHealthBarSystem = ECS::ecs().RegisterSystem<UIHealthBarSystem>();
 	runSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
@@ -315,6 +316,7 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	pauseSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 	editSystemList.emplace_back(editingSystem, "Editing System");
@@ -325,11 +327,13 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(parentSystem, "Parent System");
 	editSystemList.emplace_back(parentSystem, "Parent System");
 	systemList.emplace_back(parentSystem, "Parent System");
+	pauseSystemList.emplace_back(parentSystem, "Parent System");
 
 	std::shared_ptr<ChildSystem> childSystem = ECS::ecs().RegisterSystem<ChildSystem>();
 	runSystemList.emplace_back(childSystem, "Child System");
 	editSystemList.emplace_back(childSystem, "Child System");
 	systemList.emplace_back(childSystem, "Child System");
+	pauseSystemList.emplace_back(childSystem, "Child System");
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");

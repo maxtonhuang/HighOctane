@@ -1,19 +1,24 @@
-NEW_bg.png
+background.jpeg
 duck2.spritesheet
 duck.spritesheet
+mockup_skillframe (1).png
 cat.png
 mockup_cat.png
 mockup_ox.png
 mockup_goat.png
 mockup_playbutton_04.png
-mockup_guard.png
-mockup_BG_03.png
-ping.wav
+mockup_chi_icon.png
+mockup_title_logo_02 (1).png
+mockup_main_menu.png
+mockup_chi_icon_lineart.png
+mockup_icon_cat.png
+NEW_bg.png
+mockup_pausemenu.png
 bonk.wav
+ping.wav
 MainMenu1.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
 Scarlet Claw.skill
 Dance of Fury.skill
 Five Elements Bloodbath.skill
@@ -22,5 +27,4 @@ No.skill
 Normal AOE.skill
 OHKO.skill
 Test.skill
-Normal Attack.skill
 tmp.json
