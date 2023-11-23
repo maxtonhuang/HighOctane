@@ -1,8 +1,8 @@
-background.jpeg
 duck2.spritesheet
+background.jpeg
 duck.spritesheet
-mockup_skillframe (1).png
 cat.png
+mockup_skillframe (1).png
 mockup_cat.png
 mockup_ox.png
 mockup_goat.png
@@ -14,9 +14,48 @@ mockup_chi_icon_lineart.png
 mockup_icon_cat.png
 NEW_bg.png
 mockup_pausemenu.png
-bonk.wav
 ping.wav
+bonk.wav
 MainMenu1.wav
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -35,4 +74,5 @@ No.skill
 Normal AOE.skill
 OHKO.skill
 Test.skill
+Normal Attack.skill
 mainmenu.json
