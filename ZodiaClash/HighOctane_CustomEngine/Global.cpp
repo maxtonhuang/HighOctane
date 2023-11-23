@@ -90,13 +90,13 @@ bool newScene{ true };
 bool initLevel{ true };
 std::string newSceneName{};
 
-size_t currentLayer{ std::numeric_limits<size_t>::max() };
-size_t selectedLayer{ std::numeric_limits<size_t>::max()  };
+//size_t currentLayer{ std::numeric_limits<size_t>::max() };
+size_t selectedLayer{ std::numeric_limits<size_t>::max() };
 
 size_t layerCounter{};
 size_t selectedGroup{};
 size_t groupCounter{};
-std::deque<std::string> layerNames{};
+std::deque<std::pair<std::string, bool>> layerNames{};
 std::deque< std::deque<Entity> > layering{};
 std::array<bool, 10000> layersToSkip{};
 std::array<bool, 100000> entitiesToSkip{};

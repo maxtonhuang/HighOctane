@@ -856,7 +856,7 @@ void EditingSystem::Update() {
 		toDestroy = false;
 		selectedEntities.clear();
 		UnselectAll();
-		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		selectedLayer = std::numeric_limits<size_t>::max();
 	}
 
 

@@ -54,6 +54,7 @@ std::unordered_map<int, INFO> mouseStatus;
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
     UNREFERENCED_PARAMETER(mod); //unused variable
     UNREFERENCED_PARAMETER(scancode); //unused variable
+    UNREFERENCED_PARAMETER(pwin); // unused variable;
     switch (action) {
     case GLFW_PRESS:
 

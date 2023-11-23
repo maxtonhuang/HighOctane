@@ -52,8 +52,8 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 			case INFO::MOUSE_LEFT: {
 				//printf("%d\n", draggingThisCycle);
 				if (!draggingThisCycle) {
-					thereWasAClickThisCycle = true;
 					if (viewportWindowHovered) {
+						thereWasAClickThisCycle = true;
 						if (&model != nullptr) {
 							if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
 								ProcessSelection(name, layer_it/*, CLICKED::NE*/);
@@ -100,7 +100,7 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 								if (!popupHovered) {
 									rightClick = false;
 									name.selected = false;
-									currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+									selectedLayer = std::numeric_limits<size_t>::max();
 									name.clicked = CLICKED::NOT;
 								}
 							}*/
@@ -180,7 +180,7 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 void UnselectAll() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	for (auto& layer : layering) {
 		for (auto& entity : layer) {
 			if (!ECS::ecs().EntityExists(entity)) {
@@ -207,7 +207,7 @@ void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/) {
 		if (name.selected) {
 			if (name.group) {
 				UnselectWholeGroup(name.group);
-				//currentLayer = selectedLayer = GetHightestLayerWithSelection();
+				//selectedLayer = GetHightestLayerWithSelection();
 			}
 			else {
 				name.selected = false;
@@ -215,10 +215,10 @@ void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/) {
 			}
 			
 			if (CheckAnySelectedInLayer(layer_it)) {
-				currentLayer = selectedLayer = layer_it;
+				selectedLayer = layer_it;
 			}
 			else {
-				currentLayer = selectedLayer = GetHightestLayerWithSelection();
+				selectedLayer = GetHightestLayerWithSelection();
 			}
 
 
@@ -226,14 +226,14 @@ void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/) {
 		else {
 			if (name.group) {
 				SelectWholeGroup(name.group);
-				currentLayer = selectedLayer = GetHightestLayerWithSelection();
+				selectedLayer = GetHightestLayerWithSelection();
 			}
 			else {
 				name.selected = true;
 				++selectedCount;
 			}
 			/*if (selectedCount == 0) {
-				currentLayer = selectedLayer = layer_it;
+				selectedLayer = layer_it;
 			}*/
 			
 			//name.clicked = location;
@@ -243,13 +243,13 @@ void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/) {
 		UnselectAll();
 		if (name.group) {
 			SelectWholeGroup(name.group);
-			currentLayer = selectedLayer = GetHightestLayerWithSelection();
+			selectedLayer = GetHightestLayerWithSelection();
 		}
 		else {
 			name.selected = true;
 			++selectedCount;
 			printf("%s\n", name.name.c_str());
-			currentLayer = selectedLayer = layer_it;
+			selectedLayer = layer_it;
 		}
 		
 		//name.clicked = location;

@@ -540,8 +540,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	layeringObject.AddMember("groupCounter", groupCounter, allocator);
 	if (!layerNames.empty()) {
 		rapidjson::Value layerNamesArray(rapidjson::kArrayType);
-		for (const std::string& layerName : layerNames) {
-			layerNamesArray.PushBack(rapidjson::Value(layerName.c_str(), allocator), allocator);
+		for (const std::pair<std::string, bool>& layerName : layerNames) {
+			layerNamesArray.PushBack(rapidjson::Value(layerName.first.c_str(), allocator), allocator);
 		}
 		layeringObject.AddMember("layerNames", layerNamesArray, allocator);
 	}
@@ -743,8 +743,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
 	}
-	selectedLayer = 0;
-	currentLayer = 0;
+	selectedLayer = std::numeric_limits<size_t>().max();
 	
 	// Save the JSON document to a file
 	std::ofstream ofs(fileName);
@@ -778,7 +777,7 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 		layerNames.clear();
 		for (rapidjson::SizeType i = 0; i < layerNamesArray.Size(); ++i) {
 			if (layerNamesArray[i].IsString()) {
-				layerNames.push_back(layerNamesArray[i].GetString());
+				layerNames.push_back(std::make_pair(layerNamesArray[i].GetString(), true)); //
 			}
 		}
 	}
@@ -841,7 +840,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				if (!stopButton) {
 					//stop crashing if there is no selected layer
 					//if (selectedLayer == std::numeric_limits<size_t>::max()) {
-					selectedLayer = currentLayer = 0;
+					selectedLayer = std::numeric_limits<size_t>().max();
 					//}
 					/*if (layering.size() == 0) {
 						std::deque<Entity> temp;

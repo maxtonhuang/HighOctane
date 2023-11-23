@@ -78,112 +78,118 @@ void UpdateLayer() {
 
 	for (int layer_it = (static_cast<int>(layering.size()) - 1); layer_it >= 0; --layer_it) {
 
-		std::string label1 = "##label" + std::to_string(checkboxCounter++);
-		if (ImGui::Checkbox(label1.c_str(), &layersToSkip[layer_it])) {
-			UnselectAll();
-			SetWholeSkipLayer(static_cast<size_t>(layer_it));
-		}
-		ImGui::SameLine();
-		std::string label2 = "##label" + std::to_string(checkboxCounter++);
-		if (ImGui::Checkbox(label2.c_str(), &layersToLock[layer_it])) {
-			UnselectAll();
-			SetWholeLockLayer(static_cast<size_t>(layer_it));
-		}
-		ImGui::SameLine();
-		if (ImGui::TreeNodeEx(layerNames[layer_it].c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | (layer_it == currentLayer ? ImGuiTreeNodeFlags_Selected : 0), layerNames[layer_it].c_str())) {
-			
-			if (ImGui::IsItemClicked()) {
+		// Check if everything has clone component if not will hide.
+		// If press delete, must remove all clone component and hide layer.
+		// But if not, layer should still be showing.
+		if (layerNames[layer_it].second) {
+
+			std::string label1 = "##label" + std::to_string(checkboxCounter++);
+			if (ImGui::Checkbox(label1.c_str(), &layersToSkip[layer_it])) {
 				UnselectAll();
+				SetWholeSkipLayer(static_cast<size_t>(layer_it));
+			}
+			ImGui::SameLine();
+			std::string label2 = "##label" + std::to_string(checkboxCounter++);
+			if (ImGui::Checkbox(label2.c_str(), &layersToLock[layer_it])) {
+				UnselectAll();
+				SetWholeLockLayer(static_cast<size_t>(layer_it));
+			}
+			ImGui::SameLine();
+			if (ImGui::TreeNodeEx(layerNames[layer_it].first.c_str(), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((layer_it == selectedLayer) ? ImGuiTreeNodeFlags_Selected : 0), layerNames[layer_it].first.c_str())) {
+
+				if (ImGui::IsItemClicked()) {
+					UnselectAll();
+					for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
+						Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
+						entityName.selected = true;
+					}
+					selectedLayer = layer_it;
+				}
+				if (ImGui::BeginDragDropSource()) {
+					index = layer_it;
+					ImGui::SetDragDropPayload("LAYER", &index, sizeof(int));
+					ImGui::EndDragDropSource();
+				}
+
+				if (ImGui::BeginDragDropTarget()) {
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("LAYER")) {
+
+						int sourceLayerIndex = *(int*)payload->Data;
+						std::deque<Entity> temp = layering[sourceLayerIndex];
+						std::string tempName = layerNames[sourceLayerIndex].first;
+						// delete source layer
+						layering.erase(layering.begin() + sourceLayerIndex);
+						layerNames.erase(layerNames.begin() + sourceLayerIndex);
+						// insert source layer into target layer
+						layering.insert(layering.begin() + layer_it, temp);
+						layerNames.insert(layerNames.begin() + layer_it, std::make_pair(tempName, true));
+					}
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) {
+
+						Entity sourceEntity = *(Entity*)payload->Data;
+						// remove entity from source layer
+						RemoveEntityFromLayering(sourceEntity);
+						// insert entity into target layer
+						layering[layer_it].emplace_back(sourceEntity);
+					}
+					ImGui::EndDragDropTarget();
+
+				}
+
 				for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
+					if (!ECS::ecs().EntityExists(layering[layer_it][entity_it])) {
+						continue;
+					}
 					Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
-					entityName.selected = true;
-				}
-			}
-
-			if (ImGui::BeginDragDropSource()) {
-				index = layer_it;
-				ImGui::SetDragDropPayload("LAYER", &index, sizeof(int));
-				ImGui::EndDragDropSource();
-			}
-
-			if (ImGui::BeginDragDropTarget()) {
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("LAYER")) {
-					
-					int sourceLayerIndex = *(int*)payload->Data;
-					std::deque<Entity> temp = layering[sourceLayerIndex];
-					std::string tempName = layerNames[sourceLayerIndex];
-					// delete source layer
-					layering.erase(layering.begin() + sourceLayerIndex);
-					layerNames.erase(layerNames.begin() + sourceLayerIndex);
-					// insert source layer into target layer
-					layering.insert(layering.begin() + layer_it, temp);
-					layerNames.insert(layerNames.begin() + layer_it, tempName);
-				}
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) {
-					
-					Entity sourceEntity = *(Entity*)payload->Data;
-					// remove entity from source layer
-					RemoveEntityFromLayering(sourceEntity);
-					// insert entity into target layer
-					layering[layer_it].emplace_back(sourceEntity);
-				}
-				ImGui::EndDragDropTarget();
-
-			}
-
-			for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
-				if (!ECS::ecs().EntityExists(layering[layer_it][entity_it])) {
-					continue;
-				}
-				Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
-				if (ECS::ecs().HasComponent<Clone>(layering[layer_it][entity_it])) {
-					if (entityName.selected) {
-						currentLayer = layer_it;
-					}
-					layersToSkip[layer_it] = CheckSkipLayerAllTrue(static_cast<size_t>(layer_it));
-					layersToLock[layer_it] = CheckLockLayerAllTrue(static_cast<size_t>(layer_it));
-					std::string label3 = "##label" + std::to_string(checkboxCounter++);
-					if (ImGui::Checkbox(label3.c_str(), &entitiesToSkip[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
-						UnselectAll();
-					}
-					ImGui::SameLine();
-					std::string label4 = "##label" + std::to_string(checkboxCounter++);
-					if (ImGui::Checkbox(label4.c_str(), &entitiesToLock[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
-						UnselectAll();
-					}
-					ImGui::SameLine();
-					std::string temp = (entityName.group > 0) ? ("(G" + std::to_string(entityName.group) + ") " + entityName.name) : entityName.name;
-				
-					if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), temp.c_str())) {
-
-						if (ImGui::IsItemClicked()) {
+					if (ECS::ecs().HasComponent<Clone>(layering[layer_it][entity_it])) {
+						if (entityName.selected) {
+							selectedLayer = layer_it;
+						}
+						layersToSkip[layer_it] = CheckSkipLayerAllTrue(static_cast<size_t>(layer_it));
+						layersToLock[layer_it] = CheckLockLayerAllTrue(static_cast<size_t>(layer_it));
+						std::string label3 = "##label" + std::to_string(checkboxCounter++);
+						if (ImGui::Checkbox(label3.c_str(), &entitiesToSkip[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
 							UnselectAll();
-							entityName.selected = true;
 						}
-
-						if (ImGui::BeginDragDropSource()) {
-							ImGui::SetDragDropPayload("ENTITY", &layering[layer_it][entity_it], sizeof(Entity));
-							ImGui::EndDragDropSource();
+						ImGui::SameLine();
+						std::string label4 = "##label" + std::to_string(checkboxCounter++);
+						if (ImGui::Checkbox(label4.c_str(), &entitiesToLock[static_cast<uint32_t>(layering[layer_it][entity_it])])) {
+							UnselectAll();
 						}
+						ImGui::SameLine();
+						std::string temp = (entityName.group > 0) ? ("(G" + std::to_string(entityName.group) + ") " + entityName.name) : entityName.name;
 
-						if (ImGui::BeginDragDropTarget()) {
-							if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) {
-								Entity sourceEntity = *(Entity*)payload->Data;
-								// remove entity from source layer
-								RemoveEntityFromLayering(sourceEntity);
-								// insert entity into target layer
-								layering[layer_it].insert(layering[layer_it].begin() + entity_it, sourceEntity);
+						if (ImGui::TreeNodeEx(entityName.name.c_str(), ImGuiTreeNodeFlags_Leaf | (entityName.selected ? ImGuiTreeNodeFlags_Selected : 0), temp.c_str())) {
+
+							if (ImGui::IsItemClicked()) {
+								UnselectAll();
+								entityName.selected = true;
 							}
-							ImGui::EndDragDropTarget();
+
+							if (ImGui::BeginDragDropSource()) {
+								ImGui::SetDragDropPayload("ENTITY", &layering[layer_it][entity_it], sizeof(Entity));
+								ImGui::EndDragDropSource();
+							}
+
+							if (ImGui::BeginDragDropTarget()) {
+								if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ENTITY")) {
+									Entity sourceEntity = *(Entity*)payload->Data;
+									// remove entity from source layer
+									RemoveEntityFromLayering(sourceEntity);
+									// insert entity into target layer
+									layering[layer_it].insert(layering[layer_it].begin() + entity_it, sourceEntity);
+								}
+								ImGui::EndDragDropTarget();
+							}
+
+
+
+							ImGui::TreePop();
 						}
-
-
-
-						ImGui::TreePop();
 					}
 				}
+				ImGui::TreePop();
 			}
-			ImGui::TreePop();
 		}
 	}
 
