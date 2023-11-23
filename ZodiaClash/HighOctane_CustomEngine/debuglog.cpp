@@ -50,7 +50,7 @@ namespace debuglog {
      * This function is the default constructor
      */
 	Logger::Logger() {
-		currentLogFileName = "console.log";
+		currentLogFileName = "console.txt";
 		this->currentLogLevel = LOG_LEVEL::Trace;
 
 		// Open the file
@@ -167,7 +167,7 @@ namespace debuglog {
 			std::filesystem::create_directory(folderName);
 
 			// Construct the full file name
-			std::string fullFileName = folderName + "/crash.log";
+			std::string fullFileName = folderName + "/crash.txt";
 
 			// Write to the file crash.log
 			std::ofstream crashFile(fullFileName, std::ios::out | std::ios::app);
@@ -278,7 +278,7 @@ namespace debuglog {
             std::filesystem::path currentPath(currentLogFileName);
             std::filesystem::path newPath = currentPath.stem();
 
-            newPath += "Old.log";
+            newPath += "Old.txt";
 
 			// Rename the file using std::filesystem
 			std::filesystem::rename(currentPath, newPath);

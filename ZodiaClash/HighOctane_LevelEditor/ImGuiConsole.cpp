@@ -96,7 +96,7 @@ void UpdateConsole() {
         ImGui::SameLine();
         ImGui::TextDisabled("(?)"); // Label text
         if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("Enter name of file. Eg. 'Good' will create a file called 'Good.log' ");
+            ImGui::SetTooltip("Enter name of file. Eg. 'Good' will create a file called 'Good.txt' ");
         }
         /********FILE INPUT TEXT*********/
 
@@ -230,7 +230,7 @@ void ExportConsoleToFile(const char* fileName) {
     std::string fullFileName = folderName + "/";
 
     // Append the file name or use a default name
-    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".log" : fullFileName += "Console.log";
+    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".txt" : fullFileName += "Console.txt";
 
     // Open the file
     std::ofstream outputFile(fullFileName);
@@ -266,7 +266,7 @@ void DeleteLineFromFile(const char* fileName) {
     std::string fullFileName = folderName + "/";
 
     // Append the file name or use a default name
-    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".log" : fullFileName += "Console.log";
+    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".txt" : fullFileName += "Console.txt";
 
     // Check if the file exists
     if (!std::filesystem::exists(fullFileName)) {
