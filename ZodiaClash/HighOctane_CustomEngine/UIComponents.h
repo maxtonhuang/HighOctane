@@ -292,12 +292,16 @@ class SkillAttackType : UIComponent {
 	AttackType atkType;
 };
 
-class EnemyHUD : UIComponent {
+class AllyHUD : UIComponent {
+	//TODO
+};
 
+class EnemyHUD : UIComponent {
+	//TODO
 };
 
 class TurnIndicator : UIComponent {
-
+	//TODO
 };
 
 
