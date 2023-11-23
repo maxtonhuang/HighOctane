@@ -292,7 +292,7 @@ void AnimationSystem::Update() {
 		animationData->Update(entity);
 
 		//Lock the battle system if animation is playing
-		if (animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
+		if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
 			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
 		}
 	}
