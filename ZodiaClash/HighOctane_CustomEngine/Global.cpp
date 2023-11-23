@@ -130,6 +130,8 @@ std::string SystemModeToString(SystemMode mode)
 		return "EDIT";
 	case SystemMode::PAUSE:
 		return "PAUSE";
+	case SystemMode::GAMEHELP:
+		return "GAMEHELP";
 	case SystemMode::NONE:
 		return "NONE";
 	default:
