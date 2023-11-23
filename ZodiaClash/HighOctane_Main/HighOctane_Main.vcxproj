@@ -145,8 +145,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)bin\$(Configuration)-$(Platform)\;$(SolutionDir)Extern\Mono\lib;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)HighOctane_Main\Config.txt" "$(TargetDir)Config.txt" /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -174,8 +173,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)bin\$(Configuration)-$(Platform)\;$(SolutionDir)Extern\Mono\lib;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(SolutionDir)HighOctane_Main\Config.txt" "$(TargetDir)Config.txt" /Y</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>

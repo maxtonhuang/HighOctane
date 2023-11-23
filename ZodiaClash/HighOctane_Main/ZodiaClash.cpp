@@ -119,6 +119,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {   
 
+	//ASSERT(true, "This ");
 	/**************************************************************************
 	*	The following code will prevent window from going out of screen of low
 	*	resolution screens. Modern monitors that are 1080P or higher should not
@@ -173,6 +174,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
 
     LOG_INFO("Graphics started");
+
 
     EngineCore::engineCore(); // Instantiate Engine Core
 
@@ -583,7 +585,6 @@ void EngineCore::Run(bool const& mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 	Mail::mail().RegisterMailbox(ADDRESS::UICOMPONENT);
-
 
 
 	///////////////////////////////////

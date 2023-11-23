@@ -107,8 +107,11 @@ void ScriptEngine::Shutdown()
 
 void ScriptEngine::InitMono() 
 {
+
     // Setting the path to the mono
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
+
+    std::cout << filePath << std::endl;
 
     if (std::filesystem::exists(filePath)) 
     {
@@ -117,10 +120,10 @@ void ScriptEngine::InitMono()
     }
     else 
     {
-        //filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
-        //if (std::filesystem::exists(filePath)) {
-        //    mono_set_assemblies_path(filePath.c_str());
-        //}
+        filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
+        if (std::filesystem::exists(filePath)) {
+            mono_set_assemblies_path(filePath.c_str());
+        }
         //else {
         //    filePath = std::filesystem::current_path().replace_filename("HighOctane_CustomEngine/Extern/Mono/lib/mono/4.5").string();
         //    mono_set_assemblies_path(filePath.c_str());
