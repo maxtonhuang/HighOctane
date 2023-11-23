@@ -193,28 +193,30 @@ void BattleSystem::Update()
         {
             if (roundManage.characterCount < turnManage.characterList.size())
             {
-
-                // Error here, activeCharacter is null
-                //turnManage.activeEnemy = activeCharacter->gameObject.name;
-                //turnManage.activePlayer = "";
-
-                if (m_Entities.size() > 0) {
-                    printf("\nState: Enemy Turn\n");
-                    LOG_WARNING("State: Enemy Turn");
-                }
-
                 activeCharacter = turnManage.turnOrderList.front();
 
                 if (activeCharacter->tag == CharacterType::ENEMY)
                 {
+                    turnManage.activeEnemy = activeCharacter->gameObject.name;
+                    turnManage.activePlayer = "";
+
+                    if (m_Entities.size() > 0) 
+                    {
+                        printf("\nState: Enemy Turn\n");
+                        LOG_WARNING("State: Enemy Turn");
+                    }
+
                     activeCharacter->ApplyBloodStack(); //apply blood stack, the function will check if the enemy is on bloodstack
 
                     // check if the enemy died after bloodstack effect
-                    if (activeCharacter->stats.health <= 0) {
+                    if (activeCharacter->stats.health <= 0) 
+                    {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
-                    // if alive, continue with enemy's turn
-                    battleState = ENEMYTURN;
+                    else 
+                    {
+                        battleState = ENEMYTURN;// if alive, continue with enemy's turn
+                    }
                 }
                 else if (activeCharacter->tag == CharacterType::PLAYER)
                 {
