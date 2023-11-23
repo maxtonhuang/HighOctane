@@ -1,17 +1,11 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 8,
+            "layerCounter": 2,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
-                "Layer 1",
-                "Layer 2",
-                "Layer 3",
-                "Layer 4",
-                "Layer 5",
-                "Layer 6",
-                "Layer 7"
+                "Layer 1"
             ]
         }
     },
@@ -455,7 +449,25 @@
             "Blue": 1.0,
             "Alpha": 1.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Animation 0",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -514,7 +526,7 @@
             "Text String": "Exploration Test",
             "r": 0.0,
             "g": 0.0,
-            "b": 1.0,
+            "b": 0.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,

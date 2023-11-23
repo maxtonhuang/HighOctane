@@ -452,6 +452,12 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
+			else if (animType == "SelfDestruct") {
+				const std::shared_ptr<SelfDestructAnimation> selfd{ std::dynamic_pointer_cast<SelfDestructAnimation>(anim) };
+				rapidjson::Value keyframe(rapidjson::kObjectType);
+				keyframe.AddMember("Frame Number", selfd->keyframes.frameNum, allocator);
+				keyFrames.PushBack(keyframe, allocator);
+			}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -1285,6 +1291,13 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<FadeAnimation>(a));
+						}
+						else if (animType == "SelfDestruct") {
+							SelfDestructAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<SelfDestructAnimation>(a));
 						}
 					}
 					animset.animationSet.push_back(anigrp);

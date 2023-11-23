@@ -2,6 +2,8 @@
 #include "AssetManager.h"
 #include "Events.h"
 
+std::vector<Entity>animatedEntitiesToDestroy{};
+
 void AnimationSet::Initialise(Entity entity) {
 	Start(defaultAnimation, entity);
 	initialised = true;
@@ -210,6 +212,7 @@ bool SoundAnimation::HasKeyFrame(int frameNum) {
 
 SwapAnimation::SwapAnimation() {
 	type = "Swap";
+	keyframes.frameNum = -1;
 }
 void SwapAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
@@ -472,4 +475,28 @@ bool ColorAnimation::HasKeyFrame(int frameNum) {
 		}
 	}
 	return false;
+}
+
+SelfDestructAnimation::SelfDestructAnimation() {
+	type = "SelfDestruct";
+	keyframes.frameNum = -1;
+}
+void SelfDestructAnimation::Update(int frameNum) {
+	if (frameNum == keyframes.frameNum) {
+		animatedEntitiesToDestroy.push_back(parent);
+	}
+}
+void SelfDestructAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	keyframes.frameNum = frameNum;
+	if (frameData != nullptr) {
+		keyframes.data = *(static_cast<int*>(frameData));
+	}
+}
+void SelfDestructAnimation::RemoveKeyFrame(int frameNum) {
+	if (keyframes.frameNum == frameNum) {
+		keyframes.frameNum = -1;
+	}
+}
+bool SelfDestructAnimation::HasKeyFrame(int frameNum) {
+	return keyframes.frameNum == frameNum;
 }

@@ -296,7 +296,9 @@ void AnimationSystem::Update() {
 			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
 		}
 	}
-	
+	for (Entity e : animatedEntitiesToDestroy) {
+		ECS::ecs().DestroyEntity(e);
+	}
 }
 
 /******************************************************************************
