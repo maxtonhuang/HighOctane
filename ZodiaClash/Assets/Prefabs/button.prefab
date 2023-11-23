@@ -1,10 +1,11 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 2,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1"
             ]
         }
     },
@@ -24,8 +25,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -739.0,
-            "position_y": 418.0,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -73,14 +74,30 @@
             "Background": false
         },
         "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
             "Event Name": "Change Scene",
             "Event Input": "battle2.scn",
             "Padding Top": 30.0,

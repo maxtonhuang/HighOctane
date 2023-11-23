@@ -310,15 +310,35 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 rapidjson::Value SerializeButton(const Button& button, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value buttonObject(rapidjson::kObjectType);
 
-	buttonObject.AddMember("Button R", button.defaultColor.buttonColor.r, allocator);
-	buttonObject.AddMember("Button G", button.defaultColor.buttonColor.g, allocator);
-	buttonObject.AddMember("Button B", button.defaultColor.buttonColor.b, allocator);
-	buttonObject.AddMember("Button A", button.defaultColor.buttonColor.a, allocator);
+	buttonObject.AddMember("Default Button R", button.defaultColor.buttonColor.r, allocator);
+	buttonObject.AddMember("Default Button G", button.defaultColor.buttonColor.g, allocator);
+	buttonObject.AddMember("Default Button B", button.defaultColor.buttonColor.b, allocator);
+	buttonObject.AddMember("Default Button A", button.defaultColor.buttonColor.a, allocator);
 	
-	buttonObject.AddMember("Text R", button.defaultColor.textColor.r, allocator);
-	buttonObject.AddMember("Text G", button.defaultColor.textColor.g, allocator);
-	buttonObject.AddMember("Text B", button.defaultColor.textColor.b, allocator);
-	buttonObject.AddMember("Text A", button.defaultColor.textColor.a, allocator);
+	buttonObject.AddMember("Default Text R", button.defaultColor.textColor.r, allocator);
+	buttonObject.AddMember("Default Text G", button.defaultColor.textColor.g, allocator);
+	buttonObject.AddMember("Default Text B", button.defaultColor.textColor.b, allocator);
+	buttonObject.AddMember("Default Text A", button.defaultColor.textColor.a, allocator);
+
+	buttonObject.AddMember("Hovered Button R", button.hoveredColor.buttonColor.r, allocator);
+	buttonObject.AddMember("Hovered Button G", button.hoveredColor.buttonColor.g, allocator);
+	buttonObject.AddMember("Hovered Button B", button.hoveredColor.buttonColor.b, allocator);
+	buttonObject.AddMember("Hovered Button A", button.hoveredColor.buttonColor.a, allocator);
+
+	buttonObject.AddMember("Hovered Text R", button.hoveredColor.textColor.r, allocator);
+	buttonObject.AddMember("Hovered Text G", button.hoveredColor.textColor.g, allocator);
+	buttonObject.AddMember("Hovered Text B", button.hoveredColor.textColor.b, allocator);
+	buttonObject.AddMember("Hovered Text A", button.hoveredColor.textColor.a, allocator);
+
+	buttonObject.AddMember("Focused Button R", button.focusedColor.buttonColor.r, allocator);
+	buttonObject.AddMember("Focused Button G", button.focusedColor.buttonColor.g, allocator);
+	buttonObject.AddMember("Focused Button B", button.focusedColor.buttonColor.b, allocator);
+	buttonObject.AddMember("Focused Button A", button.focusedColor.buttonColor.a, allocator);
+
+	buttonObject.AddMember("Focused Text R", button.focusedColor.textColor.r, allocator);
+	buttonObject.AddMember("Focused Text G", button.focusedColor.textColor.g, allocator);
+	buttonObject.AddMember("Focused Text B", button.focusedColor.textColor.b, allocator);
+	buttonObject.AddMember("Focused Text A", button.focusedColor.textColor.a, allocator);
 
 	buttonObject.AddMember("Event Name", rapidjson::Value(button.eventName.c_str(), allocator).Move(), allocator);
 	buttonObject.AddMember("Event Input", rapidjson::Value(button.eventInput.c_str(), allocator).Move(), allocator);
@@ -1101,25 +1121,57 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				Button button;
 				//button.colorSet = Button::ColorSet(); // Initialize the colorSet struct
 				glm::vec4 buttonColor{};
-				if (buttonObject.HasMember("Button R") && buttonObject.HasMember("Button G") &&
-					buttonObject.HasMember("Button B") && buttonObject.HasMember("Button A")) {
-					buttonColor.r = buttonObject["Button R"].GetFloat();
-					buttonColor.g = buttonObject["Button G"].GetFloat();
-					buttonColor.b = buttonObject["Button B"].GetFloat();
-					buttonColor.a = buttonObject["Button A"].GetFloat();
-				}
-
 				glm::vec4 textColor{};
-				if (buttonObject.HasMember("Text R") && buttonObject.HasMember("Text G") &&
-					buttonObject.HasMember("Text B") && buttonObject.HasMember("Text A")) {
-					textColor.r = buttonObject["Text R"].GetFloat();
-					textColor.g = buttonObject["Text G"].GetFloat();
-					textColor.b = buttonObject["Text B"].GetFloat();
-					textColor.a = buttonObject["Text A"].GetFloat();
+				// init with default ColorSet
+				if (buttonObject.HasMember("Default Button R") && buttonObject.HasMember("Default Button G") &&
+					buttonObject.HasMember("Default Button B") && buttonObject.HasMember("Default Button A")) {
+					buttonColor.r = buttonObject["Default Button R"].GetFloat();
+					buttonColor.g = buttonObject["Default Button G"].GetFloat();
+					buttonColor.b = buttonObject["Default Button B"].GetFloat();
+					buttonColor.a = buttonObject["Default Button A"].GetFloat();
 				}
-
-				// update states
+				if (buttonObject.HasMember("Default Text R") && buttonObject.HasMember("Default Text G") &&
+					buttonObject.HasMember("Default Text B") && buttonObject.HasMember("Default Text A")) {
+					textColor.r = buttonObject["Default Text R"].GetFloat();
+					textColor.g = buttonObject["Default Text G"].GetFloat();
+					textColor.b = buttonObject["Default Text B"].GetFloat();
+					textColor.a = buttonObject["Default Text A"].GetFloat();
+				}
 				button = { buttonColor, textColor };
+
+				// load hovered and focused ColorSets
+				if (buttonObject.HasMember("Hovered Button R") && buttonObject.HasMember("Hovered Button G") &&
+					buttonObject.HasMember("Hovered Button B") && buttonObject.HasMember("Hovered Button A")) {
+					buttonColor.r = buttonObject["Hovered Button R"].GetFloat();
+					buttonColor.g = buttonObject["Hovered Button G"].GetFloat();
+					buttonColor.b = buttonObject["Hovered Button B"].GetFloat();
+					buttonColor.a = buttonObject["Hovered Button A"].GetFloat();
+				}
+				if (buttonObject.HasMember("Hovered Text R") && buttonObject.HasMember("Hovered Text G") &&
+					buttonObject.HasMember("Hovered Text B") && buttonObject.HasMember("Hovered Text A")) {
+					textColor.r = buttonObject["Hovered Text R"].GetFloat();
+					textColor.g = buttonObject["Hovered Text G"].GetFloat();
+					textColor.b = buttonObject["Hovered Text B"].GetFloat();
+					textColor.a = buttonObject["Hovered Text A"].GetFloat();
+				}
+				button.hoveredColor = { buttonColor, textColor };
+
+				if (buttonObject.HasMember("Focused Button R") && buttonObject.HasMember("Focused Button G") &&
+					buttonObject.HasMember("Focused Button B") && buttonObject.HasMember("Focused Button A")) {
+					buttonColor.r = buttonObject["Focused Button R"].GetFloat();
+					buttonColor.g = buttonObject["Focused Button G"].GetFloat();
+					buttonColor.b = buttonObject["Focused Button B"].GetFloat();
+					buttonColor.a = buttonObject["Focused Button A"].GetFloat();
+				}
+				if (buttonObject.HasMember("Focused Text R") && buttonObject.HasMember("Focused Text G") &&
+					buttonObject.HasMember("Focused Text B") && buttonObject.HasMember("Focused Text A")) {
+					textColor.r = buttonObject["Focused Text R"].GetFloat();
+					textColor.g = buttonObject["Focused Text G"].GetFloat();
+					textColor.b = buttonObject["Focused Text B"].GetFloat();
+					textColor.a = buttonObject["Focused Text A"].GetFloat();
+				}
+				button.focusedColor = { buttonColor, textColor };
+
 
 				if (buttonObject.HasMember("Padding Top") && buttonObject.HasMember("Padding Bottom") &&
 					buttonObject.HasMember("Padding Left") && buttonObject.HasMember("Padding Right")) {

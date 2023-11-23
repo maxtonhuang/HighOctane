@@ -171,6 +171,8 @@ public:
 	float buttonWidth{};
 	float buttonHeight{};
 
+	int colorSetting{};
+
 	// other UI unique properties
 	STATE currentState{};
 	Padding padding{}; 
@@ -190,7 +192,7 @@ public:
 	glm::vec4 GetButtonColor();
 
 	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
-	void UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor);
+	void UpdateColorSets(STATE currentState, glm::vec4 btnColor, glm::vec4 txtColor);
 
 	/*void OnClick(Model& modelData, Name& nameData) override;
 	void OnHover(Model& modelData, Name& nameData) override;

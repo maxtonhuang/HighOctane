@@ -1066,6 +1066,7 @@ void UIButtonSystem::Update() {
 		if (!texArray.HasComponent(entity)) {
 			glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
+			modelData->SetAlpha(btnColor.a);
 		}
 
 		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
