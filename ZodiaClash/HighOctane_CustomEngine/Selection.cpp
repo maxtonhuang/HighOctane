@@ -3,6 +3,8 @@
 #include "message.h"
 #include "Utilities.h"
 #include "Layering.h"
+#include "ECS.h"
+#include "model.h"
 #include <limits>
 
 
@@ -19,31 +21,31 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 
-		case TYPE::MOUSE_CLICK: {
-			switch (msg.info) {
-			case INFO::MOUSE_RIGHT:
-				thereWasAClickThisCycle = true;
-				//if (viewportWindowHovered) {
-				printf("Right Click Detected\n");
-				if (IsWithinObject(model, currentMousePosition)) {
-					//UnselectAll();
-					//name.selected = true;
-					if (!name.selected) {
-						ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
-					}
-					//newSelection = entity;
+		//case TYPE::MOUSE_CLICK: {
+		//	switch (msg.info) {
+		//	case INFO::MOUSE_RIGHT:
+		//		thereWasAClickThisCycle = true;
+		//		//if (viewportWindowHovered) {
+		//		printf("Right Click Detected\n");
+		//		if (IsWithinObject(model, currentMousePosition)) {
+		//			//UnselectAll();
+		//			//name.selected = true;
+		//			if (!name.selected) {
+		//				ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
+		//			}
+		//			//newSelection = entity;
 
-					somethingWasSelectedThisCycle = true;
-					rightClick = true;
-					rightClickPos = currentMousePosition;
-					//printf("Selected Count: %d\n", selectedCount);
-				}
-				//}
+		//			somethingWasSelectedThisCycle = true;
+		//			rightClick = true;
+		//			rightClickPos = currentMousePosition;
+		//			//printf("Selected Count: %d\n", selectedCount);
+		//		}
+		//		//}
 
-				break;
-			}
-		}
-			break;
+		//		break;
+		//	}
+		//}
+		//	break;
 
 		case TYPE::MOUSE_UP: // selection of entity done here << --- needs a DRAGGED bool to check if it was dragged or not
 			switch (msg.info) {
@@ -74,11 +76,25 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 								return;
 							}
 							else if (IsWithinObject(model, currentMousePosition)) {
-								//printf("Within Object");
-								ProcessSelection(name, layer_it/*, CLICKED::INSIDE*/);
+									//printf("Within Object");
+									if (name.selected) {
+										if (keyObjectID != entity) {
+											// set key object
+											if (keyObjectID != std::numeric_limits<Entity>().max()) {
+												ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>().GetData(keyObjectID).GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
+											}
+											keyObjectID = entity;
+										}
+										else {
+											model.GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
+											keyObjectID = std::numeric_limits<Entity>().max();
+										}
+									}
+									else {
+									ProcessSelection(name, layer_it/*, CLICKED::INSIDE*/);
+								}
 								somethingWasSelectedThisCycle = true;
 								return;
-
 							}
 							/*else {
 								if (!popupHovered) {
@@ -102,6 +118,11 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 						}
 					}
 				}
+
+
+
+				// change color for key object
+
 			}
 			break;
 
@@ -159,17 +180,20 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 void UnselectAll() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	for (auto& layer : layering) {
 		for (auto& entity : layer) {
 			Name& name = nameArray.GetData(entity);
 			name.selected = false;
 			name.clicked = CLICKED::NONE;
+			//modelArray.GetData(entity).GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
 		}
 	}
 	selectedCount = 0;
 	selectedLayer = std::numeric_limits<size_t>().max();
 	thereWasAClickThisCycle = false;
 	somethingWasSelectedThisCycle = false;
+	//keyObjectID = std::numeric_limits<Entity>().max();
 }
 
 

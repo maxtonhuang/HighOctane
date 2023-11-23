@@ -295,6 +295,107 @@ void GUIManager::Update()
                     rightClick = false;
                 }
                 ImGui::Separator();
+                if (ImGui::MenuItem("Align Horizontal Top")) {
+					//
+                    printf("Horizontal Top\n");
+                    auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
+                    auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
+                    float alignmentReference;
+                    if (keyObjectID != std::numeric_limits<Entity>().max()) {
+                        alignmentReference = transformArray.GetData(keyObjectID).position.y + ((modelArray.GetData(keyObjectID).GetMax().y - modelArray.GetData(keyObjectID).GetMin().y) / 2.f);
+                    }
+                    else {
+                        alignmentReference = graphics.GetWindowHeight() * 0.5f;
+                    }
+                    for (Entity e : selectedEntities) {
+                        transformArray.GetData(e).position.y = alignmentReference - ((modelArray.GetData(e).GetMax().y - modelArray.GetData(e).GetMin().y) / 2.f);
+                    }
+                    rightClick = false;
+				}
+                if (ImGui::MenuItem("Align Horizontal Middle")) {
+                    //
+                    printf("Horizontal Middle\n");
+                    auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
+                    float alignmentReference;
+                    if (keyObjectID != std::numeric_limits<Entity>().max()) {
+                        alignmentReference = transformArray.GetData(keyObjectID).position.y;
+                    }
+                    else {
+                        alignmentReference = 0.f;
+                    }
+                    for (Entity e : selectedEntities) {
+                        transformArray.GetData(e).position.y = alignmentReference;
+                    }
+                    rightClick = false;
+                }
+                if (ImGui::MenuItem("Align Horizontal Bottom")) {
+                    //
+                    printf("Horizontal Bottom\n");
+                    auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
+                    auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
+                    float alignmentReference;
+                    if (keyObjectID != std::numeric_limits<Entity>().max()) {
+                        alignmentReference = transformArray.GetData(keyObjectID).position.y - ((modelArray.GetData(keyObjectID).GetMax().y - modelArray.GetData(keyObjectID).GetMin().y) / 2.f);
+                    }
+                    else {
+                        alignmentReference = -graphics.GetWindowHeight() * 0.5f;
+                    }
+                    for (Entity e : selectedEntities) {
+                        transformArray.GetData(e).position.y = alignmentReference + ((modelArray.GetData(e).GetMax().y - modelArray.GetData(e).GetMin().y) / 2.f);
+                    }
+                    rightClick = false;
+                }
+                if (ImGui::MenuItem("Align Vertical Left")) {
+                    // 
+                    printf("Vertical Left\n");
+                    auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
+                    auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
+                    float alignmentReference;
+                    if (keyObjectID != std::numeric_limits<Entity>().max()) {
+                        alignmentReference = transformArray.GetData(keyObjectID).position.x - ((modelArray.GetData(keyObjectID).GetMax().x - modelArray.GetData(keyObjectID).GetMin().x) / 2.f);
+                    }
+                    else {
+                        alignmentReference = -graphics.GetWindowWidth() * 0.5f;
+                    }
+                    for (Entity e : selectedEntities) {
+                        transformArray.GetData(e).position.x = alignmentReference + ((modelArray.GetData(e).GetMax().x - modelArray.GetData(e).GetMin().x) / 2.f);
+                    }
+                    rightClick = false;
+                }
+                if (ImGui::MenuItem("Align Vertical Center")) {
+                    // 
+                    printf("Vertical Center\n");
+                    auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
+                    float alignmentReference;
+                    if (keyObjectID != std::numeric_limits<Entity>().max()) {
+                        alignmentReference = transformArray.GetData(keyObjectID).position.x;
+                    }
+                    else {
+                        alignmentReference = 0.f;
+                    }
+                    for (Entity e : selectedEntities) {
+                        transformArray.GetData(e).position.x = alignmentReference;
+                    }
+                    rightClick = false;
+                }
+                if (ImGui::MenuItem("Align Vertical Right")) {
+                    // 
+                    printf("Vertical Right\n");
+                    auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
+                    auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
+                    float alignmentReference;
+                    if (keyObjectID != std::numeric_limits<Entity>().max()) {
+                        alignmentReference = transformArray.GetData(keyObjectID).position.x + ((modelArray.GetData(keyObjectID).GetMax().x - modelArray.GetData(keyObjectID).GetMin().x) / 2.f);
+                    }
+                    else {
+                        alignmentReference = graphics.GetWindowWidth() * 0.5f;
+                    }
+                    for (Entity e : selectedEntities) {
+                        transformArray.GetData(e).position.x = alignmentReference - ((modelArray.GetData(e).GetMax().x - modelArray.GetData(e).GetMin().x) / 2.f);
+                    }
+                    rightClick = false;
+                }
+                ImGui::Separator();
                 if (ImGui::MenuItem("Save as Prefab", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
                     SaveAsPrefab(prefabPath, newSelection);

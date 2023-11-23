@@ -77,6 +77,7 @@ bool draggingThisCycle{ false };
 vmath::Vector2 currentMousePosition{ RESET_VEC2 };
 bool mouseMoved{ false };
 bool withinSomething{ false };
+Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 
 bool shiftKeyPressed{ false };
 bool controlKeyPressed{ false };

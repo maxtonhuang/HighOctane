@@ -640,6 +640,7 @@ void EditingSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	//auto& colorArray = componentManager.GetComponentArrayRef<Color>();
 
 
 
@@ -848,9 +849,6 @@ void EditingSystem::Update() {
 	}
 
 
-
-	//printf("%d\n", selectedEntities.size());
-
 	selectedEntities.clear();
 	//printf("=== Selected Entities ===\n");
 	for (Entity entity : m_Entities) {
@@ -860,6 +858,25 @@ void EditingSystem::Update() {
 		}
 	}
 	//printf("=========================\n\n");
+
+	{	printf("%d ", keyObjectID);
+		bool found = false;
+		for (Entity entity : selectedEntities) {
+			if (keyObjectID == entity) {
+				found = true;
+				break;
+			}
+		}
+		if (found) {
+			//change color
+			modelArray.GetData(keyObjectID).GetColorRef() = {0.5f, 1.f, 0.5f, 1.f}; // GREEN
+		}
+		else if (keyObjectID != std::numeric_limits<Entity>().max()) {
+			// change back color
+			modelArray.GetData(keyObjectID).GetColorRef() = {1.f, 1.f, 1.f, 1.f};
+			keyObjectID = std::numeric_limits<Entity>().max();
+		}
+	}
 
 
 	// Editing starts here

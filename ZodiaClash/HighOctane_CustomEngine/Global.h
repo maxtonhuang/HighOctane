@@ -82,6 +82,7 @@ extern bool draggingThisCycle;
 extern vmath::Vector2 currentMousePosition;
 extern bool mouseMoved;
 extern bool withinSomething;
+extern Entity keyObjectID;
 
 extern bool shiftKeyPressed;
 extern bool controlKeyPressed;
