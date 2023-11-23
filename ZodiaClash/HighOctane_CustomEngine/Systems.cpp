@@ -859,7 +859,7 @@ void EditingSystem::Update() {
 	}
 	//printf("=========================\n\n");
 
-	{	printf("%d ", keyObjectID);
+	{	//printf("%d ", keyObjectID);
 		bool found = false;
 		for (Entity entity : selectedEntities) {
 			if (keyObjectID == entity) {
