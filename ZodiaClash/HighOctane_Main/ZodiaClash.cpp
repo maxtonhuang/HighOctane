@@ -119,7 +119,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {   
 
-	//ASSERT(true, "This ");
 	/**************************************************************************
 	*	The following code will prevent window from going out of screen of low
 	*	resolution screens. Modern monitors that are 1080P or higher should not
@@ -181,6 +180,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
+
 
 	EngineCore::engineCore().Run(game_mode);
 
@@ -546,7 +546,6 @@ void EngineCore::Run(bool const& mode) {
 	//////////   Initialize all other systems   //////////
 	//////////                                  //////////
 	//////////////////////////////////////////////////////
-
 	CreateNewLayer();
 
 	//If game mode is editor, initialize the mode to editor pause mode
@@ -567,6 +566,7 @@ void EngineCore::Run(bool const& mode) {
 	events.InitialiseFunctions();
 
 
+
 	GUIManager guiManager;
 	// If game mode is editor
 	if (static_cast<bool>(game_mode)) {
@@ -576,8 +576,8 @@ void EngineCore::Run(bool const& mode) {
 		guiManager.Init();
 		inEditing = static_cast<bool>(game_mode);
 
-	}
 
+	}
 	// Mailbox Registrations
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);

@@ -68,7 +68,7 @@ extern std::vector<std::string> fullNameVecImGUI;
 
 //static ScriptEngineData* scriptData = nullptr;
 ScriptEngineData* ScriptEngine::scriptData = nullptr;
-
+std::string ScriptEngine::defaultPath = "";
 
 void ScriptEngine::Init() 
 {
@@ -107,12 +107,10 @@ void ScriptEngine::Shutdown()
 
 void ScriptEngine::InitMono() 
 {
-
     // Setting the path to the mono
     std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
 
     std::cout << filePath << std::endl;
-
     if (std::filesystem::exists(filePath)) 
     {
         mono_set_assemblies_path(filePath.c_str());
@@ -277,7 +275,22 @@ void ScriptEngine::AttachScriptToEntity(Entity entity, std::string scriptName)
     entityScripts.push_back(instance);
 }
 
-void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName) 
+void ScriptEngine::SetDefaultPath(std::string path)
+{
+    defaultPath = "Mono/" + path;
+    //std::string path{ defaultPath + initFilePath };
+    //Serializer serializer;
+    //if (!serializer.Open(path)) {
+    //    defaultPath = "../Assets/";
+    //    path = defaultPath + initFilePath;
+    //    if (!serializer.Open(path)) {
+    //        ASSERT(1, "Unable to initialize asset manager!");
+    //        return;
+    //    }
+    //}
+}
+
+void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName)
 {
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
 
