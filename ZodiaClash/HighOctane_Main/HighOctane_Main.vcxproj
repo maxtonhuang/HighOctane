@@ -29,11 +29,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.ico" />
-    <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.png" />
     <Image Include="small.ico" />
     <Image Include="ZodiaClash.ico" />
     <Image Include="zodiaclash_logo.ico" />
-    <Image Include="zodiaclash_logo.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc" />
