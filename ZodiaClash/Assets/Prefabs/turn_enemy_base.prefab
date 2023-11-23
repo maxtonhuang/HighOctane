@@ -1,0 +1,62 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 7,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "turn_base",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -150.0,
+            "position_y": 166.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 250.0,
+            "height": 100.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.35231316089630127,
+            "Green": 0.13290105760097504,
+            "Blue": 0.13290105760097504,
+            "Alpha": 0.7843137383460999
+        },
+        "Movable": {},
+        "Parent": {}
+    }
+]

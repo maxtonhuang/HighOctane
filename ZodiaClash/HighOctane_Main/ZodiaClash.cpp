@@ -219,6 +219,9 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<HealthRemaining>();
 	ECS::ecs().RegisterComponent<SkillPointHUD>();
 	ECS::ecs().RegisterComponent<SkillPoint>();
+	ECS::ecs().RegisterComponent<AllyHUD>();
+	ECS::ecs().RegisterComponent<EnemyHUD>();
+	ECS::ecs().RegisterComponent<TurnIndicator>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
 

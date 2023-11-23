@@ -383,6 +383,24 @@ rapidjson::Value SerializeSkillPoint(const SkillPoint& skillpt, rapidjson::Docum
 	return skillPtObject;
 }
 
+rapidjson::Value SerializeAllyHUD(const AllyHUD& allyHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value allyHudObject(rapidjson::kObjectType);
+	
+	return allyHudObject;
+}
+
+rapidjson::Value SerializeEnemyHUD(const EnemyHUD& enemyHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value enemyHudObject(rapidjson::kObjectType);
+
+	return enemyHudObject;
+}
+
+rapidjson::Value SerializeTurnIndicator(const TurnIndicator& turnIndicator, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value turnOrderObject(rapidjson::kObjectType);
+
+	return turnOrderObject;
+}
+
 rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value set(rapidjson::kArrayType);
 
@@ -551,6 +569,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	HealthRemaining* hpRemBar = nullptr;
 	SkillPointHUD* spHUD = nullptr;
 	SkillPoint* skillpt = nullptr;
+	AllyHUD* allyHud = nullptr;
+	EnemyHUD* enemyHud = nullptr;
+	TurnIndicator* turnIndicator = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 
@@ -684,6 +705,21 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			skillpt = &ECS::ecs().GetComponent<SkillPoint>(entity);
 			rapidjson::Value skillPtObject = SerializeSkillPoint(*skillpt, allocator);
 			entityObject.AddMember("SkillPoint", skillPtObject, allocator);
+		}
+		if (CheckSerialize<AllyHUD>(entity, isPrefabClone, uComponentMap)) {
+			allyHud = &ECS::ecs().GetComponent<AllyHUD>(entity);
+			rapidjson::Value allyHudObject = SerializeAllyHUD(*allyHud, allocator);
+			entityObject.AddMember("AllyHUD", allyHudObject, allocator);
+		}
+		if (CheckSerialize<EnemyHUD>(entity, isPrefabClone, uComponentMap)) {
+			enemyHud = &ECS::ecs().GetComponent<EnemyHUD>(entity);
+			rapidjson::Value enemyHudObject = SerializeEnemyHUD(*enemyHud, allocator);
+			entityObject.AddMember("EnemyHUD", enemyHudObject, allocator);
+		}
+		if (CheckSerialize<TurnIndicator>(entity, isPrefabClone, uComponentMap)) {
+			turnIndicator = &ECS::ecs().GetComponent<TurnIndicator>(entity);
+			rapidjson::Value turnOrderObject = SerializeTurnIndicator(*turnIndicator, allocator);
+			entityObject.AddMember("TurnIndicator", turnOrderObject, allocator);
 		}
 		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
@@ -1257,6 +1293,42 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 				else {
 					ECS::ecs().AddComponent<SkillPoint>(entity, skillpt);
+				}
+			}
+			if (entityObject.HasMember("AllyHUD")) {
+				AllyHUD allyHud;
+				const rapidjson::Value& allyHudObject = entityObject["AllyHUD"];
+				
+
+				if (ECS::ecs().HasComponent<AllyHUD>(entity)) {
+					ECS::ecs().GetComponent<AllyHUD>(entity) = allyHud;
+				}
+				else {
+					ECS::ecs().AddComponent<AllyHUD>(entity, allyHud);
+				}
+			}
+			if (entityObject.HasMember("EnemyHUD")) {
+				EnemyHUD enemyHud;
+				const rapidjson::Value& enemyHudObject = entityObject["EnemyHUD"];
+
+
+				if (ECS::ecs().HasComponent<EnemyHUD>(entity)) {
+					ECS::ecs().GetComponent<EnemyHUD>(entity) = enemyHud;
+				}
+				else {
+					ECS::ecs().AddComponent<EnemyHUD>(entity, enemyHud);
+				}
+			}
+			if (entityObject.HasMember("TurnIndicator")) {
+				TurnIndicator turnIndicator;
+				const rapidjson::Value& turnOrderObject = entityObject["TurnIndicator"];
+
+
+				if (ECS::ecs().HasComponent<TurnIndicator>(entity)) {
+					ECS::ecs().GetComponent<TurnIndicator>(entity) = turnIndicator;
+				}
+				else {
+					ECS::ecs().AddComponent<TurnIndicator>(entity, turnIndicator);
 				}
 			}
 			if (entityObject.HasMember("Animation Set")) {

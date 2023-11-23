@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 10,
+            "layerCounter": 8,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -11,17 +11,15 @@
                 "Layer 4",
                 "Layer 5",
                 "Layer 6",
-                "Layer 7",
-                "Layer 8",
-                "Layer 9"
+                "Layer 7"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "ally_healthbar",
-            "Current Layer": 0,
-            "Order in Layer": 10,
+            "Name": "enemy_healthbar",
+            "Current Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -32,8 +30,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -780.0,
-            "position_y": -480.0,
+            "position_x": -150.5,
+            "position_y": 68.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -43,15 +41,15 @@
             "isVisible": true
         },
         "Size": {
-            "width": 275.0,
-            "height": 25.0
+            "width": 200.0,
+            "height": 20.0
         },
         "Scripts": {
             "className": "",
             "scriptAttachedNameVec": []
         },
         "CharacterStats": {
-            "Character type": 0,
+            "Character type": 1,
             "Max Health": 1000.0,
             "Health": 1000.0,
             "Attack": 0.0,
@@ -69,7 +67,7 @@
         },
         "Movable": {},
         "HealthBar": {
-            "Show Health Stat": true,
+            "Show Health Stat": false,
             "Show Value or Percentage": false,
             "Bar Width": 0.0,
             "Bar Height": 0.0,
@@ -77,14 +75,13 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {},
         "Parent": {}
     },
     {
         "Entity": {
             "Name": "remaininghealth",
-            "Current Layer": 0,
-            "Order in Layer": 13,
+            "Current Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -95,8 +92,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -780.0,
-            "position_y": -480.0,
+            "position_x": -150.5,
+            "position_y": 68.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -106,8 +103,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 261.25,
-            "height": 20.0
+            "width": 190.0,
+            "height": 16.0
         },
         "Scripts": {
             "className": "",
@@ -116,8 +113,8 @@
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 0.0,
-            "Green": 1.0,
+            "Red": 1.0,
+            "Green": 0.0,
             "Blue": 0.0,
             "Alpha": 1.0
         },
@@ -137,8 +134,8 @@
     {
         "Entity": {
             "Name": "displayLbl",
-            "Current Layer": 0,
-            "Order in Layer": 14,
+            "Current Layer": 2,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -149,8 +146,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -720.0,
-            "position_y": -440.0,
+            "position_x": -90.5,
+            "position_y": 108.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -160,8 +157,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 150.0,
-            "height": 55.5
+            "width": 0.0,
+            "height": 24.0
         },
         "Scripts": {
             "className": "",
@@ -180,7 +177,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.36000001430511475,
-            "Text String": "1000",
+            "Text String": "",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -195,64 +192,6 @@
             "position_y": 40.0,
             "rotation": 0.0,
             "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "ally_closeup_icon_hud",
-            "Current Layer": 0,
-            "Order in Layer": 4,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -820.0,
-            "position_y": -380.0,
-            "rotation": 0.0,
-            "scale": 0.75,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_icon_cat.png"
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0
-        },
-        "Movable": {},
-        "Child": {
-            "position_x": -40.0,
-            "position_y": 100.0,
-            "rotation": 0.0,
-            "scale": 0.75,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
