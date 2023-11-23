@@ -56,7 +56,6 @@
             "Blue": 1.0,
             "Alpha": 1.0
         },
-        "Movable": {},
-        "Parent": {}
+        "Movable": {}
     }
 ]

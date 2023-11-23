@@ -162,11 +162,10 @@ namespace debug {
             MB_ICONERROR | MB_YESNO | MB_DEFBUTTON1 | MB_DEFAULT_DESKTOP_ONLY
         );
 
-        const std::string& logBuffer = "";//imguiOutputBuffer.GetBuffer();
+        const std::string& logBuffer = imguiOutputBuffer.GetBuffer();//imguiOutputBuffer.GetBuffer();
         const size_t maxLogSize = 1024;  // Adjust the maximum size as needed
         std::string limitedLog = logBuffer.substr(0, maxLogSize);
         
-
         switch (msgboxID)
         {
         case IDYES:
@@ -192,9 +191,10 @@ namespace debug {
 
             break;
         case IDNO:
-
+            LOG_CRASH("-----------CRASH LOG START-----------\n");
             LOG_CRASH("Assertion failed in " + std::string(file) + " line " + std::to_string(line)
                 + ". User chose to continue\n");
+            LOG_CRASH("------------CRASH LOG END------------\n");
             // Continue on with the code
 
             // Free memory for wideFile and wideMessage

@@ -576,7 +576,6 @@ public:
 //Intended to overwrite animator system
 class AnimationSystem : public System {
 public:
-    void Initialize();
     void Update() override;
 };
 

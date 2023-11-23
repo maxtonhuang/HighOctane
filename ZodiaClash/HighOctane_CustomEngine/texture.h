@@ -97,5 +97,6 @@ public:
 	Texture* AddSpriteSheet(const char* texname, int row, int col, int spritenum, const char* texpath = nullptr); //Create a sprite sheet using the number of rows, columns and the total number of sprites in the sprite sheet
 	std::vector<std::string> GetTextureNames();
 	void Clear(); //Removes all textures from OpenGL memory and empties the map
+	void SetWindowIcon(GLFWwindow*, std::string iconpath);
 	std::unordered_map<std::string, Texture> data; //storage of textures
 };

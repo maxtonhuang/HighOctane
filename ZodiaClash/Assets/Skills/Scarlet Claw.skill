@@ -1,0 +1,12 @@
+[
+    {
+        "Name": "Scarlet Claw",
+        "Type": 0,
+        "Skill Attack": 100,
+        "Minimum Attack Multiplier": 0.8,
+        "Maximum Attack Multiplier": 1.2,
+        "Crit Rate": 0.5,
+        "Crit Multiplier": 1.5,
+        "Chi Cost": 1
+    }
+]

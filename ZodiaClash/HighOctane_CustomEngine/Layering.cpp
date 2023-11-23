@@ -194,6 +194,9 @@ void PrepareLayeringForSerialization() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+			if (!ECS::ecs().EntityExists(layering[layer_it][entity_it])) {
+				continue;
+			}
 			Name & n = nameArray.GetData(layering[layer_it][entity_it]);
 			n.serializationLayer = layer_it;
 			n.serializationOrderInLayer = entity_it;
@@ -220,7 +223,11 @@ void RebuildLayeringAfterDeserialization() {
 			continue;
 		}
 		Name & n = nameArray.GetData(entity);
-		if (n.serializationLayer < layering.size()) {
+		//if name is uninitialized, push to back of layer 0
+		if (n.serializationLayer == 0 && n.serializationOrderInLayer == 0 && !layering.empty()) {
+			layering[0].emplace_back(entity);
+		}
+		else if (n.serializationLayer < layering.size()) {
 			if (n.serializationOrderInLayer < layering[n.serializationLayer].size()) {
 				layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + n.serializationOrderInLayer, entity);
 			}
@@ -230,8 +237,9 @@ void RebuildLayeringAfterDeserialization() {
 		}
 		else {
 			while (layering.size() <= n.serializationLayer) {
-				std::deque<Entity> temp;
-				layering.emplace_back(temp);
+				//std::deque<Entity> temp;
+				//layering.emplace_back(temp);
+				CreateNewLayer();
 			}
  			layering[n.serializationLayer].emplace_back(entity);
 		}

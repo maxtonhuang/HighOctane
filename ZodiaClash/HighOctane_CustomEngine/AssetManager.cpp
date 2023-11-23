@@ -241,8 +241,18 @@ void AssetManager::UpdatePrefabPaths() {
     prefabPaths = newPrefabPaths;
 }
 
+std::unordered_map<std::string, Entity>& AssetManager::GetPrefabMap() {
+    return prefabMap;
+}
+
 std::vector<std::string> AssetManager::GetPrefabPaths() {
     return prefabPaths;
+}
+
+void AssetManager::LoadAllPrefabs() {
+    for (std::string path : prefabPaths) {
+        LoadPrefab(path);
+    }
 }
 
 /**********************************GENERIC METHODS*********************************************/

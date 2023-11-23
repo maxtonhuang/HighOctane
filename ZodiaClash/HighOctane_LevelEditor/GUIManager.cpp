@@ -113,8 +113,12 @@ void GUIManager::Init()
     // Setup Dear ImGui style
 
     io.Fonts->Clear();
-    latoMedium = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Regular.ttf", fontSizeM);
-    latoLargeBold = io.Fonts->AddFontFromFileTTF("../Assets/Fonts/Lato/Lato-Bold.ttf", fontSizeXL);
+
+    std::string defaultPath{ assetmanager.GetDefaultPath() + "Fonts/" };
+    std::string latoMediumPath{ defaultPath + "Lato/Lato-Regular.ttf" };
+    std::string latoLargePath{ defaultPath + "Lato/Lato-Bold.ttf" };
+    latoMedium = io.Fonts->AddFontFromFileTTF(latoMediumPath.c_str(), fontSizeM);
+    latoLargeBold = io.Fonts->AddFontFromFileTTF(latoLargePath.c_str(), fontSizeXL);
 
     //ImFontConfig config;
     //io.Fonts->Clear();
@@ -134,7 +138,7 @@ void GUIManager::Init()
     //ImGui::PushFont(latoMedium);
     //currentFontSize = fontSizeM;
 
-    
+    assetmanager.LoadAllPrefabs();
 
 
     ImGui::StyleColorsDark();

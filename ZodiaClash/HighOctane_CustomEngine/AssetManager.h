@@ -85,6 +85,8 @@ public:
     std::string GetPrefabName(Entity prefabID);
     void UpdatePrefabPaths();
     std::vector<std::string> GetPrefabPaths();
+    std::unordered_map<std::string, Entity>& GetPrefabMap();
+    void LoadAllPrefabs(); //Loads ALL prefabs, for editor asset library
 
 private:
     std::string defaultPath{};

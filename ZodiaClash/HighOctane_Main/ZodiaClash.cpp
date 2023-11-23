@@ -173,57 +173,19 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     LOG_INFO("Graphics started");
 
+
     EngineCore::engineCore(); // Instantiate Engine Core
 
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
 
+
 	EngineCore::engineCore().Run(game_mode);
+
 
     return 0;
 }
-
- // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
-//int main() {
-//	//InitMono();
-//	LoadConfig();
-//	// Enable run-time memory check for debug builds.
-//#if (_DEBUG)
-//	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//#endif
-//
-//	// To enable the console
-//	Console();
-//	LOG_INFO("Program started");
-//
-//	/*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-//	LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
-//
-//	LOG_TRACE("This is a test trace message");
-//	LOG_DEBUG("This is a test debug message");
-//	LOG_INFO("This is a test info message");
-//	LOG_WARNING("This is a test warning message");
-//	LOG_ERROR("This is a test error message");
-//	LOG_FATAL("This is a test fatal message");
-//	/*---------------------------------------------------------------------------------------------*/
-//	// TODO: Place code here.
-//	//graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
-//	audio.Initialize();
-//	audio.AddSound("../Assets/Sound/ping.wav");
-//	audio.AddSound("../Assets/Sound/bonk.wav");
-//	LOG_INFO("Graphics started");
-//
-//	EngineCore::engineCore(); // Instantiate Engine Core
-//
-//	//////////////////////////////
-//	////////// Run Game //////////
-//	//////////////////////////////
-//
-//	EngineCore::engineCore().Run(game_mode);
-//
-//	return 0;
-//}
 
 void EngineCore::Run(bool const& mode) {
 
@@ -298,6 +260,7 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	editSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
+	pauseSystemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	std::shared_ptr<UIHealthBarSystem> uiHealthBarSystem = ECS::ecs().RegisterSystem<UIHealthBarSystem>();
 	runSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
@@ -313,6 +276,7 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	pauseSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 	editSystemList.emplace_back(editingSystem, "Editing System");
@@ -323,11 +287,13 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(parentSystem, "Parent System");
 	editSystemList.emplace_back(parentSystem, "Parent System");
 	systemList.emplace_back(parentSystem, "Parent System");
+	pauseSystemList.emplace_back(parentSystem, "Parent System");
 
 	std::shared_ptr<ChildSystem> childSystem = ECS::ecs().RegisterSystem<ChildSystem>();
 	runSystemList.emplace_back(childSystem, "Child System");
 	editSystemList.emplace_back(childSystem, "Child System");
 	systemList.emplace_back(childSystem, "Child System");
+	pauseSystemList.emplace_back(childSystem, "Child System");
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");
@@ -538,7 +504,6 @@ void EngineCore::Run(bool const& mode) {
 	//////////   Initialize all other systems   //////////
 	//////////                                  //////////
 	//////////////////////////////////////////////////////
-
 	CreateNewLayer();
 
 	//If game mode is editor, initialize the mode to editor pause mode
@@ -559,6 +524,7 @@ void EngineCore::Run(bool const& mode) {
 	events.InitialiseFunctions();
 
 
+
 	GUIManager guiManager;
 	// If game mode is editor
 	if (static_cast<bool>(game_mode)) {
@@ -568,16 +534,16 @@ void EngineCore::Run(bool const& mode) {
 		guiManager.Init();
 		inEditing = static_cast<bool>(game_mode);
 
-	}
 
+	}
 	// Mailbox Registrations
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
-	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
+	Mail::mail().RegisterMailbox(ADDRESS::ANIMATION);
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 	Mail::mail().RegisterMailbox(ADDRESS::UICOMPONENT);
-
+	Mail::mail().RegisterMailbox(ADDRESS::BATTLE);
 
 
 	///////////////////////////////////
@@ -601,7 +567,6 @@ void EngineCore::Run(bool const& mode) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
-			animationSystem->Initialize();
 			initLevel = false;
 			newScene = false;
 		}

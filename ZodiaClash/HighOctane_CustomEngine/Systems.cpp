@@ -268,17 +268,17 @@ void MovementSystem::Update() {
 //	}
 //}
 
-void AnimationSystem::Initialize() {
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	// Access component arrays through the ComponentManager
-	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
-	for (Entity const& entity : m_Entities) {
-		AnimationSet* animationData = &animationArray.GetData(entity);
-		animationData->Initialise(entity);
-	}
-}
+//void AnimationSystem::Initialize() {
+//	// Access the ComponentManager through the ECS class
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//
+//	// Access component arrays through the ComponentManager
+//	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
+//	for (Entity const& entity : m_Entities) {
+//		AnimationSet* animationData = &animationArray.GetData(entity);
+//		animationData->Initialise(entity);
+//	}
+//}
 
 void AnimationSystem::Update() {
 	// Access the ComponentManager through the ECS class
@@ -289,7 +289,15 @@ void AnimationSystem::Update() {
 
 	for (Entity const& entity : m_Entities) {
 		AnimationSet* animationData = &animationArray.GetData(entity);
-		animationData->Update();
+		animationData->Update(entity);
+
+		//Lock the battle system if animation is playing
+		if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
+			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
+		}
+	}
+	for (Entity e : animatedEntitiesToDestroy) {
+		ECS::ecs().DestroyEntity(e);
 	}
 }
 
@@ -520,7 +528,7 @@ void SerializationSystem::Update() {
 *   ScriptInit function for each entity with a script component.
 *
 ******************************************************************************/
-//bool FirstInitScriptSystem = true;
+bool FirstInitScriptSystem = true;
 void ScriptSystem::Initialize() {
 	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
 
@@ -534,11 +542,11 @@ void ScriptSystem::Initialize() {
 			continue;
 		}
 
-		// Only allows the scrpit system to init once
-		//if (FirstInitScriptSystem) {
+		// Only allows the script system to init once
+		if (FirstInitScriptSystem) {
 			ScriptEngine::ScriptInit(entity);
-		//	FirstInitScriptSystem = false;
-		//}
+			FirstInitScriptSystem = false;
+		}
 	}
 }
 
@@ -695,7 +703,7 @@ void EditingSystem::Update() {
 			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 				if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 					for (Entity & entity : layering[layer_it]) {
-						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
 							Name & n = nameArray.GetData(entity);
 							if (n.selected) {
 								if (modelArray.HasComponent(entity)) {
@@ -761,6 +769,9 @@ void EditingSystem::Update() {
 				//if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 				for (Entity& entity : layering[layer_it]) {
 					//if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+					if (!ECS::ecs().EntityExists(entity)) {
+						continue;
+					}
 					Name& n = nameArray.GetData(entity);
 					//if (n.selected) {
 					Transform& t = transformArray.GetData(entity);
@@ -786,7 +797,7 @@ void EditingSystem::Update() {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (int entity_it = static_cast<int>(layering[layer_it].size() - 1); entity_it >= 0; --entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
 					Name & n = nameArray.GetData(entity);
 					Transform & t = transformArray.GetData(entity);
 					Model* m{};
@@ -884,7 +895,7 @@ void EditingSystem::Update() {
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity & entity : layering[layer_it]) {
-				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
 					Name & n = nameArray.GetData(entity);
 					Transform & t = transformArray.GetData(entity);
 					Model* m{};
@@ -1072,6 +1083,7 @@ void UIButtonSystem::Update() {
 		if (!texArray.HasComponent(entity)) {
 			glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
+			modelData->SetAlpha(btnColor.a);
 		}
 
 		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
@@ -1177,6 +1189,7 @@ void ChildSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	std::vector<Entity> toDestroyList{};
 

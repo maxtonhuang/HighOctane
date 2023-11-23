@@ -183,6 +183,9 @@ void UnselectAll() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	for (auto& layer : layering) {
 		for (auto& entity : layer) {
+			if (!ECS::ecs().EntityExists(entity)) {
+				continue;
+			}
 			Name& name = nameArray.GetData(entity);
 			name.selected = false;
 			name.clicked = CLICKED::NONE;

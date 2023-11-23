@@ -131,8 +131,26 @@ namespace debuglog {
 	 * \param message : The message to be logged
 	 * 
      */
-	void Logger::CrashLog(LOG_LEVEL level, const std::string& message) {
+	//void Logger::CrashLog(LOG_LEVEL level, const std::string& message) {
 
+	//	// If the logging is enabled and current log level is lower than the level set
+	//	if (static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
+
+	//		// Get the time
+	//		std::string timeStamp = GetTimeStamp();
+
+	//		// Get the current level
+	//		std::string levels = GetLevel(level);
+
+	//		// Write to the file crash.log
+	//		std::ofstream crashFile("crash.log", std::ios::out | std::ios::app);
+	//		if (!crashFile) {
+	//			throw std::runtime_error("File cannot be opened");
+	//		}
+	//		crashFile << message << std::endl;
+	//	}
+	//}
+	void Logger::CrashLog(LOG_LEVEL level, const std::string& message) {
 		// If the logging is enabled and current log level is lower than the level set
 		if (static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
 
@@ -142,15 +160,23 @@ namespace debuglog {
 			// Get the current level
 			std::string levels = GetLevel(level);
 
+			// Folder where the log file will be saved
+			const std::string folderName = "Logs";
+
+			// Create the Logs directory if it doesn't exist
+			std::filesystem::create_directory(folderName);
+
+			// Construct the full file name
+			std::string fullFileName = folderName + "/crash.log";
+
 			// Write to the file crash.log
-			std::ofstream crashFile("crash.log", std::ios::out | std::ios::app);
+			std::ofstream crashFile(fullFileName, std::ios::out | std::ios::app);
 			if (!crashFile) {
-				throw std::runtime_error("File cannot be opened");
+				throw std::runtime_error("File cannot be opened: " + fullFileName);
 			}
-			crashFile << message << std::endl;
+			crashFile << "[" << timeStamp << "] [" << levels << "] " << message << std::endl;
 		}
 	}
-
 	/*!
 	 * \brief trace logging function
 	 *

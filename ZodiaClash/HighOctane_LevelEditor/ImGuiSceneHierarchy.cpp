@@ -53,7 +53,7 @@ void UpdateSceneHierachy() {
 
 	ImGui::Begin("Properties");
 	//if (currentSelectedEntity && selectedEntities.size() == 1) {
-	if (ECS::ecs().EntityExists(currentSelectedEntity)) {
+	if (ECS::ecs().EntityExists(currentSelectedEntity) && ECS::ecs().HasComponent<Clone>(currentSelectedEntity)) {
 		SceneEntityComponents(currentSelectedEntity);
 	}
 	/*Entity entity;
@@ -118,10 +118,10 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating
-	if (currentSystemMode == SystemMode::EDIT) {
+	if (currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
-			if (clone.prefab == prefabName) {
+			if (clone.prefab == prefabName && prefabName != "") {
 				for (auto& ecsType : typeManager) {
 					if (ecsType.second->HasComponent(currentSelectedPrefab) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
 						ecsType.second->CopyComponent(cloneEntity, currentSelectedPrefab);
@@ -341,18 +341,10 @@ void SceneEntityComponents(Entity entity) {
 			const char* selectedFamily = fontInfo.first.c_str();
 			const char* selectedVariant = fontInfo.second.c_str();
 
-			if (ECS::ecs().HasComponent<Button>(entity)) {
-				Button& button{ ECS::ecs().GetComponent<Button>(entity) };
-
-				auto& txtColor = button.GetDefaultTextColor();
-				ImGui::ColorEdit3("Color", (float*)&txtColor);
-
-				//button.UpdateColorSets(button.GetDefaultButtonColor(), txtColor);
-				textlabel.textColor = txtColor;
-			}
-			else {
+			if (!ECS::ecs().HasComponent<Button>(entity)) {
 				auto& txtColor = textlabel.GetTextColor();
-				ImGui::ColorEdit3("Color", (float*)&txtColor);
+				ImGui::ColorEdit4("Color", (float*)&txtColor);
+				textlabel.textColor = txtColor;
 			}
 
 			bool& lblBackground = textlabel.hasBackground;
@@ -571,8 +563,45 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			// color properties
-			auto& btnColor = button.GetDefaultButtonColor();
-			ImGui::ColorEdit3("Color", (float*)&btnColor);
+			/*auto& btnColor = button.GetDefaultButtonColor();
+			ImGui::ColorEdit4("Default Color", (float*)&btnColor);*/
+
+			int& btnColorSetting = button.colorSetting;
+			auto btnColor = button.GetDefaultButtonColor();
+			auto txtColor = button.GetDefaultTextColor();
+
+			const char* btnColorSetOptions[] = { "Default", "Hovered", "Focused" };
+			ImGui::Combo("Edit Color Set", &btnColorSetting, btnColorSetOptions, IM_ARRAYSIZE(btnColorSetOptions));
+
+			switch (btnColorSetting) {
+			case(1):
+				// edit hovered color set
+				btnColor = button.hoveredColor.buttonColor;
+				txtColor = button.hoveredColor.textColor;
+				if (ImGui::ColorEdit4("Button Color", (float*)&btnColor)
+					|| ImGui::ColorEdit4("Text Color", (float*)&txtColor)) {
+					button.UpdateColorSets(STATE::HOVERED, btnColor, txtColor);
+				}
+				break;
+			case(2):
+				// edit focused color set
+				btnColor = button.focusedColor.buttonColor;
+				txtColor = button.focusedColor.textColor;
+				if (ImGui::ColorEdit4("Button Color", (float*)&btnColor)
+					|| ImGui::ColorEdit4("Text Color", (float*)&txtColor)) {
+					button.UpdateColorSets(STATE::FOCUSED, btnColor, txtColor);
+				}
+				break;
+			default:
+				// edit default color set
+				btnColor = button.defaultColor.buttonColor;
+				txtColor = button.defaultColor.textColor;
+				if (ImGui::ColorEdit4("Button Color", (float*)&btnColor)
+					|| ImGui::ColorEdit4("Text Color", (float*)&txtColor)) {
+					button.UpdateColorSets(STATE::NONE, btnColor, txtColor);
+				}
+				break;
+			}
 
 			ImGui::TreePop();
 

@@ -24,10 +24,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -739.0,
-            "position_y": 418.0,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.75,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -98,6 +98,7 @@
                     }
                 ]
             }
-        ]
+        ],
+        "Animation Set Default Animation": ""
     }
 ]

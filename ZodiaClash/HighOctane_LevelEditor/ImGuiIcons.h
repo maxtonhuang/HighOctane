@@ -32,6 +32,7 @@
 #include "ImGuiLib.h"
 #include <map>
 
+extern std::map<std::string, ImTextureID> loadedIcons;
 
 void LoadIcons();
 void UnloadIcons();

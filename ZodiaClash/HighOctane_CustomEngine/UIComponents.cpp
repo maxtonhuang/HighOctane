@@ -371,7 +371,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (currentSystemMode == SystemMode::RUN && !eventName.empty() && !eventInput.empty()) {
+				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) && !eventName.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -391,7 +391,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	//outside edit mode, color change accordingly to state. otherwise show default
-	if (currentSystemMode == SystemMode::RUN) {
+	if (currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) {
 		switch (currentState) {
 		case(STATE::HOVERED):
 			textLabelData.textColor = hoveredColor.textColor;
@@ -404,13 +404,9 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 			break;
 		}
 	}
-	//else {
-	//	//UpdateColorSets(GetDefaultButtonColor(), GetDefaultTextColor());
-	//	textLabelData.textColor = defaultColor.textColor;
-	//}
 
-
-	// note: padding should NOT affect overall size of button, since it acts within the button confines
+	// current implementation:  to ignore padding for fixed size buttons unless sufficient space (act within button confines)
+	// future implementation to follow figma's auto layout "hug contents" setting
 	textLabelData.currentState = this->currentState;
 	buttonWidth = textLabelData.textWidth /*+ padding.left + padding.right*/;
 	buttonHeight = textLabelData.textHeight /*+ padding.top + padding.bottom*/;
@@ -419,14 +415,21 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 /*!
 * \brief Button Update ColorSets
 *
-* Outside of editor mode, constantly ensures hovered ColorSet and focused ColorSet are
-* up to date based on default ColorSet
+* For color fine tuning in imgui
 *
 */
-void Button::UpdateColorSets(glm::vec4 btnColor, glm::vec4 txtColor) {
-	defaultColor = { btnColor, txtColor };
-	hoveredColor = { txtColor, btnColor };
-	focusedColor = { txtColor, btnColor };
+void Button::UpdateColorSets(STATE currentState, glm::vec4 btnColor, glm::vec4 txtColor) {
+	switch (currentState) {
+	case(STATE::HOVERED):
+		hoveredColor = { btnColor, txtColor };
+		break;
+	case(STATE::FOCUSED):
+		focusedColor = { btnColor, txtColor };
+		break;
+	default:
+		defaultColor = { btnColor, txtColor };
+		break;
+	}
 }
 
 

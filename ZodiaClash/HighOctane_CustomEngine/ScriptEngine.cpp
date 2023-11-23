@@ -68,21 +68,14 @@ extern std::vector<std::string> fullNameVecImGUI;
 
 //static ScriptEngineData* scriptData = nullptr;
 ScriptEngineData* ScriptEngine::scriptData = nullptr;
-
+std::string ScriptEngine::defaultPath = "";
 
 void ScriptEngine::Init() 
 {
     scriptData = GetInstance();
     InitMono();
 
-    // If debug mode
-#if (ENABLE_DEBUG_DIAG)
-    // Relative path to the C# assembly
-    const char* relativeAssemblyPath = "\\Debug-x64\\HighOctane_CSharpScript.dll";
-#elif (!ENABLE_DEBUG_DIAG)
-    const char* relativeAssemblyPath = "\\Release-x64\\HighOctane_CSharpScript.dll";
-#endif
-    std::string fullAssemblyPath = std::filesystem::current_path().replace_filename("bin").string() + relativeAssemblyPath;
+    std::string fullAssemblyPath = std::filesystem::current_path().string() + "\\HighOctane_CSharpScript.dll";
 
     if (!std::filesystem::exists(fullAssemblyPath)) 
     {
@@ -107,27 +100,9 @@ void ScriptEngine::Shutdown()
 
 void ScriptEngine::InitMono() 
 {
-    // Setting the path to the mono
-    std::string filePath = std::filesystem::current_path().replace_filename("Extern/Mono/lib/mono/4.5").string();
+    std::string filePath = std::filesystem::current_path().string() + "\\Mono\\lib\\mono\\4.5";
+    mono_set_assemblies_path(filePath.c_str());
 
-    if (std::filesystem::exists(filePath)) 
-    {
-        mono_set_assemblies_path(filePath.c_str());
-        
-    }
-    else 
-    {
-        //filePath = std::filesystem::current_path().replace_filename("Debug-x64/Mono/lib/mono/4.5").string();
-        //if (std::filesystem::exists(filePath)) {
-        //    mono_set_assemblies_path(filePath.c_str());
-        //}
-        //else {
-        //    filePath = std::filesystem::current_path().replace_filename("HighOctane_CustomEngine/Extern/Mono/lib/mono/4.5").string();
-        //    mono_set_assemblies_path(filePath.c_str());
-        //}
-        DEBUG_PRINT("Mono path not found");
-    }
-    
     MonoDomain* rootDomain = mono_jit_init("HighOctaneRuntime");
 
     ASSERT(rootDomain == nullptr, "Root domain is null");
@@ -274,7 +249,22 @@ void ScriptEngine::AttachScriptToEntity(Entity entity, std::string scriptName)
     entityScripts.push_back(instance);
 }
 
-void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName) 
+void ScriptEngine::SetDefaultPath(std::string path)
+{
+    defaultPath = "Mono/" + path;
+    //std::string path{ defaultPath + initFilePath };
+    //Serializer serializer;
+    //if (!serializer.Open(path)) {
+    //    defaultPath = "../Assets/";
+    //    path = defaultPath + initFilePath;
+    //    if (!serializer.Open(path)) {
+    //        ASSERT(1, "Unable to initialize asset manager!");
+    //        return;
+    //    }
+    //}
+}
+
+void ScriptEngine::RemoveScriptFromEntity(Entity entity, std::string scriptName)
 {
     auto& sc = ECS::ecs().GetComponent<Script>(entity);
 

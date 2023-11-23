@@ -39,6 +39,7 @@
 #include <algorithm>
 #include <iostream>
 #include "CheatCode.h"
+#include "message.h"
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -121,6 +122,16 @@ void BattleSystem::Update()
     ComponentArray<CharacterStats>* statsArray{};
     ComponentArray<Model>* modelArray{};
     if (m_Entities.size() > 0) {
+
+        //If animation system is playing battle animation, do not progress game system
+        for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::BATTLE]) {
+            switch (msg.type) {
+            case(TYPE::ANIMATING):
+                return;
+                break;
+            }
+        }
+
         ComponentManager& componentManager = ECS::ecs().GetComponentManager();
         statsArray = &componentManager.GetComponentArrayRef<CharacterStats>();
         modelArray = &componentManager.GetComponentArrayRef<Model>();
@@ -189,12 +200,23 @@ void BattleSystem::Update()
                     turnManage.activeEnemy = activeCharacter->gameObject.name;
                     turnManage.activePlayer = "";
 
-                    if (m_Entities.size() > 0) {
+                    if (m_Entities.size() > 0) 
+                    {
                         printf("\nState: Enemy Turn\n");
                         LOG_WARNING("State: Enemy Turn");
                     }
 
-                    battleState = ENEMYTURN;
+                    activeCharacter->ApplyBloodStack(); //apply blood stack, the function will check if the enemy is on bloodstack
+
+                    // check if the enemy died after bloodstack effect
+                    if (activeCharacter->stats.health <= 0) 
+                    {
+                        activeCharacter->action.entityState = EntityState::DYING;
+                    }
+                    else 
+                    {
+                        battleState = ENEMYTURN;// if alive, continue with enemy's turn
+                    }
                 }
                 else if (activeCharacter->tag == CharacterType::PLAYER)
                 {

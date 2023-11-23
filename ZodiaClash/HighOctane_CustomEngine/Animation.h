@@ -4,6 +4,9 @@
 #include "ECS.h"
 #include "model.h"
 
+//For self destruct animation as it cannot be called within the entity loop itself
+extern std::vector<Entity>animatedEntitiesToDestroy;
+
 class Animation {
 public:
 	virtual void Start() { active = true; };
@@ -42,12 +45,13 @@ class AnimationSet {
 public:
 	void Start(std::string animationName, Entity entity);
 	void Initialise(Entity entity);
-	void Update();
+	void Update(Entity entity);
 	std::vector<AnimationGroup> animationSet;
 	bool paused;
 	std::string defaultAnimation{};
-private:
 	AnimationGroup* activeAnimation;
+private:
+	bool initialised;
 };
 
 template <typename T>
@@ -177,4 +181,20 @@ private:
 	Model* entityModel;
 	glm::vec3 color;
 	std::list<Keyframe<glm::vec3>>::iterator nextKeyframe{};
+};
+
+/*
+Not really an animation
+Destroys the entity after animation 
+(for easier destruction of particles/entities created purely for animation)
+*/
+class SelfDestructAnimation : public Animation {
+public:
+	SelfDestructAnimation();
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	Keyframe<int> keyframes;
 };

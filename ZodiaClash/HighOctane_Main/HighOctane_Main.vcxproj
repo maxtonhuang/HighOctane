@@ -28,8 +28,10 @@
     <ClInclude Include="ZodiaClash.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="C:\Users\nigel\Downloads\zodiaclash_logo.ico" />
     <Image Include="small.ico" />
     <Image Include="ZodiaClash.ico" />
+    <Image Include="zodiaclash_logo.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ZodiaClash.rc" />
@@ -142,6 +144,14 @@
       <AdditionalDependencies>HighOctane_CustomEngine.lib;HighOctane_LevelEditor.lib;mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)bin\$(Configuration)-$(Platform)\;$(SolutionDir)Extern\Mono\lib;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)HighOctane_Main\Config.txt" "$(TargetDir)Config.txt" /Y
+copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -163,6 +173,14 @@
       <AdditionalDependencies>HighOctane_CustomEngine.lib;HighOctane_LevelEditor.lib;mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)bin\$(Configuration)-$(Platform)\;$(SolutionDir)Extern\Mono\lib;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(SolutionDir)HighOctane_Main\Config.txt" "$(TargetDir)Config.txt" /Y
+copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

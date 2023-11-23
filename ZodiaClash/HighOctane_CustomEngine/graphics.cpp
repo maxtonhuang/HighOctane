@@ -44,7 +44,8 @@
 #include "physics.h"
 #include <algorithm>
 #include <Windows.h>
-
+#include "AssetManager.h"
+#include "Serialization.h"
 
 GraphicsManager graphics;
 
@@ -102,6 +103,21 @@ void GraphicsManager::Initialize(int w, int h) {
 
     //Initialise glew for glew functions
     glewInit();
+
+    //Initialise window icon
+    std::string gameIconName{ "zodiaclash_logo.png" };
+    std::string defaultPath = "Assets/Textures/";
+    std::string path{ defaultPath + gameIconName };
+    Serializer serializer;
+    if (!serializer.Open(path)) {
+        defaultPath = "../Assets/Textures/";
+        path = defaultPath + gameIconName;
+        if (!serializer.Open(path)) {
+            ASSERT(1, "Unable to find game icon!");
+            return;
+        }
+    }
+    assetmanager.texture.SetWindowIcon(window, path);
 
     //Create viewport
     viewport.SetViewport(0, 0, width, height);
