@@ -21,31 +21,31 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 
-		//case TYPE::MOUSE_CLICK: {
-		//	switch (msg.info) {
-		//	case INFO::MOUSE_RIGHT:
-		//		thereWasAClickThisCycle = true;
-		//		//if (viewportWindowHovered) {
-		//		printf("Right Click Detected\n");
-		//		if (IsWithinObject(model, currentMousePosition)) {
-		//			//UnselectAll();
-		//			//name.selected = true;
-		//			if (!name.selected) {
-		//				ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
-		//			}
-		//			//newSelection = entity;
+		case TYPE::MOUSE_CLICK: {
+			switch (msg.info) {
+			case INFO::MOUSE_RIGHT:
+				thereWasAClickThisCycle = true;
+				//if (viewportWindowHovered) {
+				printf("Right Click Detected\n");
+				if (IsWithinObject(model, currentMousePosition)) {
+					//UnselectAll();
+					//name.selected = true;
+					if (!name.selected) {
+						ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
+					}
+					//newSelection = entity;
 
-		//			somethingWasSelectedThisCycle = true;
-		//			rightClick = true;
-		//			rightClickPos = currentMousePosition;
-		//			//printf("Selected Count: %d\n", selectedCount);
-		//		}
-		//		//}
+					somethingWasSelectedThisCycle = true;
+					rightClick = true;
+					rightClickPos = currentMousePosition;
+					//printf("Selected Count: %d\n", selectedCount);
+				}
+				//}
 
-		//		break;
-		//	}
-		//}
-		//	break;
+				break;
+			}
+		}
+			break;
 
 		case TYPE::MOUSE_UP: // selection of entity done here << --- needs a DRAGGED bool to check if it was dragged or not
 			switch (msg.info) {
@@ -126,26 +126,26 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 			}
 			break;
 
-			case INFO::MOUSE_RIGHT:
-				thereWasAClickThisCycle = true;
-				//if (viewportWindowHovered) {
-				printf("Right Click Detected\n");
-					if (IsWithinObject(model, currentMousePosition)) {
-						//UnselectAll();
-						//name.selected = true;
-						if (!name.selected) {
-							ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
-						}
-						//newSelection = entity;
-						
-						somethingWasSelectedThisCycle = true;
-						rightClick = true;
-						rightClickPos = currentMousePosition;
-						//printf("Selected Count: %d\n", selectedCount);
-					}
-				//}
+			//case INFO::MOUSE_RIGHT:
+			//	thereWasAClickThisCycle = true;
+			//	//if (viewportWindowHovered) {
+			//	printf("Right Click Detected\n");
+			//		if (IsWithinObject(model, currentMousePosition)) {
+			//			//UnselectAll();
+			//			//name.selected = true;
+			//			if (!name.selected) {
+			//				ProcessSelection(name, layer_it/*, CLICKED::SE*/); // <-----------------------
+			//			}
+			//			//newSelection = entity;
+			//			
+			//			somethingWasSelectedThisCycle = true;
+			//			rightClick = true;
+			//			rightClickPos = currentMousePosition;
+			//			//printf("Selected Count: %d\n", selectedCount);
+			//		}
+			//	//}
 
-			break;
+			//break;
 
 
 			default:
