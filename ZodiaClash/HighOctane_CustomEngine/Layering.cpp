@@ -158,15 +158,12 @@ void DeleteLayer() {
 		// 
 		selectedEntities.emplace_back(entity);
 	}
-	printf("%d\n", (int)selectedLayer);
 	toDestroy = true;
 	//selectedEntities.clear();
-	layering.erase(layering.begin() + selectedLayer);
-	printf("%d\n", (int)selectedLayer);
+	//layering.erase(layering.begin() + selectedLayer);
 	layerNames[selectedLayer].second = false;
 	printf("%d\n", (int)selectedLayer);
 	selectedLayer = std::numeric_limits<size_t>::max();
-	printf("%d\n", (int)selectedLayer);
 	printf("============\n\n");
 }
 

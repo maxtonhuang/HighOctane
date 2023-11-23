@@ -204,7 +204,9 @@ void UpdateLayer() {
 	ImGui::SameLine();
 	if (ImGui::Button("Delete Layer", {panelWidth / 2.f, buttonHeight})) {
 		// Delete Layer
-		DeleteLayer();
+		if (selectedLayer != std::numeric_limits<size_t>::max()) {
+			DeleteLayer();
+		}
 	}
 
 	ImGui::End();
