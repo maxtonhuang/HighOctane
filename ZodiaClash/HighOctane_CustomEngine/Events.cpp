@@ -49,6 +49,7 @@ void ChangeScene(std::string input) {
 	if (sceneName == input) {
 		return;
 	}
+
 	newScene = true;
 	button_clicked = true;
 	newSceneName = input;
@@ -128,7 +129,7 @@ void TogglePause(std::string input) {
 		currentSystemMode = lastSystemMode;
 		lastSystemMode = SystemMode::PAUSE;
 		if (pausemenu != 0) {
-			ECS::ecs().DestroyEntity(pausemenu);
+			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
 			pausemenu = 0;
 		}
 	}
@@ -140,6 +141,27 @@ void TogglePause(std::string input) {
 		}	
 	}
 }
+
+void ToggleHelp(std::string input) {
+	(void)input;
+	static Entity gamehelpmenu{};
+	if (currentSystemMode == SystemMode::GAMEHELP) {
+		currentSystemMode = lastSystemMode;
+		lastSystemMode = SystemMode::GAMEHELP;
+		if (gamehelpmenu != 0) {
+			ECS::ecs().DestroyEntity(gamehelpmenu);
+			gamehelpmenu = 0;
+		}
+	}
+	else {
+		lastSystemMode = currentSystemMode;
+		currentSystemMode = SystemMode::GAMEHELP;
+		if (gamehelpmenu == 0) {
+			gamehelpmenu = EntityFactory::entityFactory().ClonePrefab("gamehelpmockup.prefab");
+		}
+	}
+}
+
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
@@ -155,6 +177,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
+	functions["Toggle Help"] = ToggleHelp;
 	functions["Test"] = TestFunction;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());

@@ -127,6 +127,7 @@ enum class SystemMode
 	RUN = 0,
 	EDIT,
 	PAUSE,
+	GAMEHELP,
 	NONE
 
 };
