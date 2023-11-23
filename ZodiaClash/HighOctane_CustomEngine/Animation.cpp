@@ -4,6 +4,7 @@
 
 void AnimationSet::Initialise(Entity entity) {
 	Start(defaultAnimation, entity);
+	initialised = true;
 }
 
 void AnimationSet::Start(std::string animationName, Entity entity) {
@@ -19,7 +20,10 @@ void AnimationSet::Start(std::string animationName, Entity entity) {
 	}
 }
 
-void AnimationSet::Update() {
+void AnimationSet::Update(Entity entity) {
+	if (!initialised) {
+		Initialise(entity);
+	}
 	if (activeAnimation != nullptr && !paused) {
 		activeAnimation->Update();
 	}

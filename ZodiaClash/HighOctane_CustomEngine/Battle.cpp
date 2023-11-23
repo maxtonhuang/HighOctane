@@ -39,6 +39,7 @@
 #include <algorithm>
 #include <iostream>
 #include "CheatCode.h"
+#include "message.h"
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -121,6 +122,16 @@ void BattleSystem::Update()
     ComponentArray<CharacterStats>* statsArray{};
     ComponentArray<Model>* modelArray{};
     if (m_Entities.size() > 0) {
+
+        //If animation system is playing battle animation, do not progress game system
+        for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::BATTLE]) {
+            switch (msg.type) {
+            case(TYPE::ANIMATING):
+                return;
+                break;
+            }
+        }
+
         ComponentManager& componentManager = ECS::ecs().GetComponentManager();
         statsArray = &componentManager.GetComponentArrayRef<CharacterStats>();
         modelArray = &componentManager.GetComponentArrayRef<Model>();
@@ -202,11 +213,8 @@ void BattleSystem::Update()
                     if (activeCharacter->stats.health <= 0) {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
-
-                    else {
-                        // if alive, continue with enemy's turn
-                        battleState = ENEMYTURN;
-                    }
+                    // if alive, continue with enemy's turn
+                    battleState = ENEMYTURN;
                 }
                 else if (activeCharacter->tag == CharacterType::PLAYER)
                 {

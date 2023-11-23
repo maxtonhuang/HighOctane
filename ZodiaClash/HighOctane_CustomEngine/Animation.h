@@ -42,12 +42,13 @@ class AnimationSet {
 public:
 	void Start(std::string animationName, Entity entity);
 	void Initialise(Entity entity);
-	void Update();
+	void Update(Entity entity);
 	std::vector<AnimationGroup> animationSet;
 	bool paused;
 	std::string defaultAnimation{};
-private:
 	AnimationGroup* activeAnimation;
+private:
+	bool initialised;
 };
 
 template <typename T>

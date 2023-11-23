@@ -128,9 +128,9 @@ void Animator::UpdateAnimation(Tex& texData) {
 	}
 
 	// Check mailbox for input triggers
-	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::ANIMATOR, INFO::NONE, 0.f, 0.f);
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
 
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::ANIMATOR]) {
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::ANIMATION]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			// not in use - sizeData not needed as only MC can change animation; to reinstate when conditions change
 			//if (msg.info == INFO::KEY_C) {
@@ -151,9 +151,9 @@ void Animator::UpdateAnimationMC(Tex& texData, Size& sizeData) {
 	if ((animationType != ANIMATION_TIME_BASED) && (animationType != ANIMATION_EVENT_BASED)) { return; }
 
 	// Check mailbox for input triggers
-	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::ANIMATOR, INFO::NONE, 0.f, 0.f);
+	Mail::mail().CreatePostcard(TYPE::KEY_CHECK, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
 
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::ANIMATOR]) {
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::ANIMATION]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
 			if (msg.info == INFO::KEY_X) {
 				switch (animationType) {

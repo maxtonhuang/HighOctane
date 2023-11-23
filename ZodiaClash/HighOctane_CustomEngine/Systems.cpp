@@ -268,17 +268,17 @@ void MovementSystem::Update() {
 //	}
 //}
 
-void AnimationSystem::Initialize() {
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	// Access component arrays through the ComponentManager
-	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
-	for (Entity const& entity : m_Entities) {
-		AnimationSet* animationData = &animationArray.GetData(entity);
-		animationData->Initialise(entity);
-	}
-}
+//void AnimationSystem::Initialize() {
+//	// Access the ComponentManager through the ECS class
+//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+//
+//	// Access component arrays through the ComponentManager
+//	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
+//	for (Entity const& entity : m_Entities) {
+//		AnimationSet* animationData = &animationArray.GetData(entity);
+//		animationData->Initialise(entity);
+//	}
+//}
 
 void AnimationSystem::Update() {
 	// Access the ComponentManager through the ECS class
@@ -289,8 +289,14 @@ void AnimationSystem::Update() {
 
 	for (Entity const& entity : m_Entities) {
 		AnimationSet* animationData = &animationArray.GetData(entity);
-		animationData->Update();
+		animationData->Update(entity);
+
+		//Lock the battle system if animation is playing
+		if (animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
+			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
+		}
 	}
+	
 }
 
 /******************************************************************************

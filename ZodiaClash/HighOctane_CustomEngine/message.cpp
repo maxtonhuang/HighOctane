@@ -59,7 +59,7 @@ void Mail::SendMails() {
         switch (msg.type) {
         case TYPE::KEY_TRIGGERED:
             mailbox[ADDRESS::INPUT].emplace_back(msg);
-            mailbox[ADDRESS::ANIMATOR].emplace_back(msg);
+            mailbox[ADDRESS::ANIMATION].emplace_back(msg);
             mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::PHYSICS].emplace_back(msg);
             mailbox[ADDRESS::SCRIPTING].emplace_back(msg);
@@ -91,6 +91,9 @@ void Mail::SendMails() {
             mailbox[ADDRESS::EDITING].emplace_back(msg);
             mailbox[ADDRESS::UICOMPONENT].emplace_back(msg);
             break;
+        case TYPE::ANIMATING:
+            mailbox[ADDRESS::BATTLE].emplace_back(msg);
+            break;
         default:
             break;
         }        
@@ -100,12 +103,13 @@ void Mail::SendMails() {
 
 void Mail::ClearMails() {
     mailbox[ADDRESS::INPUT].clear();
-    mailbox[ADDRESS::ANIMATOR].clear();
+    mailbox[ADDRESS::ANIMATION].clear();
     mailbox[ADDRESS::MOVEMENT].clear();
     mailbox[ADDRESS::PHYSICS].clear();
     mailbox[ADDRESS::SCRIPTING].clear();
     mailbox[ADDRESS::EDITING].clear();
     mailbox[ADDRESS::UICOMPONENT].clear();
+    mailbox[ADDRESS::BATTLE].clear();
 }
 
 /******************************************************************************

@@ -45,6 +45,7 @@ enum class TYPE {
 	// feel free to add more message types as required
 	COLLISION,
 	INPUT,
+	ANIMATING,
 	GAME_EVENT,
 	KEY_TRIGGERED,
 	KEY_DOWN,
@@ -69,9 +70,10 @@ enum class ADDRESS {
 	CORE,
 	WINDOWS,
 	SCRIPTING,
-	ANIMATOR,
+	ANIMATION,
 	EDITING,
 	UICOMPONENT,
+	BATTLE,
 	NONE
 };
 

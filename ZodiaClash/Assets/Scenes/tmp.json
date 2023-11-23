@@ -1,17 +1,11 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 8,
+            "layerCounter": 2,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
-                "Layer 1",
-                "Layer 2",
-                "Layer 3",
-                "Layer 4",
-                "Layer 5",
-                "Layer 6",
-                "Layer 7"
+                "Layer 1"
             ]
         }
     },
@@ -3782,31 +3776,5 @@
             "Vertical Alignment": 1,
             "Background": false
         }
-    },
-    {
-        "Clone": {
-            "Prefab": "pausemenu.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "pausemenu",
-            "Current Layer": 4,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
     }
 ]

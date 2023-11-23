@@ -582,9 +582,10 @@ void EngineCore::Run(bool const& mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
 	Mail::mail().RegisterMailbox(ADDRESS::SCRIPTING);
-	Mail::mail().RegisterMailbox(ADDRESS::ANIMATOR);
+	Mail::mail().RegisterMailbox(ADDRESS::ANIMATION);
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 	Mail::mail().RegisterMailbox(ADDRESS::UICOMPONENT);
+	Mail::mail().RegisterMailbox(ADDRESS::BATTLE);
 
 
 	///////////////////////////////////
@@ -608,7 +609,6 @@ void EngineCore::Run(bool const& mode) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
-			animationSystem->Initialize();
 			initLevel = false;
 			newScene = false;
 		}
