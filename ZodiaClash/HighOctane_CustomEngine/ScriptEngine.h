@@ -389,6 +389,8 @@ public:
 
 	static std::shared_ptr<ScriptInstance> GetEntityScriptInstance(Entity entityID, int i);
 
+	static void SetDefaultPath(std::string);
+
 	static ScriptEngineData* GetInstance() {
 		if (!scriptData) {
 			scriptData = new ScriptEngineData();
@@ -431,8 +433,9 @@ private:
 	 * \param assembly The assembly from which the classes are loaded.
 	 */
 	static void LoadAssemblyClasses(MonoAssembly* assembly);
-
+	static std::string defaultPath;
 	static ScriptEngineData* scriptData;
+
 	// Friend
 	friend class ScriptClass;
 	friend class ScriptInstance;
