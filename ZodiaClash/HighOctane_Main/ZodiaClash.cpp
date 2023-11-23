@@ -167,7 +167,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_WARNING("This is a test warning message");
     LOG_ERROR("This is a test error message");
     LOG_FATAL("This is a test fatal message");
-	DEBUG_PRINT("This is a test debug log message")
     /*---------------------------------------------------------------------------------------------*/
     // TODO: Place code here.
     //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
@@ -187,47 +186,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     return 0;
 }
-
- // TESTING FOR CONSOLE MODE FOR SCRIPTING - WEN YUAN
-//int main() {
-//	//InitMono();
-//	LoadConfig();
-//	// Enable run-time memory check for debug builds.
-//#if (_DEBUG)
-//	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//#endif
-//
-//	// To enable the console
-//	Console();
-//	LOG_INFO("Program started");
-//
-//	/*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-//	LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
-//
-//	LOG_TRACE("This is a test trace message");
-//	LOG_DEBUG("This is a test debug message");
-//	LOG_INFO("This is a test info message");
-//	LOG_WARNING("This is a test warning message");
-//	LOG_ERROR("This is a test error message");
-//	LOG_FATAL("This is a test fatal message");
-//	/*---------------------------------------------------------------------------------------------*/
-//	// TODO: Place code here.
-//	//graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
-//	audio.Initialize();
-//	audio.AddSound("../Assets/Sound/ping.wav");
-//	audio.AddSound("../Assets/Sound/bonk.wav");
-//	LOG_INFO("Graphics started");
-//
-//	EngineCore::engineCore(); // Instantiate Engine Core
-//
-//	//////////////////////////////
-//	////////// Run Game //////////
-//	//////////////////////////////
-//
-//	EngineCore::engineCore().Run(game_mode);
-//
-//	return 0;
-//}
 
 void EngineCore::Run(bool const& mode) {
 

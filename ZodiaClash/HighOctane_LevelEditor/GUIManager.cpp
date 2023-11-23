@@ -120,8 +120,6 @@ void GUIManager::Init()
     latoMedium = io.Fonts->AddFontFromFileTTF(latoMediumPath.c_str(), fontSizeM);
     latoLargeBold = io.Fonts->AddFontFromFileTTF(latoLargePath.c_str(), fontSizeXL);
 
-    std::cout << defaultPath << std::endl;
-
     //ImFontConfig config;
     //io.Fonts->Clear();
     //char m[] = "latoMedium";

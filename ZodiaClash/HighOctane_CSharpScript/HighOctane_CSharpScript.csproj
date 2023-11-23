@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy &quot;$(SolutionDir)bin\$(Configuration)-x64\$(Configuration)\net6.0\HighOctane_CSharpScript.dll&quot; &quot;$(SolutionDir)bin\$(Configuration)-x64\HighOctane_CSharpScript.dll&quot; /Y" />
+    <Exec Command="copy &quot;$(SolutionDir)bin\$(Configuration)-x64\$(Configuration)\net6.0\HighOctane_CSharpScript.dll&quot; &quot;$(SolutionDir)bin\$(Configuration)-x64\HighOctane_CSharpScript.dll&quot; /Y&#xD;&#xA;copy &quot;$(SolutionDir)bin\$(Configuration)-x64\$(Configuration)\net6.0\HighOctane_CSharpScript.dll&quot; &quot;$(SolutionDir)HighOctane_Main\HighOctane_CSharpScript.dll&quot; /Y" />
   </Target>
 
 </Project>
