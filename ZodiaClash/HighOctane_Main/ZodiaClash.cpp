@@ -119,7 +119,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {   
 
-	ASSERT(true, "This ");
+	//ASSERT(true, "This ");
 	/**************************************************************************
 	*	The following code will prevent window from going out of screen of low
 	*	resolution screens. Modern monitors that are 1080P or higher should not
