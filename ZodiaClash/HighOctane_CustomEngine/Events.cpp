@@ -128,7 +128,7 @@ void TogglePause(std::string input) {
 		currentSystemMode = lastSystemMode;
 		lastSystemMode = SystemMode::PAUSE;
 		if (pausemenu != 0) {
-			ECS::ecs().DestroyEntity(pausemenu);
+			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
 			pausemenu = 0;
 		}
 	}

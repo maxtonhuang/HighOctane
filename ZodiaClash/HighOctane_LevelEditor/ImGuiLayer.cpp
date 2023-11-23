@@ -95,6 +95,9 @@ void UpdateLayer() {
 			if (ImGui::IsItemClicked()) {
 				UnselectAll();
 				for (int entity_it = (static_cast<int>(layering[layer_it].size()) - 1); entity_it >= 0; --entity_it) {
+					if (!ECS::ecs().EntityExists(layering[layer_it][entity_it])) {
+						continue;
+					}
 					Name& entityName = ECS::ecs().GetComponent<Name>(layering[layer_it][entity_it]);
 					entityName.selected = true;
 				}

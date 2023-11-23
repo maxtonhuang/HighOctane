@@ -1,8 +1,7 @@
 #include "Animation.h"
 #include "AssetManager.h"
 #include "Events.h"
-
-std::vector<Entity>animatedEntitiesToDestroy{};
+#include "EntityFactory.h"
 
 void AnimationSet::Initialise(Entity entity) {
 	Start(defaultAnimation, entity);
@@ -483,7 +482,7 @@ SelfDestructAnimation::SelfDestructAnimation() {
 }
 void SelfDestructAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
-		animatedEntitiesToDestroy.push_back(parent);
+		EntityFactory::entityFactory().DeleteCloneModel(parent);
 	}
 }
 void SelfDestructAnimation::AddKeyFrame(int frameNum, void* frameData) {

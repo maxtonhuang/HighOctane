@@ -665,6 +665,8 @@ void EngineCore::Run(bool const& mode) {
 			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
 
+		EntityFactory::entityFactory().UpdateDeletion();
+
 	}
 
 	///////////////////////////////////////

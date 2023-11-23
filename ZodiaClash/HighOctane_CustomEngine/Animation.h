@@ -4,9 +4,6 @@
 #include "ECS.h"
 #include "model.h"
 
-//For self destruct animation as it cannot be called within the entity loop itself
-extern std::vector<Entity>animatedEntitiesToDestroy;
-
 class Animation {
 public:
 	virtual void Start() { active = true; };

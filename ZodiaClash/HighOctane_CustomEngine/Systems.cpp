@@ -296,9 +296,6 @@ void AnimationSystem::Update() {
 			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
 		}
 	}
-	for (Entity e : animatedEntitiesToDestroy) {
-		ECS::ecs().DestroyEntity(e);
-	}
 }
 
 /******************************************************************************
@@ -1191,14 +1188,12 @@ void ChildSystem::Update() {
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
-	std::vector<Entity> toDestroyList{};
-
 	for (Entity const& entity : m_Entities) {
 		Child* childData = &childArray.GetData(entity);
 		Entity parent = childData->parent;
 
 		if (!ECS::ecs().EntityExists(parent)) {
-			toDestroyList.push_back(entity);
+			EntityFactory::entityFactory().DeleteCloneModel(entity);
 			continue;
 		}
 
@@ -1206,11 +1201,6 @@ void ChildSystem::Update() {
 		Transform* parentTransform = &transformArray.GetData(parent);
 
 		*childTransform = childData->offset + *parentTransform;
-	}
-
-	for (auto& e : toDestroyList) {
-		ECS::ecs().DestroyEntity(e);
-		RemoveEntityFromLayering(e);
 	}
 }
 
