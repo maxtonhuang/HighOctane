@@ -1,11 +1,17 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 2,
+            "layerCounter": 8,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
-                "Layer 1"
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7"
             ]
         }
     },
@@ -508,7 +514,7 @@
             "Text String": "Exploration Test",
             "r": 0.0,
             "g": 0.0,
-            "b": 0.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,

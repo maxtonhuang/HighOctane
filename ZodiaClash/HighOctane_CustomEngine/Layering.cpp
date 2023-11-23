@@ -194,6 +194,9 @@ void PrepareLayeringForSerialization() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
+			if (!ECS::ecs().EntityExists(layering[layer_it][entity_it])) {
+				continue;
+			}
 			Name & n = nameArray.GetData(layering[layer_it][entity_it]);
 			n.serializationLayer = layer_it;
 			n.serializationOrderInLayer = entity_it;
