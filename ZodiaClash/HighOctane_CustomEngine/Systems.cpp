@@ -915,6 +915,7 @@ void EditingSystem::Update() {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 		case TYPE::MOUSE_UP:
+			
 			draggingThisCycle = false;
 			//printf("IN HERE");
 			break;
