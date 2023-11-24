@@ -406,6 +406,12 @@ void UpdateAnimator() {
 		}
 		ImGui::Text(editingLabel.c_str());
 	}
+	else if (ECS::ecs().EntityExists(toAnimate)) {
+		ImGui::Text("Entity has no animation component.");
+		if (ImGui::Button("Add Animation Component")) {
+			ECS::ecs().AddComponent(toAnimate, AnimationSet{});
+		}
+	}
 
 	AnimatorWindow(toAnimate);
 	

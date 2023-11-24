@@ -267,7 +267,7 @@ TextureManager::~TextureManager() {
 }
 
 Texture* TextureManager::Get(char const* texname) {
-	if (data.count(texname)) {
+	if (data[texname].IsActive()) {
 		return &data[texname];
 	}
 	else {
@@ -278,28 +278,28 @@ Texture* TextureManager::Get(char const* texname) {
 }
 
 Texture* TextureManager::Add(const char* texpath, const char* texname) {
-	if (data.count(texname)) {
+	if (data[texname].IsActive()) {
 		return &data[texname];
 	}
 	Texture temp;
 	temp.Init(texpath, texname);
-	if (temp.IsActive() == false) {
+	if (!temp.IsActive()) {
 		return nullptr;
 	}
-	data.emplace(texname, temp);
+	data[texname] = temp;
 	return &data[texname];
 }
 
 Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, int spritenum, const char* texpath) {
 	std::string spritesheetName{ texname };
 	spritesheetName = spritesheetName.substr(0, spritesheetName.find_last_of('.')) + ".spritesheet";
-	if (data.count(spritesheetName)) {
+	if (data[spritesheetName].IsActive()) {
 		return &data[spritesheetName];
 	}
-	else if (data.count(texname)) {
+	else if (data[texname].IsActive()) {
 		data[texname].CreateSpriteSheet(row, col, spritenum);
 		data[texname].SetName(spritesheetName);
-		data.emplace(spritesheetName, data[spritesheetName]);
+		data[spritesheetName] = data[texname];
 		return &data[texname];
 	}
 	if (texpath == nullptr) {
@@ -313,8 +313,8 @@ Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, i
 	}
 	temp.CreateSpriteSheet(row, col, spritenum);
 	temp.SetName(spritesheetName);
-	data.emplace(texname, temp);
-	data.emplace(spritesheetName, temp);
+	data[texname] = temp;
+	data[spritesheetName] = temp;
 	return &data[spritesheetName];
 }
 
@@ -336,7 +336,7 @@ Texture* TextureManager::Add(Font& font) {
 	}
 	Texture temp;
 	temp.Init(font, texname.c_str());
-	data.emplace(texname, temp);
+	data[texname] = temp;
 
 	for (auto& c : font.characters) {
 		c.second.textureID = &data[texname];

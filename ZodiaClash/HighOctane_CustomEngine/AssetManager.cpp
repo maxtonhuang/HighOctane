@@ -109,7 +109,8 @@ void AssetManager::LoadSpritesheet(const std::string& spritePath) {
         serializer.ReadInt(column);
         serializer.ReadInt(spritenum);
         LoadAssets(textureName);
-        texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum);
+        std::string texturePath{ defaultPath + "Textures/" + textureName };
+        texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum, texturePath.c_str());
     }
     else {
         ASSERT(1, "Unable to open sprite sheet file!");
