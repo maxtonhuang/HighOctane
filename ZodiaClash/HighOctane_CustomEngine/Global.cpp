@@ -79,9 +79,6 @@ bool mouseMoved{ false };
 bool withinSomething{ false };
 Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 
-bool pausePressed{ false };
-bool helpPressed{ false };
-
 bool shiftKeyPressed{ false };
 bool controlKeyPressed{ false };
 

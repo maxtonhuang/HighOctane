@@ -138,18 +138,22 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					}
 				}
 				else if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NE;
 					printf("NE ------");
 				}
 				else if (IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::SW;
 					printf("SW ------");
 				}
 				else if (IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::SE;
 					printf("SE ------");
 				}
 				else if (IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NW;
 					printf("NW ------");
 				}
@@ -159,6 +163,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					//printf("INSIDE ------");
 				}
 				else if (IsNearby(model.GetRotPoint(), currentMousePosition, CORNER_SIZE*3.f)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::DOT;
 					//printf("ROTATE ------");
 				}
