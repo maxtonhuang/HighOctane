@@ -48,6 +48,7 @@ public:
 	void ResumeGroup(const char* name);
 	void PauseGroup(const char* name);
 	bool IsGroupPaused(const char* name);
+	void SetBGM(const char* name);
 
 	void ReleaseAllSounds(); //Releases all sounds from audio manager
 	FMOD::Sound* AddSound(const char* path, const char* name); //Add a sound to FMOD and audio manager
@@ -59,6 +60,7 @@ public:
 	std::vector<std::string> GetSoundNames();
 	std::vector<std::string> GetSoundPaths();
 	std::vector<std::string> GetMusicPaths();
+	std::string GetCurrentBGM();
 	void UpdateAudioDirectory();
 private:
 	FMOD::System* system{};

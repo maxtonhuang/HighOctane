@@ -424,6 +424,7 @@ void ImportAudio(bool& showDialog) {
 			--importFileCount;
 
 			showDialog = false;
+			assetmanager.audio.UpdateAudioDirectory();
 			ImGui::CloseCurrentPopup();
 		}
 

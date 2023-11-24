@@ -89,6 +89,7 @@ void UpdateSceneHierachy() {
 }
 
 void UpdatePrefabHierachy() {
+	static float saveTimer{};
 	ImGui::Begin("Prefab Editor");
 
 	auto prefabList{ assetmanager.GetPrefabPaths() };
@@ -124,6 +125,12 @@ void UpdatePrefabHierachy() {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
 			SaveAsPrefab(prefabPath, currentSelectedPrefab);
+			saveTimer = 1.f;
+		}
+
+		if (saveTimer > 0.f) {
+			ImGui::SameLine();
+			ImGui::Text("Prefab saved!");
 		}
 
 		if (ImGui::Button("Create Instance")) {
@@ -134,6 +141,10 @@ void UpdatePrefabHierachy() {
 		SceneEntityComponents(currentSelectedPrefab);
 		ImGui::Separator();
 		ComponentBrowser(currentSelectedPrefab);
+	}
+
+	if (saveTimer > 0.f) {
+		saveTimer -= g_dt;
 	}
 
 	auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };

@@ -447,21 +447,7 @@ void SerializationSystem::Update() {
 		//EmbedSkipLockForSerialization();
 		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
 		if (scenePath != "") {
-			std::ofstream sceneFile{ scenePath.c_str() };
-
-			std::string jsonPath{ scenePath.substr(0,scenePath.find(".scn")) + ".json" };
-			std::vector<Entity> entityList{};
-			for (auto& e : m_Entities) {
-				entityList.push_back(e);
-			}
-			Serializer::SaveEntityToJson(jsonPath, entityList);
-
-			auto files = assetmanager.GetFiles();
-			for (auto& f : files) {
-				sceneFile << f << "\n";
-			}
-			sceneFile << jsonPath.substr(jsonPath.find_last_of("\\") + 1);
-			sceneFile.close();
+			assetmanager.SaveScene(scenePath);
 		}
 		saveFile = false;
 	}
