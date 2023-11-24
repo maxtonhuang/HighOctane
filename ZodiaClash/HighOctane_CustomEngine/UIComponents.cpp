@@ -418,8 +418,8 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 * For color fine tuning in imgui
 *
 */
-void Button::UpdateColorSets(STATE currentState, glm::vec4 btnColor, glm::vec4 txtColor) {
-	switch (currentState) {
+void Button::UpdateColorSets(STATE currState, glm::vec4 btnColor, glm::vec4 txtColor) {
+	switch (currState) {
 	case(STATE::HOVERED):
 		hoveredColor = { btnColor, txtColor };
 		break;
