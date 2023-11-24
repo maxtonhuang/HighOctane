@@ -68,6 +68,10 @@ public:
 	vmath::Vector2 GetMin() const; //returns minimum point in screen coordinates
 	vmath::Vector2 GetMax() const; //returns maximum point in screen coordinates
 	vmath::Vector2 GetRotPoint() const; //returns rotation point in screen coordinates
+	vmath::Vector2 GetTopLeft() const;
+	vmath::Vector2 GetTopRight() const;
+	vmath::Vector2 GetBotLeft() const;
+	vmath::Vector2 GetBotRight() const;
 
 	glm::vec4 GetColor() const; // retrieve color stored
 	glm::vec4& GetColorRef(); //retrieve color reference

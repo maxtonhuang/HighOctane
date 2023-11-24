@@ -65,6 +65,7 @@ private:
 	std::unordered_map<std::string, FMOD::Sound*> data{};
 	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
 
+	std::string currentBGM{};
 	std::vector<std::string> soundPaths{};
 	std::vector<std::string> musicPaths{};
 };

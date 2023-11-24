@@ -870,7 +870,7 @@ void EditingSystem::Update() {
 	{	//printf("%d ", keyObjectID);
 		bool found = false;
 		for (Entity entity : selectedEntities) {
-			if (keyObjectID == entity) {
+			if (keyObjectID == entity && modelArray.HasComponent(keyObjectID)) {
 				found = true;
 				break;
 			}

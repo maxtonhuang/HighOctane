@@ -236,6 +236,10 @@ std::string Texture::GetName() {
 	return name;
 }
 
+void Texture::SetName(std::string newName) {
+	name = newName;
+}
+
 int Texture::GetSheetSize() {
 	return (int)texcoords.size();
 }
@@ -267,11 +271,10 @@ Texture* TextureManager::Get(char const* texname) {
 		return &data[texname];
 	}
 	else {
-		std::string texpath{ assetmanager.GetDefaultPath() + "Textures/" + texname };
-		return Add(texpath.c_str(), texname);
+		//std::string texpath{ assetmanager.GetDefaultPath() + "Textures/" + texname };
+		assetmanager.LoadAssets(texname);
+		return &data[texname];
 	}
-	ASSERT(1, "Unable to find texture!");
-	return nullptr;
 }
 
 Texture* TextureManager::Add(const char* texpath, const char* texname) {
@@ -288,8 +291,15 @@ Texture* TextureManager::Add(const char* texpath, const char* texname) {
 }
 
 Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, int spritenum, const char* texpath) {
-	if (data.count(texname)) {
+	std::string spritesheetName{ texname };
+	spritesheetName = spritesheetName.substr(0, spritesheetName.find_last_of('.')) + ".spritesheet";
+	if (data.count(spritesheetName)) {
+		return &data[spritesheetName];
+	}
+	else if (data.count(texname)) {
 		data[texname].CreateSpriteSheet(row, col, spritenum);
+		data[texname].SetName(spritesheetName);
+		data.emplace(spritesheetName, data[spritesheetName]);
 		return &data[texname];
 	}
 	if (texpath == nullptr) {
@@ -302,8 +312,10 @@ Texture* TextureManager::AddSpriteSheet(const char* texname, int row, int col, i
 		return nullptr;
 	}
 	temp.CreateSpriteSheet(row, col, spritenum);
+	temp.SetName(spritesheetName);
 	data.emplace(texname, temp);
-	return &data[texname];
+	data.emplace(spritesheetName, temp);
+	return &data[spritesheetName];
 }
 
 void TextureManager::Clear() {

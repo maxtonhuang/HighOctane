@@ -138,6 +138,12 @@ FMOD::Sound* AudioManager::AddMusic(const char* path, const char* name) {
     if (result != FMOD_OK) {
         ASSERT(1, "Error creating music!");
     }
+
+    //If no BGM loaded, player current BGM
+    if (currentBGM == "") {
+        PlaySounds(name, "BGM");
+        currentBGM = name;
+    }
     return data[name];
 }
 
@@ -164,6 +170,7 @@ void AudioManager::ReleaseAllSounds() {
         sound.second->release();
     }
     data.clear();
+    currentBGM.clear();
 }
 
 FMOD::System* AudioManager::GetSystem() {
