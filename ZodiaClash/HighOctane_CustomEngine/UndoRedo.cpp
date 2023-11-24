@@ -20,7 +20,6 @@ void UndoRedo::RecordCurrent(Entity entity, ACTION action) {
         undoStack.pop_back();
         if (checkLast.action == ACTION::DELENTITY) {
             EntityFactory::entityFactory().DeleteCloneModel(checkLast.entity);
-            printf("Deleting entity: %d \n", checkLast.entity);
         }
     }
     undoStack.push_front(currentState);

@@ -296,10 +296,8 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
-	if (!pausePressed && !helpPressed && !initLevel) {
+	if (currentSystemMode != SystemMode::GAMEHELP && currentSystemMode != SystemMode::PAUSE && !initLevel) {
 		undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
-		pausePressed = false;
-		helpPressed = false;
 	}
 	return entity;
 }
