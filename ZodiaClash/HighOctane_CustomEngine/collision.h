@@ -42,12 +42,12 @@ namespace physics {
 		//static bool CheckBorderCollision(const Transform& alpha);
 	};
 
-	bool CheckCollisionBoxBox(const Transform& alpha, const Transform& beta);
-	bool CheckCollisionCircleCircle(const Transform& alpha, const Transform& beta);
-	bool CheckCollisionCircleBox(const Transform& alpha, const Transform& beta);
-	bool CheckCollisionBoxCircle(const Transform& alpha, const Transform& beta);
-	bool CheckCollisionBoxBorder(const Transform& alpha);
-	bool CheckCollisionCircleBorder(const Transform& alpha);
+	bool CheckCollisionBoxBox(const Collider& alpha, const Collider& beta, vmath::Vector2 v1, vmath::Vector2 v2);
+	bool CheckCollisionCircleCircle(const Collider& alpha, const Collider& beta);
+	bool CheckCollisionCircleBox(const Collider& alpha, const Collider& beta);
+	bool CheckCollisionBoxCircle(const Collider& alpha, const Collider& beta);
+	bool CheckCollisionBoxBorder(const Collider& alpha);
+	bool CheckCollisionCircleBorder(const Collider& alpha);
 
 	extern CollisionManager* COLLISION;
 }

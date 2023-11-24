@@ -49,12 +49,12 @@ public:
     AttackType attacktype;
     std::string attackName;
 
-    int skillAttackPercent;
-    float minAttackMultiplier;
-    float maxAttackMultiplier;
-    float critRate;
-    float critMultiplier;
-    int   chiCost;
+    int skillAttackPercent{};
+    float minAttackMultiplier{};
+    float maxAttackMultiplier{};
+    float critRate{};
+    float critMultiplier{};
+    int   chiCost{};
 
 private:
     CharacterStats* owner;

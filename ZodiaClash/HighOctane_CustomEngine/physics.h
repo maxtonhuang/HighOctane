@@ -64,8 +64,8 @@ namespace physics {
         PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
         void Update(float deltaTime);
         void AddEntity(Entity entity);
-        void Integrate(Transform& transform);
-        void DebugDraw(Transform& transform);
+        void Integrate(Transform& transform, Collider& colliderData);
+        void DebugDraw(Transform& transform, Collider& colliderData);
         void ToggleStepMode();
         void ToggleDebugMode();
         bool GetDebugDrawActive() { return DebugDrawingActive; }
@@ -81,9 +81,9 @@ namespace physics {
         bool DebugDrawingActive{};
         bool advanceStep{};
         bool stepModeActive{};
-        GraphicsManager& graphics; 
+        GraphicsManager& graphics;
     };
 
-	// global pointer declaration
-	extern PhysicsManager* PHYSICS;
+    // global pointer declaration
+    extern PhysicsManager* PHYSICS;
 }

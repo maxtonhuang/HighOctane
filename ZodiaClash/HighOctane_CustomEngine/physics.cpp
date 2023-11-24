@@ -60,45 +60,45 @@ namespace physics {
         it'll update one step at a time when a step update is requested.
      */
      /**************************************************************************/
-    /*void PhysicsManager::Update(float deltaTime)
-    {
-        // Define a constant time step (fixed interval at which physics calculations will be performed)
-        const float timeStep = 1.0f / 60.0f; // 60 updates per second
+    //void PhysicsManager::Update(float deltaTime)
+    //{
+    //    // Define a constant time step (fixed interval at which physics calculations will be performed)
+    //    const float timeStep = 1.0f / 60.0f; // 60 updates per second
 
-        // When physics simulation is not in step mode (eg.running continuously)
-        if (!stepModeActive) 
-        {
-            // Keeps track of the passed time
-            timeAccumulation += deltaTime;
+    //    // When physics simulation is not in step mode (eg.running continuously)
+    //    if (!stepModeActive)
+    //    {
+    //        // Keeps track of the passed time
+    //        timeAccumulation += deltaTime;
 
-            // If the accumulated time has reached or exceeded the time step
-            if (timeAccumulation > timeStep) 
-            {
-                // Subtract the time step from the accumulated time
-                timeAccumulation -= timeStep;
+    //        // If the accumulated time has reached or exceeded the time step
+    //        if (timeAccumulation > timeStep)
+    //        {
+    //            // Subtract the time step from the accumulated time
+    //            timeAccumulation -= timeStep;
 
-                // Perform the physics calculations for this time step
-                Step(timeStep);
-            }
-        }
-        // When physics simulation is in step mode (it updates one step at a time)
-        // Reset the accumulated time 
-        else // When physics simulation is in step mode (it updates one step at a time)
-        {
-            // Reset the accumulated time 
-            timeAccumulation = 0.0f;
+    //            // Perform the physics calculations for this time step
+    //            Step(timeStep);
+    //        }
+    //    }
+    //    // When physics simulation is in step mode (it updates one step at a time)
+    //    // Reset the accumulated time
+    //    else // When physics simulation is in step mode (it updates one step at a time)
+    //    {
+    //        // Reset the accumulated time
+    //        timeAccumulation = 0.0f;
 
-            // If a step update is requested
-            if (advanceStep)
-            {
-                // Perform the physics calculations for this time step
-                Step(timeStep);
+    //        // If a step update is requested
+    //        if (advanceStep)
+    //        {
+    //            // Perform the physics calculations for this time step
+    //            Step(timeStep);
 
-                // Reset the step request flag
-                advanceStep = false;
-            }
-        }
-    }*/
+    //            // Reset the step request flag
+    //            advanceStep = false;
+    //        }
+    //    }
+    //}
 
     /**************************************************************************/
     /*!
@@ -109,7 +109,7 @@ namespace physics {
         physics manager is responsible for.
      */
      /**************************************************************************/
-    void PhysicsManager::AddEntity(Entity entity) 
+    void PhysicsManager::AddEntity(Entity entity)
     {
         m_Entities.push_back(entity);
     }
@@ -126,7 +126,7 @@ namespace physics {
         properties won't be updated.
      */
      /**************************************************************************/
-    void PhysicsManager::Integrate(Transform& transformData)
+    void PhysicsManager::Integrate(Transform& transformData, Collider& colliderData)
     {
         // calculate acceleration due to force
         transformData.acceleration = transformData.force * transformData.inverseMass;
@@ -134,8 +134,11 @@ namespace physics {
         //transformData.acceleration += {GRAVITY_X* FIXED_DT, GRAVITY_Y* FIXED_DT};
         // update velocity with acceleration and apply friction
         transformData.velocity += transformData.acceleration * FIXED_DT;
+
         // update position with velocity
         transformData.position += transformData.velocity * FIXED_DT;
+        colliderData.position += transformData.velocity * FIXED_DT;
+
         // apply friction (assuming FRICTION is < 1 and represents a damping factor)
         transformData.velocity *= pow(FRICTION, FIXED_DT);
         // reset force for the next frame
@@ -149,17 +152,18 @@ namespace physics {
         @brief Integrates motion equations for all bodies in the physics manager.
         @param deltaTime Elapsed time since the last frame in seconds.
 
-        This method loops through each entity in the physics manager 
+        This method loops through each entity in the physics manager
         and updates its physics using the Integrate function.
      */
-    /**************************************************************************/
+     /**************************************************************************/
     void PhysicsManager::IntegrateBodies(float deltaTime)
     {
         UNREFERENCED_PARAMETER(deltaTime);
-        for (const auto& entity : m_Entities) 
+        for (const auto& entity : m_Entities)
         {
             auto& transform = m_ecs.GetComponent<Transform>(entity);
-            Integrate(transform); // Using Integrate function to avoid code duplication
+            auto& collider = m_ecs.GetComponent<Collider>(entity);
+            Integrate(transform, collider); // Using Integrate function to avoid code duplication
         }
     }
 
@@ -227,7 +231,7 @@ namespace physics {
         only be rendered if debug drawing is active.
      */
      /**************************************************************************/
-    void PhysicsManager::DebugDraw(Transform& transform)
+    void PhysicsManager::DebugDraw(Transform& transform, Collider& colliderData)
     {
         if (!DebugDrawingActive) return;
         //draw the position/center of the body as a point
@@ -238,8 +242,8 @@ namespace physics {
         graphics.DrawLine(transform.position.x, transform.position.y, endPosition.x, endPosition.y, 0.f, 0.f, 1.f);
 
         //draw AABB box
-        Vector2 bottomLeft = transform.position - transform.halfDimensions;
-        Vector2 topRight = transform.position + transform.halfDimensions;
-        graphics.DrawOutline(bottomLeft.x, bottomLeft.y, topRight.x , topRight.y, 0.f, 0.f, 1.f);
+        Vector2 bottomLeft = colliderData.position - colliderData.halfDimensions;
+        Vector2 topRight = colliderData.position + colliderData.halfDimensions;
+        graphics.DrawOutline(bottomLeft.x, bottomLeft.y, topRight.x, topRight.y, 0.f, 0.f, 1.f);
     }
 }

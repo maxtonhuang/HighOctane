@@ -1,34 +1,34 @@
 /******************************************************************************
-* 
+*
 *	\copyright
 *		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
 *		All rights reserved. Reproduction or disclosure of this file or its
 *		contents without the prior written consent of DigiPen Institute of
 *		Technology is prohibited.
-* 
+*
 * *****************************************************************************
-* 
+*
 *	@file		Systems.cpp
-* 
+*
 *	@author		Maxton Huang Xinghua
-* 
+*
 *	@email		m.huang\@digipen.edu
-* 
+*
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
-* 
+*
 *	@section	Section A
-* 
+*
 *	@date		22 September 2023
-* 
+*
 * *****************************************************************************
-* 
+*
 *	@brief		Systems running on underlying ECS Architecture
 *
 *	This file contains the system functions running on the underlying ECS
 *	Architecture. It will call other functions in their respective source
 *	files, and pass the required Entity information to them.
-* 
+*
 ******************************************************************************/
 
 
@@ -99,48 +99,58 @@ void PhysicsSystem::Update() {
 	}
 	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
-		// Access component arrays through the ComponentManager
-		// Access the ComponentManager through the ECS class
-		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-		auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	// Access component arrays through the ComponentManager
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
-		//update entity half-dimensions
-		for (Entity const& entity : m_Entities) {
-			Size sizeData{ sizeArray.GetData(entity) };
-			Transform transformData{ transformArray.GetData(entity) };
-			transformArray.GetData(entity).halfDimensions = {
-				sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
-			};
-		}
+	//update entity half-dimensions
+	for (Entity const& entity : m_Entities) {
+		Size sizeData{ sizeArray.GetData(entity) };
+		Transform transformData{ transformArray.GetData(entity) };
+		transformArray.GetData(entity).halfDimensions = {
+			sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
+		};
+		Collider colliderData{ colliderArray.GetData(entity) };
+		colliderArray.GetData(entity).halfDimensions = {
+			colliderData.dimension.x / 2.f * colliderData.scale, colliderData.dimension.y / 2.f * colliderData.scale
+		};
+	}
 
-		// Check step mode and integrate physics
-		if (physics::PHYSICS->GetStepModeActive()) {
-			// Debug draw all entities
-			// If step is required, integrate physics for all entities
-			if (reqStep) {
-				for (Entity const& entity : m_Entities) {
-					Transform& transData = transformArray.GetData(entity);
-					physics::PHYSICS->Integrate(transData);
-				}
-			}
-		}
-		else {
-			// Regular physics integration and debug drawing
+	// Check step mode and integrate physics
+	if (physics::PHYSICS->GetStepModeActive()) {
+		// Debug draw all entities
+		// If step is required, integrate physics for all entities
+		if (reqStep) {
 			for (Entity const& entity : m_Entities) {
 				Transform& transData = transformArray.GetData(entity);
-				physics::PHYSICS->Integrate(transData);
+				Collider& collData = colliderArray.GetData(entity);
+				physics::PHYSICS->Integrate(transData, collData);
 			}
 		}
+	}
+	else {
+		// Regular physics integration and debug drawing
+		for (Entity const& entity : m_Entities) {
+			Transform& transData = transformArray.GetData(entity);
+			Collider& collData = colliderArray.GetData(entity);
+			physics::PHYSICS->Integrate(transData, collData);
+		}
+	}
 }
 
 void PhysicsSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
 	for (Entity const& entity : m_Entities) {
 		Transform& transData = transformArray.GetData(entity);
-		physics::PHYSICS->DebugDraw(transData);
+		Collider& collData = colliderArray.GetData(entity);
+
+		physics::PHYSICS->DebugDraw(transData, collData);
 	}
 }
 
@@ -157,51 +167,51 @@ void PhysicsSystem::Draw() {
 ******************************************************************************/
 void CollisionSystem::Update() {
 
-		// Access the ComponentManager through the ECS class
-		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-		// Access component arrays through the ComponentManager
-		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+	// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-		for (Entity const& entity1 : m_Entities) {
-			if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
-				Transform* transData1 = &transformArray.GetData(entity1);
-				Collider* collideData1 = &colliderArray.GetData(entity1);
+	for (Entity const& entity1 : m_Entities) {
+		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
+			Transform* transData1 = &transformArray.GetData(entity1);
+			Collider* collideData1 = &colliderArray.GetData(entity1);
 
-				bool hasCollided = false;
+			bool hasCollided = false;
 
-				for (Entity const& entity2 : m_Entities) {
-					if (entity1 != entity2) {
-						Transform* transData2 = &transformArray.GetData(entity2);
-						Collider* collideData2 = &colliderArray.GetData(entity2);
+			for (Entity const& entity2 : m_Entities) {
+				if (entity1 != entity2) {
+					Transform* transData2 = &transformArray.GetData(entity2);
+					Collider* collideData2 = &colliderArray.GetData(entity2);
 
-						if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-							hasCollided = physics::CheckCollisionBoxBox(*transData1, *transData2);
-						}
-						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-							hasCollided = physics::CheckCollisionCircleCircle(*transData1, *transData2);
-						}
-						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-							hasCollided = physics::CheckCollisionCircleBox(*transData1, *transData2);
-						}
-						else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-							hasCollided = physics::CheckCollisionBoxCircle(*transData1, *transData2);
-						}
-						if (hasCollided == true) 
-						{ 
-							physics::DynamicStaticResponse(*transData1);
-							break;
-						}
+					if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+						hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
+					}
+					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+						hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
+					}
+					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+						hasCollided = physics::CheckCollisionCircleBox(*collideData1, *collideData2);
+					}
+					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+						hasCollided = physics::CheckCollisionBoxCircle(*collideData1, *collideData2);
+					}
+					if (hasCollided == true)
+					{
+						physics::DynamicStaticResponse(*transData1);
+						break;
 					}
 				}
-				// Update the character's position if no collision occurred
-				//if (!hasCollided) {
-				//	physics::PHYSICS->Integrate(*transData1);
-				//}
 			}
+			// Update the character's position if no collision occurred
+			//if (!hasCollided) {
+			//	physics::PHYSICS->Integrate(*transData1);
+			//}
 		}
-		Mail::mail().mailbox[ADDRESS::COLLISION].clear();
+	}
+	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
 }
 
 /******************************************************************************
@@ -361,7 +371,7 @@ void GraphicsSystem::Update() {
 		Size* size = &sizeArray.GetData(entity);
 		Transform* transform = &transformArray.GetData(entity);
 		/*if (m->CheckTransformUpdated(*transform, *size)) {
-			
+
 		}*/
 		m->Update(*transform, *size);
 	}
@@ -382,12 +392,12 @@ void GraphicsSystem::Update() {
 			}
 		}
 	}
-	
+
 	camera.Update();
 }
 
 void GraphicsSystem::Draw() {
-// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
@@ -451,7 +461,7 @@ void SerializationSystem::Update() {
 		}
 		saveFile = false;
 	}
-	
+
 	if (destroyAll) {
 		std::vector<Entity> entitylist{};
 		EntityFactory::entityFactory().masterEntitiesList.clear();
@@ -476,7 +486,7 @@ void SerializationSystem::Update() {
 
 	if (playButton) {
 
-		std::string scenePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.scn"};
+		std::string scenePath{ assetmanager.GetDefaultPath() + "Scenes/tmp.scn" };
 		if (scenePath != "") {
 			std::ofstream sceneFile{ scenePath.c_str() };
 
@@ -499,14 +509,14 @@ void SerializationSystem::Update() {
 		playButton = false;
 	}
 
-	
+
 }
 
 
 /******************************************************************************
 *
 *	@brief Initialies the Script System
-* 
+*
 *   This function initializes the Script System by calling the ScriptEngine's
 *   ScriptInit function for each entity with a script component.
 *
@@ -537,10 +547,10 @@ void ScriptSystem::Initialize() {
 /******************************************************************************
 *
 *   @brief Updates the Script System
-* 
+*
 *   This function updates the Script System by calling the ScriptEngine's
 *   ScriptUpdate function for each entity with a script component.
-* 
+*
 ******************************************************************************/
 
 void ScriptSystem::Update() {
@@ -661,8 +671,8 @@ void EditingSystem::Update() {
 					undoRedo.Undo();
 				}
 				break;
-		}
-		break;
+			}
+			break;
 
 		case TYPE::KEY_UP: {
 			switch (msg.info) {
@@ -676,18 +686,18 @@ void EditingSystem::Update() {
 				break;
 			}
 		}
-		break;
+						 break;
 		}
-		
+
 
 		case TYPE::MOUSE_MOVE:
 			currentMousePosition = { msg.posX, msg.posY };
 
 			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 				if (layersToSkip[layer_it] && layersToLock[layer_it]) {
-					for (Entity & entity : layering[layer_it]) {
+					for (Entity& entity : layering[layer_it]) {
 						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
-							Name & n = nameArray.GetData(entity);
+							Name& n = nameArray.GetData(entity);
 							if (n.selected) {
 								if (modelArray.HasComponent(entity)) {
 									Model& m = modelArray.GetData(entity);
@@ -696,7 +706,7 @@ void EditingSystem::Update() {
 									}
 								}
 								else {
-									Transform & t = transformArray.GetData(entity);
+									Transform& t = transformArray.GetData(entity);
 									if (t.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 										withinSomething = true;
 									}
@@ -742,7 +752,7 @@ void EditingSystem::Update() {
 
 
 
-	
+
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 		case TYPE::MOUSE_CLICK:
@@ -781,20 +791,20 @@ void EditingSystem::Update() {
 			for (int entity_it = static_cast<int>(layering[layer_it].size() - 1); entity_it >= 0; --entity_it) {
 				Entity entity = layering[layer_it][entity_it];
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
-					Name & n = nameArray.GetData(entity);
-					Transform & t = transformArray.GetData(entity);
+					Name& n = nameArray.GetData(entity);
+					Transform& t = transformArray.GetData(entity);
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 					}
 					//Model & m = modelArray.GetData(entity);
-					
+
 					Selection(entity, n, t, *m, static_cast<size_t>(layer_it));
 					if (somethingWasSelectedThisCycle) {
 						break;
 					}
 				}
-			}	
+			}
 		}
 		if (somethingWasSelectedThisCycle) {
 			break;
@@ -808,8 +818,8 @@ void EditingSystem::Update() {
 		UnselectAll();
 	}
 
-	
-	
+
+
 
 	if (toCopy || toDestroy) {
 		for (Entity entity : selectedEntities) {
@@ -831,7 +841,7 @@ void EditingSystem::Update() {
 	if (toDestroy) {
 		printf("In Destroy: %lld\n", selectedEntities.size());
 		for (Entity entity : selectedEntities) {
-			undoRedo.RecordCurrent(entity,ACTION::DELENTITY);
+			undoRedo.RecordCurrent(entity, ACTION::DELENTITY);
 			ECS::ecs().RemoveComponent<Clone>(entity);
 			entitiesToSkip[entity] = false;
 			entitiesToLock[entity] = false;
@@ -863,24 +873,24 @@ void EditingSystem::Update() {
 		}
 		if (found) {
 			//change color
-			modelArray.GetData(keyObjectID).GetColorRef() = {0.5f, 1.f, 0.5f, 1.f}; // GREEN
+			modelArray.GetData(keyObjectID).GetColorRef() = { 0.5f, 1.f, 0.5f, 1.f }; // GREEN
 		}
 		else if (keyObjectID != std::numeric_limits<Entity>().max()) {
 			// change back color
-			modelArray.GetData(keyObjectID).GetColorRef() = {1.f, 1.f, 1.f, 1.f};
+			modelArray.GetData(keyObjectID).GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
 			keyObjectID = std::numeric_limits<Entity>().max();
 		}
 	}
 
 
 	// Editing starts here
-	
+
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
-			for (Entity & entity : layering[layer_it]) {
+			for (Entity& entity : layering[layer_it]) {
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
-					Name & n = nameArray.GetData(entity);
-					Transform & t = transformArray.GetData(entity);
+					Name& n = nameArray.GetData(entity);
+					Transform& t = transformArray.GetData(entity);
 					Model* m{};
 
 					if (modelArray.HasComponent(entity)) {
@@ -898,7 +908,7 @@ void EditingSystem::Update() {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 		case TYPE::MOUSE_UP:
-			
+
 			draggingThisCycle = false;
 			//printf("IN HERE");
 			break;
@@ -976,7 +986,7 @@ void UITextLabelSystem::Draw() {
 		Button* buttonData = nullptr;
 		Name* nameData = &nameArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		
+
 		//if entity has button component, drawing managed by button
 		if (buttonArray.HasComponent(entity)) {
 			buttonData = &buttonArray.GetData(entity);
@@ -997,8 +1007,8 @@ void UITextLabelSystem::Draw() {
 
 		if (!buttonData && !texData) {
 			if (currentSystemMode == SystemMode::EDIT) {
-				(textLabelData->hasBackground) ? modelData->SetAlpha(modelData->GetAlpha()) 
-					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) 
+				(textLabelData->hasBackground) ? modelData->SetAlpha(modelData->GetAlpha())
+					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f)
 					: modelData->SetAlpha(0.2f);
 			}
 			else {
@@ -1010,7 +1020,7 @@ void UITextLabelSystem::Draw() {
 			modelData->SetAlpha(0.0f);
 		}*/
 	}
-	
+
 }
 
 void UIButtonSystem::Update() {
@@ -1041,7 +1051,7 @@ void UIButtonSystem::Update() {
 		}
 
 		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
-		sizeData->height = std::max(buttonData->buttonHeight,sizeData->height);
+		sizeData->height = std::max(buttonData->buttonHeight, sizeData->height);
 
 	}
 }
@@ -1067,7 +1077,7 @@ void UIHealthBarSystem::Update() {
 		HealthBar* healthBarData = &healthBarArray.GetData(entity);
 		Parent* parentData = &parentArray.GetData(entity);
 
-		healthBarData->UpdateHealth(*charaStatsData);		
+		healthBarData->UpdateHealth(*charaStatsData);
 
 		if (parentData->children.empty())
 			continue;
@@ -1113,13 +1123,13 @@ void UISkillPointSystem::Update() {
 
 		if (parentData->children.empty())
 			continue;
-		
+
 		for (int count = 0; count < parentData->children.size(); count++) {
 			Entity childEntity = parentData->children[count];
 
 			if (!skillPtArray.HasComponent(childEntity))
 				continue;
-			
+
 			SkillPoint* skillPtData = &skillPtArray.GetData(childEntity);
 			AnimationSet* aniSetData = &animationSetArray.GetData(childEntity);
 			if (skillPtData->isActive == (count < skillPtHudData->skillPointBalance))
@@ -1175,7 +1185,7 @@ void ParentSystem::Update() {
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
-		
+
 		std::unordered_set <Entity> childrenToRemove{};
 		for (auto& child : parentData->children) {
 			if (!childArray.HasComponent(child)) {
