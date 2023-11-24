@@ -11,9 +11,8 @@ void UndoRedo::RecordCurrent(Entity entity, ACTION action) {
     currentState.transform = ECS::ecs().GetComponent<Transform>(entity);
     currentState.action = action;
     if (!undoStack.empty()) {
-        if (ECS::ecs().GetComponent<Transform>(undoRedo.CheckFrontEntity()).position == undoRedo.CheckFrontTransform().position) {
+        if (ECS::ecs().GetComponent<Transform>(currentState.entity).position == undoRedo.CheckFrontTransform().position) {
             undoRedo.StackPopFront();
-
         }
     }
     if (undoStack.size() >= UNDOREDO_STACK_SIZE) {
