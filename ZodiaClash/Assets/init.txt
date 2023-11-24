@@ -10,18 +10,5 @@ circle.renderer
 rectangle.renderer
 staticline.renderer
 staticpoint.renderer
-background.jpeg
-duck.spritesheet
-duck2.spritesheet
-cat.png
-mockup_cat.png
-mockup_goat.png
-mockup_ox.png
-mockup_playbutton_04.png
-ping.wav
-bonk.wav
-MainMenu1.wav
-Test.skill
-No.skill
 Danto Lite Normal/Danto Lite Normal.ttf
 mainmenu.scn
