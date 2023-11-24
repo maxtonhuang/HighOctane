@@ -54,6 +54,10 @@ void ChangeScene(std::string input) {
 	button_clicked = true;
 	newSceneName = input;
 	destroyAll = true;
+	
+	// Change the current system mode to run, probably shouldn't be here
+	//currentSystemMode = SystemMode::RUN; // change to run mode
+
 	/*RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();*/
 	//playButton = true;

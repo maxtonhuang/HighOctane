@@ -52,6 +52,11 @@ extern "C" {
 
 }
 
+/*!
+ * \brief Represents the type of a field in a script.
+ *
+ * This enumeration defines various types of fields that can be used in scripts, such as basic data types (int, float, etc.) and more complex types like vectors and entities.
+ */
 enum class ScriptFieldType
 {
 	None = 0,
@@ -62,6 +67,11 @@ enum class ScriptFieldType
 	Entity
 };
 
+/*!
+ * \brief Encapsulates information about a script field.
+ *
+ * This structure holds information about a field within a script, including its type, name, and a pointer to the corresponding MonoClassField.
+ */
 struct ScriptField
 {
 	ScriptFieldType Type;
@@ -70,7 +80,11 @@ struct ScriptField
 	MonoClassField* ClassField;
 };
 
-// ScriptField + data storage
+/*!
+ * \brief Represents an instance of a script field with data storage.
+ *
+ * This structure extends ScriptField by adding data storage capabilities. It provides methods to get and set the value of the field, ensuring type safety and size constraints.
+ */
 struct ScriptFieldInstance
 {
 	ScriptField Field;
@@ -80,6 +94,13 @@ struct ScriptFieldInstance
 		memset(m_Buffer, 0, sizeof(m_Buffer));
 	}
 
+	/*!
+	 * \brief Retrieves the value of the field.
+	 *
+	 * Template function to get the value of the field. It ensures that the size of the type T is within the allowable limit.
+	 *
+	 * \return The value of the field.
+	 */
 	template<typename T>
 	T GetValue()
 	{
@@ -87,6 +108,13 @@ struct ScriptFieldInstance
 		return *(T*)m_Buffer;
 	}
 
+	/*!
+	 * \brief Sets the value of the field.
+	 *
+	 * Template function to set the value of the field. It ensures that the size of the type T is within the allowable limit.
+	 *
+	 * \param value The value to set for the field.
+	 */
 	template<typename T>
 	void SetValue(T value)
 	{
@@ -99,6 +127,7 @@ private:
 	friend class ScriptEngine;
 	friend class ScriptInstance;
 };
+
 
 using ScriptFieldMap = std::unordered_map<std::string, ScriptFieldInstance>;
 
@@ -168,8 +197,24 @@ public:
 	 */
 	std::string GetMClassName() const;
 
+	/*!
+	 * \brief Retrieves the map of fields of the associated script class for the ScriptClass.
+	 *
+	 * Returns the map of fields of the script class associated with this ScriptClass.
+	 *
+	 * \return std::map <std::string, ScriptField>  The map of fields of the script class.
+	 *
+	 */
 	const std::map<std::string, ScriptField>& GetFields() const { return m_Fields; }
 
+	/*!
+	 * \brief Retrieves the monoClass of the associated script class for the ScriptClass.
+	 *
+	 * Returns the monoClass of the script class associated with this ScriptClass.
+	 *
+	 * \return MonoClass* The monoClass of the script class.
+	 *
+	 */
 	MonoClass* GetMonoClass() const {
 		return m_MonoClass;
 	}
@@ -214,8 +259,23 @@ public:
 	 */
 	void InvokeOnUpdate();
 
+	/*!
+	 * \brief Retrieves the script class associated with this ScriptInstance.
+	 *
+	 * This function returns a pointer to the ScriptClass that represents the script class associated with this ScriptInstance.
+	 *
+	 * \return A pointer to the ScriptClass representing the script class.
+	 */
 	std::shared_ptr<ScriptClass> GetScriptClass() { return m_ScriptClass; }
 
+	/*!
+	 * \brief Retrieves the value of a field by name.
+	 *
+	 * This template function retrieves the value of a field specified by its name. It ensures that the size of the type T is within the allowable limit. If the field is not found or the operation fails, a default-constructed object of type T is returned.
+	 *
+	 * \param name The name of the field whose value is to be retrieved.
+	 * \return The value of the field, or a default-constructed object of type T if the operation fails.
+	 */
 	template<typename T>
 	T GetFieldValue(const std::string& name)
 	{
@@ -228,6 +288,14 @@ public:
 		return *(T*)s_FieldValueBuffer;
 	}
 
+	/*!
+	 * \brief Sets the value of a field by name.
+	 *
+	 * This template function sets the value of a field specified by its name. It ensures that the size of the type T is within the allowable limit.
+	 *
+	 * \param name The name of the field whose value is to be set.
+	 * \param value The value to set for the field.
+	 */
 	template<typename T>
 	void SetFieldValue(const std::string& name, T value)
 	{
@@ -236,24 +304,59 @@ public:
 		SetFieldValueInternal(name, &value);
 	}
 
+	/*!
+	 * \brief Retrieves the managed object associated with this instance.
+	 *
+	 * This function returns a pointer to the MonoObject that represents the managed object associated with this instance in the scripting environment.
+	 *
+	 * \return A pointer to the MonoObject representing the managed object.
+	 */
 	MonoObject* GetManagedObject() { return m_Instance; }
 
+
 private:
+	/*!
+	 * \brief Retrieves the value of a field by name into a buffer.
+	 *
+	 * This function attempts to retrieve the value of a field specified by its name and stores it in the provided buffer. It returns true if the operation is successful.
+	 *
+	 * \param name The name of the field whose value is to be retrieved.
+	 * \param buffer A pointer to the buffer where the field value will be stored.
+	 * \return bool True if the field value was successfully retrieved, false otherwise.
+	 */
 	bool GetFieldValueInternal(const std::string& name, void* buffer);
+
+	/*!
+	 * \brief Sets the value of a field by name.
+	 *
+	 * This function attempts to set the value of a field specified by its name using the value provided. It returns true if the operation is successful.
+	 *
+	 * \param name The name of the field whose value is to be set.
+	 * \param value A pointer to the value to be set for the field.
+	 * \return bool True if the field value was successfully set, false otherwise.
+	 */
 	bool SetFieldValueInternal(const std::string& name, const void* value);
 
 	/*!
-	 * \brief Retrieves the name of5 the associated script class for the ScriptInstance.
+	 * \brief Retrieves the name of the associated script class for the ScriptInstance.
 	 *
-	 * Returns the full name of the script class associated with this ScriptInstance.
+	 * This method returns the full name of the script class associated with this ScriptInstance. It provides a means to identify the script class at runtime.
 	 *
 	 * \return std::string The name of the script class.
 	 */
 	std::string GetScriptName() const;
 
+	/*!
+	 * \brief Retrieves the MonoObject instance associated with this ScriptInstance.
+	 *
+	 * This method returns a pointer to the MonoObject that represents the managed object associated with this ScriptInstance in the scripting environment. It provides direct access to the underlying managed object.
+	 *
+	 * \return MonoObject* A pointer to the MonoObject representing the managed object.
+	 */
 	MonoObject* GetInstance() const {
-				return m_Instance;
+		return m_Instance;
 	}
+
 
 
 private:
@@ -387,10 +490,33 @@ public:
 	 */
 	static void RemoveScriptFromEntity(Entity entity, std::string scriptName);
 
+	/*!
+	 * \brief Retrieves the script instance associated with a specific entity.
+	 *
+	 * This static method returns a shared pointer to the ScriptInstance associated with the given entity ID. It allows access to the script functionality bound to the entity.
+	 *
+	 * \param entityID The ID of the entity whose script instance is to be retrieved.
+	 * \param i An integer parameter, possibly used for indexing or specifying a version.
+	 * \return std::shared_ptr<ScriptInstance> A shared pointer to the associated ScriptInstance.
+	 */
 	static std::shared_ptr<ScriptInstance> GetEntityScriptInstance(Entity entityID, int i);
 
-	static void SetDefaultPath(std::string);
+	/*!
+	 * \brief Sets the default path for script-related operations.
+	 *
+	 * This static method sets the default path used by the script engine for loading and managing scripts.
+	 *
+	 * \param path The default path to be set.
+	 */
+	static void SetDefaultPath(std::string path);
 
+	/*!
+	 * \brief Retrieves the singleton instance of the ScriptEngineData.
+	 *
+	 * This static method returns a pointer to the ScriptEngineData instance. If the instance does not exist, it is created. This method ensures that only one instance of ScriptEngineData exists (singleton pattern).
+	 *
+	 * \return ScriptEngineData* A pointer to the singleton instance of ScriptEngineData.
+	 */
 	static ScriptEngineData* GetInstance() {
 		if (!scriptData) {
 			scriptData = new ScriptEngineData();
@@ -441,51 +567,66 @@ private:
 	friend class ScriptInstance;
 };
 
-
-	inline const char* ScriptFieldTypeToString(ScriptFieldType fieldType)
+/*!
+ * \brief Converts a ScriptFieldType to its string representation.
+ *
+ * This inline function maps a ScriptFieldType enum value to its corresponding string representation. It is useful for serialization, logging, or UI display.
+ *
+ * \param fieldType The ScriptFieldType to be converted.
+ * \return const char* The string representation of the ScriptFieldType.
+ */
+inline const char* ScriptFieldTypeToString(ScriptFieldType fieldType)
+{
+	switch (fieldType)
 	{
-		switch (fieldType)
-		{
-		case ScriptFieldType::None:    return "None";
-		case ScriptFieldType::Float:   return "Float";
-		case ScriptFieldType::Double:  return "Double";
-		case ScriptFieldType::Bool:    return "Bool";
-		case ScriptFieldType::Char:    return "Char";
-		case ScriptFieldType::Byte:    return "Byte";
-		case ScriptFieldType::Short:   return "Short";
-		case ScriptFieldType::Int:     return "Int";
-		case ScriptFieldType::Long:    return "Long";
-		case ScriptFieldType::UByte:   return "UByte";
-		case ScriptFieldType::UShort:  return "UShort";
-		case ScriptFieldType::UInt:    return "UInt";
-		case ScriptFieldType::ULong:   return "ULong";
-		case ScriptFieldType::Vector2: return "Vector2";
-		case ScriptFieldType::Vector3: return "Vector3";
-		case ScriptFieldType::Vector4: return "Vector4";
-		case ScriptFieldType::Entity:  return "Entity";
-		}
-		return "None";
+	case ScriptFieldType::None:    return "None";
+	case ScriptFieldType::Float:   return "Float";
+	case ScriptFieldType::Double:  return "Double";
+	case ScriptFieldType::Bool:    return "Bool";
+	case ScriptFieldType::Char:    return "Char";
+	case ScriptFieldType::Byte:    return "Byte";
+	case ScriptFieldType::Short:   return "Short";
+	case ScriptFieldType::Int:     return "Int";
+	case ScriptFieldType::Long:    return "Long";
+	case ScriptFieldType::UByte:   return "UByte";
+	case ScriptFieldType::UShort:  return "UShort";
+	case ScriptFieldType::UInt:    return "UInt";
+	case ScriptFieldType::ULong:   return "ULong";
+	case ScriptFieldType::Vector2: return "Vector2";
+	case ScriptFieldType::Vector3: return "Vector3";
+	case ScriptFieldType::Vector4: return "Vector4";
+	case ScriptFieldType::Entity:  return "Entity";
 	}
+	return "None";
+}
 
-	inline ScriptFieldType ScriptFieldTypeFromString(std::string_view fieldType)
-	{
-		if (fieldType == "None")    return ScriptFieldType::None;
-		if (fieldType == "Float")   return ScriptFieldType::Float;
-		if (fieldType == "Double")  return ScriptFieldType::Double;
-		if (fieldType == "Bool")    return ScriptFieldType::Bool;
-		if (fieldType == "Char")    return ScriptFieldType::Char;
-		if (fieldType == "Byte")    return ScriptFieldType::Byte;
-		if (fieldType == "Short")   return ScriptFieldType::Short;
-		if (fieldType == "Int")     return ScriptFieldType::Int;
-		if (fieldType == "Long")    return ScriptFieldType::Long;
-		if (fieldType == "UByte")   return ScriptFieldType::UByte;
-		if (fieldType == "UShort")  return ScriptFieldType::UShort;
-		if (fieldType == "UInt")    return ScriptFieldType::UInt;
-		if (fieldType == "ULong")   return ScriptFieldType::ULong;
-		if (fieldType == "Vector2") return ScriptFieldType::Vector2;
-		if (fieldType == "Vector3") return ScriptFieldType::Vector3;
-		if (fieldType == "Vector4") return ScriptFieldType::Vector4;
-		if (fieldType == "Entity")  return ScriptFieldType::Entity;
+/*!
+ * \brief Converts a string to its corresponding ScriptFieldType.
+ *
+ * This inline function maps a string to its corresponding ScriptFieldType enum value. It is useful for deserialization or interpreting user input.
+ *
+ * \param fieldType A string view representing the field type.
+ * \return ScriptFieldType The corresponding ScriptFieldType enum value.
+ */
+inline ScriptFieldType ScriptFieldTypeFromString(std::string_view fieldType)
+{
+	if (fieldType == "None")    return ScriptFieldType::None;
+	if (fieldType == "Float")   return ScriptFieldType::Float;
+	if (fieldType == "Double")  return ScriptFieldType::Double;
+	if (fieldType == "Bool")    return ScriptFieldType::Bool;
+	if (fieldType == "Char")    return ScriptFieldType::Char;
+	if (fieldType == "Byte")    return ScriptFieldType::Byte;
+	if (fieldType == "Short")   return ScriptFieldType::Short;
+	if (fieldType == "Int")     return ScriptFieldType::Int;
+	if (fieldType == "Long")    return ScriptFieldType::Long;
+	if (fieldType == "UByte")   return ScriptFieldType::UByte;
+	if (fieldType == "UShort")  return ScriptFieldType::UShort;
+	if (fieldType == "UInt")    return ScriptFieldType::UInt;
+	if (fieldType == "ULong")   return ScriptFieldType::ULong;
+	if (fieldType == "Vector2") return ScriptFieldType::Vector2;
+	if (fieldType == "Vector3") return ScriptFieldType::Vector3;
+	if (fieldType == "Vector4") return ScriptFieldType::Vector4;
+	if (fieldType == "Entity")  return ScriptFieldType::Entity;
 
-		return ScriptFieldType::None;
-	}
+	return ScriptFieldType::None;
+}
