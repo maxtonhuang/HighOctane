@@ -60,6 +60,7 @@ public:
 	bool operator<(const Keyframe& input) const { return frameNum < input.frameNum; }
 };
 
+//Advances the current texture to the next texture in the sprite sheet 
 class SpriteAnimation : public Animation {
 public:
 	SpriteAnimation();
@@ -74,6 +75,7 @@ private:
 	std::list<Keyframe<int>>::iterator nextKeyframe{};
 };
 
+//Changes the current texture to the texture stored in the keyframe 
 class ChangeTexAnimation : public Animation {
 public:
 	ChangeTexAnimation();
@@ -88,6 +90,7 @@ private:
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
+//Plays the sound stored in the keyframe 
 class SoundAnimation : public Animation {
 public:
 	SoundAnimation();
@@ -102,6 +105,7 @@ private:
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
+//Swaps the animation to another animation stored, ending the current animation 
 class SwapAnimation : public Animation {
 public:
 	SwapAnimation();
@@ -113,6 +117,7 @@ public:
 	Keyframe<std::string> keyframes;
 };
 
+//Interpolates the distance to the entity stored in the next keyframe and travels that distance 
 class TransformAttachAnimation : public Animation {
 public:
 	TransformAttachAnimation();
@@ -130,6 +135,7 @@ private:
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
+//Interpolates the transform stored in the next keyframe and transforms the entity by that amount. Transform includes the distance, rotation and scale. 
 class TransformDirectAnimation : public Animation {
 public:
 	TransformDirectAnimation();
@@ -148,6 +154,7 @@ private:
 	std::list<Keyframe<Transform>>::iterator nextKeyframe{};
 };
 
+//Interpolates the alpha stored in the next keyframe with the current alpha and changes the alpha each frame until it reaches the targeted alpha by next keyframe.
 class FadeAnimation : public Animation {
 public:
 	FadeAnimation();
@@ -164,6 +171,7 @@ private:
 	std::list<Keyframe<float>>::iterator nextKeyframe{};
 };
 
+//Interpolates the color stored in the next keyframe with the current color and changes the color each frame until it reaches the targeted color by next keyframe. 
 class ColorAnimation : public Animation {
 public:
 	ColorAnimation();

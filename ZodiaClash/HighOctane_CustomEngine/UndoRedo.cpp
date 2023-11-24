@@ -10,21 +10,25 @@ void UndoRedo::RecordCurrent(Entity entity, ACTION action) {
     currentState.entity = entity;
     currentState.transform = ECS::ecs().GetComponent<Transform>(entity);
     currentState.action = action;
+    if (!undoStack.empty()) {
+        if (ECS::ecs().GetComponent<Transform>(currentState.entity).position == undoRedo.CheckFrontTransform().position) {
+            undoRedo.StackPopFront();
+        }
+    }
     if (undoStack.size() >= UNDOREDO_STACK_SIZE) {
+        EntityChanges checkLast = undoStack.back();
         undoStack.pop_back();
-        /*if (currentState.action == ACTION::DELENTITY) {
-            ECS::ecs().DestroyEntity(currentState.entity);
-        }*/
+        if (checkLast.action == ACTION::DELENTITY) {
+            EntityFactory::entityFactory().DeleteCloneModel(checkLast.entity);
+        }
     }
     undoStack.push_front(currentState);
 }
 
 void UndoRedo::Undo() {
     if (!undoStack.empty()) {
-        printf("UNDO STACK SIZE: %d\n", undoStack.size());
         EntityChanges currentState = undoStack.front();
         undoStack.pop_front();
-        printf("UNDO ACTION: %d\n", static_cast<int>(currentState.action));
         switch(currentState.action) {
         case ACTION::TRANSFORM:
             ECS::ecs().GetComponent<Transform>(currentState.entity) = currentState.transform;
@@ -38,9 +42,20 @@ void UndoRedo::Undo() {
             entitiesToSkip[currentState.entity] = true;
             entitiesToLock[currentState.entity] = true;
             break;
-        default:
-            printf("Unknown action type: %d\n", static_cast<int>(currentState.action));
         }
 
     }
+}
+
+Transform UndoRedo::CheckFrontTransform() {
+    return undoStack.front().transform;
+}
+Entity UndoRedo::CheckFrontEntity() {
+    if (!undoStack.empty()) {
+        return undoStack.front().entity;
+    }
+}
+
+void UndoRedo::StackPopFront() {
+    undoStack.pop_front();
 }

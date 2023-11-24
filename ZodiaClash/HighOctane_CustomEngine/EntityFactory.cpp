@@ -296,7 +296,9 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
-	undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
+	if (currentSystemMode != SystemMode::GAMEHELP && currentSystemMode != SystemMode::PAUSE && !initLevel) {
+		undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
+	}
 	return entity;
 }
 

@@ -221,9 +221,16 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<HealthRemaining>();
 	ECS::ecs().RegisterComponent<SkillPointHUD>();
 	ECS::ecs().RegisterComponent<SkillPoint>();
+	//ECS::ecs().RegisterComponent<AttackSkillsHUD>();
+	ECS::ecs().RegisterComponent<AttackSkill>();
+	ECS::ecs().RegisterComponent<SkillIcon>();
+	ECS::ecs().RegisterComponent<SkillCost>();
+	ECS::ecs().RegisterComponent<SkillAttackType>();
 	ECS::ecs().RegisterComponent<AllyHUD>();
 	ECS::ecs().RegisterComponent<EnemyHUD>();
 	ECS::ecs().RegisterComponent<TurnIndicator>();
+	ECS::ecs().RegisterComponent<StatusEffectsPanel>();
+	ECS::ecs().RegisterComponent<StatusEffect>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
 
@@ -277,6 +284,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
 	editSystemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
 	systemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
+
+	std::shared_ptr<UIAttackSkillSystem> uiAttackSkillSystem = ECS::ecs().RegisterSystem<UIAttackSkillSystem>();
+	runSystemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
+	editSystemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
+	systemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -508,6 +520,19 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UISkillPointSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<AttackSkill>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+
+		ECS::ecs().SetSystemSignature<UIAttackSkillSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////

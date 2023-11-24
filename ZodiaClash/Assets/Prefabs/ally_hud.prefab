@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 10,
+            "layerCounter": 13,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -13,15 +13,18 @@
                 "Layer 6",
                 "Layer 7",
                 "Layer 8",
-                "Layer 9"
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12"
             ]
         }
     },
     {
         "Entity": {
             "Name": "ally_healthbar",
-            "Current Layer": 0,
-            "Order in Layer": 10,
+            "Current Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -83,8 +86,8 @@
     {
         "Entity": {
             "Name": "remaininghealth",
-            "Current Layer": 0,
-            "Order in Layer": 13,
+            "Current Layer": 1,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -137,8 +140,8 @@
     {
         "Entity": {
             "Name": "displayLbl",
-            "Current Layer": 0,
-            "Order in Layer": 14,
+            "Current Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -203,7 +206,7 @@
         "Entity": {
             "Name": "ally_closeup_icon_hud",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

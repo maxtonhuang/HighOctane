@@ -110,6 +110,7 @@ relative to the top-left corner of the window client area.
 *****************************************************************************/
 		static void CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos);
 
+		//Function for when the window is out of focus from alt-tab or ctrl-alt-delete
 		static void WindowFocusCallback(GLFWwindow* pwin, int focused);
 	private:
 		static double cursorposX;

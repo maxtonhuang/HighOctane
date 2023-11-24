@@ -629,6 +629,11 @@ public:
     void Update() override;
 };
 
+class UIAttackSkillSystem : public System {
+public:
+    void Update() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;
