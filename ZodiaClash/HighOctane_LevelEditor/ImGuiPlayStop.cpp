@@ -50,44 +50,41 @@ bool buffer = false;
 
 void UpdatePlayStop() {
 
-	ImGui::Begin("Controls");
-	if (ImGui::Button("Play", {100,50})) {
-		playButton = true;
-		if (currentSystemMode != SystemMode::PAUSE) {
-			lastSystemMode = currentSystemMode;
-			currentSystemMode = SystemMode::RUN;
+    ImGui::Begin("Controls");
 
-		}
+    if (ImGui::Button("Play", { 100, 50 })) {
+        playButton = true;
+        if (currentSystemMode != SystemMode::PAUSE && currentSystemMode != SystemMode::GAMEHELP) {
+            lastSystemMode = currentSystemMode;
+            currentSystemMode = SystemMode::RUN;
+        }
+        button_clicked = true;
+    }
 
-		button_clicked = true;
-	}
+    ImGui::SameLine();
 
-	ImGui::SameLine();
-	if (buffer == true) {
-		std::string loadPath = assetmanager.GetDefaultPath() + "Scenes/tmp.json";
-		Serializer::LoadEntityFromJson(loadPath);
-		
-		buffer = false;
-	}
+    if (buffer) {
+        std::string loadPath = assetmanager.GetDefaultPath() + "Scenes/tmp.json";
+        Serializer::LoadEntityFromJson(loadPath);
+        buffer = false;
+    }
 
-	if (ImGui::Button("Stop", { 100,50 })) {
-		if (!playButton) {
+    if (ImGui::Button("Stop", { 100, 50 })) {
+        if (!playButton && currentSystemMode != SystemMode::PAUSE && currentSystemMode != SystemMode::GAMEHELP) {
+            events.Call("Change Scene", "tmp.scn");
+            lastSystemMode = currentSystemMode;
+            currentSystemMode = SystemMode::EDIT;
+        }
+    }
 
-			if (currentSystemMode != SystemMode::PAUSE) {
-				events.Call("Change Scene", "tmp.scn");
-				lastSystemMode = currentSystemMode;
-				currentSystemMode = SystemMode::EDIT;
-			}
-		}
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Pause", { 100,50 })) {
-		if (currentSystemMode != SystemMode::PAUSE) {
-			lastSystemMode = currentSystemMode;
-			currentSystemMode = SystemMode::EDIT;
-		}
+    ImGui::SameLine();
 
-	}
+    if (ImGui::Button("Pause", { 100, 50 })) {
+        if (currentSystemMode != SystemMode::PAUSE && currentSystemMode != SystemMode::GAMEHELP) {
+            lastSystemMode = currentSystemMode;
+            currentSystemMode = SystemMode::EDIT;
+        }
+    }
 
 	ImGui::End();
 
