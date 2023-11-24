@@ -68,10 +68,12 @@ public:
 	void DeleteMasterModel(Entity entity);
 	void DeleteCloneModel(Entity entity);
 
-
+	//Delete entities at the end of frame
+	void UpdateDeletion();
 
 
 	std::vector<Entity> massRenderEntitiesList;
+	std::vector<Entity> deletionEntitiesList;
 	std::unordered_map<std::string, Entity> masterEntitiesList;
 
 	size_t masterCounter{1};

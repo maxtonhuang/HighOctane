@@ -109,7 +109,9 @@ DebugProfiling debugSysProfile;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> pauseSystemList;
+std::vector<std::pair<std::shared_ptr<System>, std::string>> gameHelpSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
+
 
 
 
@@ -219,6 +221,16 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<HealthRemaining>();
 	ECS::ecs().RegisterComponent<SkillPointHUD>();
 	ECS::ecs().RegisterComponent<SkillPoint>();
+	//ECS::ecs().RegisterComponent<AttackSkillsHUD>();
+	ECS::ecs().RegisterComponent<AttackSkill>();
+	ECS::ecs().RegisterComponent<SkillIcon>();
+	ECS::ecs().RegisterComponent<SkillCost>();
+	ECS::ecs().RegisterComponent<SkillAttackType>();
+	ECS::ecs().RegisterComponent<AllyHUD>();
+	ECS::ecs().RegisterComponent<EnemyHUD>();
+	ECS::ecs().RegisterComponent<TurnIndicator>();
+	ECS::ecs().RegisterComponent<StatusEffectsPanel>();
+	ECS::ecs().RegisterComponent<StatusEffect>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
 
@@ -261,6 +273,7 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
 	pauseSystemList.emplace_back(uiButtonSystem, "UI Button System");
+	gameHelpSystemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	std::shared_ptr<UIHealthBarSystem> uiHealthBarSystem = ECS::ecs().RegisterSystem<UIHealthBarSystem>();
 	runSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
@@ -272,11 +285,17 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
 	systemList.emplace_back(uiSkillPointSystem, "UI Skill Point System");
 
+	std::shared_ptr<UIAttackSkillSystem> uiAttackSkillSystem = ECS::ecs().RegisterSystem<UIAttackSkillSystem>();
+	runSystemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
+	editSystemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
+	systemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
+
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	pauseSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	gameHelpSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 	editSystemList.emplace_back(editingSystem, "Editing System");
@@ -288,12 +307,14 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(parentSystem, "Parent System");
 	systemList.emplace_back(parentSystem, "Parent System");
 	pauseSystemList.emplace_back(parentSystem, "Parent System");
+	gameHelpSystemList.emplace_back(parentSystem, "Parent System");
 
 	std::shared_ptr<ChildSystem> childSystem = ECS::ecs().RegisterSystem<ChildSystem>();
 	runSystemList.emplace_back(childSystem, "Child System");
 	editSystemList.emplace_back(childSystem, "Child System");
 	systemList.emplace_back(childSystem, "Child System");
 	pauseSystemList.emplace_back(childSystem, "Child System");
+	gameHelpSystemList.emplace_back(childSystem, "Child System");
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");
@@ -304,12 +325,14 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(audioSystem, "Audio System");
 	systemList.emplace_back(audioSystem, "Audio System");
 	pauseSystemList.emplace_back(audioSystem, "Audio System");
+	gameHelpSystemList.emplace_back(audioSystem, "Audio System");
 
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	runSystemList.emplace_back(graphicsSystem, "Graphics System");
 	editSystemList.emplace_back(graphicsSystem, "Graphics System");
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 	pauseSystemList.emplace_back(graphicsSystem, "Graphics System");
+	gameHelpSystemList.emplace_back(graphicsSystem, "Graphics System");
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -499,6 +522,19 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<UISkillPointSystem>(signature);
 	}
 
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<AttackSkill>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+
+		ECS::ecs().SetSystemSignature<UIAttackSkillSystem>(signature);
+	}
+
 	//////////////////////////////////////////////////////
 	//////////                                  //////////
 	//////////   Initialize all other systems   //////////
@@ -587,8 +623,11 @@ void EngineCore::Run(bool const& mode) {
 		case SystemMode::PAUSE:
 			systemList = &pauseSystemList;
 			break;
+		case SystemMode::GAMEHELP:
+			systemList = &pauseSystemList; // Same things as pause system list
+			break;
 		}
-
+		std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
 
@@ -661,6 +700,8 @@ void EngineCore::Run(bool const& mode) {
 			serializationSystem->Update();
 			debugSysProfile.StartTimer("Serialization System", GetTime());
 		}
+
+		EntityFactory::entityFactory().UpdateDeletion();
 
 	}
 

@@ -383,6 +383,66 @@ rapidjson::Value SerializeSkillPoint(const SkillPoint& skillpt, rapidjson::Docum
 	return skillPtObject;
 }
 
+//rapidjson::Value SerializeAttackSkillsHUD(const AttackSkillsHUD& atkSkillHUD, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value atkSkillHudObject(rapidjson::kObjectType);
+//
+//	return atkSkillHudObject;
+//}
+//
+rapidjson::Value SerializeAttackSkill(const AttackSkill& atkSkill, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value atkSkillObject(rapidjson::kObjectType);
+	atkSkillObject.AddMember("Skill Index", atkSkill.skillIndex, allocator);
+	return atkSkillObject;
+}
+//
+//rapidjson::Value SerializeSkillIcon(const SkillIcon& skillIcon, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value skillIconObject(rapidjson::kObjectType);
+//
+//	return skillIconObject;
+//}
+//
+//rapidjson::Value SerializeSkillCost(const SkillCost& skillCost, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value skillCostObject(rapidjson::kObjectType);
+//
+//	return skillCostObject;
+//}
+//
+//rapidjson::Value SerializeSkillAttackType(const SkillAttackType& skillAtkType, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value skillAtkTypeObject(rapidjson::kObjectType);
+//
+//	return skillAtkTypeObject;
+//}
+
+rapidjson::Value SerializeAllyHUD(const AllyHUD& allyHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value allyHudObject(rapidjson::kObjectType);
+	
+	return allyHudObject;
+}
+
+rapidjson::Value SerializeEnemyHUD(const EnemyHUD& enemyHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value enemyHudObject(rapidjson::kObjectType);
+
+	return enemyHudObject;
+}
+
+rapidjson::Value SerializeTurnIndicator(const TurnIndicator& turnIndicator, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value turnOrderObject(rapidjson::kObjectType);
+
+	return turnOrderObject;
+}
+
+rapidjson::Value SerializeStatusEffectsPanel(const StatusEffectsPanel& statusFxPanel, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value statusFxPanelObject(rapidjson::kObjectType);
+
+	return statusFxPanelObject;
+}
+
+rapidjson::Value SerializeStatusEffect(const StatusEffect& statusFx, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value statusFxObject(rapidjson::kObjectType);
+
+	return statusFxObject;
+}
+
 rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value set(rapidjson::kArrayType);
 
@@ -522,8 +582,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	layeringObject.AddMember("groupCounter", groupCounter, allocator);
 	if (!layerNames.empty()) {
 		rapidjson::Value layerNamesArray(rapidjson::kArrayType);
-		for (const std::string& layerName : layerNames) {
-			layerNamesArray.PushBack(rapidjson::Value(layerName.c_str(), allocator), allocator);
+		for (const std::pair<std::string, bool>& layerName : layerNames) {
+			layerNamesArray.PushBack(rapidjson::Value(layerName.first.c_str(), allocator), allocator);
 		}
 		layeringObject.AddMember("layerNames", layerNamesArray, allocator);
 	}
@@ -551,6 +611,16 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	HealthRemaining* hpRemBar = nullptr;
 	SkillPointHUD* spHUD = nullptr;
 	SkillPoint* skillpt = nullptr;
+	//AttackSkillsHUD* atkSkillsHud = nullptr;
+	AttackSkill* atkSkill = nullptr;
+	//SkillIcon* skillIcon = nullptr;
+	//SkillCost* skillCost = nullptr;
+	//SkillAttackType* skillAtkType = nullptr;
+	AllyHUD* allyHud = nullptr;
+	EnemyHUD* enemyHud = nullptr;
+	TurnIndicator* turnIndicator = nullptr;
+	StatusEffectsPanel* statusFxPanel = nullptr;
+	StatusEffect* statusFx = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 
@@ -685,6 +755,50 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			rapidjson::Value skillPtObject = SerializeSkillPoint(*skillpt, allocator);
 			entityObject.AddMember("SkillPoint", skillPtObject, allocator);
 		}
+		//if (CheckSerialize<AttackSkillsHUD>(entity, isPrefabClone, uComponentMap)) {
+		//	atkSkillsHud = &ECS::ecs().GetComponent<AttackSkillsHUD>(entity);
+		//	rapidjson::Value atkSkillsHudObject = SerializeAttackSkillsHUD(*atkSkillsHud, allocator);
+		//	entityObject.AddMember("AttackSkillsHUD", atkSkillsHudObject, allocator);
+		//}
+		if (CheckSerialize<AttackSkill>(entity, isPrefabClone, uComponentMap)) {
+			atkSkill = &ECS::ecs().GetComponent<AttackSkill>(entity);
+			rapidjson::Value atkSkillObject = SerializeAttackSkill(*atkSkill, allocator);
+			entityObject.AddMember("AttackSkill", atkSkillObject, allocator);
+		}
+		if (CheckSerialize<SkillIcon>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("SkillIcon", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<SkillCost>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("SkillCost", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<SkillAttackType>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("SkillAttackType", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<AllyHUD>(entity, isPrefabClone, uComponentMap)) {
+			allyHud = &ECS::ecs().GetComponent<AllyHUD>(entity);
+			rapidjson::Value allyHudObject = SerializeAllyHUD(*allyHud, allocator);
+			entityObject.AddMember("AllyHUD", allyHudObject, allocator);
+		}
+		if (CheckSerialize<EnemyHUD>(entity, isPrefabClone, uComponentMap)) {
+			enemyHud = &ECS::ecs().GetComponent<EnemyHUD>(entity);
+			rapidjson::Value enemyHudObject = SerializeEnemyHUD(*enemyHud, allocator);
+			entityObject.AddMember("EnemyHUD", enemyHudObject, allocator);
+		}
+		if (CheckSerialize<TurnIndicator>(entity, isPrefabClone, uComponentMap)) {
+			turnIndicator = &ECS::ecs().GetComponent<TurnIndicator>(entity);
+			rapidjson::Value turnOrderObject = SerializeTurnIndicator(*turnIndicator, allocator);
+			entityObject.AddMember("TurnIndicator", turnOrderObject, allocator);
+		}
+		if (CheckSerialize<StatusEffectsPanel>(entity, isPrefabClone, uComponentMap)) {
+			statusFxPanel = &ECS::ecs().GetComponent<StatusEffectsPanel>(entity);
+			rapidjson::Value statusFxPanelObject = SerializeStatusEffectsPanel(*statusFxPanel, allocator);
+			entityObject.AddMember("StatusEffectsPanel", statusFxPanelObject, allocator);
+		}
+		if (CheckSerialize<StatusEffect>(entity, isPrefabClone, uComponentMap)) {
+			statusFx = &ECS::ecs().GetComponent<StatusEffect>(entity);
+			rapidjson::Value statusFxObject = SerializeStatusEffect(*statusFx, allocator);
+			entityObject.AddMember("StatusEffect", statusFxObject, allocator);
+		}
 		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
 			rapidjson::Value colliderObject = SerializeCollider(*collider, allocator);
@@ -707,8 +821,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
 	}
-	selectedLayer = 0;
-	currentLayer = 0;
+	selectedLayer = std::numeric_limits<size_t>().max();
 	
 	// Save the JSON document to a file
 	std::ofstream ofs(fileName);
@@ -742,7 +855,7 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 		layerNames.clear();
 		for (rapidjson::SizeType i = 0; i < layerNamesArray.Size(); ++i) {
 			if (layerNamesArray[i].IsString()) {
-				layerNames.push_back(layerNamesArray[i].GetString());
+				layerNames.push_back(std::make_pair(layerNamesArray[i].GetString(), true)); //
 			}
 		}
 	}
@@ -805,7 +918,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				if (!stopButton) {
 					//stop crashing if there is no selected layer
 					//if (selectedLayer == std::numeric_limits<size_t>::max()) {
-					selectedLayer = currentLayer = 0;
+					selectedLayer = std::numeric_limits<size_t>().max();
 					//}
 					/*if (layering.size() == 0) {
 						std::deque<Entity> temp;
@@ -1257,6 +1370,99 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 				else {
 					ECS::ecs().AddComponent<SkillPoint>(entity, skillpt);
+				}
+			}
+			//if (entityObject.HasMember("AttackSkillsHUD")) {
+			//	AttackSkillsHUD atkSkillsHud;
+			//	const rapidjson::Value& atkSkillsHudObject = entityObject["AttackSkillsHUD"];
+
+
+			//	if (ECS::ecs().HasComponent<AttackSkillsHUD>(entity)) {
+			//		ECS::ecs().GetComponent<AttackSkillsHUD>(entity) = atkSkillsHud;
+			//	}
+			//	else {
+			//		ECS::ecs().AddComponent<AttackSkillsHUD>(entity, atkSkillsHud);
+			//	}
+			//}
+			if (entityObject.HasMember("AttackSkill")) {
+				AttackSkill atkSkill;
+				const rapidjson::Value& atkSkillObject = entityObject["AttackSkill"];
+				atkSkill.skillIndex = atkSkillObject["Skill Index"].GetInt();
+
+				if (ECS::ecs().HasComponent<AttackSkill>(entity)) {
+					ECS::ecs().GetComponent<AttackSkill>(entity) = atkSkill;
+				}
+				else {
+					ECS::ecs().AddComponent<AttackSkill>(entity, atkSkill);
+				}
+			}
+			if (entityObject.HasMember("SkillIcon")) {
+				ECS::ecs().AddComponent<SkillIcon>(entity, SkillIcon{});
+			}
+			if (entityObject.HasMember("SkillCost")) {
+				ECS::ecs().AddComponent<SkillCost>(entity, SkillCost{});
+			}
+			if (entityObject.HasMember("SkillAttackType")) {
+				ECS::ecs().AddComponent<SkillAttackType>(entity, SkillAttackType{});
+			}
+			if (entityObject.HasMember("AllyHUD")) {
+				AllyHUD allyHud;
+				const rapidjson::Value& allyHudObject = entityObject["AllyHUD"];
+				
+
+				if (ECS::ecs().HasComponent<AllyHUD>(entity)) {
+					ECS::ecs().GetComponent<AllyHUD>(entity) = allyHud;
+				}
+				else {
+					ECS::ecs().AddComponent<AllyHUD>(entity, allyHud);
+				}
+			}
+			if (entityObject.HasMember("EnemyHUD")) {
+				EnemyHUD enemyHud;
+				const rapidjson::Value& enemyHudObject = entityObject["EnemyHUD"];
+
+
+				if (ECS::ecs().HasComponent<EnemyHUD>(entity)) {
+					ECS::ecs().GetComponent<EnemyHUD>(entity) = enemyHud;
+				}
+				else {
+					ECS::ecs().AddComponent<EnemyHUD>(entity, enemyHud);
+				}
+			}
+			if (entityObject.HasMember("TurnIndicator")) {
+				TurnIndicator turnIndicator;
+				const rapidjson::Value& turnOrderObject = entityObject["TurnIndicator"];
+
+
+				if (ECS::ecs().HasComponent<TurnIndicator>(entity)) {
+					ECS::ecs().GetComponent<TurnIndicator>(entity) = turnIndicator;
+				}
+				else {
+					ECS::ecs().AddComponent<TurnIndicator>(entity, turnIndicator);
+				}
+			}
+			if (entityObject.HasMember("StatusEffectsPanel")) {
+				StatusEffectsPanel statusFxPanel;
+				//const rapidjson::Value& effectsPanelObject = entityObject["EffectsPanel"];
+
+
+				if (ECS::ecs().HasComponent<StatusEffectsPanel>(entity)) {
+					ECS::ecs().GetComponent<StatusEffectsPanel>(entity) = statusFxPanel;
+				}
+				else {
+					ECS::ecs().AddComponent<StatusEffectsPanel>(entity, statusFxPanel);
+				}
+			}
+			if (entityObject.HasMember("StatusEffect")) {
+				StatusEffect statusFx;
+				//const rapidjson::Value& effectObject = entityObject["Effect"];
+
+
+				if (ECS::ecs().HasComponent<StatusEffect>(entity)) {
+					ECS::ecs().GetComponent<StatusEffect>(entity) = statusFx;
+				}
+				else {
+					ECS::ecs().AddComponent<StatusEffect>(entity, statusFx);
 				}
 			}
 			if (entityObject.HasMember("Animation Set")) {

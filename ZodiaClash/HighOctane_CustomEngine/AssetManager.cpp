@@ -320,7 +320,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     else if (extension == ".spritesheet") {
         LoadSpritesheet(assetPath);
     }
-    else if (extension == ".mp3" || extension == ".wav" || extension == ".ogg") {
+    else if (extension == ".wav" || extension == ".ogg") {
         // Load as audio
         std::string soundPath{ defaultPath };
         soundPath += "Sound/" + assetPath;

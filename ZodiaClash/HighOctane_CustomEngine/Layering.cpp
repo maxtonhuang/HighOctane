@@ -136,8 +136,8 @@ void CreateNewLayer() {
 	layering.emplace_back(temp);
 	std::ostringstream oss;
 	oss << "Layer " << layerCounter++;
-	layerNames.emplace_back(oss.str());
-	currentLayer = selectedLayer = layering.size() - 1;
+	layerNames.emplace_back(std::make_pair(oss.str(), true));
+	selectedLayer = layering.size() - 1;
 	UnselectAll();
 }
 
@@ -149,15 +149,22 @@ void CreateNewLayer() {
 *
 ******************************************************************************/
 void DeleteLayer() {
-	for (Entity entity : layering[selectedLayer]) {
-		std::cout << "Destroying entity: " << entity << std::endl;
-		EntityFactory::entityFactory().DeleteCloneModel(entity);
-	}
-	toDestroy = false;
 	selectedEntities.clear();
-	layering.erase(layering.begin() + selectedLayer);
-	layerNames.erase(layerNames.begin() + selectedLayer);
-	currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+	printf("\n============\n");
+	printf("%d\n", (int)selectedLayer);
+	for (Entity entity : layering[selectedLayer]) {
+		//std::cout << "Destroying entity: " << entity << std::endl;
+		//EntityFactory::entityFactory().DeleteCloneModel(entity);
+		// 
+		selectedEntities.emplace_back(entity);
+	}
+	toDestroy = true;
+	//selectedEntities.clear();
+	//layering.erase(layering.begin() + selectedLayer);
+	layerNames[selectedLayer].second = false;
+	printf("%d\n", (int)selectedLayer);
+	selectedLayer = std::numeric_limits<size_t>::max();
+	printf("============\n\n");
 }
 
 /******************************************************************************

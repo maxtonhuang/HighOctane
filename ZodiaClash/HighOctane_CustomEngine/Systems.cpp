@@ -296,9 +296,6 @@ void AnimationSystem::Update() {
 			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
 		}
 	}
-	for (Entity e : animatedEntitiesToDestroy) {
-		ECS::ecs().DestroyEntity(e);
-	}
 }
 
 /******************************************************************************
@@ -856,7 +853,7 @@ void EditingSystem::Update() {
 		toDestroy = false;
 		selectedEntities.clear();
 		UnselectAll();
-		currentLayer = selectedLayer = std::numeric_limits<size_t>::max();
+		selectedLayer = std::numeric_limits<size_t>::max();
 	}
 
 
@@ -970,37 +967,7 @@ void EditingSystem::Draw() {
 
 
 void UITextLabelSystem::Update() {
-	//MOVE OVER TO DRAW FUNCTION AS OFFSETS ONLY CALCULATED AFTER MODELS UPDATES ARE DONE
-	/*
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	// Access component arrays through the ComponentManager
-	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
-	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	
-	for (Entity const& entity : m_Entities) {
-		Model* modelData = &modelArray.GetData(entity);
-		Name* nameData = &nameArray.GetData(entity);
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-		Button* buttonData = {};
-		Transform* transformData = &transformArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);		
-
-		//if entity has button component, state handling managed by button
-		if (!buttonArray.HasComponent(entity)) {
-			textLabelData->Update(*modelData, *nameData);
-			textLabelData->UpdateOffset(*transformData, *sizeData);
-		}
-		else {
-			buttonData = &buttonArray.GetData(entity);
-			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
-		}
-	}
-	*/
+	//ARCHIVED: MOVED OVER TO DRAW FUNCTION AS OFFSETS ONLY CALCULATED AFTER MODELS UPDATES ARE DONE
 }
 
 void UITextLabelSystem::Draw() {
@@ -1044,18 +1011,18 @@ void UITextLabelSystem::Draw() {
 
 		if (!buttonData && !texData) {
 			if (currentSystemMode == SystemMode::EDIT) {
-				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
+				(textLabelData->hasBackground) ? modelData->SetAlpha(modelData->GetAlpha()) 
 					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f) 
 					: modelData->SetAlpha(0.2f);
 			}
 			else {
-				(textLabelData->hasBackground) ? modelData->SetAlpha(1.0f) 
+				(textLabelData->hasBackground) ? modelData->SetAlpha(modelData->GetAlpha())
 					: modelData->SetAlpha(0.0f);
 			}
 		}
-		else if (!buttonData && !texData) {
+		/*else if (!buttonData && !texData) {
 			modelData->SetAlpha(0.0f);
-		}
+		}*/
 	}
 	
 }
@@ -1183,6 +1150,10 @@ void UISkillPointSystem::Update() {
 	}
 }
 
+void UIAttackSkillSystem::Update() {
+
+}
+
 void ChildSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1192,14 +1163,12 @@ void ChildSystem::Update() {
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
-	std::vector<Entity> toDestroyList{};
-
 	for (Entity const& entity : m_Entities) {
 		Child* childData = &childArray.GetData(entity);
 		Entity parent = childData->parent;
 
 		if (!ECS::ecs().EntityExists(parent)) {
-			toDestroyList.push_back(entity);
+			EntityFactory::entityFactory().DeleteCloneModel(entity);
 			continue;
 		}
 
@@ -1207,11 +1176,6 @@ void ChildSystem::Update() {
 		Transform* parentTransform = &transformArray.GetData(parent);
 
 		*childTransform = childData->offset + *parentTransform;
-	}
-
-	for (auto& e : toDestroyList) {
-		ECS::ecs().DestroyEntity(e);
-		RemoveEntityFromLayering(e);
 	}
 }
 

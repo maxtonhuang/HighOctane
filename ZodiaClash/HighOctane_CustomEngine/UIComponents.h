@@ -226,15 +226,12 @@ public:
 	//void SetMaxHealth(float maxHp);
 	void UpdateHealth(CharacterStats& charaStatsData);
 	void UpdateTextDisplay(TextLabel& textLabelData);
-
-	
-	
 };
 
 class HealthRemaining : UIComponent {
 public:
 	// child entity of HealthBar
-	float currentHealth;
+	float currentHealth{};
 
 	void UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize);
 	void UpdateColors(Model& childModel, CharacterStats& parentCharaStats);
@@ -262,46 +259,48 @@ public:
 };
 
 
-class AttackSkillsHUD : UIComponent {
-public:
-	//parent entity of AttackSkill (x3)
-	CharacterStats* charaStatsRef{};
-	const std::vector<Attack>& atkSkills{};
-};
+//class AttackSkillsHUD : UIComponent {
+//public:
+//	//parent entity of AttackSkill (x3)
+//	CharacterStats* charaStatsRef{};
+//	std::vector<Attack> atkSkills{};
+//};
 
 class AttackSkill : UIComponent {
 public:
 	//parent entity of SkillIcon, SkillCost, AttackType
-	//include button event functionality
+	//entity tagged with this component should have button component to implement button event
 	int skillIndex{};
-	/*SkillIcon skillIcon;
-	SkillCost skillCost;
-	SkillAttackType skillAtkType;*/
+	Attack* atkSkillRef{};
 };
 
 class SkillIcon : UIComponent {
-	// empty by design? to modify 
+	// empty by design - tags skill's texture entity
 };
 
 class SkillCost : UIComponent {
-	// TextLabel + Tex/SkillPoint
+	// empty by design - tags skill's chi cost label
 };
 
 class SkillAttackType : UIComponent {
 	// TextLabel + Tex
-	AttackType atkType;
+	// empty by design - tags skill's atk type lbl (TextLabel) and icon (Tex)
+};
+
+class AllyHUD : UIComponent {
+	//TODO
 };
 
 class EnemyHUD : UIComponent {
-
+	//TODO
 };
 
 class TurnIndicator : UIComponent {
-
+	//TODO
 };
 
 
-class EffectsPanel : UIComponent {
+class StatusEffectsPanel : UIComponent {
 public:
 	UI_HORIZONTAL_ALIGNMENT hAlignment{};
 
@@ -315,7 +314,7 @@ public:
 	//void UpdateOffset();
 };
 
-class Effect : UIComponent {
+class StatusEffect : UIComponent {
 public:
 	/*
 	* notes:

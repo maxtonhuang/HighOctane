@@ -563,9 +563,6 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			// color properties
-			/*auto& btnColor = button.GetDefaultButtonColor();
-			ImGui::ColorEdit4("Default Color", (float*)&btnColor);*/
-
 			int& btnColorSetting = button.colorSetting;
 			auto btnColor = button.GetDefaultButtonColor();
 			auto txtColor = button.GetDefaultTextColor();

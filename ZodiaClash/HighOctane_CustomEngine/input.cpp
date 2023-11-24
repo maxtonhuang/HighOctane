@@ -54,6 +54,7 @@ std::unordered_map<int, INFO> mouseStatus;
 void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod) {
     UNREFERENCED_PARAMETER(mod); //unused variable
     UNREFERENCED_PARAMETER(scancode); //unused variable
+    UNREFERENCED_PARAMETER(pwin); // unused variable;
     switch (action) {
     case GLFW_PRESS:
 
@@ -63,6 +64,9 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_ESCAPE == key) {
             events.Call("Toggle Pause", std::string{});
             //glfwSetWindowShouldClose(pwin, GLFW_TRUE);
+        }
+        if (GLFW_KEY_0 == key) {
+            events.Call("Toggle Help", std::string{});
         }
         if (GLFW_KEY_F1 == key) {
             events.Call("Change Scene", "mainmenu.scn");
@@ -160,11 +164,14 @@ void InputManager::MouseCheck() {
 }
 
 void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
-    (void)pwin;
+    UNREFERENCED_PARAMETER(pwin);
     if (focused) {
         assetmanager.audio.ResumeGroup("Master");
     }
     else {
         assetmanager.audio.PauseGroup("Master");
+        if (currentSystemMode != SystemMode::PAUSE) {
+            events.Call("Toggle Pause", "");
+        }
     }
 }
