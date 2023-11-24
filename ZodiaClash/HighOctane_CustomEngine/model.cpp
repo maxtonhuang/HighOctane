@@ -260,3 +260,17 @@ glm::vec4& Model::GetColorRef() {
 vmath::Vector2 Model::GetRotPoint() const {
 	return vmath::Vector2{ rotationpoint.x,rotationpoint.y };
 }
+
+vmath::Vector2 Model::GetTopLeft() const {
+	return vmath::Vector2{ topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h };
+}
+
+vmath::Vector2 Model::GetTopRight() const {
+	return vmath::Vector2{ topright.x * GRAPHICS::w, topright.y * GRAPHICS::h };
+}
+vmath::Vector2 Model::GetBotLeft() const {
+	return vmath::Vector2{ botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h };
+}
+vmath::Vector2 Model::GetBotRight() const {
+	return vmath::Vector2{ botright.x * GRAPHICS::w, botright.y * GRAPHICS::h };
+}

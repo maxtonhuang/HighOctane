@@ -67,6 +67,7 @@ public:
 	int GetRowCount(); //returns number of rows of texture
 	int GetColCount(); //returns number of columns of texture
 	std::string GetName(); //returns name of texture as saved in texture managers data
+	void SetName(std::string); //changes name of texture saved
 
 	/*
 	Get texture coordinates. Index is the index in the sprite sheet array while position corresponds as follows:
