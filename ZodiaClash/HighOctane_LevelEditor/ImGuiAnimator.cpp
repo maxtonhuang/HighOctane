@@ -322,11 +322,24 @@ void AnimatorWindow(Entity entity) {
 					else if (selectedAnimation->GetType() == "Swap") {
 						std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(selectedAnimation) };
 						if (swap->keyframes.frameNum != -1) {
-							ImGui::InputText("Animation to swap to", &swap->keyframes.data);
+							if (ImGui::BeginCombo("Animation to swap to", swap->keyframes.data.c_str())) {
+								for (int n = 0; n < animationSet.animationSet.size(); n++) {
+									bool is_selected = (swap->keyframes.data == animationSet.animationSet[n].name);
+									if (ImGui::Selectable(animationSet.animationSet[n].name.c_str(), is_selected)) {
+										swap->keyframes.data = animationSet.animationSet[n].name;
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
 						}
 					}
 					if (ImGui::Button("Remove keyframe")) {
 						selectedAnimation->RemoveKeyFrame(selectedFrame);
+						selectedAnimGroup->active = false;
+						animationSet.paused = false;
 					}
 				}
 			}
