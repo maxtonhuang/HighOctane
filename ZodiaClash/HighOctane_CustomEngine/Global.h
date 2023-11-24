@@ -84,6 +84,9 @@ extern bool mouseMoved;
 extern bool withinSomething;
 extern Entity keyObjectID;
 
+extern bool pausePressed;
+extern bool helpPressed;
+
 extern bool shiftKeyPressed;
 extern bool controlKeyPressed;
 

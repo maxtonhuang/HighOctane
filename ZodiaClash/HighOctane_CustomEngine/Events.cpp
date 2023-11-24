@@ -140,6 +140,7 @@ void TogglePause(std::string input) {
 		lastSystemMode = currentSystemMode;
 		currentSystemMode = SystemMode::PAUSE;
 		if (pausemenu == 0) {
+			pausePressed = true;
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
 		}	
 	}
@@ -170,6 +171,7 @@ void ToggleHelp(std::string input) {
 		lastSystemMode = currentSystemMode;
 		currentSystemMode = SystemMode::GAMEHELP;
 		if (gamehelpmenu == 0) {
+			helpPressed = true;
 			gamehelpmenu = EntityFactory::entityFactory().ClonePrefab("gamehelpmockup.prefab");
 		}
 	}
