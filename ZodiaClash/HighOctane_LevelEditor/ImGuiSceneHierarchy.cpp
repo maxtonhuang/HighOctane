@@ -16,6 +16,7 @@
 #include "ImGuiComponents.h"
 #include "Serialization.h"
 #include "UndoRedo.h"
+#include "Selection.h"
 
 
 Entity currentSelectedPrefab;
@@ -39,14 +40,36 @@ std::string prefabName{};
 
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
+	auto& nameArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Name>();
 	for (const Entity& entity : s_ptr->m_Entities) {
 		if (ECS::ecs().HasComponent<Clone>(entity)) {
 			if (ECS::ecs().HasComponent<Name>(entity)) {
 				SceneEntityNode(entity);
+				if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
+					UnselectAll();
+					currentSelectedEntity = entity;
+					nameArray.GetData(entity).selected = true;
+				}
+				if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(1)) {
+					UnselectAll();
+					currentSelectedEntity = entity;
+					nameArray.GetData(entity).selected = true;
+					ImGui::OpenPopup("EntityContextMenu");
+				}
 			}
 		}
 	}
+	if (ImGui::BeginPopup("EntityContextMenu")) {
+		if (ImGui::MenuItem("Delete")) {
+			toDestroy = true;
+		}
+		if (ImGui::MenuItem("Copy")) {
+			toCopy = true;
+		}
+		ImGui::EndPopup();
+	}
 	if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
+		UnselectAll();
 		currentSelectedEntity = {};
 	}
 	ImGui::End();
