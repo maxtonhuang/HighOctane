@@ -134,12 +134,12 @@ struct Name {
 };
 
 struct Parent {
-    std::vector<Entity> children{};
+    std::vector<Entity>     children{};
 };
 
 struct Clone {
-    std::string prefab{};
-    std::unordered_set<std::string> unique_components{ typeid(Transform).name(), typeid(Name).name(), typeid(Parent).name()};
+    std::string             prefab{};
+    std::unordered_set<std::string> unique_components{ typeid(Transform).name(), typeid(Name).name(), typeid(Parent).name() };
 };
 
 struct Movable {
@@ -147,7 +147,7 @@ struct Movable {
 };
 
 struct Script {
-    std::string className{};  // ID of owner
+    std::string             className{};  // ID of owner
     std::vector<std::string> scriptNameVec{};
 
 };
@@ -157,6 +157,6 @@ struct Tag {
 };
 
 struct Child {
-    Entity parent{};
-    Transform offset{};
+    Entity                  parent{};
+    Transform               offset{};
 };
