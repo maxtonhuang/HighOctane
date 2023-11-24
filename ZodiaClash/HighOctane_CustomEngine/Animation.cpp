@@ -10,12 +10,14 @@ void AnimationSet::Initialise(Entity entity) {
 
 void AnimationSet::Start(std::string animationName, Entity entity) {
 	//Set active animation
+	initialised = true;
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
 			activeAnimation = &a;
 			break;
 		}
 	}
+	printf("Starting animation %s for %d\n",animationName.c_str(), entity);
 	if (activeAnimation != nullptr) {
 		activeAnimation->Start(entity);
 	}
@@ -26,8 +28,14 @@ void AnimationSet::Update(Entity entity) {
 		Initialise(entity);
 	}
 	if (activeAnimation != nullptr && !paused) {
-		activeAnimation->Update();
+		activeAnimation->Update(entity);
 	}
+}
+
+AnimationSet& AnimationSet::operator= (const AnimationSet& copy) {
+	animationSet = copy.animationSet;
+	defaultAnimation = copy.defaultAnimation;
+	return *this;
 }
 
 void AnimationGroup::Start(Entity entity) {
@@ -40,12 +48,14 @@ void AnimationGroup::Start(Entity entity) {
 	}
 }
 
-void AnimationGroup::Update() {
+void AnimationGroup::Update(Entity entity) {
 	if (active == false) {
 		return;
 	}
 	for (auto& a : animations) {
 		if (a->IsActive()) {
+			printf("%d update %s\n", parent, a->GetType().c_str());
+			a->SetParent(entity);
 			a->Update(currentFrame);
 		}
 	}
@@ -59,6 +69,69 @@ void AnimationGroup::Update() {
 			active = false;
 		}
 	}
+}
+
+AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
+	animations.clear();
+	for (auto& animation : copy.animations) {
+		if (animation->GetType() == "Sprite") {
+			std::shared_ptr <SpriteAnimation> ptr{ std::make_shared<SpriteAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<SpriteAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "TextureChange") {
+			std::shared_ptr <ChangeTexAnimation> ptr{ std::make_shared<ChangeTexAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<ChangeTexAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "Sound") {
+			std::shared_ptr <SoundAnimation> ptr{ std::make_shared<SoundAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<SoundAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "Swap") {
+			std::shared_ptr <SwapAnimation> ptr{ std::make_shared<SwapAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<SwapAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "TransformAttach") {
+			std::shared_ptr <TransformAttachAnimation> ptr{ std::make_shared<TransformAttachAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<TransformAttachAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "TransformDirect") {
+			std::shared_ptr <TransformDirectAnimation> ptr{ std::make_shared<TransformDirectAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<TransformDirectAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "Fade") {
+			std::shared_ptr <FadeAnimation> ptr{ std::make_shared<FadeAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<FadeAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "Color") {
+			std::shared_ptr <ColorAnimation> ptr{ std::make_shared<ColorAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<ColorAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "SelfDestruct") {
+			std::shared_ptr <SelfDestructAnimation> ptr{ std::make_shared<SelfDestructAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<SelfDestructAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else {
+			ASSERT(1, "Unable to copy animation group!");
+		}
+	}
+	totalFrames = copy.totalFrames;
+	name = copy.name;
+	loop = copy.loop;
+	currentFrame = -1;
+	return *this;
+}
+
+AnimationGroup::AnimationGroup(const AnimationGroup& copy) {
+	*this = copy;
 }
 
 bool Animation::IsActive() {
@@ -320,6 +393,7 @@ void TransformDirectAnimation::Update(int frameNum) {
 
 	entityTransform->position += velocity;
 	entityTransform->rotation += rotation * vmath::PI / 180;
+	printf("%d transform: %f %f\n", parent, entityTransform->position.x, entityTransform->position.y);
 	if (entityTransform->rotation > vmath::PI) {
 		entityTransform->rotation -= 2 * vmath::PI;
 	}
@@ -374,9 +448,15 @@ void FadeAnimation::Start() {
 	}
 	active = true;
 	entityModel = &ECS::ecs().GetComponent<Model>(parent);
+	if (ECS::ecs().HasComponent<TextLabel>(parent)) {
+		entityText = &ECS::ecs().GetComponent<TextLabel>(parent);
+	}
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
 	alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount;
+	if (entityText != nullptr) {
+		alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount;
+	}
 }
 void FadeAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
@@ -384,6 +464,9 @@ void FadeAnimation::Update(int frameNum) {
 	}
 
 	entityModel->AddAlpha(alpha);
+	if (entityText != nullptr) {
+		entityText->textColor.a += alphatext;
+	}
 
 	if (frameNum >= nextKeyframe->frameNum) {
 		float frameCount{ (float)nextKeyframe->frameNum };
@@ -394,6 +477,9 @@ void FadeAnimation::Update(int frameNum) {
 		else {
 			frameCount = nextKeyframe->frameNum - frameCount;
 			alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount;
+			if (entityText != nullptr) {
+				alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount;
+			}
 		}
 	}
 }

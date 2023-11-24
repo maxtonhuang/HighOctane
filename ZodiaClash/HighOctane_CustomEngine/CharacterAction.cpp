@@ -36,6 +36,8 @@
 #include "CharacterAction.h"
 #include "CharacterStats.h"
 #include "Events.h"
+#include "Animation.h"
+#include "EntityFactory.h"
 
 /**
  * @brief Updates the state of a character's action within a battle turn.
@@ -61,6 +63,25 @@ void CharacterAction::UpdateState() {
         break;
     case ATTACKING:
         ApplySkill();
+
+        //Attack animation
+        if (battleManager->m_Entities.size() > 0) {
+            if (ECS::ecs().HasComponent<AnimationSet>(characterStats->entity)) {
+                AnimationSet& animation{ ECS::ecs().GetComponent<AnimationSet>(characterStats->entity) };
+                std::stringstream animationName{};
+                for (size_t i = 0; i < skills.size(); i++) {
+                    if (skills[i].attackName == selectedSkill.attackName) {
+                        animationName << "Attack " << i + 1;
+                        break;
+                    }
+                }
+                animation.Start(animationName.str(), characterStats->entity);
+            }
+            Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
+            ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+        }
+        
+        
         entityState = ENDING;
         break;
     }

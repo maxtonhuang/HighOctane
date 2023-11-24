@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 10,
+            "layerCounter": 8,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -11,9 +11,7 @@
                 "Layer 4",
                 "Layer 5",
                 "Layer 6",
-                "Layer 7",
-                "Layer 8",
-                "Layer 9"
+                "Layer 7"
             ]
         }
     },
@@ -33,8 +31,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
-            "position_y": 363.0,
+            "position_x": -826.5,
+            "position_y": 140.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -51,15 +49,6 @@
             "className": "",
             "scriptAttachedNameVec": []
         },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 0.0,
-            "Health": 0.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -70,6 +59,102 @@
         },
         "Movable": {},
         "TurnIndicator": {},
+        "Animation Set": [
+            {
+                "Total Frames": 10,
+                "Group Name": "Move Up",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "X movement": 0.0,
+                                "Y movement": 100.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Move Left",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "X movement": -300.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Move Right",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "X movement": 300.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Target": "Turn Order Attach Point"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Destroy",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "X movement": -300.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Parent": {}
     },
     {
@@ -87,8 +172,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
-            "position_y": 363.0,
+            "position_x": -826.5,
+            "position_y": 140.0,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,

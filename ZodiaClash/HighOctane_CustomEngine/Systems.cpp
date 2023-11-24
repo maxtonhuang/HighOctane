@@ -286,6 +286,7 @@ void AnimationSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
+	bool lockBattleSystem{ false };
 
 	for (Entity const& entity : m_Entities) {
 		AnimationSet* animationData = &animationArray.GetData(entity);
@@ -293,8 +294,15 @@ void AnimationSystem::Update() {
 
 		//Lock the battle system if animation is playing
 		if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
-			Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
+			lockBattleSystem = true;
 		}
+	}
+	if (lockBattleSystem) {
+		Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
+		events.GetBattleSystem()->locked = true;
+	}
+	else {
+		events.GetBattleSystem()->locked = false;
 	}
 }
 

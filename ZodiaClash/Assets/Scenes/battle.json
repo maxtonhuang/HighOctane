@@ -1,10 +1,16 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 7,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6"
             ]
         }
     },
@@ -36,7 +42,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "duck.png"
+            "Texture File Path": "duck.spritesheet"
         },
         "Visible": {
             "isVisible": false
@@ -102,6 +108,7 @@
         "CharacterStats": {
             "Character type": 0,
             "Max Health": 150.0,
+            "Health": 150.0,
             "Attack": 15.0,
             "Defense": 20.0,
             "Speed": 4,
@@ -119,7 +126,30 @@
             "Blue": 1.0,
             "Alpha": 1.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 29,
+                                "Alpha": 0.0
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Alpha": 1.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": ""
     },
     {
         "Clone": {},
@@ -167,6 +197,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "ZodiaClash v0.1",
             "r": 0.0,
             "g": 0.0,
@@ -174,7 +205,8 @@
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
@@ -230,6 +262,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Use Skill 1",
             "r": 0.0,
             "g": 0.0,
@@ -237,17 +270,34 @@
             "a": 0.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 0.0,
-            "Button A": 0.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 0.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "1",
             "Padding Top": 30.0,
@@ -301,11 +351,12 @@
         "CharacterStats": {
             "Character type": 1,
             "Max Health": 120.0,
+            "Health": 120.0,
             "Attack": 10.0,
             "Defense": 15.0,
             "Speed": 1,
             "Skills": [
-                "Normal Attack",
+                "",
                 "Normal AOE"
             ]
         },
@@ -372,6 +423,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Use Skill 2",
             "r": 0.0,
             "g": 0.0,
@@ -379,17 +431,34 @@
             "a": 0.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 0.0,
-            "Button A": 0.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 0.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "2",
             "Padding Top": 30.0,
@@ -452,6 +521,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Use Skill 3",
             "r": 0.0,
             "g": 0.0,
@@ -459,17 +529,34 @@
             "a": 0.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.0,
-            "Button G": 0.0,
-            "Button B": 0.0,
-            "Button A": 0.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 0.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "3",
             "Padding Top": 30.0,
@@ -478,6 +565,98 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         }
+    },
+    {
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "NEW_bg.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 1920.0,
+            "height": 1080.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {}
+    },
+    {
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "NEW_bg.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 1920.0,
+            "height": 1080.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {}
     },
     {
         "Entity": {
@@ -549,6 +728,56 @@
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
+    },
+    {
+        "Entity": {
+            "Name": "Attach Point",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -197.0,
+            "position_y": 101.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Movable": {}
+    },
+    {
+        "Entity": {
+            "Name": "Attach Point",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -197.0,
+            "position_y": 101.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Movable": {}
     },
     {
         "Entity": {

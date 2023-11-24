@@ -105,10 +105,18 @@ public:
 	std::vector<CharacterStats*> GetPlayers();
 	std::vector<CharacterStats*> GetEnemies();
 	int chi{ 5 };
+
+	bool locked;
 private:
 	
 	//std::vector <GameObject> gameObjects;
 	bool roundInProgress;
+
+	//Vriables for animation
+	bool battlestarted{ false };
+	Entity turnOrderAnimator;
+	std::deque<Entity> turnOrderQueueInitializer;
+	std::deque<Entity> turnOrderQueueAnimator;
 
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
 	void StartBattle();
