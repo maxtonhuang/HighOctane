@@ -490,6 +490,9 @@ void SerializationSystem::Update() {
 		}
 		initLevel = true;
 		newScene = false;
+		if (currentSystemMode == SystemMode::PAUSE) {
+			currentSystemMode = SystemMode::RUN;
+		}
 	}
 
 	if (playButton) {

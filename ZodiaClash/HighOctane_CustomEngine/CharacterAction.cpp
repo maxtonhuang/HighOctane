@@ -116,12 +116,15 @@ void CharacterAction::ApplySkill() {
         DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
     }
     // deduct the respective chi cost when a skill is used
-    BattleSystem* battlesys = events.GetBattleSystem();
-    battlesys->chi -= selectedSkill.chiCost;
+    battleManager->chi -= selectedSkill.chiCost;
+
+    if (battleManager->chi > 5) {
+        battleManager->chi = 5;
+    }
 
     // increase chi cost by 1 when skill 1 is used
     if (selectedSkill.attackName == "Skill 1") {
-        battlesys->chi += 1;
+        battleManager->chi += 1;
     }
 
     if (selectedSkill.attacktype == AttackType::NORMAL) {
