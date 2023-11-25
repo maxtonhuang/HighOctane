@@ -1,33 +1,22 @@
-mockup_chi_icon.png
-background.jpeg
+NEW_bg.png
 duck2.spritesheet
 duck2.spritesheet
-mockup_icon_cat.png
 duck.spritesheet
 duck.spritesheet
-mockup_skillframe (1).png
 cat.png
 mockup_cat.png
-mockup_goat.png
 mockup_ox.png
+mockup_goat.png
 mockup_playbutton_04.png
-mockup_main_menu.png
-mockup_title_logo_02 (1).png
-zodiaclash_logo.png
-mockup_chi_icon_lineart.png
-NEW_bg.png
-mockup_pausemenu.png
-UI_ICON_bleed.png
-NEW_guard_pfp.png
-gamehelpmockup.png
-gamehelp.png
-skill_icon_basic.png
-skill_icon_skill.png
-skill_icon_ulti.png
-NEW_bg_03.png
-
-ping.wav
+mockup_guard.png
+mockup_BG_03.png
 bonk.wav
+ping.wav
+ZodiaClash_Battle.ogg
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 mikachan/mikasan.ttf
 Scarlet Claw.skill
@@ -38,4 +27,5 @@ No.skill
 Normal AOE.skill
 OHKO.skill
 Test.skill
+.skill
 tmp.json
