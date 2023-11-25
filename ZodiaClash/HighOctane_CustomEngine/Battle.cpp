@@ -550,3 +550,28 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
     }
 }
+
+void BattleSystem::CreateTargets() {
+    auto enemyList{ GetEnemies() };
+    if (!targetCircleList.empty()) {
+        DestroyTargets();
+    }
+    int count = 0;
+    for (CharacterStats* enemy : enemyList) {
+        Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
+        ECS::ecs().GetComponent<Transform>(targetcircle).position = ECS::ecs().GetComponent<Transform>(enemy->entity).position;
+        if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
+            ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
+        }
+        ECS::ecs().GetComponent<Button>(targetcircle).eventInput = std::to_string(count);
+        targetCircleList.push_back(targetcircle);
+        count++;
+    }
+}
+
+void BattleSystem::DestroyTargets() {
+    for (Entity target : targetCircleList) {
+        EntityFactory::entityFactory().DeleteCloneModel(target);
+    }
+    targetCircleList.clear();
+}

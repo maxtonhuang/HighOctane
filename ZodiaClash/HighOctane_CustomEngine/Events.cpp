@@ -114,22 +114,34 @@ void SelectSkill(std::string input) {
 	}
 
 	// check if the character has enough Chi to perform the skill
-	if (bs->chi >= bs->activeCharacter->action.skills[skillnum - 1].chiCost) {
-		auto targets = bs->GetEnemies();
-		bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
-		bs->activeCharacter->action.entityState = ATTACKING;
-	}
-	else {
-		// handle not enough Chi, ZR part?
-	}
+	//if (bs->chi >= bs->activeCharacter->action.skills[skillnum - 1].chiCost) {
+	//	auto targets = bs->GetEnemies();
+	//	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	//	bs->activeCharacter->action.entityState = ATTACKING;
+	//}
+	//else {
+	//	// handle not enough Chi, ZR part?
+	//}
 
 	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
+	bs->CreateTargets();
+	//auto targets = bs->GetEnemies();
+	//bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	//bs->activeCharacter->action.entityState = ATTACKING;
+}
+void SelectEnemy(std::string input) {
+	BattleSystem* bs = events.GetBattleSystem();
+	std::stringstream ss{ input };
+	int enemynum;
+	ss >> enemynum;
 
 	auto targets = bs->GetEnemies();
-	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	bs->activeCharacter->action.targetSelect.selectedTarget = targets[enemynum];
 	bs->activeCharacter->action.entityState = ATTACKING;
+	bs->DestroyTargets();
 }
 void TogglePause(std::string input) {
+	return;
 	if (currentSystemMode == SystemMode::GAMEHELP) {
 		return;
 	}
@@ -194,6 +206,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Pause/Resume Group"] = PauseResumeGroup;
 	functions["Stop Group"] = StopGroup;
 	functions["Select Skill"] = SelectSkill;
+	functions["Select Enemy"] = SelectEnemy;
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;

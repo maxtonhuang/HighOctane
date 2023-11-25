@@ -887,6 +887,9 @@ void SceneEntityComponents(Entity entity) {
 				header << "Skill " << a + 1;
 				if (ImGui::BeginCombo(header.str().c_str(), currentAttack.c_str())) {
 					for (int n = 0; n < attackNames.size(); n++) {
+						if (attackNames[n] == "") {
+							continue;
+						}
 						bool is_selected = (currentAttack == attackNames[n]);
 						if (ImGui::Selectable(attackNames[n].c_str(), is_selected)) {
 							charstatsComponent.action.skills[a] = assetmanager.attacks.data[attackNames[n]];

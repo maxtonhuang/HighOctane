@@ -67,6 +67,10 @@ Model& Model::operator= (const Model& rhs) {
 	return *this;
 }
 
+Model::Model(const Model& rhs) {
+	*this = rhs;
+}
+
 void Model::Update(Transform const& entity, Size const& size) {
 	const float rotationLineLength{ 100 };
 

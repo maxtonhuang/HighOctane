@@ -111,6 +111,10 @@ public:
 	//for battle system to pass its version of characters
 	//to the real entities version
 	void ProcessDamage();
+
+	//Create target circles for enemy targeting
+	void CreateTargets();
+	void DestroyTargets();
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -121,6 +125,7 @@ private:
 	Entity turnOrderAnimator;
 	std::deque<Entity> turnOrderQueueInitializer;
 	std::deque<Entity> turnOrderQueueAnimator;
+	std::vector<Entity> targetCircleList;
 
 	//Animation methods
 	void InitialiseTurnOrderAnimator();
