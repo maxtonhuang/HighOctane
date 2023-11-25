@@ -212,3 +212,18 @@ public:
 
 	Keyframe<int> keyframes;
 };
+
+//Signals to the system to play damage animations
+class DamageImpactAnimation : public Animation {
+public:
+	DamageImpactAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<int>> keyframes;
+private:
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
+};

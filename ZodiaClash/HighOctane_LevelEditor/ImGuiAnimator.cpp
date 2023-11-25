@@ -11,7 +11,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"Swap", "SelfDestruct" };
+		"DamageImpact", "Swap", "SelfDestruct" };
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -186,6 +186,9 @@ void AnimatorWindow(Entity entity) {
 						}
 						else if (selectedType == "SelfDestruct") {
 							selectedAnimGroup->animations.push_back(std::make_shared<SelfDestructAnimation>());
+						}
+						else if (selectedType == "DamageImpact") {
+							selectedAnimGroup->animations.push_back(std::make_shared<DamageImpactAnimation>());
 						}
 					}
 				}

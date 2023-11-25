@@ -231,6 +231,7 @@ void BattleSystem::Update()
                     }
 
                     activeCharacter->ApplyBloodStack(); //apply blood stack, the function will check if the enemy is on bloodstack
+                    ProcessDamage();
 
                     // check if the enemy died after bloodstack effect
                     if (activeCharacter->stats.health <= 0) 
@@ -343,26 +344,7 @@ void BattleSystem::Update()
         //}
         break;
     }
-    for (Entity entity : m_Entities) {
-        CharacterStats* cs = &statsArray->GetData(entity);
-        if (cs->action.entityState == DEAD) {
-            continue;
-        }
-        bool found = false;
-        for (CharacterStats const& c : turnManage.characterList) {
-            if (c.entity == entity) {
-                *cs = c;
-                found = true;
-                break;
-            }
-        }
-        if (found == false) {
-            Model* model = &modelArray->GetData(entity);
-            cs->action.entityState = DEAD;
-            model->SetAlpha(0.2f);
-            AnimateRemoveTurnOrder(entity);
-        }
-    }
+    ProcessDamage();
 }
 
 /**
@@ -451,6 +433,45 @@ void BattleSystem::RevertTurnOrder(CharacterStats* target)
     auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
     turnManage.turnOrderList.remove(target);
     turnManage.turnOrderList.insert(originalIndex, target);
+}
+
+void BattleSystem::ProcessDamage() {
+    if (m_Entities.size() > 0) {
+        ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+        ComponentArray<CharacterStats>* statsArray = &componentManager.GetComponentArrayRef<CharacterStats>();
+        ComponentArray<Model>* modelArray = &componentManager.GetComponentArrayRef<Model>();
+        ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
+        ComponentArray<Transform>* transformArray = &componentManager.GetComponentArrayRef<Transform>();
+        ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
+
+        for (Entity entity : m_Entities) {
+            CharacterStats* cs = &statsArray->GetData(entity);
+            if (cs->action.entityState == DEAD) {
+                continue;
+            }
+            bool found = false;
+            for (CharacterStats const& c : turnManage.characterList) {
+                if (c.entity == entity) {
+                    if (c.stats.health < cs->stats.health) {
+                        animationArray->GetData(entity).Start("Damaged", entity);
+                        Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
+                        transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
+                        textArray->GetData(damagelabel).textString = std::to_string((int)(cs->stats.health - c.stats.health));
+                    }
+                    *cs = c;
+                    found = true;
+                    break;
+                }
+            }
+            if (found == false) {
+                Model* model = &modelArray->GetData(entity);
+                cs->action.entityState = DEAD;
+                model->SetAlpha(0.2f);
+                AnimateRemoveTurnOrder(entity);
+            }
+        }
+    }
+    
 }
 
 void BattleSystem::InitialiseTurnOrderAnimator() {

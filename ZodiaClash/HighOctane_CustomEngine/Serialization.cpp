@@ -538,6 +538,14 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 				keyframe.AddMember("Frame Number", selfd->keyframes.frameNum, allocator);
 				keyFrames.PushBack(keyframe, allocator);
 			}
+			else if (animType == "DamageImpact") {
+				const std::shared_ptr<DamageImpactAnimation> impact{ std::dynamic_pointer_cast<DamageImpactAnimation>(anim) };
+				for (auto const& k : impact->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -1556,6 +1564,13 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
 							}
 							anigrp.animations.push_back(std::make_shared<SelfDestructAnimation>(a));
+						}
+						else if (animType == "DamageImpact") {
+							DamageImpactAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<DamageImpactAnimation>(a));
 						}
 					}
 					animset.animationSet.push_back(anigrp);

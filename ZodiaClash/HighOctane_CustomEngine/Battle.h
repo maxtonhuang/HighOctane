@@ -107,6 +107,10 @@ public:
 	int chi{ 5 };
 
 	bool locked;
+
+	//for battle system to pass its version of characters
+	//to the real entities version
+	void ProcessDamage();
 private:
 	
 	//std::vector <GameObject> gameObjects;

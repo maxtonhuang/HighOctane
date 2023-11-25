@@ -590,3 +590,40 @@ void SelfDestructAnimation::RemoveKeyFrame(int frameNum) {
 bool SelfDestructAnimation::HasKeyFrame(int frameNum) {
 	return keyframes.frameNum == frameNum;
 }
+
+DamageImpactAnimation::DamageImpactAnimation() {
+	type = "DamageImpact";
+}
+void DamageImpactAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void DamageImpactAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		BattleSystem* battlesystem{ events.GetBattleSystem() };
+		battlesystem->ProcessDamage();
+	}
+}
+void DamageImpactAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	(void)frameData;
+	Keyframe<int> frame{ frameNum };
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void DamageImpactAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<int>{frameNum});
+}
+bool DamageImpactAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
