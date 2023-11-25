@@ -3,6 +3,7 @@
 #include <list>
 #include "ECS.h"
 #include "model.h"
+#include "UIComponents.h"
 
 class Animation {
 public:
@@ -24,7 +25,10 @@ protected:
 class AnimationGroup {
 public:
 	void Start(Entity entity);
-	void Update();
+	void Update(Entity entity);
+	AnimationGroup() = default;
+	AnimationGroup(const AnimationGroup&);
+	AnimationGroup& operator= (const AnimationGroup&);
 
 	std::vector<std::shared_ptr<Animation>> animations;
 	int totalFrames{};
@@ -43,12 +47,15 @@ public:
 	void Start(std::string animationName, Entity entity);
 	void Initialise(Entity entity);
 	void Update(Entity entity);
+	AnimationSet() = default;
+	AnimationSet(const AnimationSet&);
+	AnimationSet& operator= (const AnimationSet&);
 	std::vector<AnimationGroup> animationSet;
 	bool paused;
 	std::string defaultAnimation{};
 	AnimationGroup* activeAnimation;
 private:
-	bool initialised;
+	bool initialised{ false };
 };
 
 template <typename T>
@@ -167,7 +174,9 @@ public:
 	std::list<Keyframe<float>> keyframes;
 private:
 	Model* entityModel;
+	TextLabel* entityText;
 	float alpha;
+	float alphatext;
 	std::list<Keyframe<float>>::iterator nextKeyframe{};
 };
 

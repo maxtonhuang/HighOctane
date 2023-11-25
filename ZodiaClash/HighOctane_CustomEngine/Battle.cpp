@@ -40,6 +40,11 @@
 #include <iostream>
 #include "CheatCode.h"
 #include "message.h"
+#include "EntityFactory.h"
+#include "Animation.h"
+
+//For animating turn order
+const float turnOrderOffset{ 100.f };
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -85,6 +90,9 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
 void BattleSystem::Initialize() 
 {
     battleState = NEWGAME;
+    battlestarted = false;
+    turnOrderQueueInitializer.clear();
+    turnOrderQueueAnimator.clear();
 }
 
 /**
@@ -106,7 +114,10 @@ void BattleSystem::StartBattle() {
         printf("Character loaded: %s, remaining health: %f\n", name.c_str(), c.stats.health);
     }
 
-    battleState = NEWROUND;
+    //Initialise turn order animator
+    InitialiseTurnOrderAnimator();
+
+    battlestarted = true;
 }
 
 /**
@@ -124,11 +135,14 @@ void BattleSystem::Update()
     if (m_Entities.size() > 0) {
 
         //If animation system is playing battle animation, do not progress game system
+        if (locked) {
+            return;
+        }
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::BATTLE]) {
             switch (msg.type) {
             case(TYPE::ANIMATING):
+                Mail::mail().mailbox[ADDRESS::BATTLE].clear();
                 return;
-                break;
             }
         }
 
@@ -142,7 +156,15 @@ void BattleSystem::Update()
     case NEWGAME:
         //LOG_WARNING("Initializing battle system");
 
-        StartBattle();
+        if (!battlestarted) {
+            StartBattle();
+        }
+        
+        if (!AnimateInitialiseTurnOrder()) {
+            break;
+        }
+
+        battleState = NEWROUND;
         break;
     case NEWROUND:
         if (!roundInProgress)
@@ -213,10 +235,8 @@ void BattleSystem::Update()
                     {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
-                    else 
-                    {
-                        battleState = ENEMYTURN;// if alive, continue with enemy's turn
-                    }
+                    //STILL NEED TO SWAP THE TURN TO ENEMY TURN TO PROCESS THEM DYING
+                    battleState = ENEMYTURN;
                 }
                 else if (activeCharacter->tag == CharacterType::PLAYER)
                 {
@@ -270,6 +290,12 @@ void BattleSystem::Update()
             }
         }
         if (activeCharacter->action.entityState == EntityState::ENDING) {
+
+            //Update turn order animator
+            if (!AnimateUpdateTurnOrder()) {
+                return;
+           }
+
             if (m_Entities.size() > 0) {
                 for (auto& c : turnManage.characterList) {
                     std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
@@ -278,6 +304,7 @@ void BattleSystem::Update()
                 }
             }
             turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
+
             battleState = NEXTTURN;
         }
         else if (activeCharacter->action.entityState == EntityState::DYING) {
@@ -311,6 +338,7 @@ void BattleSystem::Update()
             Model* model = &modelArray->GetData(entity);
             cs->action.entityState = DEAD;
             model->SetAlpha(0.2f);
+            AnimateRemoveTurnOrder(entity);
         }
     }
 }
@@ -401,4 +429,81 @@ void BattleSystem::RevertTurnOrder(CharacterStats* target)
     auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
     turnManage.turnOrderList.remove(target);
     turnManage.turnOrderList.insert(originalIndex, target);
+}
+
+void BattleSystem::InitialiseTurnOrderAnimator() {
+    if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
+        turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
+        ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
+        for (auto& c : turnManage.characterList) {
+            if (c.tag == CharacterType::PLAYER) {
+                Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab") };
+                turnOrderQueueInitializer.push_back(turnUI);
+                ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
+            }
+            else if (c.tag == CharacterType::ENEMY) {
+                Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_enemy.prefab") };
+                turnOrderQueueInitializer.push_back(turnUI);
+                ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
+            }
+        }
+    }
+}
+
+bool BattleSystem::AnimateInitialiseTurnOrder() {
+    if (m_Entities.size() > 0) {
+        if (!turnOrderQueueInitializer.empty()) {
+            printf("Battle System\n");
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueInitializer.front()).Start("Move Right", turnOrderQueueInitializer.front());
+            for (Entity& e : turnOrderQueueAnimator) {
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Up", e);
+            }
+            turnOrderQueueAnimator.push_back(turnOrderQueueInitializer.front());
+            turnOrderQueueInitializer.pop_front();
+            return false;
+        }
+    }
+    return true;
+}
+
+bool BattleSystem::AnimateUpdateTurnOrder() {
+    if (m_Entities.size() > 0) {
+        static bool turnanimated{ false };
+        if (turnanimated == false) {
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Move Left", turnOrderQueueAnimator.front());
+            for (Entity& e : turnOrderQueueAnimator) {
+                if (e != turnOrderQueueAnimator.front()) {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Up", e);
+                }
+            }
+            turnOrderQueueAnimator.push_back(turnOrderQueueAnimator.front());
+            turnOrderQueueAnimator.pop_front();
+            turnanimated = true;
+            return false;
+        }
+        else {
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.back()).Start("Move Right", turnOrderQueueAnimator.back());
+            turnanimated = false;
+        }
+    }
+    return true;
+}
+
+void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
+    if (m_Entities.size() > 0) {
+        std::deque<Entity> newTurnOrderQueueAnimator{};
+        bool moveup{ false };
+        for (Entity e : turnOrderQueueAnimator) {
+            if (ECS::ecs().GetComponent<TurnIndicator>(e).character == entity) {
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Left", e);
+                moveup = true;
+                continue;
+            }
+            newTurnOrderQueueAnimator.push_back(e);
+            if (moveup) {
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Up", e);
+            }
+        }
+        turnOrderQueueAnimator = newTurnOrderQueueAnimator;
+    }
 }

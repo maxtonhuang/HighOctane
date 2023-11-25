@@ -46,7 +46,7 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionBoxBox(const Transform& alpha, const Transform& beta) {
+	bool CheckCollisionBoxBox(const Collider& alpha, const Collider& beta, vmath::Vector2 v1, vmath::Vector2 v2) {
 
 		//extract min-max
 		Vec2 min1 = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
@@ -56,8 +56,8 @@ namespace physics {
 		Vec2 max2 = { beta.position.x + beta.halfDimensions.x, beta.position.y + beta.halfDimensions.y };
 
 		//extract velocities
-		vmath::Vector2 vel1 = alpha.velocity;
-		vmath::Vector2 vel2 = beta.velocity;
+		vmath::Vector2 vel1 = v1;
+		vmath::Vector2 vel2 = v2;
 
 
 		/*
@@ -160,7 +160,7 @@ namespace physics {
 			/* Step 5: Otherwise the rectangles intersect */
 			return 1;
 		}
-    }
+	}
 
 	/*!
 	 * \brief Circle-Circle collision detection
@@ -171,7 +171,7 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionCircleCircle(const Transform& alpha, const Transform& beta) {
+	bool CheckCollisionCircleCircle(const Collider& alpha, const Collider& beta) {
 
 		vmath::Vector2 centerA = alpha.position;
 		vmath::Vector2 centerB = beta.position;
@@ -182,7 +182,7 @@ namespace physics {
 		float centerDistance = centerA.distance(centerB);
 
 		return (centerDistance <= radiusSum);
-    }
+	}
 
 	/*!
 	 * \brief Circle-AABB collision detection
@@ -193,14 +193,14 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionCircleBox(const Transform& alpha, const Transform& beta) {
+	bool CheckCollisionCircleBox(const Collider& alpha, const Collider& beta) {
 
 		vmath::Vector2 circleCenter = alpha.position;
 
 		//extract min-max
 		Vec2 min = { beta.position.x - beta.halfDimensions.x, beta.position.y - beta.halfDimensions.y };
 		Vec2 max = { beta.position.x + beta.halfDimensions.x, beta.position.y + beta.halfDimensions.y };
-		
+
 		// 1. identify closest sides of AABB to circle
 		float closestX = std::max(min.x, std::min(circleCenter.x, max.x));
 		float closestY = std::max(min.y, std::min(circleCenter.y, max.y));
@@ -210,7 +210,7 @@ namespace physics {
 		float distance = circleCenter.distance(closestPoint);
 
 		return (distance < alpha.radius);
-    }
+	}
 
 	/*!
 	 * \brief AABB-Circle collision detection
@@ -222,9 +222,9 @@ namespace physics {
 	 * \param beta : The second AABB entity to check collision for.
 	 *
 	 */
-    bool CheckCollisionBoxCircle(const Transform& alpha, const Transform& beta) {
+	bool CheckCollisionBoxCircle(const Collider& alpha, const Collider& beta) {
 		return CheckCollisionCircleBox(beta, alpha);
-    }
+	}
 
 	/*!
 	 * \brief AABB-Border collision detection
@@ -234,7 +234,7 @@ namespace physics {
 	 * \param alpha : The AABB entity to check collision for.
 	 *
 	 */
-	bool CheckCollisionBoxBorder(const Transform& alpha) {
+	bool CheckCollisionBoxBorder(const Collider& alpha) {
 
 		//extract min-max
 		Vec2 min = { alpha.position.x - alpha.halfDimensions.x, alpha.position.y - alpha.halfDimensions.y };
@@ -258,7 +258,7 @@ namespace physics {
 	 * \param alpha : The Circle entity to check collision for.
 	 *
 	 */
-	bool CheckCollisionCircleBorder(const Transform& alpha) {
+	bool CheckCollisionCircleBorder(const Collider& alpha) {
 		vmath::Vector2 circleCenter = alpha.position;
 
 		//circle->radius = alpha.radius;
@@ -267,10 +267,10 @@ namespace physics {
 		float windowHeight = GRAPHICS::defaultHeightF;
 
 		//assuming camera is not involved!!
-		if (((circleCenter.x + alpha.radius) < windowWidth) 
-		||	((circleCenter.y + alpha.radius) < windowHeight)
-		||	((circleCenter.x - alpha.radius) > 0.f) 
-		||	((circleCenter.y - alpha.radius) > 0.f))
+		if (((circleCenter.x + alpha.radius) < windowWidth)
+			|| ((circleCenter.y + alpha.radius) < windowHeight)
+			|| ((circleCenter.x - alpha.radius) > 0.f)
+			|| ((circleCenter.y - alpha.radius) > 0.f))
 		{
 			return 0;
 		}

@@ -109,7 +109,6 @@ void Mail::ClearMails() {
     mailbox[ADDRESS::SCRIPTING].clear();
     mailbox[ADDRESS::EDITING].clear();
     mailbox[ADDRESS::UICOMPONENT].clear();
-    mailbox[ADDRESS::BATTLE].clear();
 }
 
 /******************************************************************************

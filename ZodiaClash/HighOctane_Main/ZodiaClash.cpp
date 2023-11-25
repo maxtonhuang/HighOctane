@@ -251,6 +251,10 @@ void EngineCore::Run(bool const& mode) {
 	//runSystemList.emplace_back(animatorSystem, "Animator System");
 	//systemList.emplace_back(animatorSystem, "Animator System");
 
+	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
+	runSystemList.emplace_back(battleSystem, "Battle System");
+	systemList.emplace_back(battleSystem, "Battle System");
+
 	std::shared_ptr<AnimationSystem> animationSystem = ECS::ecs().RegisterSystem<AnimationSystem>();
 	runSystemList.emplace_back(animationSystem, "Animation System");
 	systemList.emplace_back(animationSystem, "Animation System");
@@ -258,10 +262,6 @@ void EngineCore::Run(bool const& mode) {
 	std::shared_ptr<ScriptSystem> scriptingSystem = ECS::ecs().RegisterSystem<ScriptSystem>();
 	runSystemList.emplace_back(scriptingSystem, "Scripting System");
 	systemList.emplace_back(scriptingSystem, "Scripting System");
-
-	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
-	runSystemList.emplace_back(battleSystem, "Battle System");
-	systemList.emplace_back(battleSystem, "Battle System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
@@ -627,13 +627,12 @@ void EngineCore::Run(bool const& mode) {
 			systemList = &pauseSystemList; // Same things as pause system list
 			break;
 		}
-		std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
+		//std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
 
 		InputManager::KeyCheck();
 		InputManager::MouseCheck();
-		Mail::mail().SendMails();
 
 		// Call each system in the System List
 		accumulatedTime += g_dt;
@@ -643,7 +642,7 @@ void EngineCore::Run(bool const& mode) {
 
 		while (accumulatedTime >= FIXED_DT) {
 
-
+			Mail::mail().SendMails();
 			for (std::pair<std::shared_ptr<System>, std::string>& sys : *systemList) {
 
 				#if ENABLE_DEBUG_PROFILE

@@ -109,7 +109,8 @@ void AssetManager::LoadSpritesheet(const std::string& spritePath) {
         serializer.ReadInt(column);
         serializer.ReadInt(spritenum);
         LoadAssets(textureName);
-        texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum);
+        std::string texturePath{ defaultPath + "Textures/" + textureName };
+        texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum, texturePath.c_str());
     }
     else {
         ASSERT(1, "Unable to open sprite sheet file!");
@@ -280,6 +281,31 @@ void AssetManager::LoadScene(const std::string& scenePath) {
     sceneName = scenePath;
 }
 
+void AssetManager::SaveScene(const std::string& scenePath) {
+    std::ofstream sceneFile{ scenePath.c_str() };
+
+    std::string jsonPath{ scenePath.substr(0,scenePath.find(".scn")) + ".json" };
+    std::vector<Entity> entityList{};
+    for (auto& e : s_ptr->m_Entities) {
+        entityList.push_back(e);
+    }
+    Serializer::SaveEntityToJson(jsonPath, entityList);
+
+    std::string currentBGM{ audio.GetCurrentBGM() };
+    if (currentBGM != "") {
+        sceneFile << currentBGM << "\n";
+    }
+    
+    auto files = assetmanager.GetFiles();
+    for (auto& f : files) {
+        if (f != currentBGM) {
+            sceneFile << f << "\n";
+        }
+    }
+    sceneFile << jsonPath.substr(jsonPath.find_last_of("\\") + 1);
+    sceneFile.close();
+}
+
 void AssetManager::LoadEntities(const std::string& entitiesPath) {
     std::string path{ defaultPath };
     path += "Scenes/" + entitiesPath;
@@ -312,6 +338,9 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
     
     std::string extension = FilePath::GetFileExtension(assetPath);
+    if (extension == "") {
+        return;
+    }
 
     if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {
         // Load as a texture

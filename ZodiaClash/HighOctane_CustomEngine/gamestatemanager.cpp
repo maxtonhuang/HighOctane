@@ -265,7 +265,7 @@ void GameStateMgr::NextLevel() {
 
     // Check if there is a specific game state associated with each level
     int newLevel = gameLevel->GetCurrentLevel();
-    if (newLevel < gameStateCount) {
+    if (newLevel < static_cast<int>(gameStateCount)) {
         // Assuming each level has a corresponding game state
         ChangeGameState(newLevel);
     }

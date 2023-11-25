@@ -226,11 +226,7 @@ void RebuildLayeringAfterDeserialization() {
 			continue;
 		}
 		Name & n = nameArray.GetData(entity);
-		//if name is uninitialized, push to back of layer 0
-		if (n.serializationLayer == 0 && n.serializationOrderInLayer == 0 && !layering.empty()) {
-			layering[0].emplace_back(entity);
-		}
-		else if (n.serializationLayer < layering.size()) {
+		if (n.serializationLayer < layering.size()) {
 			if (n.serializationOrderInLayer < layering[n.serializationLayer].size()) {
 				layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + n.serializationOrderInLayer, entity);
 			}

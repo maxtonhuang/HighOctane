@@ -82,13 +82,13 @@ Instead of not visible, show in asset library
 /******************************************************************************
 *
 *	@brief Loads Master Model
-* 
+*
 *	This loads a master model where new game objects will be cloned from.
 *
 ******************************************************************************/
 void EntityFactory::LoadMasterModel() {  ///////// MASTER
 	Entity entity = ECS::ecs().CreateEntity();
-	
+
 	std::ostringstream oss;
 	oss << "master_" << std::setfill('0') << std::setw(5) << masterCounter++;
 	ECS::ecs().AddComponent(entity, Name{ oss.str() });
@@ -100,13 +100,13 @@ void EntityFactory::LoadMasterModel() {  ///////// MASTER
 	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
 	ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Model{});
-	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
 	ECS::ecs().AddComponent(entity, Master{});
 	Tex* t = &ECS::ecs().GetComponent<Tex>(entity);
 	t->texVariants.push_back(assetmanager.texture.Get("duck.png"));
 	t->texVariants.push_back(assetmanager.texture.Get("duck2.png"));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+	ECS::ecs().AddComponent(entity, Collider{ Collider::SHAPE_BOX, {static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())}, {0.0f, 0.0f} }); //add physics component
 	ECS::ecs().AddComponent(entity, Script{}); //add script component
 
 
@@ -161,7 +161,7 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 	ECS::ecs().AddComponent(entity, Tex{}); //add tex component, init tex with duck sprite
 	//ECS::ecs().AddComponent(entity, Animator{ Animator::ANIMATION_TIME_BASED, 0.1f });
 	ECS::ecs().AddComponent(entity, Model{});
-	ECS::ecs().AddComponent(entity, Collider{}); //add physics component
+	//ECS::ecs().AddComponent(entity, Collider{}); //add physics component
 	ECS::ecs().AddComponent(entity, Master{});
 	ECS::ecs().AddComponent(entity, Movable{});
 
@@ -175,6 +175,8 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 	t->texVariants.push_back(assetmanager.texture.Get(filename));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
+	ECS::ecs().AddComponent(entity, Collider{ Collider::SHAPE_BOX, {static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())}, {0.0f, 0.0f} }); //add physics component
+
 	++masterCounter;
 	return entity;
 }
@@ -239,7 +241,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	static auto& typeMap{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
-	
+
 	for (auto& ecsType : typeMap) {
 		if (ecsType.second->HasComponent(masterEntity)) {
 			ecsType.second->AddComponent(entity);
@@ -261,7 +263,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 					ecsType.second->CopyComponent(childClone, child);
 				}
 			}
-			ECS::ecs().AddComponent<Clone>(childClone,Clone{});
+			ECS::ecs().AddComponent<Clone>(childClone, Clone{});
 			ECS::ecs().GetComponent<Child>(childClone).parent = entity;
 			ECS::ecs().GetComponent<Parent>(entity).children.push_back(childClone);
 
@@ -281,7 +283,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	if (assetmanager.GetPrefabName(masterEntity) != "") {
 		ECS::ecs().GetComponent<Clone>(entity).prefab = assetmanager.GetPrefabName(masterEntity);
 	}
-	
+
 	std::pair<size_t, size_t> p = FindInLayer(masterEntity);
 	if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
 		layering[p.first].emplace_back(entity);
@@ -292,12 +294,12 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		}
 		layering[layering.size() - 1].emplace_back(entity);
 	}
-	
+
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
 	if (currentSystemMode != SystemMode::GAMEHELP && currentSystemMode != SystemMode::PAUSE && !initLevel) {
-		undoRedo.RecordCurrent(entity,ACTION::ADDENTITY);
+		undoRedo.RecordCurrent(entity, ACTION::ADDENTITY);
 	}
 	return entity;
 }
@@ -315,7 +317,7 @@ Entity EntityFactory::ClonePrefab(std::string prefabName) {
 /******************************************************************************
 *
 *	@brief Load Models Function
-* 
+*
 *	Sends random positions into the CloneMasterModel() function.
 *
 ******************************************************************************/

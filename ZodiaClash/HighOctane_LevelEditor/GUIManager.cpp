@@ -59,6 +59,7 @@
 #include "Layering.h"
 #include "ImGuiAnimator.h"
 #include "ImGuiComponents.h"
+#include "ImGuiSceneSettings.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -434,6 +435,7 @@ void GUIManager::Update()
     UpdateAnimator();
     UpdateComponentViewer();
     UpdatePrefabHierachy();
+    UpdateSceneSettingsWindow();
 
 #if ENABLE_DEBUG_PROFILE
     // Update the performance console

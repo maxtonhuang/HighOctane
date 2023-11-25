@@ -36,6 +36,8 @@
 #include "CharacterAction.h"
 #include "CharacterStats.h"
 #include "Events.h"
+#include "Animation.h"
+#include "EntityFactory.h"
 
 /**
  * @brief Updates the state of a character's action within a battle turn.
@@ -61,6 +63,25 @@ void CharacterAction::UpdateState() {
         break;
     case ATTACKING:
         ApplySkill();
+
+        //Attack animation
+        if (battleManager->m_Entities.size() > 0) {
+            if (ECS::ecs().HasComponent<AnimationSet>(characterStats->entity)) {
+                AnimationSet& animation{ ECS::ecs().GetComponent<AnimationSet>(characterStats->entity) };
+                std::stringstream animationName{};
+                for (size_t i = 0; i < skills.size(); i++) {
+                    if (skills[i].attackName == selectedSkill.attackName) {
+                        animationName << "Attack " << i + 1;
+                        break;
+                    }
+                }
+                animation.Start(animationName.str(), characterStats->entity);
+            }
+            Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
+            ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+        }
+        
+        
         entityState = ENDING;
         break;
     }
@@ -95,12 +116,15 @@ void CharacterAction::ApplySkill() {
         DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
     }
     // deduct the respective chi cost when a skill is used
-    BattleSystem* battlesys = events.GetBattleSystem();
-    battlesys->chi -= selectedSkill.chiCost;
+    battleManager->chi -= selectedSkill.chiCost;
+
+    if (battleManager->chi > 5) {
+        battleManager->chi = 5;
+    }
 
     // increase chi cost by 1 when skill 1 is used
     if (selectedSkill.attackName == "Skill 1") {
-        battlesys->chi += 1;
+        battleManager->chi += 1;
     }
 
     if (selectedSkill.attacktype == AttackType::NORMAL) {

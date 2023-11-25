@@ -2,6 +2,7 @@
 #include "ImGuiSceneHierarchy.h"
 #include "Animation.h"
 #include "AssetManager.h"
+#include "Global.h"
 
 void AnimatorWindow(Entity entity) {
 	const ImVec2 buttonsize{ 15,15 };
@@ -10,7 +11,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"Swap (Ends current animation)", "SelfDestruct (Ends current animation)" };
+		"Swap", "SelfDestruct" };
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -55,7 +56,7 @@ void AnimatorWindow(Entity entity) {
 					selectedAnimGroup->Start(entity);
 				}
 				else {
-					selectedAnimGroup->Update();
+					selectedAnimGroup->Update(entity);
 				}
 			}
 		}
@@ -87,6 +88,8 @@ void AnimatorWindow(Entity entity) {
 				selectedAnim = newAnimGroupName.str();
 				newAnimGroup.name = selectedAnim;
 				animationSet.animationSet.push_back(newAnimGroup);
+				selectedFrame = -1;
+				selectedType.clear();
 			}
 			if (is_selected) {
 				ImGui::SetItemDefaultFocus();
@@ -178,10 +181,10 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "TransformDirect") {
 							selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
 						}
-						else if (selectedType == "Swap (Ends current animation)") {
+						else if (selectedType == "Swap ") {
 							selectedAnimGroup->animations.push_back(std::make_shared<SwapAnimation>());
 						}
-						else if (selectedType == "SelfDestruct (Ends current animation)") {
+						else if (selectedType == "SelfDestruct") {
 							selectedAnimGroup->animations.push_back(std::make_shared<SelfDestructAnimation>());
 						}
 					}
@@ -322,11 +325,25 @@ void AnimatorWindow(Entity entity) {
 					else if (selectedAnimation->GetType() == "Swap") {
 						std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(selectedAnimation) };
 						if (swap->keyframes.frameNum != -1) {
-							ImGui::InputText("Animation to swap to", &swap->keyframes.data);
+							if (ImGui::BeginCombo("Animation to swap to", swap->keyframes.data.c_str())) {
+								for (int n = 0; n < animationSet.animationSet.size(); n++) {
+									bool is_selected = (swap->keyframes.data == animationSet.animationSet[n].name);
+									if (ImGui::Selectable(animationSet.animationSet[n].name.c_str(), is_selected)) {
+										swap->keyframes.data = animationSet.animationSet[n].name;
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
 						}
 					}
 					if (ImGui::Button("Remove keyframe")) {
 						selectedAnimation->RemoveKeyFrame(selectedFrame);
+						selectedAnimGroup->active = false;
+						selectedAnimGroup->currentFrame = -1;
+						animationSet.paused = false;
 					}
 				}
 			}
@@ -406,8 +423,32 @@ void UpdateAnimator() {
 		}
 		ImGui::Text(editingLabel.c_str());
 	}
+	else if (ECS::ecs().EntityExists(toAnimate)) {
+		ImGui::Text("Entity has no animation component.");
+		if (ImGui::Button("Add Animation Component")) {
+			ECS::ecs().AddComponent(toAnimate, AnimationSet{});
+		}
+	}
 
 	AnimatorWindow(toAnimate);
 	
+	//Real-time prefab updating
+	if (prefab && currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
+		auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
+		auto& typeManager{ ECS::ecs().GetTypeManager() };
+		auto cloneIDArray{ cloneArray.GetEntityArray() };
+		std::string prefabName{ assetmanager.GetPrefabName(currentSelectedPrefab) };
+		for (auto& cloneEntity : cloneIDArray) {
+			Clone clone{ cloneArray.GetData(cloneEntity) };
+			if (clone.prefab == prefabName && prefabName != "") {
+				for (auto& ecsType : typeManager) {
+					if (ecsType.second->HasComponent(currentSelectedPrefab) && !(bool)(clone.unique_components.count(ecsType.second->name))) {
+						ecsType.second->CopyComponent(cloneEntity, currentSelectedPrefab);
+					}
+				}
+			}
+		}
+	}
+
 	ImGui::End();
 }

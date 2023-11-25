@@ -16,6 +16,7 @@
 #include "ImGuiComponents.h"
 #include "Serialization.h"
 #include "UndoRedo.h"
+#include "Selection.h"
 
 
 Entity currentSelectedPrefab;
@@ -39,14 +40,36 @@ std::string prefabName{};
 
 void UpdateSceneHierachy() {
 	ImGui::Begin("Scene Hierarchy");
+	auto& nameArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Name>();
 	for (const Entity& entity : s_ptr->m_Entities) {
 		if (ECS::ecs().HasComponent<Clone>(entity)) {
 			if (ECS::ecs().HasComponent<Name>(entity)) {
 				SceneEntityNode(entity);
+				if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)) {
+					UnselectAll();
+					currentSelectedEntity = entity;
+					nameArray.GetData(entity).selected = true;
+				}
+				if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(1)) {
+					UnselectAll();
+					currentSelectedEntity = entity;
+					nameArray.GetData(entity).selected = true;
+					ImGui::OpenPopup("EntityContextMenu");
+				}
 			}
 		}
 	}
+	if (ImGui::BeginPopup("EntityContextMenu")) {
+		if (ImGui::MenuItem("Delete")) {
+			toDestroy = true;
+		}
+		if (ImGui::MenuItem("Copy")) {
+			toCopy = true;
+		}
+		ImGui::EndPopup();
+	}
 	if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered()) {
+		UnselectAll();
 		currentSelectedEntity = {};
 	}
 	ImGui::End();
@@ -66,6 +89,7 @@ void UpdateSceneHierachy() {
 }
 
 void UpdatePrefabHierachy() {
+	static float saveTimer{};
 	ImGui::Begin("Prefab Editor");
 
 	auto prefabList{ assetmanager.GetPrefabPaths() };
@@ -101,6 +125,12 @@ void UpdatePrefabHierachy() {
 		if (ImGui::Button("Save Prefab")) {
 			std::string prefabPath{ assetmanager.GetDefaultPath() + "Prefabs/" + prefabName};
 			SaveAsPrefab(prefabPath, currentSelectedPrefab);
+			saveTimer = 1.f;
+		}
+
+		if (saveTimer > 0.f) {
+			ImGui::SameLine();
+			ImGui::Text("Prefab saved!");
 		}
 
 		if (ImGui::Button("Create Instance")) {
@@ -111,6 +141,10 @@ void UpdatePrefabHierachy() {
 		SceneEntityComponents(currentSelectedPrefab);
 		ImGui::Separator();
 		ComponentBrowser(currentSelectedPrefab);
+	}
+
+	if (saveTimer > 0.f) {
+		saveTimer -= g_dt;
 	}
 
 	auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
@@ -664,6 +698,30 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(SkillPoint).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "SkillPoint")) {
 			// display active state
 			sp.isActive ? ImGui::Text("State: Active") : ImGui::Text("State: Not Active");
+
+			ImGui::TreePop();
+		}
+	}
+
+	if (ECS::ecs().HasComponent<AttackSkill>(entity)) {
+		AttackSkill& atkSkill{ ECS::ecs().GetComponent<AttackSkill>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(AttackSkill).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "AttackSkill")) {
+			int setIndex = atkSkill.skillIndex;
+			const char* indexOptions[] = { "1", "2", "3" };
+			if (ImGui::BeginCombo("Select Skill", indexOptions[setIndex], 0)) {
+				for (int i = 0; i < IM_ARRAYSIZE(indexOptions); ++i) {
+					bool isSelected = (setIndex == i);
+					if (ImGui::Selectable(indexOptions[i], isSelected)) {
+						setIndex = i;
+						
+					}
+					if (isSelected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+			atkSkill.skillIndex = setIndex;
 
 			ImGui::TreePop();
 		}

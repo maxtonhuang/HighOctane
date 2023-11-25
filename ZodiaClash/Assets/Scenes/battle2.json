@@ -1,19 +1,21 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 2,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1"
             ]
         }
     },
     {
         "Entity": {
             "Name": "master_00001",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 0
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
         },
         "Master": {},
         "Color": {
@@ -35,7 +37,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "duck.png"
+            "Texture File Path": "duck.spritesheet"
         },
         "Visible": {
             "isVisible": false
@@ -44,29 +46,28 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.0,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00001",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 0
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -95,30 +96,29 @@
             "width": 1920.0,
             "height": 1080.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.06666667014360428,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "Red Cat",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 1
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -147,19 +147,14 @@
             "width": 256.0,
             "height": 256.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.06666667014360428,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 0,
             "Max Health": 150.0,
+            "Health": 150.0,
             "Attack": 15.0,
             "Defense": 50.0,
             "Speed": 4,
@@ -171,18 +166,23 @@
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00007",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 2
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -201,37 +201,46 @@
             "isVisible": true
         },
         "Size": {
-            "width": 421.5,
+            "width": 432.5,
             "height": 59.5
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "ZodiaClash M2 Build",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "white"
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 3
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -262,48 +271,74 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Use Skill 1",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
+            "a": 0.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.12099599838256836,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "Guard",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 4
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -332,42 +367,42 @@
             "width": 256.0,
             "height": 256.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.06666667014360428,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 1,
             "Max Health": 120.0,
+            "Health": 120.0,
             "Attack": 10.0,
             "Defense": 15.0,
             "Speed": 1,
             "Skills": [
-                "Normal Attack",
+                "",
                 "Normal AOE",
                 "Test"
             ]
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "Blue Cat",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 5
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -396,19 +431,14 @@
             "width": 256.0,
             "height": 256.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.06666667014360428,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 0,
             "Max Health": 150.0,
+            "Health": 150.0,
             "Attack": 15.0,
             "Defense": 50.0,
             "Speed": 4,
@@ -420,18 +450,23 @@
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "Green Cat",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 6
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -460,19 +495,14 @@
             "width": 256.0,
             "height": 256.0
         },
-        "Animation": {
-            "Animation Type": 1,
-            "Frame Index": 0,
-            "Frame Time Elapsed": 0.06666667014360428,
-            "Frame Display Duration": 0.10000000149011612
-        },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "CharacterStats": {
             "Character type": 0,
             "Max Health": 150.0,
+            "Health": 150.0,
             "Attack": 15.0,
             "Defense": 0.0,
             "Speed": 4,
@@ -484,18 +514,23 @@
         },
         "Model": {
             "Model type": 0,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {}
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 7
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -526,48 +561,74 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Use Skill 2",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
+            "a": 0.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.07829141616821289,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "2",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 8
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -598,48 +659,74 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Use Skill 3",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
+            "a": 0.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.07829141616821289,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Select Skill",
             "Event Input": "3",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00007_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 9
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -658,40 +745,49 @@
             "isVisible": true
         },
         "Size": {
-            "width": 1058.0,
+            "width": 1070.5,
             "height": 59.5
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "PLEASE REFER TO CONSOLE FOR BATTLE OUTPUT",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
-            "Color Preset": "white"
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Collider": {
             "Collider Enum": 0
         }
     },
     {
+        "Clone": {},
         "Entity": {
             "Name": "entity_00011_CLONE_CLONE",
-            "Selected": false,
             "Current Layer": 0,
-            "Order in Layer": 10
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Clone": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -703,8 +799,8 @@
             "position_y": -290.0,
             "rotation": 0.0,
             "scale": 1.0,
-            "velocity_x": 0.00001542271456855815,
-            "velocity_y": 0.00001542271456855815
+            "velocity_x": 0.000014668063158751465,
+            "velocity_y": 0.000014668063158751465
         },
         "Texture": {
             "Texture Index": 0,
@@ -722,38 +818,63 @@
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
-            "Background scroll speed": 0.0
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "Return to main menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black"
+            "a": 0.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
         },
         "Button": {
-            "Button R": 0.09964418411254883,
-            "Button G": 0.0,
-            "Button B": 1.0,
-            "Button A": 1.0,
-            "Text R": 0.0,
-            "Text G": 0.0,
-            "Text B": 0.0,
-            "Text A": 1.0,
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 0.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 0.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 0.0,
             "Event Name": "Change Scene",
             "Event Input": "mainmenu.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
-            "Padding Right": 60.0
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         },
         "Collider": {
             "Collider Enum": 0

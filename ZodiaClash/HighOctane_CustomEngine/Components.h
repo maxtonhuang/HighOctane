@@ -72,11 +72,18 @@ Transform operator+ (const Transform& lhs, const Transform& rhs);
 
 struct Collider {
     enum SHAPE_ID {
-                            SHAPE_BOX,
-                            SHAPE_CIRCLE,
-                            NUM_OF_SHAPES
+        SHAPE_BOX,
+        SHAPE_CIRCLE,
+        NUM_OF_SHAPES
     };
     SHAPE_ID                bodyShape{};
+    Vec2                    dimension{};
+    Vec2                    position{};
+    float                   rotation{};
+    float                   scale{ 1.f };
+    float                   radius{};
+    Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
+
 };
 
 struct Size {

@@ -130,7 +130,7 @@ FMOD::Sound* AudioManager::AddSound(const char* path, const char* name) {
 }
 
 FMOD::Sound* AudioManager::AddMusic(const char* path, const char* name) {
-    if (data.count(name)) {
+    if (data[name] != nullptr) {
         return data[name];
     }
     FMOD_RESULT result;
@@ -165,6 +165,13 @@ void AudioManager::FreeSound(const char* sound) {
     data.erase(sound);
 }
 
+void AudioManager::SetBGM(const char* name) {
+    StopGroup("BGM");
+    FreeSound(currentBGM.c_str());
+    currentBGM = name;
+    PlaySounds(name, "BGM");
+}
+
 void AudioManager::ReleaseAllSounds() {
     for (auto const& sound : data) {
         sound.second->release();
@@ -191,4 +198,8 @@ std::vector<std::string> AudioManager::GetSoundPaths() {
 
 std::vector<std::string> AudioManager::GetMusicPaths() {
     return musicPaths;
+}
+
+std::string AudioManager::GetCurrentBGM() {
+    return currentBGM;
 }
