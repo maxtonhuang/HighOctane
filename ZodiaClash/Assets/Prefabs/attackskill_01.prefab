@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 11,
+            "layerCounter": 24,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -14,7 +14,20 @@
                 "Layer 7",
                 "Layer 8",
                 "Layer 9",
-                "Layer 10"
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23"
             ]
         }
     },
@@ -34,8 +47,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": 360.0,
+            "position_y": -360.0,
             "rotation": 0.0,
             "scale": 0.6000000238418579,
             "velocity_x": 0.0,
@@ -46,7 +59,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "zodiaclash_logo.png"
+            "Texture File Path": "skill_icon_basic.png"
         },
         "Visible": {
             "isVisible": false
@@ -108,7 +121,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Test",
-            "Event Input": "skillTest",
+            "Event Input": "skill1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -137,8 +150,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": 360.0,
+            "position_y": -360.0,
             "rotation": 0.0,
             "scale": 0.699999988079071,
             "velocity_x": 0.0,
@@ -191,8 +204,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": -120.0,
+            "position_x": 360.0,
+            "position_y": -480.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -258,8 +271,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -80.0,
-            "position_y": -120.0,
+            "position_x": 280.0,
+            "position_y": -480.0,
             "rotation": 0.0,
             "scale": 0.20000000298023224,
             "velocity_x": 0.0,
@@ -317,8 +330,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 50.0,
-            "position_y": 55.0,
+            "position_x": 410.0,
+            "position_y": -305.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -384,8 +397,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 80.0,
-            "position_y": 65.0,
+            "position_x": 440.0,
+            "position_y": -295.0,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,

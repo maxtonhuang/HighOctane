@@ -154,7 +154,7 @@ void TogglePause(std::string input) {
 }
 
 void ToggleHelp(std::string input) {
-	if (currentSystemMode == SystemMode::PAUSE) {
+	if ((currentSystemMode == SystemMode::PAUSE) || (currentSystemMode == SystemMode::EDIT)) {
 		return;
 	}
 	(void)input;

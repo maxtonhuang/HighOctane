@@ -1166,12 +1166,12 @@ void UIAttackSkillSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	auto& atkSkillArray = componentManager.GetComponentArrayRef<AttackSkill>();
-	auto& skillIconArray = componentManager.GetComponentArrayRef<SkillIcon>();
+	//auto& skillIconArray = componentManager.GetComponentArrayRef<SkillIcon>();
 	auto& skillAtkTypeArray = componentManager.GetComponentArrayRef<SkillAttackType>();
 	auto& skillCostArray = componentManager.GetComponentArrayRef<SkillCost>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
@@ -1182,29 +1182,26 @@ void UIAttackSkillSystem::Update() {
 
 		for (Entity const& entity : m_Entities) {
 			AttackSkill* atkSkillData = &atkSkillArray.GetData(entity);
+			Tex* texData = &texArray.GetData(entity);
+			Button* buttonData = &buttonArray.GetData(entity);
 			Parent* parentData = &parentArray.GetData(entity);
+
+			// update skill texture (SkillIcon component)
+			int chiBalance = battleSys->chi;
+			bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
+			//DEBUG_PRINT("chi balance: %d", chiBalance);
+			// function to update tex
+			atkSkillData->UpdateSkillTex(*texData);
+			// function to update button trigger
+			atkSkillData->UpdateSkillEvent(*buttonData);
+			// function to handle state if player has sufficient chi
+			atkSkillData->UpdateButtonState(*buttonData, isSufficient);
 
 			if (parentData->children.empty())
 				continue;
 
 			for (int count = 0; count < parentData->children.size(); count++) {
 				Entity childEntity = parentData->children[count];
-
-				// update skill texture (SkillIcon component)
-				if (skillIconArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Tex* texData = &texArray.GetData(childEntity);
-					Button* buttonData = &buttonArray.GetData(childEntity);
-					int chiBalance = battleSys->chi;
-					bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
-					DEBUG_PRINT("chi balance: %d", chiBalance);
-					// function to update tex
-					atkSkillData->UpdateSkillTex(*texData);
-					// function to update button trigger
-					atkSkillData->UpdateSkillEvent(*buttonData);
-					// function to handle state if player has sufficient chi
-					atkSkillData->UpdateButtonState(*buttonData, isSufficient);
-					continue;
-				}
 
 				// update skill attack type (SkillAttackType + TextLabel/Tex components)
 				if (skillAtkTypeArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
@@ -1214,9 +1211,9 @@ void UIAttackSkillSystem::Update() {
 					continue;
 				}
 				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Tex* texData = &texArray.GetData(childEntity);
+					Tex* childTexData = &texArray.GetData(childEntity);
 					// function to update icon
-					atkSkillData->UpdateAtkTypeIcon(*texData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
+					atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
 

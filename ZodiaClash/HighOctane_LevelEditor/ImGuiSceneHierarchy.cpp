@@ -706,7 +706,7 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<AttackSkill>(entity)) {
 		AttackSkill& atkSkill{ ECS::ecs().GetComponent<AttackSkill>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(AttackSkill).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "AttackSkill")) {
-			int setIndex = atkSkill.skillIndex;
+			int& setIndex = atkSkill.skillIndex;
 			const char* indexOptions[] = { "1", "2", "3" };
 			if (ImGui::BeginCombo("Select Skill", indexOptions[setIndex], 0)) {
 				for (int i = 0; i < IM_ARRAYSIZE(indexOptions); ++i) {
