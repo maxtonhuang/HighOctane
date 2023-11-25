@@ -54,7 +54,8 @@ enum class STATE {
 	NONE,
 	//SELECTED,
 	HOVERED,
-	FOCUSED
+	FOCUSED,
+	DISABLED
 };
 
 struct Padding {
@@ -193,13 +194,6 @@ public:
 
 	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
 	void UpdateColorSets(STATE currentState, glm::vec4 btnColor, glm::vec4 txtColor);
-
-	/*void OnClick(Model& modelData, Name& nameData) override;
-	void OnHover(Model& modelData, Name& nameData) override;
-	void OnFocus() override;*/
-
-	/*void DrawButton(Model& modelData, TextLabel& textLabelData);
-	void DrawButtonTex(Model& modelData, Tex& texData, TextLabel& textLabelData);*/
 };
 
 class HealthBar : UIComponent {
@@ -214,16 +208,8 @@ public:
 
 	float barWidth{};
 	float barHeight{};
-	//Vec2 relTransform{};
 
 	HealthBar();
-	//HealthBar(CharacterStats& charaStats);
-	//float GetCurrentHealth();
-	//float GetMaxHealth();
-	//float GetHealthPct();
-
-	//void SetCurrentHealth(float currentHp);
-	//void SetMaxHealth(float maxHp);
 	void UpdateHealth(CharacterStats& charaStatsData);
 	void UpdateTextDisplay(TextLabel& textLabelData);
 };
@@ -272,6 +258,13 @@ public:
 	//entity tagged with this component should have button component to implement button event
 	int skillIndex{};
 	Attack* atkSkillRef{};
+
+	void UpdateSkillTex(Tex& texData);
+	void UpdateSkillEvent(Button& buttonData);
+	void UpdateButtonState(Button& buttonData, bool isSufficient);
+	void UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType);
+	void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
+	void UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost);
 };
 
 class SkillIcon : UIComponent {

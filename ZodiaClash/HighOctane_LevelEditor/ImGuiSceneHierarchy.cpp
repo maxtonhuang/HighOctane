@@ -703,6 +703,30 @@ void SceneEntityComponents(Entity entity) {
 		}
 	}
 
+	if (ECS::ecs().HasComponent<AttackSkill>(entity)) {
+		AttackSkill& atkSkill{ ECS::ecs().GetComponent<AttackSkill>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(AttackSkill).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "AttackSkill")) {
+			int setIndex = atkSkill.skillIndex;
+			const char* indexOptions[] = { "1", "2", "3" };
+			if (ImGui::BeginCombo("Select Skill", indexOptions[setIndex], 0)) {
+				for (int i = 0; i < IM_ARRAYSIZE(indexOptions); ++i) {
+					bool isSelected = (setIndex == i);
+					if (ImGui::Selectable(indexOptions[i], isSelected)) {
+						setIndex = i;
+						
+					}
+					if (isSelected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+			atkSkill.skillIndex = setIndex;
+
+			ImGui::TreePop();
+		}
+	}
+
 	// if (ECS::ecs().HasComponent<Script>(entity)) {
 
 	// 	// If master entity is selected, do not allow editing of scripts

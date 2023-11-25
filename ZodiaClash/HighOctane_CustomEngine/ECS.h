@@ -634,6 +634,14 @@ public:
     void Update() override;
 };
 
+class UIAllyHudSystem : public System {
+    void Update() override;
+};
+
+class UIEnemyHudSystem : public System {
+    void Update() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;

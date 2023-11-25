@@ -371,7 +371,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) && !eventName.empty()) {
+				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) && (currentState != STATE::DISABLED) && !eventName.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -383,11 +383,14 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
-	else if (IsWithinObject(modelData, uiMousePos)) {
-		currentState = STATE::HOVERED;
-	}
-	else {
-		currentState = STATE::NONE;
+
+	if (currentState != STATE::DISABLED) {
+		if (IsWithinObject(modelData, uiMousePos)) {
+			currentState = STATE::HOVERED;
+		}
+		else {
+			currentState = STATE::NONE;
+		}
 	}
 
 	//outside edit mode, color change accordingly to state. otherwise show default
@@ -398,6 +401,9 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 			break;
 		case(STATE::FOCUSED):
 			textLabelData.textColor = focusedColor.textColor;
+			break;
+		case(STATE::DISABLED):
+			textLabelData.textColor = colors.colorMap["secondary"];
 			break;
 		default:
 			textLabelData.textColor = defaultColor.textColor;
@@ -495,14 +501,46 @@ void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar,
 ***** SKILLPT SYSTEM ******
 **************************/
 SkillPointHUD::SkillPointHUD() {
-	//battleSys = events.GetBattleSystem();
-	//skillPointBalance = battleSys.skillPoints;
-	maxSkillPoints = 5;
+	battleSys = events.GetBattleSystem();
+	maxSkillPoints = (battleSys) ? battleSys->chi : 0;
 	skillPointBalance = maxSkillPoints;
 }
 
 void SkillPointHUD::UpdateBalance() {
-	//skillPointBalance = battleSys.skillPoints;
+	battleSys = events.GetBattleSystem();
+	skillPointBalance = battleSys->chi;
+}
+
+
+/**************************
+**** ATK SKILL SYSTEM *****
+**************************/
+void AttackSkill::UpdateSkillTex(Tex& texData) {
+	// retrieve skill tex (to be stored)
+}
+
+void AttackSkill::UpdateSkillEvent(Button& buttonData) {
+	buttonData.eventName = "Select Skill";
+	buttonData.eventInput = std::to_string(skillIndex+ 1);
+}
+
+void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
+	if (!isSufficient) {
+		buttonData.currentState = STATE::DISABLED;
+	}
+}
+
+void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType) {
+	textLabelData.textString = (atkType == AttackType::NORMAL) ? "Single Target" : "AOE";
+}
+
+void AttackSkill::UpdateAtkTypeIcon(Tex& texData, AttackType atktype) {
+	//texData.tex = (atkType == AttackType::NORMAL) ? /* get asset: ST icon */ : /* get asset: AOE icon */;
+}
+
+void AttackSkill::UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost) {
+	textLabelData.textString = (skillCost > 0) ? " -" : " +";
+	textLabelData.textString += std::to_string(std::abs(skillCost));
 }
 
 

@@ -1121,13 +1121,16 @@ void UISkillPointSystem::Update() {
 	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
 	auto& skillPtArray = componentManager.GetComponentArrayRef<SkillPoint>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	for (Entity const& entity : m_Entities) {
-		TextLabel* textLabelData = &textLabelArray.GetData(entity);
-		SkillPointHUD* skillPtHudData = &skillPtHudArray.GetData(entity);
-		Parent* parentData = &parentArray.GetData(entity);
 
-		skillPtHudData->UpdateBalance();
-		textLabelData->SetTextString(std::to_string(skillPtHudData->skillPointBalance));
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys && battleSys->battleState == PLAYERTURN && battleSys->activeCharacter->tag == CharacterType::PLAYER) {
+		for (Entity const& entity : m_Entities) {
+			TextLabel* textLabelData = &textLabelArray.GetData(entity);
+			SkillPointHUD* skillPtHudData = &skillPtHudArray.GetData(entity);
+			Parent* parentData = &parentArray.GetData(entity);
+
+			skillPtHudData->UpdateBalance();
+			textLabelData->SetTextString(std::to_string(skillPtHudData->skillPointBalance));
 
 		if (parentData->children.empty())
 			continue;
@@ -1143,19 +1146,88 @@ void UISkillPointSystem::Update() {
 			if (skillPtData->isActive == (count < skillPtHudData->skillPointBalance))
 				continue;
 
-			//DEBUG_PRINT("UPDATING SKILLPOINT %d!", count+1)
-			skillPtData->isActive = !(skillPtData->isActive);
+				//DEBUG_PRINT("UPDATING SKILLPOINT %d!", count+1)
+				skillPtData->isActive = !(skillPtData->isActive);
 
-			//note: changes will be reflected outside of edit mode!
-			(skillPtData->isActive) ?
-				aniSetData->Start("Active", childEntity)
-				: aniSetData->Start("Inactive", childEntity);
+				//note: changes will be reflected outside of edit mode!
+				(skillPtData->isActive) ?
+					aniSetData->Start("Active", childEntity)
+					: aniSetData->Start("Inactive", childEntity);
+			}
 		}
 	}
 }
 
 void UIAttackSkillSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+	auto& atkSkillArray = componentManager.GetComponentArrayRef<AttackSkill>();
+	auto& skillIconArray = componentManager.GetComponentArrayRef<SkillIcon>();
+	auto& skillAtkTypeArray = componentManager.GetComponentArrayRef<SkillAttackType>();
+	auto& skillCostArray = componentManager.GetComponentArrayRef<SkillCost>();
+	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys && battleSys->battleState == PLAYERTURN && battleSys->activeCharacter->tag == CharacterType::PLAYER) {
+		std::vector<Attack>* characterSkills = &battleSys->activeCharacter->action.skills;
+
+		for (Entity const& entity : m_Entities) {
+			AttackSkill* atkSkillData = &atkSkillArray.GetData(entity);
+			Parent* parentData = &parentArray.GetData(entity);
+
+			if (parentData->children.empty())
+				continue;
+
+			for (int count = 0; count < parentData->children.size(); count++) {
+				Entity childEntity = parentData->children[count];
+
+				// update skill texture (SkillIcon component)
+				if (skillIconArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
+					Tex* texData = &texArray.GetData(childEntity);
+					Button* buttonData = &buttonArray.GetData(childEntity);
+					int chiBalance = battleSys->chi;
+					bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
+					DEBUG_PRINT("chi balance: %d", chiBalance);
+					// function to update tex
+					atkSkillData->UpdateSkillTex(*texData);
+					// function to update button trigger
+					atkSkillData->UpdateSkillEvent(*buttonData);
+					// function to handle state if player has sufficient chi
+					atkSkillData->UpdateButtonState(*buttonData, isSufficient);
+					continue;
+				}
+
+				// update skill attack type (SkillAttackType + TextLabel/Tex components)
+				if (skillAtkTypeArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
+					TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
+					 // function to update attack type text label
+					atkSkillData->UpdateAtkTypeLbl(*textLabelData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
+					continue;
+				}
+				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
+					Tex* texData = &texArray.GetData(childEntity);
+					// function to update icon
+					atkSkillData->UpdateAtkTypeIcon(*texData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
+					continue;
+				}
+
+				// update chi cost (SkillCost + TextLabel components)
+				if (skillCostArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
+					TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
+					// function to update textlabel
+					//DEBUG_PRINT("index: %d", atkSkillData->skillIndex);
+					atkSkillData->UpdateSkillCostLbl(*textLabelData, (*characterSkills)[atkSkillData->skillIndex].chiCost);
+					continue;
+				}
+			}
+		}
+	}
 }
 
 void ChildSystem::Update() {
