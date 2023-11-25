@@ -32,9 +32,14 @@ void AnimationSet::Update(Entity entity) {
 	}
 }
 
+AnimationSet::AnimationSet(const AnimationSet& copy) {
+	*this = copy;
+}
+
 AnimationSet& AnimationSet::operator= (const AnimationSet& copy) {
 	animationSet = copy.animationSet;
 	defaultAnimation = copy.defaultAnimation;
+	initialised = false;
 	return *this;
 }
 
@@ -54,7 +59,7 @@ void AnimationGroup::Update(Entity entity) {
 	}
 	for (auto& a : animations) {
 		if (a->IsActive()) {
-			printf("%d update %s\n", parent, a->GetType().c_str());
+			//printf("%d update %s\n", parent, a->GetType().c_str());
 			a->SetParent(entity);
 			a->Update(currentFrame);
 		}
@@ -393,7 +398,6 @@ void TransformDirectAnimation::Update(int frameNum) {
 
 	entityTransform->position += velocity;
 	entityTransform->rotation += rotation * vmath::PI / 180;
-	printf("%d transform: %f %f\n", parent, entityTransform->position.x, entityTransform->position.y);
 	if (entityTransform->rotation > vmath::PI) {
 		entityTransform->rotation -= 2 * vmath::PI;
 	}
@@ -568,6 +572,7 @@ SelfDestructAnimation::SelfDestructAnimation() {
 }
 void SelfDestructAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
+		printf("Destroying %d\n", parent);
 		EntityFactory::entityFactory().DeleteCloneModel(parent);
 	}
 }

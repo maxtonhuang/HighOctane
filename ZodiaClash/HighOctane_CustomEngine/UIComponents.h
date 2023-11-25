@@ -297,6 +297,7 @@ class EnemyHUD : UIComponent {
 
 class TurnIndicator : UIComponent {
 	//TODO
+public:
 	Entity character; //character this indicator links to
 };
 

@@ -47,13 +47,15 @@ public:
 	void Start(std::string animationName, Entity entity);
 	void Initialise(Entity entity);
 	void Update(Entity entity);
+	AnimationSet() = default;
+	AnimationSet(const AnimationSet&);
 	AnimationSet& operator= (const AnimationSet&);
 	std::vector<AnimationGroup> animationSet;
 	bool paused;
 	std::string defaultAnimation{};
 	AnimationGroup* activeAnimation;
 private:
-	bool initialised;
+	bool initialised{ false };
 };
 
 template <typename T>

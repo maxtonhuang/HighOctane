@@ -513,7 +513,7 @@ void SerializationSystem::Update() {
 			sceneFile.close();
 		}
 
-		initLevel = true;
+		//initLevel = true;
 		playButton = false;
 	}
 
