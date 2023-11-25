@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 13,
+            "layerCounter": 17,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -16,7 +16,11 @@
                 "Layer 9",
                 "Layer 10",
                 "Layer 11",
-                "Layer 12"
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16"
             ]
         }
     },
@@ -52,15 +56,6 @@
         "Scripts": {
             "className": "",
             "scriptAttachedNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 1000.0,
-            "Health": 1000.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
         },
         "Model": {
             "Model type": 3,

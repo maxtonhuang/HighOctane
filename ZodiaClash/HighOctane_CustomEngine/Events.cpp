@@ -130,7 +130,6 @@ void SelectSkill(std::string input) {
 	bs->activeCharacter->action.entityState = ATTACKING;
 }
 void TogglePause(std::string input) {
-	return;
 	if (currentSystemMode == SystemMode::GAMEHELP) {
 		return;
 	}
