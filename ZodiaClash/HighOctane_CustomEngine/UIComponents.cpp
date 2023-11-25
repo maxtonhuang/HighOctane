@@ -488,7 +488,7 @@ void HealthRemaining::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, S
 
 void HealthRemaining::UpdateColors(Model& modelData, CharacterStats& parentCharaStats) {
 	if (!(&parentCharaStats)) {
-		modelData.SetColor(0.f, 1.f, 0.f);
+		modelData.SetColor(1.f, 1.f, 1.f);
 		return;
 	}
 
@@ -498,9 +498,9 @@ void HealthRemaining::UpdateColors(Model& modelData, CharacterStats& parentChara
 	else if (parentCharaStats.tag == CharacterType::ENEMY) {
 		modelData.SetColor(1.f, 0.f, 0.f);
 	}
-	else {
-		modelData.SetColor(1.f, 1.f, 1.f);
-	}
+	//else {
+	//	modelData.SetColor(1.f, 1.f, 1.f);
+	//}
 }
 
 void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData) {
@@ -561,8 +561,26 @@ void AttackSkill::UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost) {
 /**************************
 ***** ALLY HUD SYSTEM *****
 **************************/
-void AllyHUD::CheckValidIndex(int playerCount) {
+void AllyHUD::CheckValidIndex(int playerCount, bool& result) {
+	if (!playerCount) {
+		result = false;
+		return;
+	}
+	result = true;
 	allyIndex = allyIndex % playerCount;
+}
+
+
+/**************************
+**** ENEMY HUD SYSTEM *****
+**************************/
+void EnemyHUD::CheckValidIndex(int enemyCount, bool& result) {
+	if (!enemyCount) {
+		result = false;
+		return;
+	}
+	result = true;
+	enemyIndex = enemyIndex % enemyCount;
 }
 
 

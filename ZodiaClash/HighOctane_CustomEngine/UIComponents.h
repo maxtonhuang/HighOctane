@@ -284,7 +284,7 @@ class AllyHUD : UIComponent {
 public:
 	int allyIndex{};
 
-	void CheckValidIndex(int playerCount);
+	void CheckValidIndex(int playerCount, bool& res);
 
 	// FUTURE IMPLEMENTATIONS: dynamic allocation!!
 	//static int allyInstanceIndex;
@@ -292,7 +292,10 @@ public:
 };
 
 class EnemyHUD : UIComponent {
-	//TODO
+public:
+	int enemyIndex{};
+
+	void CheckValidIndex(int enemyCount, bool& res);
 };
 
 class TurnIndicator : UIComponent {

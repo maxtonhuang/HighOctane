@@ -295,6 +295,11 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(uiAllyHudSystem, "UI Ally HUD System");
 	systemList.emplace_back(uiAllyHudSystem, "UI Ally HUD System");
 
+	std::shared_ptr<UIEnemyHudSystem> uiEnemyHudSystem = ECS::ecs().RegisterSystem<UIEnemyHudSystem>();
+	runSystemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+	editSystemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+	systemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	editSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -544,8 +549,6 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		/*signature.set(ECS::ecs().GetComponentType<Transform>());
-		signature.set(ECS::ecs().GetComponentType<Size>());*/
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
@@ -554,6 +557,18 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UIAllyHudSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<HealthBar>());
+		signature.set(ECS::ecs().GetComponentType<EnemyHUD>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+
+		ECS::ecs().SetSystemSignature<UIEnemyHudSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////

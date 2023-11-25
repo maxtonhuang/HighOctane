@@ -762,6 +762,16 @@ void SceneEntityComponents(Entity entity) {
 		}
 	}
 
+	if (ECS::ecs().HasComponent<EnemyHUD>(entity)) {
+		EnemyHUD& enemyHud{ ECS::ecs().GetComponent<EnemyHUD>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(EnemyHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "EnemyHUD")) {
+			int& setIndex = enemyHud.enemyIndex;
+			ImGui::DragInt("Enemy Index", &setIndex, 1);
+			enemyHud.enemyIndex = setIndex;
+			ImGui::TreePop();
+		}
+	}
+
 	// if (ECS::ecs().HasComponent<Script>(entity)) {
 
 	// 	// If master entity is selected, do not allow editing of scripts

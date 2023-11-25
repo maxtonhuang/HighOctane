@@ -1244,8 +1244,34 @@ void UIAllyHudSystem::Update() {
 		for (Entity const& entity : m_Entities) {
 			AllyHUD* allyHudData = &allyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
-			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()));
-			healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+			bool checkResult = false;
+			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
+			if (checkResult) {
+				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+			}			
+		}
+	}
+}
+
+void UIEnemyHudSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		static std::vector<CharacterStats*> allEnemies = battleSys->GetEnemies();
+		for (Entity const& entity : m_Entities) {
+			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
+			HealthBar* healthBarData = &healthBarArray.GetData(entity);
+			bool checkResult = false;
+			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
+			if (checkResult) {
+				healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
+			}			
 		}
 	}
 }
