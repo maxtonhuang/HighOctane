@@ -1075,7 +1075,7 @@ void UIHealthBarSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	//auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& healthRemainingArray = componentManager.GetComponentArrayRef<HealthRemaining>();
@@ -1084,11 +1084,11 @@ void UIHealthBarSystem::Update() {
 
 	for (Entity const& entity : m_Entities) {
 		Size* pSizeData = &sizeArray.GetData(entity);
-		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		//CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
 		HealthBar* healthBarData = &healthBarArray.GetData(entity);
 		Parent* parentData = &parentArray.GetData(entity);
 
-		healthBarData->UpdateHealth(*charaStatsData);
+		healthBarData->UpdateHealth();
 
 		if (parentData->children.empty())
 			continue;
@@ -1103,7 +1103,7 @@ void UIHealthBarSystem::Update() {
 				Size* cSizeData = &sizeArray.GetData(childEntity);
 				healthRemainingData->currentHealth = healthBarData->currentHealth;
 				healthRemainingData->UpdateSize(*healthBarData, *pSizeData, *cSizeData);
-				healthRemainingData->UpdateColors(*childModel, *charaStatsData);
+				healthRemainingData->UpdateColors(*childModel, *healthBarData->charaStatsRef);
 				healthRemainingData->UpdateOffset(*pSizeData, *healthBarData, *childData);
 			}
 			if (textLabelArray.HasComponent(childEntity)) {
@@ -1191,7 +1191,7 @@ void UIAttackSkillSystem::Update() {
 			bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
 			//DEBUG_PRINT("chi balance: %d", chiBalance);
 			// function to update tex
-			atkSkillData->UpdateSkillTex(*texData);
+			//atkSkillData->UpdateSkillTex(*texData);
 			// function to update button trigger
 			atkSkillData->UpdateSkillEvent(*buttonData);
 			// function to handle state if player has sufficient chi
@@ -1213,7 +1213,7 @@ void UIAttackSkillSystem::Update() {
 				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
 					Tex* childTexData = &texArray.GetData(childEntity);
 					// function to update icon
-					atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
+					//atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
 
@@ -1226,6 +1226,52 @@ void UIAttackSkillSystem::Update() {
 					continue;
 				}
 			}
+		}
+	}
+}
+
+void UIAllyHudSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& allyHudArray = componentManager.GetComponentArrayRef<AllyHUD>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		std::vector<CharacterStats*> allPlayers = battleSys->GetPlayers();
+		for (Entity const& entity : m_Entities) {
+			AllyHUD* allyHudData = &allyHudArray.GetData(entity);
+			HealthBar* healthBarData = &healthBarArray.GetData(entity);
+			bool checkResult = false;
+			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
+			if (checkResult) {
+				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+			}			
+		}
+	}
+}
+
+void UIEnemyHudSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		std::vector<CharacterStats*> allEnemies = battleSys->GetEnemies();
+		for (Entity const& entity : m_Entities) {
+			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
+			HealthBar* healthBarData = &healthBarArray.GetData(entity);
+			bool checkResult = false;
+			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
+			if (checkResult) {
+				healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
+			}			
 		}
 	}
 }

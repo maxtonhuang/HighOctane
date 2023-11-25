@@ -198,7 +198,7 @@ public:
 
 class HealthBar : UIComponent {
 public:
-	//CharacterStats* charaStatsRef{};
+	CharacterStats* charaStatsRef{};
 	float currentHealth{};
 	float maxHealth{};	
 	float healthPct{};
@@ -210,7 +210,7 @@ public:
 	float barHeight{};
 
 	HealthBar();
-	void UpdateHealth(CharacterStats& charaStatsData);
+	void UpdateHealth();
 	void UpdateTextDisplay(TextLabel& textLabelData);
 };
 
@@ -257,7 +257,7 @@ public:
 	//parent entity of SkillIcon, SkillCost, AttackType
 	//entity tagged with this component should have button component to implement button event
 	int skillIndex{};
-	Attack* atkSkillRef{};
+	//Attack* atkSkillRef{};
 
 	void UpdateSkillTex(Tex& texData);
 	void UpdateSkillEvent(Button& buttonData);
@@ -281,15 +281,24 @@ class SkillAttackType : UIComponent {
 };
 
 class AllyHUD : UIComponent {
-	//TODO
+public:
+	int allyIndex{};
+
+	void CheckValidIndex(int playerCount, bool& res);
+
+	// FUTURE IMPLEMENTATIONS: dynamic allocation!!
+	//static int allyInstanceIndex;
+	//AllyHUD() : allyIndex{ allyInstanceIndex++ } {}
 };
 
 class EnemyHUD : UIComponent {
-	//TODO
+public:
+	int enemyIndex{};
+
+	void CheckValidIndex(int enemyCount, bool& res);
 };
 
 class TurnIndicator : UIComponent {
-	//TODO
 public:
 	Entity character; //character this indicator links to
 };

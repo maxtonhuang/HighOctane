@@ -1,6 +1,7 @@
 #include "CheatCode.h"
 
 bool godModeOn{ false };
+bool endGameOn{ false };
 
 void RestoreFullHealth(CharacterStats& character) {
 	if (godModeOn) {
@@ -10,8 +11,20 @@ void RestoreFullHealth(CharacterStats& character) {
 	}
 }
 
+void DestroyAllHealth(CharacterStats& character) {
+	if (endGameOn) {
+		if (character.tag == CharacterType::ENEMY) {
+			character.stats.health = 0.f;
+		}
+	}
+}
+
 void ToggleGodMode() {
 	godModeOn = !godModeOn; // reset the state back to non god mode
+}
+
+void ToggleEndGameMode() {
+	endGameOn = !endGameOn;
 }
 
 void ActivateNextLevel() {

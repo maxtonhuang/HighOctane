@@ -46,7 +46,7 @@ public:
 	void CalculateDamage(CharacterStats const& target);
     void SetOwner(CharacterStats* input);
 
-    AttackType attacktype;
+    AttackType attacktype{};
     std::string attackName;
 
     int skillAttackPercent{};
@@ -57,9 +57,9 @@ public:
     int   chiCost{};
 
 private:
-    CharacterStats* owner;
-    bool critCheck;
-    float damage;
+    CharacterStats* owner{};
+    bool critCheck{};
+    float damage{};
 };
 
 class AttackList {

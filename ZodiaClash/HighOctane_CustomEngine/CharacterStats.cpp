@@ -97,12 +97,17 @@ void CharacterStats::TakeDamage(float damage)
 {
     if (godModeOn && this->tag == CharacterType::PLAYER) {
         // in God Mode, the player does not take damage
+        RestoreFullHealth(*this);
         return;
     }
 
     if (godModeOn && this->tag == CharacterType::ENEMY) {
         // in God Mode, the enemy takes double the damage from the player
         damage *= 2;
+    }
+
+    if (endGameOn && this->tag == CharacterType::ENEMY) {
+        DestroyAllHealth(*this);
     }
 
     if (parent->m_Entities.size() > 0) {
