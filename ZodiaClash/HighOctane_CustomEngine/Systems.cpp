@@ -1240,7 +1240,7 @@ void UIAllyHudSystem::Update() {
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
-		static std::vector<CharacterStats*> allPlayers = battleSys->GetPlayers();
+		std::vector<CharacterStats*> allPlayers = battleSys->GetPlayers();
 		for (Entity const& entity : m_Entities) {
 			AllyHUD* allyHudData = &allyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
@@ -1263,7 +1263,7 @@ void UIEnemyHudSystem::Update() {
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
-		static std::vector<CharacterStats*> allEnemies = battleSys->GetEnemies();
+		std::vector<CharacterStats*> allEnemies = battleSys->GetEnemies();
 		for (Entity const& entity : m_Entities) {
 			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
