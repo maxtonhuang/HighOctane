@@ -266,12 +266,12 @@ void GameStateMgr::NextLevel() {
     // Check if there is a specific game state associated with each level
     int newLevel = gameLevel->GetCurrentLevel();
     if (newLevel < static_cast<int>(gameStateCount)) {
-        // Assuming each level has a corresponding game state
+        //each level has a corresponding game state
         ChangeGameState(newLevel);
     }
     else {
-        // If the new level exceeds the number of game states, perhaps loop back or end the game
-        ChangeGameState(GS_QUIT); // or any other end state
+        // if the new level exceeds the number of game states, end the game
+        ChangeGameState(GS_QUIT);
     }
 }
 

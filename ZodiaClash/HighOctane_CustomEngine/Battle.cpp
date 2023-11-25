@@ -282,15 +282,6 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
-        if (godModeOn) {
-            // Ensure the active player character has full health
-            for (Entity entity : m_Entities) {
-                CharacterStats* cs = &statsArray->GetData(entity);
-                if (cs->tag == CharacterType::PLAYER) {
-                    RestoreFullHealth(*cs);
-                }
-            }
-        }
         if (activeCharacter->action.entityState == EntityState::ENDING) {
 
             //Update turn order animator
