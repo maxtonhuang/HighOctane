@@ -42,6 +42,7 @@ More important overloads
 namespace vmath {
 
 	constexpr float PI = 3.141592653589793238463f;
+	constexpr float NINETYDEGREES = 1.5707963267948966192315f;
 
 	/**************************************************************************/
 	/*!
@@ -198,6 +199,15 @@ namespace vmath {
 
 			/**************************************************************************/
 			/*!
+				This function will return the squared distance of a line.
+			*/
+			/**************************************************************************/
+			static float LengthSquared(const Vector2& a) {
+				return a.x * a.x + a.y * a.y;
+			}
+
+			/**************************************************************************/
+			/*!
 				Test if the vector is in the range of the object
 			*/
 			/**************************************************************************/
@@ -209,6 +219,54 @@ namespace vmath {
 					return false;
 				}
 			}
+
+			/**************************************************************************/
+			/*!
+				Returns the vector from two points
+			*/
+			/**************************************************************************/
+			static Vector2 VectorFromTwoPoints(const Vector2& a, const Vector2& b) {
+				return { a.x - b.x, a.y - b.y };
+			}
+
+			/**************************************************************************/
+			/*!
+				Returns the outward normal of the vector
+			*/
+			/**************************************************************************/
+			static Vector2 GetOutwardNormal(const Vector2& a) {
+				return { a.y, -(a.x) };
+			}
+
+			/**************************************************************************/
+			/*!
+				Returns the point projected from a point onto a line
+			*/
+			/**************************************************************************/
+			static Vector2 ProjectedPointOnLine(Vector2 head, Vector2 tail, Vector2 point);
+
+			/**************************************************************************/
+			/*!
+				Returns the distance between two points
+			*/
+			/**************************************************************************/
+			static float DistanceBetweenPoints(const Vector2& a, const Vector2& b) {
+				return sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
+			}
+
+			/**************************************************************************/
+			/*!
+				Returns the squared distance between two points
+			*/
+			/**************************************************************************/
+			static float SquaredDistanceBetweenPoints(const Vector2& a, const Vector2& b) {
+				return (((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
+			}
+
+
+			static bool IsPointOutside(Vector2 head, Vector2 tail, Vector2 point);
+
+
 			/*----------------------------------------------------
 						Mostly for debugging purposes          
 			----------------------------------------------------*/
@@ -288,6 +346,22 @@ namespace vmath {
 				return retString;
 			}
 	};
+
+
+	/**************************************************************************/
+	/*!
+		Binary Operators
+	*/
+	/**************************************************************************/
+	Vector2	operator+(const Vector2& lhs, const Vector2& rhs);
+
+	Vector2	operator-(const Vector2& lhs, const Vector2& rhs);
+
+	Vector2	operator*(const Vector2& lhs, float rhs);
+
+	Vector2	operator*(float lhs, const Vector2& rhs);
+
+	Vector2	operator/(const Vector2& lhs, float rhs);
 
 	/**************************************************************************/
 	/*!

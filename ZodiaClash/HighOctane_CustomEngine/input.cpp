@@ -45,7 +45,7 @@
 #define UNREFERENCED_PARAMETER(P) (P)
 
 // Higher is less sensitive //
-constexpr int MOUSE_SENSITIVITY = 3;
+constexpr int MOUSE_SENSITIVITY = 1;
 
 std::unordered_map<int, INFO> keyStatus;
 std::unordered_map<int, INFO> mouseStatus;

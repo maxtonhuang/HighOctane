@@ -427,6 +427,9 @@
     <ClCompile Include="DebugBuffer.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
+    <ClCompile Include="VMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

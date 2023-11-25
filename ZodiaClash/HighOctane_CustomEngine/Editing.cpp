@@ -41,6 +41,7 @@
 #include "debugdiagnostic.h"
 #include "DebugProfile.h"
 #include "EntityFactory.h"
+#include "vmath.h"
 #include <algorithm>
 #include <limits>
 #include "UndoRedo.h"
@@ -80,19 +81,19 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				SetCursor(hDefaultCursor);
 			}
 		}
-		else if (selectedEntities.size() == 1 && IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model.GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 			//name.clicked == CLICKED::NE;
 			SetCursor(hNESWCursor);
 		}
-		else if (selectedEntities.size() == 1 && IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model.GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
 			//name.clicked == CLICKED::SW;
 			SetCursor(hNESWCursor);
 		}
-		else if (selectedEntities.size() == 1 && IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model.GetBotRight(), currentMousePosition, CORNER_SIZE)) {
 			//name.clicked == CLICKED::SE;
 			SetCursor(hNWSECursor);
 		}
-		else if (selectedEntities.size() == 1 && IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model.GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
 			//name.clicked == CLICKED::NW;
 			SetCursor(hNWSECursor);
 		}
@@ -137,22 +138,22 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 						printf("INSIDE ------");
 					}
 				}
-				else if (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model.GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NE;
 					printf("NE ------");
 				}
-				else if (IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model.GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::SW;
 					printf("SW ------");
 				}
-				else if (IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model.GetBotRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::SE;
 					printf("SE ------");
 				}
-				else if (IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model.GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NW;
 					printf("NW ------");
@@ -187,28 +188,58 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					case CLICKED::NE:
 					{
 						draggingThisCycle = true;
-						//printf("Mouse Position: %f, %f\n", currentMousePosition.x, currentMousePosition.y);
-						//printf("Model Position: %f, %f\n", model.GetMax().x, model.GetMax().y);
-						float deltaX = currentMousePosition.x - model.GetMax().x;
-						float deltaY = currentMousePosition.y - model.GetMax().y;
-						//printf("Delta: %f, %f\n", deltaX, deltaY);
-						float currWidth = model.GetMax().x - model.GetMin().x;
-						float currHeight = model.GetMax().y - model.GetMin().y;
-						if (deltaX < deltaY) {
-							transform.scale *= (currWidth + deltaX) / currWidth;
-							//transform.position.x += deltaX / 2.f;
-							//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
-						}
-						else {
-							transform.scale *= (currHeight + deltaY) / currHeight;
-							//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
-							//transform.position.y += deltaY / 2.f;
+						if (mouseMoved) {
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopRight(), model.GetBotRight(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopRight(), model.GetTopLeft(), currentMousePosition));
+							
+							deltaX = vmath::Vector2::IsPointOutside(model.GetTopRight(), model.GetBotRight(), currentMousePosition) ? deltaX : -deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model.GetTopRight(), model.GetTopLeft(), currentMousePosition) ? -deltaY : deltaY;
+							
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+							
+							if (deltaX < deltaY) {
+								transform.scale = std::clamp( transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								//transform.position.x += deltaX / 2.f;
+								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
+							}
+							else {
+								transform.scale = std::clamp( transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
+								//transform.position.y += deltaY / 2.f;
+							}
 						}
 					}
 					break;
 					case CLICKED::SW:
 					{
 						draggingThisCycle = true;
+						if (mouseMoved) {
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotLeft(), model.GetBotRight(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotLeft(), model.GetTopLeft(), currentMousePosition));
+
+							deltaX = vmath::Vector2::IsPointOutside(model.GetBotLeft(), model.GetTopLeft(), currentMousePosition) ? deltaX : -deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model.GetBotLeft(), model.GetBotRight(), currentMousePosition) ? -deltaY : deltaY;
+
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+
+							if (deltaX < deltaY) {
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								//transform.position.x += deltaX / 2.f;
+								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
+							}
+							else {
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
+								//transform.position.y += deltaY / 2.f;
+							}
+						}
+					}
+
+
+					/* {
+						draggingThisCycle = true;
 						float deltaX = model.GetMin().x - currentMousePosition.x;
 						float deltaY = model.GetMin().y - currentMousePosition.y;
 						float currWidth = model.GetMax().x - model.GetMin().x;
@@ -223,10 +254,38 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 							//transform.position.x -= (deltaY * currWidth / currHeight) / 2.f;
 							//transform.position.y -= deltaY / 2.f;
 						}
-					}
+					}*/
 					break;
 					case CLICKED::NW:
+
+
 					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopLeft(), model.GetTopRight(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopLeft(), model.GetBotLeft(), currentMousePosition));
+
+							deltaX = vmath::Vector2::IsPointOutside(model.GetTopLeft(), model.GetBotLeft(), currentMousePosition) ? -deltaX : deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model.GetTopLeft(), model.GetTopRight(), currentMousePosition) ? deltaY : -deltaY;
+
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+
+							if (deltaX < deltaY) {
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								//transform.position.x += deltaX / 2.f;
+								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
+							}
+							else {
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
+								//transform.position.y += deltaY / 2.f;
+							}
+						}
+					}
+
+
+					/* {
 						draggingThisCycle = true;
 						float deltaX = model.GetMin().x - currentMousePosition.x;
 						float deltaY = currentMousePosition.y - model.GetMax().y;
@@ -242,10 +301,38 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 							//transform.position.x -= (deltaY * currWidth / currHeight) / 2.f;
 							//transform.position.y += deltaY / 2.f;
 						}
-					}
+					}*/
 					break;
 					case CLICKED::SE:
+
 					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotRight(), model.GetBotLeft(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotRight(), model.GetTopRight(), currentMousePosition));
+
+							deltaX = vmath::Vector2::IsPointOutside(model.GetBotRight(), model.GetTopRight(), currentMousePosition) ? -deltaX : deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model.GetBotRight(), model.GetBotLeft(), currentMousePosition) ? deltaY : -deltaY;
+
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+
+							if (deltaX < deltaY) {
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								//transform.position.x += deltaX / 2.f;
+								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
+							}
+							else {
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
+								//transform.position.y += deltaY / 2.f;
+							}
+						}
+					}
+
+
+
+					/* {
 						draggingThisCycle = true;
 						float deltaX = currentMousePosition.x - model.GetMax().x;
 						float deltaY = model.GetMin().y - currentMousePosition.y;
@@ -261,7 +348,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 							//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
 							//transform.position.y -= deltaY / 2.f;
 						}
-					}
+					}*/
 					break;
 					case CLICKED::INSIDE:
 						if (withinSomething) {

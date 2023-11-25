@@ -42,11 +42,22 @@
 *	-
 *
 ******************************************************************************/
-bool IsWithinObject(Model & model, vmath::Vector2 cursorPos) {
-	if (cursorPos.x < model.GetMin().x || cursorPos.x > model.GetMax().x || cursorPos.y < model.GetMin().y || cursorPos.y > model.GetMax().y) {
+bool IsWithinObject(Model& model, vmath::Vector2 cursorPos) {
+
+	if ( vmath::Vector2::dot(vmath::Vector2::GetOutwardNormal(vmath::Vector2::VectorFromTwoPoints(model.GetTopLeft(), model.GetTopRight())), vmath::Vector2::VectorFromTwoPoints(cursorPos, model.GetTopRight())) > 0.f ||
+		vmath::Vector2::dot(vmath::Vector2::GetOutwardNormal(vmath::Vector2::VectorFromTwoPoints(model.GetBotLeft(), model.GetTopLeft())), vmath::Vector2::VectorFromTwoPoints(cursorPos, model.GetTopLeft())) > 0.f ||
+		vmath::Vector2::dot(vmath::Vector2::GetOutwardNormal(vmath::Vector2::VectorFromTwoPoints(model.GetBotRight(), model.GetBotLeft())), vmath::Vector2::VectorFromTwoPoints(cursorPos, model.GetBotLeft())) > 0.f ||
+		vmath::Vector2::dot(vmath::Vector2::GetOutwardNormal(vmath::Vector2::VectorFromTwoPoints(model.GetTopRight(), model.GetBotRight())), vmath::Vector2::VectorFromTwoPoints(cursorPos, model.GetBotRight())) > 0.f
+		)
+	{
 		return false;
 	}
 	return true;
+
+	//if (cursorPos.x < model.GetMin().x || cursorPos.x > model.GetMax().x || cursorPos.y < model.GetMin().y || cursorPos.y > model.GetMax().y) {
+	//	return false;
+	//}
+	//return true;
 }
 
 /******************************************************************************
