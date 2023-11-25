@@ -81,6 +81,12 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             }
             graphics.Fullscreen(fullscreen);
         }
+        if (GLFW_KEY_G == key) {
+            ToggleGodMode();
+        }
+        if (GLFW_KEY_E == key) {
+            ToggleEndGameMode();
+        }
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;
