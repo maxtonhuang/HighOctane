@@ -648,7 +648,7 @@ void EngineCore::Run(bool const& mode) {
 			systemList = &pauseSystemList; // Same things as pause system list
 			break;
 		}
-		//std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
+		// std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
 

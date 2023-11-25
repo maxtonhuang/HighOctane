@@ -441,7 +441,7 @@
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
-            "Event Name": "Change Scene",
+            "Event Name": "Toggle Help",
             "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
