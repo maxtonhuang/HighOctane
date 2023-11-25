@@ -528,6 +528,9 @@ void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
 	if (!isSufficient) {
 		buttonData.currentState = STATE::DISABLED;
 	}
+	else {
+		buttonData.currentState = STATE::NONE;
+	}
 }
 
 void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType) {

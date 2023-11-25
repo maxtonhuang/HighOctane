@@ -113,11 +113,8 @@ void SelectSkill(std::string input) {
 		return;
 	}
 
-	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
-
 	// check if the character has enough Chi to perform the skill
-	BattleSystem* battlesys = events.GetBattleSystem();
-	if (battlesys->chi >= bs->activeCharacter->action.selectedSkill.chiCost) {
+	if (bs->chi >= bs->activeCharacter->action.skills[skillnum - 1].chiCost) {
 		auto targets = bs->GetEnemies();
 		bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 		bs->activeCharacter->action.entityState = ATTACKING;
@@ -126,11 +123,14 @@ void SelectSkill(std::string input) {
 		// handle not enough Chi, ZR part?
 	}
 
+	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
+
 	auto targets = bs->GetEnemies();
 	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 	bs->activeCharacter->action.entityState = ATTACKING;
 }
 void TogglePause(std::string input) {
+	return;
 	if (currentSystemMode == SystemMode::GAMEHELP) {
 		return;
 	}

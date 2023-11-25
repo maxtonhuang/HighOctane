@@ -415,8 +415,10 @@ void EntityFactory::DeleteCloneModel(Entity entity) {
 
 void EntityFactory::UpdateDeletion() {
 	for (Entity entity : deletionEntitiesList) {
-		ECS::ecs().DestroyEntity(entity);
-		RemoveEntityFromLayering(entity);
+		if (ECS::ecs().EntityExists(entity)) {
+			ECS::ecs().DestroyEntity(entity);
+			RemoveEntityFromLayering(entity);
+		}
 	}
 	deletionEntitiesList.clear();
 }

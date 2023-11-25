@@ -196,6 +196,7 @@ void BattleSystem::Update()
             if (m_Entities.size() > 0) {
                 printf("\nState: Win\n");
                 LOG_WARNING("State: Win");
+                EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
             }
             
             battleState = WIN;
@@ -206,6 +207,7 @@ void BattleSystem::Update()
             if (m_Entities.size() > 0) {
                 printf("\nState: Lose\n");
                 LOG_WARNING("State: Lose");
+                EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
             }
             
             battleState = LOSE;
@@ -305,20 +307,40 @@ void BattleSystem::Update()
             }
             turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
 
-            battleState = NEXTTURN;
-        }
-        else if (activeCharacter->action.entityState == EntityState::DYING) {
-            if (m_Entities.size() > 0) {
-                std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
-                printf("%s died\n", name.c_str());
-                DEBUG_PRINT("%s died", name.c_str());
+            //Process dead characters
+            std::vector<CharacterStats*> deadchars{};
+            for (CharacterStats* c : turnManage.turnOrderList) {
+                if (c->stats.health == 0) {
+                    deadchars.push_back(c);
+                }
             }
-            turnManage.turnOrderList.remove(activeCharacter);
-            turnManage.originalTurnOrderList.remove(activeCharacter);
-            turnManage.characterList.remove(*activeCharacter);
+            for (CharacterStats* c : deadchars) {
+                if (m_Entities.size() > 0) {
+                    std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
+                    printf("%s died\n", name.c_str());
+                    DEBUG_PRINT("%s died", name.c_str());
+                }
+                turnManage.turnOrderList.remove(c);
+                turnManage.originalTurnOrderList.remove(c);
+                turnManage.characterList.remove(*c);
+                battleState = NEXTTURN;
+            }
+            deadchars.clear();
+
             battleState = NEXTTURN;
-            //turnManage.characterList.remove(*activeCharacter);
         }
+        //else if (activeCharacter->action.entityState == EntityState::DYING) {
+        //    if (m_Entities.size() > 0) {
+        //        std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
+        //        printf("%s died\n", name.c_str());
+        //        DEBUG_PRINT("%s died", name.c_str());
+        //    }
+        //    turnManage.turnOrderList.remove(activeCharacter);
+        //    turnManage.originalTurnOrderList.remove(activeCharacter);
+        //    turnManage.characterList.remove(*activeCharacter);
+        //    battleState = NEXTTURN;
+        //    //turnManage.characterList.remove(*activeCharacter);
+        //}
         break;
     }
     for (Entity entity : m_Entities) {
