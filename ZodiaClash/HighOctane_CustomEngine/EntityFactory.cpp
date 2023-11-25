@@ -248,6 +248,9 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 			ecsType.second->CopyComponent(entity, masterEntity);
 		}
 	}
+	if (ECS::ecs().HasComponent<Master>(entity)) {
+		ECS::ecs().RemoveComponent<Master>(entity);
+	}
 	if (ECS::ecs().HasComponent<Clone>(entity)) {
 		ECS::ecs().RemoveComponent<Clone>(entity);
 	}
