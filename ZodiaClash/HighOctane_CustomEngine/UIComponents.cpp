@@ -38,6 +38,7 @@
 #include "graphics.h"
 #include "Colors.h"
 #include "AssetManager.h"
+#include "Layering.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -585,6 +586,38 @@ void EnemyHUD::CheckValidIndex(int enemyCount, bool& result) {
 	result = true;
 	enemyIndex = enemyIndex % enemyCount;
 }
+
+void EnemyHUD::ToggleStatusFx(Entity parent, int stacks) {
+	//DEBUG_PRINT("STACKS: %d", stacks);
+	static Entity statusFx{};
+	if ((statusFx != 0) && (stacks < 1)) {
+		EntityFactory::entityFactory().DeleteCloneModel(statusFx);
+		statusFx = 0;
+	}
+	else {
+		if ((statusFx == 0) && (stacks > 0)) {
+			statusFx = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
+			if (ECS::ecs().HasComponent<StatusEffect>(statusFx)) {
+				StatusEffect& statusFxComp{ ECS::ecs().GetComponent<StatusEffect>(statusFx) };
+				statusFxComp.character = parent;
+			}
+		}
+	}
+}
+
+
+/************************************
+**** ENEMY STATUS EFFECT SYSTEM *****
+************************************/
+void StatusEffect::UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform) {
+	childTransform.position.y = parentTransform.position.y + (0.5f * parentSize.height);
+	childTransform.position.x = parentTransform.position.x - (0.8f * parentSize.width);
+}
+
+void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
+	textLabelData.textString = std::to_string(stacks);
+}
+
 
 
 /**************************

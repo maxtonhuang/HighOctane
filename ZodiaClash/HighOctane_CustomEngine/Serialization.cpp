@@ -598,9 +598,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	AttackSkill* atkSkill = nullptr;
 	AllyHUD* allyHud = nullptr;
 	EnemyHUD* enemyHud = nullptr;
-	//TurnIndicator* turnIndicator = nullptr;
 	//StatusEffectsPanel* statusFxPanel = nullptr;
-	//StatusEffect* statusFx = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 
@@ -760,18 +758,14 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			entityObject.AddMember("EnemyHUD", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
 		if (CheckSerialize<TurnIndicator>(entity, isPrefabClone, uComponentMap)) {
-			//turnIndicator = &ECS::ecs().GetComponent<TurnIndicator>(entity);
-			//rapidjson::Value turnOrderObject = SerializeTurnIndicator(*turnIndicator, allocator);
 			entityObject.AddMember("TurnIndicator", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
-		if (CheckSerialize<StatusEffectsPanel>(entity, isPrefabClone, uComponentMap)) {
-			//statusFxPanel = &ECS::ecs().GetComponent<StatusEffectsPanel>(entity);
-			//rapidjson::Value statusFxPanelObject = SerializeStatusEffectsPanel(*statusFxPanel, allocator);
-			entityObject.AddMember("StatusEffectsPanel", rapidjson::Value(rapidjson::kObjectType), allocator);
-		}
+		//if (CheckSerialize<StatusEffectsPanel>(entity, isPrefabClone, uComponentMap)) {
+		//	//statusFxPanel = &ECS::ecs().GetComponent<StatusEffectsPanel>(entity);
+		//	//rapidjson::Value statusFxPanelObject = SerializeStatusEffectsPanel(*statusFxPanel, allocator);
+		//	entityObject.AddMember("StatusEffectsPanel", rapidjson::Value(rapidjson::kObjectType), allocator);
+		//}
 		if (CheckSerialize<StatusEffect>(entity, isPrefabClone, uComponentMap)) {
-			//statusFx = &ECS::ecs().GetComponent<StatusEffect>(entity);
-			//rapidjson::Value statusFxObject = SerializeStatusEffect(*statusFx, allocator);
 			entityObject.AddMember("StatusEffect", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
 		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
@@ -1399,9 +1393,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			if (entityObject.HasMember("TurnIndicator")) {
 				ECS::ecs().AddComponent<TurnIndicator>(entity, TurnIndicator{});
 			}
-			if (entityObject.HasMember("StatusEffectsPanel")) {
-				ECS::ecs().AddComponent<StatusEffectsPanel>(entity, StatusEffectsPanel{});
-			}
+			//if (entityObject.HasMember("StatusEffectsPanel")) {
+			//	ECS::ecs().AddComponent<StatusEffectsPanel>(entity, StatusEffectsPanel{});
+			//}
 			if (entityObject.HasMember("StatusEffect")) {
 				ECS::ecs().AddComponent<StatusEffect>(entity, StatusEffect{});
 			}

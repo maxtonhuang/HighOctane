@@ -642,6 +642,10 @@ class UIEnemyHudSystem : public System {
     void Update() override;
 };
 
+class UIEffectSystem : public System {
+    void Update() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;

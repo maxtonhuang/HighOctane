@@ -1042,7 +1042,7 @@ void UIButtonSystem::Update() {
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
@@ -1180,7 +1180,7 @@ void UIAttackSkillSystem::Update() {
 
 		for (Entity const& entity : m_Entities) {
 			AttackSkill* atkSkillData = &atkSkillArray.GetData(entity);
-			Tex* texData = &texArray.GetData(entity);
+			//Tex* texData = &texArray.GetData(entity);
 			Button* buttonData = &buttonArray.GetData(entity);
 			Parent* parentData = &parentArray.GetData(entity);
 
@@ -1209,7 +1209,7 @@ void UIAttackSkillSystem::Update() {
 					continue;
 				}
 				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Tex* childTexData = &texArray.GetData(childEntity);
+					//Tex* childTexData = &texArray.GetData(childEntity);
 					// function to update icon
 					//atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
@@ -1246,7 +1246,10 @@ void UIAllyHudSystem::Update() {
 			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
 				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
-			}			
+			}
+			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
+				healthBarData->charaStatsRef = nullptr;
+			}
 		}
 	}
 }
@@ -1269,7 +1272,41 @@ void UIEnemyHudSystem::Update() {
 			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
 			if (checkResult) {
 				healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
-			}			
+				enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
+			}
+			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
+				healthBarData->charaStatsRef = nullptr;
+			}
+		}
+	}
+}
+
+void UIEffectSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& statusFxArray = componentManager.GetComponentArrayRef<StatusEffect>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		for (Entity const& entity : m_Entities) {
+			Transform* transformData = &transformArray.GetData(entity);
+			StatusEffect* statusFxData = &statusFxArray.GetData(entity);
+
+			Transform* parentTransform = &transformArray.GetData(statusFxData->character);
+			Size* parentSize = &sizeArray.GetData(statusFxData->character);
+			statusFxData->UpdateOffset(*parentSize, *parentTransform, *transformData);
+
+			if (textLabelArray.HasComponent(entity)) {
+				HealthBar* parentHealth = &healthBarArray.GetData(statusFxData->character);
+				TextLabel* textLabelData = &textLabelArray.GetData(entity);
+				statusFxData->UpdateStacksLbl(*textLabelData, parentHealth->charaStatsRef->debuffs.bloodStack);
+			}
 		}
 	}
 }

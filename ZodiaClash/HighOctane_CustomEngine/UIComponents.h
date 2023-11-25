@@ -296,27 +296,29 @@ public:
 	int enemyIndex{};
 
 	void CheckValidIndex(int enemyCount, bool& res);
+	void ToggleStatusFx(Entity parentEntity, int stacks);
 };
 
 class TurnIndicator : UIComponent {
 public:
-	Entity character; //character this indicator links to
+	Entity character{}; //character this indicator links to
 };
 
 
-class StatusEffectsPanel : UIComponent {
-public:
-	UI_HORIZONTAL_ALIGNMENT hAlignment{};
-
-	/*
-	* notes:
-	* - parent entity to hold multiple "Effect" (prefab?)
-	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
-	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
-	*/
-
-	//void UpdateOffset();
-};
+//class StatusEffectsPanel : UIComponent {
+//public:
+//	UI_HORIZONTAL_ALIGNMENT hAlignment{};
+//
+//	/*
+//	* notes:
+//	* - for future implementation where more status effects are introduced! kiv!!
+//	* - parent entity to hold multiple "Effect" (prefab?)
+//	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
+//	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
+//	*/
+//
+//	//void UpdateOffset();
+//};
 
 class StatusEffect : UIComponent {
 public:
@@ -324,4 +326,7 @@ public:
 	* notes:
 	* - composite of icon (Tex) and stacks (TextLabel)
 	*/
+	Entity character{};
+	void UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform);
+	void UpdateStacksLbl(TextLabel& textLabelData, int stacks);
 };

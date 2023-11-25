@@ -229,7 +229,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<AllyHUD>();
 	ECS::ecs().RegisterComponent<EnemyHUD>();
 	ECS::ecs().RegisterComponent<TurnIndicator>();
-	ECS::ecs().RegisterComponent<StatusEffectsPanel>();
+	//ECS::ecs().RegisterComponent<StatusEffectsPanel>();
 	ECS::ecs().RegisterComponent<StatusEffect>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
@@ -299,6 +299,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
 	editSystemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
 	systemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+
+	std::shared_ptr<UIEffectSystem> uiEffectSystem = ECS::ecs().RegisterSystem<UIEffectSystem>();
+	runSystemList.emplace_back(uiEffectSystem, "UI Effect System");
+	editSystemList.emplace_back(uiEffectSystem, "UI Effect System");
+	systemList.emplace_back(uiEffectSystem, "UI Effect System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -569,6 +574,16 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UIEnemyHudSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<StatusEffect>());
+
+		ECS::ecs().SetSystemSignature<UIEffectSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////
