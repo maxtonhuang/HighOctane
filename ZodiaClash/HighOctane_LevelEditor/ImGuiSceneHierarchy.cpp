@@ -665,8 +665,8 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<HealthBar>(entity)) {
 		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
-		CharacterStats& charaStatsData{ ECS::ecs().GetComponent<CharacterStats>(entity) };
 		HealthBar& hpBar{ ECS::ecs().GetComponent<HealthBar>(entity) };
+		CharacterStats& charaStatsData{ *hpBar.charaStatsRef };
 
 		if (ImGui::TreeNodeEx((void*)typeid(HealthBar).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Health Bar")) {
 			float currentHp = hpBar.currentHealth;
@@ -686,8 +686,10 @@ void SceneEntityComponents(Entity entity) {
 			if (ImGui::DragFloat("HP Percentage", &hpPct, 0.5f)) {
 				hpPct = std::clamp(hpPct, 0.f, 100.f);
 				hpBar.healthPct = hpPct;
-				hpBar.currentHealth = hpPct / 100.f * charaStatsData.stats.maxHealth;
-				charaStatsData.stats.health = hpPct / 100.f * charaStatsData.stats.maxHealth;				
+				hpBar.currentHealth = hpPct / 100.f * maxHp;
+				if (&charaStatsData) {
+					charaStatsData.stats.health = hpPct / 100.f * charaStatsData.stats.maxHealth;
+				}								
 				//hpBar.currentHealth = currentHp;
 			}
 
@@ -737,7 +739,6 @@ void SceneEntityComponents(Entity entity) {
 					bool isSelected = (setIndex == i);
 					if (ImGui::Selectable(indexOptions[i], isSelected)) {
 						setIndex = i;
-						
 					}
 					if (isSelected) {
 						ImGui::SetItemDefaultFocus();
@@ -747,6 +748,16 @@ void SceneEntityComponents(Entity entity) {
 			}
 			atkSkill.skillIndex = setIndex;
 
+			ImGui::TreePop();
+		}
+	}
+
+	if (ECS::ecs().HasComponent<AllyHUD>(entity)) {
+		AllyHUD& allyHud{ ECS::ecs().GetComponent<AllyHUD>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(AllyHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "AllyHUD")) {
+			int& setIndex = allyHud.allyIndex;
+			ImGui::DragInt("Ally Index", &setIndex, 1);
+			allyHud.allyIndex = setIndex;
 			ImGui::TreePop();
 		}
 	}

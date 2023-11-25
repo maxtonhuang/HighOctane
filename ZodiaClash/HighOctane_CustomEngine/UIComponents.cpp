@@ -450,10 +450,16 @@ HealthBar::HealthBar() {
 	showValOrPct = true;
 }
 
-void HealthBar::UpdateHealth(CharacterStats& charaStatsData) {
+void HealthBar::UpdateHealth() {
 	//read data from character stats
-	maxHealth = charaStatsData.stats.maxHealth;
-	currentHealth = charaStatsData.stats.health;
+	if (charaStatsRef) {
+		maxHealth = charaStatsRef->stats.maxHealth;
+		currentHealth = charaStatsRef->stats.health;
+	}
+	else {
+		maxHealth = 1000.f;
+		currentHealth = maxHealth;
+	}
 	healthPct = (currentHealth / maxHealth) * 100.f;
 }
 
@@ -481,6 +487,11 @@ void HealthRemaining::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, S
 }
 
 void HealthRemaining::UpdateColors(Model& modelData, CharacterStats& parentCharaStats) {
+	if (!(&parentCharaStats)) {
+		modelData.SetColor(0.f, 1.f, 0.f);
+		return;
+	}
+
 	if (parentCharaStats.tag == CharacterType::PLAYER) {
 		modelData.SetColor(0.f,1.f,0.f);
 	}
@@ -515,9 +526,9 @@ void SkillPointHUD::UpdateBalance() {
 /**************************
 **** ATK SKILL SYSTEM *****
 **************************/
-void AttackSkill::UpdateSkillTex(Tex& texData) {
-	// retrieve skill tex (to be stored)
-}
+//void AttackSkill::UpdateSkillTex(Tex& texData) {
+//	// retrieve skill tex (to be stored)
+//}
 
 void AttackSkill::UpdateSkillEvent(Button& buttonData) {
 	buttonData.eventName = "Select Skill";
@@ -537,13 +548,21 @@ void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType)
 	textLabelData.textString = (atkType == AttackType::NORMAL) ? "Single Target" : "AOE";
 }
 
-void AttackSkill::UpdateAtkTypeIcon(Tex& texData, AttackType atktype) {
-	//texData.tex = (atkType == AttackType::NORMAL) ? /* get asset: ST icon */ : /* get asset: AOE icon */;
-}
+//void AttackSkill::UpdateAtkTypeIcon(Tex& texData, AttackType atktype) {
+//	//texData.tex = (atkType == AttackType::NORMAL) ? /* get asset: ST icon */ : /* get asset: AOE icon */;
+//}
 
 void AttackSkill::UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost) {
 	textLabelData.textString = (skillCost > 0) ? " -" : " +";
 	textLabelData.textString += std::to_string(std::abs(skillCost));
+}
+
+
+/**************************
+***** ALLY HUD SYSTEM *****
+**************************/
+void AllyHUD::CheckValidIndex(int playerCount) {
+	allyIndex = allyIndex % playerCount;
 }
 
 
