@@ -349,6 +349,9 @@ glm::vec4 Button::GetButtonColor() {
 	case(STATE::FOCUSED):
 		return focusedColor.buttonColor;
 		break;
+	case(STATE::DISABLED):
+		return colors.colorMap["secondary"];
+		break;
 	default:
 		return defaultColor.buttonColor;
 		break;

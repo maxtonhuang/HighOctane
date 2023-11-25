@@ -1055,11 +1055,9 @@ void UIButtonSystem::Update() {
 
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
-		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
-			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
-			modelData->SetAlpha(btnColor.a);
-		}
+		glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
+		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
+		modelData->SetAlpha(btnColor.a);
 
 		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
 		sizeData->height = std::max(buttonData->buttonHeight, sizeData->height);

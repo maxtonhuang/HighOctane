@@ -395,11 +395,11 @@ rapidjson::Value SerializeAllyHUD(const AllyHUD& allyHUD, rapidjson::Document::A
 	return allyHudObject;
 }
 
-//rapidjson::Value SerializeEnemyHUD(const EnemyHUD& enemyHUD, rapidjson::Document::AllocatorType& allocator) {
-//	rapidjson::Value enemyHudObject(rapidjson::kObjectType);
-//
-//	return enemyHudObject;
-//}
+rapidjson::Value SerializeEnemyHUD(const EnemyHUD& enemyHUD, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value enemyHudObject(rapidjson::kObjectType);
+	enemyHudObject.AddMember("Enemy Index", enemyHUD.enemyIndex, allocator);
+	return enemyHudObject;
+}
 
 //rapidjson::Value SerializeTurnIndicator(const TurnIndicator& turnIndicator, rapidjson::Document::AllocatorType& allocator) {
 //	rapidjson::Value turnOrderObject(rapidjson::kObjectType);
@@ -597,7 +597,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	SkillPoint* skillpt = nullptr;
 	AttackSkill* atkSkill = nullptr;
 	AllyHUD* allyHud = nullptr;
-	//EnemyHUD* enemyHud = nullptr;
+	EnemyHUD* enemyHud = nullptr;
 	//TurnIndicator* turnIndicator = nullptr;
 	//StatusEffectsPanel* statusFxPanel = nullptr;
 	//StatusEffect* statusFx = nullptr;
@@ -755,8 +755,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			entityObject.AddMember("AllyHUD", allyHudObject, allocator);
 		}
 		if (CheckSerialize<EnemyHUD>(entity, isPrefabClone, uComponentMap)) {
-			//enemyHud = &ECS::ecs().GetComponent<EnemyHUD>(entity);
-			//rapidjson::Value enemyHudObject = SerializeEnemyHUD(*enemyHud, allocator);
+			enemyHud = &ECS::ecs().GetComponent<EnemyHUD>(entity);
+			rapidjson::Value enemyHudObject = SerializeEnemyHUD(*enemyHud, allocator);
 			entityObject.AddMember("EnemyHUD", rapidjson::Value(rapidjson::kObjectType), allocator);
 		}
 		if (CheckSerialize<TurnIndicator>(entity, isPrefabClone, uComponentMap)) {
@@ -1385,7 +1385,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			if (entityObject.HasMember("EnemyHUD")) {
 				EnemyHUD enemyHud;
 				const rapidjson::Value& enemyHudObject = entityObject["EnemyHUD"];
-
+				if (enemyHudObject.HasMember("Enemy Index")) {
+					enemyHud.enemyIndex = enemyHudObject["Enemy Index"].GetInt();
+				}
 
 				if (ECS::ecs().HasComponent<EnemyHUD>(entity)) {
 					ECS::ecs().GetComponent<EnemyHUD>(entity) = enemyHud;
