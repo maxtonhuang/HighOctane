@@ -149,12 +149,26 @@ void SetCurrentSystemMode(SystemMode mode)
 }
 
 SystemMode GetCurrentSystemMode() {
+
+	if (systemModeStack.empty()) {
+		return SystemMode::NONE;
+	}
+
 	return systemModeStack.back();
 }
 SystemMode GetPreviousSystemMode() {
+	
+	if (systemModeStack.size() < 2) {
+		return SystemMode::NONE;
+	}
+
 	return systemModeStack[systemModeStack.size() - 2];
 
 }
 SystemMode GetPreviousPreviousSystemMode() {
+
+	if (systemModeStack.size() < 3) {
+		return SystemMode::NONE;
+	}
 	return systemModeStack.front();
 }
