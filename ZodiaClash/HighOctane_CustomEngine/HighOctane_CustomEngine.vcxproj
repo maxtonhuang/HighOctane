@@ -5,6 +5,30 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="EditorModeDebug|Win32">
+      <Configuration>EditorModeDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="EditorModeDebug|x64">
+      <Configuration>EditorModeDebug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="EditorModeRelease|Win32">
+      <Configuration>EditorModeRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="EditorModeRelease|x64">
+      <Configuration>EditorModeRelease</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="GameMode|Win32">
+      <Configuration>GameMode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="GameMode|x64">
+      <Configuration>GameMode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -33,7 +57,27 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -46,7 +90,27 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -61,17 +125,42 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <LinkIncremental />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
@@ -86,6 +175,20 @@
     <LinkIncremental>
     </LinkIncremental>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <LinkIncremental />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <LinkIncremental />
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -98,7 +201,51 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -150,7 +297,119 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.dll" "$(TargetDir)r
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
+xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
+copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
+copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
+copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
+copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
+copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
+
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.pdb" "$(TargetDir)rttr_core_d.pdb" /Y
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.dll" "$(TargetDir)rttr_core_d.dll" /Y
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
+xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
+copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
+copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
+copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
+copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
+copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
+
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
+
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)ZodiaClash\HighOctane_CustomEngine;$(SolutionDir)ZodiaClash\HighOctane_LevelEditor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>mono-2.0-sgen.lib;opengl32.lib;glew32.lib;glfw3dll.lib;winmm.lib;fmod_vc.lib;user32.lib;freetype.lib;rttr_core.lib</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
+xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
+copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
+copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
+copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
+copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
+copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
+
+copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
+
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|x64'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
