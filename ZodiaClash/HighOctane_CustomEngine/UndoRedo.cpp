@@ -27,15 +27,17 @@
 *
 *	This file is the definitions for the Undo Feature in our editor.
 *   !-----M3-----!
-*   - Allowed Undo of transform(position,scale,rotation)
+*   - Allowed Undo of transform(position,scale,rotation) Currently works for when editing transform within the scene viewport
 *   - Allowed Undo for Add and removing objects
+*   - UndoStack utilises a deque for ease of access between the front and the back elements
+*   - Utilises an action enum to properly handle specific types of actions, which can be further expanded upon in the future
 *
 ******************************************************************************/
 #include "UndoRedo.h"
 #include "Global.h"
 #include "Layering.h"
 
-#define UNDOREDO_STACK_SIZE 20
+#define UNDOREDO_STACK_SIZE 20 //Stack size
 UndoRedo undoRedo;
 
 void UndoRedo::RecordCurrent(Entity entity, ACTION action) {
@@ -45,9 +47,10 @@ void UndoRedo::RecordCurrent(Entity entity, ACTION action) {
     currentState.action = action;
     if (!undoStack.empty()) {
         if (ECS::ecs().GetComponent<Transform>(currentState.entity).position == undoRedo.CheckFrontTransform().position) {
-            undoRedo.StackPopFront();
+            undoRedo.StackPopFront(); //Prevents case when you double click the same entity
         }
     }
+    // To properly delete an entity if it exceeds the stack of entities
     if (undoStack.size() >= UNDOREDO_STACK_SIZE) {
         EntityChanges checkLast = undoStack.back();
         undoStack.pop_back();
