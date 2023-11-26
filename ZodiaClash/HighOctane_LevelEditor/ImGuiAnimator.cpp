@@ -436,7 +436,7 @@ void UpdateAnimator() {
 	AnimatorWindow(toAnimate);
 	
 	//Real-time prefab updating
-	if (prefab && currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
+	if (prefab && GetCurrentSystemMode() == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
 		auto& typeManager{ ECS::ecs().GetTypeManager() };
 		auto cloneIDArray{ cloneArray.GetEntityArray() };

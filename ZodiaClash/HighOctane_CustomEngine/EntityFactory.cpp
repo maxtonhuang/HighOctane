@@ -301,7 +301,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
-	if (currentSystemMode != SystemMode::GAMEHELP && currentSystemMode != SystemMode::PAUSE && !initLevel) {
+	if (GetCurrentSystemMode() != SystemMode::GAMEHELP && GetCurrentSystemMode() != SystemMode::PAUSE && !initLevel) {
 		undoRedo.RecordCurrent(entity, ACTION::ADDENTITY);
 	}
 	return entity;

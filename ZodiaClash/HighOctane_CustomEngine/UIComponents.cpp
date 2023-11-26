@@ -259,7 +259,7 @@ void TextLabel::Update(Model& modelData, Name& nameData) {
 		}		
 	}
 
-	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
+	if (nameData.selected && GetCurrentSystemMode() == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
@@ -375,7 +375,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE || currentSystemMode == SystemMode::GAMEHELP) && (currentState != STATE::DISABLED) && !eventName.empty()) {
+				if ((GetCurrentSystemMode() == SystemMode::RUN || GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP) && (currentState != STATE::DISABLED) && !eventName.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -384,7 +384,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	// update button and text colors
-	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
+	if (nameData.selected && GetCurrentSystemMode() == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
 
@@ -398,7 +398,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	//outside edit mode, color change accordingly to state. otherwise show default
-	if (currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) {
+	if (GetCurrentSystemMode() == SystemMode::RUN || GetCurrentSystemMode() == SystemMode::PAUSE) {
 		switch (currentState) {
 		case(STATE::HOVERED):
 			textLabelData.textColor = hoveredColor.textColor;

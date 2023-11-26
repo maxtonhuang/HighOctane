@@ -595,10 +595,10 @@ void EngineCore::Run(bool const& mode) {
 
 	//If game mode is editor, initialize the mode to editor pause mode
 	if (mode) {
-		currentSystemMode = SystemMode::EDIT;
+		SetCurrentSystemMode(SystemMode::EDIT);
 	}
 	else {
-		currentSystemMode = SystemMode::RUN;
+		SetCurrentSystemMode(SystemMode::RUN);
 	}
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
@@ -667,7 +667,7 @@ void EngineCore::Run(bool const& mode) {
 
 		// Switch case for the pause screen
 		auto* systemList{ &runSystemList };
-		switch (currentSystemMode) {
+		switch (GetCurrentSystemMode()) {
 		case SystemMode::EDIT:
 			systemList = &editSystemList;
 			break;
@@ -678,7 +678,7 @@ void EngineCore::Run(bool const& mode) {
 			systemList = &pauseSystemList; // Same things as pause system list
 			break;
 		}
-		//std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
+		//std::cout << "Current System Mode: " << SystemModeToString(GetCurrentSystemMode()) << std::endl;
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
 

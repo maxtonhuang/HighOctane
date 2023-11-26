@@ -134,5 +134,9 @@ enum class SystemMode
 
 std::string SystemModeToString(SystemMode mode);
 
-extern SystemMode currentSystemMode;
-extern SystemMode lastSystemMode;
+extern std::deque<SystemMode> systemModeStack;
+
+extern void SetCurrentSystemMode(SystemMode mode);
+extern SystemMode GetCurrentSystemMode();
+extern SystemMode GetPreviousSystemMode();
+extern SystemMode GetPreviousPreviousSystemMode();

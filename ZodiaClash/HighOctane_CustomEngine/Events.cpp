@@ -47,7 +47,7 @@ void ExitGame(std::string input) {
 
 void ChangeScene(std::string input) {
 	if (sceneName == input) {
-		if (currentSystemMode == SystemMode::PAUSE) {
+		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 			events.Call("Toggle Pause", "");
 		}
 		return;
@@ -144,7 +144,7 @@ void SelectEnemy(std::string input) {
 	bs->DestroyTargets();
 }
 void TogglePause(std::string input) {
-	if (currentSystemMode == SystemMode::GAMEHELP || currentSystemMode == SystemMode::EDIT) {
+	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
 		return;
 	}
 
@@ -152,57 +152,42 @@ void TogglePause(std::string input) {
 	static Entity pausemenu{};
 
 	/*-----Prevent Softlocking-----*/
-	if (lastSystemMode == SystemMode::GAMEHELP && currentSystemMode == SystemMode::PAUSE) {
-		currentSystemMode = SystemMode::RUN;
-		lastSystemMode = SystemMode::PAUSE;
+	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
+		SetCurrentSystemMode(SystemMode::RUN);
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
 			pausemenu = 0;
 		}
 	}
 	/*-----Prevent Softlocking-----*/
-
-	else if (!(lastSystemMode == SystemMode::GAMEHELP) && currentSystemMode == SystemMode::PAUSE) {
-		currentSystemMode = lastSystemMode;
-		lastSystemMode = SystemMode::PAUSE;
+	else if (!(GetPreviousSystemMode() == SystemMode::GAMEHELP) && GetCurrentSystemMode() == SystemMode::PAUSE) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
 			pausemenu = 0;
 		}
 	}
 	else {
-		lastSystemMode = currentSystemMode;
-		currentSystemMode = SystemMode::PAUSE;
+		SetCurrentSystemMode(SystemMode::PAUSE);
 		if (pausemenu == 0) {
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
-		}	
+		}
 	}
 }
 
 void ToggleHelp(std::string input) {
-	//if ((currentSystemMode == SystemMode::PAUSE) || (currentSystemMode == SystemMode::EDIT)) {
-	//	return;
-	//}
 	(void)input;
 	static Entity gamehelpmenu{};
-	if (currentSystemMode == SystemMode::GAMEHELP) {
-		//if (lastSystemMode == SystemMode::PAUSE) {
-		//	currentSystemMode = SystemMode::RUN;
-		//}
-		//else {
-		//	currentSystemMode = lastSystemMode;
+	if (GetCurrentSystemMode() == SystemMode::GAMEHELP) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
 
-		//}
-		currentSystemMode = lastSystemMode;
-		lastSystemMode = SystemMode::GAMEHELP;
 		if (gamehelpmenu != 0) {
 			ECS::ecs().DestroyEntity(gamehelpmenu);
 			gamehelpmenu = 0;
 		}
 	}
 	else {
-		lastSystemMode = currentSystemMode;
-		currentSystemMode = SystemMode::GAMEHELP;
+		SetCurrentSystemMode(SystemMode::GAMEHELP);
 		if (gamehelpmenu == 0) {
 			gamehelpmenu = EntityFactory::entityFactory().ClonePrefab("gamehelpmockup.prefab");
 		}

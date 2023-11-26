@@ -152,7 +152,7 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating
-	if (currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
+	if (GetCurrentSystemMode() == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
 			if (clone.prefab == prefabName && prefabName != "") {

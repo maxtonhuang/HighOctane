@@ -173,7 +173,7 @@ void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
     }
     else {
         assetmanager.audio.PauseGroup("Master");
-        if (currentSystemMode == SystemMode::RUN) {
+        if (GetCurrentSystemMode() == SystemMode::RUN) {
             events.Call("Toggle Pause", "");
         }
     }
