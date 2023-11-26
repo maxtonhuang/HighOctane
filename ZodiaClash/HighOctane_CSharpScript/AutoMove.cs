@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 internal class AutoMoveX : MonoBehaviour
 {
     bool movingRight = true;
+    public float speed = 1.0f;
     public override void Start()
     {
         Console.WriteLine("AutoMoveX OnCreate" + ID);
@@ -14,7 +15,6 @@ internal class AutoMoveX : MonoBehaviour
     }
     public override void Update()
     {
-        float speed = 1.0f;
 
         Vector2 translation = Position;
 
@@ -40,6 +40,7 @@ internal class AutoMoveX : MonoBehaviour
 internal class AutoMoveY : MonoBehaviour
 {
     bool movingUp = true;
+    public float speed = 1.0f;
     public override void Start()
     {
         Console.WriteLine("AutoMoveY OnCreate" + ID);
@@ -47,7 +48,6 @@ internal class AutoMoveY : MonoBehaviour
     }
     public override void Update()
     {
-        float speed = 1.0f;
         Vector2 translation = Position;
 
 
