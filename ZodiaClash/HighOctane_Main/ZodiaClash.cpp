@@ -79,10 +79,11 @@ constexpr bool EDITOR_MODE{ true }; // Do not edit this
 
 // Set to GAME_MODE to run in game mode.
 // Set to EDITOR_MODE to run in editor mode.
-#if _EDITOR
-constexpr bool game_mode{ EDITOR_MODE };
-#elif _GAME
+#if _GAME
 constexpr bool game_mode{ GAME_MODE };
+
+#else
+constexpr bool game_mode{ EDITOR_MODE };
 #endif
 ///////////////////////////////////////////////////////////////////////////////
 
