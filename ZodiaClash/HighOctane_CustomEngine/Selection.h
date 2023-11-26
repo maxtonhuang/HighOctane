@@ -8,7 +8,7 @@ void Selection(Entity& entity, Name& name, Transform& transform, Model& model, s
 
 void UnselectAll();
 
-void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/);
+void ProcessSelection(Name& name, size_t layer_it);
 
 void GroupSelection();
 
