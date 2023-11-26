@@ -68,7 +68,6 @@
 #include "Events.h"
 #include "Layering.h"
 #include "Animation.h"
-//#include <rttr/type.h>
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
