@@ -79,7 +79,6 @@ FontManager::~FontManager() {
 *
 */
 void FontManager::Initialize() {
-    //DEBUG_PRINT("___ DEBUG::FONT::INITIALIZE ___");
     // initialize freetype library
     FT_Error err;
     err = FT_Init_FreeType(&fontLibrary);
@@ -100,7 +99,6 @@ void FontManager::Initialize() {
 *
 */
 void FontManager::ReadFonts() {
-    //DEBUG_PRINT("___ DEBUG::FONT::READFONTS ___");
     // define parent fonts directory to load from
     std::string parentDir = assetmanager.GetDefaultPath() + "Fonts/";
 
@@ -111,7 +109,6 @@ void FontManager::ReadFonts() {
             continue;
 
         std::string ftFamily = dirItem.path().filename().string();
-        //DEBUG_PRINT("DEBUG::FONT: >>> Font family: %s", ftFamily.c_str());
 
         //reset variables
         std::string ftFilename{}, fileExt{}, ftVariant{};
@@ -152,7 +149,6 @@ void FontManager::ReadFonts() {
             // store in fontCollection
             fontCollection.emplace(ftFamily, ft_entry);
 
-            //DEBUG_PRINT("DEBUG::FONT: [+] Added to font collection: %s %s", ftFamily.c_str(), ftVariant.c_str());
         }
     }
 }
@@ -165,7 +161,6 @@ void FontManager::ReadFonts() {
 *
 */
 void FontManager::LoadFontVariant(const std::string& ftFamily, const std::string& ftVariant) {
-    //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT VARIANT ___");
     FontEntry* ftEntryPtr = GetFontEntryByVariant(ftFamily, ftVariant);
     if (ftEntryPtr == nullptr) {
         DEBUG_PRINT("ERROR::FONT: (var) Requested font NOT found.");
@@ -182,7 +177,6 @@ void FontManager::LoadFontVariant(const std::string& ftFamily, const std::string
 *
 */
 void FontManager::LoadFontEntry(FontEntry& fontEntryData) {
-    //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT ENTRY ___");
     if (&fontEntryData == nullptr) {
         DEBUG_PRINT("ERROR::FONT: (entry) Requested font NOT found.");
         return;
@@ -198,7 +192,6 @@ void FontManager::LoadFontEntry(FontEntry& fontEntryData) {
 *
 */
 void FontManager::LoadFontFilePath(const std::string ftFilePath) {
-    //DEBUG_PRINT("___ DEBUG::FONT::LOAD FONT FILEPATH ___");
     FontEntry* ftEntryPtr = GetFontEntryByFilePath(ftFilePath);
     if (ftEntryPtr == nullptr) {
         DEBUG_PRINT("ERROR::FONT: (path) Requested font NOT found.");
@@ -215,12 +208,10 @@ void FontManager::LoadFontFilePath(const std::string ftFilePath) {
 *
 */
 void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath) {
-    //DEBUG_PRINT("___ DEBUG::FONT::LOAD VALID FONT ___");
     // if fontData's characters already has textures loaded, return
     if (!fontData.characters.empty())
         return;
 
-    //DEBUG_PRINT("DEBUG::FONT: Attempting to load: %s", fontFilePath.c_str());
     //Load font face
     FT_Error err;
     err = FT_New_Face(fonts.fontLibrary, fontFilePath.c_str(), 0, &fontData.fontFace);
@@ -236,7 +227,6 @@ void FontManager::LoadValidFont(Font& fontData, const std::string& fontFilePath)
         // set pixel height to 100, so relFontSize can be 0.XXf to 1.0f
         FT_Set_Pixel_Sizes(fontData.fontFace, 0, 100);
         assetmanager.texture.Add(fontData);
-        //LoadChar(fontData);
         break;
     default:
         DEBUG_PRINT("ERROR::FONT: Font file cannot be open or read!");
@@ -291,7 +281,6 @@ void FontManager::Clear() {
 *
 */
 bool FontManager::CheckFamilyName(const std::string& ftFamily) {
-    //DEBUG_PRINT("___ DEBUG::FONT::CHECK FAMILY NAME ___");
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
 
     std::pair<fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
@@ -307,7 +296,6 @@ bool FontManager::CheckFamilyName(const std::string& ftFamily) {
 *
 */
 bool FontManager::CheckVariantName(const std::string& ftFamily, const std::string& ftVariant) {
-    //DEBUG_PRINT("___ DEBUG::FONT::CHECK VARIANT NAME ___");
 
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
 
@@ -361,7 +349,6 @@ Font* FontManager::GetFont(const std::string& ftFamily, const std::string& ftVar
 *
 */
 Font* FontManager::GetDefaultFont() {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET DEFAULT FONT ___");
     return defaultFont;
 }
 
@@ -374,7 +361,6 @@ Font* FontManager::GetDefaultFont() {
 *
 */
 FontEntry* FontManager::GetFontEntryByVariant(const std::string& ftFamily, const std::string& ftVariant) {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET ENTRY BY VARIANT ___");
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
 
     std::pair <fontCollectionType::iterator, fontCollectionType::iterator> variantRange = fontCollection.equal_range(ftFamily);
@@ -398,7 +384,6 @@ FontEntry* FontManager::GetFontEntryByVariant(const std::string& ftFamily, const
 *
 */
 FontEntry* FontManager::GetFontEntryByFilePath(const std::string& ftFilePath) {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET ENTRY BY PATH ___");
     std::string ftFamily = fileSys::path(ftFilePath).parent_path().filename().string();
 
     using fontCollectionType = std::unordered_multimap<std::string, FontEntry>;
@@ -422,7 +407,6 @@ FontEntry* FontManager::GetFontEntryByFilePath(const std::string& ftFilePath) {
 *
 */
 std::unordered_multimap<std::string, FontEntry>* FontManager::GetFontCollection() {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET FONTCOLLECTION ___");
     return &fontCollection;
 }
 
@@ -435,7 +419,6 @@ std::unordered_multimap<std::string, FontEntry>* FontManager::GetFontCollection(
 *
 */
 const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* FontManager::GetFontPairs() const {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET FONTPAIRS ___");
     return &fontPairs;
 }
 
@@ -461,7 +444,6 @@ const std::vector<std::string>* FontManager::GetLoadedFilePaths() const {
 *
 */
 std::vector<std::string> FontManager::GetFontFamilyList() {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET FAMILY LIST ___");
     // extract pointer to fontPairs in FontManager
     const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* fontPairList = GetFontPairs();
     
@@ -486,7 +468,6 @@ std::vector<std::string> FontManager::GetFontFamilyList() {
 *
 */
 std::vector<std::string> FontManager::GetFontVariantList(const std::string& ftFamily) {
-    //DEBUG_PRINT("___ DEBUG::FONT::GET VARIANT LIST ___");
     // extract pointer to fontPairs in FontManager
     const std::vector<std::pair<std::unique_ptr<std::string>, std::unique_ptr<std::string>>>* fontPairList = GetFontPairs();
 
@@ -511,7 +492,6 @@ std::vector<std::string> FontManager::GetFontVariantList(const std::string& ftFa
 *
 */
 void FontManager::SetDefaultFont() {
-    //DEBUG_PRINT("___ DEBUG::FONT::SET DEFAULT FONT ___");
     FontEntry* ftEntryPtr = fonts.GetFontEntryByVariant("Danto Lite Normal", "Regular");
     if (ftEntryPtr == nullptr) {
         DEBUG_PRINT("ERROR::FONT: Requested default font NOT found.");
