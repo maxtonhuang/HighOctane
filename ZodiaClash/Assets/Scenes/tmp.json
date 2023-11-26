@@ -75213,9 +75213,24 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0
+                            }
+                        ]
+                    }
+                ]
             }
         ],
-        "Animation Set Default Animation": "Move Back to start pos"
+        "Animation Set Default Animation": "Cat Idle"
     },
     {
         "Entity": {

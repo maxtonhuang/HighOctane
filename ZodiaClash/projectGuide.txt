@@ -88,3 +88,7 @@ Different Projects:
 
 4. HighOctane_Main
 	- Project that will create a static library (.lib). It contains the code to initialize the systems and run the systems such as the game loop.
+
+================================================================
+Editor Mode vs Game Mode:
+
