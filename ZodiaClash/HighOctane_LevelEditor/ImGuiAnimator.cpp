@@ -1,9 +1,41 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiAnimator.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		11 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Animation editor window
+*
+*   Contains function for the game animation window
+*
+******************************************************************************/
+
 #include "ImGuiAnimator.h"
 #include "ImGuiSceneHierarchy.h"
 #include "Animation.h"
 #include "AssetManager.h"
 #include "Global.h"
 
+//Updates animation window for the input entity
 void AnimatorWindow(Entity entity) {
 	const ImVec2 buttonsize{ 15,15 };
 	const ImVec4 selectedCol{ 0.f,1.f,0.f,1.f };
@@ -411,8 +443,11 @@ void UpdateAnimator() {
 	ImGui::Begin("Animator Window",nullptr,flag);
 
 	Entity toAnimate{ currentSelectedEntity };
+
+	//Checkbox to determine if using selected scene entity or selected scene prefab
 	ImGui::Checkbox("Edit prefab?", &prefab);
 
+	//Label for current prefab
 	std::string editingLabel{ "Editing: " };
 	if (prefab) {
 		toAnimate = currentSelectedPrefab;
@@ -427,12 +462,14 @@ void UpdateAnimator() {
 		ImGui::Text(editingLabel.c_str());
 	}
 	else if (ECS::ecs().EntityExists(toAnimate)) {
+		//If selected entity has no animation component, add a button to add animation set
 		ImGui::Text("Entity has no animation component.");
 		if (ImGui::Button("Add Animation Component")) {
 			ECS::ecs().AddComponent(toAnimate, AnimationSet{});
 		}
 	}
 
+	//Calls the main window loop
 	AnimatorWindow(toAnimate);
 	
 	//Real-time prefab updating

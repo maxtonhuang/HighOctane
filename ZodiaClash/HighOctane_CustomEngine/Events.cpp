@@ -13,6 +13,11 @@
 *	@author		Foong Pun Yuen Nigel
 *
 *	@email		p.foong\@digipen.edu
+* 
+* *	@co-author	Koh Wen Yuan (Did the events for Play/Pause and Game Help
+*
+*	@email		k.wenyuan\@digipen.edu 
+* 
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -40,11 +45,13 @@
 
 EventManager events;
 
+//Exits the game, voids input
 void ExitGame(std::string input) {
 	(void)input;
 	EngineCore::engineCore().setGameActive(false);
 }
 
+//Changes the scene to the input scene name
 void ChangeScene(std::string input) {
 	if (sceneName == input) {
 		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
@@ -65,18 +72,24 @@ void ChangeScene(std::string input) {
 	ExtractSkipLockAfterDeserialization();*/
 	//playButton = true;
 }
+
+//Plays the input audio name to SFX group
 void PlayAudio(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
 	DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(),"SFX");
 }
+
+//Plays the input audio name to BGM group
 void PlayMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
 	DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
+
+//Stops BGM and plays the input audio name as BGM instead
 void RestartMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
@@ -84,6 +97,8 @@ void RestartMusic(std::string input) {
 	DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
+
+//Toggles pause or resume for the input audio group
 void PauseResumeGroup(std::string input) {
 	if (assetmanager.audio.IsGroupPaused(input.c_str())) {
 		assetmanager.audio.ResumeGroup(input.c_str());
@@ -92,9 +107,13 @@ void PauseResumeGroup(std::string input) {
 		assetmanager.audio.PauseGroup(input.c_str());
 	}
 }
+
+//Stops all sounds in the input audio group
 void StopGroup(std::string input) {
 	assetmanager.audio.StopGroup(input.c_str());
 }
+
+//Selects a skill of input number
 void SelectSkill(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 
@@ -132,6 +151,8 @@ void SelectSkill(std::string input) {
 	//bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 	//bs->activeCharacter->action.entityState = ATTACKING;
 }
+
+//Selects an enemy of input number
 void SelectEnemy(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 	std::stringstream ss{ input };

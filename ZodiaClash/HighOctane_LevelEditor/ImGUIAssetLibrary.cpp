@@ -10,10 +10,14 @@
 *
 *	@file		ImGuiAssetLibrary.cpp
 *
-*	@author		Maxton Huang Xinghua
+*	@author		Maxton Huang Xinghua (Initial creation as well as image drag and drop)
 *
 *	@email		m.huang\@digipen.edu
 *
+*   @co-author	Foong Pun Yuen Nigel (Audio drag and drop and error handling)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -166,6 +170,7 @@ void UpdateAssetLibrary() {
 
 }
 
+//Pop up for importing image from image drag and drop
 void ImportImage(bool& showDialog) {
 	ImGui::OpenPopup("Import Image");
 
@@ -340,6 +345,7 @@ void ImportImage(bool& showDialog) {
 	}
 }
 
+//Pop up for importing audio from audio drag and drop
 void ImportAudio(bool& showDialog) {
 	ImGui::OpenPopup("Import Audio");
 
@@ -442,6 +448,7 @@ void ImportAudio(bool& showDialog) {
 	}
 }
 
+//Error pop up for if the drag and drop file type is invalid
 void ImportErrorPopup(bool& showDialog) {
 	ImGui::OpenPopup("Import Error");
 

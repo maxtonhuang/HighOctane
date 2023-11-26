@@ -14,6 +14,10 @@
 *
 *	@email		m.huang\@digipen.edu
 *
+* 	@co-author	Foong Pun Yuen Nigel (CloneMaster, ClonePrefab, UpdateDeletion functions)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -310,6 +314,13 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	return entity;
 }
 
+/******************************************************************************
+*
+*	@brief Clones prefab
+*
+*	This function clones new game objects from an input prefab name
+*
+******************************************************************************/
 Entity EntityFactory::ClonePrefab(std::string prefabName) {
 	Entity prefab{ assetmanager.GetPrefab(prefabName) };
 	if (prefab == 0) {
@@ -408,17 +419,15 @@ void EntityFactory::DeleteMasterModel(Entity entity) {
 *
 ******************************************************************************/
 void EntityFactory::DeleteCloneModel(Entity entity) {
-	//ECS::ecs().DestroyEntity(entity);
-	// find entity > remove from layer
-	/*std::pair<size_t, size_t> pos = FindInLayer(entity);
-	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
-		layering[pos.first].erase(layering[pos.first].begin() + pos.second);
-	}*/
-	//RemoveEntityFromLayering(entity);
 	deletionEntitiesList.push_back(entity);
 	--cloneCounter;
 }
 
+/******************************************************************************
+*
+*	Function for deleting entities at the end of every frame
+*
+******************************************************************************/
 void EntityFactory::UpdateDeletion() {
 	for (Entity entity : deletionEntitiesList) {
 		if (ECS::ecs().EntityExists(entity)) {

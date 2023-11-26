@@ -14,6 +14,10 @@
 *
 *	@email		wanting.liu\@digipen.edu
 *
+*   @author		Foong Pun Yuen Nigel (Animation functions)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -114,6 +118,7 @@ public:
 
 	//Create target circles for enemy targeting
 	void CreateTargets();
+	//Destroy target circles after enemy has been chosen
 	void DestroyTargets();
 private:
 	
@@ -128,9 +133,13 @@ private:
 	std::vector<Entity> targetCircleList;
 
 	//Animation methods
+	//Initialises the turn order animator
 	void InitialiseTurnOrderAnimator();
-	bool AnimateInitialiseTurnOrder(); //multiple stage animation, returns true when animation is done
-	bool AnimateUpdateTurnOrder(); //2 part animation, returns true when animation is done
+	//multiple stage animation to be called for amount of characters, returns true when animation is done
+	bool AnimateInitialiseTurnOrder(); 
+	//2 part animation to be called twice, returns true when animation is done
+	bool AnimateUpdateTurnOrder(); 
+	//Removes the entity from the turn order animator
 	void AnimateRemoveTurnOrder(Entity entity);
 
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
