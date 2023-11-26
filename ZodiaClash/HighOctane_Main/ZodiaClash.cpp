@@ -603,7 +603,7 @@ void EngineCore::Run(bool const& mode) {
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
-	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	graphics.Initialize(GRAPHICS::viewportWidth, GRAPHICS::viewportHeight);
 
 
 	assetmanager.Initialize();

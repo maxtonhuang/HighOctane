@@ -32,9 +32,11 @@
 
 namespace GRAPHICS {
 	void UpdateConstants(int input_w, int input_h);
-
-	extern int defaultWidth;
-	extern int defaultHeight;
+	
+	extern int viewportWidth;
+	extern int viewportHeight;
+	const int defaultWidth = 1920;
+	const int defaultHeight = 1080;
 	extern float defaultWidthF;
 	extern float defaultHeightF;
 	extern float w;
