@@ -33,48 +33,6 @@ Input Keys (Battle scene)
 - Press Use Skill 1, 2 and 3 to use the skills for currently active player character (target will be the first enemy character)
 - Refer to console to see battle logs and AI output (either editor console or game console)
 
-Input Keys(Exploration scene):
-
-- W, A, S, D to move the duck
-- P, O to scale the main character
-- Q to rotate main character anticlockwise
-- E to rotate main character clockwise
-
-- X toggles main character's animationType between time-based and event-based
-- C if main character's animationType is set to event-based, iterates to the next frame
-- V if main character has more than 1 animation (texVariants), changes animation to the next texVariant. Entity's size dimensions are resized based on the new sprite
-
-- 0 to toggle physics debug drawing mode, showing character position, velocity and AABB box
-- 8 to move the character with respect to each frame
-- 9 to toggle step by step mode
-
-- Use mouse to select and edit entities
-
-Input Keys(Sound test)
-- Pressing Play Sound 1, 2 and 3 buttons will play a different sound respectively
-- Pressing Play Music will play looped music
-- Pressing Stop Music will stop all currently playing music
-- Pressing Pause/Resume BGM will pause the music, or if already paused, resume it
-
-Tests:
-
-- To test for Collison:
-	1. Play in exploration scene.
-	2. WASD to move main character duck(dynamic object) to collide with the stone (static object). Upon collision, the duck will stop.
-
-- To test outline:
-	1. Select an entity in editor.
-	2. DrawOutline() and DrawPoint() will be called to draw the entity's outline.
-
-- To test drawing lines for an object's direction: 
-	1. Press '0' during gameplay to draw AABB box
-	2. When moving the entity with "W,A,S,D", line will be drawn to represent object's direction.
-
-- To test audio:
-	1. Click on "Sound Test" in main menu
-	2. Press the buttons to play the sound / sound setting as per the label
-	3. Please note that pressing "Play Music" multiple times will overlap the music
-
 ================================================================
 Different Projects:
 1. HighOctane_CSharpScript
@@ -90,5 +48,8 @@ Different Projects:
 	- Project that will create a static library (.lib). It contains the code to initialize the systems and run the systems such as the game loop.
 
 ================================================================
+
+//EDIT THIS PART//
+
 Editor Mode vs Game Mode:
 
