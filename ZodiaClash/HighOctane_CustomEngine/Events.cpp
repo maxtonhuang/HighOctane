@@ -47,6 +47,9 @@ void ExitGame(std::string input) {
 
 void ChangeScene(std::string input) {
 	if (sceneName == input) {
+		if (currentSystemMode == SystemMode::PAUSE) {
+			events.Call("Toggle Pause", "");
+		}
 		return;
 	}
 
