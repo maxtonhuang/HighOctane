@@ -82,6 +82,7 @@ Editing System:
 Content Browser:
 - Browse through various files and folders within asset.
 - Go over the Scenes folder. Able to drag and drop any scene with the extension (.scn) into the viewport to seamlessly edit scenes.
+- Go over the Prefabs folder. Able to drag and drop any prefabs with the extension (.prefabs) into the prefabs panel to seamlessly edit.
 ================================================================
 
 Menu Bar:
@@ -90,8 +91,7 @@ Menu Bar:
 - Close scene. Closese Scene.
 ================================================================
 
-Play Stop Pause:
-- Pause would pause the scene
+Play Stop:
 - Play button would play the scene
 	- IF you click a button within a scene to change into another scene the stop button would reset you back to the previous scene screen.
 	- IF you play and remain on the same screen. Clicking stop would reset to the original state of where it was before pressing play
@@ -102,9 +102,6 @@ Master Entities Library:
 - Drag and drop any .png/.jpg/.jpeg/.bmp file into editor, it will be detected and prompted whether it is statici image or spritesheet.
 - These new assets are then automatically created as a master entity.
 ================================================================
-
-
-//EDIT THE PART BELOW PLS, SEE HOW YALL WANNA ORGANIZE / ADD SOMEWHR ELSE / ADD IN MORE STUFF//
 
 Game Objects Picking:
 - Able to click to select an object in the view-port (press and hold either SHIFT key + click to select multiple objects).
