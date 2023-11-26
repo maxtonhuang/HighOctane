@@ -104,7 +104,6 @@ void BattleSystem::Initialize()
  * @brief Starts the battle, initializes event connections, and determines the turn order.
  */
 void BattleSystem::StartBattle() {
-    //LOG_WARNING("Initializing battle system");
     events.ConnectBattleSystem(this);
     roundInProgress = false;
     roundManage.characterCount = 0;
@@ -112,11 +111,8 @@ void BattleSystem::StartBattle() {
 
     DetermineTurnOrder();
 
-    //printf("\nBeginning battle:\n");
     for (auto& c : turnManage.characterList) {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
-        //DEBUG_PRINT("Character loaded: %s, remaining health: %f", name.c_str(), c.stats.health);
-        //printf("Character loaded: %s, remaining health: %f\n", name.c_str(), c.stats.health);
     }
 
     //Initialise turn order animator
@@ -181,11 +177,6 @@ void BattleSystem::Update()
         }
         break;
     case NEXTTURN:
-        //if (m_Entities.size() > 0) {
-        //    printf("\nState: Next Turn\n");
-        //    LOG_WARNING("State: Next Turn");
-        //}
-        
 
         //then check if player has won
         for (auto& c : turnManage.characterList) {
@@ -199,8 +190,6 @@ void BattleSystem::Update()
         if (!enemyAmount) //no enemies left
         {
             if (m_Entities.size() > 0) {
-                //printf("\nState: Win\n");
-                //LOG_WARNING("State: Win");
                 EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
             }
             
@@ -210,8 +199,6 @@ void BattleSystem::Update()
         else if (!playerAmount) //no players left
         {
             if (m_Entities.size() > 0) {
-                //printf("\nState: Lose\n");
-                //LOG_WARNING("State: Lose");
                 EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
             }
             
@@ -229,12 +216,6 @@ void BattleSystem::Update()
                     turnManage.activeEnemy = activeCharacter->gameObject.name;
                     turnManage.activePlayer = "";
 
-                    //if (m_Entities.size() > 0) 
-                    //{
-                    //    printf("\nState: Enemy Turn\n");
-                    //    LOG_WARNING("State: Enemy Turn");
-                    //}
-
                     activeCharacter->ApplyBloodStack(); //apply blood stack, the function will check if the enemy is on bloodstack
                     ProcessDamage();
 
@@ -251,11 +232,6 @@ void BattleSystem::Update()
                     turnManage.activePlayer = activeCharacter->gameObject.name;
                     turnManage.activeEnemy = "";
 
-                    //if (m_Entities.size() > 0) {
-                    //    printf("\nState: Player Turn\n");
-                    //    LOG_WARNING("State: Player Turn");
-                    //}
-
                     battleState = PLAYERTURN;
                 }
                 if (activeCharacter->action.entityState != EntityState::DYING) {
@@ -265,10 +241,6 @@ void BattleSystem::Update()
             }
             else
             {
-                //if (m_Entities.size() > 0) {
-                //    printf("\nState: End Round\n");
-                //    LOG_WARNING("State: End Round");
-                //}
                 battleState = NEWROUND;
 
                 activeCharacter->gameObject.isnull = true;
@@ -295,13 +267,6 @@ void BattleSystem::Update()
                 return;
            }
 
-            //if (m_Entities.size() > 0) {
-            //    for (auto& c : turnManage.characterList) {
-            //        std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
-            //        printf("%s remaining health: %f\n", name.c_str(), c.stats.health);
-            //        DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
-            //    }
-            //}
             turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
 
             //Process dead characters
@@ -312,11 +277,6 @@ void BattleSystem::Update()
                 }
             }
             for (CharacterStats* c : deadchars) {
-                //if (m_Entities.size() > 0) {
-                //    std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
-                //    printf("%s died\n", name.c_str());
-                //    DEBUG_PRINT("%s died", name.c_str());
-                //}
                 turnManage.turnOrderList.remove(c);
                 turnManage.originalTurnOrderList.remove(c);
                 turnManage.characterList.remove(*c);
@@ -326,18 +286,6 @@ void BattleSystem::Update()
 
             battleState = NEXTTURN;
         }
-        //else if (activeCharacter->action.entityState == EntityState::DYING) {
-        //    if (m_Entities.size() > 0) {
-        //        std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
-        //        printf("%s died\n", name.c_str());
-        //        DEBUG_PRINT("%s died", name.c_str());
-        //    }
-        //    turnManage.turnOrderList.remove(activeCharacter);
-        //    turnManage.originalTurnOrderList.remove(activeCharacter);
-        //    turnManage.characterList.remove(*activeCharacter);
-        //    battleState = NEXTTURN;
-        //    //turnManage.characterList.remove(*activeCharacter);
-        //}
         break;
     }
     ProcessDamage();

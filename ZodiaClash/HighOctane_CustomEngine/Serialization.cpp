@@ -1504,7 +1504,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	}
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
-	printf("Total entites loading %d \n", static_cast<int>(s_ptr->m_Entities.size()));
 
 	// To load the state from a file for reflection
 	if (parentID == 0) {

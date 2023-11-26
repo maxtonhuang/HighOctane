@@ -51,11 +51,6 @@ void CharacterAction::UpdateState() {
     case START:
         entityState = WAITING;
         name = ECS::ecs().GetComponent<Name>(characterStats->entity).name;
-        //DEBUG_PRINT("Current Turn: %s", name.c_str());
-        //if (battleManager->m_Entities.size() > 0) {
-        //    printf("\nCurrent Turn %s\n", name.c_str());
-        //    DEBUG_PRINT("Current Turn %s", name.c_str());
-        //}
         RefreshTargets();
         break;
     case WAITING:
@@ -111,11 +106,6 @@ void CharacterAction::RefreshTargets() {
 void CharacterAction::ApplySkill() {
     selectedSkill.SetOwner(this->characterStats);
     RefreshTargets();
-    //if (battleManager->m_Entities.size() > 0) {
-    //    printf("Using skill: %s\n", selectedSkill.attackName.c_str());
-    //    DEBUG_PRINT("Using skill: %s", selectedSkill.attackName.c_str());
-    //}
-    // deduct the respective chi cost when a skill is used
     battleManager->chi -= selectedSkill.chiCost;
 
     if (battleManager->chi > 5) {
