@@ -151,14 +151,9 @@ void CreateNewLayer() {
 void DeleteLayer() {
 	selectedEntities.clear();
 	for (Entity entity : layering[selectedLayer]) {
-		//std::cout << "Destroying entity: " << entity << std::endl;
-		//EntityFactory::entityFactory().DeleteCloneModel(entity);
-		// 
 		selectedEntities.emplace_back(entity);
 	}
 	toDestroy = true;
-	//selectedEntities.clear();
-	//layering.erase(layering.begin() + selectedLayer);
 	layerNames[selectedLayer].second = false;
 	selectedLayer = std::numeric_limits<size_t>::max();
 }
@@ -175,8 +170,6 @@ void RemoveEntityFromLayering(Entity entity) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 			if (layering[layer_it][entity_it] == entity) {
 				layering[layer_it].erase(layering[layer_it].begin() + entity_it);
-				//entitiesToLock.erase(entitiesToLock.begin() + entity);
-				//entitiesToSkip.erase(entitiesToSkip.begin() + entity);
 				return;
 			}
 		}
@@ -236,8 +229,6 @@ void RebuildLayeringAfterDeserialization() {
 		}
 		else {
 			while (layering.size() <= n.serializationLayer) {
-				//std::deque<Entity> temp;
-				//layering.emplace_back(temp);
 				CreateNewLayer();
 			}
  			layering[n.serializationLayer].emplace_back(entity);
@@ -368,11 +359,13 @@ void SetWholeLockLayer(size_t layer_it) {
 	}
 }
 
-
-
-
-
-
+/******************************************************************************
+*
+*	@brief Checks whether there is any Entity selected in the layer
+*
+*	-
+*
+******************************************************************************/
 bool CheckAnySelectedInLayer(size_t layer_it) {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
@@ -386,8 +379,13 @@ bool CheckAnySelectedInLayer(size_t layer_it) {
 	return false;
 }
 
-
-
+/******************************************************************************
+*
+*	@brief Returns which is the top-most layer with a selected object
+*
+*	-
+*
+******************************************************************************/
 size_t GetHightestLayerWithSelection() {
 	for (int layer_it = static_cast<int>(layering.size() - 1); layer_it >= 0; --layer_it) {
 		if (CheckAnySelectedInLayer(static_cast<size_t>(layer_it))) {
