@@ -1166,8 +1166,13 @@ void UIEnemyHudSystem::Update() {
 			bool checkResult = false;
 			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
 			if (checkResult) {
-				healthBarData->charaStatsRef = &characterStatsArray.GetData(allEnemies[enemyHudData->enemyIndex]->entity);
-				enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
+				if (!enemyHudData->initialised) {
+					enemyHudData->initialised = true;
+					healthBarData->charaStatsRef = &characterStatsArray.GetData(allEnemies[enemyHudData->enemyIndex]->entity);
+				}
+				if (healthBarData->charaStatsRef != nullptr) {
+					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
+				}
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
 				healthBarData->charaStatsRef = nullptr;
