@@ -128,6 +128,8 @@ std::string SystemModeToString(SystemMode mode)
 		return "PAUSE";
 	case SystemMode::GAMEHELP:
 		return "GAMEHELP";
+	case SystemMode::EXITCONFIRM:
+		return "EXITCONFIRM";
 	case SystemMode::NONE:
 		return "NONE";
 	default:
