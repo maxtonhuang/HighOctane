@@ -711,16 +711,15 @@ void EnemyHUD::CheckValidIndex(int enemyCount, bool& result) {
 */
 void EnemyHUD::ToggleStatusFx(Entity parent, int stacks) {
 	//DEBUG_PRINT("STACKS: %d", stacks);
-	static Entity statusFx{};
-	if ((statusFx != 0) && (stacks < 1)) {
-		EntityFactory::entityFactory().DeleteCloneModel(statusFx);
-		statusFx = 0;
+	if ((statuslabel != 0) && (stacks < 1)) {
+		EntityFactory::entityFactory().DeleteCloneModel(statuslabel);
+		statuslabel = 0;
 	}
 	else {
-		if ((statusFx == 0) && (stacks > 0)) {
-			statusFx = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
-			if (ECS::ecs().HasComponent<StatusEffect>(statusFx)) {
-				StatusEffect& statusFxComp{ ECS::ecs().GetComponent<StatusEffect>(statusFx) };
+		if ((statuslabel == 0) && (stacks > 0)) {
+			statuslabel = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
+			if (ECS::ecs().HasComponent<StatusEffect>(statuslabel)) {
+				StatusEffect& statusFxComp{ ECS::ecs().GetComponent<StatusEffect>(statuslabel) };
 				statusFxComp.character = parent;
 			}
 		}

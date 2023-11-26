@@ -51,19 +51,43 @@
 
 class Node {
 public:
-	Node(BattleSystem const& initial); //PARENT CONSTRUCTOR
-	Node(Node* previous);	 //CHILD CONSTRUCTOR
+	//Constructor for the initial node of the AI tree
+	Node(BattleSystem const& initial);
+
+	//Constructor for the child nodes of the AI tree
+	Node(Node* previous);
+
+	//Gets the frontmost node of the tree
 	Node* GetFront();
+
+	//Gets the node that the AI tree has chosen as its move
 	Node* GetChosen();
+
+	//Gets the backmost nodes of the AI tree, returns the amount of nodes in nodeCount
 	std::vector<Node*> GetBack(int* nodeCount = nullptr);
+
+	//Copy of the battle system stored in this node
 	BattleSystem battlesystem{};
+
+	//Selected entity for this node
 	Entity selectedTarget;
+
+	//Selected target for this node
 	CharacterStats* nodeCharacter;
+
+	//Previous node
 	Node* previous{};
+
+	//Next node
 	std::vector<Node> next{};
+
+	//Current depth in the AI tree
 	size_t depth{};
+
+	//Evaluation score of the node
 	int eval{};
 private:
+	//Used for getting the backmost nodes, advances to the next node and puts the current node into the input vector
 	void Advance(Node* node, std::vector<Node*>& input, int* nodeCount);
 };
 

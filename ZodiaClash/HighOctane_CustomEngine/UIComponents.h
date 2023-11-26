@@ -301,6 +301,7 @@ public:
 class EnemyHUD : UIComponent {
 public:
 	int enemyIndex{};
+	Entity statuslabel{};
 
 	void CheckValidIndex(int enemyCount, bool& res);
 	void ToggleStatusFx(Entity parentEntity, int stacks);

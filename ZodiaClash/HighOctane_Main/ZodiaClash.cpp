@@ -133,6 +133,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadConfig();
     nCmdShow = nCmdShow; //unused variable
     hInstance = hInstance; //unused variable
+
     // Enable run-time memory check for debug builds.
     #if (_DEBUG)
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -144,39 +145,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // To enable the console
     Console();
 
-	/*-----------THIS IS FOR REFLECTION------------*/
-	
-	// A simple test to see reflection in action
-	// Use the macro to declare variables
-	//DECLARE(int, test, 3);
-	//DECLARE(float, test2, 3.14f);
-	//DECLARE(std::string, test3, "Hello");
-	//DECLARE(bool, test4, true);
-
-	// Iterate over registered variables and print their values
-	//for (const auto& var : variablesTEST) {
-	//	std::cout << var.name << " = " << var.read() << std::endl;
-	//}
-
-	/*-----------THIS IS FOR REFLECTION------------*/
-
-    LOG_INFO("Program started");
-
-    /*--------------FOR DEBUGGING PLEASE DO NOT TOUCH FIRST THANK YOU VERY MUCH--------------------*/
-    LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
-
-    LOG_TRACE("This is a test trace message");
-    LOG_DEBUG("This is a test debug message");
-    LOG_INFO("This is a test info message");
-    LOG_WARNING("This is a test warning message");
-    LOG_ERROR("This is a test error message");
-    LOG_FATAL("This is a test fatal message");
-    /*---------------------------------------------------------------------------------------------*/
-    // TODO: Place code here.
-    //graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
-
+#if _DEBUG
     LOG_INFO("Graphics started");
-
+#endif
 
     EngineCore::engineCore(); // Instantiate Engine Core
 
