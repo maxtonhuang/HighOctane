@@ -1,35 +1,48 @@
-ZodiaClash_Battle.ogg
-duck2.spritesheet
-background.jpeg
-mockup_icon_cat.png
-duck2.spritesheet
-duck.spritesheet
-duck.spritesheet
-cat.png
-mockup_skillframe (1).png
-mockup_cat.png
-mockup_ox.png
-mockup_goat.png
-mockup_playbutton_04.png
-mockup_guard.png
-NEW_bg.png
+Cat_Ulti.spritesheet
 mockup_chi_icon.png
+background.jpeg
+duck2.spritesheet
+duck2.spritesheet
+mockup_icon_cat.png
+duck.spritesheet
+duck.spritesheet
+Cat_Attack_1.spritesheet
+mockup_skillframe (1).png
+cat.png
+mockup_cat.png
+mockup_goat.png
+Guard_Attack.spritesheet
+mockup_ox.png
+Cat_Ulti.spritesheet
+mockup_playbutton_04.png
+mockup_main_menu.png
+mockup_title_logo_02 (1).png
 zodiaclash_logo.png
+mockup_chi_icon_lineart.png
+NEW_bg.png
+mockup_pausemenu.png
 UI_ICON_bleed.png
 NEW_guard_pfp.png
+gamehelpmockup.png
 gamehelp.png
 skill_icon_basic.png
 skill_icon_skill.png
 skill_icon_ulti.png
 NEW_bg_03.png
+mockup_guard.png
+Guard_Attack.spritesheet
 NEW_howtoplay.png
-Cat_Idle.spritesheet
-Cat_Idle.spritesheet
+NEW_mainmenu_v02_01.png
+Cat_Attack_1.spritesheet
+UI_Target_Circle.spritesheet
+Cat_Attack_2.spritesheet
 GUARD_idle.png
+Cat_Attack_2.spritesheet
+Cat_Idle.spritesheet
+Cat_Idle.spritesheet
+UI_Target_Circle.spritesheet
 ping.wav
 bonk.wav
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 mikachan/mikasan.ttf
 Scarlet Claw.skill
@@ -40,5 +53,4 @@ No.skill
 Normal AOE.skill
 OHKO.skill
 Test.skill
-.skill
-battle.json
+mainmenu_old.json
