@@ -157,6 +157,11 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 			*ptr = *std::dynamic_pointer_cast<SelfDestructAnimation>(animation);
 			animations.push_back(ptr);
 		}
+		else if (animation->GetType() == "DamageImpact") {
+			std::shared_ptr <DamageImpactAnimation> ptr{ std::make_shared<DamageImpactAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<DamageImpactAnimation>(animation);
+			animations.push_back(ptr);
+		}
 		else {
 			ASSERT(1, "Unable to copy animation group!");
 		}
