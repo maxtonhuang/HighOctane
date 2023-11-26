@@ -127,7 +127,7 @@ void CharacterStats::HealBuff(float buffAmount)
 void CharacterStats::ApplyBloodStack() 
 {
     if (debuffs.bloodStack > 0) {
-        float damage = stats.attack * 0.10f;
+        float damage = stats.attack;
         TakeDamage(damage);
         debuffs.bloodStack--;
     }

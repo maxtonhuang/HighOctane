@@ -286,6 +286,24 @@ void BattleSystem::Update()
 
             battleState = NEXTTURN;
         }
+        else if (activeCharacter->action.entityState == EntityState::DYING) {
+            //Process dead characters
+            std::vector<CharacterStats*> deadchars{};
+            for (CharacterStats* c : turnManage.turnOrderList) {
+                if (c->stats.health == 0) {
+                    deadchars.push_back(c);
+                }
+            }
+            for (CharacterStats* c : deadchars) {
+                turnManage.turnOrderList.remove(c);
+                turnManage.originalTurnOrderList.remove(c);
+                turnManage.characterList.remove(*c);
+                battleState = NEXTTURN;
+            }
+            deadchars.clear();
+
+            battleState = NEXTTURN;
+        }
         break;
     }
     ProcessDamage();
