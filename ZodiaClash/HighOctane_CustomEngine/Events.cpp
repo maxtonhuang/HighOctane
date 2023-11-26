@@ -13,6 +13,11 @@
 *	@author		Foong Pun Yuen Nigel
 *
 *	@email		p.foong\@digipen.edu
+* 
+* *	@co-author	Koh Wen Yuan (Did the events for Play/Pause and Game Help
+*
+*	@email		k.wenyuan\@digipen.edu 
+* 
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
