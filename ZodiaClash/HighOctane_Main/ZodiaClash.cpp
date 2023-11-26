@@ -79,10 +79,12 @@ constexpr bool EDITOR_MODE{ true }; // Do not edit this
 
 // Set to GAME_MODE to run in game mode.
 // Set to EDITOR_MODE to run in editor mode.
+#if _GAME
+constexpr bool game_mode{ GAME_MODE };
+
+#else
 constexpr bool game_mode{ EDITOR_MODE };
-
-
-
+#endif
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -152,9 +154,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//DECLARE(bool, test4, true);
 
 	// Iterate over registered variables and print their values
-	for (const auto& var : variablesTEST) {
-		std::cout << var.name << " = " << var.read() << std::endl;
-	}
+	//for (const auto& var : variablesTEST) {
+	//	std::cout << var.name << " = " << var.read() << std::endl;
+	//}
 
 	/*-----------THIS IS FOR REFLECTION------------*/
 

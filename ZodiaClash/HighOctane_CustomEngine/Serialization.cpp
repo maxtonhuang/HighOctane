@@ -52,7 +52,7 @@
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
-extern std::vector<VariableInfo> variablesTEST;
+//extern std::vector<VariableInfo> variablesTEST;
 
 bool Serializer::Open(const std::string& file)
 {
@@ -647,10 +647,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			color = &ECS::ecs().GetComponent<Color>(entity);
 			rapidjson::Value colorObject = SerializeColor(*color, allocator);
 			entityObject.AddMember("Color", colorObject, allocator);
-			DECLARE(float, redCol, color->color.r);
-			DECLARE(float, greenCol, color->color.g);
-			DECLARE(float, blueCol, color->color.b);
-			DECLARE(float, alphaCol, color->color.a);
+			//DECLARE(float, redCol, color->color.r);
+			//DECLARE(float, greenCol, color->color.g);
+			//DECLARE(float, blueCol, color->color.b);
+			//DECLARE(float, alphaCol, color->color.a);
 		}
 		if (CheckSerialize<Transform>(entity, isPrefabClone, uComponentMap)) {
 			transform = &ECS::ecs().GetComponent<Transform>(entity);
@@ -813,7 +813,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	}
 
 	// To save the state to a file for reflection
-	SerializeVariablesToFile("variables.sav", variablesTEST);
+	//SerializeVariablesToFile("variables.sav", variablesTEST);
 }
 
 void LoadLayeringData(const rapidjson::Value& layeringObject) {

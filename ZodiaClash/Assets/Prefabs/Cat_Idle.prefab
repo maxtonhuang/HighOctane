@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 19,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -22,12 +22,7 @@
                 "Layer 15",
                 "Layer 16",
                 "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23"
+                "Layer 18"
             ]
         }
     },
@@ -87,7 +82,9 @@
         },
         "Movable": {},
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         },
         "Animation Set": [
             {
@@ -124,7 +121,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 30,
-                                "Target": "Cat Attack Point"
+                                "Target": "Attach Point"
                             }
                         ]
                     },
@@ -134,6 +131,56 @@
                             {
                                 "Frame Number": 30,
                                 "Texture": "Cat_Attack_1.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            },
+                            {
+                                "Frame Number": 34
+                            },
+                            {
+                                "Frame Number": 38
+                            },
+                            {
+                                "Frame Number": 42
+                            },
+                            {
+                                "Frame Number": 46
+                            },
+                            {
+                                "Frame Number": 50
+                            },
+                            {
+                                "Frame Number": 54
+                            },
+                            {
+                                "Frame Number": 58
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 46
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Cat_StartTurn_Edited.wav"
+                            },
+                            {
+                                "Frame Number": 46,
+                                "Sound": "Cat Atk_1_Edited.wav"
                             }
                         ]
                     }
@@ -149,7 +196,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 22,
-                                "Target": "Cat Start Pos"
+                                "Target": "Start Pos"
                             }
                         ]
                     },
@@ -174,7 +221,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 30,
-                                "Target": "Cat Attack Point"
+                                "Target": "Attach Point"
                             }
                         ]
                     },
@@ -184,6 +231,53 @@
                             {
                                 "Frame Number": 30,
                                 "Texture": "Cat_Attack_2.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            },
+                            {
+                                "Frame Number": 34
+                            },
+                            {
+                                "Frame Number": 38
+                            },
+                            {
+                                "Frame Number": 42
+                            },
+                            {
+                                "Frame Number": 46
+                            },
+                            {
+                                "Frame Number": 50
+                            },
+                            {
+                                "Frame Number": 54
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 50
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Cat_StartTurn_Edited.wav"
+                            },
+                            {
+                                "Frame Number": 50,
+                                "Sound": "Cat_Atk_2_Edited.wav"
                             }
                         ]
                     }
@@ -211,10 +305,105 @@
                                 "Texture": "Cat_Ulti.spritesheet"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            },
+                            {
+                                "Frame Number": 31
+                            },
+                            {
+                                "Frame Number": 33
+                            },
+                            {
+                                "Frame Number": 36
+                            },
+                            {
+                                "Frame Number": 39
+                            },
+                            {
+                                "Frame Number": 42
+                            },
+                            {
+                                "Frame Number": 45
+                            },
+                            {
+                                "Frame Number": 48
+                            },
+                            {
+                                "Frame Number": 51
+                            },
+                            {
+                                "Frame Number": 54
+                            },
+                            {
+                                "Frame Number": 57
+                            },
+                            {
+                                "Frame Number": 59
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 54
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Cat_StartTurn_Edited.wav"
+                            },
+                            {
+                                "Frame Number": 42,
+                                "Sound": "Cat_Atk_3_Edited.wav"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 25,
+                                "Red": 255.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Red": 255.0,
+                                "Green": 255.0,
+                                "Blue": 255.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Cat Damaged_Edited.wav"
+                            }
+                        ]
                     }
                 ]
             }
         ],
-        "Animation Set Default Animation": "Move Back to start pos"
+        "Animation Set Default Animation": "Cat Idle"
     }
 ]

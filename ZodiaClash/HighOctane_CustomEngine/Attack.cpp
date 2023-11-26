@@ -44,12 +44,14 @@
 
 void Attack::UseAttack(CharacterStats* target) {
     CalculateDamage(*target);
+    target->debuffs.bloodStack += bleed;
     target->TakeDamage(damage);
 }
 
 void Attack::UseAttack(std::vector<CharacterStats*> target) {
     for (CharacterStats* t : target) {
         CalculateDamage(*t);
+        t->debuffs.bloodStack += bleed;
         t->TakeDamage(damage);
     }
 }
@@ -116,6 +118,7 @@ void AttackList::SaveAttack(Attack const& attack) {
     object.AddMember("Crit Rate", attack.critRate, allocator);
     object.AddMember("Crit Multiplier", attack.critMultiplier, allocator);
     object.AddMember("Chi Cost", attack.chiCost, allocator);
+    object.AddMember("Bleed", attack.bleed, allocator);
     document.PushBack(object, allocator);
 
     // Save the JSON document to a file
@@ -191,6 +194,11 @@ void AttackList::LoadAttack(std::string attackPath) {
         if (mainObject.HasMember("Chi Cost")) {
             const rapidjson::Value& object = mainObject["Chi Cost"];
             atk.chiCost = object.GetInt();
+        }
+
+        if (mainObject.HasMember("Bleed")) {
+            const rapidjson::Value& object = mainObject["Bleed"];
+            atk.bleed = object.GetInt();
         }
     }
     data[atkname] = atk;
