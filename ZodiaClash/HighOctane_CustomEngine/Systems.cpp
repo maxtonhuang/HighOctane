@@ -774,7 +774,7 @@ void EditingSystem::Update() {
 						m = &modelArray.GetData(entity);
 					}
 					// edit entity's properties
-					UpdateProperties(entity, n, t, *m, layer_it);
+					UpdateProperties(entity, n, t, m, layer_it);
 				}
 			}
 		}

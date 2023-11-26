@@ -57,13 +57,13 @@ constexpr float CORNER_SIZE = 10.f;
 *	Includes entity movement, resizing, and rotation.
 *
 ******************************************************************************/
-void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
+void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model * model, size_t layer_it) {
 	
 	UNREFERENCED_PARAMETER(entity);
 	UNREFERENCED_PARAMETER(layer_it);
 
 	if (!popupHovered && name.selected) {
-		if (&model == nullptr) {
+		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 				SetCursor(hAllDirCursor);
 			}
@@ -71,19 +71,19 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				SetCursor(hDefaultCursor);
 			}
 		}
-		else if (selectedEntities.size() == 1 && IsNearby(model.GetTopRight(), currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 			SetCursor(hNESWCursor);
 		}
-		else if (selectedEntities.size() == 1 && IsNearby(model.GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
 			SetCursor(hNESWCursor);
 		}
-		else if (selectedEntities.size() == 1 && IsNearby(model.GetBotRight(), currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotRight(), currentMousePosition, CORNER_SIZE)) {
 			SetCursor(hNWSECursor);
 		}
-		else if (selectedEntities.size() == 1 && IsNearby(model.GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
 			SetCursor(hNWSECursor);
 		}
-		else if (IsWithinObject(model, currentMousePosition)) {
+		else if (IsWithinObject(*model, currentMousePosition)) {
 			SetCursor(hAllDirCursor);
 		}
 		else {
@@ -116,27 +116,27 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 						name.clicked = CLICKED::INSIDE;
 					}
 				}
-				else if (IsNearby(model.GetTopRight(), currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NE;
 				}
-				else if (IsNearby(model.GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model->GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::SW;
 				}
-				else if (IsNearby(model.GetBotRight(), currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model->GetBotRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::SE;
 				}
-				else if (IsNearby(model.GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
+				else if (IsNearby(model->GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NW;
 				}
-				else if (IsWithinObject(model, currentMousePosition)) {
+				else if (IsWithinObject(*model, currentMousePosition)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::INSIDE;
 				}
-				else if (IsNearby(model.GetRotPoint(), currentMousePosition, CORNER_SIZE*3.f)) {
+				else if (IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE*3.f)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::DOT;
 				}
@@ -160,14 +160,14 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
-							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopRight(), model.GetBotRight(), currentMousePosition));
-							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopRight(), model.GetTopLeft(), currentMousePosition));
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetTopRight(), model->GetBotRight(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetTopRight(), model->GetTopLeft(), currentMousePosition));
 							
-							deltaX = vmath::Vector2::IsPointOutside(model.GetTopRight(), model.GetBotRight(), currentMousePosition) ? deltaX : -deltaX;
-							deltaY = vmath::Vector2::IsPointOutside(model.GetTopRight(), model.GetTopLeft(), currentMousePosition) ? -deltaY : deltaY;
+							deltaX = vmath::Vector2::IsPointOutside(model->GetTopRight(), model->GetBotRight(), currentMousePosition) ? deltaX : -deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model->GetTopRight(), model->GetTopLeft(), currentMousePosition) ? -deltaY : deltaY;
 							
-							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
-							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 							
 							if (deltaX < deltaY) {
 								transform.scale = std::clamp( transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
@@ -186,14 +186,14 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
-							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotLeft(), model.GetBotRight(), currentMousePosition));
-							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotLeft(), model.GetTopLeft(), currentMousePosition));
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetBotLeft(), model->GetBotRight(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetBotLeft(), model->GetTopLeft(), currentMousePosition));
 
-							deltaX = vmath::Vector2::IsPointOutside(model.GetBotLeft(), model.GetTopLeft(), currentMousePosition) ? deltaX : -deltaX;
-							deltaY = vmath::Vector2::IsPointOutside(model.GetBotLeft(), model.GetBotRight(), currentMousePosition) ? -deltaY : deltaY;
+							deltaX = vmath::Vector2::IsPointOutside(model->GetBotLeft(), model->GetTopLeft(), currentMousePosition) ? deltaX : -deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model->GetBotLeft(), model->GetBotRight(), currentMousePosition) ? -deltaY : deltaY;
 
-							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
-							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
 								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
@@ -215,14 +215,14 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
-							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopLeft(), model.GetTopRight(), currentMousePosition));
-							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetTopLeft(), model.GetBotLeft(), currentMousePosition));
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetTopLeft(), model->GetTopRight(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetTopLeft(), model->GetBotLeft(), currentMousePosition));
 
-							deltaX = vmath::Vector2::IsPointOutside(model.GetTopLeft(), model.GetBotLeft(), currentMousePosition) ? -deltaX : deltaX;
-							deltaY = vmath::Vector2::IsPointOutside(model.GetTopLeft(), model.GetTopRight(), currentMousePosition) ? deltaY : -deltaY;
+							deltaX = vmath::Vector2::IsPointOutside(model->GetTopLeft(), model->GetBotLeft(), currentMousePosition) ? -deltaX : deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model->GetTopLeft(), model->GetTopRight(), currentMousePosition) ? deltaY : -deltaY;
 
-							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
-							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
 								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
@@ -243,14 +243,14 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
-							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotRight(), model.GetBotLeft(), currentMousePosition));
-							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model.GetBotRight(), model.GetTopRight(), currentMousePosition));
+							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetBotRight(), model->GetBotLeft(), currentMousePosition));
+							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetBotRight(), model->GetTopRight(), currentMousePosition));
 
-							deltaX = vmath::Vector2::IsPointOutside(model.GetBotRight(), model.GetTopRight(), currentMousePosition) ? -deltaX : deltaX;
-							deltaY = vmath::Vector2::IsPointOutside(model.GetBotRight(), model.GetBotLeft(), currentMousePosition) ? deltaY : -deltaY;
+							deltaX = vmath::Vector2::IsPointOutside(model->GetBotRight(), model->GetTopRight(), currentMousePosition) ? -deltaX : deltaX;
+							deltaY = vmath::Vector2::IsPointOutside(model->GetBotRight(), model->GetBotLeft(), currentMousePosition) ? deltaY : -deltaY;
 
-							float currWidth = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetTopLeft());
-							float currHeight = vmath::Vector2::DistanceBetweenPoints(model.GetTopRight(), model.GetBotRight());
+							float currWidth = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetTopLeft());
+							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
 								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
