@@ -31,6 +31,9 @@
 *	
 *	!------M2 Milestone------!
 *	- Currently only allows scene files to be dragged into the scene and it will change scene
+* 
+*	!------M3 Milestone------!
+*	- Allowed prefabs files to be dragged into the prefab editor
 ******************************************************************************/
 #include "ImGuiLib.h"
 
