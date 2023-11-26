@@ -425,7 +425,7 @@ void GUIManager::Update()
 
   
     // Update Panels
-
+    UpdateConsole();
     UpdateEntitiesManager();
     UpdatePlayStop();
     UpdateAssetLibrary();
@@ -440,7 +440,6 @@ void GUIManager::Update()
 #if _DEBUG
     // Update the performance console
     UpdatePerformance();
-        UpdateConsole();
 #endif
 
     // Rendering
