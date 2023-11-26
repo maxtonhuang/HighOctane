@@ -19,7 +19,8 @@
 *
 *	@section	Section A
 *
-*	@date		18 October 2023
+*	@date		[M2] 23 October 2023
+*				[M3] 26 November 2023
 *
 * *****************************************************************************
 *
@@ -27,6 +28,12 @@
 *
 *	UIComponents contianing UI components with their own niche properties
 *	to be set and modified.
+* 
+*	M2 -	core functionalities for TextLabel and Button
+*	M3 -	refinements to TextLabel and Button (padding, alignment, resizing),
+*			added all remaining UI required for battle scene (HealthBar,
+			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
+			Status Effect and their	child components)
 *
 ******************************************************************************/
 
@@ -259,11 +266,11 @@ public:
 	int skillIndex{};
 	//Attack* atkSkillRef{};
 
-	void UpdateSkillTex(Tex& texData);
+	//void UpdateSkillTex(Tex& texData);
 	void UpdateSkillEvent(Button& buttonData);
 	void UpdateButtonState(Button& buttonData, bool isSufficient);
 	void UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType);
-	void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
+	//void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
 	void UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost);
 };
 

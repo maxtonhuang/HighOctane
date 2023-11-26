@@ -8,12 +8,7 @@
 #include <limits>
 
 
-//vmath::Vector2 mousePosition{ RESET_VEC2 };
-
 constexpr float CORNER_SIZE = 10.f;
-
-
-
 
 void Selection(Entity & entity, Name & name, Transform & transform, Model & model, size_t layer_it) {
 	thereWasAClickThisCycle = false;
@@ -204,7 +199,7 @@ void UnselectAll() {
 
 
 
-void ProcessSelection(Name& name, size_t layer_it/*, CLICKED location*/) {
+void ProcessSelection(Name& name, size_t layer_it) {
 	if (shiftKeyPressed) {
 		if (name.selected) {
 			if (name.group) {

@@ -174,6 +174,21 @@ void CollisionSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
+	//First loop to update colliders
+	for (Entity const& entity : m_Entities) {
+		Transform* transData = &transformArray.GetData(entity);
+		Collider* collideData = &colliderArray.GetData(entity);
+
+		//Initialise collision data
+		if (collideData->dimension.x == 0 && collideData->dimension.y == 0) {
+			Size scale{ ECS::ecs().GetComponent<Size>(entity) };
+			collideData->dimension.x = scale.width * transData->scale;
+			collideData->dimension.y = scale.height * transData->scale;
+		}
+
+		collideData->position = transData->position;
+	}
+
 	for (Entity const& entity1 : m_Entities) {
 		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 			Transform* transData1 = &transformArray.GetData(entity1);
@@ -977,6 +992,11 @@ void UITextLabelSystem::Update() {
 	//ARCHIVED: MOVED OVER TO DRAW FUNCTION AS OFFSETS ONLY CALCULATED AFTER MODELS UPDATES ARE DONE
 }
 
+/******************************************************************************
+*
+*	@brief Determines offset required from parent entity for drawing by graphics
+*
+******************************************************************************/
 void UITextLabelSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -1034,6 +1054,11 @@ void UITextLabelSystem::Draw() {
 
 }
 
+/******************************************************************************
+*
+*	@brief Updates Button components' state, color and size
+*
+******************************************************************************/
 void UIButtonSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1065,6 +1090,11 @@ void UIButtonSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates the HP value and its child components
+*
+******************************************************************************/
 void UIHealthBarSystem::Update() {
 
 	//// Access the ComponentManager through the ECS class
@@ -1112,6 +1142,11 @@ void UIHealthBarSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates skill point (chi) balance and toggles animation set accordingly
+*
+******************************************************************************/
 void UISkillPointSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1159,6 +1194,11 @@ void UISkillPointSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates Attackskill buttons' state, event call and its child components
+*
+******************************************************************************/
 void UIAttackSkillSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1187,11 +1227,13 @@ void UIAttackSkillSystem::Update() {
 			// update skill texture (SkillIcon component)
 			int chiBalance = battleSys->chi;
 			bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
-			//DEBUG_PRINT("chi balance: %d", chiBalance);
+
 			// function to update tex
 			//atkSkillData->UpdateSkillTex(*texData);
+			
 			// function to update button trigger
 			atkSkillData->UpdateSkillEvent(*buttonData);
+
 			// function to handle state if player has sufficient chi
 			atkSkillData->UpdateButtonState(*buttonData, isSufficient);
 
@@ -1202,24 +1244,23 @@ void UIAttackSkillSystem::Update() {
 				Entity childEntity = parentData->children[count];
 
 				// update skill attack type (SkillAttackType + TextLabel/Tex components)
+				// function to update attack type text label
 				if (skillAtkTypeArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 					TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
-					 // function to update attack type text label
 					atkSkillData->UpdateAtkTypeLbl(*textLabelData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
+				// function to update icon
 				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
 					//Tex* childTexData = &texArray.GetData(childEntity);
-					// function to update icon
 					//atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
 
 				// update chi cost (SkillCost + TextLabel components)
+				// function to update textlabel
 				if (skillCostArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 					TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
-					// function to update textlabel
-					//DEBUG_PRINT("index: %d", atkSkillData->skillIndex);
 					atkSkillData->UpdateSkillCostLbl(*textLabelData, (*characterSkills)[atkSkillData->skillIndex].chiCost);
 					continue;
 				}
@@ -1228,6 +1269,14 @@ void UIAttackSkillSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates parent AllyHUD referencing characterStats stored in
+*			in HealthBar component where it will be used most often
+*			(theoretical rationale: if ally falls then the index ref will update
+*			to the next alive ally, etc.)
+*
+******************************************************************************/
 void UIAllyHudSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1255,6 +1304,13 @@ void UIAllyHudSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates parent EnemyHUD referencing characterStats stored in
+*			in HealthBar component where it will be used most often
+*			Also updates status effect display
+*
+******************************************************************************/
 void UIEnemyHudSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1283,6 +1339,11 @@ void UIEnemyHudSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates status effect stacks and position based off parent entity
+*
+******************************************************************************/
 void UIEffectSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1313,6 +1374,11 @@ void UIEffectSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates transform of child entities based on its parent entity
+*
+******************************************************************************/
 void ChildSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1338,6 +1404,11 @@ void ChildSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates vector of holding its child entities
+*
+******************************************************************************/
 void ParentSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();

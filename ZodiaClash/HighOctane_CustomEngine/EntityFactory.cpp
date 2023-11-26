@@ -213,6 +213,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	ECS::ecs().AddComponent(entity, Script{}); //add script component
 	ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
+	ECS::ecs().GetComponent<Collider>(entity).position = ECS::ecs().GetComponent<Transform>(entity).position;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 
 	if (isMainCharacter) {
@@ -227,6 +228,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 		// resize size to tex dimensions
 		ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
 		ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
+		ECS::ecs().GetComponent<Collider>(entity).dimension = { (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth(), (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight() };
 		//// for mass rendering - add this entity to vector
 		massRenderEntitiesList.emplace_back(entity);
 	}
@@ -234,6 +236,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	++cloneCounter;
 	return entity;
 }
+
 
 /******************************************************************************
 *
