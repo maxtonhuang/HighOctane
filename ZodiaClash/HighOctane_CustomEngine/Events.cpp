@@ -141,9 +141,9 @@ void SelectEnemy(std::string input) {
 	bs->DestroyTargets();
 }
 void TogglePause(std::string input) {
-	//if (currentSystemMode == SystemMode::GAMEHELP) {
-	//	return;
-	//}
+	if (currentSystemMode == SystemMode::GAMEHELP || currentSystemMode == SystemMode::EDIT) {
+		return;
+	}
 	(void)input;
 	static Entity pausemenu{};
 	if (currentSystemMode == SystemMode::PAUSE) {
