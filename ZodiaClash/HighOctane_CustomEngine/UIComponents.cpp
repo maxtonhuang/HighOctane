@@ -375,7 +375,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) && (currentState != STATE::DISABLED) && !eventName.empty()) {
+				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE || currentSystemMode == SystemMode::GAMEHELP) && (currentState != STATE::DISABLED) && !eventName.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
