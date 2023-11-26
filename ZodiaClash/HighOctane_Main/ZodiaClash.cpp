@@ -366,17 +366,6 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<MovementSystem>(signature);
 	}
 
-	//{
-	//	Signature signature;
-	//	signature.set(ECS::ecs().GetComponentType<Size>());
-	//	signature.set(ECS::ecs().GetComponentType<Tex>());
-	//	signature.set(ECS::ecs().GetComponentType<Animator>());
-	//	signature.set(ECS::ecs().GetComponentType<Model>());
-	//	signature.set(ECS::ecs().GetComponentType<Clone>());
-
-	//	ECS::ecs().SetSystemSignature<AnimatorSystem>(signature);
-	//}
-
 	{
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<AnimationSet>());
@@ -404,11 +393,6 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		//signature.set(ECS::ecs().GetComponentType<Size>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
-		//signature.set(ECS::ecs().GetComponentType<Animator>());
-		//signature.set(ECS::ecs().GetComponentType<Model>());
-		//signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ModelSystem>(signature);
 	}
@@ -422,10 +406,8 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
-		//signature.set(ECS::ecs().GetComponentType<Animator>());
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
@@ -448,7 +430,6 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Name>());
 		signature.set(ECS::ecs().GetComponentType<Transform>());
-		//signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Movable>());
@@ -457,12 +438,8 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
-		//signature.set(ECS::ecs().GetComponentType<Animator>());
-		//signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
-		//signature.set(ECS::ecs().GetComponentType<Tag>());
 		ECS::ecs().SetSystemSignature<BattleSystem>(signature);
 	}
 
@@ -470,7 +447,6 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
@@ -483,7 +459,6 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
@@ -497,7 +472,6 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		//signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
