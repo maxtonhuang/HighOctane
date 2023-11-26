@@ -21,10 +21,13 @@ Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
 
-Project Settings
-- Run the engine using HighOctane_Main project
-- To turn on the editor, initialise game_mode variable in ZodiaClash.cpp with EDITOR_MODE 
-- To turn off the editor, initialise game_mode variable in ZodiaClash.cpp with GAME_MODE 
+Project Settings (In Debug/Release Mode)
+- Run the engine with HighOctane_Main project, set as startup project.
+- To turn on the editor, initialise game_mode variable in ZodiaClash.cpp with EDITOR_MODE //constexpr bool game_mode{ EDITOR_MODE };
+- To turn off the editor, initialise game_mode variable in ZodiaClash.cpp with GAME_MODE //constexpr bool game_mode{ GAME_MODE };
+
+Project Settings (In Game mode)
+- Project will automatically run in game mode (meant for installer)
 ================================================================
 
 Basic Features
