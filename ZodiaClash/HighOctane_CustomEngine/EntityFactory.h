@@ -14,6 +14,10 @@
 *
 *	@email		m.huang\@digipen.edu
 *
+*  	@co-author	Foong Pun Yuen Nigel (CloneMaster and ClonePrefab functions)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -51,7 +55,11 @@ public:
 	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
 	
 	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
+
+	//Clones a new entity using input masterEntity
 	Entity CloneMaster(Entity& masterEntity);
+
+	//Clones a new entity using input prefab name
 	Entity ClonePrefab(std::string prefabName);
 	//void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
@@ -66,9 +74,11 @@ public:
 	void ReapplyMassRendering();
 
 	void DeleteMasterModel(Entity entity);
+
+	//Deletes the input entity
 	void DeleteCloneModel(Entity entity);
 
-	//Delete entities at the end of frame
+	//Handles entity deletion at the end of every frame
 	void UpdateDeletion();
 
 

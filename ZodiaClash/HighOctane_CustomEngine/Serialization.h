@@ -14,6 +14,10 @@
 *
 *	@email		kaialexander.v\@digipen.edu
 *
+*   @co-author		Foong Pun Yuen Nigel (Prefab and parent-child serialisation as well as animation serialisation)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *

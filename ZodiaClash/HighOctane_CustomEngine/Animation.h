@@ -1,3 +1,37 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Animation.h
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		11 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Animations
+*
+*   Contains ECS animation component (AnimationSet)
+*	Animation groups (AnimationGroup) as well as
+*	individual animation types (Animation base class as well as other
+*	inherited animation classes)
+*
+******************************************************************************/
+
 #pragma once
 #include <string>
 #include <list>
@@ -7,13 +41,28 @@
 
 class Animation {
 public:
+	//Start the animation
 	virtual void Start() { active = true; };
+
+	//Update the animation by input frameNum
 	virtual void Update(int frameNum) { (void)frameNum; };
+
+	//Add a keyframe by input frameNum, with keyframe data of input frameData
 	virtual void AddKeyFrame(int frameNum, void* frameData) { (void)frameNum; (void)frameData; };
+
+	//Remove keyframe at input frameNum
 	virtual void RemoveKeyFrame(int frameNum) { (void)frameNum; };
+
+	//Returns true if animation has keyframe at frameNum
 	virtual bool HasKeyFrame(int frameNum) { (void)frameNum; return false; };
+
+	//Returns true if animation is currently active
 	bool IsActive();
+
+	//Returns name of type of animation
 	std::string GetType() const;
+
+	//Sets the entity ID of animation
 	void SetParent(Entity p);
 protected:
 	bool active{};
@@ -24,46 +73,96 @@ protected:
 //These are the multiple animation functions that will play in a single animations
 class AnimationGroup {
 public:
+	//Starts animation group, with input of the entities ID
 	void Start(Entity entity);
+
+	//Updates animation group by 1 frame, with input of the entities ID
 	void Update(Entity entity);
+
+	//Default constructor
 	AnimationGroup() = default;
+
+	//Copy constructor to ensure that deep copy of animations are made
 	AnimationGroup(const AnimationGroup&);
+
+	//Assignment operator overload to ensure that deep copy of animations are made
 	AnimationGroup& operator= (const AnimationGroup&);
 
+	//container for animations
 	std::vector<std::shared_ptr<Animation>> animations;
-	int totalFrames{};
-	int currentFrame{};
-	std::string name{};
-	bool active{};
-	bool loop{};
 
+	//Total amount of frames in the animation
+	int totalFrames{};
+
+	//Current frame of the animation
+	int currentFrame{};
+
+	//Name of the animation
+	std::string name{};
+
+	//If animation is active
+	bool active{};
+
+	//If animation should loop
+	bool loop{};
 private:
+	//Entity ID of entity this animation belongs to
 	Entity parent{};
 };
 
 //These are a set of animation groups per entity
 class AnimationSet {
 public:
+	/*
+	Starts animation with name animationName and input entity ID
+	If animationName is not found, this function does nothing
+	*/
 	void Start(std::string animationName, Entity entity);
+
+	//Initialises the animation set and runs its default animation
 	void Initialise(Entity entity);
+
+	//Updates the animation set by 1 frame
 	void Update(Entity entity);
+
+	//Default constructor of animation set
 	AnimationSet() = default;
+
+	//Copy constructor of animation set to ensure activeAnimation pointer is not copied
 	AnimationSet(const AnimationSet&);
+
+	//Assignment operator of animation set to ensure activeAnimation pointer is not copied
 	AnimationSet& operator= (const AnimationSet&);
+
+	//Container of animations
 	std::vector<AnimationGroup> animationSet;
+
+	//If the animation set is paused
 	bool paused;
+
+	//Default animation to play at entity start
 	std::string defaultAnimation{};
+
+	//Current active animation
 	AnimationGroup* activeAnimation;
 private:
+	//If animation set has been initialised
 	bool initialised{ false };
 };
 
 template <typename T>
 class Keyframe {
 public:
+	//frame number of this key frame
 	int frameNum{};
+
+	//Data used by each animation class
 	T data{};
+
+	//== operator used for sorting list of keyframes
 	bool operator==(const Keyframe& input) const { return frameNum == input.frameNum; }
+
+	//< operator used for sorting list of keyframes
 	bool operator<(const Keyframe& input) const { return frameNum < input.frameNum; }
 };
 
