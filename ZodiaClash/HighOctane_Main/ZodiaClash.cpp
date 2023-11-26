@@ -79,10 +79,11 @@ constexpr bool EDITOR_MODE{ true }; // Do not edit this
 
 // Set to GAME_MODE to run in game mode.
 // Set to EDITOR_MODE to run in editor mode.
-#if _EDITOR
-constexpr bool game_mode{ EDITOR_MODE };
-#elif _GAME
+#if _GAME
 constexpr bool game_mode{ GAME_MODE };
+
+#else
+constexpr bool game_mode{ EDITOR_MODE };
 #endif
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -203,7 +204,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Visible>();
 	ECS::ecs().RegisterComponent<Tex>();
 	ECS::ecs().RegisterComponent<MainCharacter>();
-	//ECS::ecs().RegisterComponent<Animator>();
 	ECS::ecs().RegisterComponent<Model>();
 	ECS::ecs().RegisterComponent<Master>();
 	ECS::ecs().RegisterComponent<Clone>();
@@ -214,15 +214,12 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<CharacterStats>();
 	ECS::ecs().RegisterComponent<Script>();
 	ECS::ecs().RegisterComponent<AnimationSet>();
-	//ECS::ecs().RegisterComponent<PlayerAction>();
-	//ECS::ecs().RegisterComponent<EnemyAction>();
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
 	ECS::ecs().RegisterComponent<HealthBar>();
 	ECS::ecs().RegisterComponent<HealthRemaining>();
 	ECS::ecs().RegisterComponent<SkillPointHUD>();
 	ECS::ecs().RegisterComponent<SkillPoint>();
-	//ECS::ecs().RegisterComponent<AttackSkillsHUD>();
 	ECS::ecs().RegisterComponent<AttackSkill>();
 	ECS::ecs().RegisterComponent<SkillIcon>();
 	ECS::ecs().RegisterComponent<SkillCost>();
@@ -230,7 +227,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<AllyHUD>();
 	ECS::ecs().RegisterComponent<EnemyHUD>();
 	ECS::ecs().RegisterComponent<TurnIndicator>();
-	//ECS::ecs().RegisterComponent<StatusEffectsPanel>();
 	ECS::ecs().RegisterComponent<StatusEffect>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
@@ -247,10 +243,6 @@ void EngineCore::Run(bool const& mode) {
 	std::shared_ptr<CollisionSystem> collisionSystem = ECS::ecs().RegisterSystem<CollisionSystem>();
 	runSystemList.emplace_back(collisionSystem, "Collison System");
 	systemList.emplace_back(collisionSystem, "Collison System");	
-
-	//std::shared_ptr<AnimatorSystem> animatorSystem = ECS::ecs().RegisterSystem<AnimatorSystem>();
-	//runSystemList.emplace_back(animatorSystem, "Animator System");
-	//systemList.emplace_back(animatorSystem, "Animator System");
 
 	std::shared_ptr<BattleSystem> battleSystem = ECS::ecs().RegisterSystem<BattleSystem>();
 	runSystemList.emplace_back(battleSystem, "Battle System");
@@ -491,7 +483,6 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
-		//signature.set(ECS::ecs().GetComponentType<CharacterStats>());
 		signature.set(ECS::ecs().GetComponentType<HealthBar>());
 		signature.set(ECS::ecs().GetComponentType<Parent>());
 
@@ -514,8 +505,6 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		/*signature.set(ECS::ecs().GetComponentType<Transform>());
-		signature.set(ECS::ecs().GetComponentType<Size>());*/
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
@@ -619,12 +608,9 @@ void EngineCore::Run(bool const& mode) {
 
 	// Script engine that creates a new domain and loads the assembly (singleton)
 
-	//SaveEntityToJson("testEntity.json", tmp);
 
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
-		//DEBUG_PRINT("Current System Mode: %s", SystemModeToString(currentSystemMode).c_str());
-		//DEBUG_PRINT("Last System Mode: %s", SystemModeToString(lastSystemMode).c_str());
 		if (initLevel) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
@@ -641,22 +627,21 @@ void EngineCore::Run(bool const& mode) {
 		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
 
 		// Switch case for the pause screen
-		auto* systemList{ &runSystemList };
+		auto* sList{ &runSystemList };
 		switch (GetCurrentSystemMode()) {
 		case SystemMode::EDIT:
-			systemList = &editSystemList;
+			sList = &editSystemList;
 			break;
 		case SystemMode::PAUSE:
-			systemList = &pauseSystemList;
+			sList = &pauseSystemList;
 			break;
 		case SystemMode::GAMEHELP:
-			systemList = &pauseSystemList; // Same things as pause system list
+			sList = &pauseSystemList; // Same things as pause system list
 			break;
 		}
-		// std::cout << "Current System Mode: " << SystemModeToString(GetCurrentSystemMode()) << std::endl;
+
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
-
 		InputManager::KeyCheck();
 		InputManager::MouseCheck();
 
@@ -669,12 +654,11 @@ void EngineCore::Run(bool const& mode) {
 		while (accumulatedTime >= FIXED_DT) {
 
 			Mail::mail().SendMails();
-			for (std::pair<std::shared_ptr<System>, std::string>& sys : *systemList) {
+			for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {
 
 				#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.ResetTimer(sys.second);
 					debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
-					//std::cout << sys.second << std::endl;
 				#endif
 					sys.first->Update();
 
@@ -687,7 +671,7 @@ void EngineCore::Run(bool const& mode) {
 			accumulatedTime -= FIXED_DT;
 		}
 
-		for (std::pair<std::shared_ptr<System>, std::string>& sys : *systemList) {
+		for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {
 
 			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
@@ -700,12 +684,6 @@ void EngineCore::Run(bool const& mode) {
 
 		}
 
-		//if (currentSystemMode == SystemMode::EDIT) {
-		//	debugSysProfile.StartTimer("Level Editor", GetTime());
-		//	guiManager.Update();
-		//	debugSysProfile.ResetTimer("Level Editor");
-		//	debugSysProfile.StopTimer("Level Editor", GetTime());
-		//}
 		if (static_cast<bool>(game_mode)) {
 			debugSysProfile.StartTimer("Level Editor", GetTime());
 			guiManager.Update();
@@ -741,7 +719,7 @@ void EngineCore::Run(bool const& mode) {
 	// Quit the script engine, maybe move it somewhere else in the future idk or no need
 	ScriptEngine::Shutdown();
 
-	delete physics::PHYSICS; //maybe put this somewhere else
+	delete physics::PHYSICS;
 
 
 

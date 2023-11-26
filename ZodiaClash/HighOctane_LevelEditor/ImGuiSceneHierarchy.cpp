@@ -536,7 +536,7 @@ void SceneEntityComponents(Entity entity) {
 		}
 	}
 
-	if (ECS::ecs().HasComponent<Button>(entity)) {
+	if (ECS::ecs().HasComponent<Button>(entity) && ECS::ecs().HasComponent<TextLabel>(entity)) {
 		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
 		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
 		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
@@ -962,6 +962,9 @@ void SceneEntityComponents(Entity entity) {
 			std::string currentAttack{ "None"};
 			if (ImGui::BeginCombo("New Skill", currentAttack.c_str())) {
 				for (int n = 0; n < attackNames.size(); n++) {
+					if (attackNames[n] == "") {
+						continue;
+					}
 					bool is_selected = (currentAttack == attackNames[n]);
 					if (ImGui::Selectable(attackNames[n].c_str(), is_selected)) {
 						charstatsComponent.action.skills.push_back(assetmanager.attacks.data[attackNames[n]]);

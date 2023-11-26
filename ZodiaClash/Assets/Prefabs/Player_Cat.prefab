@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 35,
+            "layerCounter": 18,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,24 +21,7 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34"
+                "Layer 17"
             ]
         }
     },
@@ -46,11 +29,10 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 0,
+            "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -58,10 +40,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 67.76569366455078,
-            "position_y": -28.171409606933594,
+            "position_x": -320.23431396484375,
+            "position_y": -122.1714096069336,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.6073969602584839,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -81,12 +63,16 @@
         },
         "CharacterStats": {
             "Character type": 0,
-            "Max Health": 0.0,
-            "Health": 0.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
+            "Max Health": 150.0,
+            "Health": 150.0,
+            "Attack": 30.0,
+            "Defense": 20.0,
+            "Speed": 4,
+            "Skills": [
+                "Scarlet Claw",
+                "Five Elements Bloodbath",
+                "Dance of Fury"
+            ]
         },
         "Model": {
             "Model type": 0,
@@ -137,7 +123,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 30,
-                                "Target": "Attach Point"
+                                "Target": "Attack Position"
                             }
                         ]
                     },
@@ -221,7 +207,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 22,
-                                "Target": "Start Pos"
+                                "Target": "Player 1  Position"
                             }
                         ]
                     },
@@ -255,7 +241,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 30,
-                                "Target": "Attach Point"
+                                "Target": "Attack Position"
                             }
                         ]
                     },
@@ -336,7 +322,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 30,
-                                "Target": "Cat Attack Point"
+                                "Target": "Attack Position"
                             }
                         ]
                     },
@@ -423,7 +409,7 @@
                 ]
             },
             {
-                "Total Frames": 61,
+                "Total Frames": 60,
                 "Group Name": "Damaged",
                 "Loop": false,
                 "Animations": [
@@ -432,15 +418,15 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 25,
-                                "Red": 255.0,
+                                "Red": 1.0,
                                 "Green": 0.0,
                                 "Blue": 0.0
                             },
                             {
                                 "Frame Number": 59,
-                                "Red": 255.0,
-                                "Green": 255.0,
-                                "Blue": 255.0
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
                             }
                         ]
                     },
@@ -452,28 +438,10 @@
                                 "Sound": "Cat Damaged_Edited.wav"
                             }
                         ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 60,
-                                "Destination": "Cat Idle"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 59,
-                                "Texture": "Cat_Idle.spritesheet"
-                            }
-                        ]
                     }
                 ]
             }
         ],
-        "Animation Set Default Animation": "Damaged"
+        "Animation Set Default Animation": "Cat Idle"
     }
 ]

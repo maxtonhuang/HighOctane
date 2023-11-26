@@ -213,7 +213,7 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "TransformDirect") {
 							selectedAnimGroup->animations.push_back(std::make_shared<TransformDirectAnimation>());
 						}
-						else if (selectedType == "Swap ") {
+						else if (selectedType == "Swap") {
 							selectedAnimGroup->animations.push_back(std::make_shared<SwapAnimation>());
 						}
 						else if (selectedType == "SelfDestruct") {

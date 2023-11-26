@@ -83,11 +83,6 @@ void UndoRedo::Undo() {
 Transform UndoRedo::CheckFrontTransform() {
     return undoStack.front().transform;
 }
-Entity UndoRedo::CheckFrontEntity() {
-    if (!undoStack.empty()) {
-        return undoStack.front().entity;
-    }
-}
 
 void UndoRedo::StackPopFront() {
     undoStack.pop_front();

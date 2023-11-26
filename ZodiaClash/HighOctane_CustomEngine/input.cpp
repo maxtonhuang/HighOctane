@@ -26,6 +26,9 @@
 *	@brief
 *
 *	This file contains the definitions of Inputs from keyboard and mouse
+* 
+*   *** Please refer to Input.h file for Function brief. ***
+* 
 ******************************************************************************/
 
 /*                                                                   includes
@@ -63,7 +66,6 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
 
         if (GLFW_KEY_ESCAPE == key) {
             events.Call("Toggle Pause", std::string{});
-            //glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
         if (GLFW_KEY_F1 == key) {
             events.Call("Change Scene", "mainmenu.scn");

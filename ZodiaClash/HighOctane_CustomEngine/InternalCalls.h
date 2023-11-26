@@ -418,6 +418,7 @@ namespace internalcalls {
         ADD_INTERNAL_CALL(DebugFatal);
 
         ADD_INTERNAL_CALL(GetKeyDown);
+        ADD_INTERNAL_CALL(GetKeyUp);
         ADD_INTERNAL_CALL(LogVector3);
 
         // Get the axis

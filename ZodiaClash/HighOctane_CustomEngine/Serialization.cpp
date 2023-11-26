@@ -845,19 +845,14 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	Entity parentID{};
 	if (!file.is_open()) {
 		std::cerr << "Failed to open file: " << fileName << std::endl;
-		//Assert("Failed to open .json file %s", fileName);
 		return entity;
 	}
 	rapidjson::IStreamWrapper isw(file);
 	document.ParseStream(isw);
-	//const rapidjson::Value& layeringObject = document[i];
 	if (document.HasParseError()) {
 		std::cerr << "Failed to parse .json file: " << fileName << std::endl;
 	}
 	layering.clear();
-	std::cout << "Before loading " << ECS::ecs().GetEntityCount() << std::endl;
-
-	printf("Total entites before loading %d \n", static_cast<int>(s_ptr->m_Entities.size()));
 
 	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
 		const rapidjson::Value& entityObject = document[i];
@@ -867,11 +862,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			LoadLayeringData(layeringObject);
 		}
 		else {
-			//entity = ECS::ecs().CreateEntity();
 			entity = 0;
 			if (entityObject.HasMember("Clone")) {
 				const rapidjson::Value& cloneObject = entityObject["Clone"];
-				//ECS::ecs().AddComponent(entity, Clone{});
 				if (cloneObject.HasMember("Prefab")) {
 					std::string prefabName = cloneObject["Prefab"].GetString();
 					Entity prefabID{ assetmanager.GetPrefab(prefabName) };
@@ -889,17 +882,8 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					(EntityFactory::entityFactory().cloneCounter)++;
 					ECS::ecs().AddComponent(entity, Clone{});
 				}
-				//////////////////////////////////////////////////////////////////////////// <-------
 				if (!stopButton) {
-					//stop crashing if there is no selected layer
-					//if (selectedLayer == std::numeric_limits<size_t>::max()) {
 					selectedLayer = std::numeric_limits<size_t>().max();
-					//}
-					/*if (layering.size() == 0) {
-						std::deque<Entity> temp;
-						layering.emplace_back(temp);
-					}
-					layering[selectedLayer].push_back(entity);*/
 				}
 			}
 
@@ -909,12 +893,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			}
 
 			if (entityObject.HasMember("Entity")) {
-				//std::string entityName = entityObject["Entity Name"].GetString();
-				//EntityFactory::entityFactory().masterEntitiesList[entityName] = entity;
 				const rapidjson::Value& nameObject = entityObject["Entity"];
 				Name name{};
 				name.name = nameObject["Name"].GetString();
-				//name.selected = nameObject["Selected"].GetBool();
 				if (nameObject.HasMember("Current Layer")) {
 					name.serializationLayer = nameObject["Current Layer"].GetUint64();
 				}
@@ -983,7 +964,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 				// Attempt to add or retrieve the Texture from the TextureManager
 				Texture* texture = assetmanager.texture.Get(filePath);
-				//Texture* texture = assetmanager.LoadTexture(filePath);
 
 				if (texture) {
 					tex.tex = texture;
@@ -1055,18 +1035,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 			}
 
-			//if (entityObject.HasMember("Animation")) {
-			//	const rapidjson::Value& animObject = entityObject["Animation"];
-			//	Animator anim{
-			//		static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt()),
-			//		animObject["Frame Display Duration"].GetFloat()
-			//	};
-			//	//anim.animationType = static_cast<Animator::ANIMATION_TYPE>(animObject["Animation Type"].GetInt());
-			//	//anim.frameIndex = animObject["Frame Index"].GetUint();
-			//	//anim.frameTimeElapsed = animObject["Frame Time Elapsed"].GetFloat();
-			//	//anim.frameDisplayDuration = animObject["Frame Display Duration"].GetFloat();
-			//	ECS::ecs().AddComponent<Animator>(entity, anim);
-			//}
 			if (entityObject.HasMember("Scripts")) {
 				const rapidjson::Value& scriptObject = entityObject["Scripts"];
 
@@ -1088,7 +1056,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					const rapidjson::Value& scriptNameArray = scriptObject["scriptAttachedNameVec"];
 					for (rapidjson::SizeType j = 0; j < scriptNameArray.Size(); ++j) {
 						if (scriptNameArray[j].IsString()) {
-							//script.scriptNameVec.push_back(scriptNameArray[j].GetString());
 							ScriptEngine::AttachScriptToEntity(entity, scriptNameArray[j].GetString());
 						}
 					}
@@ -1157,7 +1124,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				charstats.stats.maxHealth = statsObject["Max Health"].GetFloat();
 				charstats.stats.health = charstats.stats.maxHealth;
 				charstats.stats.speed = statsObject["Speed"].GetInt();
-				//charstats.debuffs.bleedStack = statsObject["Bleedstack"].GetInt();
 				charstats.tag = (CharacterType)statsObject["Character type"].GetInt();
 				for (auto& a : statsObject["Skills"].GetArray()) {
 					charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
@@ -1189,7 +1155,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				textLabel.textColor.a = textObject["a"].GetFloat();
 
 				textLabel.initClr = textObject["Color Preset"].GetString();
-				//TextLabel(textLabel.textString, textLabel.textColor);
 
 				if (textObject.HasMember("Horizontal Alignment") && textObject.HasMember("Vertical Alignment")) {
 					textLabel.hAlignment = (UI_HORIZONTAL_ALIGNMENT)(textObject["Horizontal Alignment"].GetInt());
@@ -1200,7 +1165,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					textLabel.hasBackground = textObject["Background"].GetBool();
 				}				
 
-				// ECS::ecs().AddComponent(entity, textLabel);
 				if (ECS::ecs().HasComponent<TextLabel>(entity)) {
 					ECS::ecs().GetComponent<TextLabel>(entity) = textLabel;
 				}
@@ -1211,7 +1175,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			if (entityObject.HasMember("Button")) {
 				const rapidjson::Value& buttonObject = entityObject["Button"];
 				Button button;
-				//button.colorSet = Button::ColorSet(); // Initialize the colorSet struct
 				glm::vec4 buttonColor{};
 				glm::vec4 textColor{};
 				// init with default ColorSet
@@ -1403,9 +1366,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			if (entityObject.HasMember("TurnIndicator")) {
 				ECS::ecs().AddComponent<TurnIndicator>(entity, TurnIndicator{});
 			}
-			//if (entityObject.HasMember("StatusEffectsPanel")) {
-			//	ECS::ecs().AddComponent<StatusEffectsPanel>(entity, StatusEffectsPanel{});
-			//}
 			if (entityObject.HasMember("StatusEffect")) {
 				ECS::ecs().AddComponent<StatusEffect>(entity, StatusEffect{});
 			}
@@ -1544,11 +1504,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	}
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
-	//std::cout << "All loaded " << ECS::ecs().GetEntityCount() << std::endl;
 	printf("Total entites loading %d \n", static_cast<int>(s_ptr->m_Entities.size()));
 
 	// To load the state from a file for reflection
-	//DeserializeVariablesFromFile("variables.sav", variablesTEST);
 	if (parentID == 0) {
 		return entity;
 	}

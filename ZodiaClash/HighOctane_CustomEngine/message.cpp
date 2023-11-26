@@ -101,6 +101,13 @@ void Mail::SendMails() {
     mailQueue.clear();
 }
 
+/******************************************************************************
+*
+*	@brief Clears all mail boxes
+*
+*	Clears all mail boxes (usually to be used after every game loop)
+*
+******************************************************************************/
 void Mail::ClearMails() {
     mailbox[ADDRESS::INPUT].clear();
     mailbox[ADDRESS::ANIMATION].clear();
@@ -129,4 +136,3 @@ void Mail::CreatePostcard(TYPE messageType, ADDRESS from, INFO info, float posX,
     tmp_Msg.posY = posY;
     mailQueue.emplace_back(tmp_Msg);
 }
-

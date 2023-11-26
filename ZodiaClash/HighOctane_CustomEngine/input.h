@@ -66,7 +66,6 @@ When the ESC key is pressed, the close flag of the window is set.
 ******************************************************************************/
 		static void KeyCallback(GLFWwindow* pwin, int key, int scancode, int action, int mod);
 		static void KeyCheck();
-		//static INFO KeyConversion(int key);
 /*  _________________________________________________________________________*/
 /*! MouseButtonCallback
 

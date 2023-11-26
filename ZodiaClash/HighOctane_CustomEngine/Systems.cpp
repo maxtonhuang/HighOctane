@@ -80,8 +80,10 @@ extern std::vector<std::string> fullNameVecImGUI;
 ******************************************************************************/
 void PhysicsSystem::Update() {
 
+
 	//process mesaage here
 	bool reqStep{ false };
+#if _DEBUG
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED:
@@ -97,8 +99,9 @@ void PhysicsSystem::Update() {
 			break;
 		}
 	}
-	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
+	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
+#endif
 	// Access component arrays through the ComponentManager
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -139,6 +142,7 @@ void PhysicsSystem::Update() {
 			physics::PHYSICS->Integrate(transData, collData);
 		}
 	}
+
 }
 
 void PhysicsSystem::Draw() {
@@ -220,10 +224,6 @@ void CollisionSystem::Update() {
 					}
 				}
 			}
-			// Update the character's position if no collision occurred
-			//if (!hasCollided) {
-			//	physics::PHYSICS->Integrate(*transData1);
-			//}
 		}
 	}
 	Mail::mail().mailbox[ADDRESS::COLLISION].clear();
@@ -242,27 +242,19 @@ void MovementSystem::Update() {
 
 	if (!inEditing || viewportWindowHovered) {
 
-		//// Access the ComponentManager through the ECS class
+		// Access the ComponentManager through the ECS class
 		ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-		//// Access component arrays through the ComponentManager
+		// Access component arrays through the ComponentManager
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-		//auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-		//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-		//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 
 		for (Entity const& entity : m_Entities) {
 			Transform* transformData = &transformArray.GetData(entity);
 			Model* modelData = &modelArray.GetData(entity);
 
-			//Animator* animatorData = &animatorArray.GetData(entity);
-			//Tex* texData = &texArray.GetData(entity);
-			//Size* sizeData = &sizeArray.GetData(entity);
-
 			UpdateMovement(*transformData, *modelData);
 
-			//animatorData->UpdateAnimationMC(*texData, *sizeData);
 			camera.SetPos(-transformData->position.x, -transformData->position.y);
 		}
 	}
@@ -276,35 +268,6 @@ void MovementSystem::Update() {
 *	has any animation.
 *
 ******************************************************************************/
-//void AnimatorSystem::Update() {
-//
-//	// Access the ComponentManager through the ECS class
-//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-//
-//	// Access component arrays through the ComponentManager
-//	auto& animatorArray = componentManager.GetComponentArrayRef<Animator>();
-//	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
-//	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-//
-//	for (Entity const& entity : m_Entities) {
-//		Animator* animatorData = &animatorArray.GetData(entity);
-//		Tex* texData = &texArray.GetData(entity);
-//		animatorData->UpdateAnimation(*texData);
-//	}
-//}
-
-//void AnimationSystem::Initialize() {
-//	// Access the ComponentManager through the ECS class
-//	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-//
-//	// Access component arrays through the ComponentManager
-//	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
-//	for (Entity const& entity : m_Entities) {
-//		AnimationSet* animationData = &animationArray.GetData(entity);
-//		animationData->Initialise(entity);
-//	}
-//}
-
 void AnimationSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -419,6 +382,13 @@ void GraphicsSystem::Update() {
 	camera.Update();
 }
 
+/******************************************************************************
+*
+*	@brief Draws models onto screen
+*
+*	Displays entity data on screen.
+*
+******************************************************************************/
 void GraphicsSystem::Draw() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -538,7 +508,6 @@ void SerializationSystem::Update() {
 
 }
 
-
 /******************************************************************************
 *
 *	@brief Initialies the Script System
@@ -569,7 +538,6 @@ void ScriptSystem::Initialize() {
 	}
 }
 
-
 /******************************************************************************
 *
 *   @brief Updates the Script System
@@ -578,55 +546,7 @@ void ScriptSystem::Initialize() {
 *   ScriptUpdate function for each entity with a script component.
 *
 ******************************************************************************/
-
 void ScriptSystem::Update() {
-
-	// Here should be in another thread
-	//ScriptEngine::HotReloadScript();
-	//namespace fs = std::filesystem;
-	//std::unordered_map<fs::path, fs::file_time_type> last_modified_times;
-	//
-	//fs::path p = fs::current_path();
-	////printf("Current path is: %s\n", p.string().c_str());
-
-	//fs::path target_path;
-
-	//for (const auto& part : p) {
-	//	target_path /= part; // Append the path component
-	//	if (part == "ZodiaClash") {
-	//		break; // Stop if we've reached the "ZodiaClash" directory
-	//	}
-	//}
-	//
-	//target_path += "\\HighOctane_CSharpScript";
-	////printf("Target path is: %s\n", target_path.string().c_str());
-
-	//// Initial population of the map
-	//for (const auto& file : fs::directory_iterator(target_path)) {
-	//	if (file.path().extension() == ".cs") {
-	//		last_modified_times[file.path()] = fs::last_write_time(file);
-	//	}
-	//}
-	////std::this_thread::sleep_for(std::chrono::seconds(1)); // Polling interval
-
-	////printf("Polling for changes...\n");
-	//for (const auto& file : fs::directory_iterator(target_path)) {
-	//	
-	//	auto current_file_last_write_time = fs::last_write_time(file);
-	//	if (last_modified_times[file.path()] != current_file_last_write_time) {
-	//		// File was modified
-	//		printf("Last modified: %s\n", file.path().string().c_str());
-	//		if (file.path().extension() == ".cs") {
-	//			printf("File modified: %s\n", file.path().string().c_str());
-	//			//std::cout << "File modified: " << file.path() << std::endl;
-	//			last_modified_times[file.path()] = current_file_last_write_time;
-	//		}
-	//		// Here you would typically call a function to handle the file change,
-	//		// such as recompiling a script or reloading a resource.
-	//	}
-	//}
-
-	// Here should be in another thread
 
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
@@ -654,12 +574,8 @@ void ScriptSystem::Update() {
 ******************************************************************************/
 void EditingSystem::Update() {
 
-
-
 	thereWasAClickThisCycle = false;
 	somethingWasSelectedThisCycle = false;
-
-	//printf("first: %d\n", draggingThisCycle);
 
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -668,8 +584,6 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	//auto& colorArray = componentManager.GetComponentArrayRef<Color>();
-
-
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
@@ -715,7 +629,6 @@ void EditingSystem::Update() {
 						 break;
 		}
 
-
 		case TYPE::MOUSE_MOVE:
 			currentMousePosition = { msg.posX, msg.posY };
 
@@ -743,41 +656,10 @@ void EditingSystem::Update() {
 				}
 			}
 
-
 			mouseMoved = true;
 			break;
 		}
 	}
-
-
-
-
-
-
-	//if (name.selected) {
-
-	//	if (name.clicked == CLICKED::NE || name.clicked == CLICKED::SW || (IsNearby(model.GetMax(), currentMousePosition, CORNER_SIZE) || IsNearby(model.GetMin(), currentMousePosition, CORNER_SIZE))) {
-	//		SetCursor(hNESWCursor);
-	//		//withinSomething = true;
-	//	}
-	//	else if (name.clicked == CLICKED::NW || name.clicked == CLICKED::SE || IsNearby({ model.GetMax().x, model.GetMin().y }, currentMousePosition, CORNER_SIZE) || IsNearby({ model.GetMin().x, model.GetMax().y }, currentMousePosition, CORNER_SIZE)) {
-	//		SetCursor(hNWSECursor);
-	//		//withinSomething = true;
-	//	}
-	//	else if (IsWithinObject(model, currentMousePosition)) {
-	//		SetCursor(hAllDirCursor);
-	//		//withinSomething = true;
-	//	}
-	//	else {
-	//		SetCursor(hDefaultCursor);
-	//	}
-	//}
-
-
-
-
-
-
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
@@ -785,27 +667,15 @@ void EditingSystem::Update() {
 
 
 			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-				//if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 				for (Entity& entity : layering[layer_it]) {
-					//if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)]) {
 					if (!ECS::ecs().EntityExists(entity)) {
 						continue;
 					}
 					Name& n = nameArray.GetData(entity);
-					//if (n.selected) {
 					Transform& t = transformArray.GetData(entity);
 					n.draggingOffset = GetOffset(t.position, currentMousePosition);
-
-					//withinSomething = true;
-					//}
-				//}
 				}
-				//}
 			}
-
-
-
-
 			break;
 		}
 	}
@@ -823,7 +693,6 @@ void EditingSystem::Update() {
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 					}
-					//Model & m = modelArray.GetData(entity);
 
 					Selection(entity, n, t, *m, static_cast<size_t>(layer_it));
 					if (somethingWasSelectedThisCycle) {
@@ -837,15 +706,10 @@ void EditingSystem::Update() {
 		}
 	}
 
-	//printf("%d\n", somethingWasSelectedThisCycle);
-
 	if (thereWasAClickThisCycle && !somethingWasSelectedThisCycle) {
 		//printf("YES\n");
 		UnselectAll();
 	}
-
-
-
 
 	if (toCopy || toDestroy) {
 		for (Entity entity : selectedEntities) {
@@ -880,16 +744,13 @@ void EditingSystem::Update() {
 
 
 	selectedEntities.clear();
-	//printf("=== Selected Entities ===\n");
 	for (Entity entity : m_Entities) {
 		if (nameArray.GetData(entity).selected) {
 			selectedEntities.emplace_back(entity);
-			//printf("-> %s\n", nameArray.GetData(entity).name.c_str());
 		}
 	}
-	//printf("=========================\n\n");
 
-	{	//printf("%d ", keyObjectID);
+	{	
 		bool found = false;
 		for (Entity entity : selectedEntities) {
 			if (keyObjectID == entity && modelArray.HasComponent(keyObjectID)) {
@@ -908,7 +769,6 @@ void EditingSystem::Update() {
 		}
 	}
 
-
 	// Editing starts here
 
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
@@ -922,8 +782,6 @@ void EditingSystem::Update() {
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 					}
-					//Model & m = modelArray.GetData(entity);
-
 					// edit entity's properties
 					UpdateProperties(entity, n, t, *m, layer_it);
 				}
@@ -934,27 +792,13 @@ void EditingSystem::Update() {
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 		case TYPE::MOUSE_UP:
-
 			draggingThisCycle = false;
-			//printf("IN HERE");
 			break;
 		}
 	}
 
-	//printf("GC: %d\n", groupCounter);
-
 	mouseMoved = false;
 	withinSomething = false;
-
-	//printf("second: %d\n", draggingThisCycle);
-
-	//// Access the ComponentManager through the ECS class
-	//ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	//auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	//auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-
 
 }
 
@@ -962,6 +806,8 @@ void EditingSystem::Update() {
 /******************************************************************************
 *
 *	@brief Draws the green outline for selected entities
+* 
+*	-
 *
 ******************************************************************************/
 void EditingSystem::Draw() {
@@ -983,11 +829,19 @@ void EditingSystem::Draw() {
 /******************************************************************************
 *
 *	@brief Battle System is located in Battle.cpp
+* 
+*	-
 *
 ******************************************************************************/
 
 
-
+/******************************************************************************
+*
+*	@brief Refer to UITextLabelSystem::Draw() function
+* 
+*	-
+*
+******************************************************************************/
 void UITextLabelSystem::Update() {
 	//ARCHIVED: MOVED OVER TO DRAW FUNCTION AS OFFSETS ONLY CALCULATED AFTER MODELS UPDATES ARE DONE
 }
@@ -995,6 +849,8 @@ void UITextLabelSystem::Update() {
 /******************************************************************************
 *
 *	@brief Determines offset required from parent entity for drawing by graphics
+* 
+*	-
 *
 ******************************************************************************/
 void UITextLabelSystem::Draw() {
@@ -1030,8 +886,6 @@ void UITextLabelSystem::Draw() {
 			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}
 
-		//textLabelData->UpdateOffset(*transformData);
-
 		if (texArray.HasComponent(entity)) {
 			texData = &texArray.GetData(entity);
 		}
@@ -1047,27 +901,24 @@ void UITextLabelSystem::Draw() {
 					: modelData->SetAlpha(0.0f);
 			}
 		}
-		/*else if (!buttonData && !texData) {
-			modelData->SetAlpha(0.0f);
-		}*/
 	}
-
 }
 
 /******************************************************************************
 *
 *	@brief Updates Button components' state, color and size
+* 
+*	-
 *
 ******************************************************************************/
 void UIButtonSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
@@ -1086,24 +937,24 @@ void UIButtonSystem::Update() {
 
 		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
 		sizeData->height = std::max(buttonData->buttonHeight, sizeData->height);
-
 	}
 }
 
 /******************************************************************************
 *
 *	@brief Updates the HP value and its child components
+* 
+*	-
 *
 ******************************************************************************/
 void UIHealthBarSystem::Update() {
 
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	//auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& healthRemainingArray = componentManager.GetComponentArrayRef<HealthRemaining>();
@@ -1112,7 +963,6 @@ void UIHealthBarSystem::Update() {
 
 	for (Entity const& entity : m_Entities) {
 		Size* pSizeData = &sizeArray.GetData(entity);
-		//CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
 		HealthBar* healthBarData = &healthBarArray.GetData(entity);
 		Parent* parentData = &parentArray.GetData(entity);
 
@@ -1145,13 +995,15 @@ void UIHealthBarSystem::Update() {
 /******************************************************************************
 *
 *	@brief Updates skill point (chi) balance and toggles animation set accordingly
+* 
+*	-
 *
 ******************************************************************************/
 void UISkillPointSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& animationSetArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& skillPtHudArray = componentManager.GetComponentArrayRef<SkillPointHUD>();
@@ -1182,7 +1034,6 @@ void UISkillPointSystem::Update() {
 			if (skillPtData->isActive == (count < skillPtHudData->skillPointBalance))
 				continue;
 
-				//DEBUG_PRINT("UPDATING SKILLPOINT %d!", count+1)
 				skillPtData->isActive = !(skillPtData->isActive);
 
 				//note: changes will be reflected outside of edit mode!
@@ -1200,16 +1051,14 @@ void UISkillPointSystem::Update() {
 *
 ******************************************************************************/
 void UIAttackSkillSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	// Access component arrays through the ComponentManager
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	auto& atkSkillArray = componentManager.GetComponentArrayRef<AttackSkill>();
-	//auto& skillIconArray = componentManager.GetComponentArrayRef<SkillIcon>();
 	auto& skillAtkTypeArray = componentManager.GetComponentArrayRef<SkillAttackType>();
 	auto& skillCostArray = componentManager.GetComponentArrayRef<SkillCost>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
@@ -1220,16 +1069,12 @@ void UIAttackSkillSystem::Update() {
 
 		for (Entity const& entity : m_Entities) {
 			AttackSkill* atkSkillData = &atkSkillArray.GetData(entity);
-			//Tex* texData = &texArray.GetData(entity);
 			Button* buttonData = &buttonArray.GetData(entity);
 			Parent* parentData = &parentArray.GetData(entity);
 
 			// update skill texture (SkillIcon component)
 			int chiBalance = battleSys->chi;
 			bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
-
-			// function to update tex
-			//atkSkillData->UpdateSkillTex(*texData);
 			
 			// function to update button trigger
 			atkSkillData->UpdateSkillEvent(*buttonData);
@@ -1252,8 +1097,6 @@ void UIAttackSkillSystem::Update() {
 				}
 				// function to update icon
 				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					//Tex* childTexData = &texArray.GetData(childEntity);
-					//atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
 
@@ -1271,17 +1114,18 @@ void UIAttackSkillSystem::Update() {
 
 /******************************************************************************
 *
-*	@brief Updates parent AllyHUD referencing characterStats stored in
-*			in HealthBar component where it will be used most often
-*			(theoretical rationale: if ally falls then the index ref will update
-*			to the next alive ally, etc.)
+*	@brief Updates AllyHUD
+*
+*	Updates parent AllyHUD referencing characterStats stored in HealthBar 
+*	component where it will be used most often (theoretical rationale: if ally
+*	falls then the index ref will update to the next alive ally, etc.)
 *
 ******************************************************************************/
 void UIAllyHudSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& allyHudArray = componentManager.GetComponentArrayRef<AllyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
@@ -1306,16 +1150,18 @@ void UIAllyHudSystem::Update() {
 
 /******************************************************************************
 *
-*	@brief Updates parent EnemyHUD referencing characterStats stored in
-*			in HealthBar component where it will be used most often
-*			Also updates status effect display
+*	@brief Updates parent EnemyHUD
+*
+*	Updates parent EnemyHUD referencing characterStats stored in HealthBar
+*	component where it will be used most often. Also updates status effect
+*	display.
 *
 ******************************************************************************/
 void UIEnemyHudSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
@@ -1342,13 +1188,15 @@ void UIEnemyHudSystem::Update() {
 /******************************************************************************
 *
 *	@brief Updates status effect stacks and position based off parent entity
+* 
+*	-
 *
 ******************************************************************************/
 void UIEffectSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
@@ -1377,13 +1225,15 @@ void UIEffectSystem::Update() {
 /******************************************************************************
 *
 *	@brief Updates transform of child entities based on its parent entity
+* 
+*	-
 *
 ******************************************************************************/
 void ChildSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
@@ -1407,13 +1257,15 @@ void ChildSystem::Update() {
 /******************************************************************************
 *
 *	@brief Updates vector of holding its child entities
+* 
+*	-
 *
 ******************************************************************************/
 void ParentSystem::Update() {
-	//// Access the ComponentManager through the ECS class
+	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	//// Access component arrays through the ComponentManager
+	// Access component arrays through the ComponentManager
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 

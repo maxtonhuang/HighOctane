@@ -49,7 +49,6 @@ public:
     void RecordCurrent(Entity entity, ACTION action);
     void Undo();
     Transform CheckFrontTransform();
-    Entity CheckFrontEntity();
     void StackPopFront();
 private:
     struct EntityChanges {
