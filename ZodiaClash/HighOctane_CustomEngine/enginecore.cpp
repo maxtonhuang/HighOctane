@@ -35,15 +35,6 @@
 #include <Windows.h>
 #include <chrono>
 
-
-//#if ENABLE_DEBUG_PROFILE
-//
-//	DebugProfiling debugSysProfile;
-//#endif //
-
-
-
-
 // Instantiator for the Engine Core
 EngineCore::EngineCore() : m_initialTime{ static_cast<uint64_t>(std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count()) }, m_previousTime{ 0 }, gameActive{ true } {
 	// empty by design

@@ -67,7 +67,6 @@ vmath::Vector2 rightClickPos{ RESET_VEC2 };
 std::vector<Entity> selectedEntities{};
 Entity newSelection{};
 bool popupHovered{ false };
-//bool anyObjectSelected{ false };
 size_t selectedCount{};
 bool popupMasterRightClicked{ false };
 vmath::Vector2 draggingOffset{ RESET_VEC2 };
@@ -90,7 +89,6 @@ bool newScene{ true };
 bool initLevel{ true };
 std::string newSceneName{};
 
-//size_t currentLayer{ std::numeric_limits<size_t>::max() };
 size_t selectedLayer{ std::numeric_limits<size_t>::max() };
 
 size_t layerCounter{};
@@ -156,6 +154,7 @@ SystemMode GetCurrentSystemMode() {
 
 	return systemModeStack.back();
 }
+
 SystemMode GetPreviousSystemMode() {
 	
 	if (systemModeStack.size() < 2) {
@@ -165,6 +164,7 @@ SystemMode GetPreviousSystemMode() {
 	return systemModeStack[systemModeStack.size() - 2];
 
 }
+
 SystemMode GetPreviousPreviousSystemMode() {
 
 	if (systemModeStack.size() < 3) {

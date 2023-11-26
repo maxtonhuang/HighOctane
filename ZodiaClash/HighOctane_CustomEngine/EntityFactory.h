@@ -52,26 +52,14 @@ public:
 		return ef;
 	}
 
-	void LoadModels(uint32_t amount, bool isMainCharacter, const std::vector<const char*>& filenames = {});
-	
-	Entity CloneMasterModel(float rW, float rH, bool isMainCharacter, const std::vector<const char*>& spritesheets = {});
-
 	//Clones a new entity using input masterEntity
 	Entity CloneMaster(Entity& masterEntity);
 
 	//Clones a new entity using input prefab name
 	Entity ClonePrefab(std::string prefabName);
-	//void CloneMasterModel2(float rW, float rH, bool isMainCharacter);
 
-	void LoadMasterModel();
 	Entity CreateMasterModel(const char* filename);
 	Entity CreateMasterModel(const char* filename, int rows, int cols);
-	//extern std::unordered_map<std::string, Entity> masterEntitiesList;
-
-
-	//FUNCTIONS FOR MASS RENDERING - SUBJECT TO APPROVAL
-	void RemoveMassRendering();
-	void ReapplyMassRendering();
 
 	void DeleteMasterModel(Entity entity);
 
@@ -80,7 +68,6 @@ public:
 
 	//Handles entity deletion at the end of every frame
 	void UpdateDeletion();
-
 
 	std::vector<Entity> massRenderEntitiesList;
 	std::vector<Entity> deletionEntitiesList;
