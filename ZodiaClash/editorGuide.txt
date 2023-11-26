@@ -20,24 +20,29 @@ Artist:
 Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
+
 Project Settings
 - Run the engine using HighOctane_Main project
 - To turn on the editor, initialise game_mode variable in ZodiaClash.cpp with EDITOR_MODE 
 - To turn off the editor, initialise game_mode variable in ZodiaClash.cpp with GAME_MODE 
+================================================================
 
 Basic Features
 - Performance Panel. Shows the FPS and the usage of systems
 - Console. We have redirected the standard output stream into the editor console.
 - Scene viewport. Editable scenes.
+================================================================
 
 Ways to clone entities onto screen:
 - Double click any master entities within the master entities library.
 - Right click an existing entity within the scene, select copy.
+================================================================
 
 Ways to delete entity:
 - Deleting a clone entity by right clicking an existing entity within screen, select delete.
 - Deleting a clone entity by selecting the entity within the viewport and pressing the DEL button on keyboard
 - Deleting a master entity within scene. Right click a master entity within the "Master Entities Library" panel select delete.
+================================================================
 
 Layering system:
 - Under the "eye" icon you can select if it is viewable within the scene.
@@ -46,43 +51,76 @@ Layering system:
 - Drag any entity from any layer to other layers. E.g. if an entity is in layer 1, it will be drawn above layer 0 and below layer 2.
 - Delete layer by selecting delete layer button
 - Right click on an entity within system, select from 4 choices, "Bring forward", "Bring to front", "Send backward", "Send to back"
+================================================================
 
 Create new text entity:
 - Creating entity panel select create entity button.
+================================================================
 
 Scene Hiearchy:
 - Displays all entities within the scene
+================================================================
 
 Properties Panel:
 - Edit entities within the scene using this panel.
+================================================================
 
 Scripting System:
 - Use aforementioned properties panel to add a script to any entitiy;
-- TO ADD SCRIPT: Select an entity, under script property, select from the drop down menu the script to add, click on add script.
-- TO ADD SCRIPT: Select an entity, under script property, select from drop down menu the script that it currently has, click on delete script.
+- TO ADD SCRIPT: Select an entity, under script property, select from the drop down menu the script to add, click on add script, from there, you can choose the things you want to do with the script.
+- TO REMOVE SCRIPT: Select an entity, under script property, select from drop down menu the script that it currently has, click on delete script.Using ImGUI, user can dynamically attach and remove scripts in run time.
+- When script is attached and play button is pressed, attached scripts will be ran for that entity. Users are able to attach multiple scripts to a single entity.
+================================================================
 
 Editing System:
+- Prefabs can be edited through the prefab editor window
 - Within the viewport,(if it is not locked by the layering system) selecting an entity would have a green box highlighted around it, means it is editable.
 - Resize it by hovering over the corners. It would increase or decrease the scale.
 - Drag the editable entity anywhere on screen.
+================================================================
 
 Content Browser:
 - Browse through various files and folders within asset.
 - Go over the Scenes folder. Able to drag and drop any scene with the extension (.scn) into the viewport to seamlessly edit scenes.
+================================================================
 
 Menu Bar:
 - Select Save scene, pop up will appear to choose where you want to save scene as well as file name.
 - Select Load scene, select the (.scn) file from the scenes folder. ONLY SELECT .SCN FILES
 - Close scene. Closese Scene.
+================================================================
 
 Play Stop Pause:
 - Pause would pause the scene
 - Play button would play the scene
 	- IF you click a button within a scene to change into another scene the stop button would reset you back to the previous scene screen.
 	- IF you play and remain on the same screen. Clicking stop would reset to the original state of where it was before pressing play
+================================================================
 
 Master Entities Library:
 - Select import image button to choose a png/jpeg file to import.
 - Drag and drop any .png/.jpg/.jpeg/.bmp file into editor, it will be detected and prompted whether it is statici image or spritesheet.
 - These new assets are then automatically created as a master entity.
+================================================================
 
+
+//EDIT THE PART BELOW PLS, SEE HOW YALL WANNA ORGANIZE / ADD SOMEWHR ELSE / ADD IN MORE STUFF//
+
+Game Objects Picking:
+- Able to click to select an object in the view-port (press and hold either SHIFT key + click to select multiple objects).
+- Able to drag selected object(s) in the view-port to change its position (for single and multiple selected objects).
+- Able to delete selected object(s) by pressing DEL button (for single and multiple selected objects).
+- Able to see selected object's properties in the Properties Panel (only when single object is selected).
+================================================================
+
+Scale and Rotate:
+- Able to drag corners of selected object to resize/scale (only when single object is selected).
+- Able to drag the antenna dot of the selected object to rotate (only when single object is selected).
+================================================================
+
+Animation System:
+- Able to play, pause, resume and step frame by frame for animations (note that editor must be in Play mode)
+- Able to choose or add animations
+- Able to change animation frame amount (duration). (Note that this starts at 0)
+- Able to add animation types.
+================================================================
