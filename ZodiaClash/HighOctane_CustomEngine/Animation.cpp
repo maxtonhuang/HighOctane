@@ -92,7 +92,6 @@ void AnimationGroup::Update(Entity entity) {
 	}
 	for (auto& a : animations) {
 		if (a->IsActive()) {
-			//printf("%d update %s\n", parent, a->GetType().c_str());
 			a->SetParent(entity);
 			a->Update(currentFrame);
 		}
@@ -610,7 +609,6 @@ SelfDestructAnimation::SelfDestructAnimation() {
 }
 void SelfDestructAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
-		printf("Destroying %d\n", parent);
 		EntityFactory::entityFactory().DeleteCloneModel(parent);
 	}
 }

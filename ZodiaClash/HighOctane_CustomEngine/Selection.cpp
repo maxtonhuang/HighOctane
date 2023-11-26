@@ -61,7 +61,6 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 			switch (msg.info) {
 			case INFO::MOUSE_RIGHT:
 				thereWasAClickThisCycle = true;
-				printf("Right Click Detected\n");
 				if (&model != nullptr) {
 					if (IsWithinObject(model, currentMousePosition)) {
 						if (!name.selected) {
@@ -125,7 +124,6 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 								return;
 							}
 							if (name.selected) {
-								printf("Entity %d is selected on Layer %d\n", static_cast<int>(entity), static_cast<int>(layer_it));
 							}
 						}
 						else {

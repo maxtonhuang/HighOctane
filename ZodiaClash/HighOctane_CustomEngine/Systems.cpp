@@ -707,18 +707,15 @@ void EditingSystem::Update() {
 	}
 
 	if (thereWasAClickThisCycle && !somethingWasSelectedThisCycle) {
-		//printf("YES\n");
 		UnselectAll();
 	}
 
 	if (toCopy || toDestroy) {
 		for (Entity entity : selectedEntities) {
-			printf("%d ", static_cast<int>(entity));
 		}
 	}
 
 	if (toCopy) {
-		printf("In Copy\n");
 		for (Entity entity : selectedEntities) {
 			EntityFactory::entityFactory().CloneMaster(entity);
 		}
@@ -729,7 +726,6 @@ void EditingSystem::Update() {
 
 
 	if (toDestroy) {
-		printf("In Destroy: %lld\n", selectedEntities.size());
 		for (Entity entity : selectedEntities) {
 			undoRedo.RecordCurrent(entity, ACTION::DELENTITY);
 			ECS::ecs().RemoveComponent<Clone>(entity);

@@ -259,22 +259,15 @@ void GUIManager::Update()
             }
             ImGui::EndDragDropTarget();
         }
-        // need to edit popupHovered
         //popupHovered = false;
         if (rightClick && selectedEntities.size() > 0) {
             if (ImGui::BeginPopupContextWindow()) {
-                //printf("Popup!\n");
-                //if (ImGui::IsWindowHovered()) {
-                    //popupHovered = true;
-                //}
                 if (ImGui::MenuItem("Copy")) {
                     toCopy = true;
                     rightClick = false;
                 }
-                //ImGui::MenuItem("Paste", NULL, false, false);
                 ImGui::Separator();
                 if (ImGui::MenuItem("Delete")) {
-                    printf("Delete Clicked\n");
                     toDestroy = true;
                     rightClick = false;
                     
@@ -303,7 +296,6 @@ void GUIManager::Update()
                 ImGui::Separator();
                 if (ImGui::MenuItem("Align Horizontal Top")) {
 					//
-                    printf("Horizontal Top\n");
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
                     float alignmentReference;
@@ -320,7 +312,6 @@ void GUIManager::Update()
 				}
                 if (ImGui::MenuItem("Align Horizontal Middle")) {
                     //
-                    printf("Horizontal Middle\n");
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     float alignmentReference;
                     if (keyObjectID != std::numeric_limits<Entity>().max()) {
@@ -336,7 +327,6 @@ void GUIManager::Update()
                 }
                 if (ImGui::MenuItem("Align Horizontal Bottom")) {
                     //
-                    printf("Horizontal Bottom\n");
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
                     float alignmentReference;
@@ -353,7 +343,6 @@ void GUIManager::Update()
                 }
                 if (ImGui::MenuItem("Align Vertical Left")) {
                     // 
-                    printf("Vertical Left\n");
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
                     float alignmentReference;
@@ -370,7 +359,6 @@ void GUIManager::Update()
                 }
                 if (ImGui::MenuItem("Align Vertical Center")) {
                     // 
-                    printf("Vertical Center\n");
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     float alignmentReference;
                     if (keyObjectID != std::numeric_limits<Entity>().max()) {
@@ -386,7 +374,6 @@ void GUIManager::Update()
                 }
                 if (ImGui::MenuItem("Align Vertical Right")) {
                     // 
-                    printf("Vertical Right\n");
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
                     float alignmentReference;

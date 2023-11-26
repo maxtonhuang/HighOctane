@@ -114,13 +114,11 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 				if (&model == nullptr) {
 					if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 						name.clicked = CLICKED::INSIDE;
-						printf("INSIDE ------");
 					}
 				}
 				else if (IsNearby(model.GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NE;
-					printf("NE ------");
 				}
 				else if (IsNearby(model.GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);

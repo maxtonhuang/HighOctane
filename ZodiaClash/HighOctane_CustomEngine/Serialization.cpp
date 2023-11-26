@@ -761,7 +761,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 		if (CheckSerialize<EnemyHUD>(entity, isPrefabClone, uComponentMap)) {
 			enemyHud = &ECS::ecs().GetComponent<EnemyHUD>(entity);
 			rapidjson::Value enemyHudObject = SerializeEnemyHUD(*enemyHud, allocator);
-			entityObject.AddMember("EnemyHUD", rapidjson::Value(rapidjson::kObjectType), allocator);
+			entityObject.AddMember("EnemyHUD", enemyHudObject, allocator);
 		}
 		if (CheckSerialize<TurnIndicator>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("TurnIndicator", rapidjson::Value(rapidjson::kObjectType), allocator);
@@ -1504,7 +1504,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	}
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
-	printf("Total entites loading %d \n", static_cast<int>(s_ptr->m_Entities.size()));
 
 	// To load the state from a file for reflection
 	if (parentID == 0) {
