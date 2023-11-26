@@ -1,3 +1,4 @@
+Cat_Ulti.spritesheet
 mockup_chi_icon.png
 background.jpeg
 duck2.spritesheet
@@ -5,11 +6,14 @@ duck2.spritesheet
 mockup_icon_cat.png
 duck.spritesheet
 duck.spritesheet
+Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
 cat.png
 mockup_cat.png
 mockup_goat.png
+Guard_Attack.spritesheet
 mockup_ox.png
+Cat_Ulti.spritesheet
 mockup_playbutton_04.png
 mockup_main_menu.png
 mockup_title_logo_02 (1).png
@@ -27,7 +31,15 @@ skill_icon_ulti.png
 NEW_bg_03.png
 mockup_guard.png
 
+Cat_Attack_1.spritesheet
 UI_Target_Circle.spritesheet
+Cat_Attack_2.spritesheet
+GUARD_idle.png
+Cat_Attack_2.spritesheet
+Cat_Idle.spritesheet
+Cat_Idle.spritesheet
+Guard_Attack.spritesheet
+NEW_howtoplay.png
 UI_Target_Circle.spritesheet
 ping.wav
 bonk.wav

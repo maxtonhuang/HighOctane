@@ -1235,6 +1235,7 @@ void UIAllyHudSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& allyHudArray = componentManager.GetComponentArrayRef<AllyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
@@ -1245,7 +1246,7 @@ void UIAllyHudSystem::Update() {
 			bool checkResult = false;
 			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
-				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+				healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
 				healthBarData->charaStatsRef = nullptr;
@@ -1261,6 +1262,7 @@ void UIEnemyHudSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
@@ -1271,7 +1273,7 @@ void UIEnemyHudSystem::Update() {
 			bool checkResult = false;
 			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
 			if (checkResult) {
-				healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
+				healthBarData->charaStatsRef = &characterStatsArray.GetData(allEnemies[enemyHudData->enemyIndex]->entity);
 				enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {

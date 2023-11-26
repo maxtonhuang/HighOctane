@@ -9508,7 +9508,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -14515,7 +14517,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -19522,7 +19526,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -24529,7 +24535,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -29536,7 +29544,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -34543,7 +34553,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -39550,7 +39562,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -44557,7 +44571,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -49564,7 +49580,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -54571,7 +54589,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -59578,7 +59598,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -66100,7 +66122,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {}
+        "AllyHUD": {
+            "Ally Index": 0
+        }
     },
     {
         "Entity": {
@@ -72537,187 +72561,6 @@
     {
         "Entity": {
             "Name": "ally_healthbar",
-            "Current Layer": 0,
-            "Order in Layer": 7,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -150.5,
-            "position_y": 68.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 275.0,
-            "height": 25.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 1000.0,
-            "Health": 1000.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 0.0,
-            "Green": 0.0,
-            "Blue": 0.0,
-            "Alpha": 1.0
-        },
-        "Movable": {},
-        "HealthBar": {
-            "Show Health Stat": true,
-            "Show Value or Percentage": false,
-            "Bar Width": 0.0,
-            "Bar Height": 0.0,
-            "Current Health": 1000.0,
-            "Max Health": 1000.0,
-            "Health Percentage": 100.0
-        },
-        "Parent": {}
-    },
-    {
-        "Entity": {
-            "Name": "remaininghealth",
-            "Current Layer": 0,
-            "Order in Layer": 10,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -150.5,
-            "position_y": 68.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 261.25,
-            "height": 20.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 0.0,
-            "Green": 1.0,
-            "Blue": 0.0,
-            "Alpha": 1.0
-        },
-        "Movable": {},
-        "HealthRemaining": {
-            "Current Health": 1000.0
-        },
-        "Child": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "displayLbl",
-            "Current Layer": 0,
-            "Order in Layer": 11,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -90.5,
-            "position_y": 108.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 150.0,
-            "height": 55.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.36000001430511475,
-            "Text String": "1000",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "white",
-            "Horizontal Alignment": 2,
-            "Vertical Alignment": 1,
-            "Background": false
-        },
-        "Child": {
-            "position_x": 60.0,
-            "position_y": 40.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "ally_healthbar",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -72748,15 +72591,6 @@
             "className": "",
             "scriptAttachedNameVec": []
         },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 1000.0,
-            "Health": 1000.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -72771,18 +72605,20 @@
             "Show Value or Percentage": false,
             "Bar Width": 0.0,
             "Bar Height": 0.0,
-            "Current Health": 1000.0,
-            "Max Health": 1000.0,
+            "Current Health": 150.0,
+            "Max Health": 150.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {},
+        "AllyHUD": {
+            "Ally Index": 0
+        },
         "Parent": {}
     },
     {
         "Entity": {
             "Name": "remaininghealth",
-            "Current Layer": 1,
-            "Order in Layer": 1,
+            "Current Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -72821,7 +72657,7 @@
         },
         "Movable": {},
         "HealthRemaining": {
-            "Current Health": 1000.0
+            "Current Health": 150.0
         },
         "Child": {
             "position_x": 0.0,
@@ -72836,7 +72672,240 @@
         "Entity": {
             "Name": "displayLbl",
             "Current Layer": 1,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -720.0,
+            "position_y": -440.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 150.0,
+            "height": 55.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.36000001430511475,
+            "Text String": "150",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 2,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "Child": {
+            "position_x": 60.0,
+            "position_y": 40.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "ally_closeup_icon_hud",
+            "Current Layer": 0,
             "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -820.0,
+            "position_y": -380.0,
+            "rotation": 0.0,
+            "scale": 0.75,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_icon_cat.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 256.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Child": {
+            "position_x": -40.0,
+            "position_y": 100.0,
+            "rotation": 0.0,
+            "scale": 0.75,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "allyHp_healthbar",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -780.0,
+            "position_y": -480.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 275.0,
+            "height": 25.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthBar": {
+            "Show Health Stat": true,
+            "Show Value or Percentage": false,
+            "Bar Width": 0.0,
+            "Bar Height": 0.0,
+            "Current Health": 1000.0,
+            "Max Health": 1000.0,
+            "Health Percentage": 100.0
+        },
+        "AllyHUD": {
+            "Ally Index": 0
+        },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "allyHp_remaininghealth",
+            "Current Layer": 2,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -780.0,
+            "position_y": -480.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 261.25,
+            "height": 20.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "HealthRemaining": {
+            "Current Health": 1000.0
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "allyHp_displayLbl",
+            "Current Layer": 1,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -72899,7 +72968,7 @@
     },
     {
         "Entity": {
-            "Name": "ally_closeup_icon_hud",
+            "Name": "allyHp_closeup_icon",
             "Current Layer": 0,
             "Order in Layer": 2,
             "isLocked": true,
@@ -74854,6 +74923,342 @@
     },
     {
         "Entity": {
+            "Name": "Cat_Attack_1.png",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Cat_Attack_1.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Cat_Attack_2.png",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Cat_Attack_2.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 504.0,
+            "height": 501.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Cat",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 67.76569366455078,
+            "position_y": -28.171409606933594,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Cat_Idle.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 513.0
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 0.0,
+            "Health": 0.0,
+            "Attack": 0.0,
+            "Defense": 0.0,
+            "Speed": 0,
+            "Skills": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Cat Idle",
+                "Loop": true,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0
+                            },
+                            {
+                                "Frame Number": 15
+                            },
+                            {
+                                "Frame Number": 30
+                            },
+                            {
+                                "Frame Number": 59
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Cat Attack Point"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "Cat_Attack_1.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Move Back to start pos",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 22,
+                                "Target": "Cat Start Pos"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 22,
+                                "Texture": "Cat_Idle.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Attack 2",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Cat Attack Point"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "Cat_Attack_2.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Attack 3",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Cat Attack Point"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "Cat_Ulti.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Move Back to start pos"
+    },
+    {
+        "Entity": {
+            "Name": "Cat_Ulti.png",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Cat_Ulti.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 512.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0
+        }
+    },
+    {
+        "Entity": {
             "Name": "Damage Number",
             "Current Layer": 1,
             "Order in Layer": 0,
@@ -75282,7 +75687,7 @@
     },
     {
         "Entity": {
-            "Name": "enemy_healthbar",
+            "Name": "enemyHp_healthbar",
             "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
@@ -75313,15 +75718,6 @@
             "className": "",
             "scriptAttachedNameVec": []
         },
-        "CharacterStats": {
-            "Character type": 1,
-            "Max Health": 1000.0,
-            "Health": 1000.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -75345,9 +75741,9 @@
     },
     {
         "Entity": {
-            "Name": "remaininghealth",
-            "Current Layer": 2,
-            "Order in Layer": 1,
+            "Name": "enemyHp_remaininghealth",
+            "Current Layer": 3,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -75380,8 +75776,8 @@
             "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
-            "Green": 0.0,
-            "Blue": 0.0,
+            "Green": 1.0,
+            "Blue": 1.0,
             "Alpha": 1.0
         },
         "Movable": {},
@@ -75399,9 +75795,9 @@
     },
     {
         "Entity": {
-            "Name": "displayLbl",
+            "Name": "enemyHp_displayLbl",
             "Current Layer": 2,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -75412,7 +75808,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 890.0,
+            "position_x": 755.0,
             "position_y": 40.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -75423,8 +75819,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 0.0,
-            "height": 24.0
+            "width": 73.80000305175781,
+            "height": 46.68000030517578
         },
         "Scripts": {
             "className": "",
@@ -75449,12 +75845,12 @@
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 2,
+            "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Background": false
         },
         "Child": {
-            "position_x": 60.0,
+            "position_x": -75.0,
             "position_y": 40.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -75464,7 +75860,7 @@
     },
     {
         "Entity": {
-            "Name": "turn_base",
+            "Name": "enemyHp_base",
             "Current Layer": 0,
             "Order in Layer": 2,
             "isLocked": true,
@@ -75516,7 +75912,7 @@
     },
     {
         "Entity": {
-            "Name": "enemy_closeup_icon",
+            "Name": "enemyHp_closeup_icon",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -75575,7 +75971,7 @@
     {
         "Entity": {
             "Name": "gamehelpmenu",
-            "Current Layer": 4,
+            "Current Layer": 7,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -75600,7 +75996,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "gamehelp.png"
+            "Texture File Path": "NEW_howtoplay.png"
         },
         "Visible": {
             "isVisible": false
@@ -75669,6 +76065,267 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "helpmenu_button1",
+            "Current Layer": 8,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 550.0,
+            "position_y": 400.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 360.0,
+            "height": 80.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Exit",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 0.5,
+            "Hovered Button G": 0.5,
+            "Hovered Button B": 0.5,
+            "Hovered Button A": 0.09803921729326248,
+            "Hovered Text R": 0.5,
+            "Hovered Text G": 0.5,
+            "Hovered Text B": 0.5,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.19607843458652496,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Toggle Help",
+            "Event Input": "",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
+        },
+        "Child": {
+            "position_x": 550.0,
+            "position_y": 400.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Guard",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 548.0,
+            "position_y": -51.0,
+            "rotation": 0.0,
+            "scale": 2.0965147018432617,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "GUARD_idle.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 256.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 0.0,
+            "Health": 0.0,
+            "Attack": 0.0,
+            "Defense": 0.0,
+            "Speed": 0,
+            "Skills": []
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Guard Attack",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Cat Start Pos"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "Guard_Attack.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Guard moveback",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Cat Start Pos"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "GUARD_idle.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": ""
+    },
+    {
+        "Entity": {
+            "Name": "Guard_Attack.png",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Guard_Attack.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 511.0,
+            "height": 512.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0
         }
     },
     {
@@ -76611,26 +77268,26 @@
             "Background": false
         },
         "Button": {
-            "Default Button R": 0.0,
-            "Default Button G": 0.0,
-            "Default Button B": 0.0,
-            "Default Button A": 0.0,
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
             "Default Text R": 0.0,
             "Default Text G": 0.0,
             "Default Text B": 0.0,
             "Default Text A": 1.0,
-            "Hovered Button R": 0.0,
-            "Hovered Button G": 0.0,
-            "Hovered Button B": 0.0,
-            "Hovered Button A": 0.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
             "Hovered Text R": 0.0,
             "Hovered Text G": 0.0,
             "Hovered Text B": 0.0,
             "Hovered Text A": 1.0,
-            "Focused Button R": 0.0,
-            "Focused Button G": 0.0,
-            "Focused Button B": 0.0,
-            "Focused Button A": 0.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
             "Focused Text R": 0.0,
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
@@ -76972,7 +77629,7 @@
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
-            "Event Name": "Change Scene",
+            "Event Name": "Toggle Help",
             "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
