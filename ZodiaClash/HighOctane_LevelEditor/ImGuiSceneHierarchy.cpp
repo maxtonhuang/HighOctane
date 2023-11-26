@@ -500,7 +500,7 @@ void SceneEntityComponents(Entity entity) {
 		}
 	}
 
-	if (ECS::ecs().HasComponent<Button>(entity)) {
+	if (ECS::ecs().HasComponent<Button>(entity) && ECS::ecs().HasComponent<TextLabel>(entity)) {
 		Button& button{ ECS::ecs().GetComponent<Button>(entity) };
 		TextLabel& textlabel{ ECS::ecs().GetComponent<TextLabel>(entity) };
 		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
