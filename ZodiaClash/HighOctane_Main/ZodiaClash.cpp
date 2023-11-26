@@ -74,17 +74,30 @@ constexpr bool GAME_MODE{ false }; // Do not edit this
 constexpr bool EDITOR_MODE{ true }; // Do not edit this
 
 
-////////// Set Loading Mode here. /////////////////////////////////////////////
 
-// Set to GAME_MODE to run in game mode.
-// Set to EDITOR_MODE to run in editor mode.
+
 #if _GAME
-constexpr bool game_mode{ GAME_MODE };
+
+// For compilation in Game mode
+// DO NOT CHANGE /////////////////////////
+constexpr bool game_mode{ GAME_MODE };  //
+// DO NOT CHANGE /////////////////////////
 
 #else
-constexpr bool game_mode{ EDITOR_MODE };
+
+///////////////////// SET LEVEL EDITOR ON OR OFF HERE ////////////////////////
+//																			//
+// 																			//
+//		For compilation in Debug or Release mode.							//
+//		Set to below to EDITOR_MODE to turn on Level Editor,				//
+//		or set to GAME_MODE to turn off Level Editor.						//
+//																			//
+		constexpr bool game_mode{		EDITOR_MODE			};				//
+//																			//
+//																			//
+//////////////////////////////////////////////////////////////////////////////
+
 #endif
-///////////////////////////////////////////////////////////////////////////////
 
 
 /******************************************************************************
