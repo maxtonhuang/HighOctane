@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 44,
+            "layerCounter": 19,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -22,32 +22,7 @@
                 "Layer 15",
                 "Layer 16",
                 "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43"
+                "Layer 18"
             ]
         }
     },
@@ -112,15 +87,15 @@
         "Animation Set": [
             {
                 "Total Frames": 60,
-                "Group Name": "Guard Attack",
+                "Group Name": "Attack 1",
                 "Loop": false,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
                         "Key Frames": [
                             {
-                                "Frame Number": 30,
-                                "Target": "Cat Start Pos"
+                                "Frame Number": 15,
+                                "Target": ""
                             }
                         ]
                     },
@@ -128,8 +103,49 @@
                         "Animation Type": "TextureChange",
                         "Key Frames": [
                             {
-                                "Frame Number": 30,
+                                "Frame Number": 15,
                                 "Texture": "Guard_Attack.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15
+                            },
+                            {
+                                "Frame Number": 20
+                            },
+                            {
+                                "Frame Number": 25
+                            },
+                            {
+                                "Frame Number": 30
+                            },
+                            {
+                                "Frame Number": 35
+                            },
+                            {
+                                "Frame Number": 40
+                            },
+                            {
+                                "Frame Number": 45
+                            },
+                            {
+                                "Frame Number": 50
+                            },
+                            {
+                                "Frame Number": 55
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 35,
+                                "Sound": "Guard Atk_Edited.wav"
                             }
                         ]
                     }
@@ -155,6 +171,39 @@
                             {
                                 "Frame Number": 30,
                                 "Texture": "GUARD_idle.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 25,
+                                "Red": 255.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Red": 255.0,
+                                "Green": 255.0,
+                                "Blue": 255.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Guard Damaged_Edited.wav"
                             }
                         ]
                     }
