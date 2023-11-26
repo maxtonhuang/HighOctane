@@ -710,11 +710,6 @@ void EditingSystem::Update() {
 		UnselectAll();
 	}
 
-	if (toCopy || toDestroy) {
-		for (Entity entity : selectedEntities) {
-		}
-	}
-
 	if (toCopy) {
 		for (Entity entity : selectedEntities) {
 			EntityFactory::entityFactory().CloneMaster(entity);
