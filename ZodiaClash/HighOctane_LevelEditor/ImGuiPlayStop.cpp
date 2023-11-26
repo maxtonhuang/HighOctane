@@ -54,9 +54,8 @@ void UpdatePlayStop() {
 
     if (ImGui::Button("Play", { 100, 50 })) {
         playButton = true;
-        if (currentSystemMode != SystemMode::PAUSE && currentSystemMode != SystemMode::GAMEHELP) {
-            lastSystemMode = currentSystemMode;
-            currentSystemMode = SystemMode::RUN;
+        if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
+            SetCurrentSystemMode(SystemMode::RUN);
         }
         button_clicked = true;
     }
@@ -70,19 +69,17 @@ void UpdatePlayStop() {
     }
 
     if (ImGui::Button("Stop", { 100, 50 })) {
-        if (!playButton && currentSystemMode != SystemMode::PAUSE && currentSystemMode != SystemMode::GAMEHELP) {
+        if (!playButton && GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
             events.Call("Change Scene", "tmp.scn");
-            lastSystemMode = currentSystemMode;
-            currentSystemMode = SystemMode::EDIT;
+            SetCurrentSystemMode(SystemMode::EDIT);
         }
     }
 
     ImGui::SameLine();
 
     if (ImGui::Button("Pause", { 100, 50 })) {
-        if (currentSystemMode != SystemMode::PAUSE && currentSystemMode != SystemMode::GAMEHELP) {
-            lastSystemMode = currentSystemMode;
-            currentSystemMode = SystemMode::EDIT;
+        if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
+            SetCurrentSystemMode(SystemMode::EDIT);
         }
     }
 

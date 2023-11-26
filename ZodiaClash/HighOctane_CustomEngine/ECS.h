@@ -14,6 +14,10 @@
 *
 *	@email		m.huang\@digipen.edu
 *
+*   @co-author	Foong Pun Yuen Nigel (classes ComponentFunctions and IComponentFunctions)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -120,9 +124,16 @@ private:
 ////////// COMPONENT //////////////////////////////////////////////////////////
 class ComponentFunctions {
 public:
+    //Adds component to the current entity
     virtual void AddComponent(Entity) = 0;
+
+    //Removes component from the current entity
     virtual void RemoveComponent(Entity) = 0;
+
+    //Returns true if entity has component
     virtual bool HasComponent(Entity) = 0;
+
+    //Copies component from dst entity to src entity
     virtual void CopyComponent(Entity dst, Entity src) = 0;
     std::string name{};
 };
@@ -130,9 +141,16 @@ public:
 template <typename T>
 class IComponentFunctions : public ComponentFunctions {
 public:
+    //Adds component to the current entity
     void AddComponent(Entity e);
+
+    //Removes component from the current entity
     void RemoveComponent(Entity e);
+
+    //Returns true if entity has component
     bool HasComponent(Entity e);
+
+    //Copies component from dst entity to src entity
     void CopyComponent(Entity dst, Entity src);
 };
 
@@ -525,6 +543,7 @@ private:
 };
 
 ////////// Definitions of IComponentFunctions //////////////////////////////////
+
 template <typename T>
 void IComponentFunctions<T>::AddComponent(Entity e) {
     ECS::ecs().AddComponent<T>(e, T{});
@@ -639,6 +658,10 @@ class UIAllyHudSystem : public System {
 };
 
 class UIEnemyHudSystem : public System {
+    void Update() override;
+};
+
+class UIEffectSystem : public System {
     void Update() override;
 };
 

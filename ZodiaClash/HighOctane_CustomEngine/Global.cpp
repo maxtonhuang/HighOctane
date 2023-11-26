@@ -117,8 +117,6 @@ std::string currentScriptAttachedForIMGUI{};
 
 bool isHotReload{ false };
 
-SystemMode currentSystemMode{ SystemMode::EDIT };
-SystemMode lastSystemMode{ SystemMode::NONE };
 
 std::string SystemModeToString(SystemMode mode)
 {
@@ -137,4 +135,40 @@ std::string SystemModeToString(SystemMode mode)
 	default:
 		return "NONE";
 	}
+}
+
+std::deque<SystemMode> systemModeStack = { SystemMode::NONE, SystemMode::NONE, SystemMode::EDIT };
+
+void SetCurrentSystemMode(SystemMode mode)
+{
+	if (mode == GetCurrentSystemMode()) {
+		return;
+	}
+	systemModeStack.pop_front();
+	systemModeStack.emplace_back(mode);
+}
+
+SystemMode GetCurrentSystemMode() {
+
+	if (systemModeStack.empty()) {
+		return SystemMode::NONE;
+	}
+
+	return systemModeStack.back();
+}
+SystemMode GetPreviousSystemMode() {
+	
+	if (systemModeStack.size() < 2) {
+		return SystemMode::NONE;
+	}
+
+	return systemModeStack[systemModeStack.size() - 2];
+
+}
+SystemMode GetPreviousPreviousSystemMode() {
+
+	if (systemModeStack.size() < 3) {
+		return SystemMode::NONE;
+	}
+	return systemModeStack.front();
 }

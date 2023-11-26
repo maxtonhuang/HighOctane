@@ -152,7 +152,7 @@ void UpdatePrefabHierachy() {
 	auto cloneIDArray{ cloneArray.GetEntityArray() };
 	
 	//Real-time prefab updating
-	if (currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
+	if (GetCurrentSystemMode() == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		for (auto& cloneEntity : cloneIDArray) {
 			Clone clone{ cloneArray.GetData(cloneEntity) };
 			if (clone.prefab == prefabName && prefabName != "") {
@@ -324,6 +324,30 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 		}
 	}
+	if (ECS::ecs().HasComponent<Collider>(entity)) {
+		Collider* entityCollider{ &ECS::ecs().GetComponent<Collider>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(Collider).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Collider")) {
+			//auto& positionComponent = entityCollider->position;
+			//auto& rotationComponent = entityCollider->rotation;
+			//auto& scaleComponent = entityCollider->scale;
+			auto& dimensionComponent = entityCollider->dimension;
+			//auto& radiusComponent = entityCollider->radius;
+			//ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
+			//ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
+			//ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
+			ImGui::DragFloat2("Dimension", &dimensionComponent[0], 0.5f);
+			//ImGui::DragFloat("Radius", &radiusComponent, 0.01f, 0.0f, 100.f, "%.3f");
+
+			/*const char* rotationOptions[] = { "0 degrees", "90 degrees", "180 degrees", "270 degrees" };
+			int currentRotationIndex = static_cast<int>(rotationComponent / 90.0f);
+			if (ImGui::Combo("Rotation", &currentRotationIndex, rotationOptions, IM_ARRAYSIZE(rotationOptions))) {
+				rotationComponent = static_cast<float>(currentRotationIndex) * 90.0f;
+			}*/
+
+			ImGui::TreePop();
+		}
+	}
+	
 	if (ECS::ecs().HasComponent<Tex>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Tex).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Texture")) {
 			auto& textureComponent = ECS::ecs().GetComponent<Tex>(entity);
@@ -641,8 +665,8 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<HealthBar>(entity)) {
 		Size& sizeData{ ECS::ecs().GetComponent<Size>(entity) };
-		CharacterStats& charaStatsData{ ECS::ecs().GetComponent<CharacterStats>(entity) };
 		HealthBar& hpBar{ ECS::ecs().GetComponent<HealthBar>(entity) };
+		CharacterStats& charaStatsData{ *hpBar.charaStatsRef };
 
 		if (ImGui::TreeNodeEx((void*)typeid(HealthBar).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Health Bar")) {
 			float currentHp = hpBar.currentHealth;
@@ -659,18 +683,18 @@ void SceneEntityComponents(Entity entity) {
 			sizeData.height = barDims[0];
 			sizeData.width = barDims[1];
 
+			//slider for HP percentage
 			if (ImGui::DragFloat("HP Percentage", &hpPct, 0.5f)) {
 				hpPct = std::clamp(hpPct, 0.f, 100.f);
 				hpBar.healthPct = hpPct;
-				hpBar.currentHealth = hpPct / 100.f * charaStatsData.stats.maxHealth;
-				charaStatsData.stats.health = hpPct / 100.f * charaStatsData.stats.maxHealth;				
-				//hpBar.currentHealth = currentHp;
+				hpBar.currentHealth = hpPct / 100.f * maxHp;
+				if (&charaStatsData) {
+					charaStatsData.stats.health = hpPct / 100.f * charaStatsData.stats.maxHealth;
+				}
 			}
-
 			ImGui::Text("%.2f/%.2f (%.2f%%)", currentHp, maxHp, hpPct);
-			//ImGui::SameLine(260); //to seek alternatives
-			//ImGui::Text("HP Percentage");
 
+			// display settings
 			bool& hpShowHealth = hpBar.showHealthStat;
 			ImGui::Checkbox("Show Health", &hpShowHealth);
 			int hpShowValOrPct = (int)hpBar.showValOrPct;
@@ -706,14 +730,14 @@ void SceneEntityComponents(Entity entity) {
 	if (ECS::ecs().HasComponent<AttackSkill>(entity)) {
 		AttackSkill& atkSkill{ ECS::ecs().GetComponent<AttackSkill>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(AttackSkill).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "AttackSkill")) {
-			int setIndex = atkSkill.skillIndex;
+			// skill index selector
+			int& setIndex = atkSkill.skillIndex;
 			const char* indexOptions[] = { "1", "2", "3" };
 			if (ImGui::BeginCombo("Select Skill", indexOptions[setIndex], 0)) {
 				for (int i = 0; i < IM_ARRAYSIZE(indexOptions); ++i) {
 					bool isSelected = (setIndex == i);
 					if (ImGui::Selectable(indexOptions[i], isSelected)) {
 						setIndex = i;
-						
 					}
 					if (isSelected) {
 						ImGui::SetItemDefaultFocus();
@@ -723,6 +747,28 @@ void SceneEntityComponents(Entity entity) {
 			}
 			atkSkill.skillIndex = setIndex;
 
+			ImGui::TreePop();
+		}
+	}
+
+	if (ECS::ecs().HasComponent<AllyHUD>(entity)) {
+		AllyHUD& allyHud{ ECS::ecs().GetComponent<AllyHUD>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(AllyHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "AllyHUD")) {
+			// ally index selector (validity checks handled in system)
+			int& setIndex = allyHud.allyIndex;
+			ImGui::DragInt("Ally Index", &setIndex, 1);
+			allyHud.allyIndex = setIndex;
+			ImGui::TreePop();
+		}
+	}
+
+	if (ECS::ecs().HasComponent<EnemyHUD>(entity)) {
+		EnemyHUD& enemyHud{ ECS::ecs().GetComponent<EnemyHUD>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(EnemyHUD).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "EnemyHUD")) {
+			// enemy index selector (validity checks handled in system)
+			int& setIndex = enemyHud.enemyIndex;
+			ImGui::DragInt("Enemy Index", &setIndex, 1);
+			enemyHud.enemyIndex = setIndex;
 			ImGui::TreePop();
 		}
 	}
@@ -863,6 +909,9 @@ void SceneEntityComponents(Entity entity) {
 				header << "Skill " << a + 1;
 				if (ImGui::BeginCombo(header.str().c_str(), currentAttack.c_str())) {
 					for (int n = 0; n < attackNames.size(); n++) {
+						if (attackNames[n] == "") {
+							continue;
+						}
 						bool is_selected = (currentAttack == attackNames[n]);
 						if (ImGui::Selectable(attackNames[n].c_str(), is_selected)) {
 							charstatsComponent.action.skills[a] = assetmanager.attacks.data[attackNames[n]];

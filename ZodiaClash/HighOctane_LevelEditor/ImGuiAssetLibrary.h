@@ -10,10 +10,14 @@
 *
 *	@file		ImGuiAssetLibrary.h
 *
-*	@author		Maxton Huang Xinghua
+*	@author		Maxton Huang Xinghua (Initial creation as well as image drag and drop)
 *
 *	@email		m.huang\@digipen.edu
 *
+*   @co-author	Foong Pun Yuen Nigel (Audio drag and drop and error handling)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *

@@ -229,7 +229,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<AllyHUD>();
 	ECS::ecs().RegisterComponent<EnemyHUD>();
 	ECS::ecs().RegisterComponent<TurnIndicator>();
-	ECS::ecs().RegisterComponent<StatusEffectsPanel>();
+	//ECS::ecs().RegisterComponent<StatusEffectsPanel>();
 	ECS::ecs().RegisterComponent<StatusEffect>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
@@ -289,6 +289,21 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
 	editSystemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
 	systemList.emplace_back(uiAttackSkillSystem, "UI Attack Skill System");
+
+	std::shared_ptr<UIAllyHudSystem> uiAllyHudSystem = ECS::ecs().RegisterSystem<UIAllyHudSystem>();
+	runSystemList.emplace_back(uiAllyHudSystem, "UI Ally HUD System");
+	editSystemList.emplace_back(uiAllyHudSystem, "UI Ally HUD System");
+	systemList.emplace_back(uiAllyHudSystem, "UI Ally HUD System");
+
+	std::shared_ptr<UIEnemyHudSystem> uiEnemyHudSystem = ECS::ecs().RegisterSystem<UIEnemyHudSystem>();
+	runSystemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+	editSystemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+	systemList.emplace_back(uiEnemyHudSystem, "UI Enemy HUD System");
+
+	std::shared_ptr<UIEffectSystem> uiEffectSystem = ECS::ecs().RegisterSystem<UIEffectSystem>();
+	runSystemList.emplace_back(uiEffectSystem, "UI Effect System");
+	editSystemList.emplace_back(uiEffectSystem, "UI Effect System");
+	systemList.emplace_back(uiEffectSystem, "UI Effect System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -475,7 +490,7 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
-		signature.set(ECS::ecs().GetComponentType<CharacterStats>());
+		//signature.set(ECS::ecs().GetComponentType<CharacterStats>());
 		signature.set(ECS::ecs().GetComponentType<HealthBar>());
 		signature.set(ECS::ecs().GetComponentType<Parent>());
 
@@ -498,15 +513,51 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Transform>());
-		signature.set(ECS::ecs().GetComponentType<Size>());
+		/*signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());*/
+		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<Button>());
 		signature.set(ECS::ecs().GetComponentType<AttackSkill>());
 		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UIAttackSkillSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<HealthBar>());
+		signature.set(ECS::ecs().GetComponentType<AllyHUD>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+
+		ECS::ecs().SetSystemSignature<UIAllyHudSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<HealthBar>());
+		signature.set(ECS::ecs().GetComponentType<EnemyHUD>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+
+		ECS::ecs().SetSystemSignature<UIEnemyHudSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<StatusEffect>());
+
+		ECS::ecs().SetSystemSignature<UIEffectSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////
@@ -518,15 +569,15 @@ void EngineCore::Run(bool const& mode) {
 
 	//If game mode is editor, initialize the mode to editor pause mode
 	if (mode) {
-		currentSystemMode = SystemMode::EDIT;
+		SetCurrentSystemMode(SystemMode::EDIT);
 	}
 	else {
-		currentSystemMode = SystemMode::RUN;
+		SetCurrentSystemMode(SystemMode::RUN);
 	}
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
-	graphics.Initialize(GRAPHICS::defaultWidth, GRAPHICS::defaultHeight);
+	graphics.Initialize(GRAPHICS::viewportWidth, GRAPHICS::viewportHeight);
 
 
 	assetmanager.Initialize();
@@ -590,7 +641,7 @@ void EngineCore::Run(bool const& mode) {
 
 		// Switch case for the pause screen
 		auto* systemList{ &runSystemList };
-		switch (currentSystemMode) {
+		switch (GetCurrentSystemMode()) {
 		case SystemMode::EDIT:
 			systemList = &editSystemList;
 			break;
@@ -601,7 +652,7 @@ void EngineCore::Run(bool const& mode) {
 			systemList = &pauseSystemList; // Same things as pause system list
 			break;
 		}
-		//std::cout << "Current System Mode: " << SystemModeToString(currentSystemMode) << std::endl;
+		// std::cout << "Current System Mode: " << SystemModeToString(GetCurrentSystemMode()) << std::endl;
 		// Activates the Input Manager to check for Inputs
 		// and inform all relavant systems
 

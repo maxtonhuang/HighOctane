@@ -38,30 +38,48 @@
 class AudioManager {
 public:
 	void Initialize(); //Creates FMOD system
-	void Update();
+	void Update(); //Updates FMOD, to be called every frame
 	void Release(); //DELETES THE AUDIO SYSTEM, ONLY CALL AT END OF PROGRAM
 
 	//FUNCTIONS FOR CHANNEL GROUPS
-	FMOD::ChannelGroup* CreateGroup(const char* name);
-	void SetGroupVolume(const char* name, float volume);
+	//Creates a group with input name
+	FMOD::ChannelGroup* CreateGroup(const char* name); 
+	//Sets the volume of the group
+	void SetGroupVolume(const char* name, float volume); 
+	//Stops all sounds in the group
 	void StopGroup(const char* name);
-	void ResumeGroup(const char* name);
-	void PauseGroup(const char* name);
-	bool IsGroupPaused(const char* name);
-	void SetBGM(const char* name);
+	//Resumes the group
+	void ResumeGroup(const char* name); 
+	//Pauses the group
+	void PauseGroup(const char* name); 
+	//Returns true if group is paused
+	bool IsGroupPaused(const char* name); 
+	//Sets the BGM of the scene
+	void SetBGM(const char* name); 
 
-	void ReleaseAllSounds(); //Releases all sounds from audio manager
-	FMOD::Sound* AddSound(const char* path, const char* name); //Add a sound to FMOD and audio manager
-	FMOD::Sound* AddMusic(const char* path, const char* name);
-	void PlaySounds(const char* sound, const char* channelGroup = nullptr); //Plays loaded sound
-	void FreeSound(const char* sound); //Free a sound from FMOD and audio manager
-	FMOD::System* GetSystem();
+	//Releases all sounds from audio manager
+	void ReleaseAllSounds(); 
+	//Add a sound to FMOD and audio manager
+	FMOD::Sound* AddSound(const char* path, const char* name); 
+	//Add music to FMOD and audio manager
+	FMOD::Sound* AddMusic(const char* path, const char* name); 
+	//Plays loaded sound
+	void PlaySounds(const char* sound, const char* channelGroup = nullptr); 
+	//Free a sound from FMOD and audio manager
+	void FreeSound(const char* sound); 
+	//Gets the FMOD system
+	FMOD::System* GetSystem(); 
 
-	std::vector<std::string> GetSoundNames();
-	std::vector<std::string> GetSoundPaths();
-	std::vector<std::string> GetMusicPaths();
-	std::string GetCurrentBGM();
-	void UpdateAudioDirectory();
+	//Get names of all sounds currently loaded
+	std::vector<std::string> GetSoundNames(); 
+	//Get paths of all sounds in sound folder
+	std::vector<std::string> GetSoundPaths(); 
+	//Get paths of all music in music folder
+	std::vector<std::string> GetMusicPaths(); 
+	//Get name of the current BGM
+	std::string GetCurrentBGM(); 
+	//Update the paths in sound and music folders
+	void UpdateAudioDirectory(); 
 private:
 	FMOD::System* system{};
 	std::unordered_map<std::string, FMOD::Sound*> data{};

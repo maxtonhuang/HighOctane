@@ -1,28 +1,20 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 13,
+            "layerCounter": 5,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
                 "Layer 1",
                 "Layer 2",
                 "Layer 3",
-                "Layer 4",
-                "Layer 5",
-                "Layer 6",
-                "Layer 7",
-                "Layer 8",
-                "Layer 9",
-                "Layer 10",
-                "Layer 11",
-                "Layer 12"
+                "Layer 4"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "ally_healthbar",
+            "Name": "allyHp_healthbar",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -53,15 +45,6 @@
             "className": "",
             "scriptAttachedNameVec": []
         },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 1000.0,
-            "Health": 1000.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Skills": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -80,14 +63,16 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "AllyHUD": {},
+        "AllyHUD": {
+            "Ally Index": 0
+        },
         "Parent": {}
     },
     {
         "Entity": {
-            "Name": "remaininghealth",
-            "Current Layer": 1,
-            "Order in Layer": 1,
+            "Name": "allyHp_remaininghealth",
+            "Current Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -119,9 +104,9 @@
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 0.0,
+            "Red": 1.0,
             "Green": 1.0,
-            "Blue": 0.0,
+            "Blue": 1.0,
             "Alpha": 1.0
         },
         "Movable": {},
@@ -139,9 +124,9 @@
     },
     {
         "Entity": {
-            "Name": "displayLbl",
+            "Name": "allyHp_displayLbl",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -204,7 +189,7 @@
     },
     {
         "Entity": {
-            "Name": "ally_closeup_icon_hud",
+            "Name": "allyHp_closeup_icon",
             "Current Layer": 0,
             "Order in Layer": 2,
             "isLocked": true,

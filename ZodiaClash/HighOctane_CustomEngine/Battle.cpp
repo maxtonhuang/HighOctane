@@ -14,6 +14,11 @@
 *
 *	@email		wanting.liu\@digipen.edu
 *
+* 	@author		Foong Pun Yuen Nigel (Animation functions)
+*
+*	@email		p.foong\@digipen.edu
+*
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -196,6 +201,7 @@ void BattleSystem::Update()
             if (m_Entities.size() > 0) {
                 printf("\nState: Win\n");
                 LOG_WARNING("State: Win");
+                EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
             }
             
             battleState = WIN;
@@ -206,6 +212,7 @@ void BattleSystem::Update()
             if (m_Entities.size() > 0) {
                 printf("\nState: Lose\n");
                 LOG_WARNING("State: Lose");
+                EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
             }
             
             battleState = LOSE;
@@ -229,6 +236,7 @@ void BattleSystem::Update()
                     }
 
                     activeCharacter->ApplyBloodStack(); //apply blood stack, the function will check if the enemy is on bloodstack
+                    ProcessDamage();
 
                     // check if the enemy died after bloodstack effect
                     if (activeCharacter->stats.health <= 0) 
@@ -280,15 +288,6 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
-        if (godModeOn) {
-            // Ensure the active player character has full health
-            for (Entity entity : m_Entities) {
-                CharacterStats* cs = &statsArray->GetData(entity);
-                if (cs->tag == CharacterType::PLAYER) {
-                    RestoreFullHealth(*cs);
-                }
-            }
-        }
         if (activeCharacter->action.entityState == EntityState::ENDING) {
 
             //Update turn order animator
@@ -305,42 +304,43 @@ void BattleSystem::Update()
             }
             turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
 
-            battleState = NEXTTURN;
-        }
-        else if (activeCharacter->action.entityState == EntityState::DYING) {
-            if (m_Entities.size() > 0) {
-                std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
-                printf("%s died\n", name.c_str());
-                DEBUG_PRINT("%s died", name.c_str());
+            //Process dead characters
+            std::vector<CharacterStats*> deadchars{};
+            for (CharacterStats* c : turnManage.turnOrderList) {
+                if (c->stats.health == 0) {
+                    deadchars.push_back(c);
+                }
             }
-            turnManage.turnOrderList.remove(activeCharacter);
-            turnManage.originalTurnOrderList.remove(activeCharacter);
-            turnManage.characterList.remove(*activeCharacter);
+            for (CharacterStats* c : deadchars) {
+                if (m_Entities.size() > 0) {
+                    std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
+                    printf("%s died\n", name.c_str());
+                    DEBUG_PRINT("%s died", name.c_str());
+                }
+                turnManage.turnOrderList.remove(c);
+                turnManage.originalTurnOrderList.remove(c);
+                turnManage.characterList.remove(*c);
+                battleState = NEXTTURN;
+            }
+            deadchars.clear();
+
             battleState = NEXTTURN;
-            //turnManage.characterList.remove(*activeCharacter);
         }
+        //else if (activeCharacter->action.entityState == EntityState::DYING) {
+        //    if (m_Entities.size() > 0) {
+        //        std::string name = ECS::ecs().GetComponent<Name>(activeCharacter->entity).name;
+        //        printf("%s died\n", name.c_str());
+        //        DEBUG_PRINT("%s died", name.c_str());
+        //    }
+        //    turnManage.turnOrderList.remove(activeCharacter);
+        //    turnManage.originalTurnOrderList.remove(activeCharacter);
+        //    turnManage.characterList.remove(*activeCharacter);
+        //    battleState = NEXTTURN;
+        //    //turnManage.characterList.remove(*activeCharacter);
+        //}
         break;
     }
-    for (Entity entity : m_Entities) {
-        CharacterStats* cs = &statsArray->GetData(entity);
-        if (cs->action.entityState == DEAD) {
-            continue;
-        }
-        bool found = false;
-        for (CharacterStats const& c : turnManage.characterList) {
-            if (c.entity == entity) {
-                *cs = c;
-                found = true;
-                break;
-            }
-        }
-        if (found == false) {
-            Model* model = &modelArray->GetData(entity);
-            cs->action.entityState = DEAD;
-            model->SetAlpha(0.2f);
-            AnimateRemoveTurnOrder(entity);
-        }
-    }
+    ProcessDamage();
 }
 
 /**
@@ -431,6 +431,45 @@ void BattleSystem::RevertTurnOrder(CharacterStats* target)
     turnManage.turnOrderList.insert(originalIndex, target);
 }
 
+void BattleSystem::ProcessDamage() {
+    if (m_Entities.size() > 0) {
+        ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+        ComponentArray<CharacterStats>* statsArray = &componentManager.GetComponentArrayRef<CharacterStats>();
+        ComponentArray<Model>* modelArray = &componentManager.GetComponentArrayRef<Model>();
+        ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
+        ComponentArray<Transform>* transformArray = &componentManager.GetComponentArrayRef<Transform>();
+        ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
+
+        for (Entity entity : m_Entities) {
+            CharacterStats* cs = &statsArray->GetData(entity);
+            if (cs->action.entityState == DEAD) {
+                continue;
+            }
+            bool found = false;
+            for (CharacterStats const& c : turnManage.characterList) {
+                if (c.entity == entity) {
+                    if (c.stats.health < cs->stats.health) {
+                        animationArray->GetData(entity).Start("Damaged", entity);
+                        Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
+                        transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
+                        textArray->GetData(damagelabel).textString = std::to_string((int)(cs->stats.health - c.stats.health));
+                    }
+                    *cs = c;
+                    found = true;
+                    break;
+                }
+            }
+            if (found == false) {
+                Model* model = &modelArray->GetData(entity);
+                cs->action.entityState = DEAD;
+                model->SetAlpha(0.2f);
+                AnimateRemoveTurnOrder(entity);
+            }
+        }
+    }
+    
+}
+
 void BattleSystem::InitialiseTurnOrderAnimator() {
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
@@ -506,4 +545,29 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
         }
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
     }
+}
+
+void BattleSystem::CreateTargets() {
+    auto enemyList{ GetEnemies() };
+    if (!targetCircleList.empty()) {
+        DestroyTargets();
+    }
+    int count = 0;
+    for (CharacterStats* enemy : enemyList) {
+        Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
+        ECS::ecs().GetComponent<Transform>(targetcircle).position = ECS::ecs().GetComponent<Transform>(enemy->entity).position;
+        if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
+            ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
+        }
+        ECS::ecs().GetComponent<Button>(targetcircle).eventInput = std::to_string(count);
+        targetCircleList.push_back(targetcircle);
+        count++;
+    }
+}
+
+void BattleSystem::DestroyTargets() {
+    for (Entity target : targetCircleList) {
+        EntityFactory::entityFactory().DeleteCloneModel(target);
+    }
+    targetCircleList.clear();
 }

@@ -19,7 +19,8 @@
 *
 *	@section	Section A
 *
-*	@date		18 October 2023
+*	@date		[M2] 23 October 2023
+*				[M3] 26 November 2023
 *
 * *****************************************************************************
 *
@@ -27,6 +28,12 @@
 *
 *	UIComponents contianing UI components with their own niche properties
 *	to be set and modified.
+* 
+*	M2 -	core functionalities for TextLabel and Button
+*	M3 -	refinements to TextLabel and Button (padding, alignment, resizing),
+*			added all remaining UI required for battle scene (HealthBar,
+			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
+			Status Effect and their	child components)
 *
 ******************************************************************************/
 
@@ -198,7 +205,7 @@ public:
 
 class HealthBar : UIComponent {
 public:
-	//CharacterStats* charaStatsRef{};
+	CharacterStats* charaStatsRef{};
 	float currentHealth{};
 	float maxHealth{};	
 	float healthPct{};
@@ -210,7 +217,7 @@ public:
 	float barHeight{};
 
 	HealthBar();
-	void UpdateHealth(CharacterStats& charaStatsData);
+	void UpdateHealth();
 	void UpdateTextDisplay(TextLabel& textLabelData);
 };
 
@@ -257,13 +264,13 @@ public:
 	//parent entity of SkillIcon, SkillCost, AttackType
 	//entity tagged with this component should have button component to implement button event
 	int skillIndex{};
-	Attack* atkSkillRef{};
+	//Attack* atkSkillRef{};
 
-	void UpdateSkillTex(Tex& texData);
+	//void UpdateSkillTex(Tex& texData);
 	void UpdateSkillEvent(Button& buttonData);
 	void UpdateButtonState(Button& buttonData, bool isSufficient);
 	void UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType);
-	void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
+	//void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
 	void UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost);
 };
 
@@ -281,33 +288,44 @@ class SkillAttackType : UIComponent {
 };
 
 class AllyHUD : UIComponent {
-	//TODO
+public:
+	int allyIndex{};
+
+	void CheckValidIndex(int playerCount, bool& res);
+
+	// FUTURE IMPLEMENTATIONS: dynamic allocation!!
+	//static int allyInstanceIndex;
+	//AllyHUD() : allyIndex{ allyInstanceIndex++ } {}
 };
 
 class EnemyHUD : UIComponent {
-	//TODO
+public:
+	int enemyIndex{};
+
+	void CheckValidIndex(int enemyCount, bool& res);
+	void ToggleStatusFx(Entity parentEntity, int stacks);
 };
 
 class TurnIndicator : UIComponent {
-	//TODO
 public:
-	Entity character; //character this indicator links to
+	Entity character{}; //character this indicator links to
 };
 
 
-class StatusEffectsPanel : UIComponent {
-public:
-	UI_HORIZONTAL_ALIGNMENT hAlignment{};
-
-	/*
-	* notes:
-	* - parent entity to hold multiple "Effect" (prefab?)
-	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
-	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
-	*/
-
-	//void UpdateOffset();
-};
+//class StatusEffectsPanel : UIComponent {
+//public:
+//	UI_HORIZONTAL_ALIGNMENT hAlignment{};
+//
+//	/*
+//	* notes:
+//	* - for future implementation where more status effects are introduced! kiv!!
+//	* - parent entity to hold multiple "Effect" (prefab?)
+//	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
+//	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
+//	*/
+//
+//	//void UpdateOffset();
+//};
 
 class StatusEffect : UIComponent {
 public:
@@ -315,4 +333,7 @@ public:
 	* notes:
 	* - composite of icon (Tex) and stacks (TextLabel)
 	*/
+	Entity character{};
+	void UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform);
+	void UpdateStacksLbl(TextLabel& textLabelData, int stacks);
 };

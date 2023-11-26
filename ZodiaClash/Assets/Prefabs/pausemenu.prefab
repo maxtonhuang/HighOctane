@@ -18,7 +18,7 @@
     {
         "Entity": {
             "Name": "pausemenu",
-            "Current Layer": 4,
+            "Current Layer": 5,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -80,26 +80,26 @@
             "Background": false
         },
         "Button": {
-            "Default Button R": 0.0,
-            "Default Button G": 0.0,
-            "Default Button B": 0.0,
-            "Default Button A": 0.0,
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
             "Default Text R": 0.0,
             "Default Text G": 0.0,
             "Default Text B": 0.0,
             "Default Text A": 1.0,
-            "Hovered Button R": 0.0,
-            "Hovered Button G": 0.0,
-            "Hovered Button B": 0.0,
-            "Hovered Button A": 0.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
             "Hovered Text R": 0.0,
             "Hovered Text G": 0.0,
             "Hovered Text B": 0.0,
             "Hovered Text A": 1.0,
-            "Focused Button R": 0.0,
-            "Focused Button G": 0.0,
-            "Focused Button B": 0.0,
-            "Focused Button A": 0.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
             "Focused Text R": 0.0,
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
@@ -117,7 +117,7 @@
     {
         "Entity": {
             "Name": "overlay",
-            "Current Layer": 3,
+            "Current Layer": 4,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -164,7 +164,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem1",
-            "Current Layer": 5,
+            "Current Layer": 6,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -263,7 +263,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem2",
-            "Current Layer": 5,
+            "Current Layer": 6,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
@@ -307,7 +307,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Restart Battle",
+            "Text String": "Return to Main Menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -343,7 +343,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Change Scene",
-            "Event Input": "",
+            "Event Input": "mainmenu.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -362,7 +362,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem3",
-            "Current Layer": 5,
+            "Current Layer": 6,
             "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
@@ -441,7 +441,7 @@
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
-            "Event Name": "Change Scene",
+            "Event Name": "Toggle Help",
             "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -461,7 +461,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem4",
-            "Current Layer": 5,
+            "Current Layer": 6,
             "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true

@@ -174,6 +174,21 @@ void CollisionSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
+	//First loop to update colliders
+	for (Entity const& entity : m_Entities) {
+		Transform* transData = &transformArray.GetData(entity);
+		Collider* collideData = &colliderArray.GetData(entity);
+
+		//Initialise collision data
+		if (collideData->dimension.x == 0 && collideData->dimension.y == 0) {
+			Size scale{ ECS::ecs().GetComponent<Size>(entity) };
+			collideData->dimension.x = scale.width * transData->scale;
+			collideData->dimension.y = scale.height * transData->scale;
+		}
+
+		collideData->position = transData->position;
+	}
+
 	for (Entity const& entity1 : m_Entities) {
 		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 			Transform* transData1 = &transformArray.GetData(entity1);
@@ -417,10 +432,10 @@ void GraphicsSystem::Draw() {
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] || currentSystemMode != SystemMode::EDIT) {
+		if (layersToSkip[layer_it] || GetCurrentSystemMode() != SystemMode::EDIT) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity] || currentSystemMode != SystemMode::EDIT) {
+				if (entitiesToSkip[entity] || GetCurrentSystemMode() != SystemMode::EDIT) {
 					Tex* tex{};
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {
@@ -434,7 +449,7 @@ void GraphicsSystem::Draw() {
 							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
 						}
 					}
-					else if (currentSystemMode == SystemMode::EDIT && transformArray.HasComponent(entity)) {
+					else if (GetCurrentSystemMode() == SystemMode::EDIT && transformArray.HasComponent(entity)) {
 						Transform* transform{ &transformArray.GetData(entity) };
 						Name* name{ &nameArray.GetData(entity) };
 						if (name->selected) {
@@ -490,8 +505,8 @@ void SerializationSystem::Update() {
 		}
 		initLevel = true;
 		newScene = false;
-		if (currentSystemMode == SystemMode::PAUSE) {
-			currentSystemMode = SystemMode::RUN;
+		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+			SetCurrentSystemMode(SystemMode::RUN);
 		}
 	}
 
@@ -977,6 +992,11 @@ void UITextLabelSystem::Update() {
 	//ARCHIVED: MOVED OVER TO DRAW FUNCTION AS OFFSETS ONLY CALCULATED AFTER MODELS UPDATES ARE DONE
 }
 
+/******************************************************************************
+*
+*	@brief Determines offset required from parent entity for drawing by graphics
+*
+******************************************************************************/
 void UITextLabelSystem::Draw() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -1017,7 +1037,7 @@ void UITextLabelSystem::Draw() {
 		}
 
 		if (!buttonData && !texData) {
-			if (currentSystemMode == SystemMode::EDIT) {
+			if (GetCurrentSystemMode() == SystemMode::EDIT) {
 				(textLabelData->hasBackground) ? modelData->SetAlpha(modelData->GetAlpha())
 					: (textLabelData->currentState == STATE::NONE) ? modelData->SetAlpha(0.0f)
 					: modelData->SetAlpha(0.2f);
@@ -1034,6 +1054,11 @@ void UITextLabelSystem::Draw() {
 
 }
 
+/******************************************************************************
+*
+*	@brief Updates Button components' state, color and size
+*
+******************************************************************************/
 void UIButtonSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1042,7 +1067,7 @@ void UIButtonSystem::Update() {
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	//auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
@@ -1055,11 +1080,9 @@ void UIButtonSystem::Update() {
 
 		buttonData->Update(*modelData, *nameData, *textLabelData);
 
-		if (!texArray.HasComponent(entity)) {
-			glm::vec4 btnColor = (currentSystemMode == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
-			modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
-			modelData->SetAlpha(btnColor.a);
-		}
+		glm::vec4 btnColor = (GetCurrentSystemMode() == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
+		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
+		modelData->SetAlpha(btnColor.a);
 
 		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
 		sizeData->height = std::max(buttonData->buttonHeight, sizeData->height);
@@ -1067,6 +1090,11 @@ void UIButtonSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates the HP value and its child components
+*
+******************************************************************************/
 void UIHealthBarSystem::Update() {
 
 	//// Access the ComponentManager through the ECS class
@@ -1075,7 +1103,7 @@ void UIHealthBarSystem::Update() {
 	//// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	//auto& charaStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& healthRemainingArray = componentManager.GetComponentArrayRef<HealthRemaining>();
@@ -1084,11 +1112,11 @@ void UIHealthBarSystem::Update() {
 
 	for (Entity const& entity : m_Entities) {
 		Size* pSizeData = &sizeArray.GetData(entity);
-		CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
+		//CharacterStats* charaStatsData = &charaStatsArray.GetData(entity);
 		HealthBar* healthBarData = &healthBarArray.GetData(entity);
 		Parent* parentData = &parentArray.GetData(entity);
 
-		healthBarData->UpdateHealth(*charaStatsData);
+		healthBarData->UpdateHealth();
 
 		if (parentData->children.empty())
 			continue;
@@ -1103,7 +1131,7 @@ void UIHealthBarSystem::Update() {
 				Size* cSizeData = &sizeArray.GetData(childEntity);
 				healthRemainingData->currentHealth = healthBarData->currentHealth;
 				healthRemainingData->UpdateSize(*healthBarData, *pSizeData, *cSizeData);
-				healthRemainingData->UpdateColors(*childModel, *charaStatsData);
+				healthRemainingData->UpdateColors(*childModel, *healthBarData->charaStatsRef);
 				healthRemainingData->UpdateOffset(*pSizeData, *healthBarData, *childData);
 			}
 			if (textLabelArray.HasComponent(childEntity)) {
@@ -1114,6 +1142,11 @@ void UIHealthBarSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates skill point (chi) balance and toggles animation set accordingly
+*
+******************************************************************************/
 void UISkillPointSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1161,17 +1194,22 @@ void UISkillPointSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates Attackskill buttons' state, event call and its child components
+*
+******************************************************************************/
 void UIAttackSkillSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	//// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 	auto& atkSkillArray = componentManager.GetComponentArrayRef<AttackSkill>();
-	auto& skillIconArray = componentManager.GetComponentArrayRef<SkillIcon>();
+	//auto& skillIconArray = componentManager.GetComponentArrayRef<SkillIcon>();
 	auto& skillAtkTypeArray = componentManager.GetComponentArrayRef<SkillAttackType>();
 	auto& skillCostArray = componentManager.GetComponentArrayRef<SkillCost>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
@@ -1182,7 +1220,22 @@ void UIAttackSkillSystem::Update() {
 
 		for (Entity const& entity : m_Entities) {
 			AttackSkill* atkSkillData = &atkSkillArray.GetData(entity);
+			//Tex* texData = &texArray.GetData(entity);
+			Button* buttonData = &buttonArray.GetData(entity);
 			Parent* parentData = &parentArray.GetData(entity);
+
+			// update skill texture (SkillIcon component)
+			int chiBalance = battleSys->chi;
+			bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
+
+			// function to update tex
+			//atkSkillData->UpdateSkillTex(*texData);
+			
+			// function to update button trigger
+			atkSkillData->UpdateSkillEvent(*buttonData);
+
+			// function to handle state if player has sufficient chi
+			atkSkillData->UpdateButtonState(*buttonData, isSufficient);
 
 			if (parentData->children.empty())
 				continue;
@@ -1190,41 +1243,24 @@ void UIAttackSkillSystem::Update() {
 			for (int count = 0; count < parentData->children.size(); count++) {
 				Entity childEntity = parentData->children[count];
 
-				// update skill texture (SkillIcon component)
-				if (skillIconArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Tex* texData = &texArray.GetData(childEntity);
-					Button* buttonData = &buttonArray.GetData(childEntity);
-					int chiBalance = battleSys->chi;
-					bool isSufficient = (chiBalance >= (*characterSkills)[atkSkillData->skillIndex].chiCost);
-					DEBUG_PRINT("chi balance: %d", chiBalance);
-					// function to update tex
-					atkSkillData->UpdateSkillTex(*texData);
-					// function to update button trigger
-					atkSkillData->UpdateSkillEvent(*buttonData);
-					// function to handle state if player has sufficient chi
-					atkSkillData->UpdateButtonState(*buttonData, isSufficient);
-					continue;
-				}
-
 				// update skill attack type (SkillAttackType + TextLabel/Tex components)
+				// function to update attack type text label
 				if (skillAtkTypeArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 					TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
-					 // function to update attack type text label
 					atkSkillData->UpdateAtkTypeLbl(*textLabelData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
+				// function to update icon
 				if (skillAtkTypeArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Tex* texData = &texArray.GetData(childEntity);
-					// function to update icon
-					atkSkillData->UpdateAtkTypeIcon(*texData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
+					//Tex* childTexData = &texArray.GetData(childEntity);
+					//atkSkillData->UpdateAtkTypeIcon(*childTexData, (*characterSkills)[atkSkillData->skillIndex].attacktype);
 					continue;
 				}
 
 				// update chi cost (SkillCost + TextLabel components)
+				// function to update textlabel
 				if (skillCostArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 					TextLabel* textLabelData = &textLabelArray.GetData(childEntity);
-					// function to update textlabel
-					//DEBUG_PRINT("index: %d", atkSkillData->skillIndex);
 					atkSkillData->UpdateSkillCostLbl(*textLabelData, (*characterSkills)[atkSkillData->skillIndex].chiCost);
 					continue;
 				}
@@ -1233,6 +1269,116 @@ void UIAttackSkillSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates parent AllyHUD referencing characterStats stored in
+*			in HealthBar component where it will be used most often
+*			(theoretical rationale: if ally falls then the index ref will update
+*			to the next alive ally, etc.)
+*
+******************************************************************************/
+void UIAllyHudSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& allyHudArray = componentManager.GetComponentArrayRef<AllyHUD>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		std::vector<CharacterStats*> allPlayers = battleSys->GetPlayers();
+		for (Entity const& entity : m_Entities) {
+			AllyHUD* allyHudData = &allyHudArray.GetData(entity);
+			HealthBar* healthBarData = &healthBarArray.GetData(entity);
+			bool checkResult = false;
+			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
+			if (checkResult) {
+				healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
+			}
+			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
+				healthBarData->charaStatsRef = nullptr;
+			}
+		}
+	}
+}
+
+/******************************************************************************
+*
+*	@brief Updates parent EnemyHUD referencing characterStats stored in
+*			in HealthBar component where it will be used most often
+*			Also updates status effect display
+*
+******************************************************************************/
+void UIEnemyHudSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		std::vector<CharacterStats*> allEnemies = battleSys->GetEnemies();
+		for (Entity const& entity : m_Entities) {
+			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
+			HealthBar* healthBarData = &healthBarArray.GetData(entity);
+			bool checkResult = false;
+			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
+			if (checkResult) {
+				healthBarData->charaStatsRef = &characterStatsArray.GetData(allEnemies[enemyHudData->enemyIndex]->entity);
+				enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
+			}
+			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
+				healthBarData->charaStatsRef = nullptr;
+			}
+		}
+	}
+}
+
+/******************************************************************************
+*
+*	@brief Updates status effect stacks and position based off parent entity
+*
+******************************************************************************/
+void UIEffectSystem::Update() {
+	//// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	//// Access component arrays through the ComponentManager
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
+	auto& statusFxArray = componentManager.GetComponentArrayRef<StatusEffect>();
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (battleSys) {
+		for (Entity const& entity : m_Entities) {
+			Transform* transformData = &transformArray.GetData(entity);
+			StatusEffect* statusFxData = &statusFxArray.GetData(entity);
+
+			Transform* parentTransform = &transformArray.GetData(statusFxData->character);
+			Size* parentSize = &sizeArray.GetData(statusFxData->character);
+			statusFxData->UpdateOffset(*parentSize, *parentTransform, *transformData);
+
+			if (textLabelArray.HasComponent(entity)) {
+				HealthBar* parentHealth = &healthBarArray.GetData(statusFxData->character);
+				TextLabel* textLabelData = &textLabelArray.GetData(entity);
+				statusFxData->UpdateStacksLbl(*textLabelData, parentHealth->charaStatsRef->debuffs.bloodStack);
+			}
+		}
+	}
+}
+
+/******************************************************************************
+*
+*	@brief Updates transform of child entities based on its parent entity
+*
+******************************************************************************/
 void ChildSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -1258,6 +1404,11 @@ void ChildSystem::Update() {
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Updates vector of holding its child entities
+*
+******************************************************************************/
 void ParentSystem::Update() {
 	//// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();

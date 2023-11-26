@@ -1,3 +1,37 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Animation.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		11 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Animations
+*
+*   Contains ECS animation component (AnimationSet)
+*	Animation groups (AnimationGroup) as well as
+*	individual animation types (Animation base class as well as other
+*	inherited animation classes)
+*
+******************************************************************************/
+
 #include "Animation.h"
 #include "AssetManager.h"
 #include "Events.h"
@@ -17,7 +51,6 @@ void AnimationSet::Start(std::string animationName, Entity entity) {
 			break;
 		}
 	}
-	printf("Starting animation %s for %d\n",animationName.c_str(), entity);
 	if (activeAnimation != nullptr) {
 		activeAnimation->Start(entity);
 	}
@@ -122,6 +155,11 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 		else if (animation->GetType() == "SelfDestruct") {
 			std::shared_ptr <SelfDestructAnimation> ptr{ std::make_shared<SelfDestructAnimation>() };
 			*ptr = *std::dynamic_pointer_cast<SelfDestructAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "DamageImpact") {
+			std::shared_ptr <DamageImpactAnimation> ptr{ std::make_shared<DamageImpactAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<DamageImpactAnimation>(animation);
 			animations.push_back(ptr);
 		}
 		else {
@@ -589,4 +627,41 @@ void SelfDestructAnimation::RemoveKeyFrame(int frameNum) {
 }
 bool SelfDestructAnimation::HasKeyFrame(int frameNum) {
 	return keyframes.frameNum == frameNum;
+}
+
+DamageImpactAnimation::DamageImpactAnimation() {
+	type = "DamageImpact";
+}
+void DamageImpactAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void DamageImpactAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		BattleSystem* battlesystem{ events.GetBattleSystem() };
+		battlesystem->ProcessDamage();
+	}
+}
+void DamageImpactAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	(void)frameData;
+	Keyframe<int> frame{ frameNum };
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void DamageImpactAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<int>{frameNum});
+}
+bool DamageImpactAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
 }

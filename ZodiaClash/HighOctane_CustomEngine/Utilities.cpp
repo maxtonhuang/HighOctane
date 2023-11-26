@@ -43,6 +43,11 @@
 *
 ******************************************************************************/
 bool IsWithinObject(Model& model, vmath::Vector2 cursorPos) {
+	//for some reason if the model is uninitialised this function returns true
+	//so the following 3 lines are just a temp bug fix for that
+	if (model.GetMin().x == 0.f && model.GetMax().x == 0.f) {
+		return false;
+	}
 
 	if ( vmath::Vector2::dot(vmath::Vector2::GetOutwardNormal(vmath::Vector2::VectorFromTwoPoints(model.GetTopLeft(), model.GetTopRight())), vmath::Vector2::VectorFromTwoPoints(cursorPos, model.GetTopRight())) > 0.f ||
 		vmath::Vector2::dot(vmath::Vector2::GetOutwardNormal(vmath::Vector2::VectorFromTwoPoints(model.GetBotLeft(), model.GetTopLeft())), vmath::Vector2::VectorFromTwoPoints(cursorPos, model.GetTopLeft())) > 0.f ||

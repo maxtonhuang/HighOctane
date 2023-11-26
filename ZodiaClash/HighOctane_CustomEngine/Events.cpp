@@ -13,6 +13,11 @@
 *	@author		Foong Pun Yuen Nigel
 *
 *	@email		p.foong\@digipen.edu
+* 
+* *	@co-author	Koh Wen Yuan (Did the events for Play/Pause and Game Help
+*
+*	@email		k.wenyuan\@digipen.edu 
+* 
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -40,13 +45,18 @@
 
 EventManager events;
 
+//Exits the game, voids input
 void ExitGame(std::string input) {
 	(void)input;
 	EngineCore::engineCore().setGameActive(false);
 }
 
+//Changes the scene to the input scene name
 void ChangeScene(std::string input) {
 	if (sceneName == input) {
+		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+			events.Call("Toggle Pause", "");
+		}
 		return;
 	}
 
@@ -62,18 +72,24 @@ void ChangeScene(std::string input) {
 	ExtractSkipLockAfterDeserialization();*/
 	//playButton = true;
 }
+
+//Plays the input audio name to SFX group
 void PlayAudio(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
 	DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(),"SFX");
 }
+
+//Plays the input audio name to BGM group
 void PlayMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
 	DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
+
+//Stops BGM and plays the input audio name as BGM instead
 void RestartMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
@@ -81,6 +97,8 @@ void RestartMusic(std::string input) {
 	DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
+
+//Toggles pause or resume for the input audio group
 void PauseResumeGroup(std::string input) {
 	if (assetmanager.audio.IsGroupPaused(input.c_str())) {
 		assetmanager.audio.ResumeGroup(input.c_str());
@@ -89,9 +107,13 @@ void PauseResumeGroup(std::string input) {
 		assetmanager.audio.PauseGroup(input.c_str());
 	}
 }
+
+//Stops all sounds in the input audio group
 void StopGroup(std::string input) {
 	assetmanager.audio.StopGroup(input.c_str());
 }
+
+//Selects a skill of input number
 void SelectSkill(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 
@@ -113,70 +135,80 @@ void SelectSkill(std::string input) {
 		return;
 	}
 
-	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
-
 	// check if the character has enough Chi to perform the skill
-	BattleSystem* battlesys = events.GetBattleSystem();
-	if (battlesys->chi >= bs->activeCharacter->action.selectedSkill.chiCost) {
-		auto targets = bs->GetEnemies();
-		bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
-		bs->activeCharacter->action.entityState = ATTACKING;
-	}
-	else {
-		// handle not enough Chi, ZR part?
-	}
+	//if (bs->chi >= bs->activeCharacter->action.skills[skillnum - 1].chiCost) {
+	//	auto targets = bs->GetEnemies();
+	//	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	//	bs->activeCharacter->action.entityState = ATTACKING;
+	//}
+	//else {
+	//	// handle not enough Chi, ZR part?
+	//}
+
+	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
+	bs->CreateTargets();
+	//auto targets = bs->GetEnemies();
+	//bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	//bs->activeCharacter->action.entityState = ATTACKING;
+}
+
+//Selects an enemy of input number
+void SelectEnemy(std::string input) {
+	BattleSystem* bs = events.GetBattleSystem();
+	std::stringstream ss{ input };
+	int enemynum;
+	ss >> enemynum;
 
 	auto targets = bs->GetEnemies();
-	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
+	bs->activeCharacter->action.targetSelect.selectedTarget = targets[enemynum];
 	bs->activeCharacter->action.entityState = ATTACKING;
+	bs->DestroyTargets();
 }
 void TogglePause(std::string input) {
-	if (currentSystemMode == SystemMode::GAMEHELP) {
+	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
 		return;
 	}
+
 	(void)input;
 	static Entity pausemenu{};
-	if (currentSystemMode == SystemMode::PAUSE) {
-		currentSystemMode = lastSystemMode;
-		lastSystemMode = SystemMode::PAUSE;
+
+	/*-----Prevent Softlocking-----*/
+	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
+		SetCurrentSystemMode(SystemMode::RUN);
+		if (pausemenu != 0) {
+			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+			pausemenu = 0;
+		}
+	}
+	/*-----Prevent Softlocking-----*/
+	else if (!(GetPreviousSystemMode() == SystemMode::GAMEHELP) && GetCurrentSystemMode() == SystemMode::PAUSE) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
 			pausemenu = 0;
 		}
 	}
 	else {
-		lastSystemMode = currentSystemMode;
-		currentSystemMode = SystemMode::PAUSE;
+		SetCurrentSystemMode(SystemMode::PAUSE);
 		if (pausemenu == 0) {
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
-		}	
+		}
 	}
 }
 
 void ToggleHelp(std::string input) {
-	if (currentSystemMode == SystemMode::PAUSE) {
-		return;
-	}
 	(void)input;
 	static Entity gamehelpmenu{};
-	if (currentSystemMode == SystemMode::GAMEHELP) {
-		//if (lastSystemMode == SystemMode::PAUSE) {
-		//	currentSystemMode = SystemMode::RUN;
-		//}
-		//else {
-		//	currentSystemMode = lastSystemMode;
+	if (GetCurrentSystemMode() == SystemMode::GAMEHELP) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
 
-		//}
-		currentSystemMode = lastSystemMode;
-		lastSystemMode = SystemMode::GAMEHELP;
 		if (gamehelpmenu != 0) {
 			ECS::ecs().DestroyEntity(gamehelpmenu);
 			gamehelpmenu = 0;
 		}
 	}
 	else {
-		lastSystemMode = currentSystemMode;
-		currentSystemMode = SystemMode::GAMEHELP;
+		SetCurrentSystemMode(SystemMode::GAMEHELP);
 		if (gamehelpmenu == 0) {
 			gamehelpmenu = EntityFactory::entityFactory().ClonePrefab("gamehelpmockup.prefab");
 		}
@@ -195,6 +227,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Pause/Resume Group"] = PauseResumeGroup;
 	functions["Stop Group"] = StopGroup;
 	functions["Select Skill"] = SelectSkill;
+	functions["Select Enemy"] = SelectEnemy;
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;

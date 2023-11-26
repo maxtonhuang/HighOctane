@@ -17,10 +17,14 @@ mockup_chi_icon.png
 zodiaclash_logo.png
 UI_ICON_bleed.png
 NEW_guard_pfp.png
+gamehelp.png
+skill_icon_basic.png
+skill_icon_skill.png
+skill_icon_ulti.png
+NEW_bg_03.png
+NEW_howtoplay.png
 ping.wav
 bonk.wav
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 mikachan/mikasan.ttf
 Scarlet Claw.skill
@@ -31,5 +35,4 @@ No.skill
 Normal AOE.skill
 OHKO.skill
 Test.skill
-.skill
 battle.json

@@ -1,5 +1,9 @@
+MainMenu1.wav
 duck2.spritesheet
 background.jpeg
+mockup_icon_cat.png
+duck2.spritesheet
+duck.spritesheet
 duck.spritesheet
 cat.png
 mockup_cat.png
@@ -10,58 +14,6 @@ mockup_BG_02.png
 EXPLORATION_MAP_asset_rock (2).png
 ping.wav
 bonk.wav
-MainMenu1.wav
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 mikachan/mikasan.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -74,5 +26,4 @@ No.skill
 Normal AOE.skill
 OHKO.skill
 Test.skill
-Normal Attack.skill
 exploration.json

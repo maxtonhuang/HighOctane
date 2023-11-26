@@ -19,7 +19,8 @@
 *
 *	@section	Section A
 *
-*	@date		23 October 2023
+*	@date		[M2] 23 October 2023
+*				[M3] 26 November 2023
 *
 * *****************************************************************************
 *
@@ -27,6 +28,12 @@
 *
 *	UIComponents contianing UI components with their own niche properties
 *	to be set and modified.
+* 
+*	M2 -	core functionalities for TextLabel and Button
+*	M3 -	refinements to TextLabel and Button (padding, alignment, resizing),
+*			added all remaining UI required for battle scene (HealthBar,
+			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
+			Status Effect and their	child components)
 *
 ******************************************************************************/
 
@@ -38,6 +45,7 @@
 #include "graphics.h"
 #include "Colors.h"
 #include "AssetManager.h"
+#include "Layering.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -61,7 +69,7 @@ TextLabel::TextLabel() {
 }
 
 /*!
-* \brief TextLabel default constructor
+* \brief TextLabel constructor
 *
 * Initializes TextLabel component, with text and color strings provided.
 *
@@ -77,7 +85,7 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 }
 
 /*!
-* \brief TextLabel default constructor
+* \brief TextLabel constructor
 *
 * Initializes TextLabel component, with text string and glm::vec4 color provided.
 *
@@ -258,7 +266,7 @@ void TextLabel::Update(Model& modelData, Name& nameData) {
 		}		
 	}
 
-	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
+	if (nameData.selected && GetCurrentSystemMode() == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
 	else if (IsWithinObject(modelData, uiMousePos)) {
@@ -272,6 +280,7 @@ void TextLabel::Update(Model& modelData, Name& nameData) {
 /**************************
 ********* BUTTON **********
 **************************/
+
 /*!
 * \brief Button default constructor
 *
@@ -288,7 +297,7 @@ Button::Button() {
 }
 
 /*!
-* \brief Button default constructor
+* \brief Button constructor
 *
 * Initializes Button component, with button color string and text color values provided.
 *
@@ -301,7 +310,7 @@ Button::Button(std::string btnColor, glm::vec4 txtColor) {
 }
 
 /*!
-* \brief Button default constructor
+* \brief Button constructor
 *
 * Initializes Button component, with button and text color values provided.
 *
@@ -349,6 +358,9 @@ glm::vec4 Button::GetButtonColor() {
 	case(STATE::FOCUSED):
 		return focusedColor.buttonColor;
 		break;
+	case(STATE::DISABLED):
+		return colors.colorMap["secondary"];
+		break;
 	default:
 		return defaultColor.buttonColor;
 		break;
@@ -371,7 +383,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if ((currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) && (currentState != STATE::DISABLED) && !eventName.empty()) {
+				if ((GetCurrentSystemMode() == SystemMode::RUN || GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP) && (currentState != STATE::DISABLED) && !eventName.empty()) {
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -380,7 +392,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	// update button and text colors
-	if (nameData.selected && currentSystemMode == SystemMode::EDIT) {
+	if (nameData.selected && GetCurrentSystemMode() == SystemMode::EDIT) {
 		currentState = STATE::FOCUSED;
 	}
 
@@ -394,7 +406,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	//outside edit mode, color change accordingly to state. otherwise show default
-	if (currentSystemMode == SystemMode::RUN || currentSystemMode == SystemMode::PAUSE) {
+	if (GetCurrentSystemMode() == SystemMode::RUN || GetCurrentSystemMode() == SystemMode::PAUSE) {
 		switch (currentState) {
 		case(STATE::HOVERED):
 			textLabelData.textColor = hoveredColor.textColor;
@@ -442,21 +454,46 @@ void Button::UpdateColorSets(STATE currState, glm::vec4 btnColor, glm::vec4 txtC
 /**************************
 ********* HP BAR **********
 **************************/
+
+/*!
+* \brief HealthBar default constructor
+*
+* Sets initial display toggles on intialization
+*
+*/
 HealthBar::HealthBar() {
-	//maxHealth = 1000.f;
-	//currentHealth = maxHealth;
-	//healthPct = (currentHealth / maxHealth) * 100.f;
 	showHealthStat = true;
 	showValOrPct = true;
 }
 
-void HealthBar::UpdateHealth(CharacterStats& charaStatsData) {
+/*!
+* \brief HealthBar Update health values
+*
+* Updates HP bar based on tagged characterStats.
+* Else remains constant (bar will be white)
+*
+*/
+void HealthBar::UpdateHealth() {
 	//read data from character stats
-	maxHealth = charaStatsData.stats.maxHealth;
-	currentHealth = charaStatsData.stats.health;
+	if (charaStatsRef) {
+		maxHealth = charaStatsRef->stats.maxHealth;
+		currentHealth = charaStatsRef->stats.health;
+	}
+	else {
+		maxHealth = 1000.f;
+		currentHealth = maxHealth;
+	}
 	healthPct = (currentHealth / maxHealth) * 100.f;
 }
 
+/*!
+* \brief HealthBar Update text label
+*
+* Updates text label based on showValOrPct setting
+* If true - shows rounded integral value
+* Else - shows health percentage at 1d.p.
+*
+*/
 void HealthBar::UpdateTextDisplay(TextLabel& textLabelData) {
 	if (showHealthStat) {
 		std::ostringstream oss;
@@ -475,23 +512,49 @@ void HealthBar::UpdateTextDisplay(TextLabel& textLabelData) {
 	}
 }
 
+/*!
+* \brief HealthRemaining Update health bar length
+*
+* Calculates health bar dimensions with reference to parent health bar dimensions and healthPct
+*
+*/
 void HealthRemaining::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize) {
 	childSize.width = parentSize.width * (parentHealthBar.healthPct / 100.f) * 0.95f;
 	childSize.height = parentSize.height * 0.8f; // to make customizable?
 }
 
+/*!
+* \brief HealthRemaining Update color
+*
+* Sets HP bar color based tagged CharacterStats ref
+* Case 1 - no CharacterStats ref (battle system is !active/win/lose), white bar
+* Case 2 - player, green bar
+* Case 3 - enemy, red bar
+*
+*/
 void HealthRemaining::UpdateColors(Model& modelData, CharacterStats& parentCharaStats) {
+	if (!(&parentCharaStats)) {
+		modelData.SetColor(1.f, 1.f, 1.f);
+		return;
+	}
+
 	if (parentCharaStats.tag == CharacterType::PLAYER) {
 		modelData.SetColor(0.f,1.f,0.f);
 	}
 	else if (parentCharaStats.tag == CharacterType::ENEMY) {
 		modelData.SetColor(1.f, 0.f, 0.f);
 	}
-	else {
-		modelData.SetColor(1.f, 1.f, 1.f);
-	}
+	//else {
+	//	modelData.SetColor(1.f, 1.f, 1.f);
+	//}
 }
 
+/*!
+* \brief HealthRemaining Update offset
+*
+* Offsets currentHP bar based off parentHP bar and healthPct
+*
+*/
 void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData) {
 	childData.offset.position.x = (-0.5f * parentSize.width) + (parentHealthBar.healthPct / 100.f * 0.5f * parentSize.width);
 }
@@ -500,12 +563,29 @@ void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar,
 /**************************
 ***** SKILLPT SYSTEM ******
 **************************/
+
+/*!
+* \brief SkillPointHUD default constructor
+*
+* Initializes the SkillPoint system component. 
+* Reads max value from battle system, otherwise is set to 0 for identification
+*
+*/
 SkillPointHUD::SkillPointHUD() {
 	battleSys = events.GetBattleSystem();
 	maxSkillPoints = (battleSys) ? battleSys->chi : 0;
 	skillPointBalance = maxSkillPoints;
 }
 
+/*!
+* \brief SkillPointHUD default constructor
+*
+* Reads current balance from battle system
+* This will only be called if:
+* - battle system is active
+* - battle state is player's turn + activeCharacter characterType is PLAYER
+*
+*/
 void SkillPointHUD::UpdateBalance() {
 	battleSys = events.GetBattleSystem();
 	skillPointBalance = battleSys->chi;
@@ -515,33 +595,165 @@ void SkillPointHUD::UpdateBalance() {
 /**************************
 **** ATK SKILL SYSTEM *****
 **************************/
-void AttackSkill::UpdateSkillTex(Tex& texData) {
-	// retrieve skill tex (to be stored)
-}
 
+//void AttackSkill::UpdateSkillTex(Tex& texData) {
+//	// FUTURE IMPLEMENTATION: retrieve skill tex (to be stored)
+//}
+
+/*!
+* \brief AttackSkill update button event
+*
+* Reinforces atkSkill button to always call the Select Skill event.
+* Entity requirements: Parent, AttackSkill and Button (system signature)
+*
+*/
 void AttackSkill::UpdateSkillEvent(Button& buttonData) {
 	buttonData.eventName = "Select Skill";
 	buttonData.eventInput = std::to_string(skillIndex+ 1);
 }
 
+/*!
+* \brief AttackSkill update button state
+*
+* Updates button based on skill use eligibility
+* (if there's sufficient chi for activation)
+* Entity requirements: Parent, AttackSkill and Button (system signature)
+*
+*/
 void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
 	if (!isSufficient) {
 		buttonData.currentState = STATE::DISABLED;
 	}
+	else {
+		buttonData.currentState = STATE::NONE;
+	}
 }
 
+/*!
+* \brief AttackSkill update attack type label
+*
+* Updates button label to indicate attack type
+* Entity requirements: Child, SkillAttackType and TextLabel
+* 
+* FUTURE CONSIDERINGS: 
+* - allow for customization of attack type? 
+*	will have to involve serialization
+*
+*/
 void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType) {
 	textLabelData.textString = (atkType == AttackType::NORMAL) ? "Single Target" : "AOE";
 }
 
-void AttackSkill::UpdateAtkTypeIcon(Tex& texData, AttackType atktype) {
-	//texData.tex = (atkType == AttackType::NORMAL) ? /* get asset: ST icon */ : /* get asset: AOE icon */;
-}
+// FUTURE IMPLEMENTATION: to display attack type icon accordingly
+//void AttackSkill::UpdateAtkTypeIcon(Tex& texData, AttackType atktype) {
+//	//texData.tex = (atkType == AttackType::NORMAL) ? /* get asset: ST icon */ : /* get asset: AOE icon */;
+//}
 
+/*!
+* \brief AttackSkill update skill cost label
+*
+* Updates button label to show skill's chi cost
+* Entity requirements: Child, SkillCost and TextLabel
+*
+*/
 void AttackSkill::UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost) {
 	textLabelData.textString = (skillCost > 0) ? " -" : " +";
 	textLabelData.textString += std::to_string(std::abs(skillCost));
 }
+
+
+/**************************
+***** ALLY HUD SYSTEM *****
+**************************/
+
+/*!
+* \brief AllyHUD check valid index
+*
+* Reinforces referencing index set to always be valid.
+* Returns false if battle system is not active
+*
+*/
+void AllyHUD::CheckValidIndex(int playerCount, bool& result) {
+	if (!playerCount) {
+		result = false;
+		return;
+	}
+	result = true;
+	allyIndex = allyIndex % playerCount;
+}
+
+
+/**************************
+**** ENEMY HUD SYSTEM *****
+**************************/
+
+/*!
+* \brief EnemyHUD check valid index
+*
+* Reinforces referencing index set to always be valid.
+* Returns false if battle system is not active
+*
+*/
+void EnemyHUD::CheckValidIndex(int enemyCount, bool& result) {
+	if (!enemyCount) {
+		result = false;
+		return;
+	}
+	result = true;
+	enemyIndex = enemyIndex % enemyCount;
+}
+
+/*!
+* \brief EnemyHUD toggle status effect indicator
+*
+* Event based trigger where it appears if enemy has debuff stacks
+*
+*/
+void EnemyHUD::ToggleStatusFx(Entity parent, int stacks) {
+	//DEBUG_PRINT("STACKS: %d", stacks);
+	static Entity statusFx{};
+	if ((statusFx != 0) && (stacks < 1)) {
+		EntityFactory::entityFactory().DeleteCloneModel(statusFx);
+		statusFx = 0;
+	}
+	else {
+		if ((statusFx == 0) && (stacks > 0)) {
+			statusFx = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
+			if (ECS::ecs().HasComponent<StatusEffect>(statusFx)) {
+				StatusEffect& statusFxComp{ ECS::ecs().GetComponent<StatusEffect>(statusFx) };
+				statusFxComp.character = parent;
+			}
+		}
+	}
+}
+
+
+/************************************
+**** ENEMY STATUS EFFECT SYSTEM *****
+************************************/
+
+/*!
+* \brief StatusEffect update offset
+*
+* Calculates position for indicator based off parent entity position
+*
+*/
+void StatusEffect::UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform) {
+	childTransform.position.y = parentTransform.position.y + (0.5f * parentSize.height);
+	childTransform.position.x = parentTransform.position.x - (0.8f * parentSize.width);
+}
+
+/*!
+* \brief StatusEffect update stacks label
+*
+* Updates number of stacks based on value read from battle system
+* (CharacterStats tagged to parent entity)
+*
+*/
+void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
+	textLabelData.textString = std::to_string(stacks);
+}
+
 
 
 /**************************

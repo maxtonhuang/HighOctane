@@ -14,6 +14,10 @@
 *
 *	@email		m.huang\@digipen.edu
 *
+* 	@co-author	Foong Pun Yuen Nigel (CloneMaster, ClonePrefab, UpdateDeletion functions)
+*
+*	@email		p.foong\@digipen.edu
+* 
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
@@ -209,6 +213,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	ECS::ecs().AddComponent(entity, Script{}); //add script component
 	ECS::ecs().GetComponent<Transform>(entity).position = { rW, rH };
 	ECS::ecs().GetComponent<Collider>(entity).bodyShape = Collider::SHAPE_BOX;
+	ECS::ecs().GetComponent<Collider>(entity).position = ECS::ecs().GetComponent<Transform>(entity).position;
 	ECS::ecs().GetComponent<Transform>(entity).isStatic = true;
 
 	if (isMainCharacter) {
@@ -223,6 +228,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 		// resize size to tex dimensions
 		ECS::ecs().GetComponent<Size>(entity).width = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth();
 		ECS::ecs().GetComponent<Size>(entity).height = (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight();
+		ECS::ecs().GetComponent<Collider>(entity).dimension = { (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetWidth(), (float)ECS::ecs().GetComponent<Tex>(entity).tex->GetHeight() };
 		//// for mass rendering - add this entity to vector
 		massRenderEntitiesList.emplace_back(entity);
 	}
@@ -230,6 +236,7 @@ Entity EntityFactory::CloneMasterModel(float rW, float rH, bool isMainCharacter,
 	++cloneCounter;
 	return entity;
 }
+
 
 /******************************************************************************
 *
@@ -247,6 +254,9 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 			ecsType.second->AddComponent(entity);
 			ecsType.second->CopyComponent(entity, masterEntity);
 		}
+	}
+	if (ECS::ecs().HasComponent<Master>(entity)) {
+		ECS::ecs().RemoveComponent<Master>(entity);
 	}
 	if (ECS::ecs().HasComponent<Clone>(entity)) {
 		ECS::ecs().RemoveComponent<Clone>(entity);
@@ -298,12 +308,19 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	RebuildLayeringAfterDeserialization();
 	ExtractSkipLockAfterDeserialization();
 	++cloneCounter;
-	if (currentSystemMode != SystemMode::GAMEHELP && currentSystemMode != SystemMode::PAUSE && !initLevel) {
+	if (GetCurrentSystemMode() != SystemMode::GAMEHELP && GetCurrentSystemMode() != SystemMode::PAUSE && !initLevel) {
 		undoRedo.RecordCurrent(entity, ACTION::ADDENTITY);
 	}
 	return entity;
 }
 
+/******************************************************************************
+*
+*	@brief Clones prefab
+*
+*	This function clones new game objects from an input prefab name
+*
+******************************************************************************/
 Entity EntityFactory::ClonePrefab(std::string prefabName) {
 	Entity prefab{ assetmanager.GetPrefab(prefabName) };
 	if (prefab == 0) {
@@ -402,21 +419,21 @@ void EntityFactory::DeleteMasterModel(Entity entity) {
 *
 ******************************************************************************/
 void EntityFactory::DeleteCloneModel(Entity entity) {
-	//ECS::ecs().DestroyEntity(entity);
-	// find entity > remove from layer
-	/*std::pair<size_t, size_t> pos = FindInLayer(entity);
-	if (pos.first != ULLONG_MAX && pos.second != ULLONG_MAX) {
-		layering[pos.first].erase(layering[pos.first].begin() + pos.second);
-	}*/
-	//RemoveEntityFromLayering(entity);
 	deletionEntitiesList.push_back(entity);
 	--cloneCounter;
 }
 
+/******************************************************************************
+*
+*	Function for deleting entities at the end of every frame
+*
+******************************************************************************/
 void EntityFactory::UpdateDeletion() {
 	for (Entity entity : deletionEntitiesList) {
-		ECS::ecs().DestroyEntity(entity);
-		RemoveEntityFromLayering(entity);
+		if (ECS::ecs().EntityExists(entity)) {
+			ECS::ecs().DestroyEntity(entity);
+			RemoveEntityFromLayering(entity);
+		}
 	}
 	deletionEntitiesList.clear();
 }

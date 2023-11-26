@@ -50,51 +50,95 @@ public:
     AudioManager audio;
     AttackList attacks;
 public:
-    void Initialize();
-    void UnloadAll();
-
-    //General methods
-    bool FileExists(const std::string& path);
+    /***********************************************
+    GENERAL METHODS
+    ***********************************************/
+    /*
+    Main load method of asset manager
+    Input should be the asset name (without the folder directory)
+    Eg texture.png instead of Folder/texture.png
+    This method handles all asset types that the engine supports
+    */
     void LoadAssets(const std::string& assetPath);
-    void LoadScene(const std::string& scenePath);
-    void SaveScene(const std::string& scenePath);
-    void LoadEntities(const std::string& entitiesPath);
-    std::vector<std::string> GetFiles();
+
+    //Returns the full folder directory that the game assets folder is located in
     std::string GetDefaultPath();
 
-    // Texture methods
+    //Returns a list of all assets loaded by the asset manager
+    std::vector<std::string> GetFiles();
+
+    //Initialises the asset manager
+    void Initialize();
+
+    //Unloads ALL assets, to be called when changing scene
+    void UnloadAll();
+
+    //Returns true if the path exists
+    bool FileExists(const std::string& path);
+    
+    //Loads the scene using input scene path
+    void LoadScene(const std::string& scenePath);
+
+    //Saves the current scene to scene path
+    void SaveScene(const std::string& scenePath);
+
+    //Load all entities in the scene
+    void LoadEntities(const std::string& entitiesPath);
+
+    /***********************************************
+    TEXTURE METHODS
+    ***********************************************/
+    //Loads texture using texture path
     void LoadTexture(const std::string& texturePath);
+    //Loads spritesheet using spritesheet path
     void LoadSpritesheet(const std::string& spritePath);
 
-    // Audio methods
+    /***********************************************
+    AUDIO METHODS
+    ***********************************************/
     void LoadSound(const std::string& audioPath);
     void LoadMusic(const std::string& audioPath);
 
-    // Font methods
+    /***********************************************
+    FONT METHODS
+    ***********************************************/
     void LoadFont(const std::string& fontPath);
 
-    // Shader methods
+    /***********************************************
+    SHADER METHODS
+    ***********************************************/
     void LoadRenderer(const std::string& rendererPath);
 
-    //Attack methods
+    /***********************************************
+    ATTACK METHODS
+    ***********************************************/
     void LoadAttack(const std::string& attackPath);
 
-    //Prefab methods
+    /***********************************************
+    PREFAB METHODS
+    ***********************************************/
+    //Loads prefab to ECS
     void LoadPrefab(const std::string& prefabPath);
+    //Unloads prefab from ECS
     void UnloadPrefab(const std::string& prefabName);
+    //Gets prefab entity ID using its name
     Entity GetPrefab(const std::string& prefabName);
+    //Gets prefab name using its entity ID
     std::string GetPrefabName(Entity prefabID);
+    //Updates prefab path with all prefabs in prefab folder
     void UpdatePrefabPaths();
+    //Returns vector of strings of all prefabs in prefab folder (does not load them)
     std::vector<std::string> GetPrefabPaths();
-    std::unordered_map<std::string, Entity>& GetPrefabMap();
-    void LoadAllPrefabs(); //Loads ALL prefabs, for editor asset library
+    //Returns reference to the prefab map
+    std::unordered_map<std::string, Entity>& GetPrefabMap(); 
+    //Loads ALL prefabs, for editor asset library
+    void LoadAllPrefabs();
 
 private:
     std::string defaultPath{};
     std::vector<std::string> loadedFiles{};
     std::unordered_map<std::string, Entity> prefabMap{};
     std::vector<std::string> prefabPaths{}; //list of all prefabs in prefab folder
-    //std::unordered_multimap<std::string, FontEntry> m_fonts;
 };
 
 extern AssetManager assetmanager;

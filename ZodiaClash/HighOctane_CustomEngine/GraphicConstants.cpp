@@ -33,8 +33,8 @@
 
 namespace GRAPHICS
 {
-	int defaultWidth;
-	int defaultHeight;
+	int viewportWidth;
+	int viewportHeight;
 	float defaultWidthF;
 	float defaultHeightF;
 	float w;
@@ -42,8 +42,10 @@ namespace GRAPHICS
 	float ar; //aspect ratio
 
 	void UpdateConstants(int input_w, int input_h) {
-		defaultWidth = input_w;
-		defaultHeight = input_h;
+		(void)input_w;
+		(void) input_h;
+		viewportWidth = input_w;
+		viewportHeight = input_h;
 		defaultWidthF = (float)defaultWidth;
 		defaultHeightF = (float)defaultHeight;
 		w = defaultWidthF / 2;

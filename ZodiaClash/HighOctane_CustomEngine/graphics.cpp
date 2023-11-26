@@ -132,7 +132,7 @@ void GraphicsManager::Initialize(int w, int h) {
 
     /*fonts.Initialize();*/
 
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
+    //glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
 
     //TEMP
     glPointSize(10.f);

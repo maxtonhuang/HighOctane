@@ -65,9 +65,6 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             events.Call("Toggle Pause", std::string{});
             //glfwSetWindowShouldClose(pwin, GLFW_TRUE);
         }
-        if (GLFW_KEY_0 == key) {
-            events.Call("Toggle Help", std::string{});
-        }
         if (GLFW_KEY_F1 == key) {
             events.Call("Change Scene", "mainmenu.scn");
         }
@@ -80,6 +77,12 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
                 fullscreen = true;
             }
             graphics.Fullscreen(fullscreen);
+        }
+        if (GLFW_KEY_G == key) {
+            ToggleGodMode();
+        }
+        if (GLFW_KEY_E == key) {
+            ToggleEndGameMode();
         }
         break;
     case GLFW_RELEASE:
@@ -170,7 +173,7 @@ void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
     }
     else {
         assetmanager.audio.PauseGroup("Master");
-        if (currentSystemMode == SystemMode::RUN) {
+        if (GetCurrentSystemMode() == SystemMode::RUN) {
             events.Call("Toggle Pause", "");
         }
     }

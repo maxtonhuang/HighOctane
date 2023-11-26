@@ -110,7 +110,20 @@ relative to the top-left corner of the window client area.
 *****************************************************************************/
 		static void CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos);
 
-		//Function for when the window is out of focus from alt-tab or ctrl-alt-delete
+/*  _________________________________________________________________________*/
+/*! WindowFocusCallback
+
+@param GLFWwindow*
+Handle to window that is receiving event
+
+@param focused
+Focus state of the window
+
+@return none
+
+Window focus function to handle system interrupts such as ctrl+alt+delete
+or alt+tab
+*****************************************************************************/
 		static void WindowFocusCallback(GLFWwindow* pwin, int focused);
 	private:
 		static double cursorposX;

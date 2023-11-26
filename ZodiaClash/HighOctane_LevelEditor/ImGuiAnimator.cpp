@@ -1,9 +1,41 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiAnimator.cpp
+*
+*	@author		Foong Pun Yuen Nigel
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		11 November 2023
+*
+* *****************************************************************************
+*
+*	@brief		Animation editor window
+*
+*   Contains function for the game animation window
+*
+******************************************************************************/
+
 #include "ImGuiAnimator.h"
 #include "ImGuiSceneHierarchy.h"
 #include "Animation.h"
 #include "AssetManager.h"
 #include "Global.h"
 
+//Updates animation window for the input entity
 void AnimatorWindow(Entity entity) {
 	const ImVec2 buttonsize{ 15,15 };
 	const ImVec4 selectedCol{ 0.f,1.f,0.f,1.f };
@@ -11,7 +43,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"Swap", "SelfDestruct" };
+		"DamageImpact", "Swap", "SelfDestruct" };
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -186,6 +218,9 @@ void AnimatorWindow(Entity entity) {
 						}
 						else if (selectedType == "SelfDestruct") {
 							selectedAnimGroup->animations.push_back(std::make_shared<SelfDestructAnimation>());
+						}
+						else if (selectedType == "DamageImpact") {
+							selectedAnimGroup->animations.push_back(std::make_shared<DamageImpactAnimation>());
 						}
 					}
 				}
@@ -408,8 +443,11 @@ void UpdateAnimator() {
 	ImGui::Begin("Animator Window",nullptr,flag);
 
 	Entity toAnimate{ currentSelectedEntity };
+
+	//Checkbox to determine if using selected scene entity or selected scene prefab
 	ImGui::Checkbox("Edit prefab?", &prefab);
 
+	//Label for current prefab
 	std::string editingLabel{ "Editing: " };
 	if (prefab) {
 		toAnimate = currentSelectedPrefab;
@@ -424,16 +462,18 @@ void UpdateAnimator() {
 		ImGui::Text(editingLabel.c_str());
 	}
 	else if (ECS::ecs().EntityExists(toAnimate)) {
+		//If selected entity has no animation component, add a button to add animation set
 		ImGui::Text("Entity has no animation component.");
 		if (ImGui::Button("Add Animation Component")) {
 			ECS::ecs().AddComponent(toAnimate, AnimationSet{});
 		}
 	}
 
+	//Calls the main window loop
 	AnimatorWindow(toAnimate);
 	
 	//Real-time prefab updating
-	if (prefab && currentSystemMode == SystemMode::EDIT && ImGui::IsWindowFocused()) {
+	if (prefab && GetCurrentSystemMode() == SystemMode::EDIT && ImGui::IsWindowFocused()) {
 		auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
 		auto& typeManager{ ECS::ecs().GetTypeManager() };
 		auto cloneIDArray{ cloneArray.GetEntityArray() };
