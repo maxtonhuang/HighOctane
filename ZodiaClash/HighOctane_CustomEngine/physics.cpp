@@ -140,7 +140,7 @@ namespace physics {
         colliderData.position += transformData.velocity * FIXED_DT;
 
         // apply friction (assuming FRICTION is < 1 and represents a damping factor)
-        transformData.velocity *= pow(FRICTION, FIXED_DT);
+        transformData.velocity *= FRICTION;
         // reset force for the next frame
         transformData.force = { 0, 0 };
     }
