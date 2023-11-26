@@ -144,9 +144,22 @@ void TogglePause(std::string input) {
 	if (currentSystemMode == SystemMode::GAMEHELP || currentSystemMode == SystemMode::EDIT) {
 		return;
 	}
+
 	(void)input;
 	static Entity pausemenu{};
-	if (currentSystemMode == SystemMode::PAUSE) {
+
+	/*-----Prevent Softlocking-----*/
+	if (lastSystemMode == SystemMode::GAMEHELP && currentSystemMode == SystemMode::PAUSE) {
+		currentSystemMode = SystemMode::RUN;
+		lastSystemMode = SystemMode::PAUSE;
+		if (pausemenu != 0) {
+			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+			pausemenu = 0;
+		}
+	}
+	/*-----Prevent Softlocking-----*/
+
+	else if (!(lastSystemMode == SystemMode::GAMEHELP) && currentSystemMode == SystemMode::PAUSE) {
 		currentSystemMode = lastSystemMode;
 		lastSystemMode = SystemMode::PAUSE;
 		if (pausemenu != 0) {
