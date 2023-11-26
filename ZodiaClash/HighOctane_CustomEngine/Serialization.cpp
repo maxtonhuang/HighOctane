@@ -555,7 +555,7 @@ bool CheckSerialize(const Entity& entity, const bool& isPrefabClone, const std::
 }
 
 
-void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector<Entity>& m_entity) {
+void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector<Entity>& m_entity, bool isPrefab) {
 	// Create a JSON document
 	rapidjson::Document document;
 	document.SetArray();
@@ -610,6 +610,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 
 	for (const Entity& entity : m_entity) {
 		
+		if (!isPrefab && !ECS::ecs().HasComponent<Clone>(entity)) {
+			continue;
+		}
+
 		rapidjson::Value entityObject(rapidjson::kObjectType);
 
 		bool isPrefabClone{ false };

@@ -66,7 +66,7 @@ void SaveAsPrefab(std::string prefabPath, Entity entity) {
 				}
 			}
 		}
-		Serializer::SaveEntityToJson(prefabPath, entityToSave);
+		Serializer::SaveEntityToJson(prefabPath, entityToSave, true);
 		if (isClone) {
 			for (auto& e : entityToSave) {
 				ECS::ecs().AddComponent<Clone>(e, Clone{});
