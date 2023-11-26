@@ -266,11 +266,11 @@ public:
 	int skillIndex{};
 	//Attack* atkSkillRef{};
 
-	void UpdateSkillTex(Tex& texData);
+	//void UpdateSkillTex(Tex& texData);
 	void UpdateSkillEvent(Button& buttonData);
 	void UpdateButtonState(Button& buttonData, bool isSufficient);
 	void UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType);
-	void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
+	//void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
 	void UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost);
 };
 
