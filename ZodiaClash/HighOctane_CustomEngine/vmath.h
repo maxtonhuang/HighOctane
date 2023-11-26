@@ -263,7 +263,11 @@ namespace vmath {
 				return (((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y)));
 			}
 
-
+			/**************************************************************************/
+			/*!
+				Checks whether point is outside (on the side of the outward normal)
+			*/
+			/**************************************************************************/
 			static bool IsPointOutside(Vector2 head, Vector2 tail, Vector2 point);
 
 
@@ -362,6 +366,11 @@ namespace vmath {
 	Vector2	operator*(float lhs, const Vector2& rhs);
 
 	Vector2	operator/(const Vector2& lhs, float rhs);
+
+
+
+
+
 
 	/**************************************************************************/
 	/*!
