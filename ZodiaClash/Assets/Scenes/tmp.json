@@ -584,7 +584,9 @@
             "Padding Setting": 1
         },
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     },
     {
@@ -684,7 +686,9 @@
             "Padding Setting": 1
         },
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     },
     {
@@ -74968,7 +74972,9 @@
         },
         "Movable": {},
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     },
     {
@@ -75018,7 +75024,9 @@
         },
         "Movable": {},
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     },
     {
@@ -75077,7 +75085,9 @@
         },
         "Movable": {},
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         },
         "Animation Set": [
             {
@@ -75254,7 +75264,9 @@
         },
         "Movable": {},
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     },
     {
@@ -76325,7 +76337,9 @@
         },
         "Movable": {},
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     },
     {
@@ -77495,7 +77509,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Restart Battle",
+            "Text String": "Return to Main Menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -77531,7 +77545,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Change Scene",
-            "Event Input": "",
+            "Event Input": "mainmenu.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -78183,7 +78197,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Restart Battle",
+            "Text String": "Return to Main Menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -78219,7 +78233,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Change Scene",
-            "Event Input": "",
+            "Event Input": "mainmenu.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -79396,7 +79410,9 @@
             "Padding Setting": 1
         },
         "Collider": {
-            "Collider Enum": 0
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         },
         "Animation Set": [
             {

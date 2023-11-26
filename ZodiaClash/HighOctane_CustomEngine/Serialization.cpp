@@ -284,6 +284,8 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 rapidjson::Value SerializeCollider(const Collider& collider, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value colliderObject(rapidjson::kObjectType);
 	colliderObject.AddMember("Collider Enum", (int)collider.bodyShape, allocator);
+	colliderObject.AddMember("Dimension X", collider.dimension.x, allocator);
+	colliderObject.AddMember("Dimension Y", collider.dimension.y, allocator);
 	return colliderObject;
 }
 
@@ -1129,6 +1131,10 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				const rapidjson::Value& colliderObject = entityObject["Collider"];
 				Collider collider;
 				int enumID = colliderObject["Collider Enum"].GetInt();
+				if (colliderObject.HasMember("Dimension X")) {
+					collider.dimension.x = colliderObject["Dimension X"].GetFloat();
+					collider.dimension.y = colliderObject["Dimension Y"].GetFloat();
+				}
 				collider.bodyShape = static_cast<Collider::SHAPE_ID>(enumID);
 
 				if (ECS::ecs().HasComponent<Collider>(entity)) {

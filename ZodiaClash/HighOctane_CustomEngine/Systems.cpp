@@ -174,6 +174,21 @@ void CollisionSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
+	//First loop to update colliders
+	for (Entity const& entity : m_Entities) {
+		Transform* transData = &transformArray.GetData(entity);
+		Collider* collideData = &colliderArray.GetData(entity);
+
+		//Initialise collision data
+		if (collideData->dimension.x == 0 && collideData->dimension.y == 0) {
+			Size scale{ ECS::ecs().GetComponent<Size>(entity) };
+			collideData->dimension.x = scale.width * transData->scale;
+			collideData->dimension.y = scale.height * transData->scale;
+		}
+
+		collideData->position = transData->position;
+	}
+
 	for (Entity const& entity1 : m_Entities) {
 		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
 			Transform* transData1 = &transformArray.GetData(entity1);

@@ -326,17 +326,17 @@ void SceneEntityComponents(Entity entity) {
 	}
 	if (ECS::ecs().HasComponent<Collider>(entity)) {
 		Collider* entityCollider{ &ECS::ecs().GetComponent<Collider>(entity) };
-		if (ImGui::TreeNodeEx((void*)typeid(Collider).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Transform")) {
-			auto& positionComponent = entityCollider->position;
-			auto& rotationComponent = entityCollider->rotation;
-			auto& scaleComponent = entityCollider->scale;
+		if (ImGui::TreeNodeEx((void*)typeid(Collider).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Collider")) {
+			//auto& positionComponent = entityCollider->position;
+			//auto& rotationComponent = entityCollider->rotation;
+			//auto& scaleComponent = entityCollider->scale;
 			auto& dimensionComponent = entityCollider->dimension;
-			auto& radiusComponent = entityCollider->radius;
-			ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-			ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
-			ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
+			//auto& radiusComponent = entityCollider->radius;
+			//ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
+			//ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
+			//ImGui::DragFloat("Scale", &scaleComponent, 0.5f, 1.f, 100.f);
 			ImGui::DragFloat2("Dimension", &dimensionComponent[0], 0.5f);
-			ImGui::DragFloat("Radius", &radiusComponent, 0.01f, 0.0f, 100.f, "%.3f");
+			//ImGui::DragFloat("Radius", &radiusComponent, 0.01f, 0.0f, 100.f, "%.3f");
 
 			/*const char* rotationOptions[] = { "0 degrees", "90 degrees", "180 degrees", "270 degrees" };
 			int currentRotationIndex = static_cast<int>(rotationComponent / 90.0f);
