@@ -45,13 +45,21 @@
 
 EventManager events;
 
-//Exits the game, voids input
+/*!
+ * \brief Exits the game, voids input
+ *
+ * std::string input : The input string.
+ */
 void ExitGame(std::string input) {
 	(void)input;
 	EngineCore::engineCore().setGameActive(false);
 }
 
-//Changes the scene to the input scene name
+/*!
+ * \brief Changes the scene to the input scene name
+ *
+ * std::string input : The input string.
+ */
 void ChangeScene(std::string input) {
 	if (sceneName == input) {
 		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
@@ -72,8 +80,11 @@ void ChangeScene(std::string input) {
 	ExtractSkipLockAfterDeserialization();*/
 	//playButton = true;
 }
-
-//Plays the input audio name to SFX group
+/*!
+ * \brief Plays the input audio name to SFX group
+ *
+ * std::string input : The input string.
+ */
 void PlayAudio(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
@@ -81,7 +92,11 @@ void PlayAudio(std::string input) {
 	assetmanager.audio.PlaySounds(input.c_str(),"SFX");
 }
 
-//Plays the input audio name to BGM group
+/*!
+ * \brief Plays the input audio name to BGM group
+ *
+ * std::string input : The input string.
+ */
 void PlayMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
@@ -89,7 +104,11 @@ void PlayMusic(std::string input) {
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 
-//Stops BGM and plays the input audio name as BGM instead
+/*!
+ * \brief Stops BGM and plays the input audio name as BGM instead
+ *
+ * std::string input : The input string.
+ */
 void RestartMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
@@ -98,7 +117,11 @@ void RestartMusic(std::string input) {
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 
-//Toggles pause or resume for the input audio group
+/*!
+ * \brief Toggles pause or resume for the input audio group
+ *
+ * std::string input : The input string.
+ */
 void PauseResumeGroup(std::string input) {
 	if (assetmanager.audio.IsGroupPaused(input.c_str())) {
 		assetmanager.audio.ResumeGroup(input.c_str());
@@ -108,12 +131,19 @@ void PauseResumeGroup(std::string input) {
 	}
 }
 
-//Stops all sounds in the input audio group
-void StopGroup(std::string input) {
+/*!
+ * \brief Stops all sounds in the input audio group
+ *
+ * std::string input : The input string.
+ */void StopGroup(std::string input) {
 	assetmanager.audio.StopGroup(input.c_str());
 }
 
-//Selects a skill of input number
+/*!
+ * \brief Selection of the sill
+ *
+ * std::string input : The input string.
+ */
 void SelectSkill(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 
@@ -152,7 +182,11 @@ void SelectSkill(std::string input) {
 	//bs->activeCharacter->action.entityState = ATTACKING;
 }
 
-//Selects an enemy of input number
+/*!
+ * \brief Selection of the enemy
+ *
+ * std::string input : The input string.
+ */
 void SelectEnemy(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 	std::stringstream ss{ input };
@@ -164,6 +198,12 @@ void SelectEnemy(std::string input) {
 	bs->activeCharacter->action.entityState = ATTACKING;
 	bs->DestroyTargets();
 }
+
+/*!
+ * \brief Toggling of the pause state of the game.
+ *
+ * std::string input : The input string.
+ */
 void TogglePause(std::string input) {
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
 		return;
@@ -196,6 +236,11 @@ void TogglePause(std::string input) {
 	}
 }
 
+/*!
+ * \brief Toggling of the help state of the game.
+ *
+ * std::string input : The input string.
+ */
 void ToggleHelp(std::string input) {
 	(void)input;
 	static Entity gamehelpmenu{};
@@ -219,6 +264,12 @@ void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
 
+/*!
+ * \brief Initializes the functions for the event manager.
+ *
+ * Populates the functions map with predefined function pointers and builds
+ * a vector of function names.
+ */
 void EventManager::InitialiseFunctions() {
 	//functions["ChangeLevel"] = ChangeLevel;
 	functions["Play Sound"] = PlayAudio;
@@ -238,19 +289,41 @@ void EventManager::InitialiseFunctions() {
 	}
 }
 
+/*!
+ * \brief Calls the specified event function with the given input.
+ *
+ * \param functionName The name of the event function to be called.
+ * \param functionInput The input string for the event function.
+ */
 void EventManager::Call(std::string functionName, std::string functionInput) {
 	ASSERT(!functions.count(functionName), "Event function name is not valid!");
 	functions[functionName](functionInput);
 }
 
+
+/*!
+ * \brief Retrieves a vector containing the names of all available event functions.
+ *
+ * \return A vector of const char* containing the function names.
+ */
 std::vector<const char*> EventManager::GetFunctionNames() {
 	return functionNames;
 }
 
+/*!
+ * \brief Connects the event manager to a BattleSystem instance.
+ *
+ * \param input A pointer to the BattleSystem instance to be connected.
+ */
 void EventManager::ConnectBattleSystem(BattleSystem* input) {
 	battlesystem = input;
 }
 
+/*!
+ * \brief Retrieves the connected BattleSystem instance.
+ *
+ * \return A pointer to the connected BattleSystem instance.
+ */
 BattleSystem* EventManager::GetBattleSystem() {
 	return battlesystem;
 }

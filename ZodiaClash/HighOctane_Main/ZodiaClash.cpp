@@ -146,6 +146,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Console();
 
 #if _DEBUG
+	LOG_SET_LEVEL(debuglog::LOG_LEVEL::Trace);
+	LOG_TRACE("This is a test trace message");
+	LOG_DEBUG("This is a test debug message");
+	LOG_INFO("This is a test info message");
+	LOG_WARNING("This is a test warning message");
+	LOG_ERROR("This is a test error message");
+	LOG_FATAL("This is a test fatal message");
+
     LOG_INFO("Graphics started");
 #endif
 
