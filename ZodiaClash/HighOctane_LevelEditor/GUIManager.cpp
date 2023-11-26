@@ -149,7 +149,7 @@ void GUIManager::Init()
     InitEntitiesManager();
 
 
-#if ENABLE_DEBUG_PROFILE
+#if _DEBUG
     // Init performance window
     InitPerformance();
 #endif
@@ -425,7 +425,7 @@ void GUIManager::Update()
 
   
     // Update Panels
-    UpdateConsole();
+
     UpdateEntitiesManager();
     UpdatePlayStop();
     UpdateAssetLibrary();
@@ -437,9 +437,10 @@ void GUIManager::Update()
     UpdatePrefabHierachy();
     UpdateSceneSettingsWindow();
 
-#if ENABLE_DEBUG_PROFILE
+#if _DEBUG
     // Update the performance console
     UpdatePerformance();
+        UpdateConsole();
 #endif
 
     // Rendering

@@ -152,9 +152,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//DECLARE(bool, test4, true);
 
 	// Iterate over registered variables and print their values
-	for (const auto& var : variablesTEST) {
-		std::cout << var.name << " = " << var.read() << std::endl;
-	}
+	//for (const auto& var : variablesTEST) {
+	//	std::cout << var.name << " = " << var.read() << std::endl;
+	//}
 
 	/*-----------THIS IS FOR REFLECTION------------*/
 
