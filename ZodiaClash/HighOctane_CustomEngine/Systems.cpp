@@ -80,8 +80,10 @@ extern std::vector<std::string> fullNameVecImGUI;
 ******************************************************************************/
 void PhysicsSystem::Update() {
 
+
 	//process mesaage here
 	bool reqStep{ false };
+#if _DEBUG
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::PHYSICS]) {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED:
@@ -97,8 +99,9 @@ void PhysicsSystem::Update() {
 			break;
 		}
 	}
-	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
 
+	Mail::mail().mailbox[ADDRESS::PHYSICS].clear(); // Clear the mailbox after processing.
+#endif
 	// Access component arrays through the ComponentManager
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -139,6 +142,7 @@ void PhysicsSystem::Update() {
 			physics::PHYSICS->Integrate(transData, collData);
 		}
 	}
+
 }
 
 void PhysicsSystem::Draw() {
