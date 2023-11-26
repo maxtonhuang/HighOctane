@@ -74,10 +74,10 @@ enum class ScriptFieldType
  */
 struct ScriptField
 {
-	ScriptFieldType Type;
-	std::string Name;
+	ScriptFieldType Type{};
+	std::string Name{};
 
-	MonoClassField* ClassField;
+	MonoClassField* ClassField{};
 };
 
 /*!
@@ -87,7 +87,7 @@ struct ScriptField
  */
 struct ScriptFieldInstance
 {
-	ScriptField Field;
+	ScriptField Field{};
 
 	ScriptFieldInstance()
 	{
