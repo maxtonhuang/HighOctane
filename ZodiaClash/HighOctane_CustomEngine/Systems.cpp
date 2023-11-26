@@ -1216,7 +1216,9 @@ void UIEffectSystem::Update() {
 			if (textLabelArray.HasComponent(entity)) {
 				HealthBar* parentHealth = &healthBarArray.GetData(statusFxData->character);
 				TextLabel* textLabelData = &textLabelArray.GetData(entity);
-				statusFxData->UpdateStacksLbl(*textLabelData, parentHealth->charaStatsRef->debuffs.bloodStack);
+				if (parentHealth->charaStatsRef != nullptr) {
+					statusFxData->UpdateStacksLbl(*textLabelData, parentHealth->charaStatsRef->debuffs.bloodStack);
+				}
 			}
 		}
 	}

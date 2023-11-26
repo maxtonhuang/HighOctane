@@ -233,7 +233,7 @@
             },
             {
                 "Total Frames": 60,
-                "Group Name": "Attack 2",
+                "Group Name": "Attack 3",
                 "Loop": false,
                 "Animations": [
                     {
@@ -314,7 +314,7 @@
             },
             {
                 "Total Frames": 61,
-                "Group Name": "Attack 3",
+                "Group Name": "Attack 2",
                 "Loop": false,
                 "Animations": [
                     {
@@ -409,7 +409,7 @@
                 ]
             },
             {
-                "Total Frames": 60,
+                "Total Frames": 61,
                 "Group Name": "Damaged",
                 "Loop": false,
                 "Animations": [
@@ -438,8 +438,44 @@
                                 "Sound": "Cat Damaged_Edited.wav"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Cat_Damage.spritesheet"
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Texture": "Cat_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 60,
+                                "Destination": "Cat Idle"
+                            }
+                        ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 0,
+                "Group Name": "Animation 6",
+                "Loop": false,
+                "Animations": []
             }
         ],
         "Animation Set Default Animation": "Cat Idle"
