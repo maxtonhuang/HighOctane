@@ -193,8 +193,8 @@ void TreeManager::Search(BattleSystem* start) {
 						}
 						if (child->battlesystem.battleState == LOSE) {
 							MakeDecision(child);
-							printf("\nAI found possible win state:\n");
-							printf("Chosen skill: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
+							//printf("\nAI found possible win state:\n");
+							//printf("Chosen skill: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
 							return;
 						}
 						child->battlesystem.Update();
@@ -248,7 +248,7 @@ void TreeManager::Search(BattleSystem* start) {
 	//IF ENEMY CANT FIND ANY VALID MOVES
 	if (currentNodes.size() == 0) {
 		MakeDecision(backup);
-		printf("\nAI cannot find any possible win conditions\n");
+		//printf("\nAI cannot find any possible win conditions\n");
 		return;
 	}
 
@@ -286,35 +286,35 @@ void TreeManager::Search(BattleSystem* start) {
 	int nodeCount = 0;
 	parent.GetBack(&nodeCount);
 
-	for (auto& c : start->turnManage.characterList) {
-		std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
-		printf("%s remaining health: %f\n", name.c_str(), c.stats.health);
-		DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
-	}
+	//for (auto& c : start->turnManage.characterList) {
+	//	std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
+	//	printf("%s remaining health: %f\n", name.c_str(), c.stats.health);
+	//	DEBUG_PRINT("%s remaining health: %f", name.c_str(), c.stats.health);
+	//}
 
-	printf("\nAI decision made:\n");
-	printf("Total nodes created: %d\n", nodeCount);
-	printf("Printing branch:\n");
-	for (int i = (int)branch.size() - 1; i >= 0; i--) {
-		std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
-		std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
-		std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
-		printf("%s used %s on %s: Evaluation amount %d\n", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
-	}
-	printf("Evaluation value: %i\n", (int)currentEval);
-	printf("CHOSEN SKILL: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
+	//printf("\nAI decision made:\n");
+	//printf("Total nodes created: %d\n", nodeCount);
+	//printf("Printing branch:\n");
+	//for (int i = (int)branch.size() - 1; i >= 0; i--) {
+	//	std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
+	//	std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
+	//	std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
+	//	printf("%s used %s on %s: Evaluation amount %d\n", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
+	//}
+	//printf("Evaluation value: %i\n", (int)currentEval);
+	//printf("CHOSEN SKILL: %s\n", start->activeCharacter->action.selectedSkill.attackName.c_str());
 
-	DEBUG_PRINT("AI decision made:");
-	DEBUG_PRINT("Total nodes created: %d", nodeCount);
-	DEBUG_PRINT("Printing branch:");
-	for (int i = (int)branch.size() - 1; i >= 0; i--) {
-		std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
-		std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
-		std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
-		DEBUG_PRINT("%s used %s on %s: Evaluation amount %d", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
-	}
-	DEBUG_PRINT("Evaluation value: %i", (int)currentEval);
-	DEBUG_PRINT("CHOSEN SKILL: %s", start->activeCharacter->action.selectedSkill.attackName.c_str());
+	//DEBUG_PRINT("AI decision made:");
+	//DEBUG_PRINT("Total nodes created: %d", nodeCount);
+	//DEBUG_PRINT("Printing branch:");
+	//for (int i = (int)branch.size() - 1; i >= 0; i--) {
+	//	std::string userName = ECS::ecs().GetComponent<Name>(branch[i]->nodeCharacter->entity).name;
+	//	std::string targetName = ECS::ecs().GetComponent<Name>(branch[i]->selectedTarget).name;
+	//	std::string moveUsed = branch[i]->nodeCharacter->action.selectedSkill.attackName;
+	//	DEBUG_PRINT("%s used %s on %s: Evaluation amount %d", userName.c_str(), moveUsed.c_str(), targetName.c_str(), branch[i]->eval);
+	//}
+	//DEBUG_PRINT("Evaluation value: %i", (int)currentEval);
+	//DEBUG_PRINT("CHOSEN SKILL: %s", start->activeCharacter->action.selectedSkill.attackName.c_str());
 
 	return;
 }
