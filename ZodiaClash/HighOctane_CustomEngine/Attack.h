@@ -55,6 +55,7 @@ public:
     float critRate{};
     float critMultiplier{};
     int   chiCost{};
+    int   bleed{};
 
 private:
     CharacterStats* owner{};
