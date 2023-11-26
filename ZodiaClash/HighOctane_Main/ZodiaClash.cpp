@@ -575,7 +575,7 @@ void EngineCore::Run(bool const& mode) {
 	events.InitialiseFunctions();
 
 
-
+#ifndef _GAME
 	GUIManager guiManager;
 	// If game mode is editor
 	if (static_cast<bool>(game_mode)) {
@@ -587,6 +587,7 @@ void EngineCore::Run(bool const& mode) {
 
 
 	}
+#endif
 	// Mailbox Registrations
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
@@ -683,14 +684,18 @@ void EngineCore::Run(bool const& mode) {
 			#endif
 
 		}
-
+		#ifndef _GAME
 		if (static_cast<bool>(game_mode)) {
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer("Level Editor", GetTime());
+			#endif
 			guiManager.Update();
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.ResetTimer("Level Editor");
 			debugSysProfile.StopTimer("Level Editor", GetTime());
+			#endif
 		}
-
+		#endif
 		if (graphics.WindowClosed()) {
 			EngineCore::engineCore().setGameActive(false);
 		}
@@ -699,9 +704,13 @@ void EngineCore::Run(bool const& mode) {
 		// ImGUI button to activate serialization function
 		if (button_clicked) {
 			button_clicked = false;
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer("Serialization System", GetTime());
+			#endif
 			serializationSystem->Update();
+			#if ENABLE_DEBUG_PROFILE
 			debugSysProfile.StartTimer("Serialization System", GetTime());
+			#endif
 		}
 
 		EntityFactory::entityFactory().UpdateDeletion();
