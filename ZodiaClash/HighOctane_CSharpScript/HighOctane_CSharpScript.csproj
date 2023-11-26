@@ -7,7 +7,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <OutputType>Library</OutputType>
     <BaseOutputPath>$(SolutionDir)bin\$(Configuration)-x64</BaseOutputPath>
-    <Configurations>Debug;Release;GameMode;EditorModeRelease;EditorModeDebug</Configurations>
+    <Configurations>Debug;Release;GameMode;EditorModeRelease;EditorModeDebug;Game</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
