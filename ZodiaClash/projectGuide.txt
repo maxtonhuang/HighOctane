@@ -20,6 +20,8 @@ Artist:
 Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
+Debug/Release Mode will be for the editor while Game Mode will be for the game.
+
 Project Settings (In Debug/Release Mode)
 - Run the engine with HighOctane_Main project, set as startup project.
 - In Debug mode, it will run the debug editor, showing FPS and the ImGui perfomance panel, debug diagnostics information, and custom DEBUG_PRINT macros on to console.
