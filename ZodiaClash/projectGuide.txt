@@ -50,9 +50,4 @@ Different Projects:
 4. HighOctane_Main
 	- Project is an application(.exe). This project contains the code to initialize the systems and run the systems such as the game loop. This project will use the aforementioned library projects to run. For example, running in "Game" x64 mode would not compile any of the Level editor codes as it is not needed.
 
-================================================================
-
-//EDIT THIS PART//
-
-Editor Mode vs Game Mode:
 
