@@ -23,11 +23,11 @@ Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 Project Settings (In Debug/Release Mode)
 - Run the engine with HighOctane_Main project, set as startup project.
-- To turn on the editor, initialise game_mode variable in ZodiaClash.cpp with EDITOR_MODE //constexpr bool game_mode{ EDITOR_MODE };
-- To turn off the editor, initialise game_mode variable in ZodiaClash.cpp with GAME_MODE //constexpr bool game_mode{ GAME_MODE };
+- To turn on the editor, initialise game_mode variable in ZodiaClash.cpp with EDITOR_MODE //constexpr bool game_mode{ EDITOR_MODE }; LINE:85
+- To turn off the editor, initialise game_mode variable in ZodiaClash.cpp with GAME_MODE //constexpr bool game_mode{ GAME_MODE }; LINE:85
 
-Project Settings (In Game mode)
-- Project will automatically run in game mode (meant for installer)
+Project Settings (In Game mode x64)
+- Will compile the final game product in fullscreen mode. Do not need to change any settings in the source code.
 ================================================================
 
 Basic Features
@@ -56,12 +56,13 @@ Layering system:
 - Right click on an entity within system, select from 4 choices, "Bring forward", "Bring to front", "Send backward", "Send to back"
 ================================================================
 
-Create new text entity:
-- Creating entity panel select create entity button.
+Undo:
+- CTRL + Z to undo tranform(Position, Rotation, Scale), adding and deleting of entites.
 ================================================================
 
 Scene Hiearchy:
 - Displays all entities within the scene
+- Able to delete and copy entites within the scene.
 ================================================================
 
 Properties Panel:
