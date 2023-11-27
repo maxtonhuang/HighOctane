@@ -100,17 +100,17 @@ class BattleSystem : public System
 public:
 	BattleSystem() = default;
 	BattleSystem(BattleSystem const&);
-	BattleState battleState;
-	RoundManagement roundManage;
-	TurnManagement turnManage;
+	BattleState battleState{};
+	RoundManagement roundManage{};
+	TurnManagement turnManage{};
 	void Initialize();
 	void Update() override;
-	CharacterStats* activeCharacter;
+	CharacterStats* activeCharacter{};
 	std::vector<CharacterStats*> GetPlayers();
 	std::vector<CharacterStats*> GetEnemies();
 	int chi{ 5 };
 
-	bool locked;
+	bool locked{};
 
 	//for battle system to pass its version of characters
 	//to the real entities version
