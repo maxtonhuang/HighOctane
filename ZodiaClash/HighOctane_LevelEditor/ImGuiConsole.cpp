@@ -220,36 +220,37 @@ void UpdateConsole() {
 * \param fileName The name of the file to export to
 */
 void ExportConsoleToFile(const char* fileName) {
-    // Folder where the log file will be saved
-    const std::string folderName = "Logs";
+    (void*)fileName;
+    //// Folder where the log file will be saved
+    //const std::string folderName = "Logs";
 
-    // Create the Logs directory if it doesn't exist
-    std::filesystem::create_directory(folderName);
+    //// Create the Logs directory if it doesn't exist
+    //std::filesystem::create_directory(folderName);
 
-    // Construct the full file name
-    std::string fullFileName = folderName + "/";
+    //// Construct the full file name
+    //std::string fullFileName = folderName + "/";
 
-    // Append the file name or use a default name
-    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".txt" : fullFileName += "Console.txt";
+    //// Append the file name or use a default name
+    //fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".txt" : fullFileName += "Console.txt";
 
-    // Open the file
-    std::ofstream outputFile(fullFileName);
+    //// Open the file
+    //std::ofstream outputFile(fullFileName);
 
-    // Check if the file is open (able to be written to)
-    ASSERT(!outputFile.is_open(), "Unable to open file to export console");
+    //// Check if the file is open (able to be written to)
+    //ASSERT(!outputFile.is_open(), "Unable to open file to export console");
 
-    // Get the console content and write it to the file
-    const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
-    outputFile << logBuffer;
+    //// Get the console content and write it to the file
+    //const std::string& logBuffer = imguiOutputBuffer.GetBuffer();
+    //outputFile << logBuffer;
 
-    // Close the file
-    outputFile.close();
+    //// Close the file
+    //outputFile.close();
 
-    // Clear the console after exporting, optional
-    imguiOutputBuffer.ClearBuffer();
+    //// Clear the console after exporting, optional
+    //imguiOutputBuffer.ClearBuffer();
 
-    // Display success message after exporting, optional
-    std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
+    //// Display success message after exporting, optional
+    //std::cout << "Console content exported to '" << fullFileName << "'." << std::endl;
 }
 /*!
 * \brief Delete the line from the file
@@ -259,42 +260,43 @@ void ExportConsoleToFile(const char* fileName) {
 * \param fileName The name of the file to delete from
 */
 void DeleteLineFromFile(const char* fileName) {
-    // Folder where the log file is located
-    const std::string folderName = "Logs";
+    (void*)fileName;
+    //// Folder where the log file is located
+    //const std::string folderName = "Logs";
 
-    // Construct the full file name
-    std::string fullFileName = folderName + "/";
+    //// Construct the full file name
+    //std::string fullFileName = folderName + "/";
 
-    // Append the file name or use a default name
-    fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".txt" : fullFileName += "Console.txt";
+    //// Append the file name or use a default name
+    //fileName&& fileName[0] != '\0' ? fullFileName += std::string(fileName) + ".txt" : fullFileName += "Console.txt";
 
-    // Check if the file exists
-    if (!std::filesystem::exists(fullFileName)) {
-        std::cerr << "File does not exist: " << fullFileName << std::endl;
-        return;
-    }
+    //// Check if the file exists
+    //if (!std::filesystem::exists(fullFileName)) {
+    //    std::cerr << "File does not exist: " << fullFileName << std::endl;
+    //    return;
+    //}
 
-    // Open the file for reading
-    std::ifstream inputFile(fullFileName);
-    ASSERT(!inputFile.is_open(), "Unable to open file to read");
+    //// Open the file for reading
+    //std::ifstream inputFile(fullFileName);
+    //ASSERT(!inputFile.is_open(), "Unable to open file to read");
 
-    std::string line;
-    std::string fileContents;
+    //std::string line;
+    //std::string fileContents;
 
-    // Read the entire file into a string, excluding the line to delete
-    while (std::getline(inputFile, line)) {
-        if (line.find("Console content exported to '") == std::string::npos) {
-            fileContents += line + "\n";
-        }
-    }
+    //// Read the entire file into a string, excluding the line to delete
+    //while (std::getline(inputFile, line)) {
+    //    if (line.find("Console content exported to '") == std::string::npos) {
+    //        fileContents += line + "\n";
+    //    }
+    //}
 
-    inputFile.close();
+    //inputFile.close();
 
-    // Open the file to write, truncating its contents
-    std::ofstream outputFile(fullFileName, std::ios::trunc);
-    ASSERT(!outputFile.is_open(), "Unable to open file to write");
+    //// Open the file to write, truncating its contents
+    //std::ofstream outputFile(fullFileName, std::ios::trunc);
+    //ASSERT(!outputFile.is_open(), "Unable to open file to write");
 
-    // Write the modified contents back to the file
-    outputFile << fileContents;
-    outputFile.close();
+    //// Write the modified contents back to the file
+    //outputFile << fileContents;
+    //outputFile.close();
 }

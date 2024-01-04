@@ -258,8 +258,7 @@ void AssetManager::LoadAllPrefabs() {
 
 /**********************************GENERIC METHODS*********************************************/
 bool AssetManager::FileExists(const std::string& path) {
-    std::fstream f{ path };
-    return f.good();
+    return std::filesystem::exists(path);
 }
 
 void AssetManager::LoadScene(const std::string& scenePath) {

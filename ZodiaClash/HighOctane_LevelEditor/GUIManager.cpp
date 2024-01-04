@@ -294,7 +294,7 @@ void GUIManager::Update()
                     rightClick = false;
                 }
                 ImGui::Separator();
-                if (ImGui::MenuItem("Align Horizontal Top")) {
+                if (ImGui::MenuItem("Align Top")) {
 					//
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
@@ -310,7 +310,7 @@ void GUIManager::Update()
                     }
                     rightClick = false;
 				}
-                if (ImGui::MenuItem("Align Horizontal Middle")) {
+                if (ImGui::MenuItem("Align Middle")) {
                     //
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     float alignmentReference;
@@ -325,7 +325,7 @@ void GUIManager::Update()
                     }
                     rightClick = false;
                 }
-                if (ImGui::MenuItem("Align Horizontal Bottom")) {
+                if (ImGui::MenuItem("Align Bottom")) {
                     //
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
@@ -341,7 +341,7 @@ void GUIManager::Update()
                     }
                     rightClick = false;
                 }
-                if (ImGui::MenuItem("Align Vertical Left")) {
+                if (ImGui::MenuItem("Align Left")) {
                     // 
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
@@ -357,7 +357,7 @@ void GUIManager::Update()
                     }
                     rightClick = false;
                 }
-                if (ImGui::MenuItem("Align Vertical Center")) {
+                if (ImGui::MenuItem("Align Center")) {
                     // 
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     float alignmentReference;
@@ -372,7 +372,7 @@ void GUIManager::Update()
                     }
                     rightClick = false;
                 }
-                if (ImGui::MenuItem("Align Vertical Right")) {
+                if (ImGui::MenuItem("Align Right")) {
                     // 
                     auto& transformArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>();
                     auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();

@@ -234,7 +234,9 @@ void SelectEnemy(std::string input) {
  * std::string input : The input string.
  */
 void TogglePause(std::string input) {
+
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
+
 		return;
 	}
 
@@ -250,6 +252,7 @@ void TogglePause(std::string input) {
 		}
 	}
 	/*-----Prevent Softlocking-----*/
+
 	else if (!(GetPreviousSystemMode() == SystemMode::GAMEHELP) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
@@ -272,6 +275,8 @@ void TogglePause(std::string input) {
  */
 void ToggleHelp(std::string input) {
 	(void)input;
+
+
 	static Entity gamehelpmenu{};
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP) {
 		SetCurrentSystemMode(GetPreviousSystemMode());

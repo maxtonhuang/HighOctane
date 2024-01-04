@@ -258,7 +258,7 @@
       "Padding Setting": 1
     },
     "Child": {
-      "position_x": 0.0,
+      "position_x": -300.0,
       "position_y": -160.0,
       "rotation": 0.0,
       "scale": 1.0,
@@ -357,7 +357,7 @@
       "Padding Setting": 1
     },
     "Child": {
-      "position_x": 0.0,
+      "position_x": -300.0,
       "position_y": -80.0,
       "rotation": 0.0,
       "scale": 1.0,

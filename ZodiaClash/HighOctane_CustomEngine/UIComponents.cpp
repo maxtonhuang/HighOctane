@@ -384,6 +384,19 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
 				if ((GetCurrentSystemMode() == SystemMode::RUN || GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EXITCONFIRM) && (currentState != STATE::DISABLED) && !eventName.empty()) {
+					
+					if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EXITCONFIRM) {
+						if (nameData.name.find("pause") == 0) {
+							return;
+						}
+					}
+
+					if (GetCurrentSystemMode() == SystemMode::EXITCONFIRM) {
+						if (nameData.name == "startButton" || nameData.name == "quitButton") {
+							return;
+						}
+					}
+
 					events.Call(eventName, eventInput);
 				}
 			}
