@@ -37,17 +37,27 @@
 #include <map>
 
 static std::filesystem::path s_AssetPath = "../Assets/";
-
+static std::vector<std::pair<std::filesystem::directory_entry, std::filesystem::path>> entries;
 
 extern std::map<std::string, ImTextureID> loadedIcons;
 
+void UpdateDirectory(std::filesystem::path currentDirectory) {
+	entries.clear();
+	for (auto& direntry : std::filesystem::directory_iterator(currentDirectory)) {
+		const auto& epath = direntry.path();
+		entries.push_back(std::pair<std::filesystem::directory_entry, std::filesystem::path>{direntry, std::filesystem::relative(epath, s_AssetPath)});
+	}
+}
+
 void UpdateContentBrowser() {
 	static std::filesystem::path currentDirectory = s_AssetPath;
+	
 	static bool init{ true }; //THIS IS TEMPORARY PLEASE FIND ANOTHER WAY
 	if (init) {
 		s_AssetPath = assetmanager.GetDefaultPath();
 		currentDirectory = s_AssetPath;
 		init = false;
+		UpdateDirectory(currentDirectory);
 	}
 
 	ImGui::Begin("Content Browser");
@@ -58,6 +68,7 @@ void UpdateContentBrowser() {
 			if (currentDirectory < s_AssetPath) {
 				currentDirectory = s_AssetPath;
 			}
+			UpdateDirectory(currentDirectory);
 		}
 	}
 
@@ -74,13 +85,13 @@ void UpdateContentBrowser() {
 	ImGui::Columns(columnCount, 0, false);
 
 
-	for (auto& entry : std::filesystem::directory_iterator(currentDirectory)) {
-		const auto& path = entry.path();
-		auto relativePath = std::filesystem::relative(path, s_AssetPath);
+	for (auto& entry : entries) {
+		const auto& path = entry.first.path();
+		auto& relativePath = entry.second;
 		std::string filenameString = relativePath.filename().string();
 		ImGui::PushID(filenameString.c_str());
 		// Check if the entry is a directory or a file
-		bool isDirectory = entry.is_directory();
+		bool isDirectory = entry.first.is_directory();
 		// Use the appropriate icon based on the entry type
 		ImTextureID iconID = isDirectory ? loadedIcons["folderIcon"] : loadedIcons["fileIcon"];
 
@@ -108,6 +119,9 @@ void UpdateContentBrowser() {
 				// Handle directory click
 				std::cout << "Directory selected: " << currentDirectory / path.filename() << std::endl;
 				currentDirectory /= path.filename();
+				UpdateDirectory(currentDirectory);
+				ImGui::PopID();
+				break;
 			}
 		}
 		/*if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
