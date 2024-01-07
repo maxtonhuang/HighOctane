@@ -242,16 +242,17 @@ public:
 
     bool HasComponent(Entity entity) {
         // rewrite has component
-        for (auto const& e : m_EntityToIndexMap) {
-            if (e.first == entity) {
-                return true;
-            }
-        }
-        return false;
+        //for (auto const& e : m_EntityToIndexMap) {
+        //    if (e.first == entity) {
+        //        return true;
+        //    }
+        //}
+        //return false;
 
         // 
         // 
-        //return m_RegisteredArray[entity];
+        //return m_RegisteredMap[entity];
+        return m_EntityToIndexMap.count(entity);
     }
 
     std::vector<Entity> GetEntityArray() {
