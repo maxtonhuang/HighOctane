@@ -43,7 +43,7 @@
 #define RESET_VEC2 0.f, 0.f
 
 ////////// Defines for fixed dt system. ///////////////////////////////////////
-#define FIXED_DT 1.0f/60.f
+#define FIXED_DT (1.0f/60.f)
 #define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
 ///////////////////////////////////////////////////////////////////////////////
 

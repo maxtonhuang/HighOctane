@@ -33,8 +33,6 @@
 #include "Physics.h"
 #include "Global.h"
 
-#define FIXED_DT 1.0f/60.f
-
 namespace physics {
 
 	/*!
