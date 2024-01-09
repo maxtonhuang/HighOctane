@@ -161,6 +161,12 @@ void AnimatorWindow(Entity entity) {
 			//If animation loops or not
 			ImGui::Checkbox("Animation Loop", &selectedAnimGroup->loop);
 
+			//Time per animation frame
+			if (selectedAnimGroup->frametime == 0.f) {
+				selectedAnimGroup->frametime = FIXED_DT;
+			}
+			ImGui::InputFloat("Frame Time", &selectedAnimGroup->frametime);
+
 			//Total frames for the animation
 			ImGui::InputInt("Total Frames", &selectedAnimGroup->totalFrames);
 

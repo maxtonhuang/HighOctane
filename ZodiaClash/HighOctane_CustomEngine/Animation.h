@@ -97,6 +97,12 @@ public:
 	//Current frame of the animation
 	int currentFrame{};
 
+	//Total time per animation frame
+	float frametime{};
+
+	//Time since last update
+	float updatetime{};
+
 	//Name of the animation
 	std::string name{};
 

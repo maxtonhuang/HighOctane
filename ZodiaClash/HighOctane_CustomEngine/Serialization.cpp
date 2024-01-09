@@ -435,6 +435,7 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 		group.AddMember("Total Frames", a.totalFrames, allocator);
 		group.AddMember("Group Name", rapidjson::Value(a.name.c_str(), allocator).Move(), allocator);
 		group.AddMember("Loop", a.loop, allocator);
+		group.AddMember("Frame Time", a.frametime, allocator);
 		for (auto const& anim : a.animations) {
 			rapidjson::Value perAnimation(rapidjson::kObjectType);
 			rapidjson::Value keyFrames(rapidjson::kArrayType);
@@ -1382,6 +1383,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					anigrp.totalFrames = animGroups["Total Frames"].GetInt();
 					anigrp.name = animGroups["Group Name"].GetString();
 					anigrp.loop = animGroups["Loop"].GetBool();
+					if (animGroups.HasMember("Frame Time")) {
+						anigrp.frametime = animGroups["Frame Time"].GetFloat();
+					}
 					for (auto& animations : animGroups["Animations"].GetArray()) {
 						std::string animType = animations["Animation Type"].GetString();
 						if (animType == "Sprite") {

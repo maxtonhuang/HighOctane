@@ -36,6 +36,7 @@
 #include "AssetManager.h"
 #include "Events.h"
 #include "EntityFactory.h"
+#include "Global.h"
 
 void AnimationSet::Initialise(Entity entity) {
 	Start(defaultAnimation, entity);
@@ -61,7 +62,12 @@ void AnimationSet::Update(Entity entity) {
 		Initialise(entity);
 	}
 	if (activeAnimation != nullptr && !paused) {
-		activeAnimation->Update(entity);
+		activeAnimation->updatetime += FIXED_DT;
+		while (activeAnimation->updatetime > activeAnimation->frametime) {
+			activeAnimation->Update(entity);
+			activeAnimation->updatetime -= activeAnimation->frametime;
+		}
+		
 	}
 }
 
@@ -80,6 +86,9 @@ void AnimationGroup::Start(Entity entity) {
 	active = true;
 	currentFrame = 0;
 	parent = entity;
+	if (frametime == 0.f) {
+		frametime = FIXED_DT;
+	}
 	for (auto& a : animations) {
 		a->SetParent(parent);
 		a->Start();
@@ -168,6 +177,7 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 	totalFrames = copy.totalFrames;
 	name = copy.name;
 	loop = copy.loop;
+	frametime = copy.frametime;
 	currentFrame = -1;
 	return *this;
 }
