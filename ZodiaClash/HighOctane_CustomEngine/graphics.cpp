@@ -139,7 +139,7 @@ void GraphicsManager::Initialize(int w, int h) {
     glLineWidth(3.f);
     glfwSwapInterval(0);
 
-    Fullscreen(true);
+    //Fullscreen(true);
 }
 
 void GraphicsManager::Update() {
