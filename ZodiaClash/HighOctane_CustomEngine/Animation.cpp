@@ -36,6 +36,7 @@
 #include "AssetManager.h"
 #include "Events.h"
 #include "EntityFactory.h"
+#include "Global.h"
 
 void AnimationSet::Initialise(Entity entity) {
 	Start(defaultAnimation, entity);
@@ -80,7 +81,11 @@ void AnimationGroup::Start(Entity entity) {
 	active = true;
 	currentFrame = 0;
 	parent = entity;
+	if (frametime == 0.f) {
+		frametime = FIXED_DT;
+	}
 	for (auto& a : animations) {
+		a->SetFrameTime(frametime);
 		a->SetParent(parent);
 		a->Start();
 	}
@@ -92,11 +97,17 @@ void AnimationGroup::Update(Entity entity) {
 	}
 	for (auto& a : animations) {
 		if (a->IsActive()) {
+			a->SetFrameTime(frametime);
 			a->SetParent(entity);
 			a->Update(currentFrame);
 		}
 	}
-	currentFrame++;
+	updatetime += FIXED_DT;
+	while (updatetime > frametime) {
+		updatetime -= frametime;
+		currentFrame++;
+	}
+	
 	if (currentFrame >= totalFrames) {
 		if (loop) {
 			//Restart animation
@@ -168,6 +179,7 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 	totalFrames = copy.totalFrames;
 	name = copy.name;
 	loop = copy.loop;
+	frametime = copy.frametime;
 	currentFrame = -1;
 	return *this;
 }
@@ -186,6 +198,10 @@ std::string Animation::GetType() const {
 
 void Animation::SetParent(Entity p) {
 	parent = p;
+}
+
+void Animation::SetFrameTime(float f) {
+	frametime = f;
 }
 
 SpriteAnimation::SpriteAnimation() {
@@ -371,7 +387,7 @@ void TransformAttachAnimation::Start() {
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum) + 1 };
 	Transform* nextTransform{ GetEntityTransform(nextKeyframe->data) };
-	velocity = (nextTransform->position - entityTransform->position) / frameCount;
+	velocity = (nextTransform->position - entityTransform->position) / frameCount * FIXED_DT / frametime;
 }
 void TransformAttachAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
@@ -389,7 +405,7 @@ void TransformAttachAnimation::Update(int frameNum) {
 		else {
 			frameCount = nextKeyframe->frameNum - frameCount;
 			Transform* nextTransform{ GetEntityTransform(nextKeyframe->data) };
-			velocity = (nextTransform->position - entityTransform->position) / frameCount;
+			velocity = (nextTransform->position - entityTransform->position) / frameCount * FIXED_DT / frametime;
 		}
 	}
 }
@@ -424,9 +440,9 @@ void TransformDirectAnimation::Start() {
 	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
-	velocity = (nextKeyframe->data.position) / frameCount;
-	rotation = (nextKeyframe->data.rotation) / frameCount;
-	scale = (nextKeyframe->data.scale) / frameCount;
+	velocity = (nextKeyframe->data.position) / frameCount * FIXED_DT / frametime;
+	rotation = (nextKeyframe->data.rotation) / frameCount * FIXED_DT / frametime;
+	scale = (nextKeyframe->data.scale) / frameCount * FIXED_DT / frametime;
 }
 void TransformDirectAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
@@ -451,9 +467,9 @@ void TransformDirectAnimation::Update(int frameNum) {
 		}
 		else {
 			frameCount = nextKeyframe->frameNum - frameCount;
-			velocity = (nextKeyframe->data.position) / frameCount;
-			rotation = (nextKeyframe->data.rotation) / frameCount;
-			scale = (nextKeyframe->data.scale) / frameCount;
+			velocity = (nextKeyframe->data.position) / frameCount * FIXED_DT / frametime;
+			rotation = (nextKeyframe->data.rotation) / frameCount * FIXED_DT / frametime;
+			scale = (nextKeyframe->data.scale) / frameCount * FIXED_DT / frametime;
 		}
 	}
 }
@@ -494,9 +510,9 @@ void FadeAnimation::Start() {
 	}
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
-	alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount;
+	alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount * FIXED_DT / frametime;
 	if (entityText != nullptr) {
-		alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount;
+		alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount * FIXED_DT / frametime;
 	}
 }
 void FadeAnimation::Update(int frameNum) {
@@ -517,9 +533,9 @@ void FadeAnimation::Update(int frameNum) {
 		}
 		else {
 			frameCount = nextKeyframe->frameNum - frameCount;
-			alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount;
+			alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount * FIXED_DT / frametime;
 			if (entityText != nullptr) {
-				alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount;
+				alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount * FIXED_DT / frametime;
 			}
 		}
 	}
@@ -555,9 +571,9 @@ void ColorAnimation::Start() {
 	entityModel = &ECS::ecs().GetComponent<Model>(parent);
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
-	color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount;
-	color.g = (nextKeyframe->data.g - entityModel->GetColor().g) / frameCount;
-	color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount;
+	color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount * FIXED_DT / frametime;
+	color.g = (nextKeyframe->data.g - entityModel->GetColor().g) / frameCount * FIXED_DT / frametime;
+	color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount * FIXED_DT / frametime;
 }
 void ColorAnimation::Update(int frameNum) {
 	if (keyframes.size() == 0) {
@@ -577,9 +593,9 @@ void ColorAnimation::Update(int frameNum) {
 		}
 		else {
 			frameCount = nextKeyframe->frameNum - frameCount;
-			color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount;
-			color.g = (nextKeyframe->data.g - entityModel->GetColor().g) / frameCount;
-			color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount;
+			color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount * FIXED_DT / frametime;
+			color.g = (nextKeyframe->data.g - entityModel->GetColor().g) / frameCount * FIXED_DT / frametime;
+			color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount * FIXED_DT / frametime;
 		}
 	}
 }
