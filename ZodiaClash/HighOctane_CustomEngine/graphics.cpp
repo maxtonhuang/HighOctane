@@ -203,11 +203,14 @@ void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float 
         input = &renderer["circle"];
     }
     const float angle = 2.f * PI / (float)GRAPHICS::CIRCLE_SLICES;
-    input->AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
-    for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES; ++i) {
+    Vertex center{ Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}} };
+    //input->AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+    for (int i = 0; i <= GRAPHICS::CIRCLE_SLICES - 1; ++i) {
+        input->AddVertex(center);
         input->AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * i)) / GRAPHICS::w, (y + radius * std::sin(angle * i)) / GRAPHICS::h}, glm::vec4{r,g,b,a}});
+        input->AddVertex(Vertex{ glm::vec2{(x + radius * std::cos(angle * (i + 1))) / GRAPHICS::w, (y + radius * std::sin(angle * (i + 1))) / GRAPHICS::h}, glm::vec4{r,g,b,a} });
     }
-    input->Draw();
+    //input->Draw();
 }
 
 void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
@@ -283,12 +286,12 @@ GLFWwindow* GraphicsManager::GetWindow() {
 void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::vec4 color) {    
     static Renderer* fontRenderer{ &renderer["font"] };
 
-    if (previousRenderer != fontRenderer) {
-        if (previousRenderer != nullptr) {
-            previousRenderer->Draw();
-        }
-        previousRenderer = fontRenderer;
-    }
+    //if (previousRenderer != fontRenderer) {
+    //    if (previousRenderer != nullptr) {
+    //        previousRenderer->Draw();
+    //    }
+    //    previousRenderer = fontRenderer;
+    //}
 
     // enforce relFontSize to be in range [0.f, 1.f]
     float fontSize = txtLblData.relFontSize;

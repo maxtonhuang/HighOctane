@@ -64,8 +64,13 @@ public:
 
 	//Sets the entity ID of animation
 	void SetParent(Entity p);
+
+	//Sets frame time of animation
+	void SetFrameTime(float f);
+
 protected:
 	bool active{};
+	float frametime{};
 	std::string type{};
 	Entity parent{};
 };
@@ -96,6 +101,12 @@ public:
 
 	//Current frame of the animation
 	int currentFrame{};
+
+	//Total time per animation frame
+	float frametime{};
+
+	//Time since last update
+	float updatetime{};
 
 	//Name of the animation
 	std::string name{};

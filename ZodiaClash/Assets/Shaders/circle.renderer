@@ -1,4 +1,4 @@
 circle
 flat.vert
 flat.frag
-GL_TRIANGLE_FAN
+GL_TRIANGLES
