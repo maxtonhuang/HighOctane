@@ -37,6 +37,7 @@
 #include "WindowsInterlink.h"
 #include "File.h"
 #include "GUIManager.h"
+#include "graphics.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -47,7 +48,7 @@ void UpdateMenuBar() {
     
     // Create a menu bar for the window
     if (ImGui::BeginMenuBar()) {
-        if (ImGui::BeginMenu("Files")) {
+        if (ImGui::BeginMenu("File")) {
             if (ImGui::MenuItem("Load Scene")) {
                 std::string path{ OpenSingleFileDialog("*.scn","Scene File") };
                 if (path != "") {
@@ -68,13 +69,44 @@ void UpdateMenuBar() {
             if (ImGui::MenuItem("Close Scene")) {
                 events.Call("Change Scene", "");
             }
+
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Quit Program")) {
+                EngineCore::engineCore().setGameActive(false);
+            }
+
+            // Add quit program
+
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Options")) {
 
             ImGui::EndMenu();
         }
+
+        // Add View mode
+        if (ImGui::BeginMenu("View")) {
+            if (fullscreen) {
+                if (ImGui::MenuItem("Exit Fullscreen")) {
+                    fullscreen = !fullscreen;
+                    graphics.Fullscreen(fullscreen);
+                }
+            }
+            else {
+                if (ImGui::MenuItem("Enter Fullscreen")) {
+                    fullscreen = !fullscreen;
+                    graphics.Fullscreen(fullscreen);
+                }
+
+            }
+            ImGui::EndMenu();
+        }
+
         ImGui::EndMenuBar();
+
+
+
     }
     
 

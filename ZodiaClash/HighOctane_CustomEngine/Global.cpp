@@ -115,6 +115,7 @@ std::string currentScriptAttachedForIMGUI{};
 
 bool isHotReload{ false };
 
+bool fullscreen{ true };
 
 std::string SystemModeToString(SystemMode mode)
 {

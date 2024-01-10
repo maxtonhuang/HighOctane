@@ -104,8 +104,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -169.0,
-            "position_y": -303.0,
+            "position_x": 0.0,
+            "position_y": -300.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

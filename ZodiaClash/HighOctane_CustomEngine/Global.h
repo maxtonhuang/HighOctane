@@ -119,6 +119,8 @@ extern std::string currentScriptAttachedForIMGUI;
 
 extern bool isHotReload;
 
+extern bool fullscreen;
+
 enum class SystemMode 
 {
 	RUN = 0,

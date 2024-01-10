@@ -237,29 +237,24 @@ bool GraphicsManager::WindowClosed() {
 }
 
 void GraphicsManager::Fullscreen(bool input) {
-    static bool fullscreen{ false };
     if (input) {
-        if (fullscreen != true) {
-            int x, y, w, h;
-            glfwGetWindowSize(window, &w, &h);
-            glfwGetWindowPos(window, &x, &y);
-            GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-            const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-            glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-            UpdateWindow();
-            viewport.SetViewport(0, 0, mode->width, mode->height);
-            previousX = x;
-            previousY = y;
-            previousWidth = w;
-            previousHeight = h;
-            fullscreen = true;
-        }
+        int x, y, w, h;
+        glfwGetWindowSize(window, &w, &h);
+        glfwGetWindowPos(window, &x, &y);
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+        UpdateWindow();
+        viewport.SetViewport(0, 0, mode->width, mode->height);
+        previousX = x;
+        previousY = y;
+        previousWidth = w;
+        previousHeight = h;
     }
     else {
         glfwSetWindowMonitor(window, NULL, previousX, previousY, previousWidth, previousHeight, 0); //ypos at 32 as it is window title bar size
         UpdateWindow();
         viewport.SetViewport(0, 0, width, height);
-        fullscreen = false;
     }
     graphics.framebuffer.Recreate();
 }

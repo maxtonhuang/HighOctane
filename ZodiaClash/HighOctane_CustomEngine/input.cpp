@@ -71,13 +71,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             events.Call("Change Scene", "mainmenu.scn");
         }
         if (GLFW_KEY_F11 == key) {
-            static bool fullscreen = true;
-            if (fullscreen) {
-                fullscreen = false;
-            }
-            else {
-                fullscreen = true;
-            }
+            fullscreen = !fullscreen;
             graphics.Fullscreen(fullscreen);
         }
         if (GLFW_KEY_G == key) {
