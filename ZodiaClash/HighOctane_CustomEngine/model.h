@@ -49,6 +49,9 @@ enum ModelType {
 	GAMEPLAY, BACKGROUND, BACKGROUNDLOOP, UI
 };
 
+//Map to get enum names
+const std::unordered_map<ModelType, std::string> modelTypeMap { {GAMEPLAY,"GAMEPLAY"},{BACKGROUND,"BACKGROUND"},{BACKGROUNDLOOP,"BACKGROUNDLOOP"},{UI,"UI"} };
+
 class Model {
 public:
 	Model(ModelType = ModelType::GAMEPLAY, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color

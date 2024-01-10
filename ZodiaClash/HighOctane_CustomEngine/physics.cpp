@@ -32,7 +32,6 @@
 #include "Physics.h"
 #include <math.h>
 
-#define FIXED_DT 1.0f/60.f
 #define UNREFERENCED_PARAMETER(P) (P)
 
 namespace physics {
