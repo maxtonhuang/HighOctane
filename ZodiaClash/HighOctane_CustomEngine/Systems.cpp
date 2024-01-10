@@ -378,7 +378,6 @@ void GraphicsSystem::Update() {
 			}
 		}
 	}
-
 	camera.Update();
 }
 

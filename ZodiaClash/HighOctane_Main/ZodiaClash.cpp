@@ -564,9 +564,7 @@ void EngineCore::Run(bool const& mode) {
 
 	graphics.Initialize(GRAPHICS::viewportWidth, GRAPHICS::viewportHeight);
 
-
 	assetmanager.Initialize();
-
 	events.InitialiseFunctions();
 
 
@@ -657,7 +655,6 @@ void EngineCore::Run(bool const& mode) {
 					debugSysProfile.StartTimer(sys.second, GetTime()); // Get the string of the system
 				#endif
 					sys.first->Update();
-
 				#if ENABLE_DEBUG_PROFILE
 					debugSysProfile.StopTimer(sys.second, GetTime()); // Get the string of the system
 				#endif

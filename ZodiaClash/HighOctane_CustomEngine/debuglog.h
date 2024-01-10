@@ -82,7 +82,8 @@ constexpr size_t MAX_FILE_SIZE{ 1024 * 1024 }; // 1MB
 
 #define LOG_ROTATE_FILE(maxFileSize) debuglog::logger.RotateLogFile(maxFileSize);
 
-#define LOG_CRASH(message) debuglog::crashLogger.CrashLog(debuglog::LOG_LEVEL::Fatal, message);
+#define LOG_CRASH(message) ((void)0);
+//#define LOG_CRASH(message) debuglog::crashLogger.CrashLog(debuglog::LOG_LEVEL::Fatal, message);
  
 #define LOG_SET_LEVEL(level) debuglog::logger.SetLevel(level);
 
