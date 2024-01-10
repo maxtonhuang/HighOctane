@@ -125,6 +125,7 @@ enum class SystemMode
 	EDIT,
 	PAUSE,
 	GAMEHELP,
+	EXITCONFIRM,
 	NONE
 };
 

@@ -135,16 +135,16 @@ public:
 	AnimationSet& operator= (const AnimationSet&);
 
 	//Container of animations
-	std::vector<AnimationGroup> animationSet;
+	std::vector<AnimationGroup> animationSet{};
 
 	//If the animation set is paused
-	bool paused;
+	bool paused{};
 
 	//Default animation to play at entity start
 	std::string defaultAnimation{};
 
 	//Current active animation
-	AnimationGroup* activeAnimation;
+	AnimationGroup* activeAnimation{};
 private:
 	//If animation set has been initialised
 	bool initialised{ false };

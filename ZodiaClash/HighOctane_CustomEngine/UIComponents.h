@@ -180,6 +180,7 @@ public:
 	float buttonHeight{};
 
 	int colorSetting{};
+	bool isOverlay{};
 
 	// other UI unique properties
 	STATE currentState{};

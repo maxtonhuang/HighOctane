@@ -46,11 +46,40 @@
 EventManager events;
 
 /*!
- * \brief Exits the game, voids input
+ * \brief Exits the game menu, voids input
  *
  * std::string input : The input string.
  */
 void ExitGame(std::string input) {
+	(void)input;
+	static Entity exitconfirmationmenu{};
+
+	if (GetCurrentSystemMode() == SystemMode::EXITCONFIRM) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
+
+		if (exitconfirmationmenu != 0) {
+			ECS::ecs().DestroyEntity(exitconfirmationmenu);
+			exitconfirmationmenu = 0;
+		}
+	}
+	else {
+		SetCurrentSystemMode(SystemMode::EXITCONFIRM);
+		if (exitconfirmationmenu == 0) {
+			exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("exitconfirmationmenu.prefab");
+		}
+	}
+
+	//EntityFactory::entityFactory().DeleteCloneModel(exitconfirmationmenu);
+
+	//EngineCore::engineCore().setGameActive(false);
+}
+
+/*!
+ * \brief Exits the game, voids input
+ *
+ * std::string input : The input string.
+ */
+void ConfirmExit(std::string input) {
 	(void)input;
 	EngineCore::engineCore().setGameActive(false);
 }
@@ -205,7 +234,9 @@ void SelectEnemy(std::string input) {
  * std::string input : The input string.
  */
 void TogglePause(std::string input) {
+
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
+
 		return;
 	}
 
@@ -221,6 +252,7 @@ void TogglePause(std::string input) {
 		}
 	}
 	/*-----Prevent Softlocking-----*/
+
 	else if (!(GetPreviousSystemMode() == SystemMode::GAMEHELP) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
@@ -243,6 +275,8 @@ void TogglePause(std::string input) {
  */
 void ToggleHelp(std::string input) {
 	(void)input;
+
+
 	static Entity gamehelpmenu{};
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
@@ -283,6 +317,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
 	functions["Toggle Help"] = ToggleHelp;
+	functions["Confirm Exit"] = ConfirmExit;
 	functions["Test"] = TestFunction;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
