@@ -76,8 +76,6 @@ void UpdateMenuBar() {
                 EngineCore::engineCore().setGameActive(false);
             }
 
-            // Add quit program
-
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Options")) {
@@ -85,7 +83,6 @@ void UpdateMenuBar() {
             ImGui::EndMenu();
         }
 
-        // Add View mode
         if (ImGui::BeginMenu("View")) {
             if (ImGui::MenuItem(fullscreen ? "Exit Fullscreen" : "Enter Fullscreen")) {
                 fullscreen = !fullscreen;
