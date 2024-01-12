@@ -87,18 +87,9 @@ void UpdateMenuBar() {
 
         // Add View mode
         if (ImGui::BeginMenu("View")) {
-            if (fullscreen) {
-                if (ImGui::MenuItem("Exit Fullscreen")) {
-                    fullscreen = !fullscreen;
-                    graphics.Fullscreen(fullscreen);
-                }
-            }
-            else {
-                if (ImGui::MenuItem("Enter Fullscreen")) {
-                    fullscreen = !fullscreen;
-                    graphics.Fullscreen(fullscreen);
-                }
-
+            if (ImGui::MenuItem(fullscreen ? "Exit Fullscreen" : "Enter Fullscreen")) {
+                fullscreen = !fullscreen;
+                graphics.Fullscreen(fullscreen);
             }
             ImGui::EndMenu();
         }
