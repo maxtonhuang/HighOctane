@@ -70,6 +70,11 @@ void CharacterAction::UpdateState() {
                         break;
                     }
                 }
+                static Entity returnpos{ EntityFactory::entityFactory().ClonePrefab("returnpos.prefab")};
+                if (!ECS::ecs().EntityExists(returnpos)) {
+                    returnpos = EntityFactory::entityFactory().ClonePrefab("returnpos.prefab");
+                }
+                ECS::ecs().GetComponent<Transform>(returnpos).position = ECS::ecs().GetComponent<Transform>(characterStats->entity).position;
                 animation.Start(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");

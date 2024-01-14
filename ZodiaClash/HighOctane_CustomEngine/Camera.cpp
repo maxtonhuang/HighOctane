@@ -38,6 +38,11 @@ Camera::Camera() {
 }
 
 void Camera::Update() {
+	if (target != 0 && ECS::ecs().EntityExists(target)) {
+		Transform targetTransform { ECS::ecs().GetComponent<Transform>(target) };
+		SetPos(targetTransform.position.x, targetTransform.position.y);
+	}
+
 	glm::mat3 matrix{ scale,0,0,0,scale,0,pos.x / GRAPHICS::w, pos.y / GRAPHICS::h, 1 };
 	for (auto& r : graphics.renderer) {
 		r.second.UpdateUniformMatrix3fv("uCamera", &matrix);
@@ -47,28 +52,29 @@ void Camera::Update() {
 void Camera::Reset() {
 	pos = vmath::Vector2{ 0,0 };
 	scale = 1.f;
-	Update();
+	target = 0;
+	//Update();
 }
 
 void Camera::SetPos(float x, float y) {
-	pos.x = x;
-	pos.y = y;
-	Update();
+	pos.x = -x;
+	pos.y = -y;
+	//Update();
 }
 
 void Camera::AddPos(float x, float y) {
-	pos.x += x;
-	pos.y += y;
-	Update();
+	pos.x -= x;
+	pos.y -= y;
+	//Update();
 }
 
 vmath::Vector2 Camera::GetPos() {
-	return pos;
+	return vmath::Vector2{ -pos.x,-pos.y };
 }
 
 void Camera::SetZoom(float zoom) {
 	scale = zoom;
-	Update();
+	//Update();
 }
 
 void Camera::AddZoom(float zoom) {
@@ -76,5 +82,17 @@ void Camera::AddZoom(float zoom) {
 	if (scale < 0.f) {
 		scale = 0.f;
 	}
-	Update();
+	//Update();
+}
+
+float Camera::GetZoom() {
+	return scale;
+}
+
+void Camera::SetTarget(Entity entity) {
+	target = entity;
+}
+
+void Camera::DetachTarget() {
+	target = 0;
 }

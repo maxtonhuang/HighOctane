@@ -94,6 +94,7 @@
                 "Total Frames": 60,
                 "Group Name": "Cat Idle",
                 "Loop": true,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "Sprite",
@@ -118,6 +119,7 @@
                 "Total Frames": 60,
                 "Group Name": "Attack 1",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -205,6 +207,23 @@
                                 "Destination": "Move Back to start pos"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 20
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Zoom": 2.0
+                            }
+                        ]
                     }
                 ]
             },
@@ -212,13 +231,14 @@
                 "Total Frames": 24,
                 "Group Name": "Move Back to start pos",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
                         "Key Frames": [
                             {
                                 "Frame Number": 22,
-                                "Target": "Player 1  Position"
+                                "Target": "Return Position"
                             }
                         ]
                     },
@@ -239,6 +259,14 @@
                                 "Destination": "Cat Idle"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 22
+                            }
+                        ]
                     }
                 ]
             },
@@ -246,6 +274,7 @@
                 "Total Frames": 60,
                 "Group Name": "Attack 3",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -330,6 +359,23 @@
                                 "Destination": "Move Back to start pos"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            }
+                        ]
                     }
                 ]
             },
@@ -337,6 +383,7 @@
                 "Total Frames": 61,
                 "Group Name": "Attack 2",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -436,6 +483,23 @@
                                 "Destination": "Move Back to start pos"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 20
+                            }
+                        ]
                     }
                 ]
             },
@@ -443,6 +507,7 @@
                 "Total Frames": 61,
                 "Group Name": "Damaged",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "Color",
@@ -506,6 +571,7 @@
                 "Total Frames": 0,
                 "Group Name": "Animation 6",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": []
             }
         ],

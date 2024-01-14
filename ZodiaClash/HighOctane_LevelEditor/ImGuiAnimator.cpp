@@ -43,7 +43,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"DamageImpact", "Swap", "SelfDestruct" };
+		"CameraZoom","CameraTarget","CameraReset", "DamageImpact", "Swap", "SelfDestruct"};
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -228,6 +228,15 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "DamageImpact") {
 							selectedAnimGroup->animations.push_back(std::make_shared<DamageImpactAnimation>());
 						}
+						else if (selectedType == "CameraZoom") {
+							selectedAnimGroup->animations.push_back(std::make_shared<CameraZoomAnimation>());
+						}
+						else if (selectedType == "CameraTarget") {
+							selectedAnimGroup->animations.push_back(std::make_shared<CameraTargetAnimation>());
+						}
+						else if (selectedType == "CameraReset") {
+							selectedAnimGroup->animations.push_back(std::make_shared<CameraResetAnimation>());
+						}
 					}
 				}
 				else {
@@ -361,6 +370,19 @@ void AnimatorWindow(Entity entity) {
 						}
 						if (keyframe != nullptr) {
 							ImGui::InputFloat3("Color to change to", &keyframe->data[0]);
+						}
+					}
+					else if (selectedAnimation->GetType() == "CameraZoom") {
+						std::shared_ptr<CameraZoomAnimation> zoom{ std::dynamic_pointer_cast<CameraZoomAnimation>(selectedAnimation) };
+						Keyframe<float>* keyframe{ nullptr };
+						for (auto& k : zoom->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							ImGui::InputFloat("Zoom to set to", &keyframe->data);
 						}
 					}
 					else if (selectedAnimation->GetType() == "Swap") {

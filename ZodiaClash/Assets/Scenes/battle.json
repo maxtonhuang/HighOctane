@@ -355,7 +355,7 @@
         "Entity": {
             "Name": "Enemy 3 Position",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
@@ -432,7 +432,7 @@
         "Entity": {
             "Name": "atkSkill_02",
             "Current Layer": 0,
-            "Order in Layer": 25,
+            "Order in Layer": 24,
             "isLocked": true,
             "isSkipped": true
         },
@@ -535,7 +535,7 @@
         "Entity": {
             "Name": "Attack Position",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -553,7 +553,6 @@
             "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
-                "class AnimationSet",
                 "struct Name",
                 "struct Parent"
             ]
@@ -561,7 +560,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 24,
+            "Order in Layer": 25,
             "isLocked": true,
             "isSkipped": true
         },
@@ -572,179 +571,13 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Attack 1",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Target": "Attack Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Texture": "Guard_Attack.spritesheet"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15
-                            },
-                            {
-                                "Frame Number": 20
-                            },
-                            {
-                                "Frame Number": 25
-                            },
-                            {
-                                "Frame Number": 30
-                            },
-                            {
-                                "Frame Number": 35
-                            },
-                            {
-                                "Frame Number": 40
-                            },
-                            {
-                                "Frame Number": 45
-                            },
-                            {
-                                "Frame Number": 50
-                            },
-                            {
-                                "Frame Number": 55
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 56,
-                                "Destination": "Guard moveback"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "DamageImpact",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Guard moveback",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Target": "Enemy 1 Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Damaged",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 25,
-                                "Red": 1.0,
-                                "Green": 0.0,
-                                "Blue": 0.0
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "Guard_Damage.spritesheet"
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 10
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": ""
+        }
     },
     {
         "Clone": {
             "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
-                "class AnimationSet",
                 "struct Name",
                 "struct Parent"
             ]
@@ -763,179 +596,13 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Attack 1",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Target": "Attack Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Texture": "Guard_Attack.spritesheet"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15
-                            },
-                            {
-                                "Frame Number": 20
-                            },
-                            {
-                                "Frame Number": 25
-                            },
-                            {
-                                "Frame Number": 30
-                            },
-                            {
-                                "Frame Number": 35
-                            },
-                            {
-                                "Frame Number": 40
-                            },
-                            {
-                                "Frame Number": 45
-                            },
-                            {
-                                "Frame Number": 50
-                            },
-                            {
-                                "Frame Number": 55
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 56,
-                                "Destination": "Guard moveback"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "DamageImpact",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Guard moveback",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Target": "Enemy 2 Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Damaged",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 25,
-                                "Red": 1.0,
-                                "Green": 0.0,
-                                "Blue": 0.0
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "Guard_Damage.spritesheet"
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 10
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": ""
+        }
     },
     {
         "Clone": {
             "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
-                "class AnimationSet",
                 "struct Name",
                 "struct Parent"
             ]
@@ -943,7 +610,7 @@
         "Entity": {
             "Name": "Guard 3",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -954,172 +621,7 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Attack 1",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Target": "Attack Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Texture": "Guard_Attack.spritesheet"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15
-                            },
-                            {
-                                "Frame Number": 20
-                            },
-                            {
-                                "Frame Number": 25
-                            },
-                            {
-                                "Frame Number": 30
-                            },
-                            {
-                                "Frame Number": 35
-                            },
-                            {
-                                "Frame Number": 40
-                            },
-                            {
-                                "Frame Number": 45
-                            },
-                            {
-                                "Frame Number": 50
-                            },
-                            {
-                                "Frame Number": 55
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 56,
-                                "Destination": "Guard moveback"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "DamageImpact",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Guard moveback",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Target": "Enemy 3 Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Damaged",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 25,
-                                "Red": 1.0,
-                                "Green": 0.0,
-                                "Blue": 0.0
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "Guard_Damage.spritesheet"
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 10
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": ""
+        }
     },
     {
         "Clone": {
