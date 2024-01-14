@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 19,
+            "layerCounter": 18,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,8 +21,7 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17",
-                "Layer 18"
+                "Layer 17"
             ]
         }
     },

@@ -190,7 +190,7 @@
         "Entity": {
             "Name": "entity_00007",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -280,7 +280,7 @@
         "Entity": {
             "Name": "Enemy 2 Position",
             "Current Layer": 0,
-            "Order in Layer": 12,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -305,7 +305,7 @@
         "Entity": {
             "Name": "Player 1  Position",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
         },
@@ -330,7 +330,7 @@
         "Entity": {
             "Name": "Enemy 1 Position",
             "Current Layer": 0,
-            "Order in Layer": 14,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -458,7 +458,7 @@
         "Entity": {
             "Name": "atkSkill_03",
             "Current Layer": 0,
-            "Order in Layer": 26,
+            "Order in Layer": 25,
             "isLocked": true,
             "isSkipped": true
         },
@@ -525,31 +525,6 @@
     },
     {
         "Clone": {
-            "Prefab": "attackpoint.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Attack Position",
-            "Current Layer": 0,
-            "Order in Layer": 7,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -53.0,
-            "position_y": 13.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
             "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
@@ -560,7 +535,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 25,
+            "Order in Layer": 26,
             "isLocked": true,
             "isSkipped": true
         },
@@ -610,7 +585,7 @@
         "Entity": {
             "Name": "Guard 3",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
         },

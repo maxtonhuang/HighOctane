@@ -71,10 +71,30 @@ void CharacterAction::UpdateState() {
                     }
                 }
                 static Entity returnpos{ EntityFactory::entityFactory().ClonePrefab("returnpos.prefab")};
+                static Entity attackpos{ EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab") };
                 if (!ECS::ecs().EntityExists(returnpos)) {
                     returnpos = EntityFactory::entityFactory().ClonePrefab("returnpos.prefab");
                 }
+                if (!ECS::ecs().EntityExists(attackpos)) {
+                    attackpos = EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab");
+                }
                 ECS::ecs().GetComponent<Transform>(returnpos).position = ECS::ecs().GetComponent<Transform>(characterStats->entity).position;
+                
+                if (selectedSkill.attacktype != AttackType::AOE) {
+                    Transform* attacktrans{ &ECS::ecs().GetComponent<Transform>(attackpos) };
+                    attacktrans->position = ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).position;
+                    attacktrans->position.y += (ECS::ecs().GetComponent<Size>(characterStats->entity).height * ECS::ecs().GetComponent<Transform>(characterStats->entity).scale
+                        - ECS::ecs().GetComponent<Size>(targetSelect.selectedTarget->entity).height * ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).scale) / 2;
+                    if (targetSelect.selectedTarget->tag == CharacterType::PLAYER) {
+                        attacktrans->position.x += 200.f;
+                    }
+                    else {
+                        attacktrans->position.x -= 200.f;
+                    }
+                }
+                else {
+                    ECS::ecs().GetComponent<Transform>(attackpos).position = vmath::Vector2{ -55.f, 13.f }; //temporary hardcoding
+                }
                 animation.Start(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");

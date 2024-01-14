@@ -43,7 +43,7 @@ void Camera::Update() {
 		SetPos(targetTransform.position.x, targetTransform.position.y);
 	}
 
-	glm::mat3 matrix{ scale,0,0,0,scale,0,pos.x / GRAPHICS::w, pos.y / GRAPHICS::h, 1 };
+	glm::mat3 matrix{ scale,0,0,0,scale,0, -pos.x / GRAPHICS::w, -pos.y / GRAPHICS::h, 1 };
 	for (auto& r : graphics.renderer) {
 		r.second.UpdateUniformMatrix3fv("uCamera", &matrix);
 	}
@@ -57,19 +57,19 @@ void Camera::Reset() {
 }
 
 void Camera::SetPos(float x, float y) {
-	pos.x = -x;
-	pos.y = -y;
+	pos.x = x;
+	pos.y = y;
 	//Update();
 }
 
 void Camera::AddPos(float x, float y) {
-	pos.x -= x;
-	pos.y -= y;
+	pos.x += x;
+	pos.y += y;
 	//Update();
 }
 
 vmath::Vector2 Camera::GetPos() {
-	return vmath::Vector2{ -pos.x,-pos.y };
+	return pos;
 }
 
 void Camera::SetZoom(float zoom) {
