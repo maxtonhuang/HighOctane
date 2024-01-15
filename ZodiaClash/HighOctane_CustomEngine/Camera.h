@@ -53,10 +53,14 @@ public:
 	void SetTarget(Entity entity);
 	void DetachTarget();
 
+	void SetShake(float shake);
+	void AddShake(float shake);
+
 private:
-	vmath::Vector2 pos{};
-	float scale{};
-	Entity target{};
+	vmath::Vector2 pos{}; //camera position
+	float scale{}; //camera zoom
+	Entity target{}; //which entity the camera is following
+	float magnitude{}; //camera magnitude
 };
 
 extern Camera camera;

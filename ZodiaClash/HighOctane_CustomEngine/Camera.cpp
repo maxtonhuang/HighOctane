@@ -30,7 +30,9 @@
 ******************************************************************************/
 #include "Camera.h"
 #include "graphics.h"
+#include <random>
 
+const float SHAKE_REDUCTION = 20.f * FIXED_DT;
 Camera camera;
 
 Camera::Camera() {
@@ -38,12 +40,24 @@ Camera::Camera() {
 }
 
 void Camera::Update() {
+	vmath::Vector2 finalpos{ -pos.x,-pos.y };
+
 	if (target != 0 && ECS::ecs().EntityExists(target)) {
 		Transform targetTransform { ECS::ecs().GetComponent<Transform>(target) };
 		SetPos(targetTransform.position.x, targetTransform.position.y);
 	}
 
-	glm::mat3 matrix{ scale,0,0,0,scale,0, -pos.x / GRAPHICS::w, -pos.y / GRAPHICS::h, 1 };
+	if (magnitude > 0) {
+		static std::default_random_engine rng;
+		static std::uniform_real_distribution<float> rand(-1.f, 1.f);
+		vmath::Vector2 shakeoffset{ rand(rng),rand(rng) };
+		shakeoffset.normalize();
+		shakeoffset *= magnitude;
+		finalpos += shakeoffset;
+		magnitude -= SHAKE_REDUCTION;
+	}
+
+	glm::mat3 matrix{ scale,0,0,0,scale,0, finalpos.x / GRAPHICS::w, finalpos.y / GRAPHICS::h, 1 };
 	for (auto& r : graphics.renderer) {
 		r.second.UpdateUniformMatrix3fv("uCamera", &matrix);
 	}
@@ -95,4 +109,12 @@ void Camera::SetTarget(Entity entity) {
 
 void Camera::DetachTarget() {
 	target = 0;
+}
+
+void Camera::SetShake(float shake) {
+	magnitude = shake;
+}
+
+void Camera::AddShake(float shake) {
+	magnitude += shake;
 }
