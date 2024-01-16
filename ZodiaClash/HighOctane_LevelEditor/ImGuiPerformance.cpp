@@ -80,12 +80,13 @@ void UpdatePerformance() {
 
     /************** FPS ***************/
     ImGui::PushFont(latoLargeBold);
-    currFPS = 1.f / g_dt;
-    minFPS = ((timerFPS += g_dt) > 1.f) ? ((timerFPS = 0.f), currFPS) : (std::min(currFPS, minFPS));
+    currFPS = 1.f / g_dt; // Calculates the current FPS
+    minFPS = ((timerFPS += g_dt) > 1.f) ? ((timerFPS = 0.f), currFPS) : (std::min(currFPS, minFPS));  // Calculates the lowest FPS every second
     ImGui::Text("FPS: %.1f", currFPS);
     ImGui::PopFont();
-    ImGui::Text("(%.3f ms/Frame)", g_dt * 1000.0f);
-    ImGui::Text("Min FPS: %.3f (Resets every sec)", minFPS);
+    ImGui::Text("(%.3fms per Frame)", g_dt * 1000.0f);
+    ImGui::Text("Lowest FPS: %.1f (Resets every sec)", minFPS);
+    ImGui::Text("ImGUI Internal FPS: %.1f", ImGui::GetIO().Framerate);
     /************** FPS ***************/
 
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
