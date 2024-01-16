@@ -337,3 +337,52 @@ public:
 private:
 	std::list<Keyframe<int>>::iterator nextKeyframe{};
 };
+
+//Sets the zoom of camera to keyframe zoom
+class CameraZoomAnimation : public Animation {
+public:
+	CameraZoomAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<float>> keyframes;
+private:
+	float zoom;
+	std::list<Keyframe<float>>::iterator nextKeyframe{};
+};
+
+//Sets the target of camera to entity
+class CameraTargetAnimation : public Animation {
+public:
+	CameraTargetAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<int>> keyframes;
+private:
+	Transform* entityTransform;
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
+};
+
+//Resets the camera to 0,0 and 1.0 zoom
+class CameraResetAnimation : public Animation {
+public:
+	CameraResetAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<int>> keyframes;
+private:
+	float zoom;
+	vmath::Vector2 velocity;
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
+};

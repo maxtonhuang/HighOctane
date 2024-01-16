@@ -59,9 +59,6 @@
 #include "Animation.h"
 #include "UndoRedo.h"
 
-#define FIXED_DT 1.0f/60.f
-#define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
-
 constexpr float CORNER_SIZE = 10.f;
 
 // Extern for the vector to contain the full name for ImGui for scripting system

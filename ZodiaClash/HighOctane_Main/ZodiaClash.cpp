@@ -618,8 +618,6 @@ void EngineCore::Run(bool const& mode) {
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
 
-		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
-
 		// Switch case for the pause screen
 		auto* sList{ &runSystemList };
 		switch (GetCurrentSystemMode()) {
@@ -634,11 +632,6 @@ void EngineCore::Run(bool const& mode) {
 			break;
 		}
 
-		// Activates the Input Manager to check for Inputs
-		// and inform all relavant systems
-		InputManager::KeyCheck();
-		InputManager::MouseCheck();
-
 		// Call each system in the System List
 		accumulatedTime += g_dt;
 		if (accumulatedTime > MAX_ACCUMULATED_TIME) {
@@ -646,6 +639,13 @@ void EngineCore::Run(bool const& mode) {
 		}
 
 		while (accumulatedTime >= FIXED_DT) {
+
+			glfwPollEvents(); //Update input functions
+
+			// Activates the Input Manager to check for Inputs
+			// and inform all relavant systems
+			InputManager::KeyCheck();
+			InputManager::MouseCheck();
 
 			Mail::mail().SendMails();
 			for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {

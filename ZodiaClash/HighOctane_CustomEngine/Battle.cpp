@@ -47,9 +47,13 @@
 #include "message.h"
 #include "EntityFactory.h"
 #include "Animation.h"
+#include "Camera.h"
 
 //For animating turn order
 const float turnOrderOffset{ 100.f };
+
+//For camera shake
+const float MAGNITUDE_PER_HEALTH{ 5.f };
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -406,6 +410,7 @@ void BattleSystem::ProcessDamage() {
         ComponentArray<Transform>* transformArray = &componentManager.GetComponentArrayRef<Transform>();
         ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
 
+        float totalDamage{ 0.f };
         for (Entity entity : m_Entities) {
             CharacterStats* cs = &statsArray->GetData(entity);
             if (cs->action.entityState == DEAD) {
@@ -419,6 +424,7 @@ void BattleSystem::ProcessDamage() {
                         Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
                         transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
                         textArray->GetData(damagelabel).textString = std::to_string((int)(cs->stats.health - c.stats.health));
+                        totalDamage += cs->stats.health - c.stats.health;
                     }
                     *cs = c;
                     found = true;
@@ -431,6 +437,9 @@ void BattleSystem::ProcessDamage() {
                 model->SetAlpha(0.2f);
                 AnimateRemoveTurnOrder(entity);
             }
+        }
+        if (totalDamage > 0.f) {
+            camera.SetShake(totalDamage / MAGNITUDE_PER_HEALTH);
         }
     }
     
