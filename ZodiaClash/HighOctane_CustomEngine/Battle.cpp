@@ -51,6 +51,8 @@
 
 //For animating turn order
 const float turnOrderOffset{ 100.f };
+
+//For camera shake
 const float MAGNITUDE_PER_HEALTH{ 5.f };
 
 /**

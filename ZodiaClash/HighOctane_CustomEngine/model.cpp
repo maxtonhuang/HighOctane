@@ -163,12 +163,12 @@ void Model::Draw(Tex* const entity) {
 		}
 	}
 
-	//if (renderer != previousRenderer) {
-	//	if (previousRenderer != nullptr) {
-	//		previousRenderer->Draw();
-	//	}
-	//	previousRenderer = renderer;
-	//}
+	if (renderer != previousRenderer) {
+		if (previousRenderer != nullptr) {
+			previousRenderer->Draw();
+		}
+		previousRenderer = renderer;
+	}
 
 	if (entity != nullptr && entity->tex != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
