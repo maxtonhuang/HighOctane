@@ -40,6 +40,11 @@ extern DebugProfiling debugSysProfile;
 
 constexpr float spacerHeight = 50.f;
 
+float currFPS{ 0 };
+float minFPS{ std::numeric_limits<float>::max() };
+float timerFPS{ 0 };
+
+
 /*!
 * \brief Init the performance window
 *
@@ -75,9 +80,12 @@ void UpdatePerformance() {
 
     /************** FPS ***************/
     ImGui::PushFont(latoLargeBold);
-    ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+    currFPS = 1.f / g_dt;
+    minFPS = ((timerFPS += g_dt) > 1.f) ? ((timerFPS = 0.f), currFPS) : (std::min(currFPS, minFPS));
+    ImGui::Text("FPS: %.1f", currFPS);
     ImGui::PopFont();
-    ImGui::Text("(%.3f ms/frame)", 1000.0f / ImGui::GetIO().Framerate);
+    ImGui::Text("(%.3f ms/Frame)", g_dt * 1000.0f);
+    ImGui::Text("Min FPS: %.3f (Resets every sec)", minFPS);
     /************** FPS ***************/
 
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
