@@ -1,7 +1,7 @@
 [
     {
         "Name": "Dance of Fury",
-        "Type": 0,
+        "Type": 1,
         "Skill Attack": 80,
         "Minimum Attack Multiplier": 0.8,
         "Maximum Attack Multiplier": 1.2,

@@ -77,11 +77,11 @@ void UpdatePlayStop() {
 
     ImGui::SameLine();
 
-    /*if (ImGui::Button("Pause", { 100, 50 })) {
+    if (ImGui::Button("Pause", { 100, 50 })) {
         if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
             SetCurrentSystemMode(SystemMode::EDIT);
         }
-    }*/
+    }
 
 	ImGui::End();
 
