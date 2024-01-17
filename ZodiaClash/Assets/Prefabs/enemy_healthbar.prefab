@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,13 +21,17 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "allyHp_healthbar",
+            "Name": "enemyHp_healthbar",
             "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
@@ -40,7 +44,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -1130.0,
+            "position_x": 1130.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -76,6 +80,9 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
+        "EnemyHUD": {
+            "Enemy Index": 0
+        },
         "Animation Set": [
             {
                 "Total Frames": 3,
@@ -88,7 +95,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "X movement": 300.0,
+                                "X movement": -300.0,
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
@@ -108,7 +115,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "X movement": -300.0,
+                                "X movement": 300.0,
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
@@ -123,7 +130,7 @@
     },
     {
         "Entity": {
-            "Name": "allyHp_remaininghealth1",
+            "Name": "enemyHp_remaininghealth1",
             "Current Layer": 3,
             "Order in Layer": 0,
             "isLocked": true,
@@ -136,7 +143,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
+            "position_x": 1130.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -177,7 +184,7 @@
     },
     {
         "Entity": {
-            "Name": "allyHp_displayLbl1",
+            "Name": "enemyHp_displayLbl1",
             "Current Layer": 2,
             "Order in Layer": 1,
             "isLocked": true,
@@ -190,7 +197,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -905.0,
+            "position_x": 1055.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -242,7 +249,7 @@
     },
     {
         "Entity": {
-            "Name": "allyHp_base1",
+            "Name": "enemyHp_base1",
             "Current Layer": 0,
             "Order in Layer": 4,
             "isLocked": true,
@@ -256,7 +263,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
+            "position_x": 1130.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -294,7 +301,7 @@
     },
     {
         "Entity": {
-            "Name": "allyHp_closeup_icon1",
+            "Name": "enemyHp_closeup_icon1",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -307,7 +314,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
+            "position_x": 1130.0,
             "position_y": 344.5,
             "rotation": 0.0,
             "scale": 0.30000001192092896,
@@ -319,7 +326,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_icon_cat.png"
+            "Texture File Path": "NEW_guard_pfp.png"
         },
         "Visible": {
             "isVisible": true

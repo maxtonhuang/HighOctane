@@ -99,6 +99,7 @@ void CharacterAction::UpdateState() {
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+            battleManager->MoveOutUIAnimation();
         }
         
         

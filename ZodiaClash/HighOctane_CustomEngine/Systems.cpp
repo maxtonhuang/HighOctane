@@ -1164,7 +1164,7 @@ void UIEnemyHudSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
-	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	//auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
@@ -1177,14 +1177,17 @@ void UIEnemyHudSystem::Update() {
 			if (checkResult) {
 				if (!enemyHudData->initialised) {
 					enemyHudData->initialised = true;
-					healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
+					//healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
 					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
 				}
 			}
+			else {
+				enemyHudData->ToggleStatusFx(entity, 0);
+			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
-				healthBarData->charaStatsRef = nullptr;
+				//healthBarData->charaStatsRef = nullptr;
 			}
 		}
 	}

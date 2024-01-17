@@ -252,6 +252,26 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Reverse Next Turn",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 250.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",

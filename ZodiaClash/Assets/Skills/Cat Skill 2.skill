@@ -1,6 +1,7 @@
 [
     {
         "Name": "Dance of Fury",
+	"Texture": "skill_icon_skill.png",
         "Type": 1,
         "Skill Attack": 80,
         "Minimum Attack Multiplier": 0.8,

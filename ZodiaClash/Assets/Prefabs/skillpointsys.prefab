@@ -1,10 +1,36 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 27,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26"
             ]
         }
     },
@@ -12,7 +38,7 @@
         "Entity": {
             "Name": "lbl_skillpt",
             "Current Layer": 0,
-            "Order in Layer": 18,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -23,8 +49,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -107.5,
-            "position_y": -420.0,
+            "position_x": -162.0,
+            "position_y": -620.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -53,6 +79,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "5",
             "r": 1.0,
             "g": 1.0,
@@ -67,13 +94,56 @@
             "Skill Point Balance": 5,
             "Skill Point Cap": 5
         },
+        "Animation Set": [
+            {
+                "Total Frames": 3,
+                "Group Name": "Pop In",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": 200.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Pop Out",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": -200.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Parent": {}
     },
     {
         "Entity": {
             "Name": "skillpt01",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -86,7 +156,7 @@
         },
         "Transform": {
             "position_x": -47.5,
-            "position_y": -420.0,
+            "position_y": -620.0,
             "rotation": 0.0,
             "scale": 0.75,
             "velocity_x": 0.0,
@@ -127,6 +197,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -147,6 +218,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -174,7 +246,7 @@
         "Entity": {
             "Name": "skillpt2",
             "Current Layer": 0,
-            "Order in Layer": 19,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -187,7 +259,7 @@
         },
         "Transform": {
             "position_x": 27.5,
-            "position_y": -420.0,
+            "position_y": -620.0,
             "rotation": 0.0,
             "scale": 0.75,
             "velocity_x": 0.0,
@@ -228,6 +300,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -248,6 +321,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -275,7 +349,7 @@
         "Entity": {
             "Name": "skillpt3",
             "Current Layer": 0,
-            "Order in Layer": 17,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -288,7 +362,7 @@
         },
         "Transform": {
             "position_x": 102.5,
-            "position_y": -420.0,
+            "position_y": -620.0,
             "rotation": 0.0,
             "scale": 0.75,
             "velocity_x": 0.0,
@@ -329,6 +403,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -349,6 +424,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -376,7 +452,7 @@
         "Entity": {
             "Name": "skillpt4",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -389,7 +465,7 @@
         },
         "Transform": {
             "position_x": 177.5,
-            "position_y": -420.0,
+            "position_y": -620.0,
             "rotation": 0.0,
             "scale": 0.75,
             "velocity_x": 0.0,
@@ -430,6 +506,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -450,6 +527,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -490,7 +568,7 @@
         },
         "Transform": {
             "position_x": 252.5,
-            "position_y": -420.0,
+            "position_y": -620.0,
             "rotation": 0.0,
             "scale": 0.75,
             "velocity_x": 0.0,
@@ -531,6 +609,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -551,6 +630,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
