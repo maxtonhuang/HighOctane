@@ -51,6 +51,12 @@ void Attack::UseAttack(CharacterStats* target) {
 void Attack::UseAttack(std::vector<CharacterStats*> target) {
     for (CharacterStats* t : target) {
         CalculateDamage(*t);
+        
+        if (attackName == "Five Elements Bloodbath") {
+            t->TakeDamage(10.0 * t->debuffs.bloodStack);
+            t->debuffs.bloodStack = 0;
+        }
+
         t->debuffs.bloodStack += bleed;
         t->TakeDamage(damage);
     }

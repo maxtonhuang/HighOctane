@@ -68,6 +68,7 @@
 #include "Events.h"
 #include "Layering.h"
 #include "Animation.h"
+#include "Transition.h"
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -304,6 +305,13 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(editingSystem, "Editing System");
 	systemList.emplace_back(editingSystem, "Editing System");
 	edit_ptr = editingSystem;
+
+	std::shared_ptr<TransitionSystem> transitionSystem = ECS::ecs().RegisterSystem<TransitionSystem>();
+	runSystemList.emplace_back(transitionSystem, "Transition System");
+	editSystemList.emplace_back(transitionSystem, "Transition System");
+	systemList.emplace_back(transitionSystem, "Transition System");
+	pauseSystemList.emplace_back(transitionSystem, "Transition System");
+	gameHelpSystemList.emplace_back(transitionSystem, "Transition System");
 
 	std::shared_ptr<ParentSystem> parentSystem = ECS::ecs().RegisterSystem<ParentSystem>();
 	runSystemList.emplace_back(parentSystem, "Parent System");
@@ -543,6 +551,12 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<StatusEffect>());
 
 		ECS::ecs().SetSystemSignature<UIEffectSystem>(signature);
+	}
+
+	{
+		Signature signature;
+
+		ECS::ecs().SetSystemSignature<TransitionSystem>(signature);
 	}
 
 	//////////////////////////////////////////////////////
