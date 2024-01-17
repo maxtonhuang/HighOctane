@@ -75,19 +75,15 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
 			currMouseCursor = Cursors::RESIZENS;
-			//SetCursor(hNESWCursor); // Change
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
 			currMouseCursor = Cursors::RESIZEEW;
-			//SetCursor(hNESWCursor); // Change
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
 			currMouseCursor = Cursors::RESIZENS;
-			//SetCursor(hNESWCursor); // Change
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
 			currMouseCursor = Cursors::RESIZEEW;
-			//SetCursor(hNESWCursor); // Change
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 			currMouseCursor = Cursors::RESIZENESW;
@@ -212,14 +208,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
-							//vmath::Vector2 projectedPoint = vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition);
-							//float dist = vmath::Vector2::DistanceBetweenPoints(model->GetRight(), projectedPoint);
-							//size.width *= (vmath::Vector2::DistanceBetweenPoints(projectedPoint, transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)) / 2.f;
-							//transform.position = ((vmath::Vector2::VectorFromTwoPoints(model->GetRight(), transform.position)).normalize()) * (dist / 2.f);
-
 
 							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
-
 
 						}
 					}
