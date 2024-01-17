@@ -589,6 +589,7 @@ void EditingSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	//auto& colorArray = componentManager.GetComponentArrayRef<Color>();
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
@@ -775,12 +776,13 @@ void EditingSystem::Update() {
 					Name& n = nameArray.GetData(entity);
 					Transform& t = transformArray.GetData(entity);
 					Model* m{};
+					Size& s = sizeArray.GetData(entity);
 
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 					}
 					// edit entity's properties
-					UpdateProperties(entity, n, t, m, layer_it);
+					UpdateProperties(entity, n, t, s, m, layer_it);
 				}
 			}
 		}

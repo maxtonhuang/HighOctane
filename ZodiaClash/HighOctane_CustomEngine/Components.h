@@ -43,6 +43,10 @@ using Vec2 = vmath::Vector2;
 using Entity = std::uint32_t;
 
 enum class CLICKED {
+    N,
+    E,
+    S,
+    W,
     NE,
     SE,
     SW,
