@@ -266,6 +266,12 @@
     <ClInclude Include="resource.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager.h">
+      <Filter>EngineArchitecture</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -429,6 +435,12 @@
     </ClCompile>
     <ClCompile Include="VMath.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManager.cpp">
+      <Filter>EngineArchitecture</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -68,6 +68,7 @@
 #include "Events.h"
 #include "Layering.h"
 #include "Animation.h"
+#include "Transition.h"
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -304,6 +305,13 @@ void EngineCore::Run(bool const& mode) {
 	editSystemList.emplace_back(editingSystem, "Editing System");
 	systemList.emplace_back(editingSystem, "Editing System");
 	edit_ptr = editingSystem;
+
+	std::shared_ptr<TransitionSystem> transitionSystem = ECS::ecs().RegisterSystem<TransitionSystem>();
+	runSystemList.emplace_back(transitionSystem, "Transition System");
+	editSystemList.emplace_back(transitionSystem, "Transition System");
+	systemList.emplace_back(transitionSystem, "Transition System");
+	pauseSystemList.emplace_back(transitionSystem, "Transition System");
+	gameHelpSystemList.emplace_back(transitionSystem, "Transition System");
 
 	std::shared_ptr<ParentSystem> parentSystem = ECS::ecs().RegisterSystem<ParentSystem>();
 	runSystemList.emplace_back(parentSystem, "Parent System");
@@ -545,6 +553,12 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<UIEffectSystem>(signature);
 	}
 
+	{
+		Signature signature;
+
+		ECS::ecs().SetSystemSignature<TransitionSystem>(signature);
+	}
+
 	//////////////////////////////////////////////////////
 	//////////                                  //////////
 	//////////   Initialize all other systems   //////////
@@ -618,8 +632,6 @@ void EngineCore::Run(bool const& mode) {
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
 
-		glfwPollEvents(); //TEMP, WILL PUT IN INPUT SYSTEM
-
 		// Switch case for the pause screen
 		auto* sList{ &runSystemList };
 		switch (GetCurrentSystemMode()) {
@@ -634,11 +646,6 @@ void EngineCore::Run(bool const& mode) {
 			break;
 		}
 
-		// Activates the Input Manager to check for Inputs
-		// and inform all relavant systems
-		InputManager::KeyCheck();
-		InputManager::MouseCheck();
-
 		// Call each system in the System List
 		accumulatedTime += g_dt;
 		if (accumulatedTime > MAX_ACCUMULATED_TIME) {
@@ -646,6 +653,13 @@ void EngineCore::Run(bool const& mode) {
 		}
 
 		while (accumulatedTime >= FIXED_DT) {
+
+			glfwPollEvents(); //Update input functions
+
+			// Activates the Input Manager to check for Inputs
+			// and inform all relavant systems
+			InputManager::KeyCheck();
+			InputManager::MouseCheck();
 
 			Mail::mail().SendMails();
 			for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {

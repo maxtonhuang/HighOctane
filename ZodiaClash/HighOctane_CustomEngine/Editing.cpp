@@ -57,7 +57,7 @@ constexpr float CORNER_SIZE = 10.f;
 *	Includes entity movement, resizing, and rotation.
 *
 ******************************************************************************/
-void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model * model, size_t layer_it) {
+void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size & size, Model * model, size_t layer_it) {
 	
 	UNREFERENCED_PARAMETER(entity);
 	UNREFERENCED_PARAMETER(layer_it);
@@ -70,6 +70,18 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			else {
 				SetCursor(hDefaultCursor);
 			}
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
+			SetCursor(hNESWCursor); // Change
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
+			SetCursor(hNESWCursor); // Change
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
+			SetCursor(hNESWCursor); // Change
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
+			SetCursor(hNESWCursor); // Change
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 			SetCursor(hNESWCursor);
@@ -116,6 +128,22 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 						name.clicked = CLICKED::INSIDE;
 					}
 				}
+				else if (IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::N;
+				}
+				else if (IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::E;
+				}
+				else if (IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::S;
+				}
+				else if (IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::W;
+				}
 				else if (IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NE;
@@ -156,6 +184,61 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 
 				if (name.selected) {
 					switch (name.clicked) {
+
+					case CLICKED::N:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.height *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetTop(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetTop(), transform.position));
+
+						}
+					}
+					break;
+					
+					case CLICKED::E:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+							//vmath::Vector2 projectedPoint = vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition);
+							//float dist = vmath::Vector2::DistanceBetweenPoints(model->GetRight(), projectedPoint);
+							//size.width *= (vmath::Vector2::DistanceBetweenPoints(projectedPoint, transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)) / 2.f;
+							//transform.position = ((vmath::Vector2::VectorFromTwoPoints(model->GetRight(), transform.position)).normalize()) * (dist / 2.f);
+
+
+							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
+
+
+						}
+					}
+					break;
+					
+					case CLICKED::S:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.height *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetBot(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetBot(), transform.position));
+
+						}
+					}
+					break;
+					
+					case CLICKED::W:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetLeft(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
+
+						}
+					}
+					break;
+
+
+
+
+
 					case CLICKED::NE:
 					{
 						draggingThisCycle = true;

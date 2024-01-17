@@ -37,6 +37,7 @@
 #include "Events.h"
 #include "EntityFactory.h"
 #include "Global.h"
+#include "Camera.h"
 
 void AnimationSet::Initialise(Entity entity) {
 	Start(defaultAnimation, entity);
@@ -170,6 +171,21 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 		else if (animation->GetType() == "DamageImpact") {
 			std::shared_ptr <DamageImpactAnimation> ptr{ std::make_shared<DamageImpactAnimation>() };
 			*ptr = *std::dynamic_pointer_cast<DamageImpactAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "CameraZoom") {
+			std::shared_ptr <CameraZoomAnimation> ptr{ std::make_shared<CameraZoomAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<CameraZoomAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "CameraTarget") {
+			std::shared_ptr <CameraTargetAnimation> ptr{ std::make_shared<CameraTargetAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<CameraTargetAnimation>(animation);
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "CameraReset") {
+			std::shared_ptr <CameraResetAnimation> ptr{ std::make_shared<CameraResetAnimation>() };
+			*ptr = *std::dynamic_pointer_cast<CameraResetAnimation>(animation);
 			animations.push_back(ptr);
 		}
 		else {
@@ -509,7 +525,7 @@ void FadeAnimation::Start() {
 		entityText = &ECS::ecs().GetComponent<TextLabel>(parent);
 	}
 	nextKeyframe = keyframes.begin();
-	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	float frameCount{ (float)(nextKeyframe->frameNum) };
 	alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount * FIXED_DT / frametime;
 	if (entityText != nullptr) {
 		alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount * FIXED_DT / frametime;
@@ -672,6 +688,150 @@ void DamageImpactAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<int>{frameNum});
 }
 bool DamageImpactAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+CameraZoomAnimation::CameraZoomAnimation() {
+	type = "CameraZoom";
+}
+void CameraZoomAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	active = true;
+	nextKeyframe = keyframes.begin();
+	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	zoom = (nextKeyframe->data - camera.GetZoom()) / frameCount * FIXED_DT / frametime;
+}
+void CameraZoomAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+
+	camera.AddZoom(zoom);
+
+	if (frameNum >= nextKeyframe->frameNum) {
+		float frameCount{ (float)nextKeyframe->frameNum };
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+		else {
+			frameCount = nextKeyframe->frameNum - frameCount;
+			zoom = (nextKeyframe->data - camera.GetZoom()) / frameCount * FIXED_DT / frametime;
+		}
+	}
+}
+void CameraZoomAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<float> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<float*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void CameraZoomAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<float>{frameNum});
+}
+bool CameraZoomAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+CameraTargetAnimation::CameraTargetAnimation() {
+	type = "CameraTarget";
+}
+void CameraTargetAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	active = true;
+	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
+	nextKeyframe = keyframes.begin();
+	//float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	//velocity = (camera.GetPos() - entityTransform->position) / frameCount * FIXED_DT / frametime;
+}
+void CameraTargetAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+
+	float frameCount{ (float)(nextKeyframe->frameNum + 1 - frameNum) };
+	vmath::Vector2 velocity = (entityTransform->position - camera.GetPos()) / frameCount * FIXED_DT / frametime;
+	camera.AddPos(velocity.x,velocity.y);
+
+	if (frameNum >= nextKeyframe->frameNum) {
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			camera.SetTarget(parent);
+			active = false;
+		}
+	}
+}
+void CameraTargetAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	(void)frameData;
+	Keyframe<int> frame{ frameNum };
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void CameraTargetAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<int>{frameNum});
+}
+bool CameraTargetAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+CameraResetAnimation::CameraResetAnimation() {
+	type = "CameraReset";
+}
+void CameraResetAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	active = true;
+	nextKeyframe = keyframes.begin();
+	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	velocity = (vmath::Vector2{0,0} - camera.GetPos()) / frameCount * FIXED_DT / frametime;
+	zoom = (1.f - camera.GetZoom()) / frameCount * FIXED_DT / frametime;
+	camera.DetachTarget();
+}
+void CameraResetAnimation::Update(int frameNum) {
+	if (keyframes.size() == 0) {
+		return;
+	}
+
+	camera.AddPos(velocity.x, velocity.y);
+	camera.AddZoom(zoom);
+
+	if (frameNum >= nextKeyframe->frameNum) {
+		camera.Reset();
+		active = false;
+	}
+}
+void CameraResetAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	(void)frameData;
+	Keyframe<int> frame{ frameNum };
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void CameraResetAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<int>{frameNum});
+}
+bool CameraResetAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
 		if (k.frameNum == frameNum) {
 			return true;
