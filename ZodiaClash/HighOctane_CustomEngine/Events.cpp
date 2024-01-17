@@ -42,6 +42,7 @@
 #include "Global.h"
 #include "CharacterStats.h"
 #include "Layering.h"
+#include "Transition.h"
 
 EventManager events;
 
@@ -294,6 +295,12 @@ void ToggleHelp(std::string input) {
 	}
 }
 
+void TransitionScene(std::string input) {
+	transitionActive = true;
+	transitionNextScene = input;
+	transitionType = true;
+}
+
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
@@ -316,6 +323,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
+	functions["Transition Scene"] = TransitionScene;
 	functions["Toggle Help"] = ToggleHelp;
 	functions["Confirm Exit"] = ConfirmExit;
 	functions["Test"] = TestFunction;

@@ -525,7 +525,7 @@ void FadeAnimation::Start() {
 		entityText = &ECS::ecs().GetComponent<TextLabel>(parent);
 	}
 	nextKeyframe = keyframes.begin();
-	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	float frameCount{ (float)(nextKeyframe->frameNum) };
 	alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount * FIXED_DT / frametime;
 	if (entityText != nullptr) {
 		alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount * FIXED_DT / frametime;

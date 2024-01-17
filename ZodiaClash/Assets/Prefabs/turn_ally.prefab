@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 8,
+            "layerCounter": 16,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -11,7 +11,15 @@
                 "Layer 4",
                 "Layer 5",
                 "Layer 6",
-                "Layer 7"
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15"
             ]
         }
     },
@@ -64,6 +72,7 @@
                 "Total Frames": 10,
                 "Group Name": "Move Up",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -83,6 +92,7 @@
                 "Total Frames": 10,
                 "Group Name": "Move Left",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -102,6 +112,7 @@
                 "Total Frames": 10,
                 "Group Name": "Move Right",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -130,6 +141,7 @@
                 "Total Frames": 10,
                 "Group Name": "Destroy",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "SelfDestruct",
@@ -198,7 +210,7 @@
             "scriptAttachedNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
