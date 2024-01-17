@@ -330,7 +330,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern;$(SolutionDir)Extern\Mono\include\mono-2.0;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)HighOctane_LevelEditor;$(SolutionDir)Extern\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -355,7 +355,7 @@ copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Comma
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern;$(SolutionDir)Extern\Mono\include\mono-2.0;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)HighOctane_LevelEditor;$(SolutionDir)Extern\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -382,7 +382,7 @@ copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Comma
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern;$(SolutionDir)Extern\Mono\include\mono-2.0;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)HighOctane_LevelEditor;$(SolutionDir)Extern\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -411,7 +411,7 @@ copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Comma
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern;$(SolutionDir)Extern\Mono\include\mono-2.0;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)HighOctane_LevelEditor;$(SolutionDir)Extern\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -440,7 +440,7 @@ copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Comma
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern;$(SolutionDir)Extern\Mono\include\mono-2.0;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)HighOctane_LevelEditor;$(SolutionDir)Extern\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -469,7 +469,7 @@ copy "$(SolutionDir)HighOctane_Main\imgui.ini" "$(TargetDir)imgui.ini" /Y</Comma
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern;$(SolutionDir)Extern\Mono\include\mono-2.0;$(SolutionDir)Extern\freetype-2.13.2\include;$(SolutionDir)HighOctane_CustomEngine;$(SolutionDir)HighOctane_LevelEditor;$(SolutionDir)Extern\imgui-1.87;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

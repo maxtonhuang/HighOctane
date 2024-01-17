@@ -39,10 +39,16 @@ extern std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
 extern DebugProfiling debugSysProfile;
 
 constexpr float spacerHeight = 50.f;
+constexpr int numOfFrames = 100;
+
+float circularFPS[numOfFrames];
 
 float currFPS{ 0 };
 float minFPS{ std::numeric_limits<float>::max() };
+float maxFPS{ 0 };
+float avgFPS{ 0 };
 float timerFPS{ 0 };
+int tracker{ 0 };
 
 
 /*!
@@ -79,14 +85,28 @@ void UpdatePerformance() {
     ImGui::Begin("Percent Usage");
 
     /************** FPS ***************/
-    ImGui::PushFont(latoLargeBold);
     currFPS = 1.f / g_dt; // Calculates the current FPS
-    minFPS = ((timerFPS += g_dt) > 1.f) ? ((timerFPS = 0.f), currFPS) : (std::min(currFPS, minFPS));  // Calculates the lowest FPS every second
+    circularFPS[tracker++] = currFPS; // Store the current FPS in the circular array (overwrites the oldest FPS value)
+    tracker %= numOfFrames; // Reset the tracker to 0 if it exceeds the number of frames
+    minFPS = std::numeric_limits<float>::max();
+    maxFPS = 0;
+    avgFPS = 0;
+    for (float val : circularFPS) { // Finds the min, max and average FPS
+		minFPS = std::min(val, minFPS);
+		maxFPS = std::max(val, maxFPS);
+        avgFPS += val;
+	}
+    avgFPS /= numOfFrames;
+    
+    ImGui::PushFont(latoLargeBold);
     ImGui::Text("FPS: %.1f", currFPS);
     ImGui::PopFont();
     ImGui::Text("(%.3fms per Frame)", g_dt * 1000.0f);
-    ImGui::Text("Lowest FPS: %.1f (Resets every sec)", minFPS);
     ImGui::Text("ImGUI Internal FPS: %.1f", ImGui::GetIO().Framerate);
+    ImGui::Text("In the last %d frames:", numOfFrames);
+    ImGui::Text("   - Lowest FPS: %.1f", minFPS);
+    ImGui::Text("   - Highest FPS: %.1f", maxFPS);
+    ImGui::Text("   - Average FPS: %.1f", avgFPS);
     /************** FPS ***************/
 
     ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
