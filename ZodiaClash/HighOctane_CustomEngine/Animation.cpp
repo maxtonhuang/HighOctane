@@ -46,6 +46,9 @@ void AnimationSet::Initialise(Entity entity) {
 
 void AnimationSet::Start(std::string animationName, Entity entity) {
 	//Set active animation
+	if (animationName == "") {
+		return;
+	}
 	initialised = true;
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
@@ -96,17 +99,19 @@ void AnimationGroup::Update(Entity entity) {
 	if (active == false) {
 		return;
 	}
+
+	updatetime += FIXED_DT;
+	while (updatetime >= frametime) {
+		updatetime -= frametime;
+		currentFrame++;
+	}
+
 	for (auto& a : animations) {
 		if (a->IsActive()) {
 			a->SetFrameTime(frametime);
 			a->SetParent(entity);
 			a->Update(currentFrame);
 		}
-	}
-	updatetime += FIXED_DT;
-	while (updatetime > frametime) {
-		updatetime -= frametime;
-		currentFrame++;
 	}
 	
 	if (currentFrame >= totalFrames) {
@@ -455,7 +460,7 @@ void TransformDirectAnimation::Start() {
 	active = true;
 	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
 	nextKeyframe = keyframes.begin();
-	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	float frameCount{ (float)(nextKeyframe->frameNum) };
 	velocity = (nextKeyframe->data.position) / frameCount * FIXED_DT / frametime;
 	rotation = (nextKeyframe->data.rotation) / frameCount * FIXED_DT / frametime;
 	scale = (nextKeyframe->data.scale) / frameCount * FIXED_DT / frametime;
