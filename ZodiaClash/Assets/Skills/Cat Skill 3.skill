@@ -8,6 +8,6 @@
         "Crit Rate": 0.8,
         "Crit Multiplier": 2.0,
         "Chi Cost": 3,
-	"Bleed": 3
+	"Bleed": 0
     }
 ]
