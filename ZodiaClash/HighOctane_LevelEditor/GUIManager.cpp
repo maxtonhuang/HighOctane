@@ -73,6 +73,7 @@ float currentFontSize{ fontSizeM };
 ImGuiStyle originalStyle;
 bool firstSet = false;
 
+const char* mouse_cursors_names[] = { "Arrow", "TextInput", "ResizeAll", "ResizeNS", "ResizeEW", "ResizeNESW", "ResizeNWSE", "Hand", "NotAllowed" };
 
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
@@ -161,6 +162,9 @@ void GUIManager::Init()
     std::fill(entitiesToLock.begin(), entitiesToLock.end(), true);
 
     initialized = true;
+
+    
+
 }
 
 void GUIManager::Update()
@@ -223,7 +227,13 @@ void GUIManager::Update()
         ImGui::Begin("Game Viewport");
 
         if (ImGui::IsWindowHovered()) {
-            io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+            if (currMouseCursor != Cursors::RESIZEEW && currMouseCursor != Cursors::RESIZENS) {
+                io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
+            }
+            else {
+                io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
+                ImGui::SetMouseCursor(currMouseCursor);
+            }
             viewportWindowHovered = true;
         }
         else {
@@ -399,7 +409,7 @@ void GUIManager::Update()
         //selectedEntities.clear();
 
 
-
+    
 
 
         ImGui::End();

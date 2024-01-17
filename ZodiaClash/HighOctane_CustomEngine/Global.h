@@ -121,6 +121,20 @@ extern bool isHotReload;
 
 extern bool fullscreen;
 
+extern int currMouseCursor;
+
+enum Cursors {
+	ARROW,
+	TEXTINPUT,
+	RESIZEALL,
+	RESIZENS,
+	RESIZEEW,
+	RESIZENESW,
+	RESIZENWSE,
+	HAND,
+	NOTALLOWED
+};
+
 enum class SystemMode 
 {
 	RUN = 0,
