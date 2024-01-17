@@ -146,7 +146,7 @@ void GUIManager::Init()
  
     // Init console window
     InitConsole();
-    InitEntitiesManager();
+    //InitEntitiesManager();
 
 
 #if _DEBUG
@@ -413,7 +413,7 @@ void GUIManager::Update()
   
     // Update Panels
     UpdateConsole();
-    UpdateEntitiesManager();
+    //UpdateEntitiesManager();
     UpdatePlayStop();
     UpdateAssetLibrary();
     UpdateSceneHierachy();
