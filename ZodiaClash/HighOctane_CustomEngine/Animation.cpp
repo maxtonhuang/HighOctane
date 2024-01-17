@@ -40,15 +40,13 @@
 #include "Camera.h"
 
 void AnimationSet::Initialise(Entity entity) {
+	activeAnimation = nullptr;
 	Start(defaultAnimation, entity);
 	initialised = true;
 }
 
 void AnimationSet::Start(std::string animationName, Entity entity) {
 	//Set active animation
-	if (animationName == "") {
-		return;
-	}
 	initialised = true;
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
@@ -461,6 +459,9 @@ void TransformDirectAnimation::Start() {
 	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum) };
+	if (frameCount == 0) {
+		frameCount = 1.f;
+	}
 	velocity = (nextKeyframe->data.position) / frameCount * FIXED_DT / frametime;
 	rotation = (nextKeyframe->data.rotation) / frameCount * FIXED_DT / frametime;
 	scale = (nextKeyframe->data.scale) / frameCount * FIXED_DT / frametime;
@@ -531,6 +532,9 @@ void FadeAnimation::Start() {
 	}
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum) };
+	if (frameCount == 0) {
+		frameCount = 1.f;
+	}
 	alpha = (nextKeyframe->data - entityModel->GetAlpha()) / frameCount * FIXED_DT / frametime;
 	if (entityText != nullptr) {
 		alphatext = (nextKeyframe->data - entityText->textColor.a) / frameCount * FIXED_DT / frametime;

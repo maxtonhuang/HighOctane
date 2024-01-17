@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 23,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,13 +21,76 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22"
             ]
         }
     },
     {
+        "Clone": {},
+        "Entity": {
+            "Name": "entity_00007",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 725.5,
+            "position_y": 475.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 432.0,
+            "height": 59.5
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "ZodiaClash M3 Build",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Background": false
+        }
+    },
+    {
         "Clone": {
-            "Prefab": "background_mainmenu.prefab",
+            "Prefab": "background_battle.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -35,7 +98,7 @@
             ]
         },
         "Entity": {
-            "Name": "bg_mainmenu",
+            "Name": "bg_battle",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
@@ -52,7 +115,7 @@
     },
     {
         "Clone": {
-            "Prefab": "logo.prefab",
+            "Prefab": "attachpoint.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -60,40 +123,127 @@
             ]
         },
         "Entity": {
-            "Name": "logo",
+            "Name": "Enemy 2 Position",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 478.0,
+            "position_y": -82.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Player 1  Position",
+            "Current Layer": 0,
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -534.0,
+            "position_y": 10.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Enemy 1 Position",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 358.0,
+            "position_y": 145.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Player_Cat.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Cat",
             "Current Layer": 0,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": -100.0,
+            "position_x": -510.23431396484375,
+            "position_y": 44.828590393066406,
             "rotation": 0.0,
-            "scale": 1.399999976158142,
+            "scale": 0.6073969602584839,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
     },
     {
         "Clone": {
-            "Prefab": "button.prefab",
+            "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "class Button",
-                "struct Size",
-                "struct Tex",
-                "struct Color",
-                "class Model",
-                "class TextLabel"
+                "struct Parent"
             ]
         },
         "Entity": {
-            "Name": "startButton",
+            "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 355.0,
+            "position_y": 150.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "Guard 2",
+            "Current Layer": 0,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -104,8 +254,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": -300.0,
+            "position_x": 472.0,
+            "position_y": -79.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -116,169 +266,227 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "button_PLAY_v02.png"
+            "Texture File Path": "GUARD_idle.png"
+        },
+        "Visible": {
+            "isVisible": true
         },
         "Size": {
-            "width": 300.0,
-            "height": 100.0
+            "width": 256.0,
+            "height": 256.0
         },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0
-        },
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Background": false
-        },
-        "Button": {
-            "Default Button R": 1.0,
-            "Default Button G": 1.0,
-            "Default Button B": 1.0,
-            "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
-            "Default Text A": 1.0,
-            "Hovered Button R": 1.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
-            "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
-            "Focused Button R": 1.0,
-            "Focused Button G": 1.0,
-            "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
-            "Focused Text A": 1.0,
-            "Event Name": "Transition Scene",
-            "Event Input": "battle.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "button.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent",
-                "struct Color",
-                "class Button",
-                "struct Size",
-                "struct Tex",
-                "class Model",
-                "class TextLabel"
+        "CharacterStats": {
+            "Character type": 1,
+            "Max Health": 120.0,
+            "Health": 120.0,
+            "Attack": 10.0,
+            "Defense": 15.0,
+            "Speed": 1,
+            "Skills": [
+                "Guard Attack"
             ]
         },
-        "Entity": {
-            "Name": "quitButton",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": -445.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "button_QUIT_v02.png"
-        },
-        "Size": {
-            "width": 300.0,
-            "height": 100.0
-        },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0
         },
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Background": false
-        },
-        "Button": {
-            "Default Button R": 1.0,
-            "Default Button G": 1.0,
-            "Default Button B": 1.0,
-            "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
-            "Default Text A": 1.0,
-            "Hovered Button R": 1.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
-            "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
-            "Focused Button R": 1.0,
-            "Focused Button G": 1.0,
-            "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
-            "Focused Text A": 1.0,
-            "Event Name": "Exit Game",
-            "Event Input": "",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
-        }
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Target": "Attack Position"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Texture": "Guard_Attack.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15
+                            },
+                            {
+                                "Frame Number": 20
+                            },
+                            {
+                                "Frame Number": 25
+                            },
+                            {
+                                "Frame Number": 30
+                            },
+                            {
+                                "Frame Number": 35
+                            },
+                            {
+                                "Frame Number": 40
+                            },
+                            {
+                                "Frame Number": 45
+                            },
+                            {
+                                "Frame Number": 50
+                            },
+                            {
+                                "Frame Number": 55
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 35,
+                                "Sound": "Guard Atk_Edited.wav"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 56,
+                                "Destination": "Guard moveback"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 35
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Guard moveback",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Return Position"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "GUARD_idle.png"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Frame Time": 0.0,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 25,
+                                "Red": 1.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Guard Damaged_Edited.wav"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Guard_Damage.spritesheet"
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Texture": "GUARD_idle.png"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": ""
     }
 ]

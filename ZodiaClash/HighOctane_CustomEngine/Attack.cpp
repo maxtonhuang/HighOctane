@@ -117,6 +117,11 @@ void AttackList::SaveAttack(Attack const& attack) {
     rapidjson::Value nameValue;
     nameValue.SetString(attack.attackName.c_str(), static_cast<rapidjson::SizeType>(attack.attackName.length()), allocator);
     object.AddMember("Name", nameValue, allocator);
+
+    rapidjson::Value skilltextureValue;
+    skilltextureValue.SetString(attack.skillTexture.c_str(), static_cast<rapidjson::SizeType>(attack.skillTexture.length()), allocator);
+    object.AddMember("Texture", skilltextureValue, allocator);
+
     object.AddMember("Type", (int)attack.attacktype, allocator);
     object.AddMember("Skill Attack", attack.skillAttackPercent, allocator);
     object.AddMember("Minimum Attack Multiplier", attack.minAttackMultiplier, allocator);
@@ -165,6 +170,11 @@ void AttackList::LoadAttack(std::string attackPath) {
             const rapidjson::Value& object = mainObject["Name"];
             atkname = object.GetString();
             atk.attackName = atkname;
+        }
+
+        if (mainObject.HasMember("Texture")) {
+            const rapidjson::Value& object = mainObject["Texture"];
+            atk.skillTexture = object.GetString();
         }
 
         if (mainObject.HasMember("Type")) {

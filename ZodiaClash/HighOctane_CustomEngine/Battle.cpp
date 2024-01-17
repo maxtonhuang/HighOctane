@@ -48,9 +48,16 @@
 #include "EntityFactory.h"
 #include "Animation.h"
 #include "Camera.h"
+#include "AssetManager.h"
 
 //For animating turn order
 const float turnOrderOffset{ 100.f };
+
+//For animating skill buttons
+const float skillButtonOffset{ 240.f };
+
+//for animating health bats
+const float healthBarOffset{ -120.f };
 
 //For camera shake
 const float MAGNITUDE_PER_HEALTH{ 2.f };
@@ -100,6 +107,7 @@ void BattleSystem::Initialize()
 {
     battleState = NEWGAME;
     battlestarted = false;
+    attackingAnimation = false;
     turnOrderQueueInitializer.clear();
     turnOrderQueueAnimator.clear();
 }
@@ -120,7 +128,7 @@ void BattleSystem::StartBattle() {
     }
 
     //Initialise turn order animator
-    InitialiseTurnOrderAnimator();
+    InitialiseBattleUI();
 
     battlestarted = true;
 }
@@ -168,6 +176,8 @@ void BattleSystem::Update()
         if (!AnimateInitialiseTurnOrder()) {
             break;
         }
+
+        InitialiseUIAnimation();
 
         battleState = NEWROUND;
         break;
@@ -237,6 +247,10 @@ void BattleSystem::Update()
                     turnManage.activeEnemy = "";
 
                     battleState = PLAYERTURN;
+
+                    if (m_Entities.size() > 0 && attackingAnimation == true) {
+                        MoveInUIAnimation();
+                    }
                 }
                 if (activeCharacter->action.entityState != EntityState::DYING) {
                     activeCharacter->action.entityState = EntityState::START;
@@ -436,6 +450,7 @@ void BattleSystem::ProcessDamage() {
                 cs->action.entityState = DEAD;
                 model->SetAlpha(0.2f);
                 AnimateRemoveTurnOrder(entity);
+                AnimateRemoveHealthBar(entity);
             }
         }
         if (totalDamage > 0.f) {
@@ -443,6 +458,59 @@ void BattleSystem::ProcessDamage() {
         }
     }
     
+}
+
+void BattleSystem::InitialiseBattleUI() {
+    if (m_Entities.size() > 0) {
+        skillButtons.clear();
+        allyHealthBars.clear();
+        enemyHealthBars.clear();
+        allBattleUI.clear();
+
+        InitialiseTurnOrderAnimator();
+
+        //Initialise chi system
+        chiLabel = EntityFactory::entityFactory().ClonePrefab("skillpointsys.prefab");
+        allBattleUI.push_back(chiLabel);
+
+        //Initialise skill buttons
+        float skill_offset{ 0.f };
+        for (int i = 0; i < 3; i++) {
+            Entity skill{ EntityFactory::entityFactory().ClonePrefab("attack_skill.prefab") };
+            ECS::ecs().GetComponent<Transform>(skill).position.x += skill_offset;
+            std::stringstream skillNumber{};
+            skillNumber << i + 1;
+            ECS::ecs().GetComponent<Button>(skill).eventInput = skillNumber.str();
+            ECS::ecs().GetComponent<AttackSkill>(skill).skillIndex = i;
+            skillButtons.push_back(skill);
+            allBattleUI.push_back(skill);
+            skill_offset += skillButtonOffset;
+        }
+
+        //Initialise player healthbars
+        float ally_hp_offset{ 0.f };
+        for (CharacterStats* c : GetPlayers()) {
+            Entity healthbar{ EntityFactory::entityFactory().ClonePrefab("ally_healthbar.prefab") };
+            ECS::ecs().GetComponent<Transform>(healthbar).position.y += ally_hp_offset;
+            ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
+            ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
+            enemyHealthBars.push_back(healthbar);
+            allBattleUI.push_back(healthbar);
+            ally_hp_offset += healthBarOffset;
+        }
+
+        //Initialise enemy healthbars
+        float enemy_hp_offset{ 0.f };
+        for (CharacterStats* c : GetEnemies()) {
+            Entity healthbar{ EntityFactory::entityFactory().ClonePrefab("enemy_healthbar.prefab") };
+            ECS::ecs().GetComponent<Transform>(healthbar).position.y += enemy_hp_offset;
+            ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
+            ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
+            enemyHealthBars.push_back(healthbar);
+            allBattleUI.push_back(healthbar);
+            enemy_hp_offset += healthBarOffset;
+        }
+    }
 }
 
 void BattleSystem::InitialiseTurnOrderAnimator() {
@@ -453,11 +521,13 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
             if (c.tag == CharacterType::PLAYER) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab") };
                 turnOrderQueueInitializer.push_back(turnUI);
+                //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
             }
             else if (c.tag == CharacterType::ENEMY) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_enemy.prefab") };
                 turnOrderQueueInitializer.push_back(turnUI);
+                //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
             }
         }
@@ -502,6 +572,16 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
     return true;
 }
 
+void BattleSystem::InitialiseUIAnimation() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    if (m_Entities.size() > 0) {
+        UpdateSkillIcons();
+        for (Entity& e : allBattleUI) {
+            animationArray.GetData(e).Start("Pop In", e);
+        }
+    }
+}
+
 void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
     if (m_Entities.size() > 0) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
@@ -514,7 +594,7 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
             }
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                //ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
             }
         }
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
@@ -544,4 +624,70 @@ void BattleSystem::DestroyTargets() {
         EntityFactory::entityFactory().DeleteCloneModel(target);
     }
     targetCircleList.clear();
+}
+
+void BattleSystem::MoveOutUIAnimation() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    if (m_Entities.size() == 0) {
+        return;
+    }
+    if (attackingAnimation == true) {
+        return;
+    }
+    for (Entity& e : skillButtons) {
+        animationArray.GetData(e).Start("Pop Out", e);
+    }
+    attackingAnimation = true;
+}
+
+void BattleSystem::MoveInUIAnimation() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    if (m_Entities.size() == 0) {
+        return;
+    }
+
+    UpdateSkillIcons();
+    for (Entity& e : skillButtons) {
+        animationArray.GetData(e).Start("Pop In", e);
+    }
+    attackingAnimation = false;
+}
+
+void BattleSystem::AnimateRemoveHealthBar(Entity entity) {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
+    static auto& enemyHUDArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<EnemyHUD>() };
+    if (m_Entities.size() == 0) {
+        return;
+    }
+    for (Entity& e : enemyHealthBars) {
+        Entity healthbarEntity{ healthbarArray.GetData(e).entity };
+        if (healthbarEntity == entity) {
+            animationArray.GetData(e).Start("Pop Out", e);
+            return;
+        }
+    }
+    for (Entity& e : allyHealthBars) {
+        Entity healthbarEntity{ healthbarArray.GetData(e).entity };
+        if (healthbarEntity == entity) {
+            animationArray.GetData(e).Start("Pop Out", e);
+            return;
+        }
+    }
+}
+
+void BattleSystem::UpdateSkillIcons() {
+    static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+    if (m_Entities.size() == 0) {
+        return;
+    }
+
+    if (activeCharacter == nullptr) {
+        activeCharacter = turnManage.turnOrderList.front();
+    }
+
+    for (int i = 0; i < 3; i++) {
+        std::string skillTexture = activeCharacter->action.skills[i].skillTexture;
+        textureArray.GetData(skillButtons[i]).tex = assetmanager.texture.Get(skillTexture.c_str());
+    }
 }

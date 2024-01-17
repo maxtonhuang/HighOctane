@@ -120,6 +120,11 @@ public:
 	void CreateTargets();
 	//Destroy target circles after enemy has been chosen
 	void DestroyTargets();
+
+	//Calls "Pop Out" animation for all UI, to remove UI during attacking animations
+	void MoveOutUIAnimation();
+	//Calls "Pop In" animation for all UI, to add back UI after attacking
+	void MoveInUIAnimation();
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -127,20 +132,40 @@ private:
 
 	//Variables for animation
 	bool battlestarted{ false };
+	bool attackingAnimation{ false };
 	Entity turnOrderAnimator;
 	std::deque<Entity> turnOrderQueueInitializer;
 	std::deque<Entity> turnOrderQueueAnimator;
 	std::vector<Entity> targetCircleList;
+	std::vector<Entity> skillButtons;
+	std::vector<Entity> allyHealthBars;
+	std::vector<Entity> enemyHealthBars;
+	Entity chiLabel;
+	std::vector<Entity> allBattleUI;
+
 
 	//Animation methods
+	//Initialises the battle system UI
+	void InitialiseBattleUI();
+
 	//Initialises the turn order animator
 	void InitialiseTurnOrderAnimator();
+
+	//To pop in all UI after turn order
+	void InitialiseUIAnimation();
+
 	//multiple stage animation to be called for amount of characters, returns true when animation is done
 	bool AnimateInitialiseTurnOrder(); 
 	//2 part animation to be called twice, returns true when animation is done
 	bool AnimateUpdateTurnOrder(); 
 	//Removes the entity from the turn order animator
 	void AnimateRemoveTurnOrder(Entity entity);
+	
+	//Removes healthbar when character dies
+	void AnimateRemoveHealthBar(Entity entity);
+
+	//Updates skill icons
+	void UpdateSkillIcons();
 
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
 	void StartBattle();

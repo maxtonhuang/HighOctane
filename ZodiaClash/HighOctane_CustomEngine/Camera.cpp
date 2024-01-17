@@ -40,12 +40,12 @@ Camera::Camera() {
 }
 
 void Camera::Update() {
-	vmath::Vector2 finalpos{ -pos.x,-pos.y };
-
 	if (target != 0 && ECS::ecs().EntityExists(target)) {
 		Transform targetTransform { ECS::ecs().GetComponent<Transform>(target) };
 		SetPos(targetTransform.position.x, targetTransform.position.y);
 	}
+
+	vmath::Vector2 finalpos{ -pos.x * scale,-pos.y * scale };
 
 	if (magnitude > 0) {
 		static std::default_random_engine rng;
