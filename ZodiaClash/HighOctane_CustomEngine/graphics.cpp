@@ -135,7 +135,7 @@ void GraphicsManager::Initialize(int w, int h) {
     //glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
 
     //TEMP
-    glPointSize(10.f);
+    glPointSize(15.f);
     glLineWidth(3.f);
     glfwSwapInterval(0);
 
