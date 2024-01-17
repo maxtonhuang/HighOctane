@@ -32,7 +32,7 @@
 #include "graphics.h"
 #include <random>
 
-const float SHAKE_REDUCTION = 20.f * FIXED_DT;
+const float SHAKE_REDUCTION = 50.f * FIXED_DT;
 Camera camera;
 
 Camera::Camera() {

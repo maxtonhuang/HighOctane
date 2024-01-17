@@ -1138,7 +1138,8 @@ void UIAllyHudSystem::Update() {
 			bool checkResult = false;
 			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
-				healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
+				//healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
+				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
 				healthBarData->charaStatsRef = nullptr;
@@ -1176,7 +1177,7 @@ void UIEnemyHudSystem::Update() {
 			if (checkResult) {
 				if (!enemyHudData->initialised) {
 					enemyHudData->initialised = true;
-					healthBarData->charaStatsRef = &characterStatsArray.GetData(allEnemies[enemyHudData->enemyIndex]->entity);
+					healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
 					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);

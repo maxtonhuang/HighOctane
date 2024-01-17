@@ -53,7 +53,7 @@
 const float turnOrderOffset{ 100.f };
 
 //For camera shake
-const float MAGNITUDE_PER_HEALTH{ 5.f };
+const float MAGNITUDE_PER_HEALTH{ 2.f };
 
 /**
  * @brief Constructor that copies the state of another BattleSystem instance.
@@ -448,7 +448,7 @@ void BattleSystem::ProcessDamage() {
 void BattleSystem::InitialiseTurnOrderAnimator() {
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
-        ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
+        //ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
         for (auto& c : turnManage.characterList) {
             if (c.tag == CharacterType::PLAYER) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab") };
@@ -467,10 +467,9 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
 bool BattleSystem::AnimateInitialiseTurnOrder() {
     if (m_Entities.size() > 0) {
         if (!turnOrderQueueInitializer.empty()) {
-            printf("Battle System\n");
-            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueInitializer.front()).Start("Move Right", turnOrderQueueInitializer.front());
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueInitializer.front()).Start("Shift In", turnOrderQueueInitializer.front());
             for (Entity& e : turnOrderQueueAnimator) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Up", e);
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
             }
             turnOrderQueueAnimator.push_back(turnOrderQueueInitializer.front());
             turnOrderQueueInitializer.pop_front();
@@ -484,10 +483,10 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
     if (m_Entities.size() > 0) {
         static bool turnanimated{ false };
         if (turnanimated == false) {
-            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Move Left", turnOrderQueueAnimator.front());
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
             for (Entity& e : turnOrderQueueAnimator) {
                 if (e != turnOrderQueueAnimator.front()) {
-                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Up", e);
+                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
                 }
             }
             turnOrderQueueAnimator.push_back(turnOrderQueueAnimator.front());
@@ -496,7 +495,7 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
             return false;
         }
         else {
-            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.back()).Start("Move Right", turnOrderQueueAnimator.back());
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.back()).Start("Shift In", turnOrderQueueAnimator.back());
             turnanimated = false;
         }
     }
@@ -509,13 +508,13 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
         bool moveup{ false };
         for (Entity e : turnOrderQueueAnimator) {
             if (ECS::ecs().GetComponent<TurnIndicator>(e).character == entity) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Left", e);
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Pop Out", e);
                 moveup = true;
                 continue;
             }
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Move Up", e);
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
             }
         }
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
