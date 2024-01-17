@@ -51,6 +51,9 @@ const HCURSOR hDefaultCursor{ LoadCursor(NULL, IDC_ARROW) };
 const HCURSOR hNWSECursor{ LoadCursor(NULL, IDC_SIZENWSE) };
 const HCURSOR hNESWCursor{ LoadCursor(NULL, IDC_SIZENESW) };
 const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
+const HCURSOR hNSCursor{ LoadCursor(NULL, IDC_SIZENS) };
+const HCURSOR hEWCursor{ LoadCursor(NULL, IDC_SIZEWE) };
+const HCURSOR hHandCursor{ LoadCursor(NULL, IDC_HAND) };
 
 extern float g_dt;
 extern float accumulatedTime;
@@ -120,20 +123,6 @@ extern std::string currentScriptAttachedForIMGUI;
 extern bool isHotReload;
 
 extern bool fullscreen;
-
-extern int currMouseCursor;
-
-enum Cursors {
-	ARROW,
-	TEXTINPUT,
-	RESIZEALL,
-	RESIZENS,
-	RESIZEEW,
-	RESIZENESW,
-	RESIZENWSE,
-	HAND,
-	NOTALLOWED
-};
 
 enum class SystemMode 
 {

@@ -227,21 +227,13 @@ void GUIManager::Update()
         ImGui::Begin("Game Viewport");
 
         if (ImGui::IsWindowHovered()) {
-            if (currMouseCursor != Cursors::RESIZEEW && currMouseCursor != Cursors::RESIZENS) {
-                io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
-            }
-            else {
-                io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
-                ImGui::SetMouseCursor(currMouseCursor);
-            }
+            io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
             viewportWindowHovered = true;
         }
         else {
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
             viewportWindowHovered = false;
         }
-        
-        
  
         unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;

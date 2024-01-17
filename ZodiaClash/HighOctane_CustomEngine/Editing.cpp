@@ -67,11 +67,9 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 		changeCursor = false;
 		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
-				currMouseCursor = Cursors::RESIZEALL;
 				SetCursor(hAllDirCursor);
 			}
 			else {
-				currMouseCursor = Cursors::ARROW;
 				SetCursor(hDefaultCursor);
 			}
 		}
@@ -107,12 +105,13 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 			pointAngle = transform.rotation + (7 * vmath::PI / 4.f);
 			changeCursor = true;
 		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE * 3.f)) {
+			SetCursor(hHandCursor);
+		}
 		else if (IsWithinObject(*model, currentMousePosition)) {
-			currMouseCursor = Cursors::RESIZEALL;
 			SetCursor(hAllDirCursor);
 		}
 		else {
-			currMouseCursor = Cursors::ARROW;
 			SetCursor(hDefaultCursor);
 		}
 
@@ -121,59 +120,34 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 		if (changeCursor) {
 		
 			if (pointAngle < - (7 * vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZENS;
+				SetCursor(hNSCursor);
 			}
 			else if (pointAngle < -(5 * vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZENESW;
 				SetCursor(hNESWCursor);
 			}
 			else if (pointAngle < -(3 * vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZEEW;
+				SetCursor(hEWCursor);
 			}
 			else if (pointAngle < -(vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZENWSE;
 				SetCursor(hNWSECursor);
 			}
 			else if (pointAngle < (vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZENS;
+				SetCursor(hNSCursor);
 			}
 			else if (pointAngle < (3 * vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZENESW;
 				SetCursor(hNESWCursor);
 			}
 			else if (pointAngle < (5 * vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZEEW;
+				SetCursor(hEWCursor);
 			}
 			else if (pointAngle < (7 * vmath::PI / 8)) {
-				currMouseCursor = Cursors::RESIZENWSE;
 				SetCursor(hNWSECursor);
 			}
 			else {
-				currMouseCursor = Cursors::RESIZENS;
+				SetCursor(hNSCursor);
 			}
 		
 		}
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
 	
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
@@ -237,7 +211,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::INSIDE;
 				}
-				else if (IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE*3.f)) {
+				else if (IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE * 3.f)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::DOT;
 				}
@@ -302,10 +276,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					}
 					break;
 
-
-
-
-
 					case CLICKED::NE:
 					{
 						draggingThisCycle = true;
@@ -332,6 +302,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						}
 					}
 					break;
+
 					case CLICKED::SW:
 					{
 						draggingThisCycle = true;
@@ -359,9 +330,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					}
 
 					break;
+
 					case CLICKED::NW:
-
-
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
@@ -388,8 +358,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					}
 
 					break;
-					case CLICKED::SE:
 
+					case CLICKED::SE:
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
