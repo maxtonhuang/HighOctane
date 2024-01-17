@@ -62,43 +62,51 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 	UNREFERENCED_PARAMETER(entity);
 	UNREFERENCED_PARAMETER(layer_it);
 
-	if (!popupHovered && name.selected) {
+	if (!popupHovered && name.selected && !draggingThisCycle) {
 		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
+				currMouseCursor = Cursors::RESIZEALL;
 				SetCursor(hAllDirCursor);
 			}
 			else {
+				currMouseCursor = Cursors::ARROW;
 				SetCursor(hDefaultCursor);
 			}
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNESWCursor); // Change
+			currMouseCursor = Cursors::RESIZENS;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNESWCursor); // Change
+			currMouseCursor = Cursors::RESIZEEW;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNESWCursor); // Change
+			currMouseCursor = Cursors::RESIZENS;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNESWCursor); // Change
+			currMouseCursor = Cursors::RESIZEEW;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
+			currMouseCursor = Cursors::RESIZENESW;
 			SetCursor(hNESWCursor);
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
+			currMouseCursor = Cursors::RESIZENESW;
 			SetCursor(hNESWCursor);
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotRight(), currentMousePosition, CORNER_SIZE)) {
+			currMouseCursor = Cursors::RESIZENWSE;
 			SetCursor(hNWSECursor);
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
+			currMouseCursor = Cursors::RESIZENWSE;
 			SetCursor(hNWSECursor);
 		}
 		else if (IsWithinObject(*model, currentMousePosition)) {
+			currMouseCursor = Cursors::RESIZEALL;
 			SetCursor(hAllDirCursor);
 		}
 		else {
+			currMouseCursor = Cursors::ARROW;
 			SetCursor(hDefaultCursor);
 		}
 	}
@@ -200,14 +208,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
-							//vmath::Vector2 projectedPoint = vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition);
-							//float dist = vmath::Vector2::DistanceBetweenPoints(model->GetRight(), projectedPoint);
-							//size.width *= (vmath::Vector2::DistanceBetweenPoints(projectedPoint, transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)) / 2.f;
-							//transform.position = ((vmath::Vector2::VectorFromTwoPoints(model->GetRight(), transform.position)).normalize()) * (dist / 2.f);
-
 
 							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
-
 
 						}
 					}
@@ -359,7 +361,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					
 					case CLICKED::DOT:
 						draggingThisCycle = true;
-						transform.rotation = (vmath::PI / 2.f) - (atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x)) /** 180.f / vmath::PI*/;
+						transform.rotation = (vmath::PI / 2.f) - (atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x));
+						transform.rotation = (transform.rotation > vmath::PI) ? (transform.rotation - (2.f * vmath::PI)) : transform.rotation;
 						break;
 
 					default:

@@ -117,6 +117,8 @@ bool isHotReload{ false };
 
 bool fullscreen{ false };
 
+int currMouseCursor{ 0 };
+
 std::string SystemModeToString(SystemMode mode)
 {
 	switch (mode)
