@@ -130,6 +130,9 @@ public:
 	*/
 	void Start(std::string animationName, Entity entity);
 
+	//Queue up an animation to start if no animations are playing
+	void Queue(std::string animationName, Entity entity);
+
 	//Initialises the animation set and runs its default animation
 	void Initialise(Entity entity);
 
@@ -141,7 +144,7 @@ public:
 
 	//Copy constructor of animation set to ensure activeAnimation pointer is not copied
 	AnimationSet(const AnimationSet&);
-
+	
 	//Assignment operator of animation set to ensure activeAnimation pointer is not copied
 	AnimationSet& operator= (const AnimationSet&);
 
@@ -159,6 +162,9 @@ public:
 private:
 	//If animation set has been initialised
 	bool initialised{ false };
+
+	//To queue up animations
+	std::queue<AnimationGroup*> animationQueue{};
 };
 
 template <typename T>

@@ -108,6 +108,7 @@ void BattleSystem::Initialize()
     battleState = NEWGAME;
     battlestarted = false;
     attackingAnimation = false;
+    activeCharacter = nullptr;
     turnOrderQueueInitializer.clear();
     turnOrderQueueAnimator.clear();
 }
@@ -120,6 +121,7 @@ void BattleSystem::StartBattle() {
     roundInProgress = false;
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
+    chi = 5;
 
     DetermineTurnOrder();
 

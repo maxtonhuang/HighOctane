@@ -59,12 +59,31 @@ void AnimationSet::Start(std::string animationName, Entity entity) {
 	}
 }
 
+void AnimationSet::Queue(std::string animationName, Entity entity) {
+	for (auto& a : animationSet) {
+		if (a.name == animationName) {
+			animationQueue.push(&a);
+			break;
+		}
+	}
+	if (!animationQueue.empty() && (activeAnimation == nullptr || activeAnimation->active == false || activeAnimation->loop == true)) {
+		activeAnimation = animationQueue.front();
+		activeAnimation->Start(entity);
+		animationQueue.pop();
+	}
+}
+
 void AnimationSet::Update(Entity entity) {
 	if (!initialised) {
 		Initialise(entity);
 	}
 	if (activeAnimation != nullptr && !paused) {
 		activeAnimation->Update(entity);
+	}
+	if (!animationQueue.empty() && (activeAnimation == nullptr || activeAnimation->active == false)) {
+		activeAnimation = animationQueue.front();
+		activeAnimation->Start(entity);
+		animationQueue.pop();
 	}
 }
 
@@ -714,7 +733,10 @@ void CameraZoomAnimation::Start() {
 	}
 	active = true;
 	nextKeyframe = keyframes.begin();
-	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
+	float frameCount{ (float)(nextKeyframe->frameNum) };
+	if (frameCount == 0.f) {
+		frameCount = 1.f;
+	}
 	zoom = (nextKeyframe->data - camera.GetZoom()) / frameCount * FIXED_DT / frametime;
 }
 void CameraZoomAnimation::Update(int frameNum) {

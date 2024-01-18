@@ -95,7 +95,8 @@ void CharacterAction::UpdateState() {
                 else {
                     ECS::ecs().GetComponent<Transform>(attackpos).position = vmath::Vector2{ -55.f, 13.f }; //temporary hardcoding
                 }
-                animation.Start(animationName.str(), characterStats->entity);
+                animation.Start("Attack Start", characterStats->entity);
+                animation.Queue(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
