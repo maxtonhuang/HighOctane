@@ -136,7 +136,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
+            "position_x": -592.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -190,7 +190,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -905.0,
+            "position_x": -667.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -256,7 +256,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
+            "position_x": -592.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -294,7 +294,7 @@
     },
     {
         "Entity": {
-            "Name": "allyHp_closeup_icon1",
+            "Name": "hpBarIcon",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -307,7 +307,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
+            "position_x": -592.0,
             "position_y": 344.5,
             "rotation": 0.0,
             "scale": 0.30000001192092896,

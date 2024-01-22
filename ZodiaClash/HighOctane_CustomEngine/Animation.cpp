@@ -87,6 +87,12 @@ void AnimationSet::Update(Entity entity) {
 	}
 }
 
+void AnimationSet::Stop() {
+	std::queue<AnimationGroup*> newQueue{};
+	animationQueue = newQueue;
+	activeAnimation = nullptr;
+}
+
 AnimationSet::AnimationSet(const AnimationSet& copy) {
 	*this = copy;
 }

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 36,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,21 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35"
             ]
         }
     },
@@ -301,7 +315,7 @@
     },
     {
         "Entity": {
-            "Name": "enemyHp_closeup_icon1",
+            "Name": "hpBarIcon",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -348,6 +362,34 @@
             "Alpha": 1.0
         },
         "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 2.0,
+                                "Green": 2.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": 44.5,

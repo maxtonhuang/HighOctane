@@ -133,6 +133,9 @@ public:
 	//Queue up an animation to start if no animations are playing
 	void Queue(std::string animationName, Entity entity);
 
+	//Stops the animation and removes all from queue
+	void Stop();
+
 	//Initialises the animation set and runs its default animation
 	void Initialise(Entity entity);
 

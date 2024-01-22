@@ -116,7 +116,7 @@
             },
             {
                 "Total Frames": 60,
-                "Group Name": "Attack 1",
+                "Group Name": "Attack 1 (OLD)",
                 "Loop": false,
                 "Frame Time": 0.01666666753590107,
                 "Animations": [
@@ -271,7 +271,7 @@
             },
             {
                 "Total Frames": 60,
-                "Group Name": "Attack 3",
+                "Group Name": "Attack 3 (OLD)",
                 "Loop": false,
                 "Frame Time": 0.01666666753590107,
                 "Animations": [
@@ -583,6 +583,10 @@
                         "Animation Type": "TextureChange",
                         "Key Frames": [
                             {
+                                "Frame Number": -1,
+                                "Texture": ""
+                            },
+                            {
                                 "Frame Number": 0,
                                 "Texture": "Cat_Ulti.spritesheet"
                             }
@@ -713,6 +717,170 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 9,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Cat_Attack_1.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            },
+                            {
+                                "Frame Number": 2
+                            },
+                            {
+                                "Frame Number": 3
+                            },
+                            {
+                                "Frame Number": 4
+                            },
+                            {
+                                "Frame Number": 5
+                            },
+                            {
+                                "Frame Number": 6
+                            },
+                            {
+                                "Frame Number": 7
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Destination": "Move Back to start pos"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Zoom": 1.75
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5,
+                                "Sound": "Cat Atk_1_Edited.wav"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": -1
+                            },
+                            {
+                                "Frame Number": 6
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 9,
+                "Group Name": "Attack 3",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Cat_Attack_2.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2
+                            },
+                            {
+                                "Frame Number": 3
+                            },
+                            {
+                                "Frame Number": 4
+                            },
+                            {
+                                "Frame Number": 5
+                            },
+                            {
+                                "Frame Number": 6
+                            },
+                            {
+                                "Frame Number": 7
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Destination": "Move Back to start pos"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 7
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6,
+                                "Sound": "Cat_Atk_2_Edited.wav"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Zoom": 1.75
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Zoom": 2.0
                             }
                         ]
                     }

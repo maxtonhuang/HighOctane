@@ -144,6 +144,7 @@ struct Name {
 };
 
 struct Parent {
+    Entity GetChildByName(std::string name);
     std::vector<Entity>     children{};
 };
 

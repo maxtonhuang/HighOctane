@@ -49,6 +49,8 @@
 #include "Animation.h"
 #include "Camera.h"
 #include "AssetManager.h"
+#include "Utilities.h"
+#include "Global.h"
 
 //For animating turn order
 const float turnOrderOffset{ 100.f };
@@ -148,6 +150,8 @@ void BattleSystem::Update()
     ComponentArray<CharacterStats>* statsArray{};
     ComponentArray<Model>* modelArray{};
     if (m_Entities.size() > 0) {
+
+        UpdateTargets();
 
         //If animation system is playing battle animation, do not progress game system
         if (locked) {
@@ -496,7 +500,7 @@ void BattleSystem::InitialiseBattleUI() {
             ECS::ecs().GetComponent<Transform>(healthbar).position.y += ally_hp_offset;
             ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
             ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
-            enemyHealthBars.push_back(healthbar);
+            allyHealthBars.push_back(healthbar);
             allBattleUI.push_back(healthbar);
             ally_hp_offset += healthBarOffset;
         }
@@ -628,8 +632,67 @@ void BattleSystem::DestroyTargets() {
     targetCircleList.clear();
 }
 
+void BattleSystem::UpdateTargets() {
+    static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+    static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static vmath::Vector2 mousePos{ RESET_VEC2 };
+
+    if (targetCircleList.empty()) {
+        return;
+    }
+
+    // get cursorPos, compare with pos in Transform, return if no match
+    for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
+        switch (msg.type) {
+        case(TYPE::MOUSE_MOVE):
+            mousePos = { msg.posX, msg.posY };
+            break;
+        }
+    }
+
+    bool aoe{ activeCharacter->action.selectedSkill.attacktype == AttackType::AOE };
+    int selected{ -1 };
+
+    for (int i = 0; i < targetCircleList.size(); i++) {
+        Entity currentTarget{ targetCircleList[i] };
+        Model& targetModel{ modelArray.GetData(currentTarget) };
+        Button& targetButton{ buttonArray.GetData(currentTarget) };
+        targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+        targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+        if (IsWithinObject(targetModel, mousePos)) {
+            selected = i;
+        }
+    }
+
+    for (int i = 0; i < targetCircleList.size(); i++) {
+        Entity currentTarget{ targetCircleList[i] };
+        Button& targetButton{ buttonArray.GetData(currentTarget) };
+        Entity hpIcon{ parentArray.GetData(enemyHealthBars[i]).GetChildByName("hpBarIcon") };
+        AnimationSet& iconAnimation{ animationArray.GetData(hpIcon) };
+
+        if ((aoe && selected >= 0) || (selected == i)) {
+            targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
+            targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
+
+            if (iconAnimation.activeAnimation == nullptr) {
+                iconAnimation.Start("Glow", hpIcon);
+            }
+        }
+        else {
+            if (iconAnimation.activeAnimation != nullptr) {
+                iconAnimation.Stop();
+                modelArray.GetData(hpIcon).SetColor(1.f, 1.f, 1.f);
+            }
+        }
+    }
+}
+
 void BattleSystem::MoveOutUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
     if (m_Entities.size() == 0) {
         return;
     }
@@ -638,6 +701,11 @@ void BattleSystem::MoveOutUIAnimation() {
     }
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop Out", e);
+    }
+    for (Entity& e : enemyHealthBars) {
+        Entity icon{ parentArray.GetData(e).GetChildByName("hpBarIcon") };
+        animationArray.GetData(icon).Stop();
+        modelArray.GetData(icon).SetColor(1.f, 1.f, 1.f);
     }
     attackingAnimation = true;
 }
@@ -680,6 +748,7 @@ void BattleSystem::AnimateRemoveHealthBar(Entity entity) {
 
 void BattleSystem::UpdateSkillIcons() {
     static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+    static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
     if (m_Entities.size() == 0) {
         return;
     }
@@ -691,5 +760,7 @@ void BattleSystem::UpdateSkillIcons() {
     for (int i = 0; i < 3; i++) {
         std::string skillTexture = activeCharacter->action.skills[i].skillTexture;
         textureArray.GetData(skillButtons[i]).tex = assetmanager.texture.Get(skillTexture.c_str());
+        buttonArray.GetData(skillButtons[i]).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+        buttonArray.GetData(skillButtons[i]).defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
     }
 }

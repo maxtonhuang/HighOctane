@@ -120,11 +120,16 @@ public:
 	void CreateTargets();
 	//Destroy target circles after enemy has been chosen
 	void DestroyTargets();
+	//Updates targets for battle system UI animations
+	void UpdateTargets();
 
 	//Calls "Pop Out" animation for all UI, to remove UI during attacking animations
 	void MoveOutUIAnimation();
 	//Calls "Pop In" animation for all UI, to add back UI after attacking
 	void MoveInUIAnimation();
+
+	std::vector<Entity> skillButtons;
+
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -137,7 +142,6 @@ private:
 	std::deque<Entity> turnOrderQueueInitializer;
 	std::deque<Entity> turnOrderQueueAnimator;
 	std::vector<Entity> targetCircleList;
-	std::vector<Entity> skillButtons;
 	std::vector<Entity> allyHealthBars;
 	std::vector<Entity> enemyHealthBars;
 	Entity chiLabel;
