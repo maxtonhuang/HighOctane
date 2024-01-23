@@ -271,6 +271,58 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 8,
+                "Group Name": "Death",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Guard_Death.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            },
+                            {
+                                "Frame Number": 2
+                            },
+                            {
+                                "Frame Number": 3
+                            },
+                            {
+                                "Frame Number": 4
+                            },
+                            {
+                                "Frame Number": 5
+                            },
+                            {
+                                "Frame Number": 6
+                            },
+                            {
+                                "Frame Number": 7
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Guard Damaged_Edited.wav"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": ""

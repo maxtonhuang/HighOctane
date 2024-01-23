@@ -83,11 +83,6 @@
             "Alpha": 1.0
         },
         "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0
-        },
         "Animation Set": [
             {
                 "Total Frames": 60,
@@ -789,7 +784,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 5,
+                                "Frame Number": 2,
                                 "Sound": "Cat Atk_1_Edited.wav"
                             }
                         ]

@@ -378,6 +378,17 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 		}
 	}
+	if (ECS::ecs().HasComponent<Size>(entity)) {
+		Size* entitySize{ &ECS::ecs().GetComponent<Size>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(Transform).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Size")) {
+			auto& widthComponent = entitySize->width;
+			auto& heightComponent = entitySize->height;
+			ImGui::DragFloat("Width", &widthComponent);
+			ImGui::DragFloat("Height", &heightComponent);
+
+			ImGui::TreePop();
+		}
+	}
 	if (ECS::ecs().HasComponent<Collider>(entity)) {
 		Collider* entityCollider{ &ECS::ecs().GetComponent<Collider>(entity) };
 		if (ImGui::TreeNodeEx((void*)typeid(Collider).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Collider")) {

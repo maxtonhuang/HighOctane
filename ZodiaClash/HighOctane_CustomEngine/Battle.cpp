@@ -52,9 +52,6 @@
 #include "Utilities.h"
 #include "Global.h"
 
-//For animating turn order
-const float turnOrderOffset{ 100.f };
-
 //For animating skill buttons
 const float skillButtonOffset{ 240.f };
 
@@ -113,6 +110,7 @@ void BattleSystem::Initialize()
     activeCharacter = nullptr;
     turnOrderQueueInitializer.clear();
     turnOrderQueueAnimator.clear();
+    targetCircleList.clear();
 }
 
 /**
@@ -287,6 +285,10 @@ void BattleSystem::Update()
         if (activeCharacter->action.entityState == EntityState::ENDING) {
 
             //Update turn order animator
+            if (locked) {
+                return;
+            }
+
             if (!AnimateUpdateTurnOrder()) {
                 return;
            }
@@ -330,7 +332,6 @@ void BattleSystem::Update()
         }
         break;
     }
-    ProcessDamage();
 }
 
 /**
@@ -440,7 +441,12 @@ void BattleSystem::ProcessDamage() {
             for (CharacterStats const& c : turnManage.characterList) {
                 if (c.entity == entity) {
                     if (c.stats.health < cs->stats.health) {
-                        animationArray->GetData(entity).Start("Damaged", entity);
+                        if (c.stats.health != 0) {
+                            animationArray->GetData(entity).Start("Damaged", entity);
+                        }
+                        else {
+                            animationArray->GetData(entity).Start("Death", entity);
+                        }
                         Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
                         transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
                         textArray->GetData(damagelabel).textString = std::to_string((int)(cs->stats.health - c.stats.health));
@@ -455,6 +461,7 @@ void BattleSystem::ProcessDamage() {
             if (found == false) {
                 Model* model = &modelArray->GetData(entity);
                 cs->action.entityState = DEAD;
+                cs->debuffs.bloodStack = 0;
                 model->SetAlpha(0.2f);
                 AnimateRemoveTurnOrder(entity);
                 AnimateRemoveHealthBar(entity);
@@ -490,6 +497,8 @@ void BattleSystem::InitialiseBattleUI() {
     static auto& turnorderArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<TurnIndicator>() };
     if (m_Entities.size() > 0) {
         skillButtons.clear();
+        enemyAnimators.clear();
+        allyAnimators.clear();
         allyHealthBars.clear();
         enemyHealthBars.clear();
         allBattleUI.clear();
@@ -519,8 +528,9 @@ void BattleSystem::InitialiseBattleUI() {
         for (CharacterStats* c : GetPlayers()) {
             Entity healthbar{ EntityFactory::entityFactory().ClonePrefab("ally_healthbar.prefab") };
             ECS::ecs().GetComponent<Transform>(healthbar).position.y += ally_hp_offset;
-            ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
+            //ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
             ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
+            ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = &ECS::ecs().GetComponent<CharacterStats>(c->entity);
             allyHealthBars.push_back(healthbar);
             allBattleUI.push_back(healthbar);
             ally_hp_offset += healthBarOffset;
@@ -545,8 +555,9 @@ void BattleSystem::InitialiseBattleUI() {
         for (CharacterStats* c : GetEnemies()) {
             Entity healthbar{ EntityFactory::entityFactory().ClonePrefab("enemy_healthbar.prefab") };
             ECS::ecs().GetComponent<Transform>(healthbar).position.y += enemy_hp_offset;
-            ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
+            //ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
             ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
+            ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = &ECS::ecs().GetComponent<CharacterStats>(c->entity);
             enemyHealthBars.push_back(healthbar);
             allBattleUI.push_back(healthbar);
             enemy_hp_offset += healthBarOffset;
@@ -594,7 +605,14 @@ bool BattleSystem::AnimateInitialiseTurnOrder() {
         if (!turnOrderQueueInitializer.empty()) {
             ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueInitializer.front()).Start("Shift In", turnOrderQueueInitializer.front());
             for (Entity& e : turnOrderQueueAnimator) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                if (turnOrderQueueInitializer.size() == 1 && e == turnOrderQueueAnimator.front()) {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Expand", e);
+                    Entity icon{ ECS::ecs().GetComponent<Parent>(e).GetChildByName("turnOrderIcon") };
+                    ECS::ecs().GetComponent<AnimationSet>(icon).Start("Expand", icon);
+                }
+                else {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                }
             }
             turnOrderQueueAnimator.push_back(turnOrderQueueInitializer.front());
             turnOrderQueueInitializer.pop_front();
@@ -605,17 +623,26 @@ bool BattleSystem::AnimateInitialiseTurnOrder() {
 }
 
 bool BattleSystem::AnimateUpdateTurnOrder() {
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     if (m_Entities.size() > 0) {
         static bool turnanimated{ false };
         if (turnanimated == false) {
+            Entity queueFront{ turnOrderQueueAnimator.front() };
             ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
+            Entity retractingIcon{ parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon") };
+            ECS::ecs().GetComponent<AnimationSet>(retractingIcon).Start("Unexpand", retractingIcon);
+            turnOrderQueueAnimator.pop_front();
+
+            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Expand", turnOrderQueueAnimator.front());
+            Entity expandingIcon = parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon");
+            ECS::ecs().GetComponent<AnimationSet>(expandingIcon).Start("Expand", expandingIcon);
             for (Entity& e : turnOrderQueueAnimator) {
                 if (e != turnOrderQueueAnimator.front()) {
                     ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
                 }
             }
-            turnOrderQueueAnimator.push_back(turnOrderQueueAnimator.front());
-            turnOrderQueueAnimator.pop_front();
+            turnOrderQueueAnimator.push_back(queueFront);
+            
             turnanimated = true;
             return false;
         }
@@ -638,12 +665,15 @@ void BattleSystem::InitialiseUIAnimation() {
 }
 
 void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     if (m_Entities.size() > 0) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
         bool moveup{ false };
         for (Entity e : turnOrderQueueAnimator) {
             if (ECS::ecs().GetComponent<TurnIndicator>(e).character == entity) {
                 ECS::ecs().GetComponent<AnimationSet>(e).Start("Pop Out", e);
+                Entity icon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
+                ECS::ecs().GetComponent<AnimationSet>(icon).Start("Unexpand", icon);
                 moveup = true;
                 continue;
             }

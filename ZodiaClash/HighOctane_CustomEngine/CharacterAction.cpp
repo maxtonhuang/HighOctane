@@ -103,9 +103,9 @@ void CharacterAction::UpdateState() {
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+            battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
         }
-        
         
         entityState = ENDING;
         break;

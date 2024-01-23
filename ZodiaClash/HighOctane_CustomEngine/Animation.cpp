@@ -48,11 +48,16 @@ void AnimationSet::Initialise(Entity entity) {
 void AnimationSet::Start(std::string animationName, Entity entity) {
 	//Set active animation
 	initialised = true;
+	bool found{ false };
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
 			activeAnimation = &a;
+			found = true;
 			break;
 		}
+	}
+	if (!found) {
+		return;
 	}
 	if (activeAnimation != nullptr) {
 		activeAnimation->Start(entity);
@@ -481,7 +486,14 @@ void TransformDirectAnimation::Start() {
 		return;
 	}
 	active = true;
-	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
+
+	if (ECS::ecs().HasComponent<Child>(parent)) {
+		entityTransform = &ECS::ecs().GetComponent<Child>(parent).offset;
+	}
+	else {
+		entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
+	}
+	
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum) };
 	if (frameCount == 0) {

@@ -82,6 +82,9 @@ public:
     //Saves the current scene to scene path
     void SaveScene(const std::string& scenePath);
 
+    //Saves scene assets only
+    void SaveSceneAssets(const std::string& scenePath);
+
     //Load all entities in the scene
     void LoadEntities(const std::string& entitiesPath);
 
