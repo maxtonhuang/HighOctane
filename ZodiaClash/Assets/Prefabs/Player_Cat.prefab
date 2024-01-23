@@ -575,7 +575,7 @@
             },
             {
                 "Total Frames": 18,
-                "Group Name": "Attack 2",
+                "Group Name": "Attack 3",
                 "Loop": false,
                 "Frame Time": 0.03999999910593033,
                 "Animations": [
@@ -658,7 +658,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 13,
+                                "Frame Number": 3,
                                 "Sound": "Cat_Atk_3_Edited.wav"
                             }
                         ]
@@ -809,7 +809,7 @@
             },
             {
                 "Total Frames": 9,
-                "Group Name": "Attack 3",
+                "Group Name": "Attack 2",
                 "Loop": false,
                 "Frame Time": 0.03999999910593033,
                 "Animations": [
@@ -866,7 +866,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 6,
+                                "Frame Number": 2,
                                 "Sound": "Cat_Atk_2_Edited.wav"
                             }
                         ]

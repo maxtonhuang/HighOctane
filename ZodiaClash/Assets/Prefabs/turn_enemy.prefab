@@ -272,6 +272,31 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 0.800000011920929,
+                                "Green": 0.800000011920929,
+                                "Blue": 0.800000011920929
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 0.6784313917160034,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -279,7 +304,7 @@
     },
     {
         "Entity": {
-            "Name": "ally_closeup_icon",
+            "Name": "turnOrderIcon",
             "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
@@ -293,7 +318,7 @@
         },
         "Transform": {
             "position_x": 350.0,
-            "position_y": 465.0,
+            "position_y": 628.0,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,
@@ -326,6 +351,34 @@
             "Alpha": 1.0
         },
         "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 2.0,
+                                "Green": 2.0,
+                                "Blue": 2.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": 0.0,
