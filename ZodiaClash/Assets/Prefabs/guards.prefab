@@ -63,10 +63,10 @@
         },
         "CharacterStats": {
             "Character type": 1,
-            "Max Health": 120.0,
-            "Health": 120.0,
-            "Attack": 10.0,
-            "Defense": 15.0,
+            "Max Health": 80.0,
+            "Health": 80.0,
+            "Attack": 8.0,
+            "Defense": 25.0,
             "Speed": 1,
             "Skills": [
                 "Guard Attack"
