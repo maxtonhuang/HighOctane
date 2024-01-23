@@ -451,12 +451,31 @@ void BattleSystem::ProcessDamage() {
                     break;
                 }
             }
+            //Death animation and logic
             if (found == false) {
                 Model* model = &modelArray->GetData(entity);
                 cs->action.entityState = DEAD;
                 model->SetAlpha(0.2f);
                 AnimateRemoveTurnOrder(entity);
                 AnimateRemoveHealthBar(entity);
+                if (cs->tag == CharacterType::PLAYER) {
+                    std::vector<CharacterAnimator> newAnimators{};
+                    for (CharacterAnimator& ca : allyAnimators) {
+                        if (ca.character != cs->entity) {
+                            newAnimators.push_back(ca);
+                        }
+                    }
+                    allyAnimators = newAnimators;
+                }
+                else {
+                    std::vector<CharacterAnimator> newAnimators{};
+                    for (CharacterAnimator& ca : enemyAnimators) {
+                        if (ca.character != cs->entity) {
+                            newAnimators.push_back(ca);
+                        }
+                    }
+                    enemyAnimators = newAnimators;
+                }
             }
         }
         if (totalDamage > 0.f) {
@@ -467,6 +486,8 @@ void BattleSystem::ProcessDamage() {
 }
 
 void BattleSystem::InitialiseBattleUI() {
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static auto& turnorderArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<TurnIndicator>() };
     if (m_Entities.size() > 0) {
         skillButtons.clear();
         allyHealthBars.clear();
@@ -503,6 +524,20 @@ void BattleSystem::InitialiseBattleUI() {
             allyHealthBars.push_back(healthbar);
             allBattleUI.push_back(healthbar);
             ally_hp_offset += healthBarOffset;
+
+            CharacterAnimator animator{};
+            animator.character = c->entity;
+            animator.healthbar = healthbar;
+            animator.healthbarIcon = parentArray.GetData(healthbar).GetChildByName("hpBarIcon");
+            animator.healthbarBase = parentArray.GetData(healthbar).GetChildByName("hpBarBase");
+            for (Entity& turnUI : turnOrderQueueInitializer) {
+                if (turnorderArray.GetData(turnUI).character == animator.character) {
+                    animator.turnorder = turnUI;
+                    animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
+                    break;
+                }
+            }
+            allyAnimators.push_back(animator);
         }
 
         //Initialise enemy healthbars
@@ -515,6 +550,20 @@ void BattleSystem::InitialiseBattleUI() {
             enemyHealthBars.push_back(healthbar);
             allBattleUI.push_back(healthbar);
             enemy_hp_offset += healthBarOffset;
+
+            CharacterAnimator animator{};
+            animator.character = c->entity;
+            animator.healthbar = healthbar;
+            animator.healthbarIcon = parentArray.GetData(healthbar).GetChildByName("hpBarIcon");
+            animator.healthbarBase = parentArray.GetData(healthbar).GetChildByName("hpBarBase");
+            for (Entity& turnUI : turnOrderQueueInitializer) {
+                if (turnorderArray.GetData(turnUI).character == animator.character) {
+                    animator.turnorder = turnUI;
+                    animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
+                    break;
+                }
+            }
+            enemyAnimators.push_back(animator);
         }
     }
 }
@@ -669,8 +718,15 @@ void BattleSystem::UpdateTargets() {
     for (int i = 0; i < targetCircleList.size(); i++) {
         Entity currentTarget{ targetCircleList[i] };
         Button& targetButton{ buttonArray.GetData(currentTarget) };
-        Entity hpIcon{ parentArray.GetData(enemyHealthBars[i]).GetChildByName("hpBarIcon") };
+        Entity hpIcon{ enemyAnimators[i].healthbarIcon };
         AnimationSet& iconAnimation{ animationArray.GetData(hpIcon) };
+        Entity turnIcon{ enemyAnimators[i].turnorderIcon };
+        AnimationSet& turniconAnimation{ animationArray.GetData(turnIcon)};
+        Entity turn{ enemyAnimators[i].turnorder };
+        AnimationSet& turnAnimation{ animationArray.GetData(turn) };
+        Entity hpBase{ enemyAnimators[i].healthbarBase };
+        AnimationSet& hpbaseAnimation{ animationArray.GetData(hpBase) };
+        
 
         if ((aoe && selected >= 0) || (selected == i)) {
             targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
@@ -679,11 +735,36 @@ void BattleSystem::UpdateTargets() {
             if (iconAnimation.activeAnimation == nullptr) {
                 iconAnimation.Start("Glow", hpIcon);
             }
+
+            if (turniconAnimation.activeAnimation == nullptr) {
+                turniconAnimation.Start("Glow", turnIcon);
+            }
+
+            if (turnAnimation.activeAnimation == nullptr) {
+                turnAnimation.Start("Glow", turn);
+            }
+
+            if (hpbaseAnimation.activeAnimation == nullptr) {
+                hpbaseAnimation.Start("Glow", hpBase);
+            }
         }
         else {
             if (iconAnimation.activeAnimation != nullptr) {
                 iconAnimation.Stop();
                 modelArray.GetData(hpIcon).SetColor(1.f, 1.f, 1.f);
+            }
+            if (turniconAnimation.activeAnimation != nullptr) {
+                turniconAnimation.Stop();
+                modelArray.GetData(turnIcon).SetColor(1.f, 1.f, 1.f);
+            }
+            if (turnAnimation.activeAnimation != nullptr) {
+                const float darkred{ 173.f / 255.f };
+                turnAnimation.Stop();
+                modelArray.GetData(turn).SetColor(darkred, 0.f, 0.f);
+            }
+            if (hpbaseAnimation.activeAnimation != nullptr) {
+                hpbaseAnimation.Stop();
+                modelArray.GetData(hpBase).SetColor(0.f, 0.f, 0.f);
             }
         }
     }
@@ -702,10 +783,19 @@ void BattleSystem::MoveOutUIAnimation() {
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop Out", e);
     }
-    for (Entity& e : enemyHealthBars) {
-        Entity icon{ parentArray.GetData(e).GetChildByName("hpBarIcon") };
-        animationArray.GetData(icon).Stop();
-        modelArray.GetData(icon).SetColor(1.f, 1.f, 1.f);
+    for (CharacterAnimator& ca : enemyAnimators) {
+        const float darkred{ 178.f / 255.f };
+        animationArray.GetData(ca.healthbarIcon).Stop();
+        modelArray.GetData(ca.healthbarIcon).SetColor(1.f, 1.f, 1.f);
+
+        animationArray.GetData(ca.healthbarBase).Stop();
+        modelArray.GetData(ca.healthbarBase).SetColor(0.f, 0.f, 0.f);
+
+        animationArray.GetData(ca.turnorderIcon).Stop();
+        modelArray.GetData(ca.turnorderIcon).SetColor(1.f, 1.f, 1.f);
+
+        animationArray.GetData(ca.turnorder).Stop();
+        modelArray.GetData(ca.turnorder).SetColor(darkred, 0.f, 0.f);
     }
     attackingAnimation = true;
 }
