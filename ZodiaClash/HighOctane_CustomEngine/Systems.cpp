@@ -870,8 +870,8 @@ void UITextLabelSystem::Draw() {
 			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
 		}
 		else {
-			sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
-			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);
+			/*sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
+			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);*/
 			textLabelData->Update(*modelData, *nameData);
 			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}

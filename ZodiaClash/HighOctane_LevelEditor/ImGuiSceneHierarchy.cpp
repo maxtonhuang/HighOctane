@@ -489,7 +489,7 @@ void SceneEntityComponents(Entity entity) {
 			}
 
 			// text box to reflect current string
-			if (ImGui::InputText("Text", &textlabel.textString)) {
+			if (ImGui::InputTextMultiline("Text", &textlabel.textString)) {
 				textlabel.CalculateOffset();
 			}
 

@@ -292,33 +292,32 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::ve
     float fontSize = txtLblData.relFontSize;
     Font& fontData{ (txtLblData.font != nullptr) ? *txtLblData.font : *fonts.GetDefaultFont() };
 
-    // iterate through all characters 
-    float initPosX = (relTextPos.x);
-    float initPosY = (relTextPos.y);
-    float xPos = initPosX;
-    float yPos;
-
     std::string::const_iterator c;
-    for (c = txtLblData.textString.begin(); c != txtLblData.textString.end(); c++)
-    {
-        Character ch{ fontData.characters[*c] };
 
-        xPos = (xPos + ch.bearing.x * fontSize);
-        yPos = (initPosY - (ch.size.y - ch.bearing.y) * fontSize);
+    for (TextLine line : txtLblData.lineData) {
+        float initPosX = line.relTransform.x;
+        float initPosY = line.relTransform.y;
+        float xPos = initPosX;
+        float yPos;
+        for (c = line.lineString.begin(); c != line.lineString.end(); c++) {
+            Character ch{ fontData.characters[*c] };
+            xPos = (xPos + ch.bearing.x * fontSize);
+            yPos = (initPosY - (ch.size.y - ch.bearing.y) * fontSize);
+                
+            float w = ch.size.x * fontSize;
+            float h = ch.size.y * fontSize;
 
-        float w = ch.size.x * fontSize;
-        float h = ch.size.y * fontSize;
-
-        glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
-        glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
-        glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-        glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
-        fontRenderer->AddVertex(Vertex{botleft, color, ch.textureID->GetTexCoords((int)ch.texPos,0), (float)ch.textureID->GetID() - 1});
-        fontRenderer->AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
-        fontRenderer->AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
-        fontRenderer->AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords((int)ch.texPos,3), (float)ch.textureID->GetID() - 1 });
-        fontRenderer->AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
-        fontRenderer->AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
-        xPos += (ch.advance >> 6) * fontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64to get amount of pixels))
+            glm::vec2 botleft{ xPos / GRAPHICS::w, yPos / GRAPHICS::h };
+            glm::vec2 botright{ (xPos + w) / GRAPHICS::w, yPos / GRAPHICS::h };
+            glm::vec2 topright{ (xPos + w) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+            glm::vec2 topleft{ (xPos) / GRAPHICS::w, (yPos + h) / GRAPHICS::h };
+            fontRenderer->AddVertex(Vertex{ botleft, color, ch.textureID->GetTexCoords((int)ch.texPos,0), (float)ch.textureID->GetID() - 1 });
+            fontRenderer->AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer->AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            fontRenderer->AddVertex(Vertex{ topright,color, ch.textureID->GetTexCoords((int)ch.texPos,3), (float)ch.textureID->GetID() - 1 });
+            fontRenderer->AddVertex(Vertex{ botright,color, ch.textureID->GetTexCoords((int)ch.texPos,1), (float)ch.textureID->GetID() - 1 });
+            fontRenderer->AddVertex(Vertex{ topleft, color, ch.textureID->GetTexCoords((int)ch.texPos,2), (float)ch.textureID->GetID() - 1 });
+            xPos += (ch.advance >> 6) * fontSize; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64to get amount of pixels))
+        }
     }
 }

@@ -56,6 +56,11 @@ enum class UI_VERTICAL_ALIGNMENT {
 	V_CENTER_ALIGN,
 	V_BOTTOM_ALIGN
 };
+enum class UI_TEXT_WRAP {
+	AUTO_WIDTH,
+	AUTO_HEIGHT,
+	FIXED_SIZE
+};
 // enums for state lookup
 enum class STATE {
 	NONE,
@@ -65,6 +70,7 @@ enum class STATE {
 	DISABLED
 };
 
+// struct for padding within padding component
 struct Padding {
 	float left;
 	float right;
@@ -78,17 +84,16 @@ struct Padding {
 	Padding(float leftVal, float rightVal, float topVal, float bottomVal) : left{ leftVal }, right{ rightVal }, top{ topVal }, bottom{ bottomVal } {}
 };
 
-// struct for padding within padding component
+//struct for line by line text data
+struct TextLine {
+	std::string lineString{};
+	float lineWidth{};
+	Vec2 relTransform{};
+};
 
 class UIComponent {
 public:
 	virtual ~UIComponent() {}
-	
-	//event handler functions
-	//virtual void Update(Transform& transformData, Model& modelData, Name& nameData) = 0;
-	//virtual void OnClick(Model& modelData, Name& nameData) = 0;
-	//virtual void OnHover(Model& modelData, Name& nameData) = 0;
-	//virtual void OnFocus() = 0;
 };
 
 class TextLabel : public UIComponent {
@@ -97,11 +102,16 @@ public:
 	std::string textString{}; 
 	std::string prevTextString{};
 	//Vec2 posOffset{}; //offset from transform
-	Vec2 relTransform{};
+	Vec2 relTransform{}; //phase out??
 	glm::vec4 textColor{}; 
 	float relFontSize{};
 	float textWidth{};
 	float textHeight{};
+	float glyphHeight{};
+	float lineHeight{};
+	std::vector<TextLine> lineData{};
+	//int numLines{};
+	UI_TEXT_WRAP textWrap{};
 	UI_HORIZONTAL_ALIGNMENT hAlignment{};
 	UI_VERTICAL_ALIGNMENT vAlignment{};
 	STATE currentState{};
@@ -138,7 +148,7 @@ public:
 	**************************/
 	bool CheckStringUpdated(TextLabel& txtLblData);
 	void CalculateOffset();
-	void UpdateOffset(Transform const& transformData, Size const& sizeData, Padding const& paddingData = { 0.f,0.f,0.f,0.f });
+	void UpdateOffset(Transform const& transformData, Size& sizeData, Padding const& paddingData = { 0.f,0.f,0.f,0.f });
 
 	/**************************
 	******* SYSTEM CALLS ******
