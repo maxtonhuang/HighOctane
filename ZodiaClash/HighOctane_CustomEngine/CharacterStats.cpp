@@ -124,6 +124,11 @@ void CharacterStats::HealBuff(float buffAmount)
     }
 }
 
+void CharacterStats::SpeedBuff(float buffAmount)
+{
+    stats.speed += buffAmount;
+}
+
 void CharacterStats::ApplyBloodStack() 
 {
     if (debuffs.bloodStack > 0) {
