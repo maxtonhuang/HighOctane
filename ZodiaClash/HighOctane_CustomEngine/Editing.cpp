@@ -63,7 +63,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 	UNREFERENCED_PARAMETER(entity);
 	UNREFERENCED_PARAMETER(layer_it);
 
-	if (!popupHovered && name.selected && !draggingThisCycle) {
+	if (viewportWindowHovered && !popupHovered && name.selected && !draggingThisCycle) {
 		changeCursor = false;
 		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
@@ -72,47 +72,59 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 			else {
 				SetCursor(hDefaultCursor);
 			}
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation;
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + (vmath::PI / 2.f);
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + vmath::PI;
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + (3 * vmath::PI / 2.f);
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + (vmath::PI / 4.f);
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + (5 * vmath::PI / 4.f);
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotRight(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + (3 * vmath::PI / 4.f);
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
 			pointAngle = transform.rotation + (7 * vmath::PI / 4.f);
 			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE * 3.f)) {
 			SetCursor(hHandCursor);
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else if (IsWithinObject(*model, currentMousePosition)) {
 			SetCursor(hAllDirCursor);
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else {
 			SetCursor(hDefaultCursor);
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 
 		pointAngle = (pointAngle > vmath::PI) ? (pointAngle - (2.f * vmath::PI)) : pointAngle;

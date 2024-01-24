@@ -229,12 +229,35 @@ void GUIManager::Update()
         if (ImGui::IsWindowHovered()) {
             io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
             viewportWindowHovered = true;
+
+            switch (cursorEditingTooltipState) {
+
+                case CursorEditingTooltip::CORNER:
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Aspect Ratio will be preserved");
+                    ImGui::EndTooltip();
+				    break;
+
+                case CursorEditingTooltip::SIDE:
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Aspect Ratio will NOT be preserved");
+                    ImGui::EndTooltip();
+                    break;
+
+                default:
+                    break;
+
+            }
+
         }
         else {
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
             viewportWindowHovered = false;
         }
  
+
+
+
         unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;
         float ySizeAvailable = ImGui::GetContentRegionAvail().y;

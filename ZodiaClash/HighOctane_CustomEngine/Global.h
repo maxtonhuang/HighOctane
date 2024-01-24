@@ -134,6 +134,14 @@ enum class SystemMode
 	NONE
 };
 
+enum class CursorEditingTooltip {
+	CORNER,
+	SIDE,
+	NONE
+};
+
+extern CursorEditingTooltip cursorEditingTooltipState;
+
 std::string SystemModeToString(SystemMode mode);
 
 extern std::deque<SystemMode> systemModeStack;
