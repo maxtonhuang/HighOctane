@@ -423,11 +423,32 @@ void SceneEntityComponents(Entity entity) {
 				float& lblHeight = sizeData.height;
 				float& lblWidth = sizeData.width;
 				float lblDims[2] = { lblHeight, lblWidth };
-				ImGui::DragFloat2("Label Size", lblDims, 0.5f);
-				lblDims[0] = std::max(lblDims[0], 0.f);
-				lblDims[1] = std::max(lblDims[1], 0.f);
-				sizeData.height = lblDims[0];
-				sizeData.width = lblDims[1];
+				if (ImGui::DragFloat2("Label Size", lblDims, 0.5f)) {
+					lblDims[0] = std::max(lblDims[0], 0.f);
+					lblDims[1] = std::max(lblDims[1], 0.f);
+					sizeData.height = lblDims[0];
+					sizeData.width = lblDims[1];
+
+					switch (textlabel.textWrap) {
+					case(UI_TEXT_WRAP::AUTO_WIDTH):
+						if (sizeData.width != textlabel.textWidth) {
+							textlabel.textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
+							break;
+						}
+						else if (sizeData.height != textlabel.textHeight) {
+							textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+						}
+						break;
+					case(UI_TEXT_WRAP::AUTO_HEIGHT):
+						if (sizeData.height != textlabel.textHeight) {
+							textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+						}
+						break;
+					default:
+						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+						break;
+					}
+				}				
 			}
 
 			// font properties
@@ -532,6 +553,34 @@ void SceneEntityComponents(Entity entity) {
 			}
 			ImGui::SameLine();
 			ImGui::Text("Alignment");
+
+
+			// text wrap setting
+			int selectedWrapIdx = static_cast<int>(textlabel.textWrap);
+			DEBUG_PRINT("selectedWrapIdx: %d, textWrap: %d", selectedWrapIdx, static_cast<int>(textlabel.textWrap));
+			static UI_TEXT_WRAP textWrapGrid[3];
+
+			const char* textWrapLabels[] = { "Auto\nWidth", "Auto\nHeight", "Fixed\nSize" };
+
+			for (int i = 0; i < 3; ++i)
+			{
+				bool textWrapSelected = selectedWrapIdx == i;
+				if (textWrapSelected) {
+					textWrapGrid[i] = static_cast<UI_TEXT_WRAP>(i);
+				}
+
+				if (i > 0) ImGui::SameLine(0, ImGui::GetStyle().ItemSpacing.x);  // Adjust for spacing
+
+				if (ImGui::Selectable(textWrapLabels[i], textWrapSelected, ImGuiSelectableFlags_None, ImVec2(itemWidth, 50.f)))
+				{
+					selectedWrapIdx = i;
+					// If a new button is selected, update the sizeMode accordingly
+					textlabel.textWrap = static_cast<UI_TEXT_WRAP>(i);
+				}
+			}
+
+			ImGui::SameLine();
+			ImGui::Text("Text Wrap");
 
 			ImGui::TreePop();
 		}

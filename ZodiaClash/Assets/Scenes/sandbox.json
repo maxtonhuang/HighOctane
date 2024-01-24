@@ -1,12 +1,13 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 3,
+            "layerCounter": 4,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
                 "Layer 1",
-                "Layer 2"
+                "Layer 2",
+                "Layer 3"
             ]
         }
     },
@@ -16,7 +17,9 @@
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent"
+                "struct Parent",
+                "class TextLabel",
+                "struct Size"
             ]
         },
         "Entity": {
@@ -33,6 +36,25 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        },
+        "Size": {
+            "width": 440.0,
+            "height": 159.75
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "TextLabel\nthis is a new line\nof text",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 1,
+            "Background": false
         }
     }
 ]

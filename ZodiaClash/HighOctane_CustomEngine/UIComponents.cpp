@@ -64,9 +64,10 @@ TextLabel::TextLabel() {
 	textString = "TextLabel";
 	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
+	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap["black"];
-	lineHeight = 1.2f;
+	lineHeight = 1.5f;
 }
 
 /*!
@@ -80,10 +81,11 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 	textString = str;
 	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
+	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap[txtColor];
 	initClr = txtColor;
-	lineHeight = 1.2f;
+	lineHeight = 1.5f;
 }
 
 /*!
@@ -97,9 +99,10 @@ TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	textString = str;
 	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
+	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 	relFontSize = 0.5f;
 	textColor = clr;
-	lineHeight = 1.2f;
+	lineHeight = 1.5f;
 }
 
 /*!
@@ -221,12 +224,12 @@ void TextLabel::CalculateOffset() {
 				wordWidth += (w + (ch.bearing.x * relFontSize));
 
 				// ignore space if exceeds width
-				if ((*c == ' ') && (textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth >= textWidth)) {
+				if ((*c == ' ') && (textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth > textWidth)) {
 					wordWidth -= glyphSpace;
 				}
 				glyphHeight = std::max(glyphHeight, h);
 			}
-			if ((textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth >= textWidth)) {
+			if ((textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth > textWidth)) {
 				//push newline
 				lineData.push_back(newline);
 				newline = {};
@@ -245,7 +248,7 @@ void TextLabel::CalculateOffset() {
 	switch (textWrap) {
 	case UI_TEXT_WRAP::AUTO_WIDTH:
 		textWidth = longestLineWidth;
-		textHeight = glyphHeight;
+		textHeight = glyphHeight * lineHeight * lineData.size();
 		break;
 	case UI_TEXT_WRAP::AUTO_HEIGHT:
 		textHeight = glyphHeight * lineHeight * lineData.size();
@@ -264,27 +267,28 @@ void TextLabel::CalculateOffset() {
 *
 */
 void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Padding const& paddingData) {	
-	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+
+	CalculateOffset();
 
 	switch (textWrap) {
 	case(UI_TEXT_WRAP::AUTO_WIDTH):
 		//snaps label width to calculated width, label height remains as calculated height
-		sizeData.width = textWidth;
-		break;
+		sizeData.width = textWidth;		
+		sizeData.height = std::max(sizeData.height, textHeight);
+		break; 
 	case(UI_TEXT_WRAP::AUTO_HEIGHT):
 		//snaps label height to calculated height (label width remains adjustable)
-		textWidth = sizeData.width;		
+		textWidth = sizeData.width;
+		sizeData.height = textHeight;
 		break;
 	default:
-		//textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
-
+		textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 		//initial state before text wrap was implemented
 		textWidth = sizeData.width;
 		textHeight = sizeData.height;
 		break;
 	}
-	
-	CalculateOffset();
+
 	int lineCount{};
 	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
 	for (TextLine& line : lineData) {

@@ -309,6 +309,7 @@ rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Docum
 	
 	textObject.AddMember("Horizontal Alignment", (int)textLabel.hAlignment, allocator);
 	textObject.AddMember("Vertical Alignment", (int)textLabel.vAlignment, allocator);
+	textObject.AddMember("Text Wrap", (int)textLabel.textWrap, allocator);
 	textObject.AddMember("Background", (bool)textLabel.hasBackground, allocator);
 
 	return textObject;
@@ -1164,6 +1165,10 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				if (textObject.HasMember("Horizontal Alignment") && textObject.HasMember("Vertical Alignment")) {
 					textLabel.hAlignment = (UI_HORIZONTAL_ALIGNMENT)(textObject["Horizontal Alignment"].GetInt());
 					textLabel.vAlignment = (UI_VERTICAL_ALIGNMENT)(textObject["Vertical Alignment"].GetInt());
+				}
+
+				if (textObject.HasMember("Text Wrap")) {
+					textLabel.textWrap = (UI_TEXT_WRAP)(textObject["Text Wrap"].GetInt());
 				}
 
 				if (textObject.HasMember("Background")) {
