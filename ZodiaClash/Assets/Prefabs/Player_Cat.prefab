@@ -67,7 +67,7 @@
             "Health": 150.0,
             "Attack": 30.0,
             "Defense": 20.0,
-            "Speed": 4,
+            "Speed": 3,
             "Skills": [
                 "Scarlet Claw",
                 "Dance of Fury",
@@ -83,11 +83,6 @@
             "Alpha": 1.0
         },
         "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0
-        },
         "Animation Set": [
             {
                 "Total Frames": 60,
@@ -575,7 +570,7 @@
             },
             {
                 "Total Frames": 18,
-                "Group Name": "Attack 2",
+                "Group Name": "Attack 3",
                 "Loop": false,
                 "Frame Time": 0.03999999910593033,
                 "Animations": [
@@ -658,7 +653,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 13,
+                                "Frame Number": 3,
                                 "Sound": "Cat_Atk_3_Edited.wav"
                             }
                         ]
@@ -789,7 +784,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 5,
+                                "Frame Number": 2,
                                 "Sound": "Cat Atk_1_Edited.wav"
                             }
                         ]
@@ -809,7 +804,7 @@
             },
             {
                 "Total Frames": 9,
-                "Group Name": "Attack 3",
+                "Group Name": "Attack 2",
                 "Loop": false,
                 "Frame Time": 0.03999999910593033,
                 "Animations": [
@@ -866,7 +861,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 6,
+                                "Frame Number": 2,
                                 "Sound": "Cat_Atk_2_Edited.wav"
                             }
                         ]

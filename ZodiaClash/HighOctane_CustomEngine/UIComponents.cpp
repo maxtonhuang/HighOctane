@@ -654,7 +654,14 @@ void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
 *
 */
 void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType) {
-	textLabelData.textString = (atkType == AttackType::NORMAL) ? "Single Target" : "AOE";
+	if (atkType == AttackType::AOE) {
+		textLabelData.textString = "AOE";
+		textLabelData.hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
+	}
+	else {
+		textLabelData.textString = "Single Target";
+	}
+	//textLabelData.textString = (atkType == AttackType::NORMAL) ? "Single Target" : "AOE";
 }
 
 // FUTURE IMPLEMENTATION: to display attack type icon accordingly

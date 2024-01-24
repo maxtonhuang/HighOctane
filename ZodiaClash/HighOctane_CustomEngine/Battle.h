@@ -88,6 +88,15 @@ struct RoundManagement
 	int roundCounter;
 };
 
+struct CharacterAnimator {
+	Entity character;
+	Entity healthbar;
+	Entity healthbarIcon;
+	Entity healthbarBase;
+	Entity turnorder;
+	Entity turnorderIcon;
+};
+
 /**
  * @class BattleSystem
  * @brief Handles the turn-based battle logic within the game.
@@ -146,6 +155,8 @@ private:
 	std::vector<Entity> enemyHealthBars;
 	Entity chiLabel;
 	std::vector<Entity> allBattleUI;
+	std::vector<CharacterAnimator> enemyAnimators;
+	std::vector<CharacterAnimator> allyAnimators;
 
 
 	//Animation methods

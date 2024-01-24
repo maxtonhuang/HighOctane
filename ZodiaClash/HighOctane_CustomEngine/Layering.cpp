@@ -120,6 +120,7 @@ void LayerOrderBringToFront(Entity entity) {
 		if (pos.second != layering[pos.first].size() - 1) {
 			layering[pos.first].erase(layering[pos.first].begin() + pos.second);
 			layering[pos.first].emplace_back(entity);
+			PrepareLayeringForSerialization();
 		}
 	}
 }
@@ -224,7 +225,16 @@ void RebuildLayeringAfterDeserialization() {
 				layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + n.serializationOrderInLayer, entity);
 			}
 			else {
-				layering[n.serializationLayer].emplace_back(entity);
+				int i;
+				for (i = 0; i < layering[n.serializationLayer].size(); i++) {
+					if (nameArray.GetData(layering[n.serializationLayer][i]).serializationOrderInLayer > n.serializationOrderInLayer) {
+						layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + i, entity);
+						break;
+					}
+				}
+				if (i >= layering[n.serializationLayer].size()) {
+					layering[n.serializationLayer].emplace_back(entity);
+				}
 			}
 		}
 		else {

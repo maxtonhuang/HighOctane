@@ -56,7 +56,18 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
             t->TakeDamage(1.5 * t->debuffs.bloodStack);
             t->debuffs.bloodStack = 0;
         }
+        
+        else if (attackName == "Boss Goat Heal") {
+            t->HealBuff(0.3 * t->stats.maxHealth);
+        }
 
+        else if (attackName == "Boss Goat Speedup") {
+            t->SpeedBuff(2.0);
+        }
+
+        else if (attackName == "Boss Goat Attack") {
+            t->TakeDamage(damage);
+        }
         t->debuffs.bloodStack += bleed;
         t->TakeDamage(damage);
     }

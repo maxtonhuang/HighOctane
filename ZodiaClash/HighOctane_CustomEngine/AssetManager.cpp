@@ -305,6 +305,27 @@ void AssetManager::SaveScene(const std::string& scenePath) {
     sceneFile.close();
 }
 
+void AssetManager::SaveSceneAssets(const std::string& scenePath) {
+    std::ofstream sceneFile{ scenePath.c_str() };
+
+    std::string currentBGM{ audio.GetCurrentBGM() };
+    if (currentBGM != "") {
+        sceneFile << currentBGM << "\n";
+    }
+
+    auto files = assetmanager.GetFiles();
+    for (auto& f : files) {
+        if (f != currentBGM) {
+            sceneFile << f << "\n";
+        }
+    }
+
+    std::string jsonPath{ scenePath.substr(0,scenePath.find(".scn")) + ".json" };
+    sceneFile << jsonPath.substr(jsonPath.find_last_of("\\") + 1);
+
+    sceneFile.close();
+}
+
 void AssetManager::LoadEntities(const std::string& entitiesPath) {
     std::string path{ defaultPath };
     path += "Scenes/" + entitiesPath;
