@@ -674,13 +674,33 @@ void SceneEntityComponents(Entity entity) {
 			float& btnHeight = sizeData.height;
 			float& btnWidth = sizeData.width;
 			float btnDims[2] = { btnHeight, btnWidth };
-			ImGui::DragFloat2("Button Size", btnDims, 0.5f);
+			if (ImGui::DragFloat2("Button Size", btnDims, 0.5f)) {
 				btnDims[0] = std::max(btnDims[0], 0.f);
 				btnDims[1] = std::max(btnDims[1], 0.f);
 				sizeData.height = btnDims[0];
-				sizeData.width = btnDims[1];			
-			
+				sizeData.width = btnDims[1];
 
+				switch (textlabel.textWrap) {
+				case(UI_TEXT_WRAP::AUTO_WIDTH):
+					if (sizeData.width != textlabel.textWidth) {
+						textlabel.textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
+						break;
+					}
+					else if (sizeData.height != textlabel.textHeight) {
+						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+					}
+					break;
+				case(UI_TEXT_WRAP::AUTO_HEIGHT):
+					if (sizeData.height != textlabel.textHeight) {
+						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+					}
+					break;
+				default:
+					textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+					break;
+				}
+			}		
+			
 			// padding adjustments
 			float& btnPadTop = button.padding.top;
 			float& btnPadBtm = button.padding.bottom;

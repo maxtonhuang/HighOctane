@@ -257,6 +257,8 @@ void TextLabel::CalculateOffset() {
 		textHeight = glyphHeight * lineHeight * lineData.size();
 		break;
 	}
+
+	textHeight += verticalPadding;
 }
 
 /*!
@@ -312,17 +314,17 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Pad
 		switch (vAlignment) {
 		case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
 			//top align
-			line.relTransform.y = transformData.position.y + (0.5f * sizeData.height - glyphHeight) - paddingData.top;			
+			line.relTransform.y = transformData.position.y + (0.5f * sizeData.height - glyphHeight) - (0.5f * verticalPadding) - paddingData.top;
 			break;
 		case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
 			//bottom align
-			line.relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + verticalPadding + paddingData.bottom;
+			line.relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + (0.5f * verticalPadding) + paddingData.bottom;
 			line.relTransform.y += ((lineData.size() - 1) * glyphHeight * lineHeight);
 			
 			break;
 		default:
 			//center align
-			line.relTransform.y = transformData.position.y - (0.25f * glyphHeight);
+			line.relTransform.y = transformData.position.y - (0.5f * glyphHeight);
 			line.relTransform.y += (0.5f * (lineData.size() - 1) * glyphHeight * lineHeight);
 			break;
 		}
