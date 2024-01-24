@@ -37,3 +37,13 @@ Transform operator+ (const Transform& lhs, const Transform& rhs) {
 	output.rotation += rhs.rotation;
 	return output;
 }
+
+Entity Parent::GetChildByName(std::string name) {
+	static auto& nameArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Name>() };
+	for (Entity& c : children) {
+		if (nameArray.GetData(c).name == name) {
+			return c;
+		}
+	}
+	return 0;
+}

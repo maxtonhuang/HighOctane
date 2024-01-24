@@ -135,7 +135,7 @@ void GraphicsManager::Initialize(int w, int h) {
     //glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(GRAPHICS::defaultWidth), 0.0f, static_cast<float>(GRAPHICS::defaultHeight));
 
     //TEMP
-    glPointSize(10.f);
+    glPointSize(15.f);
     glLineWidth(3.f);
     glfwSwapInterval(0);
 
@@ -281,12 +281,12 @@ GLFWwindow* GraphicsManager::GetWindow() {
 void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::vec4 color) {    
     static Renderer* fontRenderer{ &renderer["font"] };
 
-    //if (previousRenderer != fontRenderer) {
-    //    if (previousRenderer != nullptr) {
-    //        previousRenderer->Draw();
-    //    }
-    //    previousRenderer = fontRenderer;
-    //}
+    if (previousRenderer != fontRenderer) {
+        if (previousRenderer != nullptr) {
+            previousRenderer->Draw();
+        }
+        previousRenderer = fontRenderer;
+    }
 
     // enforce relFontSize to be in range [0.f, 1.f]
     float fontSize = txtLblData.relFontSize;

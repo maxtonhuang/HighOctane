@@ -69,6 +69,7 @@ public:
 
     void TakeDamage(float damage);
     void HealBuff(float buffAmount);
+    void SpeedBuff(float buffAmount);
     void ApplyBloodStack();
     GameObject gameObject{};
     void Start();

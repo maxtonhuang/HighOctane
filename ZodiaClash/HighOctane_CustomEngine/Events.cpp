@@ -42,6 +42,8 @@
 #include "Global.h"
 #include "CharacterStats.h"
 #include "Layering.h"
+#include "Transition.h"
+#include "UIComponents.h"
 
 EventManager events;
 
@@ -174,6 +176,7 @@ void PauseResumeGroup(std::string input) {
  * std::string input : The input string.
  */
 void SelectSkill(std::string input) {
+	static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
 	BattleSystem* bs = events.GetBattleSystem();
 
 	if (bs->battleState != PLAYERTURN) {
@@ -203,6 +206,13 @@ void SelectSkill(std::string input) {
 	//else {
 	//	// handle not enough Chi, ZR part?
 	//}
+
+	for (Entity& s : bs->skillButtons) {
+		buttonArray.GetData(s).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+		buttonArray.GetData(s).defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+	}
+	buttonArray.GetData(bs->skillButtons[skillnum - 1]).hoveredColor.buttonColor = glm::vec4{ 0.f,1.f,0.f,1.f };
+	buttonArray.GetData(bs->skillButtons[skillnum - 1]).defaultColor.buttonColor = glm::vec4{ 0.f,1.f,0.f,1.f };
 
 	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
 	bs->CreateTargets();
@@ -294,6 +304,12 @@ void ToggleHelp(std::string input) {
 	}
 }
 
+void TransitionScene(std::string input) {
+	transitionActive = true;
+	transitionNextScene = input;
+	transitionType = true;
+}
+
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
@@ -316,6 +332,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
+	functions["Transition Scene"] = TransitionScene;
 	functions["Toggle Help"] = ToggleHelp;
 	functions["Confirm Exit"] = ConfirmExit;
 	functions["Test"] = TestFunction;

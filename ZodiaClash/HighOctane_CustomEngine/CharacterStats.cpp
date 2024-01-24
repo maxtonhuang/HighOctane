@@ -100,11 +100,6 @@ void CharacterStats::TakeDamage(float damage)
     this->stats.health -= damage;
     if (stats.health <= 0)
     {
-        if (parent->m_Entities.size() > 0) {
-            std::string name{ ECS::ecs().GetComponent<Name>(entity).name };
-            Model& model{ ECS::ecs().GetComponent<Model>(entity) };
-            model.SetColor(0.2f, 0.2f, 0.2f);
-        }
         stats.health = 0;
         action.entityState = DYING;
     }
@@ -122,6 +117,11 @@ void CharacterStats::HealBuff(float buffAmount)
     {
         stats.health = stats.maxHealth;
     }
+}
+
+void CharacterStats::SpeedBuff(float buffAmount)
+{
+    stats.speed += buffAmount;
 }
 
 void CharacterStats::ApplyBloodStack() 

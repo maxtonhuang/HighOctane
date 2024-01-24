@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 178,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,163 +25,7 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73",
-                "Layer 74",
-                "Layer 75",
-                "Layer 76",
-                "Layer 77",
-                "Layer 78",
-                "Layer 79",
-                "Layer 80",
-                "Layer 81",
-                "Layer 82",
-                "Layer 83",
-                "Layer 84",
-                "Layer 85",
-                "Layer 86",
-                "Layer 87",
-                "Layer 88",
-                "Layer 89",
-                "Layer 90",
-                "Layer 91",
-                "Layer 92",
-                "Layer 93",
-                "Layer 94",
-                "Layer 95",
-                "Layer 96",
-                "Layer 97",
-                "Layer 98",
-                "Layer 99",
-                "Layer 100",
-                "Layer 101",
-                "Layer 102",
-                "Layer 103",
-                "Layer 104",
-                "Layer 105",
-                "Layer 106",
-                "Layer 107",
-                "Layer 108",
-                "Layer 109",
-                "Layer 110",
-                "Layer 111",
-                "Layer 112",
-                "Layer 113",
-                "Layer 114",
-                "Layer 115",
-                "Layer 116",
-                "Layer 117",
-                "Layer 118",
-                "Layer 119",
-                "Layer 120",
-                "Layer 121",
-                "Layer 122",
-                "Layer 123",
-                "Layer 124",
-                "Layer 125",
-                "Layer 126",
-                "Layer 127",
-                "Layer 128",
-                "Layer 129",
-                "Layer 130",
-                "Layer 131",
-                "Layer 132",
-                "Layer 133",
-                "Layer 134",
-                "Layer 135",
-                "Layer 136",
-                "Layer 137",
-                "Layer 138",
-                "Layer 139",
-                "Layer 140",
-                "Layer 141",
-                "Layer 142",
-                "Layer 143",
-                "Layer 144",
-                "Layer 145",
-                "Layer 146",
-                "Layer 147",
-                "Layer 148",
-                "Layer 149",
-                "Layer 150",
-                "Layer 151",
-                "Layer 152",
-                "Layer 153",
-                "Layer 154",
-                "Layer 155",
-                "Layer 156",
-                "Layer 157",
-                "Layer 158",
-                "Layer 159",
-                "Layer 160",
-                "Layer 161",
-                "Layer 162",
-                "Layer 163",
-                "Layer 164",
-                "Layer 165",
-                "Layer 166",
-                "Layer 167",
-                "Layer 168",
-                "Layer 169",
-                "Layer 170",
-                "Layer 171",
-                "Layer 172",
-                "Layer 173",
-                "Layer 174",
-                "Layer 175",
-                "Layer 176",
-                "Layer 177"
+                "Layer 21"
             ]
         }
     },
@@ -190,7 +34,7 @@
         "Entity": {
             "Name": "entity_00007",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -201,7 +45,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 725.5,
+            "position_x": 707.5,
             "position_y": 475.5,
             "rotation": 0.0,
             "scale": 1.0,
@@ -212,7 +56,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 432.0,
+            "width": 484.0,
             "height": 59.5
         },
         "Scripts": {
@@ -225,14 +69,14 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.0
+            "Alpha": 0.20000000298023224
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "ZodiaClash M3 Build",
+            "Text String": "ZodiaClash M4 Playtest",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -280,13 +124,13 @@
         "Entity": {
             "Name": "Enemy 2 Position",
             "Current Layer": 0,
-            "Order in Layer": 12,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 373.0,
-            "position_y": -24.0,
+            "position_x": 478.0,
+            "position_y": -82.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -305,7 +149,7 @@
         "Entity": {
             "Name": "Player 1  Position",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -330,173 +174,18 @@
         "Entity": {
             "Name": "Enemy 1 Position",
             "Current Layer": 0,
-            "Order in Layer": 14,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 248.0,
-            "position_y": 141.0,
+            "position_x": 358.0,
+            "position_y": 145.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
-    },
-    {
-        "Clone": {
-            "Prefab": "attachpoint.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Enemy 3 Position",
-            "Current Layer": 0,
-            "Order in Layer": 15,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 491.0,
-            "position_y": -210.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "skillpointsys.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "lbl_skillpt",
-            "Current Layer": 0,
-            "Order in Layer": 17,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -186.5,
-            "position_y": -441.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "attackskill_01.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "atkSkill_01",
-            "Current Layer": 0,
-            "Order in Layer": 23,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 360.0,
-            "position_y": -360.0,
-            "rotation": 0.0,
-            "scale": 0.6000000238418579,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "attackskill_02.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "atkSkill_02",
-            "Current Layer": 0,
-            "Order in Layer": 25,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 600.0,
-            "position_y": -360.0,
-            "rotation": 0.0,
-            "scale": 0.6000000238418579,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "attackskill_03.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "atkSkill_03",
-            "Current Layer": 0,
-            "Order in Layer": 26,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 840.0,
-            "position_y": -360.0,
-            "rotation": 0.0,
-            "scale": 0.6000000238418579,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "ally_hud.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "ally_healthbar",
-            "Current Layer": 1,
-            "Order in Layer": 10,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -780.0,
-            "position_y": -480.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
     },
     {
         "Clone": {
@@ -510,7 +199,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -525,7 +214,7 @@
     },
     {
         "Clone": {
-            "Prefab": "attackpoint.prefab",
+            "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -533,15 +222,15 @@
             ]
         },
         "Entity": {
-            "Name": "Attack Position",
+            "Name": "Guard 1",
             "Current Layer": 0,
             "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -53.0,
-            "position_y": 13.0,
+            "position_x": 355.0,
+            "position_y": 150.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -553,198 +242,6 @@
             "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
-                "class AnimationSet",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard 1",
-            "Current Layer": 0,
-            "Order in Layer": 24,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 237.0,
-            "position_y": 171.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Attack 1",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Target": "Attack Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Texture": "Guard_Attack.spritesheet"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15
-                            },
-                            {
-                                "Frame Number": 20
-                            },
-                            {
-                                "Frame Number": 25
-                            },
-                            {
-                                "Frame Number": 30
-                            },
-                            {
-                                "Frame Number": 35
-                            },
-                            {
-                                "Frame Number": 40
-                            },
-                            {
-                                "Frame Number": 45
-                            },
-                            {
-                                "Frame Number": 50
-                            },
-                            {
-                                "Frame Number": 55
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 56,
-                                "Destination": "Guard moveback"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "DamageImpact",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Guard moveback",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Target": "Enemy 1 Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Damaged",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 25,
-                                "Red": 1.0,
-                                "Green": 0.0,
-                                "Blue": 0.0
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "Guard_Damage.spritesheet"
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 10
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": ""
-    },
-    {
-        "Clone": {
-            "Prefab": "guards.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "class AnimationSet",
                 "struct Name",
                 "struct Parent"
             ]
@@ -752,451 +249,17 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 20,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 364.0,
-            "position_y": -14.0,
+            "position_x": 467.0,
+            "position_y": -75.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Attack 1",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Target": "Attack Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Texture": "Guard_Attack.spritesheet"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15
-                            },
-                            {
-                                "Frame Number": 20
-                            },
-                            {
-                                "Frame Number": 25
-                            },
-                            {
-                                "Frame Number": 30
-                            },
-                            {
-                                "Frame Number": 35
-                            },
-                            {
-                                "Frame Number": 40
-                            },
-                            {
-                                "Frame Number": 45
-                            },
-                            {
-                                "Frame Number": 50
-                            },
-                            {
-                                "Frame Number": 55
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 56,
-                                "Destination": "Guard moveback"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "DamageImpact",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Guard moveback",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Target": "Enemy 2 Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Damaged",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 25,
-                                "Red": 1.0,
-                                "Green": 0.0,
-                                "Blue": 0.0
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "Guard_Damage.spritesheet"
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 10
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": ""
-    },
-    {
-        "Clone": {
-            "Prefab": "guards.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "class AnimationSet",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard 3",
-            "Current Layer": 0,
-            "Order in Layer": 16,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 487.0,
-            "position_y": -189.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Attack 1",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Target": "Attack Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15,
-                                "Texture": "Guard_Attack.spritesheet"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 15
-                            },
-                            {
-                                "Frame Number": 20
-                            },
-                            {
-                                "Frame Number": 25
-                            },
-                            {
-                                "Frame Number": 30
-                            },
-                            {
-                                "Frame Number": 35
-                            },
-                            {
-                                "Frame Number": 40
-                            },
-                            {
-                                "Frame Number": 45
-                            },
-                            {
-                                "Frame Number": 50
-                            },
-                            {
-                                "Frame Number": 55
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Swap",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 56,
-                                "Destination": "Guard moveback"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "DamageImpact",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 35
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Guard moveback",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Target": "Enemy 3 Position"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 30,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 60,
-                "Group Name": "Damaged",
-                "Loop": false,
-                "Animations": [
-                    {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 25,
-                                "Red": 1.0,
-                                "Green": 0.0,
-                                "Blue": 0.0
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "Guard_Damage.spritesheet"
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Texture": "GUARD_idle.png"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Sprite",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 10
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": ""
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_hp_hud_01.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "enemyHp_healthbar1",
-            "Current Layer": 2,
-            "Order in Layer": 6,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 830.0,
-            "position_y": 305.5,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_hp_hud_02.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "enemyHp_healthbar2",
-            "Current Layer": 2,
-            "Order in Layer": 8,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 830.0,
-            "position_y": 180.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_hp_hud_03.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "enemyHp_healthbar3",
-            "Current Layer": 2,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 830.0,
-            "position_y": 55.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
+        }
     }
 ]

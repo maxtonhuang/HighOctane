@@ -43,7 +43,7 @@
 #define RESET_VEC2 0.f, 0.f
 
 ////////// Defines for fixed dt system. ///////////////////////////////////////
-#define FIXED_DT (1.0f/60.f)
+const float FIXED_DT{ 1.0f / 60.f };
 #define MAX_ACCUMULATED_TIME 5.f //to avoid the "spiral of death" if the system cannot keep up
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -51,6 +51,9 @@ const HCURSOR hDefaultCursor{ LoadCursor(NULL, IDC_ARROW) };
 const HCURSOR hNWSECursor{ LoadCursor(NULL, IDC_SIZENWSE) };
 const HCURSOR hNESWCursor{ LoadCursor(NULL, IDC_SIZENESW) };
 const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
+const HCURSOR hNSCursor{ LoadCursor(NULL, IDC_SIZENS) };
+const HCURSOR hEWCursor{ LoadCursor(NULL, IDC_SIZEWE) };
+const HCURSOR hHandCursor{ LoadCursor(NULL, IDC_HAND) };
 
 extern float g_dt;
 extern float accumulatedTime;
@@ -130,6 +133,14 @@ enum class SystemMode
 	EXITCONFIRM,
 	NONE
 };
+
+enum class CursorEditingTooltip {
+	CORNER,
+	SIDE,
+	NONE
+};
+
+extern CursorEditingTooltip cursorEditingTooltipState;
 
 std::string SystemModeToString(SystemMode mode);
 

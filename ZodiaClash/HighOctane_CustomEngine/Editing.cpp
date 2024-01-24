@@ -47,8 +47,9 @@
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
-constexpr float CORNER_SIZE = 10.f;
-
+constexpr float CORNER_SIZE{ 10.f };
+float pointAngle{ 0.f };
+bool changeCursor{ false };
 
 /******************************************************************************
 *
@@ -57,12 +58,13 @@ constexpr float CORNER_SIZE = 10.f;
 *	Includes entity movement, resizing, and rotation.
 *
 ******************************************************************************/
-void UpdateProperties (Entity & entity, Name & name, Transform & transform, Model * model, size_t layer_it) {
+void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size & size, Model * model, size_t layer_it) {
 	
 	UNREFERENCED_PARAMETER(entity);
 	UNREFERENCED_PARAMETER(layer_it);
 
-	if (!popupHovered && name.selected) {
+	if (viewportWindowHovered && !popupHovered && name.selected && !draggingThisCycle) {
+		changeCursor = false;
 		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 				SetCursor(hAllDirCursor);
@@ -70,24 +72,93 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 			else {
 				SetCursor(hDefaultCursor);
 			}
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
+			pointAngle = transform.rotation;
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
+			pointAngle = transform.rotation + (vmath::PI / 2.f);
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
+			pointAngle = transform.rotation + vmath::PI;
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
+			pointAngle = transform.rotation + (3 * vmath::PI / 2.f);
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::SIDE;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNESWCursor);
+			pointAngle = transform.rotation + (vmath::PI / 4.f);
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotLeft(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNESWCursor);
+			pointAngle = transform.rotation + (5 * vmath::PI / 4.f);
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetBotRight(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNWSECursor);
+			pointAngle = transform.rotation + (3 * vmath::PI / 4.f);
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetTopLeft(), currentMousePosition, CORNER_SIZE)) {
-			SetCursor(hNWSECursor);
+			pointAngle = transform.rotation + (7 * vmath::PI / 4.f);
+			changeCursor = true;
+			cursorEditingTooltipState = CursorEditingTooltip::CORNER;
+		}
+		else if (selectedEntities.size() == 1 && IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE * 3.f)) {
+			SetCursor(hHandCursor);
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else if (IsWithinObject(*model, currentMousePosition)) {
 			SetCursor(hAllDirCursor);
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else {
 			SetCursor(hDefaultCursor);
+			cursorEditingTooltipState = CursorEditingTooltip::NONE;
+		}
+
+		pointAngle = (pointAngle > vmath::PI) ? (pointAngle - (2.f * vmath::PI)) : pointAngle;
+
+		if (changeCursor) {
+		
+			if (pointAngle < - (7 * vmath::PI / 8)) {
+				SetCursor(hNSCursor);
+			}
+			else if (pointAngle < -(5 * vmath::PI / 8)) {
+				SetCursor(hNESWCursor);
+			}
+			else if (pointAngle < -(3 * vmath::PI / 8)) {
+				SetCursor(hEWCursor);
+			}
+			else if (pointAngle < -(vmath::PI / 8)) {
+				SetCursor(hNWSECursor);
+			}
+			else if (pointAngle < (vmath::PI / 8)) {
+				SetCursor(hNSCursor);
+			}
+			else if (pointAngle < (3 * vmath::PI / 8)) {
+				SetCursor(hNESWCursor);
+			}
+			else if (pointAngle < (5 * vmath::PI / 8)) {
+				SetCursor(hEWCursor);
+			}
+			else if (pointAngle < (7 * vmath::PI / 8)) {
+				SetCursor(hNWSECursor);
+			}
+			else {
+				SetCursor(hNSCursor);
+			}
+		
 		}
 	}
 	
@@ -116,6 +187,22 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 						name.clicked = CLICKED::INSIDE;
 					}
 				}
+				else if (IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::N;
+				}
+				else if (IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::E;
+				}
+				else if (IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::S;
+				}
+				else if (IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					name.clicked = CLICKED::W;
+				}
 				else if (IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::NE;
@@ -136,7 +223,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::INSIDE;
 				}
-				else if (IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE*3.f)) {
+				else if (IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE * 3.f)) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					name.clicked = CLICKED::DOT;
 				}
@@ -156,6 +243,51 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 
 				if (name.selected) {
 					switch (name.clicked) {
+
+					case CLICKED::N:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.height *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetTop(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetTop(), transform.position));
+
+						}
+					}
+					break;
+					
+					case CLICKED::E:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
+
+						}
+					}
+					break;
+					
+					case CLICKED::S:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.height *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetBot(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetBot(), transform.position));
+
+						}
+					}
+					break;
+					
+					case CLICKED::W:
+					{
+						draggingThisCycle = true;
+						if (mouseMoved) {
+
+							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetLeft(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
+
+						}
+					}
+					break;
+
 					case CLICKED::NE:
 					{
 						draggingThisCycle = true;
@@ -182,6 +314,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 						}
 					}
 					break;
+
 					case CLICKED::SW:
 					{
 						draggingThisCycle = true;
@@ -209,9 +342,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					}
 
 					break;
+
 					case CLICKED::NW:
-
-
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
@@ -238,8 +370,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					}
 
 					break;
-					case CLICKED::SE:
 
+					case CLICKED::SE:
 					{
 						draggingThisCycle = true;
 						if (mouseMoved) {
@@ -276,7 +408,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Mode
 					
 					case CLICKED::DOT:
 						draggingThisCycle = true;
-						transform.rotation = (vmath::PI / 2.f) - (atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x)) /** 180.f / vmath::PI*/;
+						transform.rotation = (vmath::PI / 2.f) - (atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x));
+						transform.rotation = (transform.rotation > vmath::PI) ? (transform.rotation - (2.f * vmath::PI)) : transform.rotation;
 						break;
 
 					default:

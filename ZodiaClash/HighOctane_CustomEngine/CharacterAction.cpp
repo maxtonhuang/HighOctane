@@ -38,6 +38,7 @@
 #include "Events.h"
 #include "Animation.h"
 #include "EntityFactory.h"
+#include "Layering.h"
 
 /**
  * @brief Updates the state of a character's action within a battle turn.
@@ -61,6 +62,7 @@ void CharacterAction::UpdateState() {
 
         //Attack animation
         if (battleManager->m_Entities.size() > 0) {
+            LayerOrderBringToFront(characterStats->entity);
             if (ECS::ecs().HasComponent<AnimationSet>(characterStats->entity)) {
                 AnimationSet& animation{ ECS::ecs().GetComponent<AnimationSet>(characterStats->entity) };
                 std::stringstream animationName{};
@@ -70,12 +72,40 @@ void CharacterAction::UpdateState() {
                         break;
                     }
                 }
-                animation.Start(animationName.str(), characterStats->entity);
+                static Entity returnpos{ EntityFactory::entityFactory().ClonePrefab("returnpos.prefab")};
+                static Entity attackpos{ EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab") };
+                static vmath::Vector2 aoePoint{ ECS::ecs().GetComponent<Transform>(attackpos).position };
+                if (!ECS::ecs().EntityExists(returnpos)) {
+                    returnpos = EntityFactory::entityFactory().ClonePrefab("returnpos.prefab");
+                }
+                if (!ECS::ecs().EntityExists(attackpos)) {
+                    attackpos = EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab");
+                }
+                ECS::ecs().GetComponent<Transform>(returnpos).position = ECS::ecs().GetComponent<Transform>(characterStats->entity).position;
+                
+                if (selectedSkill.attacktype != AttackType::AOE) {
+                    Transform* attacktrans{ &ECS::ecs().GetComponent<Transform>(attackpos) };
+                    attacktrans->position = ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).position;
+                    attacktrans->position.y += (ECS::ecs().GetComponent<Size>(characterStats->entity).height * ECS::ecs().GetComponent<Transform>(characterStats->entity).scale
+                        - ECS::ecs().GetComponent<Size>(targetSelect.selectedTarget->entity).height * ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).scale) / 2;
+                    if (targetSelect.selectedTarget->tag == CharacterType::PLAYER) {
+                        attacktrans->position.x += 50.f;
+                    }
+                    else {
+                        attacktrans->position.x -= 50.f;
+                    }
+                }
+                else {
+                    ECS::ecs().GetComponent<Transform>(attackpos).position = aoePoint;
+                }
+                animation.Start("Attack Start", characterStats->entity);
+                animation.Queue(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+            battleManager->locked = true;
+            battleManager->MoveOutUIAnimation();
         }
-        
         
         entityState = ENDING;
         break;

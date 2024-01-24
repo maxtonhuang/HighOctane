@@ -59,6 +59,7 @@
 #include "Animation.h"
 #include "UndoRedo.h"
 
+
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
 
@@ -134,6 +135,7 @@ void PhysicsSystem::Update() {
 			}
 		}
 	}
+
 	else {
 		// Regular physics integration and debug drawing
 		for (Entity const& entity : m_Entities) {
@@ -142,7 +144,6 @@ void PhysicsSystem::Update() {
 			physics::PHYSICS->Integrate(transData, collData);
 		}
 	}
-
 }
 
 void PhysicsSystem::Draw() {
@@ -169,8 +170,8 @@ void PhysicsSystem::Draw() {
 *	4. Clears the collision mailbox.
 *
 ******************************************************************************/
-void CollisionSystem::Update() {
 
+void CollisionSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
@@ -178,50 +179,56 @@ void CollisionSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-	//First loop to update colliders
+	// Create a list of SweepAndPruneEntry objects to store colliders along the x-axis
+	std::vector<physics::SweepAndPruneEntry> xSortedColliders;
+
+	// Populate the xSortedColliders list and sort it along the x-axis
 	for (Entity const& entity : m_Entities) {
-		Transform* transData = &transformArray.GetData(entity);
 		Collider* collideData = &colliderArray.GetData(entity);
 
-		//Initialise collision data
-		if (collideData->dimension.x == 0 && collideData->dimension.y == 0) {
-			Size scale{ ECS::ecs().GetComponent<Size>(entity) };
-			collideData->dimension.x = scale.width * transData->scale;
-			collideData->dimension.y = scale.height * transData->scale;
-		}
-
-		collideData->position = transData->position;
+		xSortedColliders.push_back(physics::SweepAndPruneEntry{ entity, collideData->position.x - collideData->dimension.x / 2, collideData->position.x + collideData->dimension.x / 2 });
 	}
 
-	for (Entity const& entity1 : m_Entities) {
-		if (ECS::ecs().HasComponent<MainCharacter>(entity1)) {
+	// Sort the xSortedColliders list based on the lower x-coordinate
+	std::sort(xSortedColliders.begin(), xSortedColliders.end(), [](const physics::SweepAndPruneEntry& a, const physics::SweepAndPruneEntry& b) {
+		return a.lowerX < b.lowerX;
+		});
+
+	// Iterate through the sorted xSortedColliders list and perform collision checks
+	for (size_t i = 0; i < xSortedColliders.size(); ++i) {
+		for (size_t j = i + 1; j < xSortedColliders.size(); ++j) {
+			Entity const& entity1 = xSortedColliders[i].entity;
+			Entity const& entity2 = xSortedColliders[j].entity;
+
+			// Perform collision checks between entity1 and entity2 here
 			Transform* transData1 = &transformArray.GetData(entity1);
+			Transform* transData2 = &transformArray.GetData(entity2);
 			Collider* collideData1 = &colliderArray.GetData(entity1);
+			Collider* collideData2 = &colliderArray.GetData(entity2);
 
-			bool hasCollided = false;
-
-			for (Entity const& entity2 : m_Entities) {
-				if (entity1 != entity2) {
-					Transform* transData2 = &transformArray.GetData(entity2);
-					Collider* collideData2 = &colliderArray.GetData(entity2);
-
-					if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-						hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
-					}
-					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-						hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
-					}
-					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
-						hasCollided = physics::CheckCollisionCircleBox(*collideData1, *collideData2);
-					}
-					else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
-						hasCollided = physics::CheckCollisionBoxCircle(*collideData1, *collideData2);
-					}
-					if (hasCollided == true)
-					{
-						physics::DynamicStaticResponse(*transData1);
-						break;
-					}
+			// Your collision detection logic remains the same as before
+			if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+				bool hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
+				if (hasCollided) {
+					physics::DynamicStaticResponse(*transData1);
+				}
+			}
+			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+				bool hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
+				if (hasCollided) {
+					physics::DynamicStaticResponse(*transData1);
+				}
+			}
+			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
+				bool hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
+				if (hasCollided) {
+					physics::DynamicStaticResponse(*transData1);
+				}
+			}
+			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
+				bool hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
+				if (hasCollided) {
+					physics::DynamicStaticResponse(*transData1);
 				}
 			}
 		}
@@ -582,6 +589,7 @@ void EditingSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	//auto& colorArray = componentManager.GetComponentArrayRef<Color>();
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
@@ -768,12 +776,13 @@ void EditingSystem::Update() {
 					Name& n = nameArray.GetData(entity);
 					Transform& t = transformArray.GetData(entity);
 					Model* m{};
+					Size& s = sizeArray.GetData(entity);
 
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 					}
 					// edit entity's properties
-					UpdateProperties(entity, n, t, m, layer_it);
+					UpdateProperties(entity, n, t, s, m, layer_it);
 				}
 			}
 		}
@@ -1129,7 +1138,8 @@ void UIAllyHudSystem::Update() {
 			bool checkResult = false;
 			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
-				healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
+				//healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
+				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
 				healthBarData->charaStatsRef = nullptr;
@@ -1154,7 +1164,7 @@ void UIEnemyHudSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
-	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	//auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
@@ -1167,14 +1177,17 @@ void UIEnemyHudSystem::Update() {
 			if (checkResult) {
 				if (!enemyHudData->initialised) {
 					enemyHudData->initialised = true;
-					healthBarData->charaStatsRef = &characterStatsArray.GetData(allEnemies[enemyHudData->enemyIndex]->entity);
+					//healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
 					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
 				}
 			}
+			else {
+				enemyHudData->ToggleStatusFx(entity, 0);
+			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
-				healthBarData->charaStatsRef = nullptr;
+				//healthBarData->charaStatsRef = nullptr;
 			}
 		}
 	}

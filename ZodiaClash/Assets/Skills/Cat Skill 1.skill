@@ -1,6 +1,7 @@
 [
     {
         "Name": "Scarlet Claw",
+	"Texture": "skill_icon_basic.png",
         "Type": 0,
         "Skill Attack": 100,
         "Minimum Attack Multiplier": 0.8,

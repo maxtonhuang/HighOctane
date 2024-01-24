@@ -32,6 +32,8 @@
 #include "graphlib.h"
 #include "VMath.h"
 
+using Entity = std::uint32_t;
+
 class Camera {
 public:
 	Camera(); //constructor to initialise values
@@ -46,9 +48,19 @@ public:
 
 	void SetZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
 	void AddZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
+	float GetZoom();
+
+	void SetTarget(Entity entity);
+	void DetachTarget();
+
+	void SetShake(float shake);
+	void AddShake(float shake);
+
 private:
-	vmath::Vector2 pos{};
-	float scale{};
+	vmath::Vector2 pos{}; //camera position
+	float scale{}; //camera zoom
+	Entity target{}; //which entity the camera is following
+	float magnitude{}; //camera magnitude
 };
 
 extern Camera camera;

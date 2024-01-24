@@ -1,0 +1,82 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 21,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Goat",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -518.0,
+            "position_y": -150.0,
+            "rotation": 0.0,
+            "scale": 3.8179094791412354,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Goat_Basic.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 80.0,
+            "height": 80.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 80.0,
+            "Dimension Y": 80.0
+        }
+    }
+]

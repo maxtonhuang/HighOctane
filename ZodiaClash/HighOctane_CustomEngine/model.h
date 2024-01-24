@@ -49,6 +49,9 @@ enum ModelType {
 	GAMEPLAY, BACKGROUND, BACKGROUNDLOOP, UI
 };
 
+//Map to get enum names
+const std::unordered_map<ModelType, std::string> modelTypeMap { {GAMEPLAY,"GAMEPLAY"},{BACKGROUND,"BACKGROUND"},{BACKGROUNDLOOP,"BACKGROUNDLOOP"},{UI,"UI"} };
+
 class Model {
 public:
 	Model(ModelType = ModelType::GAMEPLAY, float bgScrollSpeed = 0.f); //default constructor of model, used to initialise matrix and color
@@ -73,6 +76,10 @@ public:
 	vmath::Vector2 GetTopRight() const; //returns top right point in screen coordinates
 	vmath::Vector2 GetBotLeft() const; //returns bottom left point in screen coordinates
 	vmath::Vector2 GetBotRight() const; //returns bottom right point in screen coordinates
+	vmath::Vector2 GetTop() const;
+	vmath::Vector2 GetBot() const;
+	vmath::Vector2 GetLeft() const;
+	vmath::Vector2 GetRight() const;
 
 	glm::vec4 GetColor() const; // retrieve color stored
 	glm::vec4& GetColorRef(); //retrieve color reference
@@ -89,6 +96,10 @@ private:
 	glm::vec2 botleft{};
 	glm::vec2 botright{};
 	glm::vec2 rotationpoint{};
+	glm::vec2 top{};
+	glm::vec2 bot{};
+	glm::vec2 left{};
+	glm::vec2 right{};
 
 	vmath::Vector2 minimum{};
 	vmath::Vector2 maximum{};

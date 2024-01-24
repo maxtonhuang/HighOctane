@@ -37,4 +37,11 @@ namespace physics {
     void DynamicStaticResponse(Transform& dynamicBody);
     /*void DynamicDynamicResponse(Transform& bodyA, Transform& bodyB);
     void HandleCollisionResponse(Transform& alpha, Transform& beta);*/
+
+	struct SweepAndPruneEntry
+	{
+		Entity entity;
+		float lowerX;
+		float upperX;
+	};
 }

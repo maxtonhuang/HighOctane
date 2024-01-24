@@ -82,9 +82,9 @@
                 "struct Transform",
                 "struct Name",
                 "struct Parent",
-                "class Button",
-                "struct Size",
                 "struct Tex",
+                "struct Size",
+                "class Button",
                 "struct Color",
                 "class Model",
                 "class TextLabel"
@@ -169,7 +169,7 @@
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
-            "Event Name": "Change Scene",
+            "Event Name": "Transition Scene",
             "Event Input": "battle.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -186,9 +186,9 @@
                 "struct Name",
                 "struct Parent",
                 "struct Color",
-                "class Button",
-                "struct Size",
                 "struct Tex",
+                "struct Size",
+                "class Button",
                 "class Model",
                 "class TextLabel"
             ]

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 8,
+            "layerCounter": 18,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -11,7 +11,17 @@
                 "Layer 4",
                 "Layer 5",
                 "Layer 6",
-                "Layer 7"
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17"
             ]
         }
     },
@@ -19,7 +29,7 @@
         "Entity": {
             "Name": "turn_enemy",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -31,8 +41,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
-            "position_y": 247.5,
+            "position_x": 350.0,
+            "position_y": 598.5,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -42,8 +52,8 @@
             "isVisible": false
         },
         "Size": {
-            "width": 250.0,
-            "height": 100.0
+            "width": 125.0,
+            "height": 75.0
         },
         "Scripts": {
             "className": "",
@@ -52,9 +62,9 @@
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 0.35231316089630127,
-            "Green": 0.13290105760097504,
-            "Blue": 0.13290105760097504,
+            "Red": 0.6797152757644653,
+            "Green": 0.0,
+            "Blue": 0.0,
             "Alpha": 0.7843137383460999
         },
         "Movable": {},
@@ -64,6 +74,7 @@
                 "Total Frames": 10,
                 "Group Name": "Move Up",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -83,6 +94,7 @@
                 "Total Frames": 10,
                 "Group Name": "Move Left",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -102,6 +114,7 @@
                 "Total Frames": 10,
                 "Group Name": "Move Right",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -130,6 +143,7 @@
                 "Total Frames": 10,
                 "Group Name": "Destroy",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "SelfDestruct",
@@ -144,10 +158,181 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 9,
-                                "X movement": 300.0,
+                                "X movement": -300.0,
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Pop In",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": -98.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Pop Out",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": 110.0,
+                                "Rotation": 0.0,
+                                "Scale": -1.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Shift In",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Target": "Turn Order Attach Point"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Pop In"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Next Turn",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": -125.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Reverse Next Turn",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 125.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 0.800000011920929,
+                                "Green": 0.800000011920929,
+                                "Blue": 0.800000011920929
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 0.6784313917160034,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Expand",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": -200.0,
+                                "Y movement": -32.5,
+                                "Rotation": 0.0,
+                                "Scale": 1.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Unexpand",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 62.5,
+                                "Y movement": 32.5,
+                                "Rotation": 0.0,
+                                "Scale": -1.0
                             }
                         ]
                     }
@@ -159,9 +344,9 @@
     },
     {
         "Entity": {
-            "Name": "enemy_closeup_icon",
+            "Name": "turnOrderIcon",
             "Current Layer": 1,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -172,10 +357,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -830.0,
-            "position_y": 247.5,
+            "position_x": 350.0,
+            "position_y": 598.5,
             "rotation": 0.0,
-            "scale": 0.3499999940395355,
+            "scale": 0.25,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -198,7 +383,7 @@
             "scriptAttachedNameVec": []
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
@@ -206,11 +391,79 @@
             "Alpha": 1.0
         },
         "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 2.0,
+                                "Green": 2.0,
+                                "Blue": 2.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Expand",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.25
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Unexpand",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": -0.25
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.3499999940395355,
+            "scale": 0.25,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

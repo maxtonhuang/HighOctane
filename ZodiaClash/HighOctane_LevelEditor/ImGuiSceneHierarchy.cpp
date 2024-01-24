@@ -332,10 +332,27 @@ void SceneEntityComponents(Entity entity) {
 
 	if (ECS::ecs().HasComponent<Model>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(Model).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Color")) {
-			auto& colorComponent = ECS::ecs().GetComponent<Model>(entity).GetColorRef();
+			auto& modelComponent = ECS::ecs().GetComponent<Model>(entity);
 			//ImVec4 imColor = ((ImVec4)color.color);
 			// note: switch to color edit4 for A value?
-			ImGui::ColorEdit4("Edit Color", (float*)&colorComponent);
+
+			ModelType& modelType{ modelComponent.type };
+			std::string modelTypeName{ modelTypeMap.at(modelType)};
+
+			if (ImGui::BeginCombo("Model Type", modelTypeName.c_str())) {
+				for (auto& n : modelTypeMap) {
+					bool is_selected = (modelTypeName == n.second);
+					if (ImGui::Selectable(n.second.c_str(), is_selected)) {
+						modelType = n.first;
+					}
+					if (is_selected) {
+						ImGui::SetItemDefaultFocus();
+					}
+				}
+				ImGui::EndCombo();
+			}
+
+			ImGui::ColorEdit4("Edit Color", (float*)&modelComponent.GetColorRef());
 
 			ImGui::TreePop();
 		}
@@ -357,6 +374,17 @@ void SceneEntityComponents(Entity entity) {
 			if (ImGui::Combo("Rotation", &currentRotationIndex, rotationOptions, IM_ARRAYSIZE(rotationOptions))) {
 				rotationComponent = static_cast<float>(currentRotationIndex) * 90.0f;
 			}*/
+
+			ImGui::TreePop();
+		}
+	}
+	if (ECS::ecs().HasComponent<Size>(entity)) {
+		Size* entitySize{ &ECS::ecs().GetComponent<Size>(entity) };
+		if (ImGui::TreeNodeEx((void*)typeid(Transform).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Size")) {
+			auto& widthComponent = entitySize->width;
+			auto& heightComponent = entitySize->height;
+			ImGui::DragFloat("Width", &widthComponent);
+			ImGui::DragFloat("Height", &heightComponent);
 
 			ImGui::TreePop();
 		}

@@ -530,6 +530,31 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
+			else if (animType == "CameraZoom") {
+				const std::shared_ptr<CameraZoomAnimation> zoom{ std::dynamic_pointer_cast<CameraZoomAnimation>(anim) };
+				for (auto const& k : zoom->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Zoom", k.data, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "CameraTarget") {
+				const std::shared_ptr<CameraTargetAnimation> camtarget{ std::dynamic_pointer_cast<CameraTargetAnimation>(anim) };
+				for (auto const& k : camtarget->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "CameraReset") {
+				const std::shared_ptr<CameraResetAnimation> camtarget{ std::dynamic_pointer_cast<CameraResetAnimation>(anim) };
+				for (auto const& k : camtarget->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -1480,6 +1505,28 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
 							}
 							anigrp.animations.push_back(std::make_shared<DamageImpactAnimation>(a));
+						}
+						else if (animType == "CameraZoom") {
+							CameraZoomAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								float data{ k["Zoom"].GetFloat() };
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<CameraZoomAnimation>(a));
+						}
+						else if (animType == "CameraTarget") {
+							CameraTargetAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<CameraTargetAnimation>(a));
+						}
+						else if (animType == "CameraReset") {
+							CameraResetAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+							}
+							anigrp.animations.push_back(std::make_shared<CameraResetAnimation>(a));
 						}
 					}
 					animset.animationSet.push_back(anigrp);

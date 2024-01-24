@@ -63,10 +63,10 @@
         },
         "CharacterStats": {
             "Character type": 1,
-            "Max Health": 120.0,
-            "Health": 120.0,
-            "Attack": 10.0,
-            "Defense": 15.0,
+            "Max Health": 130.0,
+            "Health": 130.0,
+            "Attack": 8.0,
+            "Defense": 35.0,
             "Speed": 1,
             "Skills": [
                 "Guard Attack"
@@ -86,6 +86,7 @@
                 "Total Frames": 60,
                 "Group Name": "Attack 1",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -162,6 +163,23 @@
                                 "Frame Number": 35
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15
+                            }
+                        ]
                     }
                 ]
             },
@@ -169,13 +187,14 @@
                 "Total Frames": 60,
                 "Group Name": "Guard moveback",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
                         "Key Frames": [
                             {
                                 "Frame Number": 30,
-                                "Target": "Enemy 2 Position"
+                                "Target": "Return Position"
                             }
                         ]
                     },
@@ -187,6 +206,14 @@
                                 "Texture": "GUARD_idle.png"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            }
+                        ]
                     }
                 ]
             },
@@ -194,6 +221,7 @@
                 "Total Frames": 60,
                 "Group Name": "Damaged",
                 "Loop": false,
+                "Frame Time": 0.0,
                 "Animations": [
                     {
                         "Animation Type": "Color",
@@ -239,6 +267,58 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 10
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 8,
+                "Group Name": "Death",
+                "Loop": false,
+                "Frame Time": 0.15000000596046448,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Guard_Death.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            },
+                            {
+                                "Frame Number": 2
+                            },
+                            {
+                                "Frame Number": 3
+                            },
+                            {
+                                "Frame Number": 4
+                            },
+                            {
+                                "Frame Number": 5
+                            },
+                            {
+                                "Frame Number": 6
+                            },
+                            {
+                                "Frame Number": 7
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Guard Damaged_Edited.wav"
                             }
                         ]
                     }

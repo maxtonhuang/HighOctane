@@ -130,6 +130,12 @@ public:
 	*/
 	void Start(std::string animationName, Entity entity);
 
+	//Queue up an animation to start if no animations are playing
+	void Queue(std::string animationName, Entity entity);
+
+	//Stops the animation and removes all from queue
+	void Stop();
+
 	//Initialises the animation set and runs its default animation
 	void Initialise(Entity entity);
 
@@ -141,7 +147,7 @@ public:
 
 	//Copy constructor of animation set to ensure activeAnimation pointer is not copied
 	AnimationSet(const AnimationSet&);
-
+	
 	//Assignment operator of animation set to ensure activeAnimation pointer is not copied
 	AnimationSet& operator= (const AnimationSet&);
 
@@ -159,6 +165,9 @@ public:
 private:
 	//If animation set has been initialised
 	bool initialised{ false };
+
+	//To queue up animations
+	std::queue<AnimationGroup*> animationQueue{};
 };
 
 template <typename T>
@@ -335,5 +344,54 @@ public:
 
 	std::list<Keyframe<int>> keyframes;
 private:
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
+};
+
+//Sets the zoom of camera to keyframe zoom
+class CameraZoomAnimation : public Animation {
+public:
+	CameraZoomAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<float>> keyframes;
+private:
+	float zoom;
+	std::list<Keyframe<float>>::iterator nextKeyframe{};
+};
+
+//Sets the target of camera to entity
+class CameraTargetAnimation : public Animation {
+public:
+	CameraTargetAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<int>> keyframes;
+private:
+	Transform* entityTransform;
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
+};
+
+//Resets the camera to 0,0 and 1.0 zoom
+class CameraResetAnimation : public Animation {
+public:
+	CameraResetAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<int>> keyframes;
+private:
+	float zoom;
+	vmath::Vector2 velocity;
 	std::list<Keyframe<int>>::iterator nextKeyframe{};
 };

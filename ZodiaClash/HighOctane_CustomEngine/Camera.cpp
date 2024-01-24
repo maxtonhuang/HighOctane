@@ -30,7 +30,9 @@
 ******************************************************************************/
 #include "Camera.h"
 #include "graphics.h"
+#include <random>
 
+const float SHAKE_REDUCTION = 50.f * FIXED_DT;
 Camera camera;
 
 Camera::Camera() {
@@ -38,7 +40,24 @@ Camera::Camera() {
 }
 
 void Camera::Update() {
-	glm::mat3 matrix{ scale,0,0,0,scale,0,pos.x / GRAPHICS::w, pos.y / GRAPHICS::h, 1 };
+	if (target != 0 && ECS::ecs().EntityExists(target)) {
+		Transform targetTransform { ECS::ecs().GetComponent<Transform>(target) };
+		SetPos(targetTransform.position.x, targetTransform.position.y);
+	}
+
+	vmath::Vector2 finalpos{ -pos.x * scale,-pos.y * scale };
+
+	if (magnitude > 0) {
+		static std::default_random_engine rng;
+		static std::uniform_real_distribution<float> rand(-1.f, 1.f);
+		vmath::Vector2 shakeoffset{ rand(rng),rand(rng) };
+		shakeoffset.normalize();
+		shakeoffset *= magnitude;
+		finalpos += shakeoffset;
+		magnitude -= SHAKE_REDUCTION;
+	}
+
+	glm::mat3 matrix{ scale,0,0,0,scale,0, finalpos.x / GRAPHICS::w, finalpos.y / GRAPHICS::h, 1 };
 	for (auto& r : graphics.renderer) {
 		r.second.UpdateUniformMatrix3fv("uCamera", &matrix);
 	}
@@ -47,19 +66,20 @@ void Camera::Update() {
 void Camera::Reset() {
 	pos = vmath::Vector2{ 0,0 };
 	scale = 1.f;
-	Update();
+	target = 0;
+	//Update();
 }
 
 void Camera::SetPos(float x, float y) {
 	pos.x = x;
 	pos.y = y;
-	Update();
+	//Update();
 }
 
 void Camera::AddPos(float x, float y) {
 	pos.x += x;
 	pos.y += y;
-	Update();
+	//Update();
 }
 
 vmath::Vector2 Camera::GetPos() {
@@ -68,7 +88,7 @@ vmath::Vector2 Camera::GetPos() {
 
 void Camera::SetZoom(float zoom) {
 	scale = zoom;
-	Update();
+	//Update();
 }
 
 void Camera::AddZoom(float zoom) {
@@ -76,5 +96,25 @@ void Camera::AddZoom(float zoom) {
 	if (scale < 0.f) {
 		scale = 0.f;
 	}
-	Update();
+	//Update();
+}
+
+float Camera::GetZoom() {
+	return scale;
+}
+
+void Camera::SetTarget(Entity entity) {
+	target = entity;
+}
+
+void Camera::DetachTarget() {
+	target = 0;
+}
+
+void Camera::SetShake(float shake) {
+	magnitude = shake;
+}
+
+void Camera::AddShake(float shake) {
+	magnitude += shake;
 }

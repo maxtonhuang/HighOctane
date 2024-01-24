@@ -97,6 +97,10 @@ void Model::Update(Transform const& entity, Size const& size) {
 	botright = glm::vec2{ bottomright3.x,bottomright3.y };
 	topleft = glm::vec2{ topleft3.x,topleft3.y };
 	topright = glm::vec2{ topright3.x,topright3.y };
+	top = glm::vec2{ (topright.x + topleft.x) / 2, (topright.y + topleft.y) / 2 };
+	bot = glm::vec2{ (botright.x + botleft.x) / 2, (botright.y + botleft.y) / 2 };
+	left = glm::vec2{ (botleft.x + topleft.x) / 2, (botleft.y + topleft.y) / 2 };
+	right = glm::vec2{ (botright.x + topright.x) / 2, (botright.y + topright.y) / 2 };
 
 	glm::vec2 rotationvector{ sin(entity.rotation),cos(entity.rotation) };
 	glm::vec2 topmidpoint{ (topright.x + topleft.x) / 2, (topright.y + topleft.y) / 2 };
@@ -159,12 +163,12 @@ void Model::Draw(Tex* const entity) {
 		}
 	}
 
-	//if (renderer != previousRenderer) {
-	//	if (previousRenderer != nullptr) {
-	//		previousRenderer->Draw();
-	//	}
-	//	previousRenderer = renderer;
-	//}
+	if (renderer != previousRenderer) {
+		if (previousRenderer != nullptr) {
+			previousRenderer->Draw();
+		}
+		previousRenderer = renderer;
+	}
 
 	if (entity != nullptr && entity->tex != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
@@ -207,6 +211,10 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(top.x * GRAPHICS::w, top.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(bot.x * GRAPHICS::w, bot.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(right.x * GRAPHICS::w, right.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(left.x * GRAPHICS::w, left.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
 	graphics.DrawPoint(rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);
 }
 
@@ -278,3 +286,20 @@ vmath::Vector2 Model::GetBotLeft() const {
 vmath::Vector2 Model::GetBotRight() const {
 	return vmath::Vector2{ botright.x * GRAPHICS::w, botright.y * GRAPHICS::h };
 }
+
+vmath::Vector2 Model::GetTop() const {
+	return vmath::Vector2{ top.x * GRAPHICS::w, top.y * GRAPHICS::h };
+}
+
+vmath::Vector2 Model::GetBot() const {
+	return vmath::Vector2{ bot.x * GRAPHICS::w, bot.y * GRAPHICS::h };
+}
+
+vmath::Vector2 Model::GetLeft() const {
+	return vmath::Vector2{ left.x * GRAPHICS::w, left.y * GRAPHICS::h };
+}
+
+vmath::Vector2 Model::GetRight() const {
+	return vmath::Vector2{ right.x * GRAPHICS::w, right.y * GRAPHICS::h };
+}
+

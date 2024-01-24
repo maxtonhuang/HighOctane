@@ -1,6 +1,7 @@
 [
     {
         "Name": "Five Elements Bloodbath",
+	"Texture": "skill_icon_ulti.png",
         "Type": 1,
         "Skill Attack": 50,
         "Minimum Attack Multiplier": 0.8,
@@ -8,6 +9,6 @@
         "Crit Rate": 0.8,
         "Crit Multiplier": 2.0,
         "Chi Cost": 3,
-	"Bleed": 3
+	"Bleed": 0
     }
 ]

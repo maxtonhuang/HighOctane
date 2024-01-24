@@ -216,6 +216,7 @@ public:
 
 class HealthBar : UIComponent {
 public:
+	Entity entity{};
 	CharacterStats* charaStatsRef{};
 	float currentHealth{};
 	float maxHealth{};	

@@ -73,6 +73,7 @@ float currentFontSize{ fontSizeM };
 ImGuiStyle originalStyle;
 bool firstSet = false;
 
+const char* mouse_cursors_names[] = { "Arrow", "TextInput", "ResizeAll", "ResizeNS", "ResizeEW", "ResizeNESW", "ResizeNWSE", "Hand", "NotAllowed" };
 
 //GUIManager guiManager;
 //FrameBuffer frameBuffer;
@@ -146,7 +147,7 @@ void GUIManager::Init()
  
     // Init console window
     InitConsole();
-    InitEntitiesManager();
+    //InitEntitiesManager();
 
 
 #if _DEBUG
@@ -161,6 +162,9 @@ void GUIManager::Init()
     std::fill(entitiesToLock.begin(), entitiesToLock.end(), true);
 
     initialized = true;
+
+    
+
 }
 
 void GUIManager::Update()
@@ -225,14 +229,35 @@ void GUIManager::Update()
         if (ImGui::IsWindowHovered()) {
             io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
             viewportWindowHovered = true;
+
+            switch (cursorEditingTooltipState) {
+
+                case CursorEditingTooltip::CORNER:
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Aspect Ratio will be preserved");
+                    ImGui::EndTooltip();
+				    break;
+
+                case CursorEditingTooltip::SIDE:
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Aspect Ratio will NOT be preserved");
+                    ImGui::EndTooltip();
+                    break;
+
+                default:
+                    break;
+
+            }
+
         }
         else {
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;
             viewportWindowHovered = false;
         }
-        
-        
  
+
+
+
         unsigned textureID = graphics.framebuffer.GetTextureID();
         float xSizeAvailable = ImGui::GetContentRegionAvail().x;
         float ySizeAvailable = ImGui::GetContentRegionAvail().y;
@@ -399,7 +424,7 @@ void GUIManager::Update()
         //selectedEntities.clear();
 
 
-
+    
 
 
         ImGui::End();
@@ -413,7 +438,7 @@ void GUIManager::Update()
   
     // Update Panels
     UpdateConsole();
-    UpdateEntitiesManager();
+    //UpdateEntitiesManager();
     UpdatePlayStop();
     UpdateAssetLibrary();
     UpdateSceneHierachy();

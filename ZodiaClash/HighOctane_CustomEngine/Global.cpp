@@ -117,6 +117,8 @@ bool isHotReload{ false };
 
 bool fullscreen{ false };
 
+CursorEditingTooltip cursorEditingTooltipState{ CursorEditingTooltip::NONE };
+
 std::string SystemModeToString(SystemMode mode)
 {
 	switch (mode)

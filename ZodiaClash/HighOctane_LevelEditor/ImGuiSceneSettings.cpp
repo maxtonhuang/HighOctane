@@ -53,6 +53,11 @@ void UpdateSceneSettingsWindow() {
 		assetmanager.SaveScene(scenePath);
 		saveTimer = 1.f;
 	}
+	if (ImGui::Button("Save Scene Assets")) {
+		std::string scenePath{ assetmanager.GetDefaultPath() + "Scenes\\" + sceneName };
+		assetmanager.SaveSceneAssets(scenePath);
+		saveTimer = 1.f;
+	}
 	if (saveTimer > 0.f) {
 		ImGui::SameLine();
 		ImGui::Text("Scene Saved!");
