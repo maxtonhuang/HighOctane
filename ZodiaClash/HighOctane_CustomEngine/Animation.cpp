@@ -40,17 +40,25 @@
 #include "Camera.h"
 
 void AnimationSet::Initialise(Entity entity) {
-	activeAnimation = nullptr;
+	//activeAnimation = nullptr;
 	Start(defaultAnimation, entity);
 	initialised = true;
 }
 
 void AnimationSet::Start(std::string animationName, Entity entity) {
 	//Set active animation
-	initialised = true;
 	bool found{ false };
+	initialised = true;
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
+			printf("Staring animation for entity %d: %s\n",entity, animationName.c_str());
+			if (animationName == "Attack Part 1") {
+				static int x = 0;
+				if (x == 1) {
+					x = 0;
+				}
+				x++;
+			}
 			activeAnimation = &a;
 			found = true;
 			break;
@@ -103,9 +111,21 @@ AnimationSet::AnimationSet(const AnimationSet& copy) {
 }
 
 AnimationSet& AnimationSet::operator= (const AnimationSet& copy) {
+	if (copy.defaultAnimation == "Attack Part 1") {
+		printf("?\n");
+	}
+	initialised = copy.initialised;
 	animationSet = copy.animationSet;
 	defaultAnimation = copy.defaultAnimation;
-	initialised = false;
+	animationQueue = copy.animationQueue;
+	if (copy.activeAnimation != nullptr) {
+		for (auto& animation : animationSet) {
+			if (animation.name == copy.activeAnimation->name) {
+				activeAnimation = &animation;
+				break;
+			}
+		}
+	}
 	return *this;
 }
 
@@ -129,6 +149,9 @@ void AnimationGroup::Update(Entity entity) {
 	}
 
 	updatetime += FIXED_DT;
+	if (frametime <= 0.f) {
+		frametime = FIXED_DT;
+	}
 	while (updatetime >= frametime) {
 		updatetime -= frametime;
 		currentFrame++;
@@ -155,20 +178,45 @@ void AnimationGroup::Update(Entity entity) {
 
 AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 	animations.clear();
+	parent = copy.parent;
 	for (auto& animation : copy.animations) {
 		if (animation->GetType() == "Sprite") {
-			std::shared_ptr <SpriteAnimation> ptr{ std::make_shared<SpriteAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<SpriteAnimation>(animation);
+			std::shared_ptr<SpriteAnimation> ptr{ std::make_shared<SpriteAnimation>() };
+			std::shared_ptr<SpriteAnimation> copyptr{ std::dynamic_pointer_cast<SpriteAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "TextureChange") {
 			std::shared_ptr <ChangeTexAnimation> ptr{ std::make_shared<ChangeTexAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<ChangeTexAnimation>(animation);
+			std::shared_ptr<ChangeTexAnimation> copyptr{ std::dynamic_pointer_cast<ChangeTexAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "Sound") {
 			std::shared_ptr <SoundAnimation> ptr{ std::make_shared<SoundAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<SoundAnimation>(animation);
+			std::shared_ptr<SoundAnimation> copyptr{ std::dynamic_pointer_cast<SoundAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "Swap") {
@@ -178,22 +226,56 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 		}
 		else if (animation->GetType() == "TransformAttach") {
 			std::shared_ptr <TransformAttachAnimation> ptr{ std::make_shared<TransformAttachAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<TransformAttachAnimation>(animation);
+			std::shared_ptr<TransformAttachAnimation> copyptr{ std::dynamic_pointer_cast<TransformAttachAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+				ptr->entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "TransformDirect") {
 			std::shared_ptr <TransformDirectAnimation> ptr{ std::make_shared<TransformDirectAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<TransformDirectAnimation>(animation);
+			std::shared_ptr<TransformDirectAnimation> copyptr{ std::dynamic_pointer_cast<TransformDirectAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+				ptr->entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "Fade") {
 			std::shared_ptr <FadeAnimation> ptr{ std::make_shared<FadeAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<FadeAnimation>(animation);
+			std::shared_ptr<FadeAnimation> copyptr{ std::dynamic_pointer_cast<FadeAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "Color") {
 			std::shared_ptr <ColorAnimation> ptr{ std::make_shared<ColorAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<ColorAnimation>(animation);
+			std::shared_ptr<ColorAnimation> copyptr{ std::dynamic_pointer_cast<ColorAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "SelfDestruct") {
@@ -203,22 +285,67 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 		}
 		else if (animation->GetType() == "DamageImpact") {
 			std::shared_ptr <DamageImpactAnimation> ptr{ std::make_shared<DamageImpactAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<DamageImpactAnimation>(animation);
+			std::shared_ptr<DamageImpactAnimation> copyptr{ std::dynamic_pointer_cast<DamageImpactAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "CameraZoom") {
 			std::shared_ptr <CameraZoomAnimation> ptr{ std::make_shared<CameraZoomAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<CameraZoomAnimation>(animation);
+			std::shared_ptr<CameraZoomAnimation> copyptr{ std::dynamic_pointer_cast<CameraZoomAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "CameraTarget") {
 			std::shared_ptr <CameraTargetAnimation> ptr{ std::make_shared<CameraTargetAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<CameraTargetAnimation>(animation);
+			std::shared_ptr<CameraTargetAnimation> copyptr{ std::dynamic_pointer_cast<CameraTargetAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else if (animation->GetType() == "CameraReset") {
 			std::shared_ptr <CameraResetAnimation> ptr{ std::make_shared<CameraResetAnimation>() };
-			*ptr = *std::dynamic_pointer_cast<CameraResetAnimation>(animation);
+			std::shared_ptr<CameraResetAnimation> copyptr{ std::dynamic_pointer_cast<CameraResetAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
+			animations.push_back(ptr);
+		}
+		else if (animation->GetType() == "CreatePrefab") {
+			std::shared_ptr <CreatePrefabAnimation> ptr{ std::make_shared<CreatePrefabAnimation>() };
+			std::shared_ptr<CreatePrefabAnimation> copyptr{ std::dynamic_pointer_cast<CreatePrefabAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
 			animations.push_back(ptr);
 		}
 		else {
@@ -229,7 +356,8 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 	name = copy.name;
 	loop = copy.loop;
 	frametime = copy.frametime;
-	currentFrame = -1;
+	currentFrame = copy.currentFrame;
+	active = copy.active;
 	return *this;
 }
 
@@ -397,6 +525,7 @@ void SwapAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
 		AnimationSet& anim{ ECS::ecs().GetComponent<AnimationSet>(parent) };
 		anim.Start(keyframes.data, parent);
+		active = false;
 	}
 }
 void SwapAnimation::AddKeyFrame(int frameNum, void* frameData) {
@@ -722,6 +851,7 @@ void DamageImpactAnimation::Update(int frameNum) {
 	if (frameNum >= nextKeyframe->frameNum) {
 		BattleSystem* battlesystem{ events.GetBattleSystem() };
 		battlesystem->ProcessDamage();
+		active = false;
 	}
 }
 void DamageImpactAnimation::AddKeyFrame(int frameNum, void* frameData) {
@@ -881,6 +1011,50 @@ void CameraResetAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<int>{frameNum});
 }
 bool CameraResetAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+CreatePrefabAnimation::CreatePrefabAnimation() {
+	type = "CreatePrefab";
+}
+void CreatePrefabAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void CreatePrefabAnimation::Update(int frameNum) {
+	static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		Entity prefabClone{ EntityFactory::entityFactory().ClonePrefab(nextKeyframe->data) };;
+		transformArray.GetData(prefabClone).position = transformArray.GetData(parent).position;
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+	}
+}
+void CreatePrefabAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void CreatePrefabAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<std::string>{frameNum});
+}
+bool CreatePrefabAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
 		if (k.frameNum == frameNum) {
 			return true;

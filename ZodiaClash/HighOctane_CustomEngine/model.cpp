@@ -64,6 +64,7 @@ Model& Model::operator= (const Model& rhs) {
 	type = rhs.type;
 	backgroundScrollSpeed = rhs.backgroundScrollSpeed;
 	color = rhs.color;
+	mirror = rhs.mirror;
 	return *this;
 }
 
@@ -173,12 +174,22 @@ void Model::Draw(Tex* const entity) {
 	if (entity != nullptr && entity->tex != nullptr) {
 		float texID{ (float)entity->tex->GetID() - 1.f };
 		int frameIndex{entity->frameIndex};
-		renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,0), texID });
-		renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
-		renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
-		renderer->AddVertex(Vertex{ topright,color, entity->tex->GetTexCoords(frameIndex,3), texID });
-		renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
-		renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
+		if (mirror) {
+			renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,1), texID });
+			renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,0), texID });
+			renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,3), texID });
+			renderer->AddVertex(Vertex{ topright,color, entity->tex->GetTexCoords(frameIndex,2), texID });
+			renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,0), texID });
+			renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,3), texID });
+		}
+		else {
+			renderer->AddVertex(Vertex{ botleft,color,	entity->tex->GetTexCoords(frameIndex,0), texID });
+			renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
+			renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
+			renderer->AddVertex(Vertex{ topright,color, entity->tex->GetTexCoords(frameIndex,3), texID });
+			renderer->AddVertex(Vertex{ botright,color, entity->tex->GetTexCoords(frameIndex,1), texID });
+			renderer->AddVertex(Vertex{ topleft,color,	entity->tex->GetTexCoords(frameIndex,2), texID });
+		}
 	}
 	else {
 		renderer->AddVertex(Vertex{ botleft,color });
@@ -267,6 +278,18 @@ glm::vec4 Model::GetColor() const {
 
 glm::vec4& Model::GetColorRef() {
 	return color;
+}
+
+bool Model::GetMirror() const {
+	return mirror;
+}
+
+bool& Model::GetMirrorRef() {
+	return mirror;
+}
+
+void Model::SetMirror(bool m) {
+	mirror = m;
 }
 
 vmath::Vector2 Model::GetRotPoint() const {

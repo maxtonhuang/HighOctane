@@ -278,6 +278,7 @@ rapidjson::Value SerializeModel(const Model& model, rapidjson::Document::Allocat
 	modelObject.AddMember("Green", model.GetColor().g, allocator);
 	modelObject.AddMember("Blue", model.GetColor().b, allocator);
 	modelObject.AddMember("Alpha", model.GetColor().a, allocator);
+	modelObject.AddMember("Mirror", model.GetMirror(), allocator);
 	return modelObject;
 }
 
@@ -555,6 +556,15 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
+			else if (animType == "CreatePrefab") {
+				const std::shared_ptr<CreatePrefabAnimation> camtarget{ std::dynamic_pointer_cast<CreatePrefabAnimation>(anim) };
+				for (auto const& k : camtarget->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Prefab", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+				}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -1118,6 +1128,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					model.SetAlpha(modelColor.a);
 				}
 
+				if (modelObject.HasMember("Mirror")) {
+					bool mirror{};
+					mirror = modelObject["Mirror"].GetBool();
+					model.SetMirror(mirror);
+				}
+
 				if (ECS::ecs().HasComponent<Model>(entity)) {
 					ECS::ecs().GetComponent<Model>(entity) = model;
 				}
@@ -1528,6 +1544,14 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 							}
 							anigrp.animations.push_back(std::make_shared<CameraResetAnimation>(a));
 						}
+						else if (animType == "CreatePrefab") {
+							CreatePrefabAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data = k["Prefab"].GetString();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<CreatePrefabAnimation>(a));
+							}
 					}
 					animset.animationSet.push_back(anigrp);
 				}

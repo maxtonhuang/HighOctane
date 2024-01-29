@@ -352,6 +352,9 @@ void SceneEntityComponents(Entity entity) {
 				ImGui::EndCombo();
 			}
 
+			bool& modelMirror = modelComponent.GetMirrorRef();
+			ImGui::Checkbox("Mirror", &modelMirror);
+
 			ImGui::ColorEdit4("Edit Color", (float*)&modelComponent.GetColorRef());
 
 			ImGui::TreePop();

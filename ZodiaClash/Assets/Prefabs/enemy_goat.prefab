@@ -1,0 +1,237 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 19,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Goat_Enemy",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 619.0,
+            "position_y": -74.0,
+            "rotation": 0.0,
+            "scale": 0.26726171374320984,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Goat_Idle.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 958.0,
+            "height": 959.0
+        },
+        "CharacterStats": {
+            "Character type": 1,
+            "Max Health": 1000.0,
+            "Health": 1000.0,
+            "Attack": 10.0,
+            "Defense": 10.0,
+            "Speed": 0,
+            "Skills": [
+                "Boss Goat Attack"
+            ]
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": true
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 958.0,
+            "Dimension Y": 959.0
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 4,
+                "Group Name": "Idle",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0
+                            },
+                            {
+                                "Frame Number": 1
+                            },
+                            {
+                                "Frame Number": 2
+                            },
+                            {
+                                "Frame Number": 3
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 13,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Prefab": "enemy_goat_vfx.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            },
+                            {
+                                "Frame Number": 3
+                            },
+                            {
+                                "Frame Number": 5
+                            },
+                            {
+                                "Frame Number": 6
+                            },
+                            {
+                                "Frame Number": 8
+                            },
+                            {
+                                "Frame Number": 9
+                            },
+                            {
+                                "Frame Number": 10
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Goat_Basic.spritesheet"
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Texture": "Goat_Idle.png"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 12,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5,
+                                "Zoom": 1.5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Sound": "Goat Atk 1_Edited.wav"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 1.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Idle"
+    }
+]
