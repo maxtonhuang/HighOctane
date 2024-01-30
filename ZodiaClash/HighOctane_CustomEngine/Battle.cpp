@@ -53,7 +53,7 @@
 #include "Global.h"
 
 //For animating skill buttons
-const float skillButtonOffset{ 220.f };
+const float skillButtonOffset{ 180.f };
 
 //for animating health bats
 const float healthBarOffset{ -120.f };

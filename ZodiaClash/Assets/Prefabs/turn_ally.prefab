@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,7 +21,9 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19"
             ]
         }
     },
@@ -29,7 +31,7 @@
         "Entity": {
             "Name": "turn_ally",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -41,7 +43,7 @@
         },
         "Transform": {
             "position_x": 350.0,
-            "position_y": 831.5,
+            "position_y": 800.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -274,7 +276,7 @@
                 ]
             },
             {
-                "Total Frames": 3,
+                "Total Frames": 4,
                 "Group Name": "Expand",
                 "Loop": false,
                 "Frame Time": 0.10000000149011612,
@@ -288,6 +290,15 @@
                                 "Y movement": 16.25,
                                 "Rotation": 0.0,
                                 "Scale": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 3,
+                                "Destination": "Glow"
                             }
                         ]
                     }
@@ -308,6 +319,42 @@
                                 "Y movement": 32.5,
                                 "Rotation": 0.0,
                                 "Scale": -0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Red": 0.21199999749660492,
+                                "Green": 0.47099998593330383,
+                                "Blue": 0.16099999845027924
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 0.800000011920929,
+                                "Green": 0.800000011920929,
+                                "Blue": 0.800000011920929
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 0.21176470816135406,
+                                "Green": 0.47058823704719543,
+                                "Blue": 0.16078431904315948
                             }
                         ]
                     }
@@ -333,7 +380,7 @@
         },
         "Transform": {
             "position_x": 350.0,
-            "position_y": 312.5,
+            "position_y": 800.0,
             "rotation": 0.0,
             "scale": 0.25,
             "velocity_x": 0.0,
@@ -378,10 +425,16 @@
                         "Animation Type": "Color",
                         "Key Frames": [
                             {
+                                "Frame Number": -1,
+                                "Red": 0.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
                                 "Frame Number": 4,
                                 "Red": 2.0,
                                 "Green": 2.0,
-                                "Blue": 0.0
+                                "Blue": 2.0
                             },
                             {
                                 "Frame Number": 9,
@@ -394,7 +447,7 @@
                 ]
             },
             {
-                "Total Frames": 3,
+                "Total Frames": 4,
                 "Group Name": "Expand",
                 "Loop": false,
                 "Frame Time": 0.10000000149011612,
@@ -408,6 +461,15 @@
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.125
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 3,
+                                "Destination": "Glow"
                             }
                         ]
                     }
@@ -428,6 +490,17 @@
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": -0.125
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
                             }
                         ]
                     }

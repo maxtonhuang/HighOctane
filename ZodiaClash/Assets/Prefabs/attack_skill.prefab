@@ -29,7 +29,7 @@
         "Entity": {
             "Name": "atkSkill",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -40,7 +40,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 360.0,
+            "position_x": 460.0,
             "position_y": -675.0,
             "rotation": 0.0,
             "scale": 0.47999998927116394,
@@ -115,8 +115,8 @@
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
-            "Event Name": "Test",
-            "Event Input": "skill1",
+            "Event Name": "Select Skill",
+            "Event Input": "1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -176,7 +176,7 @@
         "Entity": {
             "Name": "atkSkill_skillFrame",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -189,7 +189,7 @@
         },
         "Transform": {
             "position_x": 360.0,
-            "position_y": -375.0,
+            "position_y": -675.0,
             "rotation": 0.0,
             "scale": 0.5600000023841858,
             "velocity_x": 0.0,
@@ -232,7 +232,7 @@
         "Entity": {
             "Name": "atkSkill_lblAtkType",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
         },
@@ -244,7 +244,7 @@
         },
         "Transform": {
             "position_x": 360.0,
-            "position_y": -479.0,
+            "position_y": -779.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -254,7 +254,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 200.0,
+            "width": 175.0,
             "height": 50.0
         },
         "Scripts": {
@@ -274,7 +274,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Font Size": 0.30000001192092896,
+            "Font Size": 0.25,
             "Text String": "Single Target",
             "r": 1.0,
             "g": 1.0,
@@ -300,7 +300,7 @@
         "Entity": {
             "Name": "atkSkill_iconAtkType",
             "Current Layer": 1,
-            "Order in Layer": 1,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -312,8 +312,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 280.0,
-            "position_y": -474.5,
+            "position_x": 289.0,
+            "position_y": -774.5,
             "rotation": 0.0,
             "scale": 0.20000000298023224,
             "velocity_x": 0.0,
@@ -349,7 +349,7 @@
         "Movable": {},
         "SkillAttackType": {},
         "Child": {
-            "position_x": -80.0,
+            "position_x": -71.0,
             "position_y": -99.5,
             "rotation": 0.0,
             "scale": 0.20000000298023224,
@@ -361,7 +361,7 @@
         "Entity": {
             "Name": "atkSkill_lblChiCost",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -373,7 +373,7 @@
         },
         "Transform": {
             "position_x": 391.0,
-            "position_y": -334.0,
+            "position_y": -634.0,
             "rotation": 0.0,
             "scale": 0.800000011920929,
             "velocity_x": 0.0,
@@ -404,7 +404,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.30000001192092896,
-            "Text String": " +?",
+            "Text String": " +1",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -429,7 +429,7 @@
         "Entity": {
             "Name": "atkSkill_iconChiCost",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -442,7 +442,7 @@
         },
         "Transform": {
             "position_x": 409.0,
-            "position_y": -327.0,
+            "position_y": -627.0,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
             "velocity_x": 0.0,

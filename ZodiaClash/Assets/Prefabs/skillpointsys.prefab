@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 34,
+            "layerCounter": 18,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,23 +21,7 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33"
+                "Layer 17"
             ]
         }
     },
@@ -56,7 +40,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -38.0,
+            "position_x": 88.0,
             "position_y": -647.0000610351563,
             "rotation": 0.0,
             "scale": 0.9191991686820984,

@@ -127,6 +127,9 @@ void AnimationGroup::Start(Entity entity) {
 		frametime = FIXED_DT;
 	}
 	for (auto& a : animations) {
+		if (a->HasKeyFrame(-1)) {
+			a->RemoveKeyFrame(-1);
+		}
 		a->SetFrameTime(frametime);
 		a->SetParent(parent);
 		a->Start();

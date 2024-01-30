@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,7 +21,11 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21"
             ]
         }
     },
@@ -29,7 +33,7 @@
         "Entity": {
             "Name": "turn_enemy",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -41,8 +45,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 350.0,
-            "position_y": 824.0,
+            "position_x": 527.0,
+            "position_y": 800.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -300,7 +304,7 @@
                 ]
             },
             {
-                "Total Frames": 3,
+                "Total Frames": 4,
                 "Group Name": "Expand",
                 "Loop": false,
                 "Frame Time": 0.10000000149011612,
@@ -314,6 +318,15 @@
                                 "Y movement": 16.25,
                                 "Rotation": 0.0,
                                 "Scale": 0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 3,
+                                "Destination": "Glow"
                             }
                         ]
                     }
@@ -334,6 +347,17 @@
                                 "Y movement": 32.5,
                                 "Rotation": 0.0,
                                 "Scale": -0.5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Red": 0.6779999732971191,
+                                "Green": 0.0,
+                                "Blue": 0.0
                             }
                         ]
                     }
@@ -358,8 +382,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 350.0,
-            "position_y": 366.5,
+            "position_x": 527.0,
+            "position_y": 800.0,
             "rotation": 0.0,
             "scale": 0.25,
             "velocity_x": 0.0,
@@ -420,7 +444,7 @@
                 ]
             },
             {
-                "Total Frames": 3,
+                "Total Frames": 4,
                 "Group Name": "Expand",
                 "Loop": false,
                 "Frame Time": 0.10000000149011612,
@@ -434,6 +458,15 @@
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.125
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 3,
+                                "Destination": "Glow"
                             }
                         ]
                     }
@@ -454,6 +487,17 @@
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": -0.125
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
                             }
                         ]
                     }

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 90,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,13 +21,85 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71",
+                "Layer 72",
+                "Layer 73",
+                "Layer 74",
+                "Layer 75",
+                "Layer 76",
+                "Layer 77",
+                "Layer 78",
+                "Layer 79",
+                "Layer 80",
+                "Layer 81",
+                "Layer 82",
+                "Layer 83",
+                "Layer 84",
+                "Layer 85",
+                "Layer 86",
+                "Layer 87",
+                "Layer 88",
+                "Layer 89"
             ]
         }
     },
     {
         "Clone": {
-            "Prefab": "background_mainmenu.prefab",
+            "Prefab": "background_battle.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -35,7 +107,7 @@
             ]
         },
         "Entity": {
-            "Name": "bg_mainmenu",
+            "Name": "bg_battle",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
@@ -52,7 +124,7 @@
     },
     {
         "Clone": {
-            "Prefab": "logo.prefab",
+            "Prefab": "attachpoint.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -60,429 +132,581 @@
             ]
         },
         "Entity": {
-            "Name": "logo",
+            "Name": "Enemy 2 Position",
             "Current Layer": 0,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": -100.0,
+            "position_x": 478.0,
+            "position_y": -82.0,
             "rotation": 0.0,
-            "scale": 1.399999976158142,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
     },
     {
         "Clone": {
-            "Prefab": "button.prefab",
+            "Prefab": "attachpoint.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Tex",
-                "struct Size",
-                "class Button",
-                "struct Color",
-                "class Model",
-                "class TextLabel"
+                "struct Parent"
             ]
         },
         "Entity": {
-            "Name": "startButton",
+            "Name": "Player 1  Position",
             "Current Layer": 0,
             "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
         "Transform": {
-            "position_x": 441.0,
-            "position_y": -306.0,
+            "position_x": -534.0,
+            "position_y": 10.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "button_PLAY_v02.png"
-        },
-        "Size": {
-            "width": 300.0,
-            "height": 100.0
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Text Wrap": 2,
-            "Background": false
-        },
-        "Button": {
-            "Default Button R": 1.0,
-            "Default Button G": 1.0,
-            "Default Button B": 1.0,
-            "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
-            "Default Text A": 1.0,
-            "Hovered Button R": 1.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
-            "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
-            "Focused Button R": 1.0,
-            "Focused Button G": 1.0,
-            "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
-            "Focused Text A": 1.0,
-            "Event Name": "Transition Scene",
-            "Event Input": "exploration1.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
         }
     },
     {
         "Clone": {
-            "Prefab": "button.prefab",
+            "Prefab": "attachpoint.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Color",
-                "struct Tex",
-                "struct Size",
-                "class Button",
-                "class Model",
-                "class TextLabel"
+                "struct Parent"
             ]
         },
         "Entity": {
-            "Name": "quitButton",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": -445.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "button_QUIT_v02.png"
-        },
-        "Size": {
-            "width": 300.0,
-            "height": 100.0
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Text Wrap": 2,
-            "Background": false
-        },
-        "Button": {
-            "Default Button R": 1.0,
-            "Default Button G": 1.0,
-            "Default Button B": 1.0,
-            "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
-            "Default Text A": 1.0,
-            "Hovered Button R": 1.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
-            "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
-            "Focused Button R": 1.0,
-            "Focused Button G": 1.0,
-            "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
-            "Focused Text A": 1.0,
-            "Event Name": "Exit Game",
-            "Event Input": "",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "startButton",
+            "Name": "Enemy 1 Position",
             "Current Layer": 0,
             "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
+        "Transform": {
+            "position_x": 358.0,
+            "position_y": 145.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Player_Cat.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Cat",
+            "Current Layer": 0,
+            "Order in Layer": 28,
+            "isLocked": true,
+            "isSkipped": true
         },
         "Transform": {
-            "position_x": -421.0,
-            "position_y": -309.0,
+            "position_x": -449.89453125,
+            "position_y": 40.56809616088867,
+            "rotation": 0.0,
+            "scale": 0.6073969602584839,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "guards.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Guard 1",
+            "Current Layer": 0,
+            "Order in Layer": 29,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -354.1965637207031,
+            "position_y": 21.092193603515625,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "guards.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Guard 2",
+            "Current Layer": 0,
+            "Order in Layer": 21,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 439.88720703125,
+            "position_y": -72.2823715209961,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "turnorderattach.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Turn Order Attach Point",
+            "Current Layer": 0,
+            "Order in Layer": 26,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -582.3529663085938,
+            "position_y": -601.5,
+            "rotation": 5.83318567276001,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "turn_ally.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "turn_ally",
+            "Current Layer": 0,
+            "Order in Layer": 11,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -582.3529663085938,
+            "position_y": -503.49981689453125,
+            "rotation": 0.0,
+            "scale": 0.9999999403953552,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "turn_enemy.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "turn_enemy",
+            "Current Layer": 0,
+            "Order in Layer": 23,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -864.3529663085938,
+            "position_y": -487.24993896484375,
+            "rotation": 0.0,
+            "scale": 1.4999995231628418,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "turn_enemy.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "turn_enemy",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -707.3532104492188,
+            "position_y": -503.49981689453125,
+            "rotation": 0.0,
+            "scale": 0.9999999403953552,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "skillpointsys.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "lbl_skillpt",
+            "Current Layer": 0,
+            "Order in Layer": 24,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 88.0,
+            "position_y": -446.99993896484375,
+            "rotation": 0.0,
+            "scale": 0.9191991686820984,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "attack_skill.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "atkSkill",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 460.0,
+            "position_y": -675.0,
+            "rotation": 0.0,
+            "scale": 0.47999998927116394,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "attack_skill.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "atkSkill",
+            "Current Layer": 0,
+            "Order in Layer": 14,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 640.0,
+            "position_y": -675.0,
+            "rotation": 0.0,
+            "scale": 0.47999998927116394,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "attack_skill.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "atkSkill",
+            "Current Layer": 0,
+            "Order in Layer": 27,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 820.0,
+            "position_y": -675.0,
+            "rotation": 0.0,
+            "scale": 0.47999998927116394,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "ally_healthbar.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "allyHp_healthbar",
+            "Current Layer": 2,
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -830.0,
+            "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "button_PLAY_v02.png"
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_healthbar.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
         },
-        "Visible": {
-            "isVisible": false
+        "Entity": {
+            "Name": "enemyHp_healthbar",
+            "Current Layer": 2,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Size": {
-            "width": 300.0,
-            "height": 100.0
+        "Transform": {
+            "position_x": 830.0,
+            "position_y": 300.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_healthbar.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
         },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
+        "Entity": {
+            "Name": "enemyHp_healthbar",
+            "Current Layer": 2,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Text Wrap": 2,
-            "Background": false
+        "Transform": {
+            "position_x": 830.0,
+            "position_y": 180.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         },
-        "Button": {
-            "Default Button R": 1.0,
-            "Default Button G": 1.0,
-            "Default Button B": 1.0,
-            "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
-            "Default Text A": 1.0,
-            "Hovered Button R": 1.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
-            "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
-            "Focused Button R": 1.0,
-            "Focused Button G": 1.0,
-            "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
-            "Focused Text A": 1.0,
-            "Event Name": "Transition Scene",
-            "Event Input": "battle.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "returnpos.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Return Position",
+            "Current Layer": 0,
+            "Order in Layer": 20,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 331.2742614746094,
+            "position_y": 145.9131317138672,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         }
     },
     {
-        "Clone": {},
+        "Clone": {
+            "Prefab": "attackpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
         "Entity": {
-            "Name": "startButton",
+            "Name": "Attack Position",
+            "Current Layer": 0,
+            "Order in Layer": 13,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -399.89453125,
+            "position_y": 12.77077865600586,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "statusEffect.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "lblEffect",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 670.0,
+            "position_y": 310.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "statusEffect.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "lblEffect",
             "Current Layer": 0,
             "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
         "Transform": {
-            "position_x": -1.0,
-            "position_y": -306.0,
+            "position_x": 670.0,
+            "position_y": 190.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "button_PLAY_v02.png"
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "battlelabel.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
         },
-        "Visible": {
-            "isVisible": false
+        "Entity": {
+            "Name": "Battle Label",
+            "Current Layer": 1,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Size": {
-            "width": 300.0,
-            "height": 100.0
+        "Transform": {
+            "position_x": -7.0,
+            "position_y": 275.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "damagelabel.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
+        "Entity": {
+            "Name": "Damage Number",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
         },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
-            "a": 1.0,
-            "Color Preset": "black",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Text Wrap": 2,
-            "Background": false
-        },
-        "Button": {
-            "Default Button R": 1.0,
-            "Default Button G": 1.0,
-            "Default Button B": 1.0,
-            "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
-            "Default Text A": 1.0,
-            "Hovered Button R": 1.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
-            "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
-            "Focused Button R": 1.0,
-            "Focused Button G": 1.0,
-            "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
-            "Focused Text A": 1.0,
-            "Event Name": "Transition Scene",
-            "Event Input": "battle2.scn",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
-            "Padding Setting": 1
+        "Transform": {
+            "position_x": -448.1996154785156,
+            "position_y": 242.2630157470703,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         }
     }
 ]
