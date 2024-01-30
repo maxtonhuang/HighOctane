@@ -87,17 +87,17 @@ constexpr bool game_mode{ GAME_MODE };  //
 
 
 
-	///////////////////// SET LEVEL EDITOR ON OR OFF HERE /////////////////////
-	//																		 //
-	// 																		 //
-	//		For compilation in Debug or Release mode.						 //
-	//		Set to below to EDITOR_MODE to turn on Level Editor,			 //
-	//		or set to GAME_MODE to turn off Level Editor.					 //
-	//																		 //
-			constexpr bool game_mode{		EDITOR_MODE			};			 //
-	//																		 //
-	//																		 //
-	///////////////////////////////////////////////////////////////////////////
+	///////////////////// SET LEVEL EDITOR ON OR OFF HERE //////////////////////
+	/*/*																	/**/
+	/*/* 																	/**/
+	/*/*	For compilation in Debug or Release mode.						/**/
+	/*/*	Set the below to EDITOR_MODE to turn on Level Editor,			/**/
+	/*/*	or set to GAME_MODE to turn off Level Editor.					/**/
+	/*/*																	/**/
+	/**/	constexpr bool game_mode{		EDITOR_MODE			};			/**/
+	/*/*																	/**/
+	/*/*																	/**/
+	////////////////////////////////////////////////////////////////////////////
 
 
 
