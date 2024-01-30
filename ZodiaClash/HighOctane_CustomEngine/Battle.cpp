@@ -53,7 +53,7 @@
 #include "Global.h"
 
 //For animating skill buttons
-const float skillButtonOffset{ 240.f };
+const float skillButtonOffset{ 220.f };
 
 //for animating health bats
 const float healthBarOffset{ -120.f };
@@ -177,6 +177,7 @@ void BattleSystem::Update()
 
         if (!battlestarted) {
             StartBattle();
+            return;
         }
         
         if (!AnimateInitialiseTurnOrder()) {
@@ -596,6 +597,7 @@ void BattleSystem::InitialiseBattleUI() {
 }
 
 void BattleSystem::InitialiseTurnOrderAnimator() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
         //ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
@@ -612,6 +614,7 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
                 //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
             }
+            animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
         }
     }
 }
@@ -682,6 +685,7 @@ void BattleSystem::InitialiseUIAnimation() {
 
 void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     if (m_Entities.size() > 0) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
         bool moveup{ false };
@@ -695,9 +699,10 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
             }
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
-                //ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
             }
         }
+        animationArray.GetData(turnOrderAnimator).Queue("Subtract", turnOrderAnimator);
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
     }
 }

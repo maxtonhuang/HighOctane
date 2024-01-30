@@ -94,7 +94,7 @@ public:
 	AnimationGroup& operator= (const AnimationGroup&);
 
 	//container for animations
-	std::vector<std::shared_ptr<Animation>> animations;
+	std::vector<std::shared_ptr<Animation>> animations{};
 
 	//Total amount of frames in the animation
 	int totalFrames{};

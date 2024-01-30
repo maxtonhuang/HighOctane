@@ -50,7 +50,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -273.0,
+            "position_x": -950.0,
             "position_y": -601.5,
             "rotation": -0.44999998807907104,
             "scale": 1.0,
@@ -64,6 +64,49 @@
             "width": 512.0,
             "height": 512.0
         },
-        "Movable": {}
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Add",
+                "Loop": false,
+                "Frame Time": 0.017000000923871994,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 125.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Subtract",
+                "Loop": false,
+                "Frame Time": 0.017000000923871994,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": -125.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": ""
     }
 ]

@@ -51,14 +51,6 @@ void AnimationSet::Start(std::string animationName, Entity entity) {
 	initialised = true;
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
-			printf("Staring animation for entity %d: %s\n",entity, animationName.c_str());
-			if (animationName == "Attack Part 1") {
-				static int x = 0;
-				if (x == 1) {
-					x = 0;
-				}
-				x++;
-			}
 			activeAnimation = &a;
 			found = true;
 			break;
@@ -111,13 +103,11 @@ AnimationSet::AnimationSet(const AnimationSet& copy) {
 }
 
 AnimationSet& AnimationSet::operator= (const AnimationSet& copy) {
-	if (copy.defaultAnimation == "Attack Part 1") {
-		printf("?\n");
-	}
 	initialised = copy.initialised;
 	animationSet = copy.animationSet;
 	defaultAnimation = copy.defaultAnimation;
 	animationQueue = copy.animationQueue;
+	activeAnimation = nullptr;
 	if (copy.activeAnimation != nullptr) {
 		for (auto& animation : animationSet) {
 			if (animation.name == copy.activeAnimation->name) {
