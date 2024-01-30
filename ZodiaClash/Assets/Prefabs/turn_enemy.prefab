@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 19,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,7 +21,8 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18"
             ]
         }
     },
@@ -65,7 +66,8 @@
             "Red": 0.6797152757644653,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 0.7843137383460999
+            "Alpha": 0.7843137383460999,
+            "Mirror": false
         },
         "Movable": {},
         "TurnIndicator": {},
@@ -179,7 +181,7 @@
                             {
                                 "Frame Number": 2,
                                 "X movement": 0.0,
-                                "Y movement": -98.0,
+                                "Y movement": 98.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
                             }
@@ -199,7 +201,7 @@
                             {
                                 "Frame Number": 2,
                                 "X movement": 0.0,
-                                "Y movement": 110.0,
+                                "Y movement": -110.0,
                                 "Rotation": 0.0,
                                 "Scale": -1.0
                             }
@@ -310,7 +312,7 @@
                             {
                                 "Frame Number": 2,
                                 "X movement": -200.0,
-                                "Y movement": -32.5,
+                                "Y movement": 32.5,
                                 "Rotation": 0.0,
                                 "Scale": 1.0
                             }
@@ -388,7 +390,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "Animation Set": [
