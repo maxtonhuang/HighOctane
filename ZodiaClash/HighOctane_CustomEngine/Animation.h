@@ -197,7 +197,6 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<int>> keyframes;
-private:
 	std::list<Keyframe<int>>::iterator nextKeyframe{};
 };
 
@@ -212,7 +211,6 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<std::string>> keyframes;
-private:
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
@@ -227,7 +225,6 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<std::string>> keyframes;
-private:
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
@@ -254,11 +251,11 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<std::string>> keyframes;
+	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
+	Transform* entityTransform;
 private:
 	Transform* GetEntityTransform(std::string);
-	Transform* entityTransform;
 	vmath::Vector2 velocity; //per frame velocity
-	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
 //Interpolates the transform stored in the next keyframe and transforms the entity by that amount. Transform includes the distance, rotation and scale. 
@@ -272,12 +269,12 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<Transform>> keyframes;
-private:
+	std::list<Keyframe<Transform>>::iterator nextKeyframe{};
 	Transform* entityTransform;
+private:
 	vmath::Vector2 velocity; //per frame velocity
 	float rotation; //per frame rotation
 	float scale; //per frame scale
-	std::list<Keyframe<Transform>>::iterator nextKeyframe{};
 };
 
 //Interpolates the alpha stored in the next keyframe with the current alpha and changes the alpha each frame until it reaches the targeted alpha by next keyframe.
@@ -291,12 +288,12 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<float>> keyframes;
+	std::list<Keyframe<float>>::iterator nextKeyframe{};
 private:
 	Model* entityModel;
 	TextLabel* entityText;
 	float alpha;
 	float alphatext;
-	std::list<Keyframe<float>>::iterator nextKeyframe{};
 };
 
 //Interpolates the color stored in the next keyframe with the current color and changes the color each frame until it reaches the targeted color by next keyframe. 
@@ -310,10 +307,10 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<glm::vec3>> keyframes;
+	std::list<Keyframe<glm::vec3>>::iterator nextKeyframe{};
 private:
 	Model* entityModel;
 	glm::vec3 color;
-	std::list<Keyframe<glm::vec3>>::iterator nextKeyframe{};
 };
 
 /*
@@ -343,7 +340,6 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<int>> keyframes;
-private:
 	std::list<Keyframe<int>>::iterator nextKeyframe{};
 };
 
@@ -358,9 +354,9 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<float>> keyframes;
+	std::list<Keyframe<float>>::iterator nextKeyframe{};
 private:
 	float zoom;
-	std::list<Keyframe<float>>::iterator nextKeyframe{};
 };
 
 //Sets the target of camera to entity
@@ -374,9 +370,9 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<int>> keyframes;
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
 private:
 	Transform* entityTransform;
-	std::list<Keyframe<int>>::iterator nextKeyframe{};
 };
 
 //Resets the camera to 0,0 and 1.0 zoom
@@ -390,8 +386,22 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<int>> keyframes;
+	std::list<Keyframe<int>>::iterator nextKeyframe{};
 private:
 	float zoom;
 	vmath::Vector2 velocity;
-	std::list<Keyframe<int>>::iterator nextKeyframe{};
+};
+
+//Creates a copy of a prefab on the entity
+class CreatePrefabAnimation : public Animation {
+public:
+	CreatePrefabAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<std::string>> keyframes;
+	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };

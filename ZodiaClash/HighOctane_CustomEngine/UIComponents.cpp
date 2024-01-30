@@ -64,8 +64,10 @@ TextLabel::TextLabel() {
 	textString = "TextLabel";
 	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
+	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap["black"];
+	lineHeight = 1.5f;
 }
 
 /*!
@@ -79,9 +81,11 @@ TextLabel::TextLabel(std::string str, std::string txtColor) {
 	textString = str;
 	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
+	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 	relFontSize = 0.5f;
 	textColor = colors.colorMap[txtColor];
 	initClr = txtColor;
+	lineHeight = 1.5f;
 }
 
 /*!
@@ -95,8 +99,10 @@ TextLabel::TextLabel(std::string str, glm::vec4 clr) {
 	textString = str;
 	hAlignment = UI_HORIZONTAL_ALIGNMENT::H_CENTER_ALIGN;
 	vAlignment = UI_VERTICAL_ALIGNMENT::V_CENTER_ALIGN;
+	textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 	relFontSize = 0.5f;
 	textColor = clr;
+	lineHeight = 1.5f;
 }
 
 /*!
@@ -185,27 +191,73 @@ bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 void TextLabel::CalculateOffset() {
 	//DEBUG_PRINT("Recalculating...");
 	// reset variables
-	textWidth = 0.f;
-	textHeight = 0.f;
+	glyphHeight = 0.f;
 	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
 
 	std::string::const_iterator c;
-	for (c = textString.begin(); c != textString.end(); c++)
-	{
-		Character ch{ (*font).characters[*c] };
+	std::stringstream textStream{ textString };
+	std::string tmpWord{};
+	std::string tmpLine{};
+	TextLine newline{};
+	float longestLineWidth{ 0.f };
 
-		float w = ch.size.x * relFontSize;
-		float h = ch.size.y * relFontSize;
+	lineData.clear();
 
-		// calculate size needed
-		if (*c != textString[textString.size()]) {
-			textWidth += ((ch.advance >> 6) * relFontSize) - w;
+	while (std::getline(textStream,tmpLine)) {
+		std::stringstream lineStream{ tmpLine };
+		while (lineStream >> tmpWord) {
+			float wordWidth = 0.f;
+			float glyphSpace = 0.f;
+			if (!lineStream.eof()) {
+				tmpWord += " ";
+			}
+			for (c = tmpWord.begin(); c != tmpWord.end(); c++) {
+				Character ch{ (*font).characters[*c] };
+				float w = ch.size.x * relFontSize;
+				float h = ch.size.y * relFontSize;
+
+				// calculate size needed
+				if (*c != tmpWord[tmpWord.size()]) {
+					glyphSpace = ((ch.advance >> 6) * relFontSize) - w;
+					wordWidth += glyphSpace;
+				}
+				wordWidth += (w + (ch.bearing.x * relFontSize));
+
+				// ignore space if exceeds width
+				if ((*c == ' ') && (textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth > textWidth)) {
+					wordWidth -= glyphSpace;
+				}
+				glyphHeight = std::max(glyphHeight, h);
+			}
+			if ((textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth > textWidth)) {
+				//push newline
+				lineData.push_back(newline);
+				newline = {};
+			}
+			newline.lineString += tmpWord;
+			newline.lineWidth += wordWidth;
+			if (longestLineWidth < newline.lineWidth) {
+				longestLineWidth = newline.lineWidth;
+			}
 		}
-		textWidth += (w + (ch.bearing.x * relFontSize));
-		textHeight = std::max(textHeight, h);
+		lineData.push_back(newline);
+		newline = {};
 	}
 
-	//finalise y-offset (font data)
+	//update textWidth, textHeight
+	switch (textWrap) {
+	case UI_TEXT_WRAP::AUTO_WIDTH:
+		textWidth = longestLineWidth;
+		textHeight = glyphHeight * lineHeight * lineData.size();
+		break;
+	case UI_TEXT_WRAP::AUTO_HEIGHT:
+		textHeight = glyphHeight * lineHeight * lineData.size();
+		break;
+	default:
+		textHeight = glyphHeight * lineHeight * lineData.size();
+		break;
+	}
+
 	textHeight += verticalPadding;
 }
 
@@ -216,37 +268,69 @@ void TextLabel::CalculateOffset() {
 * FUTURE IMPLEMENTATIONS: will likely change when alignment is implemented.
 *
 */
-void TextLabel::UpdateOffset(Transform const& transformData, Size const& sizeData, Padding const& paddingData) {
+void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Padding const& paddingData) {	
+
 	CalculateOffset();
 
-	switch (hAlignment) {
-	case(UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN):
-		//left align
-		relTransform.x = transformData.position.x - (0.5f * sizeData.width) + paddingData.left;
-		break;
-	case(UI_HORIZONTAL_ALIGNMENT::H_RIGHT_ALIGN):
-		//right align
-		relTransform.x = transformData.position.x - textWidth + (0.5f * sizeData.width) - paddingData.right;
+	switch (textWrap) {
+	case(UI_TEXT_WRAP::AUTO_WIDTH):
+		//snaps label width to calculated width, label height remains as calculated height
+		sizeData.width = textWidth;		
+		sizeData.height = std::max(sizeData.height, textHeight);
+		break; 
+	case(UI_TEXT_WRAP::AUTO_HEIGHT):
+		//snaps label height to calculated height (label width remains adjustable)
+		textWidth = sizeData.width;
+		sizeData.height = textHeight;
 		break;
 	default:
-		//center align
-		relTransform.x = transformData.position.x - (0.5f * textWidth);
+		textWrap = UI_TEXT_WRAP::FIXED_SIZE;
+		//initial state before text wrap was implemented
+		textWidth = sizeData.width;
+		textHeight = sizeData.height;
 		break;
 	}
-	
-	switch (vAlignment) {
-	case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
-		//top align
-		relTransform.y = transformData.position.y + (0.5f * sizeData.height - textHeight) - paddingData.top;
-		break;
-	case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
-		//bottom align
-		relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + paddingData.bottom;
-		break;
-	default:
-		//center align
-		relTransform.y = transformData.position.y - (0.25f * textHeight);
-		break;
+
+	int lineCount{};
+	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
+	for (TextLine& line : lineData) {
+		// calculate x-offset
+		switch (hAlignment) {
+		case(UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN):
+			//left align
+			line.relTransform.x = transformData.position.x - (0.5f * sizeData.width) + paddingData.left;			
+			break;
+		case(UI_HORIZONTAL_ALIGNMENT::H_RIGHT_ALIGN):
+			//right align
+			line.relTransform.x = transformData.position.x - (line.lineWidth - (0.5f * sizeData.width)) - paddingData.right;			
+			break;
+		default:
+			//center align
+			line.relTransform.x = transformData.position.x - (0.5f * line.lineWidth);		
+			break;
+		}
+
+		// calculate y-offset
+		switch (vAlignment) {
+		case(UI_VERTICAL_ALIGNMENT::V_TOP_ALIGN):
+			//top align
+			line.relTransform.y = transformData.position.y + (0.5f * sizeData.height - glyphHeight) - (0.5f * verticalPadding) - paddingData.top;
+			break;
+		case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
+			//bottom align
+			line.relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + (0.5f * verticalPadding) + paddingData.bottom;
+			line.relTransform.y += ((lineData.size() - 1) * glyphHeight * lineHeight);
+			
+			break;
+		default:
+			//center align
+			line.relTransform.y = transformData.position.y - (0.5f * glyphHeight);
+			line.relTransform.y += (0.5f * (lineData.size() - 1) * glyphHeight * lineHeight);
+			break;
+		}
+		
+		line.relTransform.y -= (lineCount * glyphHeight * lineHeight);
+		lineCount++;
 	}
 }
 

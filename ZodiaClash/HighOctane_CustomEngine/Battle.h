@@ -184,7 +184,7 @@ private:
 
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
 	void StartBattle();
-	void DetermineTurnOrder();
+	bool DetermineTurnOrder(); //returns false if unable to properly initialise turn order
 	void SwitchTurnOrder(CharacterStats* target);
 	void RevertTurnOrder(CharacterStats* target);
 };

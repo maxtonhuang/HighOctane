@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 24,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,19 +21,24 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Goat_Basic_VFX.png",
+            "Name": "Test Collider",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -41,8 +46,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": 28.0,
+            "position_y": -79.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -53,14 +58,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Goat_Basic_VFX.spritesheet"
+            "Texture File Path": "mockup_qn_icon.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 958.0,
-            "height": 958.0
+            "width": 128.0,
+            "height": 128.0
         },
         "Model": {
             "Model type": 0,
@@ -74,8 +79,8 @@
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 958.0,
-            "Dimension Y": 958.0
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0
         }
     }
 ]

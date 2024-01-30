@@ -43,7 +43,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"CameraZoom","CameraTarget","CameraReset", "DamageImpact", "Swap", "SelfDestruct"};
+		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Swap", "SelfDestruct"};
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -237,6 +237,9 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "CameraReset") {
 							selectedAnimGroup->animations.push_back(std::make_shared<CameraResetAnimation>());
 						}
+						else if (selectedType == "CreatePrefab") {
+							selectedAnimGroup->animations.push_back(std::make_shared<CreatePrefabAnimation>());
+						}
 					}
 				}
 				else {
@@ -383,6 +386,31 @@ void AnimatorWindow(Entity entity) {
 						}
 						if (keyframe != nullptr) {
 							ImGui::InputFloat("Zoom to set to", &keyframe->data);
+						}
+					}
+					else if (selectedAnimation->GetType() == "CreatePrefab") {
+						std::shared_ptr<CreatePrefabAnimation> changetex{ std::dynamic_pointer_cast<CreatePrefabAnimation>(selectedAnimation) };
+						Keyframe<std::string>* keyframe{ nullptr };
+						for (auto& k : changetex->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							if (ImGui::BeginCombo("Prefabs Available", keyframe->data.c_str())) {
+								std::vector<std::string> prefabPaths{ assetmanager.GetPrefabPaths() };
+								for (int n = 0; n < prefabPaths.size(); n++) {
+									bool is_selected = (keyframe->data == prefabPaths[n]);
+									if (ImGui::Selectable(prefabPaths[n].c_str(), is_selected)) {
+										keyframe->data = prefabPaths[n];
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
 						}
 					}
 					else if (selectedAnimation->GetType() == "Swap") {

@@ -27,7 +27,7 @@
     },
     {
         "Entity": {
-            "Name": "Goat_Basic_VFX.png",
+            "Name": "Goat_Idle.png",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
@@ -53,14 +53,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Goat_Basic_VFX.spritesheet"
+            "Texture File Path": "Goat_Idle.spritesheet"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
             "width": 958.0,
-            "height": 958.0
+            "height": 959.0
         },
         "Model": {
             "Model type": 0,
@@ -75,7 +75,7 @@
         "Collider": {
             "Collider Enum": 0,
             "Dimension X": 958.0,
-            "Dimension Y": 958.0
+            "Dimension Y": 959.0
         }
     }
 ]

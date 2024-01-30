@@ -86,9 +86,14 @@ public:
 
 	ModelType type{};
 	float backgroundScrollSpeed{}; //for parallax background
+
+	bool GetMirror() const;
+	bool& GetMirrorRef();
+	void SetMirror(bool m);
 private:
 	glm::mat3 matrix{}; //matrix used for computing model verrtices
 	glm::vec4 color{}; //color of the model
+	bool mirror{false};
 
 	//PRECOMPUTED VALUES FOR 4 VERTICES OF RECTANGULAR MODEL
 	glm::vec2 topleft{};

@@ -123,7 +123,9 @@ void BattleSystem::StartBattle() {
     roundManage.roundCounter = 0;
     chi = 5;
 
-    DetermineTurnOrder();
+    if (DetermineTurnOrder() == false) {
+        return;
+    }
 
     for (auto& c : turnManage.characterList) {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
@@ -337,11 +339,13 @@ void BattleSystem::Update()
 /**
  * @brief Determines the turn order of characters based on their stats and adds them to the turn management lists.
  */
-void BattleSystem::DetermineTurnOrder()
+bool BattleSystem::DetermineTurnOrder()
 {
     //charactersList
     //getting an array of CharacterStats component 
     ComponentArray<CharacterStats>& characters =  ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>(); // GameObject::FindObjectsOfType();
+    int enemyCount{ 0 };
+    int allyCount{ 0 };
 
     turnManage.characterList.clear();
 
@@ -352,6 +356,17 @@ void BattleSystem::DetermineTurnOrder()
         m->parent = this;
         m->action.battleManager = this;
         turnManage.characterList.push_back(*m);
+        if (m->tag == CharacterType::PLAYER) {
+            allyCount++;
+        }
+        else if (m->tag == CharacterType::ENEMY) {
+            enemyCount++;
+        }
+    }
+
+    if (allyCount < 1 || enemyCount < 1) {
+        turnManage.characterList.clear();
+        return false;
     }
 
     //turnOrderList
@@ -364,6 +379,7 @@ void BattleSystem::DetermineTurnOrder()
 
     //originalTurnOrderList
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
+    return true;
 }
 
 /**

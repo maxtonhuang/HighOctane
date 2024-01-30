@@ -118,6 +118,12 @@ void PhysicsSystem::Update() {
 			sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
 		};
 		Collider colliderData{ colliderArray.GetData(entity) };
+		if (colliderData.dimension.x == 0.f && colliderData.dimension.y == 0.f) {
+			colliderData.dimension.x = sizeData.width;
+			colliderData.dimension.y = sizeData.height;
+			colliderData.scale = 1.f;
+		}
+		colliderArray.GetData(entity).position = transformData.position;
 		colliderArray.GetData(entity).halfDimensions = {
 			colliderData.dimension.x / 2.f * colliderData.scale, colliderData.dimension.y / 2.f * colliderData.scale
 		};
@@ -262,7 +268,7 @@ void MovementSystem::Update() {
 
 			UpdateMovement(*transformData, *modelData);
 
-			camera.SetPos(-transformData->position.x, -transformData->position.y);
+			camera.SetTarget(entity);
 		}
 	}
 }
@@ -879,8 +885,8 @@ void UITextLabelSystem::Draw() {
 			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
 		}
 		else {
-			sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
-			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);
+			/*sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
+			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);*/
 			textLabelData->Update(*modelData, *nameData);
 			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}
