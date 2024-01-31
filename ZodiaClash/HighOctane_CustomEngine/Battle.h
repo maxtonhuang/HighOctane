@@ -136,6 +136,8 @@ public:
 	void MoveOutUIAnimation();
 	//Calls "Pop In" animation for all UI, to add back UI after attacking
 	void MoveInUIAnimation();
+	void SwitchTurnOrder(CharacterStats* target);
+	void RevertTurnOrder(CharacterStats* target);
 
 	std::vector<Entity> skillButtons;
 
@@ -185,6 +187,5 @@ private:
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
 	void StartBattle();
 	bool DetermineTurnOrder(); //returns false if unable to properly initialise turn order
-	void SwitchTurnOrder(CharacterStats* target);
-	void RevertTurnOrder(CharacterStats* target);
+	
 };

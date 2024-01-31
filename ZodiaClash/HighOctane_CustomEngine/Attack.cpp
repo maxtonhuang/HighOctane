@@ -62,7 +62,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
         }
 
         else if (attackName == "Boss Goat Speedup") {
-            t->SpeedBuff(2.0);
+            t->SpeedBuff(t);
         }
 
         else if (attackName == "Boss Goat Attack") {

@@ -104,7 +104,8 @@ enum EntityState
  */
 enum class CharacterType {
     PLAYER,
-    ENEMY
+    ENEMY,
+    ENEMYSPEDUP
 };
 
 /**

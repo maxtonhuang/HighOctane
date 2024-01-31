@@ -62,6 +62,7 @@ bool toDestroy{ false };
 bool toCopy{ false };
 bool inEditing{ false };
 bool viewportWindowHovered{ false };
+bool goatSpeedup{ false };
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
 
 std::vector<Entity> selectedEntities{};

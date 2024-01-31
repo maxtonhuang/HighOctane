@@ -37,6 +37,7 @@
 #include "Battle.h"
 #include "CheatCode.h"
 #include <thread>
+#include "Global.h"
 
 /**
  * @brief Default constructor for CharacterStats. It initializes health to maxHealth and sets this instance for action.characterStats.
@@ -119,9 +120,22 @@ void CharacterStats::HealBuff(float buffAmount)
     }
 }
 
-void CharacterStats::SpeedBuff(float buffAmount)
+void CharacterStats::SpeedBuff(CharacterStats* user)
 {
-    stats.speed += buffAmount;
+    if (user->tag == CharacterType::ENEMY) {
+        CharacterStats* tmp{};
+        for (CharacterStats* character : parent->GetEnemies()) {
+            if (character->entity != user->entity) {
+                tmp = character;
+                break;
+            }
+        }
+        tmp->tag = CharacterType::ENEMYSPEDUP;
+        parent->SwitchTurnOrder(tmp);
+        goatSpeedup = true;
+
+    }
+
 }
 
 void CharacterStats::ApplyBloodStack() 

@@ -177,7 +177,6 @@ void BattleSystem::Update()
 
         if (!battlestarted) {
             StartBattle();
-            return;
         }
         
         if (!AnimateInitialiseTurnOrder()) {
@@ -245,6 +244,19 @@ void BattleSystem::Update()
                     {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
+                    if (goatSpeedup == true) {
+                        CharacterStats* tmp{};
+                        for (CharacterStats* character : activeCharacter->parent->GetEnemies()) {
+                            if (character->entity != activeCharacter->entity) {
+                                tmp = character;
+                                break;
+                            }
+                        }
+                        if (tmp->tag == CharacterType::ENEMYSPEDUP) {
+                            activeCharacter->parent->RevertTurnOrder(tmp);
+                        }
+                        goatSpeedup = false;
+                    }
                     //STILL NEED TO SWAP THE TURN TO ENEMY TURN TO PROCESS THEM DYING
                     battleState = ENEMYTURN;
                 }
@@ -275,6 +287,7 @@ void BattleSystem::Update()
                 roundManage.characterCount = 0;
                 roundInProgress = false;
             }
+           
         }
         break;
     case ENEMYTURN:
@@ -377,6 +390,7 @@ bool BattleSystem::DetermineTurnOrder()
     {
         turnManage.turnOrderList.push_back(&chara);
     }
+    turnManage.turnOrderList.sort();
 
     //originalTurnOrderList
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
@@ -597,7 +611,6 @@ void BattleSystem::InitialiseBattleUI() {
 }
 
 void BattleSystem::InitialiseTurnOrderAnimator() {
-    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
         //ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
@@ -614,7 +627,6 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
                 //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
             }
-            animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
         }
     }
 }
@@ -685,7 +697,6 @@ void BattleSystem::InitialiseUIAnimation() {
 
 void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
-    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     if (m_Entities.size() > 0) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
         bool moveup{ false };
@@ -699,10 +710,9 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
             }
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                //ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
             }
         }
-        animationArray.GetData(turnOrderAnimator).Queue("Subtract", turnOrderAnimator);
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
     }
 }
@@ -899,6 +909,9 @@ void BattleSystem::UpdateSkillIcons() {
     }
 
     for (int i = 0; i < 3; i++) {
+        if (activeCharacter->action.skills.size() < 3) {
+            break;
+        }
         std::string skillTexture = activeCharacter->action.skills[i].skillTexture;
         textureArray.GetData(skillButtons[i]).tex = assetmanager.texture.Get(skillTexture.c_str());
         buttonArray.GetData(skillButtons[i]).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
