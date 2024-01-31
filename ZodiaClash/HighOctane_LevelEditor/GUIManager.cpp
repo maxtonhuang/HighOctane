@@ -60,6 +60,7 @@
 #include "ImGuiAnimator.h"
 #include "ImGuiComponents.h"
 #include "ImGuiSceneSettings.h"
+#include "ImGuiDialogue.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -445,6 +446,7 @@ void GUIManager::Update()
     UpdateContentBrowser();
     UpdateLayer();
     UpdateAnimator();
+    UpdateDialogEditor();
     UpdateComponentViewer();
     UpdatePrefabHierachy();
     UpdateSceneSettingsWindow();

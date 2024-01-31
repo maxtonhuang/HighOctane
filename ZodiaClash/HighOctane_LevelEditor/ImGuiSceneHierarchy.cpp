@@ -464,7 +464,6 @@ void SceneEntityComponents(Entity entity) {
 					case(UI_TEXT_WRAP::AUTO_WIDTH):
 						if (sizeData.width != textlabel.textWidth) {
 							textlabel.textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
-							break;
 						}
 						else if (sizeData.height != textlabel.textHeight) {
 							textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
@@ -685,16 +684,12 @@ void SceneEntityComponents(Entity entity) {
 
 				switch (textlabel.textWrap) {
 				case(UI_TEXT_WRAP::AUTO_WIDTH):
-					if (sizeData.width != textlabel.textWidth) {
+					if (sizeData.width != (textlabel.textWidth + button.padding.left + button.padding.right)) {
 						textlabel.textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
-						break;
-					}
-					else if (sizeData.height != textlabel.textHeight) {
-						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 					}
 					break;
 				case(UI_TEXT_WRAP::AUTO_HEIGHT):
-					if (sizeData.height != textlabel.textHeight) {
+					if (sizeData.height != (textlabel.textHeight + button.padding.top + button.padding.bottom)) {
 						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 					}
 					break;

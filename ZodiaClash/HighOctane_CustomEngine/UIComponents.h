@@ -194,6 +194,7 @@ public:
 
 	// other UI unique properties
 	STATE currentState{};
+	STATE previousState{};
 	Padding padding{}; 
 
 	// store colors for each state
@@ -210,7 +211,7 @@ public:
 
 	glm::vec4 GetButtonColor();
 
-	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData);
+	void Update(Model& modelData, Name& nameData, TextLabel& textLabelData, Entity entity);
 	void UpdateColorSets(STATE currentState, glm::vec4 btnColor, glm::vec4 txtColor);
 };
 
@@ -242,6 +243,14 @@ public:
 	void UpdateColors(Model& childModel, CharacterStats& parentCharaStats);
 	void UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData);
 
+};
+
+class HealthLerp : UIComponent {
+public:
+	// child entity of HealthBar
+	float initialHealth{};
+	float currentHealth{};
+	float lerpFactor{};
 };
 
 
@@ -350,4 +359,26 @@ public:
 	Entity character{};
 	void UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform);
 	void UpdateStacksLbl(TextLabel& textLabelData, int stacks);
+};
+
+class DialogueSpeaker : UIComponent {
+public:
+	// empty by design - to tag textlabel of speaker
+};
+
+class DialogueHUD : UIComponent {
+public:
+	// to tag to textarea of speaker's lines (parent)
+	// also stores all lines of that conversation
+	std::vector<std::pair<std::string, std::string>> dialogueLines;
+	int viewingIndex{};
+	float displayDuration{}; // if 0 wait for click trigger
+	bool isActive{};
+
+	void AddLine();
+	void UpdateLine();
+	void RemoveLine();
+
+	void StartDialogue(); // trigger transition for dialogue UI to move in
+	void JumpNextLine(); // move to next line after display duration
 };

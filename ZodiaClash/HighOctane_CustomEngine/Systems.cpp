@@ -934,14 +934,11 @@ void UIButtonSystem::Update() {
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
 		Button* buttonData = &buttonArray.GetData(entity);
 
-		buttonData->Update(*modelData, *nameData, *textLabelData);
+		buttonData->Update(*modelData, *nameData, *textLabelData, entity);
 
 		glm::vec4 btnColor = (GetCurrentSystemMode() == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		modelData->SetAlpha(btnColor.a);
-
-		sizeData->width = std::max(buttonData->buttonWidth, sizeData->width);
-		sizeData->height = std::max(buttonData->buttonHeight, sizeData->height);
 	}
 }
 
@@ -1236,6 +1233,18 @@ void UIEffectSystem::Update() {
 			}
 		}
 	}
+}
+
+/******************************************************************************
+*
+*	@brief Updates the dialogue of the scene
+*
+*	-
+*
+******************************************************************************/
+void UIDialogueSystem::Update() {
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 }
 
 /******************************************************************************
