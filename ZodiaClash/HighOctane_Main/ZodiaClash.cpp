@@ -566,7 +566,9 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<TextLabel>());
 		signature.set(ECS::ecs().GetComponentType<DialogueHUD>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
 
 		ECS::ecs().SetSystemSignature<UIDialogueSystem>(signature);
 	}

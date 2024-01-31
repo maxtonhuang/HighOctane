@@ -303,8 +303,11 @@ void SceneEntityComponents(Entity entity) {
 				validChildArray.push_back(namePair);
 			}
 
-			static std::pair<Entity, std::string> preview{ validChildArray[0].first, validChildArray[0].second->name.c_str() };
+			static std::pair<Entity, std::string> preview{ };
 			if (validChildArray.size() > 0) {
+				if (preview.first == 0) {
+					preview = std::pair<Entity, std::string>{ validChildArray[0].first, validChildArray[0].second->name.c_str() };
+				}
 				if (ImGui::BeginCombo("Choose child to add", preview.second.c_str())) {
 					for (int c = 0; c < validChildArray.size(); c++) {
 						std::string childName{ validChildArray[c].second->name };
@@ -587,7 +590,7 @@ void SceneEntityComponents(Entity entity) {
 
 			// text wrap setting
 			int selectedWrapIdx = static_cast<int>(textlabel.textWrap);
-			DEBUG_PRINT("selectedWrapIdx: %d, textWrap: %d", selectedWrapIdx, static_cast<int>(textlabel.textWrap));
+			//DEBUG_PRINT("selectedWrapIdx: %d, textWrap: %d", selectedWrapIdx, static_cast<int>(textlabel.textWrap));
 			static UI_TEXT_WRAP textWrapGrid[3];
 
 			const char* textWrapLabels[] = { "Auto\nWidth", "Auto\nHeight", "Fixed\nSize" };

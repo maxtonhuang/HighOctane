@@ -882,6 +882,41 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
 }
 
 
+/*************************
+**** DIALOGUE SYSTEM *****
+**************************/
+void DialogueHUD::StartDialogue() {
+	isActive = 1;
+}
+
+void DialogueHUD::JumpNextLine() {
+	viewingIndex = (viewingIndex + 1) % dialogueLines.size();
+	
+	//viewingIndex++;
+	if (viewingIndex > dialogueLines.size()) {
+		isActive = 0;
+	}
+}
+
+void DialogueHUD::Update(Model& modelData) {
+	// get cursorPos, compare with pos in Transform, return if no match
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
+		switch (msg.type) {
+		case(TYPE::MOUSE_MOVE):
+			uiMousePos = { msg.posX, msg.posY };
+			break;
+		case(TYPE::MOUSE_CLICK):
+			if (IsWithinObject(modelData, uiMousePos)) {
+				//on click event trigger (outside edit mode)
+				if (GetCurrentSystemMode() == SystemMode::RUN) {
+					JumpNextLine();
+				}
+			}
+			break;
+		}
+	}
+}
+
 
 /**************************
 ********* ARCHIVED ********

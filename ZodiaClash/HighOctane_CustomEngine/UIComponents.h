@@ -375,10 +375,8 @@ public:
 	float displayDuration{}; // if 0 wait for click trigger
 	bool isActive{};
 
-	void AddLine();
-	void UpdateLine();
-	void RemoveLine();
-
 	void StartDialogue(); // trigger transition for dialogue UI to move in
 	void JumpNextLine(); // move to next line after display duration
+
+	void Update(Model& modelData); // event handling
 };

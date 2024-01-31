@@ -1237,7 +1237,7 @@ void UIEffectSystem::Update() {
 
 /******************************************************************************
 *
-*	@brief Updates the dialogue of the scene
+*	@brief Updates parent DialogueHUD
 *
 *	-
 *
@@ -1245,6 +1245,43 @@ void UIEffectSystem::Update() {
 void UIDialogueSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	// Access component arrays through the ComponentManager
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
+	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
+	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
+	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
+
+	for (Entity const& entity : m_Entities) {
+		Parent* parentData = &parentArray.GetData(entity);
+		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
+		Model* modelData = &modelArray.GetData(entity);
+
+		/*if (!dialogueHudData->isActive) {
+			continue;
+		}*/
+
+		// event handling if need to advance to next line
+		dialogueHudData->Update(*modelData);
+
+		if (dialogueHudData->dialogueLines.empty())
+		{
+			continue;
+		}
+
+		// load text data into text labels
+		if (!(parentData->children.empty())) {
+			Entity childEntity = parentData->children.front();
+
+			if (dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
+				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
+				speakerTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].first;				
+			}
+		}
+		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
+		dialogueTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].second;
+	}
 }
 
 /******************************************************************************
