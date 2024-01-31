@@ -448,6 +448,7 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 				for (auto const& k : sprite->keyframes) {
 					rapidjson::Value keyframe(rapidjson::kObjectType);
 					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Reverse", k.data, allocator);
 					keyFrames.PushBack(keyframe,allocator);
 				}
 			}
@@ -528,6 +529,7 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 				for (auto const& k : impact->keyframes) {
 					rapidjson::Value keyframe(rapidjson::kObjectType);
 					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Prefab", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
@@ -1441,7 +1443,11 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 						if (animType == "Sprite") {
 							SpriteAnimation a{};
 							for (auto& k : animations["Key Frames"].GetArray()) {
-								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+								bool data{ false };
+								if (k.HasMember("Reverse")) {
+									data = k["Reverse"].GetBool();
+								}
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<SpriteAnimation>(a));
 						}
@@ -1518,7 +1524,11 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 						else if (animType == "DamageImpact") {
 							DamageImpactAnimation a{};
 							for (auto& k : animations["Key Frames"].GetArray()) {
-								a.AddKeyFrame(k["Frame Number"].GetInt(), nullptr);
+								std::string data{};
+								if (k.HasMember("Prefab")) {
+									data = k["Prefab"].GetString();
+								}
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<DamageImpactAnimation>(a));
 						}

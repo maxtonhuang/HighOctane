@@ -391,7 +391,16 @@ void SpriteAnimation::Update(int frameNum) {
 	if (frameNum >= nextKeyframe->frameNum) {
 		//Advance animation
 		Tex& tex{ ECS::ecs().GetComponent<Tex>(parent) };
-		tex.frameIndex = (tex.frameIndex + 1) % tex.tex->GetSheetSize();
+		if (nextKeyframe->data) {
+			tex.frameIndex = tex.frameIndex - 1;
+			if (tex.frameIndex < 0) {
+				tex.frameIndex = tex.tex->GetSheetSize() - 1;
+			}
+		}
+		else {
+			tex.frameIndex = (tex.frameIndex + 1) % tex.tex->GetSheetSize();
+		}
+		
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {
 			active = false;
@@ -399,13 +408,19 @@ void SpriteAnimation::Update(int frameNum) {
 	}
 }
 void SpriteAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	(void)frameData;
-	Keyframe<int> frame{ frameNum };
+	Keyframe<bool> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<bool*>(frameData));
+	}
+	else{
+		frame.data = false;
+	}
+	
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
 void SpriteAnimation::RemoveKeyFrame(int frameNum) {
-	keyframes.remove(Keyframe<int>{frameNum});
+	keyframes.remove(Keyframe<bool>{frameNum});
 }
 bool SpriteAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
@@ -843,18 +858,21 @@ void DamageImpactAnimation::Update(int frameNum) {
 	}
 	if (frameNum >= nextKeyframe->frameNum) {
 		BattleSystem* battlesystem{ events.GetBattleSystem() };
+		battlesystem->damagePrefab = nextKeyframe->data;
 		battlesystem->ProcessDamage();
 		active = false;
 	}
 }
 void DamageImpactAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	(void)frameData;
-	Keyframe<int> frame{ frameNum };
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
 void DamageImpactAnimation::RemoveKeyFrame(int frameNum) {
-	keyframes.remove(Keyframe<int>{frameNum});
+	keyframes.remove(Keyframe<std::string>{frameNum});
 }
 bool DamageImpactAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {

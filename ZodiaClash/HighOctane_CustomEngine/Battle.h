@@ -124,6 +124,8 @@ public:
 	//for battle system to pass its version of characters
 	//to the real entities version
 	void ProcessDamage();
+	//Prefab to use for damage effect, based on skill used
+	std::string damagePrefab{};
 
 	//Create target circles for enemy targeting
 	void CreateTargets();

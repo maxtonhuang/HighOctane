@@ -186,7 +186,7 @@ public:
 	bool operator<(const Keyframe& input) const { return frameNum < input.frameNum; }
 };
 
-//Advances the current texture to the next texture in the sprite sheet 
+//Advances the current texture to the next texture in the sprite sheet, if keyframe data is true, then reverse to previous texture
 class SpriteAnimation : public Animation {
 public:
 	SpriteAnimation();
@@ -196,8 +196,8 @@ public:
 	void RemoveKeyFrame(int frameNum) override;
 	bool HasKeyFrame(int frameNum) override;
 
-	std::list<Keyframe<int>> keyframes;
-	std::list<Keyframe<int>>::iterator nextKeyframe{};
+	std::list<Keyframe<bool>> keyframes;
+	std::list<Keyframe<bool>>::iterator nextKeyframe{};
 };
 
 //Changes the current texture to the texture stored in the keyframe 
@@ -329,7 +329,7 @@ public:
 	Keyframe<int> keyframes;
 };
 
-//Signals to the system to play damage animations
+//Signals to the system to play damage animations, string in keyframe to create damage effect
 class DamageImpactAnimation : public Animation {
 public:
 	DamageImpactAnimation();
@@ -339,8 +339,8 @@ public:
 	void RemoveKeyFrame(int frameNum) override;
 	bool HasKeyFrame(int frameNum) override;
 
-	std::list<Keyframe<int>> keyframes;
-	std::list<Keyframe<int>>::iterator nextKeyframe{};
+	std::list<Keyframe<std::string>> keyframes;
+	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
 
 //Sets the zoom of camera to keyframe zoom
