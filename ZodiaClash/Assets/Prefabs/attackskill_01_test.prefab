@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,15 +21,23 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "atkSkill",
+            "Name": "atkSkill_01",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -40,10 +48,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 460.0,
-            "position_y": -675.0,
+            "position_x": 360.0,
+            "position_y": -360.0,
             "rotation": 0.0,
-            "scale": 0.47999998927116394,
+            "scale": 0.6000000238418579,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -115,8 +123,8 @@
             "Focused Text G": 0.0,
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
-            "Event Name": "Select Skill",
-            "Event Input": "1",
+            "Event Name": "Test",
+            "Event Input": "skill1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -127,73 +135,13 @@
             "Skill Index": 0
         },
         "SkillIcon": {},
-        "Animation Set": [
-            {
-                "Total Frames": 3,
-                "Group Name": "Pop In",
-                "Loop": false,
-                "Frame Time": 0.10000000149011612,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformDirect",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 2,
-                                "X movement": 0.0,
-                                "Y movement": 300.0,
-                                "Rotation": 0.0,
-                                "Scale": 0.0
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 3,
-                "Group Name": "Pop Out",
-                "Loop": false,
-                "Frame Time": 0.10000000149011612,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformDirect",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 2,
-                                "X movement": 0.0,
-                                "Y movement": -300.0,
-                                "Rotation": 0.0,
-                                "Scale": 0.0
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 1,
-                "Group Name": "Click",
-                "Loop": false,
-                "Frame Time": 0.01666666753590107,
-                "Animations": [
-                    {
-                        "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sound": "Skill Select_Edited.wav"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": "",
         "Parent": {}
     },
     {
         "Entity": {
             "Name": "atkSkill_skillFrame",
             "Current Layer": 1,
-            "Order in Layer": 7,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -206,9 +154,9 @@
         },
         "Transform": {
             "position_x": 360.0,
-            "position_y": -675.0,
+            "position_y": -360.0,
             "rotation": 0.0,
-            "scale": 0.5600000023841858,
+            "scale": 0.699999988079071,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -240,7 +188,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.5600000023841858,
+            "scale": 0.699999988079071,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -249,7 +197,7 @@
         "Entity": {
             "Name": "atkSkill_lblAtkType",
             "Current Layer": 0,
-            "Order in Layer": 12,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -261,7 +209,7 @@
         },
         "Transform": {
             "position_x": 360.0,
-            "position_y": -779.0,
+            "position_y": -480.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -271,7 +219,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 175.0,
+            "width": 200.0,
             "height": 50.0
         },
         "Scripts": {
@@ -291,7 +239,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Font Size": 0.25,
+            "Font Size": 0.30000001192092896,
             "Text String": "Single Target",
             "r": 1.0,
             "g": 1.0,
@@ -306,7 +254,7 @@
         "SkillAttackType": {},
         "Child": {
             "position_x": 0.0,
-            "position_y": -104.0,
+            "position_y": -120.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -317,7 +265,7 @@
         "Entity": {
             "Name": "atkSkill_iconAtkType",
             "Current Layer": 1,
-            "Order in Layer": 8,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -329,8 +277,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 289.0,
-            "position_y": -774.5,
+            "position_x": 280.0,
+            "position_y": -480.0,
             "rotation": 0.0,
             "scale": 0.20000000298023224,
             "velocity_x": 0.0,
@@ -366,8 +314,8 @@
         "Movable": {},
         "SkillAttackType": {},
         "Child": {
-            "position_x": -71.0,
-            "position_y": -99.5,
+            "position_x": -80.0,
+            "position_y": -120.0,
             "rotation": 0.0,
             "scale": 0.20000000298023224,
             "velocity_x": 0.0,
@@ -378,7 +326,7 @@
         "Entity": {
             "Name": "atkSkill_lblChiCost",
             "Current Layer": 2,
-            "Order in Layer": 8,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -389,10 +337,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 391.0,
-            "position_y": -634.0,
+            "position_x": 410.0,
+            "position_y": -305.0,
             "rotation": 0.0,
-            "scale": 0.800000011920929,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -421,7 +369,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.30000001192092896,
-            "Text String": " +1",
+            "Text String": " +?",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -434,10 +382,10 @@
         },
         "SkillCost": {},
         "Child": {
-            "position_x": 31.0,
-            "position_y": 41.0,
+            "position_x": 50.0,
+            "position_y": 55.0,
             "rotation": 0.0,
-            "scale": 0.800000011920929,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -446,7 +394,7 @@
         "Entity": {
             "Name": "atkSkill_iconChiCost",
             "Current Layer": 3,
-            "Order in Layer": 5,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -458,10 +406,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 409.0,
-            "position_y": -627.0,
+            "position_x": 440.0,
+            "position_y": -295.0,
             "rotation": 0.0,
-            "scale": 0.4000000059604645,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -495,10 +443,66 @@
         "Movable": {},
         "SkillCost": {},
         "Child": {
-            "position_x": 49.0,
-            "position_y": 48.0,
+            "position_x": 80.0,
+            "position_y": 65.0,
             "rotation": 0.0,
-            "scale": 0.4000000059604645,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "catSkill1_tooltip.png",
+            "Current Layer": 3,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 493.0,
+            "position_y": -194.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "catSkill1_tooltip.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 447.0,
+            "height": 143.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Child": {
+            "position_x": 133.0,
+            "position_y": 165.5,
+            "rotation": 0.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

@@ -46,6 +46,7 @@
 #include "Colors.h"
 #include "AssetManager.h"
 #include "Layering.h"
+#include "Animation.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -275,13 +276,13 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Pad
 	switch (textWrap) {
 	case(UI_TEXT_WRAP::AUTO_WIDTH):
 		//snaps label width to calculated width, label height remains as calculated height
-		sizeData.width = textWidth;		
+		sizeData.width = textWidth + paddingData.left + paddingData.right;
 		sizeData.height = std::max(sizeData.height, textHeight);
 		break; 
 	case(UI_TEXT_WRAP::AUTO_HEIGHT):
 		//snaps label height to calculated height (label width remains adjustable)
 		textWidth = sizeData.width;
-		sizeData.height = textHeight;
+		sizeData.height = textHeight + paddingData.top + paddingData.bottom;
 		break;
 	default:
 		textWrap = UI_TEXT_WRAP::FIXED_SIZE;
@@ -457,7 +458,8 @@ glm::vec4 Button::GetButtonColor() {
 * Called in UIButtonSystem's update. Updates currentState accordingly.
 *
 */
-void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) {
+void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, Entity entity) {
+	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 	// get cursorPos, compare with pos in Transform, return if no match
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -480,7 +482,9 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 							return;
 						}
 					}
-
+					if (animationArray.HasComponent(entity)) {
+						animationArray.GetData(entity).Start("Click", entity);
+					}
 					events.Call(eventName, eventInput);
 				}
 			}
@@ -506,13 +510,32 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	if (GetCurrentSystemMode() == SystemMode::RUN || GetCurrentSystemMode() == SystemMode::PAUSE) {
 		switch (currentState) {
 		case(STATE::HOVERED):
-			textLabelData.textColor = hoveredColor.textColor;
+			if (previousState == STATE::NONE) {
+				if (animationArray.HasComponent(entity)) {
+					animationArray.GetData(entity).Start("Hover", entity);
+				}
+				else {
+					textLabelData.textColor = hoveredColor.textColor;
+				}
+			}
+			previousState = STATE::HOVERED;
 			break;
 		case(STATE::FOCUSED):
 			textLabelData.textColor = focusedColor.textColor;
 			break;
 		case(STATE::DISABLED):
 			textLabelData.textColor = colors.colorMap["secondary"];
+			break;
+		case(STATE::NONE):
+			if (previousState == STATE::HOVERED) {
+				if (animationArray.HasComponent(entity)) {
+					animationArray.GetData(entity).Start("Reset", entity);
+				}
+				else {
+					textLabelData.textColor = hoveredColor.textColor;
+				}
+			}
+			previousState = STATE::NONE;
 			break;
 		default:
 			textLabelData.textColor = defaultColor.textColor;
@@ -521,10 +544,11 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData) 
 	}
 
 	// current implementation:  to ignore padding for fixed size buttons unless sufficient space (act within button confines)
-	// future implementation to follow figma's auto layout "hug contents" setting
+	// future implementation to follow figma's auto layout "hug contents" setting (requires 2 separate settings)
+	// NOTE: padding only applies for the specified dimension to auto!
 	textLabelData.currentState = this->currentState;
-	buttonWidth = textLabelData.textWidth /*+ padding.left + padding.right*/;
-	buttonHeight = textLabelData.textHeight /*+ padding.top + padding.bottom*/;
+	buttonWidth = textLabelData.textWidth;
+	buttonHeight = textLabelData.textHeight;
 }
 
 /*!
