@@ -192,17 +192,21 @@ void CollisionSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 		Collider* collideData = &colliderArray.GetData(entity);
 
-		xSortedColliders.push_back(physics::SweepAndPruneEntry{ entity, collideData->position.x - collideData->dimension.x / 2, collideData->position.x + collideData->dimension.x / 2 });
+		xSortedColliders.push_back(physics::SweepAndPruneEntry{ entity, collideData->position.x - collideData->halfDimensions.x, collideData->position.x + collideData->halfDimensions.x });
 	}
 
 	// Sort the xSortedColliders list based on the lower x-coordinate
 	std::sort(xSortedColliders.begin(), xSortedColliders.end(), [](const physics::SweepAndPruneEntry& a, const physics::SweepAndPruneEntry& b) {
 		return a.lowerX < b.lowerX;
-		});
+	});
 
 	// Iterate through the sorted xSortedColliders list and perform collision checks
 	for (size_t i = 0; i < xSortedColliders.size(); ++i) {
 		for (size_t j = i + 1; j < xSortedColliders.size(); ++j) {
+			float aUpperX{ xSortedColliders[i].upperX };
+			float bLowerX{ xSortedColliders[j].lowerX };
+			if (bLowerX > aUpperX) break;
+
 			Entity const& entity1 = xSortedColliders[i].entity;
 			Entity const& entity2 = xSortedColliders[j].entity;
 
@@ -216,25 +220,25 @@ void CollisionSystem::Update() {
 			if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
 				bool hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
 				if (hasCollided) {
-					physics::DynamicStaticResponse(*transData1);
+					physics::DynamicStaticResponse(*transData1, *transData2);
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
 				bool hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
 				if (hasCollided) {
-					physics::DynamicStaticResponse(*transData1);
+					physics::DynamicStaticResponse(*transData1, *transData2);
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
 				bool hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
 				if (hasCollided) {
-					physics::DynamicStaticResponse(*transData1);
+					physics::DynamicStaticResponse(*transData1, *transData2);
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
 				bool hasCollided = physics::CheckCollisionCircleCircle(*collideData1, *collideData2);
 				if (hasCollided) {
-					physics::DynamicStaticResponse(*transData1);
+					physics::DynamicStaticResponse(*transData1, *transData2);
 				}
 			}
 		}

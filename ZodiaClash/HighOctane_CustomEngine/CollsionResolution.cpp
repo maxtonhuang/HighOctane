@@ -44,10 +44,13 @@ namespace physics {
         Static vs Dynamic Collison response
      */
      /**************************************************************************/
-    void DynamicStaticResponse(Transform& dynamicBody) 
+    void DynamicStaticResponse(Transform& dynamicBody, Transform& d2) 
     {
         dynamicBody.position -= dynamicBody.velocity * FIXED_DT * 2;
         dynamicBody.velocity = Vec2{ 0,0 };
+
+        d2.position -= d2.velocity * FIXED_DT * 2;
+        d2.velocity = Vec2{ 0,0 };
     }
 }
 

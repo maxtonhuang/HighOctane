@@ -34,7 +34,7 @@
 #include "ECS.h" 
 
 namespace physics {
-    void DynamicStaticResponse(Transform& dynamicBody);
+    void DynamicStaticResponse(Transform& dynamicBody, Transform& d2);
     /*void DynamicDynamicResponse(Transform& bodyA, Transform& bodyB);
     void HandleCollisionResponse(Transform& alpha, Transform& beta);*/
 
