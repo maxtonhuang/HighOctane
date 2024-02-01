@@ -51,14 +51,6 @@ void AnimationSet::Start(std::string animationName, Entity entity) {
 	initialised = true;
 	for (auto& a : animationSet) {
 		if (a.name == animationName) {
-			printf("Staring animation for entity %d: %s\n",entity, animationName.c_str());
-			if (animationName == "Attack Part 1") {
-				static int x = 0;
-				if (x == 1) {
-					x = 0;
-				}
-				x++;
-			}
 			activeAnimation = &a;
 			found = true;
 			break;
@@ -111,13 +103,11 @@ AnimationSet::AnimationSet(const AnimationSet& copy) {
 }
 
 AnimationSet& AnimationSet::operator= (const AnimationSet& copy) {
-	if (copy.defaultAnimation == "Attack Part 1") {
-		printf("?\n");
-	}
 	initialised = copy.initialised;
 	animationSet = copy.animationSet;
 	defaultAnimation = copy.defaultAnimation;
 	animationQueue = copy.animationQueue;
+	activeAnimation = nullptr;
 	if (copy.activeAnimation != nullptr) {
 		for (auto& animation : animationSet) {
 			if (animation.name == copy.activeAnimation->name) {
@@ -137,6 +127,9 @@ void AnimationGroup::Start(Entity entity) {
 		frametime = FIXED_DT;
 	}
 	for (auto& a : animations) {
+		if (a->HasKeyFrame(-1)) {
+			a->RemoveKeyFrame(-1);
+		}
 		a->SetFrameTime(frametime);
 		a->SetParent(parent);
 		a->Start();
@@ -398,7 +391,16 @@ void SpriteAnimation::Update(int frameNum) {
 	if (frameNum >= nextKeyframe->frameNum) {
 		//Advance animation
 		Tex& tex{ ECS::ecs().GetComponent<Tex>(parent) };
-		tex.frameIndex = (tex.frameIndex + 1) % tex.tex->GetSheetSize();
+		if (nextKeyframe->data) {
+			tex.frameIndex = tex.frameIndex - 1;
+			if (tex.frameIndex < 0) {
+				tex.frameIndex = tex.tex->GetSheetSize() - 1;
+			}
+		}
+		else {
+			tex.frameIndex = (tex.frameIndex + 1) % tex.tex->GetSheetSize();
+		}
+		
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {
 			active = false;
@@ -406,13 +408,19 @@ void SpriteAnimation::Update(int frameNum) {
 	}
 }
 void SpriteAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	(void)frameData;
-	Keyframe<int> frame{ frameNum };
+	Keyframe<bool> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<bool*>(frameData));
+	}
+	else{
+		frame.data = false;
+	}
+	
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
 void SpriteAnimation::RemoveKeyFrame(int frameNum) {
-	keyframes.remove(Keyframe<int>{frameNum});
+	keyframes.remove(Keyframe<bool>{frameNum});
 }
 bool SpriteAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
@@ -850,18 +858,21 @@ void DamageImpactAnimation::Update(int frameNum) {
 	}
 	if (frameNum >= nextKeyframe->frameNum) {
 		BattleSystem* battlesystem{ events.GetBattleSystem() };
+		battlesystem->damagePrefab = nextKeyframe->data;
 		battlesystem->ProcessDamage();
 		active = false;
 	}
 }
 void DamageImpactAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	(void)frameData;
-	Keyframe<int> frame{ frameNum };
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
 void DamageImpactAnimation::RemoveKeyFrame(int frameNum) {
-	keyframes.remove(Keyframe<int>{frameNum});
+	keyframes.remove(Keyframe<std::string>{frameNum});
 }
 bool DamageImpactAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {

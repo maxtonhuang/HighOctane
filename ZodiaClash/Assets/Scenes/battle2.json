@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 21,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -24,67 +24,9 @@
                 "Layer 17",
                 "Layer 18",
                 "Layer 19",
-                "Layer 20"
+                "Layer 20",
+                "Layer 21"
             ]
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "entity_00007",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 707.5,
-            "position_y": 475.5,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": true
-        },
-        "Size": {
-            "width": 484.0,
-            "height": 59.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "ZodiaClash M4 Playtest",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "white",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Background": false
         }
     },
     {
@@ -149,7 +91,7 @@
         "Entity": {
             "Name": "Goat_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

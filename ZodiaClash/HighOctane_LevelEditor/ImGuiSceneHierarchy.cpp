@@ -303,8 +303,11 @@ void SceneEntityComponents(Entity entity) {
 				validChildArray.push_back(namePair);
 			}
 
-			static std::pair<Entity, std::string> preview{ validChildArray[0].first, validChildArray[0].second->name.c_str() };
+			static std::pair<Entity, std::string> preview{ };
 			if (validChildArray.size() > 0) {
+				if (preview.first == 0) {
+					preview = std::pair<Entity, std::string>{ validChildArray[0].first, validChildArray[0].second->name.c_str() };
+				}
 				if (ImGui::BeginCombo("Choose child to add", preview.second.c_str())) {
 					for (int c = 0; c < validChildArray.size(); c++) {
 						std::string childName{ validChildArray[c].second->name };
@@ -464,7 +467,6 @@ void SceneEntityComponents(Entity entity) {
 					case(UI_TEXT_WRAP::AUTO_WIDTH):
 						if (sizeData.width != textlabel.textWidth) {
 							textlabel.textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
-							break;
 						}
 						else if (sizeData.height != textlabel.textHeight) {
 							textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
@@ -588,7 +590,7 @@ void SceneEntityComponents(Entity entity) {
 
 			// text wrap setting
 			int selectedWrapIdx = static_cast<int>(textlabel.textWrap);
-			DEBUG_PRINT("selectedWrapIdx: %d, textWrap: %d", selectedWrapIdx, static_cast<int>(textlabel.textWrap));
+			//DEBUG_PRINT("selectedWrapIdx: %d, textWrap: %d", selectedWrapIdx, static_cast<int>(textlabel.textWrap));
 			static UI_TEXT_WRAP textWrapGrid[3];
 
 			const char* textWrapLabels[] = { "Auto\nWidth", "Auto\nHeight", "Fixed\nSize" };
@@ -685,16 +687,12 @@ void SceneEntityComponents(Entity entity) {
 
 				switch (textlabel.textWrap) {
 				case(UI_TEXT_WRAP::AUTO_WIDTH):
-					if (sizeData.width != textlabel.textWidth) {
+					if (sizeData.width != (textlabel.textWidth + button.padding.left + button.padding.right)) {
 						textlabel.textWrap = UI_TEXT_WRAP::AUTO_HEIGHT;
-						break;
-					}
-					else if (sizeData.height != textlabel.textHeight) {
-						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 					}
 					break;
 				case(UI_TEXT_WRAP::AUTO_HEIGHT):
-					if (sizeData.height != textlabel.textHeight) {
+					if (sizeData.height != (textlabel.textHeight + button.padding.top + button.padding.bottom)) {
 						textlabel.textWrap = UI_TEXT_WRAP::FIXED_SIZE;
 					}
 					break;

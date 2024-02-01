@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 18,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,16 +21,7 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26"
+                "Layer 17"
             ]
         }
     },
@@ -38,7 +29,7 @@
         "Entity": {
             "Name": "lbl_skillpt",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -49,10 +40,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -162.0,
-            "position_y": -620.0,
+            "position_x": 88.0,
+            "position_y": -647.0000610351563,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.9191991686820984,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -73,7 +64,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.20000000298023224
+            "Alpha": 0.20000000298023224,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
@@ -88,6 +80,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": false
         },
         "SkillPointHUD": {
@@ -143,7 +136,7 @@
         "Entity": {
             "Name": "skillpt01",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -155,10 +148,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -47.5,
-            "position_y": -620.0,
+            "position_x": 22.0,
+            "position_y": -647.0000610351563,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -186,7 +179,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "SkillPoint": {
@@ -197,7 +191,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -237,7 +231,7 @@
             "position_x": 60.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -246,7 +240,7 @@
         "Entity": {
             "Name": "skillpt2",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -258,10 +252,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 27.5,
-            "position_y": -620.0,
+            "position_x": 72.0,
+            "position_y": -647.0000610351563,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -289,7 +283,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "SkillPoint": {
@@ -300,7 +295,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -337,10 +332,10 @@
         ],
         "Animation Set Default Animation": "",
         "Child": {
-            "position_x": 135.0,
+            "position_x": 110.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -349,7 +344,7 @@
         "Entity": {
             "Name": "skillpt3",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 20,
             "isLocked": true,
             "isSkipped": true
         },
@@ -361,10 +356,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 102.5,
-            "position_y": -620.0,
+            "position_x": 122.0,
+            "position_y": -647.0000610351563,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -392,7 +387,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "SkillPoint": {
@@ -403,7 +399,111 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Inactive",
+                "Loop": false,
                 "Frame Time": 0.0,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 160.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "skillpt4",
+            "Current Layer": 0,
+            "Order in Layer": 22,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 172.0,
+            "position_y": -647.0000610351563,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_chi_icon.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "SkillPoint": {
+            "Active State": true
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Active",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -443,110 +543,7 @@
             "position_x": 210.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.75,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Entity": {
-            "Name": "skillpt4",
-            "Current Layer": 0,
-            "Order in Layer": 9,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 177.5,
-            "position_y": -620.0,
-            "rotation": 0.0,
-            "scale": 0.75,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "mockup_chi_icon.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 128.0,
-            "height": 128.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0
-        },
-        "Movable": {},
-        "SkillPoint": {
-            "Active State": true
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 1,
-                "Group Name": "Active",
-                "Loop": false,
-                "Frame Time": 0.0,
-                "Animations": [
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "mockup_chi_icon.png"
-                            },
-                            {
-                                "Frame Number": 1,
-                                "Texture": "mockup_chi_icon_lineart.png"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "Total Frames": 1,
-                "Group Name": "Inactive",
-                "Loop": false,
-                "Frame Time": 0.0,
-                "Animations": [
-                    {
-                        "Animation Type": "TextureChange",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Texture": "mockup_chi_icon_lineart.png"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": "",
-        "Child": {
-            "position_x": 285.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -555,7 +552,7 @@
         "Entity": {
             "Name": "skillpt5",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
         },
@@ -567,10 +564,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 252.5,
-            "position_y": -620.0,
+            "position_x": 222.0,
+            "position_y": -647.0000610351563,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -598,7 +595,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "SkillPoint": {
@@ -609,7 +607,7 @@
                 "Total Frames": 1,
                 "Group Name": "Active",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -646,10 +644,10 @@
         ],
         "Animation Set Default Animation": "",
         "Child": {
-            "position_x": 360.0,
+            "position_x": 260.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.75,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

@@ -269,7 +269,20 @@ void AnimatorWindow(Entity entity) {
 					}
 				}
 				else {
-					if (selectedAnimation->GetType() == "TextureChange") {
+					if (selectedAnimation->GetType() == "Sprite") {
+						std::shared_ptr<SpriteAnimation> sprite{ std::dynamic_pointer_cast<SpriteAnimation>(selectedAnimation) };
+						Keyframe<bool>* keyframe{ nullptr };
+						for (auto& k : sprite->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							ImGui::Checkbox("Reverse", &keyframe->data);
+						}
+					}
+					else if (selectedAnimation->GetType() == "TextureChange") {
 						std::shared_ptr<ChangeTexAnimation> changetex{ std::dynamic_pointer_cast<ChangeTexAnimation>(selectedAnimation) };
 						Keyframe<std::string>* keyframe{ nullptr };
 						for (auto& k : changetex->keyframes) {
@@ -412,6 +425,31 @@ void AnimatorWindow(Entity entity) {
 								ImGui::EndCombo();
 							}
 						}
+					}
+					else if (selectedAnimation->GetType() == "DamageImpact") {
+					std::shared_ptr<DamageImpactAnimation> changetex{ std::dynamic_pointer_cast<DamageImpactAnimation>(selectedAnimation) };
+					Keyframe<std::string>* keyframe{ nullptr };
+					for (auto& k : changetex->keyframes) {
+						if (k.frameNum == selectedFrame) {
+							keyframe = &k;
+							break;
+						}
+					}
+					if (keyframe != nullptr) {
+						if (ImGui::BeginCombo("Effect Prefab", keyframe->data.c_str())) {
+							std::vector<std::string> prefabPaths{ assetmanager.GetPrefabPaths() };
+							for (int n = 0; n < prefabPaths.size(); n++) {
+								bool is_selected = (keyframe->data == prefabPaths[n]);
+								if (ImGui::Selectable(prefabPaths[n].c_str(), is_selected)) {
+									keyframe->data = prefabPaths[n];
+								}
+								if (is_selected) {
+									ImGui::SetItemDefaultFocus();
+								}
+							}
+							ImGui::EndCombo();
+						}
+					}
 					}
 					else if (selectedAnimation->GetType() == "Swap") {
 						std::shared_ptr<SwapAnimation> swap{ std::dynamic_pointer_cast<SwapAnimation>(selectedAnimation) };

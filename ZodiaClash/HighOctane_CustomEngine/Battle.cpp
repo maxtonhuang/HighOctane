@@ -53,7 +53,7 @@
 #include "Global.h"
 
 //For animating skill buttons
-const float skillButtonOffset{ 240.f };
+const float skillButtonOffset{ 180.f };
 
 //for animating health bats
 const float healthBarOffset{ -120.f };
@@ -150,13 +150,13 @@ void BattleSystem::Update()
     ComponentArray<CharacterStats>* statsArray{};
     ComponentArray<Model>* modelArray{};
     if (m_Entities.size() > 0) {
-
         UpdateTargets();
 
         //If animation system is playing battle animation, do not progress game system
         if (locked) {
             return;
         }
+
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::BATTLE]) {
             switch (msg.type) {
             case(TYPE::ANIMATING):
@@ -244,6 +244,19 @@ void BattleSystem::Update()
                     {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
+                    if (goatSpeedup == true) {
+                        CharacterStats* tmp{};
+                        for (CharacterStats* character : activeCharacter->parent->GetEnemies()) {
+                            if (character->entity != activeCharacter->entity) {
+                                tmp = character;
+                                break;
+                            }
+                        }
+                        if (tmp->tag == CharacterType::ENEMYSPEDUP) {
+                            activeCharacter->parent->RevertTurnOrder(tmp);
+                        }
+                        goatSpeedup = false;
+                    }
                     //STILL NEED TO SWAP THE TURN TO ENEMY TURN TO PROCESS THEM DYING
                     battleState = ENEMYTURN;
                 }
@@ -274,6 +287,7 @@ void BattleSystem::Update()
                 roundManage.characterCount = 0;
                 roundInProgress = false;
             }
+           
         }
         break;
     case ENEMYTURN:
@@ -376,6 +390,7 @@ bool BattleSystem::DetermineTurnOrder()
     {
         turnManage.turnOrderList.push_back(&chara);
     }
+    turnManage.turnOrderList.sort();
 
     //originalTurnOrderList
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
@@ -457,6 +472,10 @@ void BattleSystem::ProcessDamage() {
             for (CharacterStats const& c : turnManage.characterList) {
                 if (c.entity == entity) {
                     if (c.stats.health < cs->stats.health) {
+                        Entity damageEffect{ EntityFactory::entityFactory().ClonePrefab(damagePrefab) };
+                        if (damageEffect) {
+                            transformArray->GetData(damageEffect).position = transformArray->GetData(entity).position;
+                        }
                         if (c.stats.health != 0) {
                             animationArray->GetData(entity).Start("Damaged", entity);
                         }
@@ -504,6 +523,7 @@ void BattleSystem::ProcessDamage() {
         if (totalDamage > 0.f) {
             camera.SetShake(totalDamage / MAGNITUDE_PER_HEALTH);
         }
+        damagePrefab.clear();
     }
     
 }
@@ -733,8 +753,9 @@ void BattleSystem::UpdateTargets() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     static vmath::Vector2 mousePos{ RESET_VEC2 };
+    const float darkred{ 117.f / 255.f };
 
-    if (targetCircleList.empty()) {
+    if (activeCharacter == nullptr) {
         return;
     }
 
@@ -749,71 +770,135 @@ void BattleSystem::UpdateTargets() {
 
     bool aoe{ activeCharacter->action.selectedSkill.attacktype == AttackType::AOE };
     int selected{ -1 };
+    if (targetCircleList.size() > 0) {
+        for (int i = 0; i < targetCircleList.size(); i++) {
+            Entity currentTarget{ targetCircleList[i] };
+            Model& targetModel{ modelArray.GetData(currentTarget) };
+            Button& targetButton{ buttonArray.GetData(currentTarget) };
+            targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+            targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
+            if (IsWithinObject(targetModel, mousePos)) {
+                selected = i;
+            }
+        }
+        for (int i = 0; i < targetCircleList.size(); i++) {
+            Entity currentTarget{ targetCircleList[i] };
+            Button& targetButton{ buttonArray.GetData(currentTarget) };
+            Entity hpIcon{ enemyAnimators[i].healthbarIcon };
+            AnimationSet& iconAnimation{ animationArray.GetData(hpIcon) };
+            Entity turnIcon{ enemyAnimators[i].turnorderIcon };
+            AnimationSet& turniconAnimation{ animationArray.GetData(turnIcon) };
+            Entity turn{ enemyAnimators[i].turnorder };
+            AnimationSet& turnAnimation{ animationArray.GetData(turn) };
+            Entity hpBase{ enemyAnimators[i].healthbarBase };
+            AnimationSet& hpbaseAnimation{ animationArray.GetData(hpBase) };
 
-    for (int i = 0; i < targetCircleList.size(); i++) {
-        Entity currentTarget{ targetCircleList[i] };
-        Model& targetModel{ modelArray.GetData(currentTarget) };
-        Button& targetButton{ buttonArray.GetData(currentTarget) };
-        targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
-        targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
-        if (IsWithinObject(targetModel, mousePos)) {
-            selected = i;
+
+            if ((aoe && selected >= 0) || (selected == i)) {
+                targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
+                targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
+
+                if (iconAnimation.activeAnimation == nullptr) {
+                    iconAnimation.Start("Glow_Dark", hpIcon);
+                }
+
+                if (hpbaseAnimation.activeAnimation == nullptr) {
+                    hpbaseAnimation.Start("Glow_Dark", hpBase);
+                }
+
+                if (turniconAnimation.activeAnimation == nullptr) {
+                    turniconAnimation.Start("Glow", turnIcon);
+                }
+
+                if (turnAnimation.activeAnimation == nullptr) {
+                    turnAnimation.Start("Glow", turn);
+                }
+            }
+            else {
+                if (iconAnimation.activeAnimation != nullptr) {
+                    iconAnimation.Stop();
+                    modelArray.GetData(hpIcon).SetColor(1.f, 1.f, 1.f);
+                }
+                if (hpbaseAnimation.activeAnimation != nullptr) {
+                    hpbaseAnimation.Stop();
+                    modelArray.GetData(hpBase).SetColor(darkred, 0.f, 0.f);
+                }
+                if (turniconAnimation.activeAnimation != nullptr) {
+                    turniconAnimation.Stop();
+                    modelArray.GetData(turnIcon).SetColor(1.f, 1.f, 1.f);
+                }
+                if (turnAnimation.activeAnimation != nullptr) {
+                    turnAnimation.Stop();
+                    modelArray.GetData(turn).SetColor(darkred, 0.f, 0.f);
+                }
+            }
         }
     }
 
-    for (int i = 0; i < targetCircleList.size(); i++) {
-        Entity currentTarget{ targetCircleList[i] };
-        Button& targetButton{ buttonArray.GetData(currentTarget) };
-        Entity hpIcon{ enemyAnimators[i].healthbarIcon };
-        AnimationSet& iconAnimation{ animationArray.GetData(hpIcon) };
-        Entity turnIcon{ enemyAnimators[i].turnorderIcon };
-        AnimationSet& turniconAnimation{ animationArray.GetData(turnIcon)};
-        Entity turn{ enemyAnimators[i].turnorder };
-        AnimationSet& turnAnimation{ animationArray.GetData(turn) };
-        Entity hpBase{ enemyAnimators[i].healthbarBase };
-        AnimationSet& hpbaseAnimation{ animationArray.GetData(hpBase) };
-        
+    for (int i = 0; i < skillButtons.size(); i++) {
+        Model& skillModel{ modelArray.GetData(skillButtons[i])};
+        static Entity tooltipPrefab{};
+        if (IsWithinObject(skillModel, mousePos)) {
 
-        if ((aoe && selected >= 0) || (selected == i)) {
-            targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
-            targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
-
-            if (iconAnimation.activeAnimation == nullptr) {
-                iconAnimation.Start("Glow", hpIcon);
-            }
-
-            if (turniconAnimation.activeAnimation == nullptr) {
-                turniconAnimation.Start("Glow", turnIcon);
-            }
-
-            if (turnAnimation.activeAnimation == nullptr) {
-                turnAnimation.Start("Glow", turn);
-            }
-
-            if (hpbaseAnimation.activeAnimation == nullptr) {
-                hpbaseAnimation.Start("Glow", hpBase);
-            }
         }
-        else {
-            if (iconAnimation.activeAnimation != nullptr) {
-                iconAnimation.Stop();
-                modelArray.GetData(hpIcon).SetColor(1.f, 1.f, 1.f);
-            }
-            if (turniconAnimation.activeAnimation != nullptr) {
-                turniconAnimation.Stop();
-                modelArray.GetData(turnIcon).SetColor(1.f, 1.f, 1.f);
-            }
-            if (turnAnimation.activeAnimation != nullptr) {
-                const float darkred{ 173.f / 255.f };
-                turnAnimation.Stop();
-                modelArray.GetData(turn).SetColor(darkred, 0.f, 0.f);
-            }
-            if (hpbaseAnimation.activeAnimation != nullptr) {
-                hpbaseAnimation.Stop();
-                modelArray.GetData(hpBase).SetColor(0.f, 0.f, 0.f);
-            }
+        else if (tooltipPrefab) {
+            EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+            tooltipPrefab = 0;
         }
     }
+    //else if (!locked) {
+    //    std::vector<CharacterStats*> enemyList{ GetEnemies() };
+    //    int enemy_count{ 0 };
+    //    for (CharacterStats* e : enemyList) {
+    //        Model& enemyModel{ modelArray.GetData(e->entity) };
+    //        if (!locked && IsWithinObject(enemyModel, mousePos)) {
+    //            selected = enemy_count;
+    //    }
+    //        enemy_count++;
+    //    }
+    //    for (int i = 0; i < enemyAnimators.size(); i++) {
+    //        Entity hpIcon{ enemyAnimators[i].healthbarIcon };
+    //        AnimationSet& iconAnimation{ animationArray.GetData(hpIcon) };
+    //        Entity turnIcon{ enemyAnimators[i].turnorderIcon };
+    //        AnimationSet& turniconAnimation{ animationArray.GetData(turnIcon) };
+    //        Entity turn{ enemyAnimators[i].turnorder };
+    //        AnimationSet& turnAnimation{ animationArray.GetData(turn) };
+    //        Entity hpBase{ enemyAnimators[i].healthbarBase };
+    //        AnimationSet& hpbaseAnimation{ animationArray.GetData(hpBase) };
+    //        if (selected == i) {
+    //            if (iconAnimation.activeAnimation == nullptr) {
+    //                iconAnimation.Start("Glow", hpIcon);
+    //            }
+    //            if (hpbaseAnimation.activeAnimation == nullptr) {
+    //                hpbaseAnimation.Start("Glow", hpBase);
+    //            }
+    //            if (turniconAnimation.activeAnimation == nullptr) {
+    //                turniconAnimation.Start("Glow_Turn", turnIcon);
+    //            }
+    //            if (turnAnimation.activeAnimation == nullptr) {
+    //                turnAnimation.Start("Glow_Turn", turn);
+    //            }
+    //        }
+    //        else {
+    //            if (iconAnimation.activeAnimation != nullptr) {
+    //                iconAnimation.Stop();
+    //                modelArray.GetData(hpIcon).SetColor(1.f, 1.f, 1.f);
+    //            }
+    //            if (hpbaseAnimation.activeAnimation != nullptr) {
+    //                hpbaseAnimation.Stop();
+    //                modelArray.GetData(hpBase).SetColor(darkred, 0.f, 0.f);
+    //            }
+    //            if (turniconAnimation.activeAnimation != nullptr) {
+    //                turniconAnimation.Stop();
+    //                modelArray.GetData(turnIcon).SetColor(1.f, 1.f, 1.f);
+    //            }
+    //            if (turnAnimation.activeAnimation != nullptr) {
+    //                turnAnimation.Stop();
+    //                modelArray.GetData(turn).SetColor(darkred, 0.f, 0.f);
+    //            }
+    //        }
+    //    }
+    //}
 }
 
 void BattleSystem::MoveOutUIAnimation() {
@@ -830,12 +915,12 @@ void BattleSystem::MoveOutUIAnimation() {
         animationArray.GetData(e).Start("Pop Out", e);
     }
     for (CharacterAnimator& ca : enemyAnimators) {
-        const float darkred{ 178.f / 255.f };
+        const float darkred{ 117.f / 255.f };
         animationArray.GetData(ca.healthbarIcon).Stop();
         modelArray.GetData(ca.healthbarIcon).SetColor(1.f, 1.f, 1.f);
 
         animationArray.GetData(ca.healthbarBase).Stop();
-        modelArray.GetData(ca.healthbarBase).SetColor(0.f, 0.f, 0.f);
+        modelArray.GetData(ca.healthbarBase).SetColor(darkred, 0.f, 0.f);
 
         animationArray.GetData(ca.turnorderIcon).Stop();
         modelArray.GetData(ca.turnorderIcon).SetColor(1.f, 1.f, 1.f);
@@ -894,6 +979,9 @@ void BattleSystem::UpdateSkillIcons() {
     }
 
     for (int i = 0; i < 3; i++) {
+        if (activeCharacter->action.skills.size() < 3) {
+            break;
+        }
         std::string skillTexture = activeCharacter->action.skills[i].skillTexture;
         textureArray.GetData(skillButtons[i]).tex = assetmanager.texture.Get(skillTexture.c_str());
         buttonArray.GetData(skillButtons[i]).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };

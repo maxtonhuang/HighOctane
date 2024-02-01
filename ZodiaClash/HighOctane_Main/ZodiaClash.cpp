@@ -87,17 +87,17 @@ constexpr bool game_mode{ GAME_MODE };  //
 
 
 
-	///////////////////// SET LEVEL EDITOR ON OR OFF HERE /////////////////////
-	//																		 //
-	// 																		 //
-	//		For compilation in Debug or Release mode.						 //
-	//		Set to below to EDITOR_MODE to turn on Level Editor,			 //
-	//		or set to GAME_MODE to turn off Level Editor.					 //
-	//																		 //
-			constexpr bool game_mode{		EDITOR_MODE			};			 //
-	//																		 //
-	//																		 //
-	///////////////////////////////////////////////////////////////////////////
+	///////////////////// SET LEVEL EDITOR ON OR OFF HERE //////////////////////
+	/*/*																	/**/
+	/*/* 																	/**/
+	/*/*	For compilation in Debug or Release mode.						/**/
+	/*/*	Set the below to EDITOR_MODE to turn on Level Editor,			/**/
+	/*/*	or set to GAME_MODE to turn off Level Editor.					/**/
+	/*/*																	/**/
+	/**/	constexpr bool game_mode{		EDITOR_MODE			};			/**/
+	/*/*																	/**/
+	/*/*																	/**/
+	////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -214,6 +214,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Button>();
 	ECS::ecs().RegisterComponent<HealthBar>();
 	ECS::ecs().RegisterComponent<HealthRemaining>();
+	ECS::ecs().RegisterComponent<HealthLerp>();
 	ECS::ecs().RegisterComponent<SkillPointHUD>();
 	ECS::ecs().RegisterComponent<SkillPoint>();
 	ECS::ecs().RegisterComponent<AttackSkill>();
@@ -224,6 +225,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<EnemyHUD>();
 	ECS::ecs().RegisterComponent<TurnIndicator>();
 	ECS::ecs().RegisterComponent<StatusEffect>();
+	ECS::ecs().RegisterComponent<DialogueSpeaker>();
+	ECS::ecs().RegisterComponent<DialogueHUD>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
 
@@ -293,6 +296,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiEffectSystem, "UI Effect System");
 	editSystemList.emplace_back(uiEffectSystem, "UI Effect System");
 	systemList.emplace_back(uiEffectSystem, "UI Effect System");
+
+	std::shared_ptr<UIDialogueSystem> uiDialogueSystem = ECS::ecs().RegisterSystem<UIDialogueSystem>();
+	runSystemList.emplace_back(uiDialogueSystem, "UI Dialogue System");
+	editSystemList.emplace_back(uiDialogueSystem, "UI Dialogue System");
+	systemList.emplace_back(uiDialogueSystem, "UI Dialogue System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -551,6 +559,18 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<StatusEffect>());
 
 		ECS::ecs().SetSystemSignature<UIEffectSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+		signature.set(ECS::ecs().GetComponentType<TextLabel>());
+		signature.set(ECS::ecs().GetComponentType<DialogueHUD>());
+		signature.set(ECS::ecs().GetComponentType<Parent>());
+
+		ECS::ecs().SetSystemSignature<UIDialogueSystem>(signature);
 	}
 
 	{

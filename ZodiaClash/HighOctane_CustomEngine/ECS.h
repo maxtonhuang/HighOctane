@@ -655,14 +655,22 @@ public:
 };
 
 class UIAllyHudSystem : public System {
+public:
     void Update() override;
 };
 
 class UIEnemyHudSystem : public System {
+public:
     void Update() override;
 };
 
 class UIEffectSystem : public System {
+public:
+    void Update() override;
+};
+
+class UIDialogueSystem : public System {
+public:
     void Update() override;
 };
 
