@@ -41,6 +41,7 @@
 
 using Vec2 = vmath::Vector2;
 using Entity = std::uint32_t;
+using Vec3 = vmath::Vector3;
 
 enum class CLICKED {
     N,
@@ -171,3 +172,17 @@ struct Child {
     Entity                  parent{};
     Transform               offset{};
 };
+
+struct Particle {
+    float                   lifetime; // time remaining before the particle is destroyed
+    float                   age; // time since the particle was created
+    Color                   color;
+    Transform               properties;
+};
+
+struct Emitter {
+    Vec3                    position;
+    float                   emissionRate; // particles emitted per second
+    float                   timeSinceLastEmission;
+};
+

@@ -611,6 +611,13 @@ public:
     void Draw() override;
 };
 
+class ParticlesSystem : public System {
+public:
+    void Initialize();
+    void Update() override;
+    void Draw() override;
+};
+
 class SerializationSystem : public System {
 public:
     void Update() override;

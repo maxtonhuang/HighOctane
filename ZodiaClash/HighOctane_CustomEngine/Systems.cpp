@@ -58,7 +58,7 @@
 #include "Utilities.h"
 #include "Animation.h"
 #include "UndoRedo.h"
-
+#include "Particles.h"
 
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
@@ -451,6 +451,22 @@ void GraphicsSystem::Draw() {
 	}
 	graphics.Draw();
 }
+
+void ParticlesSystem::Update() {
+
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	// Access component arrays through the ComponentManager
+	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
+	auto& particlesArray = componentManager.GetComponentArrayRef<Particle>();
+	auto& colorArray = componentManager.GetComponentArrayRef<Color>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+}
+
+void ParticlesSystem::Initialize() {};
+
+void ParticlesSystem::Draw() {};
 
 /******************************************************************************
 *

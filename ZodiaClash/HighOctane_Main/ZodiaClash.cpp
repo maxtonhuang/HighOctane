@@ -229,6 +229,8 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<DialogueHUD>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
+	ECS::ecs().RegisterComponent<Particle>();
+	ECS::ecs().RegisterComponent<Emitter>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();
@@ -353,6 +355,13 @@ void EngineCore::Run(bool const& mode) {
 	pauseSystemList.emplace_back(graphicsSystem, "Graphics System");
 	gameHelpSystemList.emplace_back(graphicsSystem, "Graphics System");
 
+	std::shared_ptr<ParticlesSystem> particlesSystem = ECS::ecs().RegisterSystem<ParticlesSystem>();
+	runSystemList.emplace_back(particlesSystem, "Particles System");
+	editSystemList.emplace_back(particlesSystem, "Particles System");
+	systemList.emplace_back(particlesSystem, "Particles System");
+	pauseSystemList.emplace_back(particlesSystem, "Particles System");
+	gameHelpSystemList.emplace_back(particlesSystem, "Particles System");
+
 	// Set Entity's Component combination signatures for each System 
 	{
 		Signature signature;
@@ -429,6 +438,16 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		signature.set(ECS::ecs().GetComponentType<Particle>());
+		signature.set(ECS::ecs().GetComponentType<Emitter>());
+
+		ECS::ecs().SetSystemSignature<ParticlesSystem>(signature);
 	}
 
 	{
