@@ -368,6 +368,7 @@ void GraphicsSystem::Update() {
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& textArray = componentManager.GetComponentArrayRef<TextLabel>();
 
 	for (Entity const& entity : m_Entities) {
 		Model* m = &modelArray.GetData(entity);
@@ -396,6 +397,16 @@ void GraphicsSystem::Update() {
 		}
 	}
 	camera.Update();
+
+	//FPS counter text
+	static Entity fpsCounter{};
+	std::stringstream fps{ };
+	if (!ECS::ecs().EntityExists(fpsCounter)) {
+		fpsCounter = EntityFactory::entityFactory().ClonePrefab("fps_counter.prefab");
+	}
+	fps << 1 / g_dt;
+	std::string fpsLabel{ "FPS: " + fps.str() };
+	textArray.GetData(fpsCounter).textString = fpsLabel;
 }
 
 /******************************************************************************

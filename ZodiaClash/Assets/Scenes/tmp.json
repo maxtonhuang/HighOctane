@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 21,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,7 +21,10 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20"
             ]
         }
     },
@@ -138,7 +141,7 @@
             "Text String": "",
             "r": 0.0,
             "g": 0.0,
-            "b": 0.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
@@ -243,7 +246,7 @@
             "Text String": "",
             "r": 0.0,
             "g": 0.0,
-            "b": 0.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
@@ -343,7 +346,7 @@
             "Text String": "",
             "r": 0.0,
             "g": 0.0,
-            "b": 0.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
@@ -483,6 +486,75 @@
             "Padding Left": 60.0,
             "Padding Right": 60.0,
             "Padding Setting": 1
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Ox Atk 2_Edited.wav"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 0,
+                "Group Name": "Reset",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": []
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Ox Atk 2_Edited.wav"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": ""
+    },
+    {
+        "Clone": {
+            "Prefab": "fps_counter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "fps counter",
+            "Current Layer": 2,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 828.0,
+            "position_y": 506.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         }
     }
 ]
