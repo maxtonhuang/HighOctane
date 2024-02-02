@@ -177,6 +177,7 @@ void BattleSystem::Update()
 
         if (!battlestarted) {
             StartBattle();
+            return;
         }
         
         if (!AnimateInitialiseTurnOrder()) {
@@ -390,7 +391,8 @@ bool BattleSystem::DetermineTurnOrder()
     {
         turnManage.turnOrderList.push_back(&chara);
     }
-    turnManage.turnOrderList.sort();
+    //sort the turn order list by speed
+    turnManage.turnOrderList.sort([](const CharacterStats* a, const CharacterStats* b) {return a->stats.speed > b->stats.speed; });
 
     //originalTurnOrderList
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
@@ -616,6 +618,7 @@ void BattleSystem::InitialiseBattleUI() {
 }
 
 void BattleSystem::InitialiseTurnOrderAnimator() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
         //ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
@@ -632,6 +635,7 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
                 //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
             }
+            animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
         }
     }
 }
@@ -678,7 +682,6 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
                 }
             }
             turnOrderQueueAnimator.push_back(queueFront);
-            
             turnanimated = true;
             return false;
         }
@@ -701,6 +704,7 @@ void BattleSystem::InitialiseUIAnimation() {
 }
 
 void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     if (m_Entities.size() > 0) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
@@ -715,9 +719,10 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
             }
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
-                //ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
             }
         }
+        animationArray.GetData(turnOrderAnimator).Queue("Subtract", turnOrderAnimator);
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
     }
 }

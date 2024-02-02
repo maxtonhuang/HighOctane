@@ -521,6 +521,7 @@ void SerializationSystem::Update() {
 		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 			SetCurrentSystemMode(SystemMode::RUN);
 		}
+		EngineCore::engineCore().set_m_previousTime(GetTime());
 	}
 
 	if (playButton) {

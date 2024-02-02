@@ -152,9 +152,11 @@ void AnimatorWindow(Entity entity) {
 		}
 
 		//Input text for animation name
-		if (selectedAnim != "" && selectedAnimGroup != nullptr) {
+		if (selectedAnimGroup != nullptr) {
 			ImGui::InputText("Animation Name", &selectedAnim);
-			selectedAnimGroup->name = selectedAnim;
+			if (selectedAnim != "") {
+				selectedAnimGroup->name = selectedAnim;
+			}
 		}
 
 		if (selectedAnimGroup != nullptr) {
