@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 53,
+            "layerCounter": 27,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -30,59 +30,61 @@
                 "Layer 23",
                 "Layer 24",
                 "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52"
+                "Layer 26"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Attack Position",
+            "Name": "Goat_Skill_VFX_Back.png",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "position_x": 247.5,
-            "position_y": -17.5,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Goat_Skill_VFX_Back.spritesheet"
+        },
         "Visible": {
-            "isVisible": true
+            "isVisible": false
         },
         "Size": {
-            "width": 512.0,
-            "height": 512.0
+            "width": 958.0,
+            "height": 959.0
         },
-        "Movable": {}
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 958.0,
+            "Dimension Y": 959.0
+        }
     }
 ]

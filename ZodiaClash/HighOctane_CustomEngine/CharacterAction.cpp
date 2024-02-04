@@ -47,6 +47,7 @@
  * handling actions such as starting their turn, waiting, and performing attacks.
  */
 void CharacterAction::UpdateState() {
+    static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
     std::string name;
     switch (entityState) {
     case START:
@@ -72,14 +73,21 @@ void CharacterAction::UpdateState() {
                         break;
                     }
                 }
-                static Entity returnpos{ EntityFactory::entityFactory().ClonePrefab("returnpos.prefab")};
-                static Entity attackpos{ EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab") };
-                static vmath::Vector2 aoePoint{ ECS::ecs().GetComponent<Transform>(attackpos).position };
+                static Entity returnpos{ };
+                static Entity attackpos{ };
+                static vmath::Vector2 aoePoint{ };
                 if (!ECS::ecs().EntityExists(returnpos)) {
                     returnpos = EntityFactory::entityFactory().ClonePrefab("returnpos.prefab");
                 }
                 if (!ECS::ecs().EntityExists(attackpos)) {
                     attackpos = EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab");
+                    aoePoint = transformArray.GetData(attackpos).position;
+                    for (auto& c : battleManager->GetEnemies()) {
+                        float pos{ transformArray.GetData(c->entity).position.x };
+                        if (pos - 100.f < aoePoint.x) {
+                            aoePoint.x = pos - 100.f;
+                        }
+                    }
                 }
                 ECS::ecs().GetComponent<Transform>(returnpos).position = ECS::ecs().GetComponent<Transform>(characterStats->entity).position;
                 
@@ -89,10 +97,10 @@ void CharacterAction::UpdateState() {
                     attacktrans->position.y += (ECS::ecs().GetComponent<Size>(characterStats->entity).height * ECS::ecs().GetComponent<Transform>(characterStats->entity).scale
                         - ECS::ecs().GetComponent<Size>(targetSelect.selectedTarget->entity).height * ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).scale) / 2;
                     if (targetSelect.selectedTarget->tag == CharacterType::PLAYER) {
-                        attacktrans->position.x += 50.f;
+                        attacktrans->position.x += 100.f;
                     }
                     else {
-                        attacktrans->position.x -= 50.f;
+                        attacktrans->position.x -= 100.f;
                     }
                 }
                 else {

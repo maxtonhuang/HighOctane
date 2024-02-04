@@ -76,6 +76,9 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
         if (c.entity == input.activeCharacter->entity) {
             activeCharacter = &c;
         }
+        if (input.speedupCharacter != nullptr && c.entity == input.speedupCharacter->entity) {
+            speedupCharacter = &c;
+        }
     }
 
     turnManage.turnOrderList = input.turnManage.turnOrderList;
@@ -97,6 +100,7 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
         }
     }
     roundInProgress = input.roundInProgress;
+    speedup = input.speedup;
 }
 
 /**
@@ -122,6 +126,7 @@ void BattleSystem::StartBattle() {
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
     chi = 5;
+    speedup = false;
 
     if (DetermineTurnOrder() == false) {
         return;
@@ -245,19 +250,19 @@ void BattleSystem::Update()
                     {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
-                    if (goatSpeedup == true) {
-                        CharacterStats* tmp{};
-                        for (CharacterStats* character : activeCharacter->parent->GetEnemies()) {
-                            if (character->entity != activeCharacter->entity) {
-                                tmp = character;
-                                break;
-                            }
-                        }
-                        if (tmp->tag == CharacterType::ENEMYSPEDUP) {
-                            activeCharacter->parent->RevertTurnOrder(tmp);
-                        }
-                        goatSpeedup = false;
-                    }
+                    //if (goatSpeedup == true) {
+                    //    CharacterStats* tmp{};
+                    //    for (CharacterStats* character : activeCharacter->parent->GetEnemies()) {
+                    //        if (character->entity != activeCharacter->entity) {
+                    //            tmp = character;
+                    //            break;
+                    //        }
+                    //    }
+                    //    if (tmp->tag == CharacterType::ENEMYSPEDUP) {
+                    //        activeCharacter->parent->RevertTurnOrder(tmp);
+                    //    }
+                    //    goatSpeedup = false;
+                    //}
                     //STILL NEED TO SWAP THE TURN TO ENEMY TURN TO PROCESS THEM DYING
                     battleState = ENEMYTURN;
                 }
@@ -308,9 +313,19 @@ void BattleSystem::Update()
 
             if (!AnimateUpdateTurnOrder()) {
                 return;
-           }
+            }
 
-            turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
+            if (speedup && speedupCharacter->entity == turnManage.turnOrderList.front()->entity) {
+                turnManage.turnOrderList.pop_front();
+                speedup = false;
+                AnimateReturnTurnOrder();
+            }
+            else {
+                if (speedup) {
+                    AnimateSpeedupTurnOrder();
+                }
+                turnManage.turnOrderList.splice(turnManage.turnOrderList.end(), turnManage.turnOrderList, turnManage.turnOrderList.begin()); //SEND TO BACK OF TURN ORDER LIST
+            }
 
             //Process dead characters
             std::vector<CharacterStats*> deadchars{};
@@ -436,10 +451,13 @@ std::vector<CharacterStats*> BattleSystem::GetEnemies() {
  */
 void BattleSystem::SwitchTurnOrder(CharacterStats* target)
 {
-    turnManage.turnOrderList.remove(target);
+    //turnManage.turnOrderList.remove(target);
     auto iterator = turnManage.turnOrderList.begin();
     iterator++;
     turnManage.turnOrderList.insert(iterator, target);
+    speedup = true;
+    speedupCharacter = target;
+    speedupAnimationPlayed = false;
 }
 
 /**
@@ -449,10 +467,10 @@ void BattleSystem::SwitchTurnOrder(CharacterStats* target)
  */
 void BattleSystem::RevertTurnOrder(CharacterStats* target)
 {
-    auto& ogTurnList = turnManage.originalTurnOrderList;
-    auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
-    turnManage.turnOrderList.remove(target);
-    turnManage.turnOrderList.insert(originalIndex, target);
+    //auto& ogTurnList = turnManage.originalTurnOrderList;
+    //auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
+    //turnManage.turnOrderList.remove(target);
+    //turnManage.turnOrderList.insert(originalIndex, target);
 }
 
 void BattleSystem::ProcessDamage() {
@@ -473,21 +491,36 @@ void BattleSystem::ProcessDamage() {
             bool found = false;
             for (CharacterStats const& c : turnManage.characterList) {
                 if (c.entity == entity) {
-                    if (c.stats.health < cs->stats.health) {
+                    if (speedup && entity == speedupCharacter->entity) {
                         Entity damageEffect{ EntityFactory::entityFactory().ClonePrefab(damagePrefab) };
                         if (damageEffect) {
                             transformArray->GetData(damageEffect).position = transformArray->GetData(entity).position;
                         }
-                        if (c.stats.health != 0) {
-                            animationArray->GetData(entity).Start("Damaged", entity);
+                        found = true;
+                    }
+                    if (c.stats.health != cs->stats.health) {
+                        Entity damageEffect{ EntityFactory::entityFactory().ClonePrefab(damagePrefab) };
+                        if (damageEffect) {
+                            transformArray->GetData(damageEffect).position = transformArray->GetData(entity).position;
+                        }
+
+                        totalDamage += cs->stats.health - c.stats.health;
+                        Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
+                        transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
+                        textArray->GetData(damagelabel).textString = std::to_string(abs((int)(totalDamage)));
+
+                        if (c.stats.health > 0) {
+                            if (totalDamage > 0) {
+                                animationArray->GetData(entity).Start("Damaged", entity);
+                            }
+                            else {
+                                textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 0.f,1.f,0.f,1.f });
+                            }
                         }
                         else {
                             animationArray->GetData(entity).Start("Death", entity);
                         }
-                        Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
-                        transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
-                        textArray->GetData(damagelabel).textString = std::to_string((int)(cs->stats.health - c.stats.health));
-                        totalDamage += cs->stats.health - c.stats.health;
+                        
                     }
                     *cs = c;
                     found = true;
@@ -533,6 +566,8 @@ void BattleSystem::ProcessDamage() {
 void BattleSystem::InitialiseBattleUI() {
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     static auto& turnorderArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<TurnIndicator>() };
+    static auto& texArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+    static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
     if (m_Entities.size() > 0) {
         skillButtons.clear();
         enemyAnimators.clear();
@@ -577,11 +612,15 @@ void BattleSystem::InitialiseBattleUI() {
             animator.character = c->entity;
             animator.healthbar = healthbar;
             animator.healthbarIcon = parentArray.GetData(healthbar).GetChildByName("hpBarIcon");
+            texArray.GetData(animator.healthbarIcon).tex = assetmanager.texture.Get(c->icon.c_str());
+            modelArray.GetData(animator.healthbarIcon).SetMirror(modelArray.GetData(c->entity).GetMirror());
             animator.healthbarBase = parentArray.GetData(healthbar).GetChildByName("hpBarBase");
             for (Entity& turnUI : turnOrderQueueInitializer) {
                 if (turnorderArray.GetData(turnUI).character == animator.character) {
                     animator.turnorder = turnUI;
                     animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
+                    texArray.GetData(animator.turnorderIcon).tex = assetmanager.texture.Get(c->icon.c_str());
+                    modelArray.GetData(animator.turnorderIcon).SetMirror(modelArray.GetData(c->entity).GetMirror());
                     break;
                 }
             }
@@ -604,11 +643,15 @@ void BattleSystem::InitialiseBattleUI() {
             animator.character = c->entity;
             animator.healthbar = healthbar;
             animator.healthbarIcon = parentArray.GetData(healthbar).GetChildByName("hpBarIcon");
+            texArray.GetData(animator.healthbarIcon).tex = assetmanager.texture.Get(c->icon.c_str());
+            modelArray.GetData(animator.healthbarIcon).SetMirror(modelArray.GetData(c->entity).GetMirror());
             animator.healthbarBase = parentArray.GetData(healthbar).GetChildByName("hpBarBase");
             for (Entity& turnUI : turnOrderQueueInitializer) {
                 if (turnorderArray.GetData(turnUI).character == animator.character) {
                     animator.turnorder = turnUI;
                     animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
+                    texArray.GetData(animator.turnorderIcon).tex = assetmanager.texture.Get(c->icon.c_str());
+                    modelArray.GetData(animator.turnorderIcon).SetMirror(modelArray.GetData(c->entity).GetMirror());
                     break;
                 }
             }
@@ -622,18 +665,18 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
         //ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
-        for (auto& c : turnManage.characterList) {
-            if (c.tag == CharacterType::PLAYER) {
+        for (auto& c : turnManage.turnOrderList) {
+            if (c->tag == CharacterType::PLAYER) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab") };
                 turnOrderQueueInitializer.push_back(turnUI);
                 //allBattleUI.push_back(turnUI);
-                ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
+                ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c->entity;
             }
-            else if (c.tag == CharacterType::ENEMY) {
+            else if (c->tag == CharacterType::ENEMY) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_enemy.prefab") };
                 turnOrderQueueInitializer.push_back(turnUI);
                 //allBattleUI.push_back(turnUI);
-                ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c.entity;
+                ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c->entity;
             }
             animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
         }
@@ -664,21 +707,22 @@ bool BattleSystem::AnimateInitialiseTurnOrder() {
 
 bool BattleSystem::AnimateUpdateTurnOrder() {
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
-    if (m_Entities.size() > 0) {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    if (m_Entities.size() > 0 && !speedup) {
         static bool turnanimated{ false };
         if (turnanimated == false) {
             Entity queueFront{ turnOrderQueueAnimator.front() };
-            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
+            animationArray.GetData(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
             Entity retractingIcon{ parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon") };
-            ECS::ecs().GetComponent<AnimationSet>(retractingIcon).Start("Unexpand", retractingIcon);
+            animationArray.GetData(retractingIcon).Start("Unexpand", retractingIcon);
             turnOrderQueueAnimator.pop_front();
 
-            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.front()).Start("Expand", turnOrderQueueAnimator.front());
+            animationArray.GetData(turnOrderQueueAnimator.front()).Start("Expand", turnOrderQueueAnimator.front());
             Entity expandingIcon = parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon");
-            ECS::ecs().GetComponent<AnimationSet>(expandingIcon).Start("Expand", expandingIcon);
+            animationArray.GetData(expandingIcon).Start("Expand", expandingIcon);
             for (Entity& e : turnOrderQueueAnimator) {
                 if (e != turnOrderQueueAnimator.front()) {
-                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                    animationArray.GetData(e).Start("Next Turn", e);
                 }
             }
             turnOrderQueueAnimator.push_back(queueFront);
@@ -686,11 +730,93 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
             return false;
         }
         else {
-            ECS::ecs().GetComponent<AnimationSet>(turnOrderQueueAnimator.back()).Start("Shift In", turnOrderQueueAnimator.back());
+            animationArray.GetData(turnOrderQueueAnimator.back()).Queue("Shift In", turnOrderQueueAnimator.back());
             turnanimated = false;
         }
     }
     return true;
+}
+
+void BattleSystem::AnimateSpeedupTurnOrder() {
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    auto iterator = turnManage.turnOrderList.begin();
+    int count{0};
+    bool firstfound{ false };
+    if (m_Entities.size() == 0) {
+        return;
+    }
+    while (iterator != turnManage.turnOrderList.end() && ((*iterator)->entity != speedupCharacter->entity || !firstfound)) {
+        if ((*iterator)->entity == speedupCharacter->entity) {
+            firstfound = true;
+        }
+        iterator++;
+        count++;
+    }
+    animationArray.GetData(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
+    animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Shift In", turnOrderQueueAnimator.front());
+    Entity retractingIcon{ parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon") };
+    animationArray.GetData(retractingIcon).Start("Unexpand", retractingIcon);
+    Entity queueFront{ turnOrderQueueAnimator.front() };
+    turnOrderQueueAnimator.pop_front();
+    turnOrderQueueAnimator.push_back(queueFront);
+    for (Entity e : turnOrderQueueAnimator) {
+        if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
+            AnimationSet& animation{ animationArray.GetData(e) };
+            Entity turnIcon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
+            for (int i = 0; i < count - 2; i++) {
+                animation.Queue("Next Turn", e);
+            }
+            animation.Queue("Expand", e);
+            animationArray.GetData(turnIcon).Start("Expand",turnIcon);
+        }
+        else if (e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
+            AnimationSet& animation{ animationArray.GetData(e) };
+            animation.Queue("Next Turn", e);
+        }
+    }
+    speedupAnimationPlayed = true;
+}
+
+void BattleSystem::AnimateReturnTurnOrder() {
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    auto iterator = turnManage.turnOrderList.rbegin();
+    int count{0};
+    if (m_Entities.size() == 0) {
+        return;
+    }
+    while (iterator != turnManage.turnOrderList.rend() && (*iterator)->entity != speedupCharacter->entity) {
+        iterator++;
+        count++;
+    }
+    Entity entity {};
+    for (Entity e : turnOrderQueueAnimator) {
+        if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
+            entity = e;
+            break;
+        }
+    }
+    AnimationSet& animation{ animationArray.GetData(entity) };
+    Entity turnIcon{ parentArray.GetData(entity).GetChildByName("turnOrderIcon") };
+    animation.Queue("Pop Out", entity);
+    animationArray.GetData(turnIcon).Queue("Unexpand", turnIcon);
+    animation.Queue("Shift In", entity);
+    for (int i = 0; i < count; i++) {
+        animation.Queue("Next Turn", entity);
+    }
+    
+    animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Expand", turnOrderQueueAnimator.front());
+    Entity expandingIcon = parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon");
+    animationArray.GetData(expandingIcon).Start("Expand", expandingIcon);
+    for (Entity& e : turnOrderQueueAnimator) {
+        if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
+            break;
+        }
+        else if (e != turnOrderQueueAnimator.front()) {
+            animationArray.GetData(e).Start("Next Turn", e);
+        }
+    }
 }
 
 void BattleSystem::InitialiseUIAnimation() {
@@ -709,17 +835,29 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
     if (m_Entities.size() > 0) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
         bool moveup{ false };
+        bool deathAtStart{ false };
         for (Entity e : turnOrderQueueAnimator) {
             if (ECS::ecs().GetComponent<TurnIndicator>(e).character == entity) {
                 ECS::ecs().GetComponent<AnimationSet>(e).Start("Pop Out", e);
                 Entity icon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
                 ECS::ecs().GetComponent<AnimationSet>(icon).Start("Unexpand", icon);
                 moveup = true;
+                if (e == turnOrderQueueAnimator.front()) {
+                    deathAtStart = true;
+                }
                 continue;
             }
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                if (deathAtStart) {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Expand", e);
+                    Entity icon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
+                    ECS::ecs().GetComponent<AnimationSet>(icon).Start("Expand", icon);
+                    deathAtStart = false;
+                }
+                else {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                }
             }
         }
         animationArray.GetData(turnOrderAnimator).Queue("Subtract", turnOrderAnimator);

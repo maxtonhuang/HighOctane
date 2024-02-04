@@ -7,6 +7,7 @@ Guard_Death.spritesheet
 mockup_title_logo_02 (1).png
 button_QUIT_v02.png
 mockup_playbutton_04.png
+Goat_Death.spritesheet
 button_PLAY_v02.png
 mockup_icon_cat.png
 Goat_Idle.spritesheet
@@ -27,15 +28,22 @@ Cat_Idle.spritesheet
 UI_Target_Circle.spritesheet
 UI_Target_Circle.spritesheet
 NEW_howtoplay2.png
+Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
+Goat_Skill_VFX_Front.spritesheet
 Goat_Basic_VFX.spritesheet
 mockup_qn_icon.png
 goat.png
+Goat_Hit.spritesheet
 catSkill1_tooltip.png
 Goat_Basic.spritesheet
 Goat_Basic.spritesheet
 catSkill3_tooltip.png
 Heal_VFX.spritesheet
+Goat_Hit.spritesheet
+Goat_Skill_VFX_Back.spritesheet
+Goat_Skill_VFX_Back.spritesheet
+Goat_Skill_VFX_Front.spritesheet
 Goat_Ulti.spritesheet
 Goat_Ulti.spritesheet
 VFX_Hit.spritesheet

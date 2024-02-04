@@ -252,7 +252,6 @@ public:
 
 	std::list<Keyframe<std::string>> keyframes;
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
-	Transform* entityTransform;
 private:
 	Transform* GetEntityTransform(std::string);
 	vmath::Vector2 velocity; //per frame velocity

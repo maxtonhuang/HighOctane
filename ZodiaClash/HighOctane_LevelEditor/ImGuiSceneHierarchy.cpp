@@ -1034,6 +1034,24 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::InputFloat("Defense", &charstatsComponent.stats.defense);
 			ImGui::InputInt("Speed", &charstatsComponent.stats.speed);
 
+			ImGui::InputText("Icon", &charstatsComponent.icon);
+			//std::vector<std::string> texNames{ assetmanager.texture.GetTextureNames() };
+			//if (ImGui::BeginCombo("Icon", charstatsComponent.icon.c_str())) {
+			//	for (int n = 0; n < texNames.size(); n++) {
+			//		if (texNames[n] == "") {
+			//			continue;
+			//		}
+			//		bool is_selected = (charstatsComponent.icon == texNames[n]);
+			//		if (ImGui::Selectable(texNames[n].c_str(), is_selected)) {
+			//			charstatsComponent.icon = texNames[n];
+			//		}
+			//		if (is_selected) {
+			//			ImGui::SetItemDefaultFocus();
+			//		}
+			//	}
+			//	ImGui::EndCombo();
+			//}
+
 			std::vector<std::string> attackNames{ assetmanager.attacks.GetAttackNames() };
 			for (std::string& s : attackNames) {
 				s = s.substr(0, s.find(".skill"));

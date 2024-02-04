@@ -44,32 +44,25 @@
 
 void Attack::UseAttack(CharacterStats* target) {
     CalculateDamage(*target);
+
+    if (attackName == "Five Elements Bloodbath") {
+        target->TakeDamage(1.5 * target->debuffs.bloodStack);
+        target->debuffs.bloodStack = 0;
+    }
+    else if (attackName == "Boss Goat Heal") {
+        target->HealBuff(0.3 * target->stats.maxHealth);
+    }
+    else if (attackName == "Boss Goat Speedup") {
+        target->SpeedBuff(target);
+    }
+
     target->debuffs.bloodStack += bleed;
     target->TakeDamage(damage);
 }
 
 void Attack::UseAttack(std::vector<CharacterStats*> target) {
     for (CharacterStats* t : target) {
-        CalculateDamage(*t);
-        
-        if (attackName == "Five Elements Bloodbath") {
-            t->TakeDamage(1.5 * t->debuffs.bloodStack);
-            t->debuffs.bloodStack = 0;
-        }
-        
-        else if (attackName == "Boss Goat Heal") {
-            t->HealBuff(0.3 * t->stats.maxHealth);
-        }
-
-        else if (attackName == "Boss Goat Speedup") {
-            t->SpeedBuff(t);
-        }
-
-        else if (attackName == "Boss Goat Attack") {
-            t->TakeDamage(damage);
-        }
-        t->debuffs.bloodStack += bleed;
-        t->TakeDamage(damage);
+        UseAttack(t);
     }
 }
 

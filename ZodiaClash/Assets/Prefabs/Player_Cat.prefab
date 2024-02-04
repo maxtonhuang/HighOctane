@@ -77,6 +77,7 @@
             "Attack": 30.0,
             "Defense": 20.0,
             "Speed": 3,
+            "Icon": "mockup_icon_cat.png",
             "Skills": [
                 "Scarlet Claw",
                 "Dance of Fury",
@@ -104,16 +105,20 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 0
+                                "Frame Number": 0,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 15
+                                "Frame Number": 15,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 30
+                                "Frame Number": 30,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 59
+                                "Frame Number": 59,
+                                "Reverse": false
                             }
                         ]
                     }
@@ -151,34 +156,44 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 20
+                                "Frame Number": 20,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 30
+                                "Frame Number": 30,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 34
+                                "Frame Number": 34,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 38
+                                "Frame Number": 38,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 42
+                                "Frame Number": 42,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 46
+                                "Frame Number": 46,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 50
+                                "Frame Number": 50,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 54
+                                "Frame Number": 54,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 58
+                                "Frame Number": 58,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -307,31 +322,40 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 20
+                                "Frame Number": 20,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 30
+                                "Frame Number": 30,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 34
+                                "Frame Number": 34,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 38
+                                "Frame Number": 38,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 42
+                                "Frame Number": 42,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 46
+                                "Frame Number": 46,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 50
+                                "Frame Number": 50,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 54
+                                "Frame Number": 54,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -417,46 +441,60 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 20
+                                "Frame Number": 20,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 30
+                                "Frame Number": 30,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 31
+                                "Frame Number": 31,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 33
+                                "Frame Number": 33,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 36
+                                "Frame Number": 36,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 39
+                                "Frame Number": 39,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 42
+                                "Frame Number": 42,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 45
+                                "Frame Number": 45,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 48
+                                "Frame Number": 48,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 51
+                                "Frame Number": 51,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 54
+                                "Frame Number": 54,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 57
+                                "Frame Number": 57,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 59
+                                "Frame Number": 59,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -559,7 +597,8 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -604,31 +643,40 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 4
+                                "Frame Number": 4,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 6
+                                "Frame Number": 6,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 7
+                                "Frame Number": 7,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 8
+                                "Frame Number": 8,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 12
+                                "Frame Number": 12,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 14
+                                "Frame Number": 14,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -702,13 +750,16 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 1
+                                "Frame Number": 1,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -750,25 +801,32 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 1
+                                "Frame Number": 1,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 4
+                                "Frame Number": 4,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 5
+                                "Frame Number": 5,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 6
+                                "Frame Number": 6,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 7
+                                "Frame Number": 7,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -837,22 +895,28 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 4
+                                "Frame Number": 4,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 5
+                                "Frame Number": 5,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 6
+                                "Frame Number": 6,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 7
+                                "Frame Number": 7,
+                                "Reverse": false
                             }
                         ]
                     },

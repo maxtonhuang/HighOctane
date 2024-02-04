@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 20,
+            "layerCounter": 21,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,7 +23,8 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19"
+                "Layer 19",
+                "Layer 20"
             ]
         }
     },
@@ -230,6 +231,17 @@
                             {
                                 "Frame Number": 1,
                                 "Destination": "Pop In"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Red": 0.21176470816135406,
+                                "Green": 0.47058823704719543,
+                                "Blue": 0.16078431904315948
                             }
                         ]
                     }

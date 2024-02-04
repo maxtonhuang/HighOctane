@@ -52,7 +52,7 @@
 //DEFINES FOR AI SEARCH SETTINGS
 
 //WARNING: INCREASING THIS VALUE RESULTS IN EXPONENTIALLY HIGHER SEARCH TIMES
-const int MAXDEPTH = 4;
+const int MAXDEPTH = 1;
 
 const int DEVIATION = 0;
 //----------------------------------------------------------------------------------------
@@ -144,16 +144,25 @@ void TreeManager::Search(BattleSystem* start) {
 			//FOR ALL POSSIBLE MOVES, CREATE A NEW CHILD AND ADD TO CURRENTNODES
 			for (Attack const& a : n->battlesystem.activeCharacter->action.skills) {
 				
-				std::vector<CharacterStats*> targetList;
-				if (n->battlesystem.activeCharacter->tag == CharacterType::PLAYER) {
-					targetList = n->battlesystem.GetEnemies();
-				}
-				else {
-					targetList = n->battlesystem.GetPlayers();
+				std::vector<CharacterStats*> targetList{ };
+				//if (n->battlesystem.activeCharacter->tag == CharacterType::PLAYER) {
+				//	targetList = n->battlesystem.GetEnemies();
+				//}
+				//else {
+				//	targetList = n->battlesystem.GetPlayers();
+				//}
+
+				for (auto& c : n->battlesystem.turnManage.characterList) {
+					targetList.push_back(&c);
 				}
 
 				//FOR ALL POSSIBLE TARGETS, CREATE A NEW CHILD AND ADD TO CURRENTNODES
 				for (CharacterStats* c : targetList) {
+					//Do not enable self-targeting
+					if (n->battlesystem.activeCharacter->entity == c->entity) {
+						continue;
+					}
+
 					n->next.push_back(Node{ n });
 					Node* child{ &n->next[n->next.size() - 1] };
 

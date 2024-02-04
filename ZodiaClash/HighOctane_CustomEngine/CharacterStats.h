@@ -54,6 +54,7 @@ public:
     Entity entity{}; //for reference back to ECS
     CharacterAction action{};
     BattleSystem* parent{};
+    std::string icon{}; //Texture for UI icon
     struct stats {
         float           maxHealth;
         float           health;

@@ -118,6 +118,8 @@ public:
 	std::vector<CharacterStats*> GetPlayers();
 	std::vector<CharacterStats*> GetEnemies();
 	int chi{ 5 };
+	bool speedup{ false };
+	CharacterStats* speedupCharacter{};
 
 	bool locked{};
 
@@ -147,6 +149,7 @@ private:
 	
 	//std::vector <GameObject> gameObjects;
 	bool roundInProgress;
+	bool speedupAnimationPlayed{ false };
 
 	//Variables for animation
 	bool battlestarted{ false };
@@ -177,6 +180,8 @@ private:
 	bool AnimateInitialiseTurnOrder(); 
 	//2 part animation to be called twice, returns true when animation is done
 	bool AnimateUpdateTurnOrder(); 
+	void AnimateSpeedupTurnOrder();
+	void AnimateReturnTurnOrder();
 	//Removes the entity from the turn order animator
 	void AnimateRemoveTurnOrder(Entity entity);
 	

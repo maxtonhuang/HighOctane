@@ -71,6 +71,7 @@
             "Attack": 8.0,
             "Defense": 35.0,
             "Speed": 1,
+            "Icon": "NEW_guard_pfp.png",
             "Skills": [
                 "Guard Attack"
             ]
@@ -114,31 +115,40 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 15
+                                "Frame Number": 15,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 20
+                                "Frame Number": 20,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 25
+                                "Frame Number": 25,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 30
+                                "Frame Number": 30,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 35
+                                "Frame Number": 35,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 40
+                                "Frame Number": 40,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 45
+                                "Frame Number": 45,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 50
+                                "Frame Number": 50,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 55
+                                "Frame Number": 55,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -271,7 +281,8 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             }
                         ]
                     }
@@ -296,25 +307,32 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 1
+                                "Frame Number": 1,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 4
+                                "Frame Number": 4,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 5
+                                "Frame Number": 5,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 6
+                                "Frame Number": 6,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 7
+                                "Frame Number": 7,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -323,7 +341,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
+                                "Sound": "Guard Death_Edited.wav"
                             }
                         ]
                     }

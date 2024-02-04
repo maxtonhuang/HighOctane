@@ -227,7 +227,6 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 					keyframe++;
 				}
 				ptr->nextKeyframe = keyframe;
-				ptr->entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
 			}
 			animations.push_back(ptr);
 		}
@@ -561,37 +560,46 @@ Transform* TransformAttachAnimation::GetEntityTransform(std::string entityName) 
 			}
 		}
 	}
-	ASSERT(1,"Unable to find entity for attach animation");
 	return nullptr;
 }
 TransformAttachAnimation::TransformAttachAnimation() {
 	type = "TransformAttach";
 }
 void TransformAttachAnimation::Start() {
+	static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
 	active = true;
-	entityTransform = &ECS::ecs().GetComponent<Transform>(parent);
 	nextKeyframe = keyframes.begin();
-	float frameCount{ (float)(nextKeyframe->frameNum) + 1 };
+	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
 	Transform* nextTransform{ GetEntityTransform(nextKeyframe->data) };
-	velocity = (nextTransform->position - entityTransform->position) / frameCount * FIXED_DT / frametime;
+	Transform* entityTransform{ &transformArray.GetData(parent) };
+	if (nextTransform != nullptr) {
+		velocity = (nextTransform->position - entityTransform->position) / frameCount * FIXED_DT / frametime;
+	}
 }
 void TransformAttachAnimation::Update(int frameNum) {
+	static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
 	if (keyframes.size() == 0) {
 		return;
 	}
 
+	Transform* entityTransform{ &transformArray.GetData(parent) };
 	entityTransform->position += velocity;
+
 
 	if (frameNum >= nextKeyframe->frameNum) {
 		float frameCount{ (float)(nextKeyframe->frameNum) };
+		Transform* prevTransform{ GetEntityTransform(nextKeyframe->data) };
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {
+			entityTransform->position = prevTransform->position;
 			active = false;
 		}
 		else {
 			frameCount = nextKeyframe->frameNum - frameCount;
 			Transform* nextTransform{ GetEntityTransform(nextKeyframe->data) };
-			velocity = (nextTransform->position - entityTransform->position) / frameCount * FIXED_DT / frametime;
+			if (nextTransform != nullptr) {
+				velocity = (nextTransform->position - entityTransform->position) / frameCount * FIXED_DT / frametime;
+			}
 		}
 	}
 }
@@ -763,11 +771,12 @@ ColorAnimation::ColorAnimation() {
 	type = "Color";
 }
 void ColorAnimation::Start() {
+	static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	if (keyframes.size() == 0) {
 		return;
 	}
 	active = true;
-	entityModel = &ECS::ecs().GetComponent<Model>(parent);
+	entityModel = &modelArray.GetData(parent);
 	nextKeyframe = keyframes.begin();
 	float frameCount{ (float)(nextKeyframe->frameNum + 1) };
 	color.r = (nextKeyframe->data.r - entityModel->GetColor().r) / frameCount * FIXED_DT / frametime;
@@ -775,19 +784,22 @@ void ColorAnimation::Start() {
 	color.b = (nextKeyframe->data.b - entityModel->GetColor().b) / frameCount * FIXED_DT / frametime;
 }
 void ColorAnimation::Update(int frameNum) {
+	static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	if (keyframes.size() == 0) {
 		return;
 	}
 
-	glm::vec4& entityColor{ entityModel->GetColorRef() };
+	glm::vec4& entityColor{ modelArray.GetData(parent).GetColorRef()};
 	entityColor.r += color.r;
 	entityColor.g += color.g;
 	entityColor.b += color.b;
 
 	if (frameNum >= nextKeyframe->frameNum) {
 		float frameCount{ (float)nextKeyframe->frameNum };
+		glm::vec3 prevColor{ nextKeyframe->data };
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {
+			modelArray.GetData(parent).SetColor(prevColor.r, prevColor.g, prevColor.b);
 			active = false;
 		}
 		else {

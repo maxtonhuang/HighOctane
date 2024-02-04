@@ -258,6 +258,9 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 	charstats.AddMember("Attack", stats.stats.attack, allocator);
 	charstats.AddMember("Defense", stats.stats.defense, allocator);
 	charstats.AddMember("Speed", stats.stats.speed, allocator);
+	rapidjson::Value iconStr;
+	iconStr.SetString(stats.icon.c_str(), static_cast<rapidjson::SizeType>(stats.icon.length()), allocator);
+	charstats.AddMember("Icon", iconStr, allocator);
 	//charstats.AddMember("Bleedstack", stats.debuffs.bleedStack, allocator);
 
 	for (Attack const& a : stats.action.skills) {
@@ -1210,6 +1213,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				charstats.stats.health = charstats.stats.maxHealth;
 				charstats.stats.speed = statsObject["Speed"].GetInt();
 				charstats.tag = (CharacterType)statsObject["Character type"].GetInt();
+				if (statsObject.HasMember("Icon")) {
+					charstats.icon = statsObject["Icon"].GetString();
+				}
 				for (auto& a : statsObject["Skills"].GetArray()) {
 					charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
 				}

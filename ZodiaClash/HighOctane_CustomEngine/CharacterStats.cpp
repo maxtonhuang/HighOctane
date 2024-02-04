@@ -57,6 +57,7 @@ CharacterStats::CharacterStats(CharacterStats const& input) {
     entity = input.entity;
     stats = input.stats;
     tag = input.tag;
+    icon = input.icon;
     action.characterStats = this;
     gameObject = input.gameObject;
     parent = input.parent;
@@ -120,22 +121,22 @@ void CharacterStats::HealBuff(float buffAmount)
     }
 }
 
-void CharacterStats::SpeedBuff(CharacterStats* user)
+void CharacterStats::SpeedBuff(CharacterStats* target)
 {
-    if (user->tag == CharacterType::ENEMY) {
-        CharacterStats* tmp{};
-        for (CharacterStats* character : parent->GetEnemies()) {
-            if (character->entity != user->entity) {
-                tmp = character;
-                break;
-            }
-        }
-        tmp->tag = CharacterType::ENEMYSPEDUP;
-        parent->SwitchTurnOrder(tmp);
-        goatSpeedup = true;
+    //if (user->tag == CharacterType::ENEMY) {
+    //    CharacterStats* tmp{};
+    //    for (CharacterStats* character : parent->GetEnemies()) {
+    //        if (character->entity != user->entity) {
+    //            tmp = character;
+    //            break;
+    //        }
+    //    }
+    //    //tmp->tag = CharacterType::ENEMYSPEDUP;
+    //    parent->SwitchTurnOrder(tmp);
+    //    goatSpeedup = true;
 
-    }
-
+    //}
+    parent->SwitchTurnOrder(target);
 }
 
 void CharacterStats::ApplyBloodStack() 
