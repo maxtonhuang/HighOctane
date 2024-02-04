@@ -953,14 +953,14 @@ void UIButtonSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	for (Entity const& entity : m_Entities) {
-		Size* sizeData = &sizeArray.GetData(entity);
+		//Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
@@ -1280,6 +1280,8 @@ void UIDialogueSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
 	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
@@ -1289,18 +1291,23 @@ void UIDialogueSystem::Update() {
 		Parent* parentData = &parentArray.GetData(entity);
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-
-		/*if (!dialogueHudData->isActive) {
-			continue;
-		}*/
-
-		// event handling if need to advance to next line
-		dialogueHudData->Update(*modelData);
+		Transform* transformData = &transformArray.GetData(entity);
+		Size* sizeData = &sizeArray.GetData(entity);
 
 		if (dialogueHudData->dialogueLines.empty())
 		{
 			continue;
 		}
+
+		// hypothetical trigger to activate dialogue
+		if (!dialogueHudData->isActive) {
+			if (GetCurrentSystemMode() == SystemMode::RUN && dialogueHudData->dialogueLines.size() && !dialogueHudData->viewingIndex) {
+				dialogueHudData->StartDialogue(entity, *transformData);
+			}
+		}
+
+		// event handling if need to advance to next line
+		dialogueHudData->Update(*modelData, entity);		
 
 		// load text data into text labels
 		if (!(parentData->children.empty())) {
@@ -1308,7 +1315,11 @@ void UIDialogueSystem::Update() {
 
 			if (dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
-				speakerTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].first;				
+				Transform* speakerTransformData = &transformArray.GetData(childEntity);
+				Size* speakerSizeData = &sizeArray.GetData(childEntity);
+				speakerTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].first;
+
+				dialogueHudData->EnforceAlignment(*sizeData, *transformData, *speakerSizeData, *speakerTransformData, *speakerTextData);
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);

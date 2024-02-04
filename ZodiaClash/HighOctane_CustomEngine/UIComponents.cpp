@@ -885,20 +885,31 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
 /*************************
 **** DIALOGUE SYSTEM *****
 **************************/
-void DialogueHUD::StartDialogue() {
+void DialogueHUD::StartDialogue(Entity entity, Transform& transformData) {
 	isActive = 1;
-}
-
-void DialogueHUD::JumpNextLine() {
-	viewingIndex = (viewingIndex + 1) % dialogueLines.size();
-	
-	//viewingIndex++;
-	if (viewingIndex > dialogueLines.size()) {
-		isActive = 0;
+	transformData.position.y -= 400.f;
+	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+	if (animationArray.HasComponent(entity)) {
+		animationArray.GetData(entity).Start("Launch", entity);
 	}
 }
 
-void DialogueHUD::Update(Model& modelData) {
+void DialogueHUD::JumpNextLine(Entity entity) {
+	//viewingIndex = (viewingIndex + 1) % dialogueLines.size();
+	
+	viewingIndex++;
+	if (viewingIndex > dialogueLines.size() - 1) {
+		isActive = 0;
+		viewingIndex--;
+
+		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+		if (animationArray.HasComponent(entity)) {
+			animationArray.GetData(entity).Start("Exit", entity);
+		}
+	}
+}
+
+void DialogueHUD::Update(Model& modelData, Entity entity) {
 	// get cursorPos, compare with pos in Transform, return if no match
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -908,13 +919,23 @@ void DialogueHUD::Update(Model& modelData) {
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (GetCurrentSystemMode() == SystemMode::RUN) {
-					JumpNextLine();
+				if (GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
+					JumpNextLine(entity);
 				}
 			}
 			break;
 		}
 	}
+}
+
+void DialogueHUD::EnforceAlignment(const Size& parentSizeData, const Transform& parentTransformData, Size& childSizeData, Transform& childTransformData, TextLabel& childTextLabelData) {
+	// take main dialogue box's position as anchor, ensure child label is aligned (with auto width)
+	if (childTextLabelData.textWrap != UI_TEXT_WRAP::AUTO_WIDTH) {
+		childTextLabelData.textWrap = UI_TEXT_WRAP::AUTO_WIDTH;
+	}
+	//smth is enforcing child position based on prefab?
+	childTransformData.position.x = (-0.5f * parentSizeData.width) + (0.5f * childSizeData.width);
+
 }
 
 

@@ -375,8 +375,9 @@ public:
 	float displayDuration{}; // if 0 wait for click trigger
 	bool isActive{};
 
-	void StartDialogue(); // trigger transition for dialogue UI to move in
-	void JumpNextLine(); // move to next line after display duration
+	void StartDialogue(Entity entity, Transform& transformData); // trigger transition for dialogue UI to move in
+	void JumpNextLine(Entity entity); // move to next line after display duration
 
-	void Update(Model& modelData); // event handling
+	void Update(Model& modelData, Entity entity); // event handling
+	void EnforceAlignment(const Size& parentSizeData, const Transform& parentTransformData, Size& childSizeData, Transform& childTransformData, TextLabel& childTextLabelData);
 };

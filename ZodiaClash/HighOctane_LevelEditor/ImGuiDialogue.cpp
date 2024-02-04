@@ -8,6 +8,12 @@ void DialogueWindow(Entity entity) {
 	if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
 		DialogueHUD& dialogueData = ECS::ecs().GetComponent<DialogueHUD>(entity);
 
+        ImGui::SameLine();
+        // Button to add a new dialogue line
+        if (ImGui::Button("Add New Line")) {
+            dialogueData.dialogueLines.emplace_back("", ""); // Add an empty line
+        }
+
         if (ImGui::BeginTable("DialogueTable", 3, ImGuiTableFlags_Borders)) {
             ImGui::TableSetupColumn("Speaker", ImGuiTableColumnFlags_WidthFixed, 150.0f);
             ImGui::TableSetupColumn("Line", ImGuiTableColumnFlags_WidthStretch, 0.0f);

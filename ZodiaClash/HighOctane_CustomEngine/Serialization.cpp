@@ -409,6 +409,32 @@ rapidjson::Value SerializeEnemyHUD(const EnemyHUD& enemyHUD, rapidjson::Document
 	return enemyHudObject;
 }
 
+//rapidjson::Value SerializeDialogueSpeaker(const DialogueSpeaker& dialogueSpeaker, rapidjson::Document::AllocatorType& allocator) {
+//	rapidjson::Value dialogueSpeakerObject(rapidjson::kObjectType);
+//	dialogueSpeakerObject.AddMember("Enemy Index", dialogueSpeaker.enemyIndex, allocator);
+//	return dialogueSpeakerObject;
+//}
+
+rapidjson::Value SerializeDialogueHUD(const DialogueHUD& dialogueHUD, rapidjson::Document::AllocatorType& allocator) {
+
+	rapidjson::Value dialogueHudObject(rapidjson::kObjectType);
+	rapidjson::Value dialogueLinesVec(rapidjson::kArrayType);
+
+	// Serialize dialogueLinesVec
+	for (const std::pair<std::string, std::string>& line : dialogueHUD.dialogueLines) {
+		rapidjson::Value lineObject(rapidjson::kObjectType);
+		lineObject.AddMember("Speaker", rapidjson::Value(line.first.c_str(), allocator).Move(), allocator);
+		lineObject.AddMember("Line", rapidjson::Value(line.second.c_str(), allocator).Move(), allocator);
+		dialogueLinesVec.PushBack(lineObject, allocator);
+	}
+	dialogueHudObject.AddMember("Dialogue Lines", dialogueLinesVec, allocator);
+		
+	dialogueHudObject.AddMember("Viewing Index", dialogueHUD.viewingIndex, allocator);
+	dialogueHudObject.AddMember("Display Duration", dialogueHUD.displayDuration, allocator);
+	dialogueHudObject.AddMember("Is Active", (bool)dialogueHUD.isActive, allocator);
+	return dialogueHudObject;
+}
+
 //rapidjson::Value SerializeTurnIndicator(const TurnIndicator& turnIndicator, rapidjson::Document::AllocatorType& allocator) {
 //	rapidjson::Value turnOrderObject(rapidjson::kObjectType);
 //
@@ -644,6 +670,8 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	AllyHUD* allyHud = nullptr;
 	EnemyHUD* enemyHud = nullptr;
 	//StatusEffectsPanel* statusFxPanel = nullptr;
+	//DialogueSpeaker* dialogueSpeaker = nullptr;
+	DialogueHUD* dialogueHud = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 
@@ -816,6 +844,14 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 		//}
 		if (CheckSerialize<StatusEffect>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("StatusEffect", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<DialogueSpeaker>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("DialogueSpeaker", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<DialogueHUD>(entity, isPrefabClone, uComponentMap)) {
+			dialogueHud = &ECS::ecs().GetComponent<DialogueHUD>(entity);
+			rapidjson::Value dialogueHudObject = SerializeDialogueHUD(*dialogueHud, allocator);
+			entityObject.AddMember("DialogueHUD", dialogueHudObject, allocator);
 		}
 		if (CheckSerialize<Collider>(entity, isPrefabClone, uComponentMap)) {
 			collider = &ECS::ecs().GetComponent<Collider>(entity);
@@ -1414,6 +1450,45 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 				else {
 					ECS::ecs().AddComponent<EnemyHUD>(entity, enemyHud);
+				}
+			}
+			if (entityObject.HasMember("DialogueSpeaker")) {
+				ECS::ecs().AddComponent<DialogueSpeaker>(entity, DialogueSpeaker{});
+			}
+			if (entityObject.HasMember("DialogueHUD")) {
+				DialogueHUD dialogueHud;
+				const rapidjson::Value& dialogueHudObject = entityObject["DialogueHUD"];
+
+				// Check if any dialogue lines have been added
+				if (dialogueHudObject.HasMember("Dialogue Lines") && dialogueHudObject["Dialogue Lines"].IsArray()) {
+					const rapidjson::Value& dialogueLinesArray = dialogueHudObject["Dialogue Lines"];
+					for (rapidjson::SizeType j = 0; j < dialogueLinesArray.Size(); ++j) {
+						if (dialogueLinesArray[i].IsObject()) {
+							std::pair<std::string, std::string> line;
+							line.first = dialogueLinesArray[j]["Speaker"].GetString();
+							line.second = dialogueLinesArray[j]["Line"].GetString();
+							dialogueHud.dialogueLines.push_back(line);
+						}
+					}
+				}
+
+				if (dialogueHudObject.HasMember("Viewing Index")) {
+					dialogueHud.viewingIndex = dialogueHudObject["Viewing Index"].GetInt();
+				}
+
+				if (dialogueHudObject.HasMember("Display Duration")) {
+					dialogueHud.displayDuration = dialogueHudObject["Display Duration"].GetFloat();
+				}
+
+				if (dialogueHudObject.HasMember("Is Active")) {
+					dialogueHud.isActive = dialogueHudObject["Is Active"].GetBool();
+				}
+
+				if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
+					ECS::ecs().GetComponent<DialogueHUD>(entity) = dialogueHud;
+				}
+				else {
+					ECS::ecs().AddComponent<DialogueHUD>(entity, dialogueHud);
 				}
 			}
 			if (entityObject.HasMember("TurnIndicator")) {

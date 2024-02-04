@@ -1,23 +1,17 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 8,
+            "layerCounter": 2,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
-                "Layer 1",
-                "Layer 2",
-                "Layer 3",
-                "Layer 4",
-                "Layer 5",
-                "Layer 6",
-                "Layer 7"
+                "Layer 1"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "textLabel",
+            "Name": "dialogue_box",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
@@ -30,8 +24,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -18.0,
-            "position_y": -323.0000305175781,
+            "position_x": 0.0,
+            "position_y": -379.9998474121094,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -41,7 +35,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 1636.5,
+            "width": 1750.0,
             "height": 188.5
         },
         "Scripts": {
@@ -62,7 +56,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "line 2",
+            "Text String": "line 1",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -73,6 +67,160 @@
             "Text Wrap": 2,
             "Background": true
         },
+        "DialogueHUD": {
+            "Dialogue Lines": [
+                {
+                    "Speaker": "Speaker 1",
+                    "Line": "line 1"
+                },
+                {
+                    "Speaker": "Speaker 2",
+                    "Line": "line 2"
+                },
+                {
+                    "Speaker": "Speaker 3",
+                    "Line": "line 3"
+                }
+            ],
+            "Viewing Index": 0,
+            "Display Duration": 0.0,
+            "Is Active": false
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Launch",
+                "Loop": false,
+                "Frame Time": 0.25,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": 400.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Exit",
+                "Loop": false,
+                "Frame Time": 0.25,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": -1,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            },
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": -400.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Fade In",
+                "Loop": false,
+                "Frame Time": 0.5,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "dialogue_speaker",
+            "Current Layer": 0,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -795.0,
+            "position_y": -234.49984741210938,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 195.5,
+            "height": 80.25
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.26274511218070984,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Speaker 1",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 0,
+            "Vertical Alignment": 1,
+            "Text Wrap": 0,
+            "Background": true
+        },
+        "DialogueSpeaker": {},
+        "Child": {
+            "position_x": -795.0,
+            "position_y": 145.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]
