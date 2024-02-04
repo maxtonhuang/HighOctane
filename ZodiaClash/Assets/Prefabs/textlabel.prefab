@@ -1,10 +1,16 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 7,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6"
             ]
         }
     },
@@ -34,7 +40,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 200.0,
+            "width": 216.0,
             "height": 60.0
         },
         "Scripts": {
@@ -47,12 +53,14 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.20000000298023224
+            "Alpha": 0.20000000298023224,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
+            "Font Size": 0.5,
             "Text String": "TextLabel",
             "r": 1.0,
             "g": 1.0,
@@ -61,6 +69,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": false
         }
     }

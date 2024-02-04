@@ -206,6 +206,7 @@ void TextLabel::CalculateOffset() {
 
 	while (std::getline(textStream,tmpLine)) {
 		std::stringstream lineStream{ tmpLine };
+		//newline.lineWidth = verticalPadding;
 		while (lineStream >> tmpWord) {
 			float wordWidth = 0.f;
 			float glyphSpace = 0.f;
@@ -225,12 +226,12 @@ void TextLabel::CalculateOffset() {
 				wordWidth += (w + (ch.bearing.x * relFontSize));
 
 				// ignore space if exceeds width
-				if ((*c == ' ') && (textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth > textWidth)) {
+				if ((*c == ' ') && (textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth + verticalPadding > textWidth)) {
 					wordWidth -= glyphSpace;
 				}
 				glyphHeight = std::max(glyphHeight, h);
 			}
-			if ((textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth > textWidth)) {
+			if ((textWrap != UI_TEXT_WRAP::AUTO_WIDTH) && (newline.lineWidth + wordWidth + verticalPadding > textWidth)) {
 				//push newline
 				lineData.push_back(newline);
 				newline = {};
@@ -248,7 +249,7 @@ void TextLabel::CalculateOffset() {
 	//update textWidth, textHeight
 	switch (textWrap) {
 	case UI_TEXT_WRAP::AUTO_WIDTH:
-		textWidth = longestLineWidth;
+		textWidth = longestLineWidth + verticalPadding;
 		textHeight = glyphHeight * lineHeight * lineData.size();
 		break;
 	case UI_TEXT_WRAP::AUTO_HEIGHT:
@@ -258,7 +259,6 @@ void TextLabel::CalculateOffset() {
 		textHeight = glyphHeight * lineHeight * lineData.size();
 		break;
 	}
-
 	textHeight += verticalPadding;
 }
 
@@ -299,11 +299,11 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Pad
 		switch (hAlignment) {
 		case(UI_HORIZONTAL_ALIGNMENT::H_LEFT_ALIGN):
 			//left align
-			line.relTransform.x = transformData.position.x - (0.5f * sizeData.width) + paddingData.left;			
+			line.relTransform.x = transformData.position.x - (0.5f * sizeData.width) + paddingData.left + (0.5f * verticalPadding);
 			break;
 		case(UI_HORIZONTAL_ALIGNMENT::H_RIGHT_ALIGN):
 			//right align
-			line.relTransform.x = transformData.position.x - (line.lineWidth - (0.5f * sizeData.width)) - paddingData.right;			
+			line.relTransform.x = transformData.position.x - (line.lineWidth - (0.5f * sizeData.width)) - paddingData.right - (0.5f * verticalPadding);
 			break;
 		default:
 			//center align
@@ -887,7 +887,7 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
 **************************/
 void DialogueHUD::StartDialogue(Entity entity, Transform& transformData) {
 	isActive = 1;
-	transformData.position.y -= 400.f;
+	/*transformData.position.y -= 400.f;*/
 	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 	if (animationArray.HasComponent(entity)) {
 		animationArray.GetData(entity).Start("Launch", entity);
@@ -928,13 +928,13 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 	}
 }
 
-void DialogueHUD::EnforceAlignment(const Size& parentSizeData, const Transform& parentTransformData, Size& childSizeData, Transform& childTransformData, TextLabel& childTextLabelData) {
+void DialogueHUD::EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData) {
 	// take main dialogue box's position as anchor, ensure child label is aligned (with auto width)
 	if (childTextLabelData.textWrap != UI_TEXT_WRAP::AUTO_WIDTH) {
 		childTextLabelData.textWrap = UI_TEXT_WRAP::AUTO_WIDTH;
 	}
 	//smth is enforcing child position based on prefab?
-	childTransformData.position.x = (-0.5f * parentSizeData.width) + (0.5f * childSizeData.width);
+	childData.offset.position.x = (-0.5f * parentSizeData.width) + (0.5f * childSizeData.width);
 
 }
 

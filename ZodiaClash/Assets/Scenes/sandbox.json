@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 82,
+            "layerCounter": 19,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -22,71 +22,175 @@
                 "Layer 15",
                 "Layer 16",
                 "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73",
-                "Layer 74",
-                "Layer 75",
-                "Layer 76",
-                "Layer 77",
-                "Layer 78",
-                "Layer 79",
-                "Layer 80",
-                "Layer 81"
+                "Layer 18"
             ]
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "dialogue_textlabel.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "class TextLabel",
+                "struct Name",
+                "struct Parent",
+                "class DialogueHUD"
+            ]
+        },
+        "Entity": {
+            "Name": "dialogue_box",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": -780.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "line 3",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 0,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": true
+        },
+        "DialogueHUD": {
+            "Dialogue Lines": [
+                {
+                    "Speaker": "Speaker 1",
+                    "Line": "line 1"
+                },
+                {
+                    "Speaker": "Speaker 2",
+                    "Line": "line 2"
+                },
+                {
+                    "Speaker": "Speaker 3",
+                    "Line": "line 3"
+                }
+            ],
+            "Viewing Index": 2,
+            "Display Duration": 0.0,
+            "Is Active": false
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "button.prefab",
+            "Unique Components": [
+                "class TextLabel",
+                "struct Transform",
+                "struct Name",
+                "struct Parent",
+                "class Button",
+                "struct Size"
+            ]
+        },
+        "Entity": {
+            "Name": "button",
+            "Current Layer": 0,
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -715.0,
+            "position_y": 384.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Size": {
+            "width": 419.0,
+            "height": 119.5
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Dialogue Test",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 0,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Start Dialogue",
+            "Event Input": "",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "fps_counter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "fps counter",
+            "Current Layer": 2,
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 861.0,
+            "position_y": 505.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         }
     },
     {
@@ -116,68 +220,6 @@
     },
     {
         "Clone": {
-            "Prefab": "dialogue_textlabel.prefab",
-            "Unique Components": [
-                "class TextLabel",
-                "struct Transform",
-                "struct Name",
-                "struct Parent",
-                "class DialogueHUD"
-            ]
-        },
-        "Entity": {
-            "Name": "dialogue_box",
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": -380.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "line 1",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "white",
-            "Horizontal Alignment": 0,
-            "Vertical Alignment": 1,
-            "Text Wrap": 2,
-            "Background": true
-        },
-        "DialogueHUD": {
-            "Dialogue Lines": [
-                {
-                    "Speaker": "Speaker 1",
-                    "Line": "line 1"
-                },
-                {
-                    "Speaker": "Speaker 2",
-                    "Line": "line 2"
-                },
-                {
-                    "Speaker": "Speaker 3",
-                    "Line": "line 3"
-                }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
             "Prefab": "fps_counter.prefab",
             "Unique Components": [
                 "struct Transform",
@@ -199,6 +241,52 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "textlabel.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "class TextLabel",
+                "struct Name",
+                "struct Parent",
+                "struct Size"
+            ]
+        },
+        "Entity": {
+            "Name": "textLabel",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -510.0,
+            "position_y": 211.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Size": {
+            "width": 772.5,
+            "height": 183.75
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "TextLabel\nthis is a newwww lineeee\ntestinggg outt different line lengths",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 0,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": false
         }
     },
     {

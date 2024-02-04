@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 36,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -27,7 +27,19 @@
                 "Layer 20",
                 "Layer 21",
                 "Layer 22",
-                "Layer 23"
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35"
             ]
         }
     },
@@ -57,7 +69,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 193.99993896484375,
+            "width": 200.0,
             "height": 60.0
         },
         "Scripts": {

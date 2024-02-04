@@ -44,6 +44,7 @@
 #include "Layering.h"
 #include "Transition.h"
 #include "UIComponents.h"
+#include "ECS.h"
 
 EventManager events;
 
@@ -314,6 +315,23 @@ void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
 
+void StartDialogue(std::string input) {
+	(void)input;
+
+	UIDialogueSystem* ds = events.GetDialogueSystem();
+	auto& dialogueHudArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<DialogueHUD>() };
+	auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+
+	for (Entity const& entity : ds->m_Entities) {
+		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
+		Transform* transformData = &transformArray.GetData(entity);
+		if (!dialogueHudData->isActive) {
+			dialogueHudData->viewingIndex = 0;
+			dialogueHudData->StartDialogue(entity, *transformData);
+		}
+	}
+}
+
 /*!
  * \brief Initializes the functions for the event manager.
  *
@@ -336,6 +354,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Toggle Help"] = ToggleHelp;
 	functions["Confirm Exit"] = ConfirmExit;
 	functions["Test"] = TestFunction;
+	functions["Start Dialogue"] = StartDialogue;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}
@@ -378,4 +397,22 @@ void EventManager::ConnectBattleSystem(BattleSystem* input) {
  */
 BattleSystem* EventManager::GetBattleSystem() {
 	return battlesystem;
+}
+
+/*!
+ * \brief Connects the event manager to a BattleSystem instance.
+ *
+ * \param input A pointer to the BattleSystem instance to be connected.
+ */
+void EventManager::ConnectDialogueSystem(UIDialogueSystem* input) {
+	dialogueSystem = input;
+}
+
+/*!
+ * \brief Retrieves the connected BattleSystem instance.
+ *
+ * \return A pointer to the connected BattleSystem instance.
+ */
+UIDialogueSystem* EventManager::GetDialogueSystem() {
+	return dialogueSystem;
 }

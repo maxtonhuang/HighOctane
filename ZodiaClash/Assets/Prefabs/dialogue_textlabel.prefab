@@ -133,23 +133,6 @@
                         ]
                     }
                 ]
-            },
-            {
-                "Total Frames": 2,
-                "Group Name": "Fade In",
-                "Loop": false,
-                "Frame Time": 0.5,
-                "Animations": [
-                    {
-                        "Animation Type": "Fade",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 1,
-                                "Alpha": 0.0
-                            }
-                        ]
-                    }
-                ]
             }
         ],
         "Animation Set Default Animation": "",

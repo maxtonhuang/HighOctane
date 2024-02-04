@@ -56,10 +56,14 @@ public:
 
 	void ConnectBattleSystem(BattleSystem* input);
 	BattleSystem* GetBattleSystem();
+
+	void ConnectDialogueSystem(UIDialogueSystem* input);
+	UIDialogueSystem* GetDialogueSystem();
 private:
 	std::unordered_map<std::string, Event> functions;
 	std::vector<const char*> functionNames;
 	BattleSystem* battlesystem; //Connection to battle system
+	UIDialogueSystem* dialogueSystem; //Connection to dialogue system
 };
 
 extern EventManager events;

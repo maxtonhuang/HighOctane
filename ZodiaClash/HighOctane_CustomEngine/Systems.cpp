@@ -1269,6 +1269,17 @@ void UIEffectSystem::Update() {
 
 /******************************************************************************
 *
+*	@brief Initializes dialogue system
+*
+*	-
+*
+******************************************************************************/
+void UIDialogueSystem::Initialize() {
+	events.ConnectDialogueSystem(this);
+}
+
+/******************************************************************************
+*
 *	@brief Updates parent DialogueHUD
 *
 *	-
@@ -1286,6 +1297,7 @@ void UIDialogueSystem::Update() {
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
 	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
+	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
@@ -1294,17 +1306,17 @@ void UIDialogueSystem::Update() {
 		Transform* transformData = &transformArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
-		if (dialogueHudData->dialogueLines.empty())
+		if (dialogueHudData->dialogueLines.empty() || !dialogueHudData->isActive)
 		{
 			continue;
 		}
 
-		// hypothetical trigger to activate dialogue
-		if (!dialogueHudData->isActive) {
-			if (GetCurrentSystemMode() == SystemMode::RUN && dialogueHudData->dialogueLines.size() && !dialogueHudData->viewingIndex) {
-				dialogueHudData->StartDialogue(entity, *transformData);
-			}
-		}
+		//// hypothetical trigger to activate dialogue
+		//if (!dialogueHudData->isActive) {
+		//	if (GetCurrentSystemMode() == SystemMode::RUN && dialogueHudData->dialogueLines.size() && !dialogueHudData->viewingIndex) {
+		//		dialogueHudData->StartDialogue(entity, *transformData);
+		//	}
+		//}
 
 		// event handling if need to advance to next line
 		dialogueHudData->Update(*modelData, entity);		
@@ -1314,12 +1326,12 @@ void UIDialogueSystem::Update() {
 			Entity childEntity = parentData->children.front();
 
 			if (dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
+				Child* childData = &childArray.GetData(childEntity);
 				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
-				Transform* speakerTransformData = &transformArray.GetData(childEntity);
 				Size* speakerSizeData = &sizeArray.GetData(childEntity);
 				speakerTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].first;
 
-				dialogueHudData->EnforceAlignment(*sizeData, *transformData, *speakerSizeData, *speakerTransformData, *speakerTextData);
+				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
