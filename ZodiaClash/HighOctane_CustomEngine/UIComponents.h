@@ -379,5 +379,5 @@ public:
 	void JumpNextLine(Entity entity); // move to next line after display duration
 
 	void Update(Model& modelData, Entity entity); // event handling
-	void EnforceAlignment(const Size& parentSizeData, const Transform& parentTransformData, Size& childSizeData, Transform& childTransformData, TextLabel& childTextLabelData);
+	void EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData);
 };

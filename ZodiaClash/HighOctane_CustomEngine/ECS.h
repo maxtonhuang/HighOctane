@@ -678,6 +678,7 @@ public:
 
 class UIDialogueSystem : public System {
 public:
+    void Initialize();
     void Update() override;
 };
 

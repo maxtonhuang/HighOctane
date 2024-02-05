@@ -618,6 +618,9 @@ void EngineCore::Run(bool const& mode) {
 	graphics.Initialize(GRAPHICS::viewportWidth, GRAPHICS::viewportHeight);
 
 	assetmanager.Initialize();
+
+	uiDialogueSystem->Initialize();
+
 	events.InitialiseFunctions();
 
 
