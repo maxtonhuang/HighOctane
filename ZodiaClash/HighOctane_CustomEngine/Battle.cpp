@@ -101,6 +101,7 @@ BattleSystem::BattleSystem(BattleSystem const& input) {
     }
     roundInProgress = input.roundInProgress;
     speedup = input.speedup;
+    aiMultiplier = input.aiMultiplier;
 }
 
 /**
@@ -127,6 +128,7 @@ void BattleSystem::StartBattle() {
     roundManage.roundCounter = 0;
     chi = 5;
     speedup = false;
+    aiMultiplier = 0;
 
     if (DetermineTurnOrder() == false) {
         return;
@@ -215,20 +217,14 @@ void BattleSystem::Update()
         }
         if (!enemyAmount) //no enemies left
         {
-            if (m_Entities.size() > 0) {
-                EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
-            }
-            
             battleState = WIN;
+            CompleteBattle();
         }
         //then check if enemy has won
         else if (!playerAmount) //no players left
         {
-            if (m_Entities.size() > 0) {
-                EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
-            }
-            
             battleState = LOSE;
+            CompleteBattle();
         }
         //continue battle
         else
@@ -473,6 +469,27 @@ void BattleSystem::RevertTurnOrder(CharacterStats* target)
     //turnManage.turnOrderList.insert(originalIndex, target);
 }
 
+void BattleSystem::CompleteBattle() {
+    static ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+    static ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
+    if (m_Entities.size() > 0) {
+        assetmanager.audio.PauseGroup("BGM");
+        for (Entity& e : allBattleUI) {
+            animationArray->GetData(e).Start("Pop Out", e);
+        }
+        for (Entity& e : turnOrderQueueAnimator) {
+            animationArray->GetData(e).Start("Pop Out", e);
+        }
+        if (battleState == WIN) {
+            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
+        }
+        else if (battleState == LOSE) {
+            EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
+        }
+        
+    }
+}
+
 void BattleSystem::ProcessDamage() {
     if (m_Entities.size() > 0) {
         ComponentManager& componentManager = ECS::ecs().GetComponentManager();
@@ -504,13 +521,14 @@ void BattleSystem::ProcessDamage() {
                             transformArray->GetData(damageEffect).position = transformArray->GetData(entity).position;
                         }
 
-                        totalDamage += cs->stats.health - c.stats.health;
+                        float damage = cs->stats.health - c.stats.health;
+                        totalDamage += damage;
                         Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
                         transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
-                        textArray->GetData(damagelabel).textString = std::to_string(abs((int)(totalDamage)));
+                        textArray->GetData(damagelabel).textString = std::to_string(abs((int)(damage)));
 
                         if (c.stats.health > 0) {
-                            if (totalDamage > 0) {
+                            if (damage > 0) {
                                 animationArray->GetData(entity).Start("Damaged", entity);
                             }
                             else {

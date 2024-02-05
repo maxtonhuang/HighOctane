@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 17,
+            "layerCounter": 21,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -20,7 +20,11 @@
                 "Layer 13",
                 "Layer 14",
                 "Layer 15",
-                "Layer 16"
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20"
             ]
         }
     },
@@ -59,7 +63,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.20000000298023224
+            "Alpha": 0.20000000298023224,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
@@ -74,6 +79,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": false
         },
         "Animation Set": [
@@ -81,6 +87,7 @@
                 "Total Frames": 60,
                 "Group Name": "Start",
                 "Loop": false,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "Fade",
@@ -92,6 +99,15 @@
                             {
                                 "Frame Number": 59,
                                 "Alpha": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sound": "Battle End_Edited.wav"
                             }
                         ]
                     }

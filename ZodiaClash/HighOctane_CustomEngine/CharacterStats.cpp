@@ -145,9 +145,9 @@ void CharacterStats::ApplyBloodStack()
         float damage = stats.attack;
         TakeDamage(damage);
         debuffs.bloodStack--;
-    }
-    if (parent->m_Entities.size() > 0) {
-        parent->damagePrefab = "VFX_Bleed.prefab";
+        if (parent->m_Entities.size() > 0) {
+            parent->damagePrefab = "VFX_Bleed.prefab";
+        }
     }
     else return; //when there is no bloodstack effect
 }

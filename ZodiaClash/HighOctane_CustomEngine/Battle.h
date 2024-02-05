@@ -144,7 +144,7 @@ public:
 	void RevertTurnOrder(CharacterStats* target);
 
 	std::vector<Entity> skillButtons;
-
+	int aiMultiplier; //in order to control certain AI logic
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -193,6 +193,6 @@ private:
 
 	//BattleState NewGameDelay(float startDelay, float nextDelay);
 	void StartBattle();
+	void CompleteBattle();
 	bool DetermineTurnOrder(); //returns false if unable to properly initialise turn order
-	
 };

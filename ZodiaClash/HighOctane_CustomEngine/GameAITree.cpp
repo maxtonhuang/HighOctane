@@ -52,7 +52,7 @@
 //DEFINES FOR AI SEARCH SETTINGS
 
 //WARNING: INCREASING THIS VALUE RESULTS IN EXPONENTIALLY HIGHER SEARCH TIMES
-const int MAXDEPTH = 1;
+const int MAXDEPTH = 0;
 
 const int DEVIATION = 0;
 //----------------------------------------------------------------------------------------

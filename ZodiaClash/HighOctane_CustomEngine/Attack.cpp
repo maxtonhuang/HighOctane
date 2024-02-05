@@ -49,6 +49,12 @@ void Attack::UseAttack(CharacterStats* target) {
         target->TakeDamage(1.5 * target->debuffs.bloodStack);
         target->debuffs.bloodStack = 0;
     }
+    else if (attackName == "Boss Goat Attack") {
+        if (owner->stats.health < 0.5 * owner->stats.maxHealth) {
+            owner->TakeDamage(-damage);
+            owner->action.battleManager->aiMultiplier += 10;
+        }
+    }
     else if (attackName == "Boss Goat Heal") {
         target->HealBuff(0.3 * target->stats.maxHealth);
     }

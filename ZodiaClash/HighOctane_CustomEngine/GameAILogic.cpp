@@ -87,7 +87,15 @@ namespace GameAILogic {
 		value += (int)(effectiveHealing * healRate);
 
 		if (end.speedup && !start.speedup && end.speedupCharacter->tag == CharacterType::ENEMY) {
-			value += speedupRate;
+			int multiplier{ 1 };
+			if (start.roundManage.roundCounter % 3 == 0) {
+				multiplier = 100;
+			}
+			value += speedupRate * multiplier;
+		}
+
+		if (end.aiMultiplier != start.aiMultiplier) {
+			value *= 1 + (end.aiMultiplier - start.aiMultiplier);
 		}
 
 		return value;
