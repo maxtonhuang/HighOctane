@@ -177,6 +177,7 @@ public:
 
         // This portion is new ========================================
         m_ComponentArray[newIndex] = static_cast<T*>(m_MemoryManager->Allocate());
+        new (m_ComponentArray[newIndex]) T(); //Placement new, creates object at place of pointer, DOES NOT ALLOCATE MEMORY
         *(m_ComponentArray[newIndex]) = component;
         // End of new portion ========================================
 
@@ -343,7 +344,7 @@ public:
         m_ComponentTypes.insert({ typeName, m_NextComponentType });
 
         // Create a ComponentArray pointer and add it to the component arrays map
-        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T*>>() }); // Changed this to take in T* instead of T
+        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() }); // Changed this to take in T* instead of T
 
         // Increment the value so that the next component registered will be different
         ++m_NextComponentType;
