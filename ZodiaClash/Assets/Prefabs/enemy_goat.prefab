@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 21,
+            "layerCounter": 29,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -24,7 +24,15 @@
                 "Layer 17",
                 "Layer 18",
                 "Layer 19",
-                "Layer 20"
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28"
             ]
         }
     },
@@ -437,6 +445,18 @@
                             {
                                 "Frame Number": 0,
                                 "Texture": "Goat_Death.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 1.0
                             }
                         ]
                     }
