@@ -483,7 +483,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, 
 						}
 					}
 					if (animationArray.HasComponent(entity)) {
-						animationArray.GetData(entity).Start("Click", entity);
+						animationArray.GetData(entity).Queue("Click", entity);
 					}
 					events.Call(eventName, eventInput);
 				}
@@ -512,7 +512,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, 
 		case(STATE::HOVERED):
 			if (previousState == STATE::NONE) {
 				if (animationArray.HasComponent(entity)) {
-					animationArray.GetData(entity).Start("Hover", entity);
+					animationArray.GetData(entity).Queue("Hover", entity);
 				}
 				else {
 					textLabelData.textColor = hoveredColor.textColor;
@@ -529,7 +529,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, 
 		case(STATE::NONE):
 			if (previousState == STATE::HOVERED) {
 				if (animationArray.HasComponent(entity)) {
-					animationArray.GetData(entity).Start("Reset", entity);
+					animationArray.GetData(entity).Queue("Reset", entity);
 				}
 				else {
 					textLabelData.textColor = hoveredColor.textColor;
