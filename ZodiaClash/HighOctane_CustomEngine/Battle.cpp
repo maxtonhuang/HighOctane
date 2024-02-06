@@ -498,6 +498,8 @@ void BattleSystem::ProcessDamage() {
         ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
         ComponentArray<Transform>* transformArray = &componentManager.GetComponentArrayRef<Transform>();
         ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
+        ComponentArray<Size>* sizeArray = &componentManager.GetComponentArrayRef<Size>();
+        static Entity bossAura{ 0 };
 
         float totalDamage{ 0.f };
         for (Entity entity : m_Entities) {
@@ -534,11 +536,21 @@ void BattleSystem::ProcessDamage() {
                             else {
                                 textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 0.f,1.f,0.f,1.f });
                             }
+                            if (c.boss == true && c.stats.health < 0.5 * c.stats.maxHealth && !ECS::ecs().EntityExists(bossAura)) {
+                                bossAura = EntityFactory::entityFactory().ClonePrefab("Boss_Circle.prefab");
+                                transformArray->GetData(bossAura).position = transformArray->GetData(c.entity).position;
+                                transformArray->GetData(bossAura).position.y -= (sizeArray->GetData(c.entity).height * transformArray->GetData(c.entity).scale) / 2;
+                            }
+                            else if (c.boss == true && c.stats.health > 0.5 * c.stats.maxHealth && ECS::ecs().EntityExists(bossAura)) {
+                                ECS::ecs().DestroyEntity(bossAura);
+                            }
                         }
                         else {
                             animationArray->GetData(entity).Start("Death", entity);
+                            if (cs->boss && ECS::ecs().EntityExists(bossAura)) {
+                                ECS::ecs().DestroyEntity(bossAura);
+                            }
                         }
-                        
                     }
                     *cs = c;
                     found = true;

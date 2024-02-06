@@ -1,0 +1,148 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 25,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Boss_Circle.png",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 627.0,
+            "position_y": -118.0,
+            "rotation": 0.0,
+            "scale": 0.6273362040519714,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Boss_Circle.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 513.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 0.5,
+            "Green": 1.0,
+            "Blue": 0.5,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 512.0,
+            "Dimension Y": 513.0
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 4,
+                "Group Name": "Effect",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Start",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 80.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Effect"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Start"
+    }
+]

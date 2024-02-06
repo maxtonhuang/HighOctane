@@ -68,6 +68,9 @@ public:
        int    bloodStack{ 0 }; //decrease the health
     }; debuff debuffs{};
 
+    bool boss{};
+    bool charge{};
+
     void TakeDamage(float damage);
     void HealBuff(float buffAmount);
     void SpeedBuff(CharacterStats* ally);

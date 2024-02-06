@@ -1035,6 +1035,7 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::InputInt("Speed", &charstatsComponent.stats.speed);
 
 			ImGui::InputText("Icon", &charstatsComponent.icon);
+			ImGui::Checkbox("Boss", &charstatsComponent.boss);
 			//std::vector<std::string> texNames{ assetmanager.texture.GetTextureNames() };
 			//if (ImGui::BeginCombo("Icon", charstatsComponent.icon.c_str())) {
 			//	for (int n = 0; n < texNames.size(); n++) {

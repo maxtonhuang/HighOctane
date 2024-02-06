@@ -39,7 +39,6 @@ const int playerWeight = 1000;
 const int enemyWeight = 1000;
 const float damageRate = 10.f;
 const float healRate = 10000.f;
-const float speedupRate = 100000.f;
 //----------------------------------------------------------------------------------------
 
 #include "GameAILogic.h"
@@ -85,18 +84,7 @@ namespace GameAILogic {
 		value += enemyWeight * enemyChange;
 		value += (int)(effectiveDamage * damageRate);
 		value += (int)(effectiveHealing * healRate);
-
-		if (end.speedup && !start.speedup && end.speedupCharacter->tag == CharacterType::ENEMY) {
-			int multiplier{ 1 };
-			if (start.roundManage.roundCounter % 3 == 0) {
-				multiplier = 100;
-			}
-			value += speedupRate * multiplier;
-		}
-
-		if (end.aiMultiplier != start.aiMultiplier) {
-			value *= 1 + (end.aiMultiplier - start.aiMultiplier);
-		}
+		value += (float)(end.aiMultiplier - start.aiMultiplier);
 
 		return value;
 	}

@@ -50,19 +50,33 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.bloodStack = 0;
     }
     else if (attackName == "Boss Goat Attack") {
-        if (owner->stats.health < 0.5 * owner->stats.maxHealth) {
+        if (owner->stats.health < 0.5 * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
-            owner->action.battleManager->aiMultiplier += 10;
+            owner->action.battleManager->aiMultiplier += 1000000;
+            owner->charge = false;
         }
     }
     else if (attackName == "Boss Goat Heal") {
         target->HealBuff(0.3 * target->stats.maxHealth);
+        target->debuffs.bloodStack = 0;
     }
     else if (attackName == "Boss Goat Speedup") {
         target->SpeedBuff(target);
+        if (target->tag == CharacterType::ENEMY) {
+            owner->action.battleManager->aiMultiplier += 100000;
+        }
+    }
+    else if (attackName == "A strong attack is coming!") {
+        target->charge = true;
+        if (owner->stats.health < 0.5 * owner->stats.maxHealth && !owner->charge) {
+            owner->action.battleManager->aiMultiplier += 1000000;
+        }
     }
 
     target->debuffs.bloodStack += bleed;
+    if (target->debuffs.bloodStack > 5) {
+        target->debuffs.bloodStack = 5;
+    }
     target->TakeDamage(damage);
 }
 

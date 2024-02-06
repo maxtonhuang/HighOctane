@@ -45,6 +45,8 @@
 CharacterStats::CharacterStats() {
     stats.health = stats.maxHealth;
     action.characterStats = this;
+    boss = false;
+    charge = false;
 }
 
 /**
@@ -62,6 +64,8 @@ CharacterStats::CharacterStats(CharacterStats const& input) {
     gameObject = input.gameObject;
     parent = input.parent;
     action.battleManager = input.action.battleManager;
+    boss = input.boss;
+    charge = input.charge;
 }
 
 /**
@@ -141,8 +145,20 @@ void CharacterStats::SpeedBuff(CharacterStats* target)
 
 void CharacterStats::ApplyBloodStack() 
 {
+    const float bleedPercent{ 0.1f };
+    static float catAttack{ 0.f };
+
+    //Find cat attack
+    if (catAttack == 0.f) {
+        for (auto c : parent->GetPlayers()) {
+            if (c->stats.speed == 3) {
+                catAttack = c->stats.attack;
+                break;
+            }
+        }
+    }
     if (debuffs.bloodStack > 0) {
-        float damage = stats.attack;
+        float damage = catAttack * bleedPercent;
         TakeDamage(damage);
         debuffs.bloodStack--;
         if (parent->m_Entities.size() > 0) {
