@@ -48,6 +48,7 @@
 #include "GraphLib.h"
 #include "Texture.h"
 #include "Graphics.h"
+#include "Particles.h"
 #include "physics.h"
 #include "collision.h"
 #include "Model.h"
@@ -142,7 +143,6 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	static auto& typeMap{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
-
 	for (auto& ecsType : typeMap) {
 		if (ecsType.second->HasComponent(masterEntity)) {
 			ecsType.second->AddComponent(entity);

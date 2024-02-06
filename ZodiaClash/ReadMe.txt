@@ -3,13 +3,12 @@ ZODIACLASH README
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.1 M1 build
+Version: v0.4 M4 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
 Liu Wanting (wanting.liu@digipen.edu)
 Foong Pun Yuen Nigel (p.foong@digipen.edu)
-Koh Wen Yuen (k.wenyuan@digipen.edu)
 Chua Zhen Rong (c.zhenrong@digipen.edu)
 Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
 
@@ -23,7 +22,7 @@ Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 About:
 
-Currently, our prototype for M3 consists of the 1 battle stage, which is our second-to-second gameplay.
+Currently, our prototype for M4 consists of the 1 battle stage, which is our second-to-second gameplay.
 
 Scenes: Main Menu, 1 Battle Scene
 

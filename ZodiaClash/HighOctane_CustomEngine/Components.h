@@ -173,16 +173,4 @@ struct Child {
     Transform               offset{};
 };
 
-struct Particle {
-    float                   lifetime; // time remaining before the particle is destroyed
-    float                   age; // time since the particle was created
-    Color                   color;
-    Transform               properties;
-};
-
-struct Emitter {
-    Vec3                    position;
-    float                   emissionRate; // particles emitted per second
-    float                   timeSinceLastEmission;
-};
 

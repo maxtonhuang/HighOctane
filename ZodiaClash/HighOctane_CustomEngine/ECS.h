@@ -578,6 +578,12 @@ public:
     void Draw() override;
 };
 
+class ParticleSystem : public System {
+public:
+    void Update() override;
+    void Draw() override;
+};
+
 class CollisionSystem : public System {
 public:
     void Update() override;
@@ -605,13 +611,6 @@ public:
 };
 
 class GraphicsSystem : public System {
-public:
-    void Initialize();
-    void Update() override;
-    void Draw() override;
-};
-
-class ParticlesSystem : public System {
 public:
     void Initialize();
     void Update() override;

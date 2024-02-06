@@ -3,13 +3,12 @@ ZODIACLASH Project Guide File
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.1 M3 build
+Version: v0.1 M4 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
 Liu Wanting (wanting.liu@digipen.edu)
 Foong Pun Yuen Nigel (p.foong@digipen.edu)
-Koh Wen Yuan (k.wenyuan@digipen.edu)
 Chua Zhen Rong (c.zhenrong@digipen.edu)
 Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
 
@@ -79,7 +78,7 @@ Scripting System:
 Editing System:
 - Prefabs can be edited through the prefab editor window
 - Within the viewport,(if it is not locked by the layering system) selecting an entity would have a green box highlighted around it, means it is editable.
-- Resize it by hovering over the corners. It would increase or decrease the scale.
+- Resize it by hovering over the corners or sides and dragging. It would increase or decrease the scale.
 - Drag the editable entity anywhere on screen.
 ================================================================
 

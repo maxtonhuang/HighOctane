@@ -165,6 +165,16 @@ void PhysicsSystem::Draw() {
 	}
 }
 
+void ParticleSystem::Update()
+{
+	particles.Update(FIXED_DT);
+}
+
+void ParticleSystem::Draw()
+{
+	particles.Draw(FIXED_DT);
+}
+
 /******************************************************************************
 *
 *	@brief Checks and handles collisions between entities.
@@ -221,6 +231,7 @@ void CollisionSystem::Update() {
 				bool hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
 				if (hasCollided) {
 					physics::DynamicStaticResponse(*transData1, *transData2);
+					particles.AddParticle(true, { 0, 0 }, { 100, 100 }, { 5, 5 }, { {1, 1, 1, 1} }, particlePresets::ParticleFade, 0.f);
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
@@ -462,22 +473,6 @@ void GraphicsSystem::Draw() {
 	}
 	graphics.Draw();
 }
-
-void ParticlesSystem::Update() {
-
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	// Access component arrays through the ComponentManager
-	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
-	auto& particlesArray = componentManager.GetComponentArrayRef<Particle>();
-	auto& colorArray = componentManager.GetComponentArrayRef<Color>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-}
-
-void ParticlesSystem::Initialize() {};
-
-void ParticlesSystem::Draw() {};
 
 /******************************************************************************
 *
