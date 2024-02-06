@@ -242,11 +242,8 @@ void CollisionSystem::Update() {
 					}
 					else {
 						physics::DynamicStaticResponse(*transData1, *transData2);
+						particles.AddParticle(true, { 0, 0 }, { 100, 100 }, { 5, 5 }, { {1, 1, 1, 1} }, particlePresets::ParticleFade, 0.f);
 					}
-				}
-			}
-					physics::DynamicStaticResponse(*transData1, *transData2);
-					particles.AddParticle(true, { 0, 0 }, { 100, 100 }, { 5, 5 }, { {1, 1, 1, 1} }, particlePresets::ParticleFade, 0.f);
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {

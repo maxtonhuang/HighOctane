@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,10 +28,7 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27"
+                "Layer 24"
             ]
         }
     },
@@ -93,9 +90,9 @@
                 "struct Name",
                 "struct Parent",
                 "struct Color",
-                "class Button",
-                "struct Size",
                 "struct Tex",
+                "struct Size",
+                "class Button",
                 "class Model",
                 "class TextLabel"
             ]
@@ -477,5 +474,30 @@
             }
         ],
         "Animation Set Default Animation": ""
+    },
+    {
+        "Clone": {
+            "Prefab": "fps_counter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "fps counter",
+            "Current Layer": 2,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 861.0,
+            "position_y": 505.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]
