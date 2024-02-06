@@ -374,8 +374,14 @@ public:
 	int viewingIndex{};
 	float displayDuration{}; // if 0 wait for click trigger
 	bool isActive{};
+	bool isTriggered{};
+	bool autoLaunch{};
+	bool speakerRequired{};
 
-	void StartDialogue(Entity entity, Transform& transformData); // trigger transition for dialogue UI to move in
+	bool postDialogueScene{};
+	std::string targetScene{};
+
+	void StartDialogue(Entity entity); // trigger transition for dialogue UI to move in
 	void JumpNextLine(Entity entity); // move to next line after display duration
 
 	void Update(Model& modelData, Entity entity); // event handling

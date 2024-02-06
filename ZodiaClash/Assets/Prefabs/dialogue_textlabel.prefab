@@ -1,11 +1,12 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 2,
+            "layerCounter": 3,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
-                "Layer 1"
+                "Layer 1",
+                "Layer 2"
             ]
         }
     },
@@ -25,7 +26,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -379.9998474121094,
+            "position_y": -780.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -48,7 +49,7 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.26274511218070984,
+            "Alpha": 0.20000000298023224,
             "Mirror": false
         },
         "Movable": {},
@@ -84,7 +85,12 @@
             ],
             "Viewing Index": 0,
             "Display Duration": 0.0,
-            "Is Active": false
+            "Is Active": false,
+            "Is Triggered": false,
+            "Auto Launch": false,
+            "Speaker Required": true,
+            "Post Dialogue Scene": false,
+            "Target Scene": ""
         },
         "Animation Set": [
             {
@@ -153,8 +159,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -795.0,
-            "position_y": -234.49984741210938,
+            "position_x": -765.25,
+            "position_y": -635.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -164,7 +170,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 195.5,
+            "width": 219.5,
             "height": 80.25
         },
         "Scripts": {
@@ -177,7 +183,7 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.26274511218070984,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},
@@ -191,15 +197,15 @@
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 0,
+            "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 0,
-            "Background": true
+            "Background": false
         },
         "DialogueSpeaker": {},
         "Child": {
-            "position_x": -795.0,
-            "position_y": 145.5,
+            "position_x": -765.25,
+            "position_y": 145.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

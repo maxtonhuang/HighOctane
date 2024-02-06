@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 19,
+            "layerCounter": 40,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -22,7 +22,28 @@
                 "Layer 15",
                 "Layer 16",
                 "Layer 17",
-                "Layer 18"
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39"
             ]
         }
     },
@@ -30,11 +51,11 @@
         "Clone": {
             "Prefab": "dialogue_textlabel.prefab",
             "Unique Components": [
-                "struct Transform",
                 "class TextLabel",
+                "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "class DialogueHUD"
+                "class DialogueHUD",
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -47,7 +68,7 @@
         "Transform": {
             "position_x": 0.0,
             "position_y": -780.0,
-            "rotation": 0.0,
+            "rotation": 6.2831854820251465,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -56,7 +77,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "line 3",
+            "Text String": "line 1",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -82,9 +103,14 @@
                     "Line": "line 3"
                 }
             ],
-            "Viewing Index": 2,
+            "Viewing Index": 0,
             "Display Duration": 0.0,
-            "Is Active": false
+            "Is Active": false,
+            "Is Triggered": true,
+            "Auto Launch": false,
+            "Speaker Required": true,
+            "Post Dialogue Scene": false,
+            "Target Scene": ""
         },
         "Parent": {}
     },
@@ -96,34 +122,34 @@
                 "struct Transform",
                 "struct Name",
                 "struct Parent",
-                "class Button",
-                "struct Size"
+                "struct Size",
+                "class Button"
             ]
         },
         "Entity": {
-            "Name": "button",
+            "Name": "buttonStartTest",
             "Current Layer": 0,
             "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -715.0,
-            "position_y": 384.0,
+            "position_x": -631.0,
+            "position_y": 395.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
         "Size": {
-            "width": 419.0,
+            "width": 536.0,
             "height": 119.5
         },
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Dialogue Test",
+            "Text String": "Start Dialogue Test",
             "r": 0.0,
             "g": 0.0,
             "b": 1.0,
@@ -170,81 +196,6 @@
     },
     {
         "Clone": {
-            "Prefab": "fps_counter.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "fps counter",
-            "Current Layer": 2,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 861.0,
-            "position_y": 505.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "fps_counter.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "fps counter",
-            "Current Layer": 2,
-            "Order in Layer": 2,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 861.0,
-            "position_y": 505.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "fps_counter.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "fps counter",
-            "Current Layer": 2,
-            "Order in Layer": 1,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 861.0,
-            "position_y": 505.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
             "Prefab": "textlabel.prefab",
             "Unique Components": [
                 "struct Transform",
@@ -262,22 +213,22 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -510.0,
-            "position_y": 211.0,
+            "position_x": 0.0,
+            "position_y": 159.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
         "Size": {
-            "width": 772.5,
-            "height": 183.75
+            "width": 1803.9998779296875,
+            "height": 294.0
         },
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "TextLabel\nthis is a newwww lineeee\ntestinggg outt different line lengths",
+            "Text String": "Dialogue is set to button trigger based, click \"Start Dialogue Test\"\n\nTo test \"Advance Dialogue Test\", click \"dialogue_box\" element in the layers tab. Adjust the numbers such that the event can be triggered while dialogue is still active.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -285,8 +236,88 @@
             "Color Preset": "white",
             "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
-            "Text Wrap": 2,
+            "Text Wrap": 1,
             "Background": false
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "button.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "class TextLabel",
+                "struct Name",
+                "struct Parent",
+                "struct Size",
+                "class Button"
+            ]
+        },
+        "Entity": {
+            "Name": "buttonAdvanceTest",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 4.0,
+            "position_y": 399.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Size": {
+            "width": 629.0,
+            "height": 119.5
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Advance Dialogue Test",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 0,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Advance Dialogue",
+            "Event Input": "",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 75.0,
+            "Padding Right": 75.0,
+            "Padding Setting": 1
         }
     },
     {

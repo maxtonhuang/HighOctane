@@ -439,6 +439,12 @@ rapidjson::Value SerializeDialogueHUD(const DialogueHUD& dialogueHUD, rapidjson:
 	dialogueHudObject.AddMember("Viewing Index", dialogueHUD.viewingIndex, allocator);
 	dialogueHudObject.AddMember("Display Duration", dialogueHUD.displayDuration, allocator);
 	dialogueHudObject.AddMember("Is Active", (bool)dialogueHUD.isActive, allocator);
+
+	dialogueHudObject.AddMember("Is Triggered", (bool)dialogueHUD.isTriggered, allocator);
+	dialogueHudObject.AddMember("Auto Launch", (bool)dialogueHUD.autoLaunch, allocator);
+	dialogueHudObject.AddMember("Speaker Required", (bool)dialogueHUD.speakerRequired, allocator);
+	dialogueHudObject.AddMember("Post Dialogue Scene", (bool)dialogueHUD.postDialogueScene, allocator);
+	dialogueHudObject.AddMember("Target Scene", rapidjson::Value(dialogueHUD.targetScene.c_str(), allocator).Move(), allocator);
 	return dialogueHudObject;
 }
 
@@ -1500,6 +1506,22 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 				if (dialogueHudObject.HasMember("Is Active")) {
 					dialogueHud.isActive = dialogueHudObject["Is Active"].GetBool();
+				}
+
+				if (dialogueHudObject.HasMember("Is Triggered")) {
+					dialogueHud.isTriggered = dialogueHudObject["Is Triggered"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Auto Launch")) {
+					dialogueHud.autoLaunch = dialogueHudObject["Auto Launch"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Speaker Required")) {
+					dialogueHud.speakerRequired = dialogueHudObject["Speaker Required"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Post Dialogue Scene")) {
+					dialogueHud.postDialogueScene = dialogueHudObject["Post Dialogue Scene"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Target Scene")) {
+					dialogueHud.targetScene = dialogueHudObject["Target Scene"].GetString();
 				}
 
 				if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {

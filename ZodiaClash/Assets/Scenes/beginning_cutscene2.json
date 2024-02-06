@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 40,
+            "layerCounter": 49,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -43,7 +43,16 @@
                 "Layer 36",
                 "Layer 37",
                 "Layer 38",
-                "Layer 39"
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48"
             ]
         }
     },
@@ -102,7 +111,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "In Ancient China, the Jade Emperor needed a way to measure time.",
+            "Text String": "Shu and Mei, who were both representatives of the Rats and Cats respectively, turned out to be best friends as well.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -117,19 +126,19 @@
             "Dialogue Lines": [
                 {
                     "Speaker": "",
-                    "Line": "In Ancient China, the Jade Emperor needed a way to measure time."
+                    "Line": "Shu and Mei, who were both representatives of the Rats and Cats respectively, turned out to be best friends as well."
                 },
                 {
                     "Speaker": "",
-                    "Line": "He created twelve artifacts that represented time and needed strong animals to protect these artifacts."
+                    "Line": "The day before the race, Shu promised to wake Mei for the race and compete fairly."
                 },
                 {
                     "Speaker": "",
-                    "Line": "He held a race, promising the protectors of the artifacts eternal blessings, and people all over Ancient China would recognise them as the strongest animals of Ancient China."
+                    "Line": "However, Shu did not wake Mei, and Mei only realised when she woke up after the race."
                 },
                 {
                     "Speaker": "",
-                    "Line": "Hence, animals from all over Ancient China sent their strongest to participate in the race, including Mei (cat) and Shu (rat)."
+                    "Line": "Furious, Mei sought out Shu for answers."
                 }
             ],
             "Viewing Index": 0,
@@ -139,33 +148,8 @@
             "Auto Launch": true,
             "Speaker Required": false,
             "Post Dialogue Scene": true,
-            "Target Scene": "beginning_cutscene2.scn"
+            "Target Scene": "sandbox.scn"
         },
         "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "fps_counter.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "fps counter",
-            "Current Layer": 2,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 861.0,
-            "position_y": 505.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
     }
 ]
