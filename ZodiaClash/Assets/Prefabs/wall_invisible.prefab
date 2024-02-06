@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 67,
+            "layerCounter": 55,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -58,27 +58,15 @@
                 "Layer 51",
                 "Layer 52",
                 "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66"
+                "Layer 54"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Cat",
+            "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -89,26 +77,19 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -544.4788818359375,
-            "position_y": 26.215194702148438,
+            "position_x": 178.0,
+            "position_y": 485.0,
             "rotation": 0.0,
-            "scale": 0.6240636110305786,
-            "velocity_x": 1.3096902552800984e-33,
+            "scale": 0.9160967469215393,
+            "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cat_Idle.spritesheet"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 512.0,
-            "height": 513.0
+            "width": 2676.572998046875,
+            "height": 128.0
         },
         "Model": {
             "Model type": 0,
@@ -116,15 +97,14 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},
-        "MainCharacter": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 225.5,
-            "Dimension Y": 312.0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0,
             "Type": 1,
             "Event Name": "",
             "Event Input": ""

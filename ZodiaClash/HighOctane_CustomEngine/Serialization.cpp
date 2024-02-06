@@ -291,6 +291,9 @@ rapidjson::Value SerializeCollider(const Collider& collider, rapidjson::Document
 	colliderObject.AddMember("Collider Enum", (int)collider.bodyShape, allocator);
 	colliderObject.AddMember("Dimension X", collider.dimension.x, allocator);
 	colliderObject.AddMember("Dimension Y", collider.dimension.y, allocator);
+	colliderObject.AddMember("Type", (int)collider.type, allocator);
+	colliderObject.AddMember("Event Name", rapidjson::Value(collider.eventName.c_str(), allocator).Move(), allocator);
+	colliderObject.AddMember("Event Input", rapidjson::Value(collider.eventInput.c_str(), allocator).Move(), allocator);
 	return colliderObject;
 }
 
@@ -1192,7 +1195,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					collider.dimension.y = colliderObject["Dimension Y"].GetFloat();
 				}
 				collider.bodyShape = static_cast<Collider::SHAPE_ID>(enumID);
-
+				if (colliderObject.HasMember("Type")) {
+					int typeID = colliderObject["Type"].GetInt();
+					collider.type = static_cast<Collider::COLLISION_TYPE>(typeID);
+					collider.eventName = colliderObject["Event Name"].GetString();
+					collider.eventInput = colliderObject["Event Input"].GetString();
+				}
 				if (ECS::ecs().HasComponent<Collider>(entity)) {
 					ECS::ecs().GetComponent<Collider>(entity) = collider;
 				}

@@ -220,7 +220,19 @@ void CollisionSystem::Update() {
 			if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
 				bool hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
 				if (hasCollided) {
-					physics::DynamicStaticResponse(*transData1, *transData2);
+					if (collideData1->type == Collider::EVENT || collideData2->type == Collider::EVENT) {
+						if (collideData1->type == Collider::EVENT && collideData2->type == Collider::MAIN && !collideData1->collided) {
+							events.Call(collideData1->eventName, collideData1->eventInput);
+							collideData1->collided = true;
+						}
+						else if (collideData2->type == Collider::EVENT && collideData1->type == Collider::MAIN && !collideData2->collided) {
+							events.Call(collideData2->eventName, collideData2->eventInput);
+							collideData2->collided = true;
+						}
+					}
+					else {
+						physics::DynamicStaticResponse(*transData1, *transData2);
+					}
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
@@ -265,12 +277,14 @@ void MovementSystem::Update() {
 		// Access component arrays through the ComponentManager
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
 		for (Entity const& entity : m_Entities) {
 			Transform* transformData = &transformArray.GetData(entity);
 			Model* modelData = &modelArray.GetData(entity);
 
 			UpdateMovement(*transformData, *modelData);
+			colliderArray.GetData(entity).type = Collider::MAIN;
 
 			camera.SetTarget(entity);
 		}

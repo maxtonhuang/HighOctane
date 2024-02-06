@@ -67,7 +67,7 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
     else if (attackName == "A strong attack is coming!") {
-        target->charge = true;
+        owner->charge = true;
         if (owner->stats.health < 0.5 * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }

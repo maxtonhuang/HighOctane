@@ -125,7 +125,7 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 	t->texVariants.push_back(assetmanager.texture.Get(filename));
 	t->tex = t->texVariants.at(0);
 	ECS::ecs().AddComponent(entity, Size{ static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight()) });
-	ECS::ecs().AddComponent(entity, Collider{ Collider::SHAPE_BOX, {static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())}, {0.0f, 0.0f} }); //add physics component
+	ECS::ecs().AddComponent(entity, Collider{ Collider::SHAPE_BOX,Collider::WALL, {static_cast<float>(t->tex->GetWidth()), static_cast<float>(t->tex->GetHeight())}, {0.0f, 0.0f} }); //add physics component
 
 	++masterCounter;
 	return entity;

@@ -81,7 +81,13 @@ struct Collider {
         SHAPE_CIRCLE,
         NUM_OF_SHAPES
     };
+    enum COLLISION_TYPE {
+        MAIN,
+        WALL,
+        EVENT
+    };
     SHAPE_ID                bodyShape{};
+    COLLISION_TYPE          type{WALL};
     Vec2                    dimension{};
     Vec2                    position{};
     float                   rotation{};
@@ -89,6 +95,10 @@ struct Collider {
     float                   radius{};
     Vec2                    halfDimensions{ scale / 2.f,  scale / 2.f };
 
+    //For event type collision
+    std::string             eventName{};
+    std::string             eventInput{};
+    bool                    collided{ false };
 };
 
 struct Size {

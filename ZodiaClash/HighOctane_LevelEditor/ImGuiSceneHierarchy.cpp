@@ -414,6 +414,22 @@ void SceneEntityComponents(Entity entity) {
 			if (ImGui::Combo("Rotation", &currentRotationIndex, rotationOptions, IM_ARRAYSIZE(rotationOptions))) {
 				rotationComponent = static_cast<float>(currentRotationIndex) * 90.0f;
 			}*/
+			bool eventType{ entityCollider->type == Collider::EVENT };
+			ImGui::Checkbox("Event Collision", &eventType);
+			if (eventType) {
+				entityCollider->type = Collider::EVENT;
+				ImGui::InputText("Event Name", &entityCollider->eventName);
+				ImGui::InputText("Event Input", &entityCollider->eventInput);
+			}
+			else if (entityCollider->type == Collider::EVENT) {
+				if (ECS::ecs().HasComponent<MainCharacter>(entity)) {
+					entityCollider->type = Collider::MAIN;
+				}
+				else {
+					entityCollider->type = Collider::WALL;
+				}
+			}
+
 
 			ImGui::TreePop();
 		}
