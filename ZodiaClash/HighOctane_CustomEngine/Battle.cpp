@@ -1008,16 +1008,34 @@ void BattleSystem::UpdateTargets() {
         }
     }
 
+        static Entity tooltipPrefab{};
+        bool isHovered{ false };
     for (int i = 0; i < skillButtons.size(); i++) {
         Model& skillModel{ modelArray.GetData(skillButtons[i])};
-        static Entity tooltipPrefab{};
         if (IsWithinObject(skillModel, mousePos)) {
-
+            isHovered = true;
+            if (i == 0) {
+                if (ECS::ecs().EntityExists(tooltipPrefab)) {
+                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+                }
+                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill1_tooltip.prefab");
+            }
+            else if (i == 1) {
+                if (ECS::ecs().EntityExists(tooltipPrefab)) {
+                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+                }
+                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill2_tooltip.prefab");
+            }
+            else if (i == 2) {
+                if (ECS::ecs().EntityExists(tooltipPrefab)) {
+                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+                }
+                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill3_tooltip.prefab");
+            }
         }
-        else if (tooltipPrefab) {
-            EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-            tooltipPrefab = 0;
-        }
+    }
+    if (!isHovered && ECS::ecs().EntityExists(tooltipPrefab)) {
+        EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
     }
     //else if (!locked) {
     //    std::vector<CharacterStats*> enemyList{ GetEnemies() };

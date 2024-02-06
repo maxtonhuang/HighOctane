@@ -37,6 +37,7 @@
 #include "Events.h"
 
 bool buffer = false;
+static int playButtonClickCount = 0;
 /******************************************************************************
 *
 *	@brief Creates the Play, Stop, and Pause Control Panel
@@ -53,9 +54,18 @@ void UpdatePlayStop() {
     ImGui::Begin("Controls");
 
     if (ImGui::Button("Play", { 100, 50 })) {
-        playButton = true;
-        if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
-            SetCurrentSystemMode(SystemMode::RUN);
+        playButtonClickCount++;
+        if (playButtonClickCount % 2 == 1) {
+            playButton = true;
+            if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
+                SetCurrentSystemMode(SystemMode::RUN);
+            }
+        }
+        else {
+            if (!playButton && GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
+                events.Call("Change Scene", "tmp.scn");
+                SetCurrentSystemMode(SystemMode::EDIT);
+            }
         }
         button_clicked = true;
     }
