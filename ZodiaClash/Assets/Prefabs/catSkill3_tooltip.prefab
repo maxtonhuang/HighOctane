@@ -30,7 +30,7 @@
     {
         "Entity": {
             "Name": "catSkill3_tooltip.png",
-            "Current Layer": 0,
+            "Current Layer": 3,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -43,10 +43,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": 644.0,
+            "position_y": -195.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 1.135,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
