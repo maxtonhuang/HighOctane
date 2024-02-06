@@ -521,6 +521,8 @@ void SerializationSystem::Update() {
 		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 			SetCurrentSystemMode(SystemMode::RUN);
 		}
+		assetmanager.audio.ResumeGroup("BGM");
+		assetmanager.audio.ResumeGroup("SFX");
 		EngineCore::engineCore().set_m_previousTime(GetTime());
 	}
 
