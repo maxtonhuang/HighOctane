@@ -69,6 +69,7 @@
 #include "Layering.h"
 #include "Animation.h"
 #include "Transition.h"
+#include "MemoryManager.h"
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -774,7 +775,6 @@ void EngineCore::Run(bool const& mode) {
 	ScriptEngine::Shutdown();
 
 	delete physics::PHYSICS;
-
 
 
 	//////////////////////////////

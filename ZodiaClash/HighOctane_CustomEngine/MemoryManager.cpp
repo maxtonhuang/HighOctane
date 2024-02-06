@@ -341,15 +341,17 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
 	m_stats.Allocations_ = 0;
 	m_stats.Deallocations_ = 0;
 
-	try {
-		CreateNewPage();
-	}
-	catch (std::bad_alloc&) {
-		throw OAException(OAException::E_NO_MEMORY, "out of physical memory (operator new fails)");
-	}
-	catch (const OAException& e) {
-		if (e.code() == OAException::E_NO_PAGES) {
-			throw OAException(OAException::E_NO_PAGES, "out of logical memory (max pages has been reached)");
+	if (!m_config.UseCPPMemManager_) {
+		try {
+			CreateNewPage();
+		}
+		catch (std::bad_alloc&) {
+			throw OAException(OAException::E_NO_MEMORY, "out of physical memory (operator new fails)");
+		}
+		catch (const OAException& e) {
+			if (e.code() == OAException::E_NO_PAGES) {
+				throw OAException(OAException::E_NO_PAGES, "out of logical memory (max pages has been reached)");
+			}
 		}
 	}
 
@@ -365,6 +367,7 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
 ObjectAllocator::~ObjectAllocator() {
 	while (PageList_) {
 		GenericObject* nextToDelete = PageList_->Next;
+		printf(">> Deleting Page: %p\n", PageList_);
 		delete[] reinterpret_cast<char*>(PageList_);
 		PageList_ = nextToDelete;
 	}
@@ -380,7 +383,7 @@ ObjectAllocator::~ObjectAllocator() {
  *****************************************************************************/
 void* ObjectAllocator::Allocate(const char* label) {
 
-	GenericObject* temp;
+	GenericObject* temp = nullptr;
 
 	if (m_config.UseCPPMemManager_) {
 		temp = reinterpret_cast<GenericObject*>(new char[m_stats.ObjectSize_]);

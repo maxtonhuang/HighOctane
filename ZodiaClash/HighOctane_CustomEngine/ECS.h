@@ -71,6 +71,7 @@
 #include <set>
 #include <memory>
 #include <functional>
+#include <algorithm>
 #include "debugdiagnostic.h"
 #include "Components.h"
 #include "MemoryManager.h"
@@ -200,8 +201,12 @@ public:
 
         // Copy element at end into deleted element's place to maintain density
         size_t indexOfRemovedEntity = m_EntityToIndexMap[entity];
+
         size_t indexOfLastElement = m_Size - 1;
-		m_MemoryManager->Free(m_ComponentArray[indexOfRemovedEntity]);
+        if (m_ComponentArray[indexOfRemovedEntity] != nullptr) {
+            m_ComponentArray[indexOfRemovedEntity]->~T(); // Manually call the destructor
+            m_MemoryManager->Free(m_ComponentArray[indexOfRemovedEntity]); // Free the memory
+        }
         m_ComponentArray[indexOfRemovedEntity] = m_ComponentArray[indexOfLastElement];
 
         // Update map to point to moved spot
@@ -289,9 +294,18 @@ public:
         return array;
     }
 
-    ComponentArray() : m_MemoryManager{new ObjectAllocator(sizeof(T), config)} {};
+    ComponentArray() : m_MemoryManager{ new ObjectAllocator((sizeof(T) < sizeof(void*) ? sizeof(void*) : sizeof(T)), config) } {};
 
     ~ComponentArray() {
+        printf("Destructing: %s\n", typeid(T).name());
+        for (auto& e : m_EntityToIndexMap) {
+            if (m_ComponentArray[e.second] != nullptr) {
+				m_ComponentArray[e.second]->~T();
+
+				m_MemoryManager->Free(m_ComponentArray[e.second]);
+			}
+		}
+        m_MemoryManager->~ObjectAllocator();
 		delete m_MemoryManager;
 	}
 
@@ -299,12 +313,12 @@ private:
 
     // This portion is new ========================================
     bool useCPPMemMgr{ false };
-    unsigned objectsPerPage{ 32 };
+    unsigned objectsPerPage{ 64 };
     unsigned maxPages{};
-    bool debug{ false };
-    unsigned padbytes{};
-    OAConfig::HeaderBlockInfo header{ OAConfig::hbNone };
-    unsigned alignment{};
+    bool debug{ true };
+    unsigned padbytes{ 8 };
+    OAConfig::HeaderBlockInfo header{ OAConfig::hbBasic };
+    unsigned alignment{ 16 };
     OAConfig config{ useCPPMemMgr,objectsPerPage, maxPages, debug, padbytes, header, alignment };
 
     ObjectAllocator * m_MemoryManager;
