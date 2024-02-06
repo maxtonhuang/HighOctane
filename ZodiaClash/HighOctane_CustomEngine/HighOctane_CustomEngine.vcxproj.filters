@@ -272,6 +272,9 @@
     <ClInclude Include="Transition.h">
       <Filter>Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -441,6 +444,9 @@
     </ClCompile>
     <ClCompile Include="Transition.cpp">
       <Filter>Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

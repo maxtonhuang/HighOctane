@@ -585,6 +585,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="Model.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MultiThreading.h" />
+    <ClInclude Include="Particles.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerAction.h" />
     <ClInclude Include="Reflections.h" />
@@ -645,6 +646,7 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MultiThreading.cpp" />
+    <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
