@@ -106,8 +106,8 @@
         "Clone": {
             "Prefab": "wall_invisible.prefab",
             "Unique Components": [
-                "struct Collider",
                 "struct Transform",
+                "struct Collider",
                 "struct Name",
                 "struct Parent",
                 "struct Size"
@@ -1711,7 +1711,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Halt!",
+            "Text String": "What is this aura in the artifact?",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -1725,18 +1725,46 @@
         "DialogueHUD": {
             "Dialogue Lines": [
                 {
-                    "Speaker": "Jade Guard",
-                    "Line": "Halt!"
+                    "Speaker": "Mei",
+                    "Line": "What is this aura in the artifact?"
+                },
+                {
+                    "Speaker": "Yang",
+                    "Line": "There's a sinister power within these artifacts."
+                },
+                {
+                    "Speaker": "Yang",
+                    "Line": "As if it's devouring my consciousness."
+                },
+                {
+                    "Speaker": "Mei",
+                    "Line": "Hold on..."
+                },
+                {
+                    "Speaker": "Mei",
+                    "Line": "So the other animals are also consumed by this power."
+                },
+                {
+                    "Speaker": "Yang",
+                    "Line": "Looks like it. We have to save them!"
+                },
+                {
+                    "Speaker": "Mei",
+                    "Line": "Oh no... Ok, rest here, I will find the others and rescue them!"
+                },
+                {
+                    "Speaker": "Mei",
+                    "Line": "I hope you are okay, Shu..."
                 }
             ],
             "Viewing Index": 0,
             "Display Duration": 0.0,
             "Is Active": false,
             "Is Triggered": false,
-            "Auto Launch": false,
+            "Auto Launch": true,
             "Speaker Required": true,
             "Post Dialogue Scene": true,
-            "Target Scene": "battle.scn"
+            "Target Scene": "tbc.scn"
         },
         "Parent": {}
     }

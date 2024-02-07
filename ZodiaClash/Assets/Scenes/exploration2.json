@@ -1711,7 +1711,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Halt!",
+            "Text String": "...",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -1725,8 +1725,8 @@
         "DialogueHUD": {
             "Dialogue Lines": [
                 {
-                    "Speaker": "Jade Guard",
-                    "Line": "Halt!"
+                    "Speaker": "Yang",
+                    "Line": "..."
                 }
             ],
             "Viewing Index": 0,
@@ -1736,7 +1736,7 @@
             "Auto Launch": false,
             "Speaker Required": true,
             "Post Dialogue Scene": true,
-            "Target Scene": "battle.scn"
+            "Target Scene": "battle2.scn"
         },
         "Parent": {}
     }

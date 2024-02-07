@@ -1506,7 +1506,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				if (dialogueHudObject.HasMember("Dialogue Lines") && dialogueHudObject["Dialogue Lines"].IsArray()) {
 					const rapidjson::Value& dialogueLinesArray = dialogueHudObject["Dialogue Lines"];
 					for (rapidjson::SizeType j = 0; j < dialogueLinesArray.Size(); ++j) {
-						if (dialogueLinesArray[i].IsObject()) {
+						if (dialogueLinesArray[j].IsObject()) {
 							std::pair<std::string, std::string> line;
 							line.first = dialogueLinesArray[j]["Speaker"].GetString();
 							line.second = dialogueLinesArray[j]["Line"].GetString();
