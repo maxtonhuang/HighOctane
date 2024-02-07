@@ -357,14 +357,23 @@ void MovementSystem::Update() {
 		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-		for (Entity const& entity : m_Entities) {
-			Transform* transformData = &transformArray.GetData(entity);
-			Model* modelData = &modelArray.GetData(entity);
+		//for (Entity const& entity : m_Entities) {
+		for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+			if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+				for (Entity& entity : layering[layer_it]) {
+					if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+						if (ECS::ecs().HasComponent<MainCharacter>(entity) && ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Model>(entity) && ECS::ecs().HasComponent<Size>(entity) && ECS::ecs().HasComponent<Tex>(entity)) {
+							Transform* transformData = &transformArray.GetData(entity);
+							Model* modelData = &modelArray.GetData(entity);
 
-			UpdateMovement(*transformData, *modelData);
-			colliderArray.GetData(entity).type = Collider::MAIN;
+							UpdateMovement(*transformData, *modelData);
+							colliderArray.GetData(entity).type = Collider::MAIN;
 
-			camera.SetTarget(entity);
+							camera.SetTarget(entity);
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -386,13 +395,22 @@ void AnimationSystem::Update() {
 	bool lockBattleSystem{ false };
 
 	for (Entity const& entity : m_Entities) {
-		AnimationSet* animationData = &animationArray.GetData(entity);
-		animationData->Update(entity);
+	/*for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity& entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+					if (ECS::ecs().HasComponent<AnimationSet>(entity) && ECS::ecs().HasComponent<Clone>(entity)) {*/
+						AnimationSet* animationData = &animationArray.GetData(entity);
+						animationData->Update(entity);
 
-		//Lock the battle system if animation is playing
-		if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
-			lockBattleSystem = true;
-		}
+						//Lock the battle system if animation is playing
+						if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
+							lockBattleSystem = true;
+						}
+		//			}
+		//		}
+		//	}
+		//}
 	}
 	if (lockBattleSystem) {
 		Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
