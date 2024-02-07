@@ -569,7 +569,7 @@ void GraphicsSystem::Draw() {
 						m->Draw(tex);
 						if (textlabelArray.HasComponent(entity)) {
 							TextLabel* textLabelData = &textlabelArray.GetData(entity);
-							graphics.DrawLabel(*textLabelData, textLabelData->relTransform, textLabelData->textColor);
+							graphics.DrawLabel(*textLabelData, textLabelData->textColor);
 						}
 					}
 					else if (GetCurrentSystemMode() == SystemMode::EDIT && transformArray.HasComponent(entity)) {

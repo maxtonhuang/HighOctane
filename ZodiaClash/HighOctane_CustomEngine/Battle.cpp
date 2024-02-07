@@ -481,7 +481,8 @@ void BattleSystem::CompleteBattle() {
             animationArray->GetData(e).Start("Pop Out", e);
         }
         if (battleState == WIN) {
-            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
+            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");\
+            events.Call("Start Dialogue", "");
         }
         else if (battleState == LOSE) {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
