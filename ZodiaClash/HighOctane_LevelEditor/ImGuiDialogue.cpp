@@ -12,7 +12,7 @@ void DialogueWindow(Entity entity) {
         int& selectedIndex = dialogueData.viewingIndex;
         int maxViewingIndex = static_cast<int>(dialogueData.dialogueLines.size()) - 1;
         ImGui::InputInt("Viewing Index", &selectedIndex);
-        selectedIndex = std::clamp(selectedIndex, 0, maxViewingIndex);
+        selectedIndex = (maxViewingIndex > 0) ? std::clamp(selectedIndex, 0, maxViewingIndex) : 0;
 
         // IsActive (ensure this is unchecked when saving scene!)
         ImGui::SameLine();
@@ -72,7 +72,7 @@ void DialogueWindow(Entity entity) {
 
                 // Column 2: InputTextMultiline for Speaker's line
                 ImGui::TableSetColumnIndex(dialogueData.speakerRequired ? 1 : 0);
-                ImGui::InputText(("##Line" + std::to_string(i)).c_str(), &dialogueData.dialogueLines[i].second);
+                ImGui::InputTextMultiline(("##Line" + std::to_string(i)).c_str(), &dialogueData.dialogueLines[i].second);
 
                 // Column 3: Delete button
                 ImGui::TableSetColumnIndex(dialogueData.speakerRequired ? 2 : 1);

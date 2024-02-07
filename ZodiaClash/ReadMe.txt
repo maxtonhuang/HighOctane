@@ -44,10 +44,10 @@ GAME FEATURES:
 Currently, the game consists of 1 playable character, the Cat (Mei). The Cat is a damage dealer.
 
 [Mei - Cat]
-Skill 1 (Scarlet Claw) - Deals damage to a single enemy and inflicts Bleed equal to 10% of Guiying's attack for 3 turns.
+Skill 1 (Scarlet Claw) - Deals damage to a single enemy and inflicts Bleed equal to 10% of Mei's attack for 3 turns.
 (+1 Chi)
 
-Skill 2 (Dance of Fury) - Deals damage to all enemies and inflicts Bleed equal to 10% of Guiying's attack for 2 turns.
+Skill 2 (Dance of Fury) - Deals damage to all enemies and inflicts Bleed equal to 10% of Mei's attack for 2 turns.
 (-2 Chi)
 
 Skill 3 (Secret Arts: Pounce) - Deals damage to all enemies, then if an enemy already has Bleed, all Bleed on that enemy will be activated and removed.
@@ -62,18 +62,10 @@ Bleed - Deals damage equal to a percentage of the attacker's attack every time t
 
 Shatter - Lowers the defense of the affected character equal to a percentage of the affected character’s defense for several turns.
 
-Stun - Forces the affected character to not be able to take any action on their next turn.
-
-Taunt - Forces the affected character to only be able to attack the character who used the taunt.
-
 [Buffs]
-Enrage - Increases the attack of the affected character equal to a percentage of the affected character’s attack for several turns.
-
-Armor - Increase the defense of the affected character equal to a percentage of the affected character’s defense for several turns.
 
 Cleanse - Removes all negative effects of the affected character.
 
-Berserk (Boss Only) - Increases the attack of the affected character significantly equal to 100% of the affected character's attack.
 ================================================================
 
 GAME CONTROLS:
@@ -90,11 +82,12 @@ Main Gameplay Controls
 - Repeat steps 1-3, until the battle has ended.
 
 3) Cheat Codes
-- Press 'F1' to toggle GodMode, player restores full health and do at least twice the normal damage.
-- Press 'F2' to toggle EndGameMode, enemy's health decreased to zero and end the game with the player's victory.
+- Press 'F9' to toggle GodMode, player restores full health and do at least twice the normal damage.
+- Press 'F10' to toggle EndGameMode, enemy's health decreased to zero and end the game with the player's victory.
 
 4) Other Controls
 - Press F11 for fullscreen.
+- Press esc to pause the game and show the game menu
 ================================================================
 
 OTHERS:
@@ -108,11 +101,6 @@ Enemy Characters' HP - Displays the enemy characters and their HP (Top-right)
 Turn Order UI - Displays the turn order of all characters in the battle stage (Bottom-left)
 Characters' Skills - Displays the characters' skills based on the current character that the player is controlling (Bottom-right)
 Chi Points - Displays the amount of Chi that the player currently has represented by the fire icons (Bottom-right)
-
-
-[Other HUD/UI]
-Pause Menu (Press 'Esc' to toggle the Pause Menu)
-
 
 2) Enemy Bosses
 Currently, there is a Goat boss within the demo.

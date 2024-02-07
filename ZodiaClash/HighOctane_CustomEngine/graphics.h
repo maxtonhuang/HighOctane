@@ -67,7 +67,7 @@ public:
 	GLFWwindow* GetWindow(); //returns window of graphics system
 	Renderer& AddRenderer(std::string name);
 	
-	void DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::vec4 color);
+	void DrawLabel(TextLabel& txtLblData, glm::vec4 color);
 
 	//DEBUG DRAW FUNCTIONS
 	void DrawPoint(float x, float y, float r = 1.f, float g = 1.f, float b = 1.f, float a = 1.f, Renderer* input = nullptr);

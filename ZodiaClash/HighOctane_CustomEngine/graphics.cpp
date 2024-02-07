@@ -278,7 +278,7 @@ GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
-void GraphicsManager::DrawLabel(TextLabel& txtLblData, Vec2& relTextPos, glm::vec4 color) {    
+void GraphicsManager::DrawLabel(TextLabel& txtLblData, glm::vec4 color) {    
     static Renderer* fontRenderer{ &renderer["font"] };
 
     if (previousRenderer != fontRenderer) {
