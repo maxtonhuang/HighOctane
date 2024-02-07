@@ -74,10 +74,10 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             fullscreen = !fullscreen;
             graphics.Fullscreen(fullscreen);
         }
-        if (GLFW_KEY_G == key) {
+        if (GLFW_KEY_F9 == key) {
             ToggleGodMode();
         }
-        if (GLFW_KEY_E == key) {
+        if (GLFW_KEY_F10 == key) {
             ToggleEndGameMode();
         }
         break;
