@@ -56,16 +56,12 @@ void UpdatePlayStop() {
 
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoResize;
     ImGui::Begin("Controls", nullptr, window_flags);
-    // Calculate the width of the buttons
     float buttonWidth = 25.0f;
 
-    // Calculate the total width of the buttons
     float totalWidth = 2 * buttonWidth + ImGui::GetStyle().ItemSpacing.x;
 
-    // Calculate the starting X position to center the buttons
     float startPosX = (ImGui::GetWindowWidth() - totalWidth) / 2;
 
-    // Set the cursor position to start drawing buttons
     ImGui::SetCursorPosX(startPosX);
     if (!playIcon) {
         if (ImGui::ImageButton(loadedIcons["playIcon"], ImVec2{ buttonWidth, buttonWidth })) {
@@ -100,6 +96,11 @@ void UpdatePlayStop() {
                 SetCurrentSystemMode(SystemMode::EDIT);
             }
         }
+    }
+    if (loadingBuffer) {
+        ImGui::SameLine();
+        ImGui::Text("Loading...");
+        loadingBuffer = false;
     }
 
 	ImGui::End();

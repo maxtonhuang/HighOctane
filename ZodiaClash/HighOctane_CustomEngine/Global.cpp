@@ -58,6 +58,7 @@ bool playButton{ false };
 bool stopButton{ false };
 bool pauseBuffer{ false };
 bool stopBuffer{ false };
+bool loadingBuffer{ false };
 bool sceneChangedWhilePlay{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
