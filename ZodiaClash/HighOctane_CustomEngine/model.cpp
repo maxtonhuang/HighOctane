@@ -297,32 +297,72 @@ vmath::Vector2 Model::GetRotPoint() const {
 }
 
 vmath::Vector2 Model::GetTopLeft() const {
-	return vmath::Vector2{ topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ topleft.x * GRAPHICS::w - camera.GetPos().x, topleft.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 
 vmath::Vector2 Model::GetTopRight() const {
-	return vmath::Vector2{ topright.x * GRAPHICS::w, topright.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ topright.x * GRAPHICS::w, topright.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ topright.x * GRAPHICS::w - camera.GetPos().x, topright.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 vmath::Vector2 Model::GetBotLeft() const {
-	return vmath::Vector2{ botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ botleft.x * GRAPHICS::w - camera.GetPos().x, botleft.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 vmath::Vector2 Model::GetBotRight() const {
-	return vmath::Vector2{ botright.x * GRAPHICS::w, botright.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ botright.x * GRAPHICS::w, botright.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ botright.x * GRAPHICS::w - camera.GetPos().x, botright.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 
 vmath::Vector2 Model::GetTop() const {
-	return vmath::Vector2{ top.x * GRAPHICS::w, top.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ top.x * GRAPHICS::w, top.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ top.x * GRAPHICS::w - camera.GetPos().x, top.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 
 vmath::Vector2 Model::GetBot() const {
-	return vmath::Vector2{ bot.x * GRAPHICS::w, bot.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ bot.x * GRAPHICS::w, bot.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ bot.x * GRAPHICS::w - camera.GetPos().x, bot.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 
 vmath::Vector2 Model::GetLeft() const {
-	return vmath::Vector2{ left.x * GRAPHICS::w, left.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ left.x * GRAPHICS::w, left.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ left.x * GRAPHICS::w - camera.GetPos().x, left.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 
 vmath::Vector2 Model::GetRight() const {
-	return vmath::Vector2{ right.x * GRAPHICS::w, right.y * GRAPHICS::h };
+	if (type == UI) {
+		return vmath::Vector2{ right.x * GRAPHICS::w, right.y * GRAPHICS::h };
+	}
+	else {
+		return vmath::Vector2{ right.x * GRAPHICS::w - camera.GetPos().x, right.y * GRAPHICS::h - camera.GetPos().y };
+	}
 }
 

@@ -193,7 +193,7 @@ void GameStateMgr::UpdateGameStateMgr()
     std::shared_ptr<GraphicsSystem> graphics = ecs.RegisterSystem<GraphicsSystem>();
     std::shared_ptr<PhysicsSystem> physics = ecs.RegisterSystem<PhysicsSystem>();
     std::shared_ptr<CollisionSystem> collision = ecs.RegisterSystem<CollisionSystem>();
-
+    std::shared_ptr<ParticleSystem> particle = ecs.RegisterSystem<ParticleSystem>();
     double dt = static_cast<double>(GetTime());
 
     switch (gsmState) {
@@ -214,10 +214,12 @@ void GameStateMgr::UpdateGameStateMgr()
             // Update the systems
             physics->Update();  // will use fixed time-step and handle entities' physics
             collision->Update();
+            particle->Update();
 
             // Draw or render logic
             stateArray[state].GSM_Draw(dt);
             graphics->Draw();
+            particle->Draw();
         }
         else {
             gsmState = GSFREE;

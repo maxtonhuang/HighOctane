@@ -3,13 +3,12 @@ ZODIACLASH Project Guide File
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.1 M3 build
+Version: v0.1 M4 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
 Liu Wanting (wanting.liu@digipen.edu)
 Foong Pun Yuen Nigel (p.foong@digipen.edu)
-Koh Wen Yuan (k.wenyuan@digipen.edu)
 Chua Zhen Rong (c.zhenrong@digipen.edu)
 Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
 
@@ -79,7 +78,7 @@ Scripting System:
 Editing System:
 - Prefabs can be edited through the prefab editor window
 - Within the viewport,(if it is not locked by the layering system) selecting an entity would have a green box highlighted around it, means it is editable.
-- Resize it by hovering over the corners. It would increase or decrease the scale.
+- Resize it by hovering over the corners or sides and dragging. It would increase or decrease the scale.
 - Drag the editable entity anywhere on screen.
 ================================================================
 
@@ -125,3 +124,53 @@ Animation System:
 - Able to change animation frame amount (duration). (Note that this starts at 0)
 - Able to add animation types.
 ================================================================
+
+UI Components:
+The following listed are critical UI components and the corresponding prefabs available for customization.
++---------------+---------------------------+
+| UIComponent   | Prefab Name               |
++---------------+---------------------------+
++---------------+---------------------------+
+| TextLabel     | textlabel.prefab          |
++---------------+---------------------------+
+| Button        | button.prefab             |
++---------------+---------------------------+
+| HealthBar     | healthbar.prefab          |
++---------------+---------------------------+
+| SkillPointHUD | skillpointsys.prefab      |
++---------------+---------------------------+
+| DialogueHUD   | dialogue_textlabel.prefab |
++---------------+---------------------------+
+
+All UI components can be edited from the Properties window docked on the left, except for DialogueHUD (when selected, Dialogue Editor window will appear docked at the bottom for easier editing). Other UI component prefabs not listed here are required in the making of these main prefabs, so do not delete!
+
+TextLabel:
+- Able to adjust label size, color and toggle background
+- Able to select a font and its variants, and adjust font size of the text
+- Able to write multiple lines of text with word wrapping
+- Able to easily select alignment, both horizontal and vertical with the 9-tile grid
+- Able to switch between Auto Width, Auto Height and Fixed Size to facilitate resizing based on text content
+
+Button:
+- On top of TextLabel, able to setup event triggers by selecting event type and specifying input parameters, if any.
+- Able to resize button by adding padding to its TextLabel component (horizontal and vertical padding)
+- Able to adjust button and text colors for each state: Default (None), Hovered and Focused
+
+Health Bar:
+- Able to adjust bar width and height, and control the state of the health bar by adjusting its percentage
+- Able to toggle showing of health values, as a raw number or as a percentage.
+- Will be linked to the battle system if it is available, otherwise able to experiment using the Character Stats component
+
+SkillPointHUD:
+- Creates an instance of the skill point system. 
+- Values will be automated when connected to the battle system, but otherwise feel free to adjust and experiment.
+
+DialogueHUD:
+- Able save lines of a dialogue specific to the scene.
+- Able to conveniently add, edit and delete lines of the dialogue. Dialogue Editor window is docked at the bottom to facilitate this purpose.
+- Able to toggle dialogue's trigger condition. Selecting the "Launch dialogue automatically?" checkbox will allow the dialogue to trigger as soon as the scene begins. Otherwise, the dialogue trigger will be event-based, either as an explicit button event trigger with "Start Dialogue" selected in the Events Availble field of the Button Event property (Properties panel docked to the left), or as internal event call as specified by the system.
+- Able to toggle the dialogue's background. Currently we recommend selecting the "Dialogue has speaker?" checkbox to facilitate dialogue conversations (for contrast over other on-screen elements), not doing so is recommended for dialogue cutscenes (narration). However feel free to customize as you wish.
+- If "Dialogue has speaker?" is not checked, the Speaker column of the table will be hidden. Ensure all entries in the Speaker column is cleared before unchecking this.
+- Able to toggle post dialogue state. Selecting the "Set post-dialogue scene?" checkbox and specifying the scene in the Target Scene field will trigger the Transition Scene event to transition to the next scene. Otherwise the dialogue will conclude on the current scene.
+- Note that dialogues in a scene is single-occurence only, and cannot be triggered again after it has concluded.
+- When saving the instance on the scene, especially if testing has been done, ensure the Viewing Index field is set to 0, Is Active field is unchecked and Is Triggered field is unchecked. Refrain from toggling these settings when the game is running.

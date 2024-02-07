@@ -62,7 +62,6 @@ namespace physics {
     class PhysicsManager {
     public:
         PhysicsManager(ECS& ecs, GraphicsManager& graphicsSystem);
-        void Update(float deltaTime);
         void AddEntity(Entity entity);
         void Integrate(Transform& transform, Collider& colliderData);
         void DebugDraw(Transform& transform, Collider& colliderData);

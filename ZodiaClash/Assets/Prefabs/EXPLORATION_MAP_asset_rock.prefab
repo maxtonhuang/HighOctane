@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 67,
+            "layerCounter": 33,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -36,52 +36,19 @@
                 "Layer 29",
                 "Layer 30",
                 "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66"
+                "Layer 32"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Cat",
+            "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -89,11 +56,11 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -544.4788818359375,
-            "position_y": 26.215194702148438,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.6240636110305786,
-            "velocity_x": 1.3096902552800984e-33,
+            "scale": 1.0,
+            "velocity_x": 0.0,
             "velocity_y": 0.0
         },
         "Texture": {
@@ -101,14 +68,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Cat_Idle.spritesheet"
+            "Texture File Path": "EXPLORATION_MAP_asset_rock.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 512.0,
-            "height": 513.0
+            "width": 256.0,
+            "height": 256.0
         },
         "Model": {
             "Model type": 0,
@@ -119,15 +86,6 @@
             "Alpha": 1.0,
             "Mirror": false
         },
-        "Movable": {},
-        "MainCharacter": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 225.5,
-            "Dimension Y": 312.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
-        }
+        "Movable": {}
     }
 ]

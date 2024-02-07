@@ -320,14 +320,26 @@ void StartDialogue(std::string input) {
 
 	UIDialogueSystem* ds = events.GetDialogueSystem();
 	auto& dialogueHudArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<DialogueHUD>() };
-	auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		Transform* transformData = &transformArray.GetData(entity);
-		if (!dialogueHudData->isActive) {
+		if (!dialogueHudData->isActive && !dialogueHudData->isTriggered) {
 			dialogueHudData->viewingIndex = 0;
-			dialogueHudData->StartDialogue(entity, *transformData);
+			dialogueHudData->StartDialogue(entity);
+		}
+	}
+}
+
+void AdvanceDialogue(std::string input) {
+	(void)input;
+
+	UIDialogueSystem* ds = events.GetDialogueSystem();
+	auto& dialogueHudArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<DialogueHUD>() };
+
+	for (Entity const& entity : ds->m_Entities) {
+		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
+		if (dialogueHudData->dialogueLines.size()) {
+			dialogueHudData->JumpNextLine(entity);
 		}
 	}
 }
@@ -355,6 +367,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Confirm Exit"] = ConfirmExit;
 	functions["Test"] = TestFunction;
 	functions["Start Dialogue"] = StartDialogue;
+	functions["Advance Dialogue"] = AdvanceDialogue;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}

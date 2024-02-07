@@ -69,6 +69,7 @@
 #include "Layering.h"
 #include "Animation.h"
 #include "Transition.h"
+#include "Particles.h"
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -242,6 +243,10 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(physicsSystem, "Physics System");
 	systemList.emplace_back(physicsSystem, "Physics System");
 
+	std::shared_ptr<ParticleSystem> particleSystem = ECS::ecs().RegisterSystem<ParticleSystem>();
+	runSystemList.emplace_back(particleSystem, "Particle System");
+	systemList.emplace_back(particleSystem, "Particle System");
+
 	std::shared_ptr<CollisionSystem> collisionSystem = ECS::ecs().RegisterSystem<CollisionSystem>();
 	runSystemList.emplace_back(collisionSystem, "Collison System");
 	systemList.emplace_back(collisionSystem, "Collison System");	
@@ -356,13 +361,6 @@ void EngineCore::Run(bool const& mode) {
 	pauseSystemList.emplace_back(graphicsSystem, "Graphics System");
 	gameHelpSystemList.emplace_back(graphicsSystem, "Graphics System");
 
-	std::shared_ptr<ParticlesSystem> particlesSystem = ECS::ecs().RegisterSystem<ParticlesSystem>();
-	runSystemList.emplace_back(particlesSystem, "Particles System");
-	editSystemList.emplace_back(particlesSystem, "Particles System");
-	systemList.emplace_back(particlesSystem, "Particles System");
-	pauseSystemList.emplace_back(particlesSystem, "Particles System");
-	gameHelpSystemList.emplace_back(particlesSystem, "Particles System");
-
 	// Set Entity's Component combination signatures for each System 
 	{
 		Signature signature;
@@ -439,16 +437,6 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
-	}
-
-	{
-		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Transform>());
-		signature.set(ECS::ecs().GetComponentType<Size>());
-		signature.set(ECS::ecs().GetComponentType<Particle>());
-		signature.set(ECS::ecs().GetComponentType<Emitter>());
-
-		ECS::ecs().SetSystemSignature<ParticlesSystem>(signature);
 	}
 
 	{

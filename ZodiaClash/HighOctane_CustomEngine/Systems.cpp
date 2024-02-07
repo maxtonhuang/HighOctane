@@ -59,7 +59,6 @@
 #include "Animation.h"
 #include "UndoRedo.h"
 #include "Particles.h"
-
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
 
@@ -164,6 +163,33 @@ void PhysicsSystem::Draw() {
 		physics::PHYSICS->DebugDraw(transData, collData);
 	}
 }
+#include <random>
+
+void ParticleSystem::Update()
+{
+	particles.Update(FIXED_DT);
+	float freq = 0.1f;
+	static float timer = freq;
+	timer += FIXED_DT;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	// Create a uniform distribution between 0 and 1
+	std::uniform_real_distribution<float> dis(0, 1);
+
+	// Generate and print a random number
+	if (timer >= freq) {
+		float randomValue = dis(gen);
+		float between_neg1and1 = -1 + ((2) * randomValue);
+		float between_negwidthandwidth = -(GRAPHICS::w)+(GRAPHICS::w * 2 * randomValue);
+		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h }, { 10, 10 }, { between_neg1and1 * 500, -500 }, { {123.f / 255.f, 201.f / 255.f, 141.f / 255.f, 1} }, particlePresets::ParticleFade, 0.f);
+		timer = 0.f;
+	}
+}
+
+void ParticleSystem::Draw()
+{
+	particles.Draw(FIXED_DT);
+}
 
 /******************************************************************************
 *
@@ -216,11 +242,22 @@ void CollisionSystem::Update() {
 			Collider* collideData1 = &colliderArray.GetData(entity1);
 			Collider* collideData2 = &colliderArray.GetData(entity2);
 
-			// Your collision detection logic remains the same as before
 			if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
 				bool hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
 				if (hasCollided) {
-					physics::DynamicStaticResponse(*transData1, *transData2);
+					if (collideData1->type == Collider::EVENT || collideData2->type == Collider::EVENT) {
+						if (collideData1->type == Collider::EVENT && collideData2->type == Collider::MAIN && !collideData1->collided) {
+							events.Call(collideData1->eventName, collideData1->eventInput);
+							collideData1->collided = true;
+						}
+						else if (collideData2->type == Collider::EVENT && collideData1->type == Collider::MAIN && !collideData2->collided) {
+							events.Call(collideData2->eventName, collideData2->eventInput);
+							collideData2->collided = true;
+						}
+					}
+					else {
+						physics::DynamicStaticResponse(*transData1, *transData2);
+					}
 				}
 			}
 			else if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_CIRCLE)) {
@@ -265,12 +302,14 @@ void MovementSystem::Update() {
 		// Access component arrays through the ComponentManager
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
 		for (Entity const& entity : m_Entities) {
 			Transform* transformData = &transformArray.GetData(entity);
 			Model* modelData = &modelArray.GetData(entity);
 
 			UpdateMovement(*transformData, *modelData);
+			colliderArray.GetData(entity).type = Collider::MAIN;
 
 			camera.SetTarget(entity);
 		}
@@ -462,22 +501,6 @@ void GraphicsSystem::Draw() {
 	}
 	graphics.Draw();
 }
-
-void ParticlesSystem::Update() {
-
-	// Access the ComponentManager through the ECS class
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	// Access component arrays through the ComponentManager
-	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
-	auto& particlesArray = componentManager.GetComponentArrayRef<Particle>();
-	auto& colorArray = componentManager.GetComponentArrayRef<Color>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-}
-
-void ParticlesSystem::Initialize() {};
-
-void ParticlesSystem::Draw() {};
 
 /******************************************************************************
 *
@@ -1293,32 +1316,45 @@ void UIDialogueSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
 	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
+	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-		Transform* transformData = &transformArray.GetData(entity);
+		//Transform* transformData = &transformArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
-		if (dialogueHudData->dialogueLines.empty() || !dialogueHudData->isActive)
+		if (dialogueHudData->dialogueLines.empty())
 		{
 			continue;
 		}
 
-		//// hypothetical trigger to activate dialogue
-		//if (!dialogueHudData->isActive) {
-		//	if (GetCurrentSystemMode() == SystemMode::RUN && dialogueHudData->dialogueLines.size() && !dialogueHudData->viewingIndex) {
-		//		dialogueHudData->StartDialogue(entity, *transformData);
-		//	}
-		//}
+		if (GetCurrentSystemMode() == SystemMode::RUN && !dialogueHudData->isActive && dialogueHudData->dialogueLines.size()) {
+			// if dialogue is NOT triggered and autoLaunch is set to true, start dialogue
+			if (!dialogueHudData->isTriggered && dialogueHudData->autoLaunch)
+			{
+				dialogueHudData->viewingIndex = 0;
+				dialogueHudData->StartDialogue(entity);
+			}
+			// else if dialogue is triggered and has animation set, transition to next scene after animation
+			else if (dialogueHudData->isTriggered && animationArray.HasComponent(entity)) {
+				if (dialogueHudData->postDialogueScene							// if postDialogueScene is set
+					&& !dialogueHudData->targetScene.empty()					// if targetScene is set
+					&& !animationArray.GetData(entity).activeAnimation->active) // if animation has finished playing
+				{
+					events.Call("Transition Scene", dialogueHudData->targetScene);
+				}
+			}
+		}
 
 		// event handling if need to advance to next line
 		dialogueHudData->Update(*modelData, entity);		
@@ -1331,13 +1367,24 @@ void UIDialogueSystem::Update() {
 				Child* childData = &childArray.GetData(childEntity);
 				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
 				Size* speakerSizeData = &sizeArray.GetData(childEntity);
+				Model* speakerModelData = &modelArray.GetData(childEntity);
 				speakerTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].first;
-
+				
+				if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
+				{
+					speakerSizeData->height = 0.001f;
+					speakerSizeData->width = 0.001f;				
+				}
+				speakerTextData->hasBackground = dialogueHudData->speakerRequired ? true : false;
+				float parentAlpha = modelData->GetAlpha();
+				speakerModelData->SetAlpha(parentAlpha);
+				
 				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
 		dialogueTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].second;
+		dialogueTextData->hasBackground = dialogueHudData->speakerRequired ? true : false;
 	}
 }
 

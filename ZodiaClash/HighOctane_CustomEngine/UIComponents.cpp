@@ -885,7 +885,7 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
 /*************************
 **** DIALOGUE SYSTEM *****
 **************************/
-void DialogueHUD::StartDialogue(Entity entity, Transform& transformData) {
+void DialogueHUD::StartDialogue(Entity entity) {
 	isActive = 1;
 	/*transformData.position.y -= 400.f;*/
 	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
@@ -900,6 +900,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 	viewingIndex++;
 	if (viewingIndex > dialogueLines.size() - 1) {
 		isActive = 0;
+		isTriggered = 1;
 		viewingIndex--;
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };

@@ -297,6 +297,9 @@ rapidjson::Value SerializeCollider(const Collider& collider, rapidjson::Document
 	colliderObject.AddMember("Collider Enum", (int)collider.bodyShape, allocator);
 	colliderObject.AddMember("Dimension X", collider.dimension.x, allocator);
 	colliderObject.AddMember("Dimension Y", collider.dimension.y, allocator);
+	colliderObject.AddMember("Type", (int)collider.type, allocator);
+	colliderObject.AddMember("Event Name", rapidjson::Value(collider.eventName.c_str(), allocator).Move(), allocator);
+	colliderObject.AddMember("Event Input", rapidjson::Value(collider.eventInput.c_str(), allocator).Move(), allocator);
 	return colliderObject;
 }
 
@@ -442,6 +445,12 @@ rapidjson::Value SerializeDialogueHUD(const DialogueHUD& dialogueHUD, rapidjson:
 	dialogueHudObject.AddMember("Viewing Index", dialogueHUD.viewingIndex, allocator);
 	dialogueHudObject.AddMember("Display Duration", dialogueHUD.displayDuration, allocator);
 	dialogueHudObject.AddMember("Is Active", (bool)dialogueHUD.isActive, allocator);
+
+	dialogueHudObject.AddMember("Is Triggered", (bool)dialogueHUD.isTriggered, allocator);
+	dialogueHudObject.AddMember("Auto Launch", (bool)dialogueHUD.autoLaunch, allocator);
+	dialogueHudObject.AddMember("Speaker Required", (bool)dialogueHUD.speakerRequired, allocator);
+	dialogueHudObject.AddMember("Post Dialogue Scene", (bool)dialogueHUD.postDialogueScene, allocator);
+	dialogueHudObject.AddMember("Target Scene", rapidjson::Value(dialogueHUD.targetScene.c_str(), allocator).Move(), allocator);
 	return dialogueHudObject;
 }
 
@@ -1207,7 +1216,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					collider.dimension.y = colliderObject["Dimension Y"].GetFloat();
 				}
 				collider.bodyShape = static_cast<Collider::SHAPE_ID>(enumID);
-
+				if (colliderObject.HasMember("Type")) {
+					int typeID = colliderObject["Type"].GetInt();
+					collider.type = static_cast<Collider::COLLISION_TYPE>(typeID);
+					collider.eventName = colliderObject["Event Name"].GetString();
+					collider.eventInput = colliderObject["Event Input"].GetString();
+				}
 				if (ECS::ecs().HasComponent<Collider>(entity)) {
 					ECS::ecs().GetComponent<Collider>(entity) = collider;
 				}
@@ -1511,6 +1525,22 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 				if (dialogueHudObject.HasMember("Is Active")) {
 					dialogueHud.isActive = dialogueHudObject["Is Active"].GetBool();
+				}
+
+				if (dialogueHudObject.HasMember("Is Triggered")) {
+					dialogueHud.isTriggered = dialogueHudObject["Is Triggered"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Auto Launch")) {
+					dialogueHud.autoLaunch = dialogueHudObject["Auto Launch"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Speaker Required")) {
+					dialogueHud.speakerRequired = dialogueHudObject["Speaker Required"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Post Dialogue Scene")) {
+					dialogueHud.postDialogueScene = dialogueHudObject["Post Dialogue Scene"].GetBool();
+				}
+				if (dialogueHudObject.HasMember("Target Scene")) {
+					dialogueHud.targetScene = dialogueHudObject["Target Scene"].GetString();
 				}
 
 				if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
