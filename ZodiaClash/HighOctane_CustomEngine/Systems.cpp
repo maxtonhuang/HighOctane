@@ -59,7 +59,6 @@
 #include "Animation.h"
 #include "UndoRedo.h"
 #include "Particles.h"
-
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
 
@@ -164,10 +163,25 @@ void PhysicsSystem::Draw() {
 		physics::PHYSICS->DebugDraw(transData, collData);
 	}
 }
+#include <random>
 
 void ParticleSystem::Update()
 {
 	particles.Update(FIXED_DT);
+	static float timer = 0;
+	timer += FIXED_DT;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	// Create a uniform distribution between 0 and 1
+	std::uniform_real_distribution<float> dis(0, 1);
+
+	// Generate and print a random number
+	if (timer >= .1f) {
+		float randomValue = dis(gen);
+		float between_neg1and1 = -1 + ((2) * randomValue);
+		float between_negwidthandwidth = -(GRAPHICS::w) + (GRAPHICS::w * 2 * randomValue);
+		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h}, { 10, 10 }, { between_neg1and1 * 500, -500 }, { {37.f/255.f, 105.f/255.f, 51.f/255.f, 1} }, particlePresets::ParticleFade, 0.f);
+	}
 }
 
 void ParticleSystem::Draw()
@@ -226,7 +240,6 @@ void CollisionSystem::Update() {
 			Collider* collideData1 = &colliderArray.GetData(entity1);
 			Collider* collideData2 = &colliderArray.GetData(entity2);
 
-			// Your collision detection logic remains the same as before
 			if ((collideData1->bodyShape == Collider::SHAPE_ID::SHAPE_BOX) && (collideData2->bodyShape == Collider::SHAPE_ID::SHAPE_BOX)) {
 				bool hasCollided = physics::CheckCollisionBoxBox(*collideData1, *collideData2, transData1->velocity, transData2->velocity);
 				if (hasCollided) {
@@ -242,7 +255,6 @@ void CollisionSystem::Update() {
 					}
 					else {
 						physics::DynamicStaticResponse(*transData1, *transData2);
-						particles.AddParticle(true, { 0, 0 }, { 100, 100 }, { 5, 5 }, { {1, 1, 1, 1} }, particlePresets::ParticleFade, 0.f);
 					}
 				}
 			}
