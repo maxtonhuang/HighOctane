@@ -311,7 +311,7 @@ public:
         for (auto& e : m_EntityToIndexMap) {
             if (m_ComponentArray[e.second] != nullptr) {
                 //printf("Calling Destructor for: Entity %i\n", e.first);
-				//m_ComponentArray[e.second]->~T();
+				m_ComponentArray[e.second]->~T();
                 //printf("Freeing: Entity %i\n", e.first);
 				m_MemoryManager->Free(m_ComponentArray[e.second]);
 			}
