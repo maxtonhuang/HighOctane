@@ -13,7 +13,7 @@
     {
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 0,
+            "Current Layer": 1,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -27,7 +27,7 @@
         "Transform": {
             "position_x": 0.0,
             "position_y": -780.0,
-            "rotation": 0.0,
+            "rotation": 6.2831854820251465,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -86,7 +86,7 @@
             "Viewing Index": 0,
             "Display Duration": 0.0,
             "Is Active": false,
-            "Is Triggered": false,
+            "Is Triggered": true,
             "Auto Launch": false,
             "Speaker Required": true,
             "Post Dialogue Scene": false,
@@ -147,7 +147,7 @@
     {
         "Entity": {
             "Name": "dialogue_speaker",
-            "Current Layer": 0,
+            "Current Layer": 1,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
@@ -161,7 +161,7 @@
         "Transform": {
             "position_x": -765.25,
             "position_y": -635.0,
-            "rotation": 0.0,
+            "rotation": 6.2831854820251465,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -183,7 +183,7 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.0,
+            "Alpha": 0.20000000298023224,
             "Mirror": false
         },
         "Movable": {},
@@ -200,7 +200,7 @@
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 0,
-            "Background": false
+            "Background": true
         },
         "DialogueSpeaker": {},
         "Child": {
