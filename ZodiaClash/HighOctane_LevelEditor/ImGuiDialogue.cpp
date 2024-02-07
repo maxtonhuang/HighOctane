@@ -20,6 +20,7 @@ void DialogueWindow(Entity entity) {
         selectedIndex = std::clamp(selectedIndex, 0, maxViewingIndex);
 
         // IsActive (ensure this is unchecked when saving scene!)
+        ImGui::SameLine();
         bool& toggleActive = dialogueData.isActive;
         ImGui::Checkbox("Is Active", &toggleActive);
 
