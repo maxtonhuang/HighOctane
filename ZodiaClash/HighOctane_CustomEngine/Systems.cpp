@@ -207,7 +207,7 @@ void PhysicsSystem::Draw() {
 void ParticleSystem::Update()
 {
 	particles.Update(FIXED_DT);
-	float freq = 0.1f;
+	float freq = 1.f;
 	static float timer = freq;
 	timer += FIXED_DT;
 	std::random_device rd;
@@ -215,12 +215,19 @@ void ParticleSystem::Update()
 	// Create a uniform distribution between 0 and 1
 	std::uniform_real_distribution<float> dis(0, 1);
 
+	if (m_Entities.size() == 0) {
+		return;
+	}
+
 	// Generate and print a random number
 	if (timer >= freq) {
 		float randomValue = dis(gen);
-		float between_neg1and1 = -1 + ((2) * randomValue);
+		//float between_neg1and1 = -1 + ((2) * randomValue);
+		//float randomvelocity = randomValue;
 		float between_negwidthandwidth = -(GRAPHICS::w)+(GRAPHICS::w * 2 * randomValue);
-		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h }, { 10, 10 }, { between_neg1and1 * 500, -500 }, { {123.f / 255.f, 201.f / 255.f, 141.f / 255.f, 1} }, particlePresets::ParticleFade, 0.f);
+		//{ {123.f / 255.f, 201.f / 255.f, 141.f / 255.f, 1}
+		float randomAngle = dis(gen) * vmath::PI;
+		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h }, { 10, 10 }, { randomValue * 500, -300 }, { {1,1,1, 1} }, particlePresets::ParticleFade, randomAngle, 30.f * vmath::PI / 180);
 		timer = 0.f;
 	}
 }

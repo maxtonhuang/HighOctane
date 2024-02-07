@@ -1085,3 +1085,46 @@ bool CreatePrefabAnimation::HasKeyFrame(int frameNum) {
 	}
 	return false;
 }
+
+EventAnimation::EventAnimation() {
+	type = "Event";
+}
+void EventAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void EventAnimation::Update(int frameNum) {
+	static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		events.Call(nextKeyframe->data.first, nextKeyframe->data.second);
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+	}
+}
+void EventAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<std::pair<std::string,std::string>> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::pair<std::string,std::string>*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void EventAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<std::pair<std::string, std::string>>{frameNum});
+}
+bool EventAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}

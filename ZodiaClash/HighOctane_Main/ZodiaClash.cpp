@@ -230,6 +230,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<DialogueHUD>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
+	ECS::ecs().RegisterComponent<Emitter>();
 	ECS::ecs().RegisterComponent<Particle>();
 	ECS::ecs().RegisterComponent<Temporary>();
 
@@ -378,6 +379,14 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<CollisionSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Emitter>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+
+		ECS::ecs().SetSystemSignature<ParticleSystem>(signature);
 	}
 
 	{
