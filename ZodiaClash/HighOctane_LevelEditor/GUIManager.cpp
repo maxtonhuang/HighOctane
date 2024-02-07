@@ -199,7 +199,7 @@ void GUIManager::Update()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     // Create the main dockable window
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar;
     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
     ImGui::SetNextWindowPos(main_viewport->WorkPos);
     ImGui::SetNextWindowSize(main_viewport->WorkSize);
@@ -225,7 +225,7 @@ void GUIManager::Update()
         ImGui::ShowDemoWindow(&show_demo_window);*/
 
     {
-        ImGui::Begin("Game Viewport");
+        ImGui::Begin("Game Viewport", nullptr, ImGuiWindowFlags_NoResize);
 
         if (ImGui::IsWindowHovered()) {
             io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
