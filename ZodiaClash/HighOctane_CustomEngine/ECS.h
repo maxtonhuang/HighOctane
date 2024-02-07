@@ -167,7 +167,6 @@ template<typename T>
 class ComponentArray : public IComponentArray {
 public:
 
-    //template <typename t>
     void InsertData(Entity entity, T component) {
         ASSERT(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Component added to same entity more than once.");
 
@@ -178,24 +177,15 @@ public:
 
         // This portion is new ========================================
         m_ComponentArray[newIndex] = static_cast<T*>(m_MemoryManager->Allocate());
-        new (m_ComponentArray[newIndex]) T(); //Placement new, creates object at place of pointer, DOES NOT ALLOCATE MEMORY
+        new (m_ComponentArray[newIndex]) T(); // Placement new, creates object at place of pointer, DOES NOT ALLOCATE MEMORY
         *(m_ComponentArray[newIndex]) = component;
         // End of new portion ========================================
 
         ++m_Size;
 
     }
-    
 
-    //void InsertData(Entity entity, T component) {
-    //    ASSERT(m_RegisteredArray[entity], "Component added to same entity more than once.");
 
-    //    // Put new entry at end and update the maps
-    //    m_ComponentArray[entity] = component;
-    //    m_RegisteredArray[entity] = true;
-    //}
-
-    //template<typename T>
     void RemoveData(Entity entity) { // check
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Removing non-existent component.");
 
@@ -220,13 +210,7 @@ public:
         --m_Size;
     }
     
-    //void RemoveData(Entity entity) { // check
-    //    ASSERT(m_RegisteredArray[entity] == false, "Removing non-existent component.");
 
-    //    m_RegisteredArray[entity] = false;
-    //}
-
-    //template<typename T>
     T& GetData(Entity entity) {
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Retrieving non-existent component.");
 
@@ -234,13 +218,7 @@ public:
         return *(m_ComponentArray[m_EntityToIndexMap[entity]]);
     }
     
-    //T& GetData(Entity entity) {
-    //    ASSERT(m_RegisteredArray[entity] == false, "Retrieving non-existent component.");
-    //    // Return a reference to the entity's component
-    //    return m_ComponentArray[entity];
-    //}
 
-    //template<typename T>
     void EntityDestroyed(Entity entity) {
         if (m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end()) {
             // Remove the entity's component if it existed
@@ -248,27 +226,11 @@ public:
         }
     }
     
-    //void EntityDestroyed(Entity entity) {
-    //    if (m_RegisteredArray[entity] == true) {
-    //        // Remove the entity's component if it existed
-    //        RemoveData(entity);
-    //    }
-    //}
 
     bool HasComponent(Entity entity) {
-        // rewrite has component
-        //for (auto const& e : m_EntityToIndexMap) {
-        //    if (e.first == entity) {
-        //        return true;
-        //    }
-        //}
-        //return false;
-
-        // 
-        // 
-        //return m_RegisteredMap[entity];
         return m_EntityToIndexMap.count(entity);
     }
+
 
     std::vector<Entity> GetEntityArray() {
         std::vector<Entity> array{};
@@ -279,7 +241,7 @@ public:
     }
 
     std::vector<T*> GetDataArray() {
-        std::vector<T*> array{}; // Changed this to take in T* instead of T
+        std::vector<T*> array{};
         for (auto& e : m_EntityToIndexMap) {
             array.push_back(m_ComponentArray[e.second]);
         }
@@ -287,7 +249,7 @@ public:
     }
 
     std::vector<std::pair<Entity, T*>> GetPairArray() {
-        std::vector<std::pair<Entity, T*>> array{}; // Changed this to take in T* instead of T
+        std::vector<std::pair<Entity, T*>> array{};
         for (auto& e : m_EntityToIndexMap) {
             array.push_back(std::pair<Entity,T*>{e.first, m_ComponentArray[e.second]});
         }
@@ -324,8 +286,7 @@ private:
     // set to a specified maximum amount, matching the maximum number
     // of entities allowed to exist simultaneously, so that each entity
     // has a unique spot.
-    std::array<T*, MAX_ENTITIES> m_ComponentArray{}; // Changed this to take in T* instead of T
-    //std::array<bool, MAX_ENTITIES> m_RegisteredArray{};
+    std::array<T*, MAX_ENTITIES> m_ComponentArray{};
 
     // Map from an entity ID to an array index.
     std::unordered_map<Entity, size_t> m_EntityToIndexMap{};
@@ -340,8 +301,6 @@ private:
 
 class ComponentManager {
 public:
-    //template<typename T>
-    //void RegisterComponent();
 
     template<typename T>
     void RegisterComponent() {
@@ -353,7 +312,7 @@ public:
         m_ComponentTypes.insert({ typeName, m_NextComponentType });
 
         // Create a ComponentArray pointer and add it to the component arrays map
-        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() }); // Changed this to take in T* instead of T
+        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
 
         // Increment the value so that the next component registered will be different
         ++m_NextComponentType;
