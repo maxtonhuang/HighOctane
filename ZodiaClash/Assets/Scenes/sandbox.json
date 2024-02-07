@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 51,
+            "layerCounter": 15,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -18,43 +18,7 @@
                 "Layer 11",
                 "Layer 12",
                 "Layer 13",
-                "Layer 14",
-                "Layer 15",
-                "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50"
+                "Layer 14"
             ]
         }
     },
@@ -66,8 +30,8 @@
                 "struct Transform",
                 "struct Name",
                 "struct Parent",
-                "class Button",
-                "struct Size"
+                "struct Size",
+                "class Button"
             ]
         },
         "Entity": {
@@ -276,7 +240,7 @@
         "Entity": {
             "Name": "fps counter",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -301,7 +265,7 @@
         "Entity": {
             "Name": "fps counter",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -331,13 +295,38 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": -780.0,
-            "rotation": 6.2831854820251465,
+            "position_x": -2.0,
+            "position_y": -1180.0,
+            "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
         "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "fps_counter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "fps counter",
+            "Current Layer": 2,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 861.0,
+            "position_y": 505.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

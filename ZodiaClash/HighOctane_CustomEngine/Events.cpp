@@ -323,7 +323,7 @@ void StartDialogue(std::string input) {
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		if (!dialogueHudData->isActive) {
+		if (!dialogueHudData->isActive && !dialogueHudData->isTriggered) {
 			dialogueHudData->viewingIndex = 0;
 			dialogueHudData->StartDialogue(entity);
 		}

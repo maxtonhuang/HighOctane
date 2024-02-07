@@ -8,11 +8,6 @@ void DialogueWindow(Entity entity) {
 	if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
 		DialogueHUD& dialogueData = ECS::ecs().GetComponent<DialogueHUD>(entity);
 
-        // Button to add a new dialogue line
-        if (ImGui::Button("Add New Line##1")) {
-            dialogueData.dialogueLines.emplace_back("", ""); // Add an empty line
-        }
-
         // Enforce index
         int& selectedIndex = dialogueData.viewingIndex;
         int maxViewingIndex = static_cast<int>(dialogueData.dialogueLines.size()) - 1;
@@ -24,7 +19,12 @@ void DialogueWindow(Entity entity) {
         bool& toggleActive = dialogueData.isActive;
         ImGui::Checkbox("Is Active", &toggleActive);
 
-        ImGui::Text("Ensure Viewing Index is set to 0, and Is Active is UNCHECKED when saving scene!");
+        // IsTriggered (ensure this is unchecked when saving scene!)
+        ImGui::SameLine();
+        bool& toggleTriggered = dialogueData.isTriggered;
+        ImGui::Checkbox("Is Triggered", &toggleTriggered);
+
+        ImGui::Text("NOTE: Ensure Viewing Index is set to 0, Is Active and Is Triggered is UNCHECKED when saving scene!");
 
         // Launch dialogue setting
         bool& toggleLaunch = dialogueData.autoLaunch;
@@ -35,11 +35,17 @@ void DialogueWindow(Entity entity) {
         bool& toggleSpeaker = dialogueData.speakerRequired;
         ImGui::Checkbox("Dialogue has speaker?", &toggleSpeaker);
 
+        ImGui::SameLine();
         // Post-dialogue event
         bool& toggleEvent = dialogueData.postDialogueScene;
         ImGui::Checkbox("Set post-dialogue scene?", &toggleEvent);
         if (toggleEvent) {
             ImGui::InputText("Post-dialogue target scene", &dialogueData.targetScene);
+        }
+
+        // Button to add a new dialogue line
+        if (ImGui::Button("Add New Line##1")) {
+            dialogueData.dialogueLines.emplace_back("", ""); // Add an empty line
         }
 
         int tableCols = (dialogueData.speakerRequired) ? 3 : 2;
