@@ -178,15 +178,8 @@ public:
 
         // This portion is new ========================================
         m_ComponentArray[newIndex] = static_cast<T*>(m_MemoryManager->Allocate());
-        //printf("Allocating: %s\n", typeid(T).name());
         new (m_ComponentArray[newIndex]) T(); //Placement new, creates object at place of pointer, DOES NOT ALLOCATE MEMORY
         *(m_ComponentArray[newIndex]) = component;
-        /*printf("Memory Contents at %p: ", m_ComponentArray[newIndex]);
-        for (unsigned i = 0; i < sizeof(T); ++i) {
-            printf("%x ", (*(reinterpret_cast<char*>(m_ComponentArray[newIndex]) + i)) );
-        }
-        printf("\n\n");*/
-
         // End of new portion ========================================
 
         ++m_Size;
@@ -301,41 +294,30 @@ public:
         return array;
     }
 
-    ComponentArray() : m_MemoryManager{ std::make_unique<ObjectAllocator>((sizeof(T) < sizeof(void*)) ? (sizeof(void*)) : (sizeof(T)), config) } {
-    	//printf("Constructing: %s\n", typeid(T).name());
-    };
+    ComponentArray() : m_MemoryManager{ std::make_unique<ObjectAllocator>((sizeof(T) < sizeof(void*)) ? (sizeof(void*)) : (sizeof(T)), config) } {};
 
     ~ComponentArray() {
-        //std::string str = typeid(T).name();
-        //printf("Destructing: %s\n", str.c_str());
         for (auto& e : m_EntityToIndexMap) {
             if (m_ComponentArray[e.second] != nullptr) {
-                //printf("Calling Destructor for: Entity %i\n", e.first);
 				m_ComponentArray[e.second]->~T();
-                //printf("Freeing: Entity %i\n", e.first);
 				m_MemoryManager->Free(m_ComponentArray[e.second]);
 			}
 		}
-        //printf("Calling Destructor for Memory Manager: %s\n", str.c_str());
-        //m_MemoryManager->~ObjectAllocator();
-        //printf("Deleting Memory Manager: %s\n\n", str.c_str());
-		//delete m_MemoryManager;
 	}
 
 private:
 
     // This portion is new ========================================
     bool useCPPMemMgr{ false };
-    unsigned objectsPerPage{ 16 };
+    unsigned objectsPerPage{ 32 };
     unsigned maxPages{};
-    bool debug{ true };
+    bool debug{ false };
     unsigned padbytes{ 0 };
-    OAConfig::HeaderBlockInfo header{ OAConfig::hbBasic };
-    unsigned alignment{ 0 };
+    OAConfig::HeaderBlockInfo header{ OAConfig::hbNone };
+    unsigned alignment{ 16 };
     OAConfig config{ useCPPMemMgr,objectsPerPage, maxPages, debug, padbytes, header, alignment };
 
     std::unique_ptr<ObjectAllocator> m_MemoryManager;
-
     // End of new portion ========================================
 
     // The packed array of components (of generic type T),

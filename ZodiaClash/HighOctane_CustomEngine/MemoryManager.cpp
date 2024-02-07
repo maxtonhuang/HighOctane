@@ -19,8 +19,6 @@ that is fast and versatile.
 
 #include "MemoryManager.h"
 #include <cstring>
-#include <chrono>
-#include <thread>
 
 
 
@@ -361,7 +359,6 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
 			}
 		}
 	}
-
 }
 
 
@@ -372,36 +369,13 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
  *
  *****************************************************************************/
 ObjectAllocator::~ObjectAllocator() {
-	
-	/*for (unsigned i = 0; i < 65536; ++i) {
-		LList* temp = FLMAP[i];
-		FLMAP[i] = nullptr;
-		while (temp) {
-			LList* next = temp->next;
-			delete temp;
-			temp = next;
-		}
-	}*/
-
-	//printf("Number of pages in use: %i\n", m_stats.PagesInUse_);
-
-	unsigned count = 0;
 
 	while (PageList_) {
 		GenericObject* nextToDelete = PageList_->Next;
-		//printf(">> Deleting Page: %p\n", PageList_);
-		//memset(reinterpret_cast<char*>(PageList_), 0x00, m_stats.PageSize_);
-		/*for (unsigned i = 0; i < m_stats.PageSize_; ++i) {
-			printf("%i ", *(reinterpret_cast<char*>(PageList_) + i)   );
-		}
-		printf("\n");*/
 		delete[] reinterpret_cast<char*>(PageList_);
-		++count;
 		PageList_ = nextToDelete;
 	}
-	
-	//printf("Number of pages deleted: %i\n", count);
-	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
 }
 
 
