@@ -1,65 +1,64 @@
 ZodiaClash_Battle.ogg
 Boss_Circle.spritesheet
+Boss_Circle.spritesheet
 Cat_Ulti.spritesheet
 mockup_chi_icon.png
 Cat_Ulti.spritesheet
 NEW_bg_03.png
 Guard_Death.spritesheet
-skill_icon_basic.png
 Guard_Death.spritesheet
+skill_icon_basic.png
 Heal_VFX.spritesheet
+Heal_VFX.spritesheet
+Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-Heal_VFX.spritesheet
-Cat_Attack_1.spritesheet
 UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
-Cat_Damage.spritesheet
 mockup_icon_cat.png
 Goat_Idle.spritesheet
+Goat_Idle.spritesheet
+Cat_Damage.spritesheet
 Cat_Damage.spritesheet
 Goat_Ulti_VFX.spritesheet
-Guard_Damage.spritesheet
-VFX_Hit.spritesheet
 Goat_Ulti_VFX.spritesheet
 Guard_Damage.spritesheet
-Cat_Idle.spritesheet
+Guard_Damage.spritesheet
 VFX_Hit.spritesheet
-Boss_Circle.spritesheet
+VFX_Hit.spritesheet
 Cat_Idle.spritesheet
+Cat_Idle.spritesheet
+Cat_Attack_2.spritesheet
 Cat_Attack_2.spritesheet
 GUARD_idle.png
 UI_Target_Circle.spritesheet
-Cat_Attack_2.spritesheet
 UI_Target_Circle.spritesheet
 NEW_guard_pfp.png
 Cat_Dash.spritesheet
 Cat_Dash.spritesheet
 Guard_Attack.spritesheet
-Goat_Hit.spritesheet
 Guard_Attack.spritesheet
-Goat_Basic.spritesheet
 Goat_Hit.spritesheet
-Goat_Ulti.spritesheet
+Goat_Hit.spritesheet
+Goat_Basic.spritesheet
+Goat_Basic.spritesheet
 mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
-Goat_Basic.spritesheet
+Goat_Ulti.spritesheet
+Goat_Death.spritesheet
 Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Basic_VFX.spritesheet
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
 mockup_icon_goat.png
-
-Goat_Death.spritesheet
-Cat Atk_1_Edited.wav
 Goat Heal 1.wav
 Guard Damaged_Edited.wav
+Cat Atk_1_Edited.wav
+Guard Atk_Edited.wav
 Cat_Atk_3_Edited.wav
 Cat Damaged_Edited.wav
-Guard Atk_Edited.wav
 Cat_Atk_2_Edited.wav
 Skill Select_Edited.wav
 Goat Damaged_Edited.wav
@@ -71,11 +70,12 @@ Goat Death_Edited.wav
 Battle End_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Boss Goat Speedup.skill
-Boss Goat Attack.skill
+Yin-Yang Strike.skill
+Secret Arts: Pounce.skill
+Celestial Annihilation will be cast next!.skill
+Shepherd's Grace.skill
+Jade Thrust.skill
 Dance of Fury.skill
-Boss Goat Heal.skill
+Chi Surge.skill
 Scarlet Claw.skill
-Five Elements Bloodbath.skill
-Guard Attack.skill
 battle2.json

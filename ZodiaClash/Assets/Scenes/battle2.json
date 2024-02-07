@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 36,
+            "layerCounter": 9,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -12,34 +12,7 @@
                 "Layer 5",
                 "Layer 6",
                 "Layer 7",
-                "Layer 8",
-                "Layer 9",
-                "Layer 10",
-                "Layer 11",
-                "Layer 12",
-                "Layer 13",
-                "Layer 14",
-                "Layer 15",
-                "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35"
+                "Layer 8"
             ]
         }
     },
@@ -167,5 +140,59 @@
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
+    },
+    {
+        "Clone": {
+            "Prefab": "dialogue_textlabel.prefab",
+            "Unique Components": [
+                "class TextLabel",
+                "struct Transform",
+                "struct Name",
+                "class DialogueHUD",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "dialogue_box",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -2.0,
+            "position_y": -776.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "line 3",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 0,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": true
+        },
+        "DialogueHUD": {
+            "Dialogue Lines": [],
+            "Viewing Index": 0,
+            "Display Duration": 0.0,
+            "Is Active": false,
+            "Is Triggered": false,
+            "Auto Launch": false,
+            "Speaker Required": true,
+            "Post Dialogue Scene": true,
+            "Target Scene": "tbc.scn"
+        },
+        "Parent": {}
     }
 ]

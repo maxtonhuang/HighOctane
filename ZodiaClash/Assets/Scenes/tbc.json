@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 69,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -27,7 +27,52 @@
                 "Layer 20",
                 "Layer 21",
                 "Layer 22",
-                "Layer 23"
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68"
             ]
         }
     },
@@ -35,10 +80,11 @@
         "Clone": {
             "Prefab": "textlabel.prefab",
             "Unique Components": [
-                "struct Transform",
                 "class TextLabel",
+                "struct Transform",
                 "struct Name",
-                "struct Parent"
+                "struct Parent",
+                "struct Size"
             ]
         },
         "Entity": {
@@ -50,17 +96,21 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 0.0,
+            "position_y": 84.75,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
+        "Size": {
+            "width": 661.5,
+            "height": 192.75
+        },
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "To be continued...\n\nStay tuned!",
+            "Text String": "To be continued...\n\nStay tuned for the next update!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -76,9 +126,11 @@
         "Clone": {
             "Prefab": "button.prefab",
             "Unique Components": [
+                "class TextLabel",
                 "struct Transform",
                 "struct Name",
-                "struct Parent"
+                "struct Parent",
+                "class Button"
             ]
         },
         "Entity": {
@@ -90,11 +142,59 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -214.5,
+            "position_y": -121.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        },
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Return to Main Menu",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 0,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Transition Scene",
+            "Event Input": "mainmenu.scn",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 80.0,
+            "Padding Right": 80.0,
+            "Padding Setting": 1
         }
     }
 ]

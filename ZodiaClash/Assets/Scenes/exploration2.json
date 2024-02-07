@@ -1419,7 +1419,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1000.0,
+            "position_x": 820.0,
             "position_y": -113.0,
             "rotation": 0.0,
             "scale": 0.9160967469215393,
@@ -1517,7 +1517,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1100.0,
+            "position_x": 915.0,
             "position_y": -128.0,
             "rotation": 0.0,
             "scale": 0.9160967469215393,
@@ -1562,7 +1562,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 38,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1587,7 +1587,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1612,7 +1612,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1630,7 +1630,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1683,61 +1683,36 @@
     },
     {
         "Clone": {
-            "Prefab": "dialogue_textlabel.prefab",
+            "Prefab": "enemy_goat.prefab",
             "Unique Components": [
+                "struct Collider",
                 "struct Transform",
-                "class TextLabel",
                 "struct Name",
-                "struct Parent",
-                "class DialogueHUD"
+                "struct Parent"
             ]
         },
         "Entity": {
-            "Name": "dialogue_box",
-            "Current Layer": 1,
-            "Order in Layer": 0,
+            "Name": "Goat_Enemy",
+            "Current Layer": 0,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 2.0,
-            "position_y": -786.0,
-            "rotation": 6.2831854820251465,
-            "scale": 1.0,
+            "position_x": 1021.0,
+            "position_y": -12.0,
+            "rotation": 0.0,
+            "scale": 0.26726171374320984,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "...",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "white",
-            "Horizontal Alignment": 0,
-            "Vertical Alignment": 0,
-            "Text Wrap": 2,
-            "Background": true
-        },
-        "DialogueHUD": {
-            "Dialogue Lines": [
-                {
-                    "Speaker": "Yang",
-                    "Line": "..."
-                }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": false,
-            "Speaker Required": true,
-            "Post Dialogue Scene": true,
-            "Target Scene": "battle2.scn"
-        },
-        "Parent": {}
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 0.0010000000474974513,
+            "Dimension Y": 0.0010000000474974513,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        }
     }
 ]

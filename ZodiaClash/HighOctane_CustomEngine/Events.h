@@ -62,8 +62,8 @@ public:
 private:
 	std::unordered_map<std::string, Event> functions;
 	std::vector<const char*> functionNames;
-	BattleSystem* battlesystem; //Connection to battle system
-	UIDialogueSystem* dialogueSystem; //Connection to dialogue system
+	BattleSystem* battlesystem{}; //Connection to battle system
+	UIDialogueSystem* dialogueSystem{}; //Connection to dialogue system
 };
 
 extern EventManager events;
