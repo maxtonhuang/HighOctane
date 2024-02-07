@@ -19,6 +19,8 @@ that is fast and versatile.
 
 #include "MemoryManager.h"
 #include <cstring>
+#include <chrono>
+#include <thread>
 
 
 
@@ -35,15 +37,13 @@ that is fast and versatile.
  *****************************************************************************/
 void ObjectAllocator::AddToMap(char* ptr) {
 	uintptr_t u_ptr = reinterpret_cast<uintptr_t>(ptr);
-	uintptr_t A = (u_ptr & 0xFF00) >> 8;
-	uintptr_t B = u_ptr & 0xFF;
+	uintptr_t idx = u_ptr & 0xFFFF;
 	try {
-		FLMAP[A][B] = new LList{ reinterpret_cast<uintptr_t>(ptr), FLMAP[A][B] };
+		FLMAP[idx] = std::make_unique<LList>(u_ptr, std::move(FLMAP[idx]));
 	}
 	catch (std::bad_alloc&) {
 		throw OAException(OAException::E_NO_MEMORY, "out of physical memory (operator new fails)");
 	}
-
 }
 
 
@@ -55,33 +55,35 @@ void ObjectAllocator::AddToMap(char* ptr) {
  *****************************************************************************/
 void ObjectAllocator::RemoveFromMap(char* ptr) {
 	uintptr_t u_ptr = reinterpret_cast<uintptr_t>(ptr);
-	uintptr_t A = (u_ptr & 0xFF00) >> 8;
-	uintptr_t B = u_ptr & 0xFF;
+	uintptr_t idx = u_ptr & 0xFFFF;
 
-	LList* prevptr = FLMAP[A][B];
-	LList* currptr = FLMAP[A][B];
+	std::unique_ptr<LList>* prevptr = nullptr;
+	std::unique_ptr<LList>* currptr = &FLMAP[idx];
 
 	while (currptr) {
 
-		if (currptr->ptr == u_ptr) {
-
+		if ((*currptr)->ptr == u_ptr) {
+			std::unique_ptr<LList> temp = std::move((*currptr)->next);
 			// remove this node.
-			if (currptr == FLMAP[A][B]) {
-				FLMAP[A][B] = currptr->next;
+			if (prevptr == nullptr) {
+				*currptr = std::move(temp);
+				//FLMAP[idx] = currptr->next;
 			}
 			else {
-				prevptr->next = currptr->next;
+				(*prevptr)->next = std::move(temp);
+				//prevptr->next = currptr->next;
 			}
 
-			delete currptr;
+			//delete currptr;
+			//currptr = nullptr;
 			return;
 
 		}
 
-		currptr = currptr->next;
+		prevptr = currptr;
+		currptr = &((*currptr)->next);
 
 	}
-
 }
 
 
@@ -94,10 +96,10 @@ void ObjectAllocator::RemoveFromMap(char* ptr) {
 bool ObjectAllocator::FindInMap(char* ptr) const {
 
 	uintptr_t u_ptr = reinterpret_cast<uintptr_t>(ptr);
-	uintptr_t A = (u_ptr & 0xFF00) >> 8;
-	uintptr_t B = u_ptr & 0xFF;
+	uintptr_t idx = u_ptr & 0xFFFF;
 
-	LList* currptr = FLMAP[A][B];
+	const LList* currptr = FLMAP[idx].get();
+	//LList* currptr = FLMAP[idx];
 
 	while (currptr) {
 
@@ -107,7 +109,7 @@ bool ObjectAllocator::FindInMap(char* ptr) const {
 
 		}
 
-		currptr = currptr->next;
+		currptr = currptr->next.get();
 
 	}
 
@@ -341,6 +343,11 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
 	m_stats.Allocations_ = 0;
 	m_stats.Deallocations_ = 0;
 
+	// Set FLMAP to nullptr
+	for (unsigned i = 0; i < 65536; ++i) {
+		FLMAP[i] = nullptr;
+	}
+
 	if (!m_config.UseCPPMemManager_) {
 		try {
 			CreateNewPage();
@@ -365,12 +372,36 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
  *
  *****************************************************************************/
 ObjectAllocator::~ObjectAllocator() {
+	
+	/*for (unsigned i = 0; i < 65536; ++i) {
+		LList* temp = FLMAP[i];
+		FLMAP[i] = nullptr;
+		while (temp) {
+			LList* next = temp->next;
+			delete temp;
+			temp = next;
+		}
+	}*/
+
+	//printf("Number of pages in use: %i\n", m_stats.PagesInUse_);
+
+	unsigned count = 0;
+
 	while (PageList_) {
 		GenericObject* nextToDelete = PageList_->Next;
-		printf(">> Deleting Page: %p\n", PageList_);
+		//printf(">> Deleting Page: %p\n", PageList_);
+		//memset(reinterpret_cast<char*>(PageList_), 0x00, m_stats.PageSize_);
+		/*for (unsigned i = 0; i < m_stats.PageSize_; ++i) {
+			printf("%i ", *(reinterpret_cast<char*>(PageList_) + i)   );
+		}
+		printf("\n");*/
 		delete[] reinterpret_cast<char*>(PageList_);
+		++count;
 		PageList_ = nextToDelete;
 	}
+	
+	//printf("Number of pages deleted: %i\n", count);
+	//std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
 

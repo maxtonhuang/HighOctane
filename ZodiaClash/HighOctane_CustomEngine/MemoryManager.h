@@ -22,6 +22,8 @@ class.
 //---------------------------------------------------------------------------
 
 #include <string>
+#include <memory>
+#include <utility>
 
 // If the client doesn't specify these:
 static const int DEFAULT_OBJECTS_PER_PAGE = 4;
@@ -318,22 +320,24 @@ private:
 
 
 
-    OAStats m_stats;
-    OAConfig m_config;
-    size_t m_blockSize;
-    size_t m_blockSizeWithAlignment;
-    size_t m_dataSize;
-    size_t m_pageHeaderSize;
-    size_t m_HPSize;
-    size_t m_extCounterAlloc;
-    size_t m_extCounterFree;
+    OAStats     m_stats;
+    OAConfig    m_config;
+    size_t      m_blockSize;
+    size_t      m_blockSizeWithAlignment;
+    size_t      m_dataSize;
+    size_t      m_pageHeaderSize;
+    size_t      m_HPSize;
+    size_t      m_extCounterAlloc;
+    size_t      m_extCounterFree;
 
     struct LList {
         uintptr_t ptr;
-        LList* next;
+        std::unique_ptr<LList> next;
+
+        LList(uintptr_t p, std::unique_ptr<LList> nxt = nullptr) : ptr(p), next(std::move(nxt)) {}
     };
 
-    LList* FLMAP[256][256];
+    std::unique_ptr<LList> FLMAP[65536];
 
 };
 
