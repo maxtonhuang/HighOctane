@@ -33,7 +33,9 @@ void ParticleManager::Draw(float dt)
 	for (Particle& p : particleList) 
 	{
 		if (!p.active) continue;
-		graphics.DrawPoint(p.position.x, p.position.y);
+		graphics.DrawPoint(p.position.x, p.position.y,
+			p.particleColor.color.r, p.particleColor.color.g, p.particleColor.color.b, p.particleColor.color.a);
+		//graphics.DrawRect(p.position.x, p.position.y, p.position.x +( p.size.x / 2), p.position.y + (p.size.y / 2));
 	}
 }
 
@@ -45,14 +47,14 @@ void ParticleManager::ResetParticles()
 
 void particlePresets::ParticleFade(Particle& p) 
 {
-	p.particleColor.color.a *= (1.f / (1.f + (FIXED_DT * p.fadeDecay)));
+	p.particleColor.color.a *= (1.f / (1.f + (2 * FIXED_DT * p.fadeDecay) / 4));
 	if (p.particleColor.color.a < FLT_EPSILON)
 		p.active = false;
 }
 
 void particlePresets::ParticleShrink(Particle& p) 
 {
-	p.size = p.size * (1.f / (1.f + (FIXED_DT * p.shrinkDecay)));
+	p.size = p.size * (1.f / (1.f + (FIXED_DT * p.shrinkDecay) / 4));
 	if (p.size.x < FLT_EPSILON || p.size.y < FLT_EPSILON)
 		p.active = false;
 }
