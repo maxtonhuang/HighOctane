@@ -78,10 +78,10 @@
             "Icon": "mockup_icon_goat.png",
             "Boss": true,
             "Skills": [
-                "Boss Goat Attack",
-                "Boss Goat Speedup",
-                "Boss Goat Heal",
-                "A strong attack is coming!"
+                "Yin-Yang Strike",
+                "Chi Surge",
+                "Shepherd's Grace",
+                "Celestial Annihilation will be cast next!"
             ]
         },
         "Model": {

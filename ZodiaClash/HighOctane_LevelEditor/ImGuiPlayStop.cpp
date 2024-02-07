@@ -35,9 +35,12 @@
 #include "AssetManager.h"
 #include "Layering.h"
 #include "Events.h"
+#include "ImGuiIcons.h"
+#include "ECS.h"
 
 bool buffer = false;
-static int playButtonClickCount = 0;
+bool playIcon = false;
+bool pausePressed = false;
 /******************************************************************************
 *
 *	@brief Creates the Play, Stop, and Pause Control Panel
@@ -52,44 +55,38 @@ static int playButtonClickCount = 0;
 void UpdatePlayStop() {
 
     ImGui::Begin("Controls");
-
-    if (ImGui::Button("Play", { 100, 50 })) {
-        playButtonClickCount++;
-        if (playButtonClickCount % 2 == 1) {
-            playButton = true;
+    if (!playIcon) {
+        if (ImGui::ImageButton(loadedIcons["playIcon"], ImVec2{ 40,40 })) {
+            playIcon = true;
             if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
                 SetCurrentSystemMode(SystemMode::RUN);
             }
+            if (!pausePressed) {
+                playButton = true;
+            }
+            button_clicked = true;
         }
-        else {
+    }else {
+        if (ImGui::ImageButton(loadedIcons["stopIcon"], ImVec2{ 40,40 })) {
+            playIcon = false;
             if (!playButton && GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
+                stopBuffer = true;
                 events.Call("Change Scene", "tmp.scn");
                 SetCurrentSystemMode(SystemMode::EDIT);
             }
         }
-        button_clicked = true;
     }
+
 
     ImGui::SameLine();
 
-    if (buffer) {
-        std::string loadPath = assetmanager.GetDefaultPath() + "Scenes/tmp.json";
-        Serializer::LoadEntityFromJson(loadPath);
-        buffer = false;
-    }
-
-    if (ImGui::Button("Stop", { 100, 50 })) {
-        if (!playButton && GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
-            events.Call("Change Scene", "tmp.scn");
-            SetCurrentSystemMode(SystemMode::EDIT);
-        }
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Pause", { 100, 50 })) {
-        if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
-            SetCurrentSystemMode(SystemMode::EDIT);
+    if (ImGui::ImageButton(loadedIcons["pauseIcon"], ImVec2{ 40,40 })) {
+        if (playIcon) {
+            playIcon = false;
+            pausePressed = true;
+            if (GetCurrentSystemMode() != SystemMode::PAUSE && GetCurrentSystemMode() != SystemMode::GAMEHELP) {
+                SetCurrentSystemMode(SystemMode::EDIT);
+            }
         }
     }
 

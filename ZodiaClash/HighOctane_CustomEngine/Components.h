@@ -186,3 +186,6 @@ struct Emitter {
     float                   timeSinceLastEmission;
 };
 
+struct Temporary {
+    //Empty by design
+};

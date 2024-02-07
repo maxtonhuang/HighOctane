@@ -84,8 +84,8 @@ void CharacterAction::UpdateState() {
                     aoePoint = transformArray.GetData(attackpos).position;
                     for (auto& c : battleManager->GetEnemies()) {
                         float pos{ transformArray.GetData(c->entity).position.x };
-                        if (pos - 100.f < aoePoint.x) {
-                            aoePoint.x = pos - 100.f;
+                        if (pos - 200.f < aoePoint.x) {
+                            aoePoint.x = pos - 200.f;
                         }
                     }
                 }

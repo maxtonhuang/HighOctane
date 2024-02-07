@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,7 +21,14 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
             ]
         }
     },
@@ -64,7 +71,8 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "HealthBar": {
@@ -119,7 +127,8 @@
             }
         ],
         "Animation Set Default Animation": "",
-        "Parent": {}
+        "Parent": {},
+        "Temporary": {}
     },
     {
         "Entity": {
@@ -160,7 +169,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "HealthRemaining": {
@@ -214,7 +224,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.0
+            "Alpha": 0.0,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
@@ -229,6 +240,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": false
         },
         "Child": {
@@ -280,7 +292,8 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 0.7843137383460999
+            "Alpha": 0.7843137383460999,
+            "Mirror": false
         },
         "Movable": {},
         "Child": {
@@ -338,7 +351,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "Child": {

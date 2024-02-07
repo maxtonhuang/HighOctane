@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 21,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -24,7 +24,11 @@
                 "Layer 17",
                 "Layer 18",
                 "Layer 19",
-                "Layer 20"
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
             ]
         }
     },
@@ -72,8 +76,9 @@
             "Defense": 35.0,
             "Speed": 1,
             "Icon": "NEW_guard_pfp.png",
+            "Boss": false,
             "Skills": [
-                "Guard Attack"
+                "Jade Thrust"
             ]
         },
         "Model": {

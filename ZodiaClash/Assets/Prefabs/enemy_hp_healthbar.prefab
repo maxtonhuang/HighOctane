@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 8,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -11,7 +11,24 @@
                 "Layer 4",
                 "Layer 5",
                 "Layer 6",
-                "Layer 7"
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
             ]
         }
     },
@@ -55,6 +72,8 @@
             "Attack": 0.0,
             "Defense": 0.0,
             "Speed": 0,
+            "Icon": "",
+            "Boss": false,
             "Skills": []
         },
         "Model": {
@@ -63,7 +82,8 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "HealthBar": {
@@ -116,7 +136,8 @@
             "Red": 1.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "HealthRemaining": {
@@ -129,7 +150,8 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Temporary": {}
     },
     {
         "Entity": {
@@ -170,7 +192,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.0
+            "Alpha": 0.0,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
@@ -185,6 +208,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 2,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": false
         },
         "Child": {
@@ -194,6 +218,7 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Temporary": {}
     }
 ]

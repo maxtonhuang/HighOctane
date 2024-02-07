@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,9 +28,7 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26"
+                "Layer 24"
             ]
         }
     },
@@ -78,10 +76,11 @@
             "Defense": 20.0,
             "Speed": 3,
             "Icon": "mockup_icon_cat.png",
+            "Boss": false,
             "Skills": [
                 "Scarlet Claw",
                 "Dance of Fury",
-                "Five Elements Bloodbath"
+                "Secret Arts: Pounce"
             ]
         },
         "Model": {

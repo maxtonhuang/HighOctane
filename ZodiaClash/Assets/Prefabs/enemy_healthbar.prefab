@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 65,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,50 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64"
             ]
         }
     },
@@ -127,7 +170,8 @@
             }
         ],
         "Animation Set Default Animation": "",
-        "Parent": {}
+        "Parent": {},
+        "Temporary": {}
     },
     {
         "Entity": {
@@ -182,7 +226,8 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Temporary": {}
     },
     {
         "Entity": {
@@ -249,7 +294,8 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Temporary": {}
     },
     {
         "Entity": {
@@ -355,7 +401,8 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Temporary": {}
     },
     {
         "Entity": {
@@ -467,6 +514,7 @@
             "scale": 0.30000001192092896,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Temporary": {}
     }
 ]

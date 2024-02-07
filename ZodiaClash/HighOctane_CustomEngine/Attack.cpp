@@ -45,29 +45,29 @@
 void Attack::UseAttack(CharacterStats* target) {
     CalculateDamage(*target);
 
-    if (attackName == "Five Elements Bloodbath") {
+    if (attackName == "Secret Arts: Pounce") {
         target->TakeDamage(1.5 * target->debuffs.bloodStack);
         target->debuffs.bloodStack = 0;
     }
-    else if (attackName == "Boss Goat Attack") {
+    else if (attackName == "Yin-Yang Strike") {
         if (owner->stats.health < 0.5 * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
             owner->charge = false;
         }
     }
-    else if (attackName == "Boss Goat Heal") {
+    else if (attackName == "Shepherd's Grace") {
         target->HealBuff(0.3 * target->stats.maxHealth);
         target->debuffs.bloodStack = 0;
     }
-    else if (attackName == "Boss Goat Speedup") {
+    else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
     }
-    else if (attackName == "A strong attack is coming!") {
-        target->charge = true;
+    else if (attackName == "Celestial Annihilation will be cast next!") {
+        owner->charge = true;
         if (owner->stats.health < 0.5 * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }

@@ -63,6 +63,10 @@ void LoadIcons() {
 	loadedIcons["backIcon"] = LoadIconTexture("backicon.png");
 	loadedIcons["lockIcon"] = LoadIconTexture("lockicon.png");
 	loadedIcons["viewIcon"] = LoadIconTexture("viewicon.png");
+
+	loadedIcons["playIcon"] = LoadIconTexture("playbutton.png");
+	loadedIcons["pauseIcon"] = LoadIconTexture("pausebutton.png");
+	loadedIcons["stopIcon"] = LoadIconTexture("stopbutton.png");
 }
 
 void UnloadIcons() {

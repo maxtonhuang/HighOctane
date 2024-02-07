@@ -231,6 +231,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Child>();
 	ECS::ecs().RegisterComponent<Particle>();
 	ECS::ecs().RegisterComponent<Emitter>();
+	ECS::ecs().RegisterComponent<Temporary>();
 
 	// Register systems to be used in the ECS
 	std::shared_ptr<MovementSystem> movementSystem = ECS::ecs().RegisterSystem<MovementSystem>();

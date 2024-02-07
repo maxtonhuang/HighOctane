@@ -197,7 +197,13 @@ rapidjson::Value SerializeTex(const Tex& tex, rapidjson::Document::AllocatorType
 	texObject.AddMember("Columns", tex.cols, allocator);
 	texObject.AddMember("Sprite Number", tex.spritenum, allocator);
 	rapidjson::Value filePathValue;
-	filePathValue.SetString(tex.tex->GetName().c_str(), static_cast<rapidjson::SizeType>(tex.tex->GetName().length()), allocator);
+	if (tex.tex) {
+		filePathValue.SetString(tex.tex->GetName().c_str(), static_cast<rapidjson::SizeType>(tex.tex->GetName().length()), allocator);
+	}
+	else {
+		filePathValue.SetString("", 0, allocator);
+	}
+	
 	texObject.AddMember("Texture File Path", filePathValue, allocator);
 	return texObject;
 }
@@ -678,8 +684,13 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	DialogueHUD* dialogueHud = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
+	Temporary* temporary = nullptr;
 
 	for (const Entity& entity : m_entity) {
+
+		if (ECS::ecs().HasComponent<Temporary>(entity) && !isPrefab) {
+			continue;
+		}
 		
 		if (!isPrefab && !ECS::ecs().HasComponent<Clone>(entity)) {
 			continue;
@@ -875,6 +886,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			transform = &ECS::ecs().GetComponent<Child>(entity).offset;
 			rapidjson::Value transformObject = SerializeTransform(*transform, allocator);
 			entityObject.AddMember("Child", transformObject, allocator);
+		}
+		if (CheckSerialize<Temporary>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("Temporary", rapidjson::Value(rapidjson::kObjectType), allocator);
+
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -1204,6 +1219,10 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				if (!ECS::ecs().HasComponent<Movable>(entity)) {
 					ECS::ecs().AddComponent(entity, Movable{});
 				}
+			}
+
+			if (entityObject.HasMember("Temporary")) {
+				ECS::ecs().AddComponent<Temporary>(entity, Temporary{});
 			}
 			if (entityObject.HasMember("CharacterStats")) {
 				const rapidjson::Value& statsObject = entityObject["CharacterStats"];

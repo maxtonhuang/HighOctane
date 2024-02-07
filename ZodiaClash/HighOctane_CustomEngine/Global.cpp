@@ -56,6 +56,8 @@ bool destroyAll{ false };
 bool saveFile{ false };
 bool playButton{ false };
 bool stopButton{ false };
+bool pauseBuffer{ false };
+bool stopBuffer{ false };
 bool sceneChangedWhilePlay{ false };
 bool rightClick{ false };
 bool toDestroy{ false };
