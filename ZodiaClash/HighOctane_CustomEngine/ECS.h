@@ -71,8 +71,10 @@
 #include <set>
 #include <memory>
 #include <functional>
+#include <algorithm>
 #include "debugdiagnostic.h"
 #include "Components.h"
+#include "MemoryManager.h"
 
 
 using Entity = std::uint32_t;
@@ -164,16 +166,24 @@ public:
 template<typename T>
 class ComponentArray : public IComponentArray {
 public:
+
     //template <typename t>
     void InsertData(Entity entity, T component) {
         ASSERT(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Component added to same entity more than once.");
 
-         //put new entry at end and update the maps
+        //put new entry at end and update the maps
         size_t newIndex = m_Size;
         m_EntityToIndexMap[entity] = newIndex;
         m_IndexToEntityMap[newIndex] = entity;
-        m_ComponentArray[newIndex] = component;
+
+        // This portion is new ========================================
+        m_ComponentArray[newIndex] = static_cast<T*>(m_MemoryManager->Allocate());
+        new (m_ComponentArray[newIndex]) T(); //Placement new, creates object at place of pointer, DOES NOT ALLOCATE MEMORY
+        *(m_ComponentArray[newIndex]) = component;
+        // End of new portion ========================================
+
         ++m_Size;
+
     }
     
 
@@ -191,7 +201,12 @@ public:
 
         // Copy element at end into deleted element's place to maintain density
         size_t indexOfRemovedEntity = m_EntityToIndexMap[entity];
+
         size_t indexOfLastElement = m_Size - 1;
+        if (m_ComponentArray[indexOfRemovedEntity] != nullptr) {
+            m_ComponentArray[indexOfRemovedEntity]->~T(); // Manually call the destructor
+            m_MemoryManager->Free(m_ComponentArray[indexOfRemovedEntity]); // Free the memory
+        }
         m_ComponentArray[indexOfRemovedEntity] = m_ComponentArray[indexOfLastElement];
 
         // Update map to point to moved spot
@@ -216,7 +231,7 @@ public:
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Retrieving non-existent component.");
 
         // Return a reference to the entity's component
-        return m_ComponentArray[m_EntityToIndexMap[entity]];
+        return *(m_ComponentArray[m_EntityToIndexMap[entity]]);
     }
     
     //T& GetData(Entity entity) {
@@ -264,27 +279,52 @@ public:
     }
 
     std::vector<T*> GetDataArray() {
-        std::vector<T*> array{};
+        std::vector<T*> array{}; // Changed this to take in T* instead of T
         for (auto& e : m_EntityToIndexMap) {
-            array.push_back(&m_ComponentArray[e.second]);
+            array.push_back(m_ComponentArray[e.second]);
         }
         return array;
     }
 
     std::vector<std::pair<Entity, T*>> GetPairArray() {
-        std::vector<std::pair<Entity, T*>> array{};
+        std::vector<std::pair<Entity, T*>> array{}; // Changed this to take in T* instead of T
         for (auto& e : m_EntityToIndexMap) {
-            array.push_back(std::pair<Entity,T*>{e.first, &m_ComponentArray[e.second]});
+            array.push_back(std::pair<Entity,T*>{e.first, m_ComponentArray[e.second]});
         }
         return array;
     }
 
+    ComponentArray() : m_MemoryManager{ std::make_unique<ObjectAllocator>((sizeof(T) < sizeof(void*)) ? (sizeof(void*)) : (sizeof(T)), config) } {};
+
+    ~ComponentArray() {
+        for (auto& e : m_EntityToIndexMap) {
+            if (m_ComponentArray[e.second] != nullptr) {
+				m_ComponentArray[e.second]->~T();
+				m_MemoryManager->Free(m_ComponentArray[e.second]);
+			}
+		}
+	}
+
 private:
+
+    // This portion is new ========================================
+    bool useCPPMemMgr{ false };
+    unsigned objectsPerPage{ 32 };
+    unsigned maxPages{};
+    bool debug{ false };
+    unsigned padbytes{ 0 };
+    OAConfig::HeaderBlockInfo header{ OAConfig::hbNone };
+    unsigned alignment{ 16 };
+    OAConfig config{ useCPPMemMgr,objectsPerPage, maxPages, debug, padbytes, header, alignment };
+
+    std::unique_ptr<ObjectAllocator> m_MemoryManager;
+    // End of new portion ========================================
+
     // The packed array of components (of generic type T),
     // set to a specified maximum amount, matching the maximum number
     // of entities allowed to exist simultaneously, so that each entity
     // has a unique spot.
-    std::array<T, MAX_ENTITIES> m_ComponentArray{};
+    std::array<T*, MAX_ENTITIES> m_ComponentArray{}; // Changed this to take in T* instead of T
     //std::array<bool, MAX_ENTITIES> m_RegisteredArray{};
 
     // Map from an entity ID to an array index.
@@ -313,7 +353,7 @@ public:
         m_ComponentTypes.insert({ typeName, m_NextComponentType });
 
         // Create a ComponentArray pointer and add it to the component arrays map
-        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() });
+        m_ComponentArrays.insert({ typeName, std::make_shared<ComponentArray<T>>() }); // Changed this to take in T* instead of T
 
         // Increment the value so that the next component registered will be different
         ++m_NextComponentType;
