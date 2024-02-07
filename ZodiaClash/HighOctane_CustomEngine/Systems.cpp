@@ -189,6 +189,21 @@ void PhysicsSystem::Draw() {
 }
 
 
+/**************************************************************************/
+/*!
+	@brief Advances the state of the particle system by a fixed time step and
+		   periodically generates new particles with predetermined properties.
+
+	@details This function performs two main tasks during each update cycle:
+			 1. It updates all existing particles in the system using the
+				predefined fixed time step (`FIXED_DT`), ensuring consistent
+				simulation regardless of frame rate.
+			 2. It periodically generates a new particle based on a frequency
+				(`freq`), using a random position and velocity. The frequency
+				of particle generation is controlled by a timer that resets
+				after reaching a specified threshold.
+*
+******************************************************************************/
 void ParticleSystem::Update()
 {
 	particles.Update(FIXED_DT);
@@ -210,6 +225,11 @@ void ParticleSystem::Update()
 	}
 }
 
+/******************************************************************************
+*
+*	@brief Calls the Draw function in particle manager
+*
+******************************************************************************/
 void ParticleSystem::Draw()
 {
 	particles.Draw(FIXED_DT);
