@@ -168,7 +168,8 @@ void PhysicsSystem::Draw() {
 void ParticleSystem::Update()
 {
 	particles.Update(FIXED_DT);
-	static float timer = 0;
+	float freq = 0.1f;
+	static float timer = freq;
 	timer += FIXED_DT;
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -176,11 +177,12 @@ void ParticleSystem::Update()
 	std::uniform_real_distribution<float> dis(0, 1);
 
 	// Generate and print a random number
-	if (timer >= .1f) {
+	if (timer >= freq) {
 		float randomValue = dis(gen);
 		float between_neg1and1 = -1 + ((2) * randomValue);
-		float between_negwidthandwidth = -(GRAPHICS::w) + (GRAPHICS::w * 2 * randomValue);
-		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h}, { 10, 10 }, { between_neg1and1 * 500, -500 }, { {37.f/255.f, 105.f/255.f, 51.f/255.f, 1} }, particlePresets::ParticleFade, 0.f);
+		float between_negwidthandwidth = -(GRAPHICS::w)+(GRAPHICS::w * 2 * randomValue);
+		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h }, { 10, 10 }, { between_neg1and1 * 500, -500 }, { {123.f / 255.f, 201.f / 255.f, 141.f / 255.f, 1} }, particlePresets::ParticleFade, 0.f);
+		timer = 0.f;
 	}
 }
 
