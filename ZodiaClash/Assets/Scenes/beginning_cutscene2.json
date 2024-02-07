@@ -86,8 +86,8 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 0,
-            "Order in Layer": 1,
+            "Current Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -143,5 +143,30 @@
             "Target Scene": "exploration1.scn"
         },
         "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "fps_counter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "fps counter",
+            "Current Layer": 2,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 861.0,
+            "position_y": 505.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

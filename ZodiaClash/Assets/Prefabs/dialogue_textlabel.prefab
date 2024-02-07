@@ -27,7 +27,7 @@
         "Transform": {
             "position_x": 0.0,
             "position_y": -780.0,
-            "rotation": 6.2831854820251465,
+            "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -86,7 +86,7 @@
             "Viewing Index": 0,
             "Display Duration": 0.0,
             "Is Active": false,
-            "Is Triggered": true,
+            "Is Triggered": false,
             "Auto Launch": false,
             "Speaker Required": true,
             "Post Dialogue Scene": false,
@@ -159,9 +159,9 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -765.25,
-            "position_y": -635.0,
-            "rotation": 6.2831854820251465,
+            "position_x": -767.25,
+            "position_y": -1035.0,
+            "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0

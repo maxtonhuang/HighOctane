@@ -1,20 +1,8 @@
-ZodiaClash_Exploration1.ogg
-Cat_Idle.spritesheet
-Cat_Idle.spritesheet
-mockup_qn_icon.png
-EXPLORATION_MAP_tiling_08.png
-EXPLORATION_MAP_tiling_03.png
-EXPLORATION_MAP_tiling_04.png
-EXPLORATION_MAP_tiling_05.png
-EXPLORATION_MAP_tiling_06.png
-EXPLORATION_MAP_tiling_07.png
-EXPLORATION_MAP_tiling_09.png
-EXPLORATION_MAP_tiling_01.png
-EXPLORATION_MAP_tiling_02.png
-NEW_guard_pfp.png
-GUARD_idle.png
-EXPLORATION_MAP_asset_rock.png
-Battle End_Edited.wav
+mockup_playbutton_04.png
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -35,4 +23,4 @@ Jade Thrust.skill
 Dance of Fury.skill
 Chi Surge.skill
 Scarlet Claw.skill
-exploration1.json
+tbc.json
