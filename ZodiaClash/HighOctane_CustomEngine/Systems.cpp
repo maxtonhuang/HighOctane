@@ -59,6 +59,7 @@
 #include "Animation.h"
 #include "UndoRedo.h"
 #include "Particles.h"
+#include <random>
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
 
@@ -113,9 +114,7 @@ void PhysicsSystem::Update() {
 	for (Entity const& entity : m_Entities) {
 		Size sizeData{ sizeArray.GetData(entity) };
 		Transform transformData{ transformArray.GetData(entity) };
-		transformArray.GetData(entity).halfDimensions = {
-			sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale
-		};
+		transformArray.GetData(entity).halfDimensions = { sizeData.width / 2.f * transformData.scale, sizeData.height / 2.f * transformData.scale };
 		Collider colliderData{ colliderArray.GetData(entity) };
 		if (colliderData.dimension.x == 0.f && colliderData.dimension.y == 0.f) {
 			colliderData.dimension.x = sizeData.width;
@@ -123,9 +122,7 @@ void PhysicsSystem::Update() {
 			colliderData.scale = 1.f;
 		}
 		colliderArray.GetData(entity).position = transformData.position;
-		colliderArray.GetData(entity).halfDimensions = {
-			colliderData.dimension.x / 2.f * colliderData.scale, colliderData.dimension.y / 2.f * colliderData.scale
-		};
+		colliderArray.GetData(entity).halfDimensions = { colliderData.dimension.x / 2.f * colliderData.scale, colliderData.dimension.y / 2.f * colliderData.scale };
 	}
 
 	// Check step mode and integrate physics
@@ -133,20 +130,38 @@ void PhysicsSystem::Update() {
 		// Debug draw all entities
 		// If step is required, integrate physics for all entities
 		if (reqStep) {
-			for (Entity const& entity : m_Entities) {
-				Transform& transData = transformArray.GetData(entity);
-				Collider& collData = colliderArray.GetData(entity);
-				physics::PHYSICS->Integrate(transData, collData);
+			//for (Entity const& entity : m_Entities) {
+			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+				if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+					for (Entity& entity : layering[layer_it]) {
+						if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+							if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Collider>(entity)) {
+								Transform& transData = transformArray.GetData(entity);
+								Collider& collData = colliderArray.GetData(entity);
+								physics::PHYSICS->Integrate(transData, collData);
+							}
+						}
+					}
+				}
 			}
 		}
 	}
 
 	else {
 		// Regular physics integration and debug drawing
-		for (Entity const& entity : m_Entities) {
-			Transform& transData = transformArray.GetData(entity);
-			Collider& collData = colliderArray.GetData(entity);
-			physics::PHYSICS->Integrate(transData, collData);
+		//for (Entity const& entity : m_Entities) {
+		for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+			if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+				for (Entity& entity : layering[layer_it]) {
+					if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+						if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Collider>(entity)) {
+							Transform& transData = transformArray.GetData(entity);
+							Collider& collData = colliderArray.GetData(entity);
+							physics::PHYSICS->Integrate(transData, collData);
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -156,14 +171,23 @@ void PhysicsSystem::Draw() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-	for (Entity const& entity : m_Entities) {
-		Transform& transData = transformArray.GetData(entity);
-		Collider& collData = colliderArray.GetData(entity);
+	//for (Entity const& entity : m_Entities) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity& entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+					if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Collider>(entity)) {
+						Transform& transData = transformArray.GetData(entity);
+						Collider& collData = colliderArray.GetData(entity);
 
-		physics::PHYSICS->DebugDraw(transData, collData);
+						physics::PHYSICS->DebugDraw(transData, collData);
+					}
+				}
+			}
+		}
 	}
 }
-#include <random>
+
 
 void ParticleSystem::Update()
 {
@@ -215,10 +239,19 @@ void CollisionSystem::Update() {
 	std::vector<physics::SweepAndPruneEntry> xSortedColliders;
 
 	// Populate the xSortedColliders list and sort it along the x-axis
-	for (Entity const& entity : m_Entities) {
-		Collider* collideData = &colliderArray.GetData(entity);
+	//for (Entity const& entity : m_Entities) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity& entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+					if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Collider>(entity)) {
+						Collider* collideData = &colliderArray.GetData(entity);
 
-		xSortedColliders.push_back(physics::SweepAndPruneEntry{ entity, collideData->position.x - collideData->halfDimensions.x, collideData->position.x + collideData->halfDimensions.x });
+						xSortedColliders.push_back(physics::SweepAndPruneEntry{ entity, collideData->position.x - collideData->halfDimensions.x, collideData->position.x + collideData->halfDimensions.x });
+					}
+				}
+			}
+		}
 	}
 
 	// Sort the xSortedColliders list based on the lower x-coordinate
@@ -409,14 +442,23 @@ void GraphicsSystem::Update() {
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textArray = componentManager.GetComponentArrayRef<TextLabel>();
 
-	for (Entity const& entity : m_Entities) {
-		Model* m = &modelArray.GetData(entity);
-		Size* size = &sizeArray.GetData(entity);
-		Transform* transform = &transformArray.GetData(entity);
-		/*if (m->CheckTransformUpdated(*transform, *size)) {
+	//for (Entity const& entity : m_Entities) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity& entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+					if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Model>(entity) && ECS::ecs().HasComponent<Size>(entity)) {
+						Model* m = &modelArray.GetData(entity);
+						Size* size = &sizeArray.GetData(entity);
+						Transform* transform = &transformArray.GetData(entity);
+						/*if (m->CheckTransformUpdated(*transform, *size)) {
 
-		}*/
-		m->Update(*transform, *size);
+						}*/
+						m->Update(*transform, *size);
+					}
+				}
+			}
+		}
 	}
 
 	//UPDATE FREE CAMERA MOVEMENT
@@ -879,11 +921,19 @@ void EditingSystem::Draw() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	for (Entity entity : m_Entities) {
-		Name* n = &nameArray.GetData(entity);
-		if (n->selected && modelArray.HasComponent(entity)) {
-			Model* m = &modelArray.GetData(entity);
-			m->DrawOutline();
+	//for (Entity entity : m_Entities) {
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
+			for (Entity& entity : layering[layer_it]) {
+				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+					//if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Collider>(entity)) {
+					Name* n = &nameArray.GetData(entity);
+					if (n->selected && modelArray.HasComponent(entity)) {
+						Model* m = &modelArray.GetData(entity);
+						m->DrawOutline();
+					}
+				}
+			}
 		}
 	}
 }
