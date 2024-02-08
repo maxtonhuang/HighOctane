@@ -48,13 +48,13 @@ public:
 
 	void SetZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
 	void AddZoom(float zoom); //scale for camera (eg 1.0 for default, 2.0 for 2x)
-	float GetZoom();
+	float GetZoom(); //Gets the zoom value of the camera
 
-	void SetTarget(Entity entity);
-	void DetachTarget();
+	void SetTarget(Entity entity); //Sets the target for the camera, the camera will then follow this entity
+	void DetachTarget(); //Detach the camera from its currently following entity
 
-	void SetShake(float shake);
-	void AddShake(float shake);
+	void SetShake(float shake); //Set the shake value for camera shake
+	void AddShake(float shake); //Adds shake to the camera
 
 private:
 	vmath::Vector2 pos{}; //camera position
