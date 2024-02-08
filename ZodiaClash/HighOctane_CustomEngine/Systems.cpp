@@ -1307,7 +1307,7 @@ void UIAllyHudSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& allyHudArray = componentManager.GetComponentArrayRef<AllyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
-	auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
+	//auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {

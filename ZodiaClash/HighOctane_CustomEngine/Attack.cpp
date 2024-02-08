@@ -46,18 +46,18 @@ void Attack::UseAttack(CharacterStats* target) {
     CalculateDamage(*target);
 
     if (attackName == "Secret Arts: Pounce") {
-        target->TakeDamage(1.5 * target->debuffs.bloodStack);
+        target->TakeDamage(1.5f * target->debuffs.bloodStack);
         target->debuffs.bloodStack = 0;
     }
     else if (attackName == "Yin-Yang Strike") {
-        if (owner->stats.health < 0.5 * owner->stats.maxHealth && owner->charge) {
+        if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
             owner->charge = false;
         }
     }
     else if (attackName == "Shepherd's Grace") {
-        target->HealBuff(0.3 * target->stats.maxHealth);
+        target->HealBuff(0.3f * target->stats.maxHealth);
         target->debuffs.bloodStack = 0;
     }
     else if (attackName == "Chi Surge") {
@@ -67,7 +67,7 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
     else if (attackName == "Celestial Annihilation will be cast next!") {
-        if (owner->stats.health < 0.5 * owner->stats.maxHealth && !owner->charge) {
+        if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }
         owner->charge = true;

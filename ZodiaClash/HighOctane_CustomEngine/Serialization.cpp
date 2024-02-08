@@ -704,7 +704,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	DialogueHUD* dialogueHud = nullptr;
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
-	Temporary* temporary = nullptr;
+	//Temporary* temporary = nullptr;
 
 	for (const Entity& entity : m_entity) {
 

@@ -463,6 +463,7 @@ void BattleSystem::SwitchTurnOrder(CharacterStats* target)
  */
 void BattleSystem::RevertTurnOrder(CharacterStats* target)
 {
+    UNREFERENCED_PARAMETER(target);
     //auto& ogTurnList = turnManage.originalTurnOrderList;
     //auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
     //turnManage.turnOrderList.remove(target);

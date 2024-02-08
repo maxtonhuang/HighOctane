@@ -94,6 +94,7 @@ void ParticleManager::Update(float dt)
 /**************************************************************************/
 void ParticleManager::Draw(float dt) 
 {
+	UNREFERENCED_PARAMETER(dt);
 	static Renderer* particleRenderer = &graphics.renderer["particle"];
 	Texture* particleTexture = assetmanager.texture.Get("Leaf.png");
 	float textureID = (float)(particleTexture->GetID() - 1.f);

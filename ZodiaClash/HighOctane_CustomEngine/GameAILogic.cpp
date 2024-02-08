@@ -84,7 +84,7 @@ namespace GameAILogic {
 		value += enemyWeight * enemyChange;
 		value += (int)(effectiveDamage * damageRate);
 		value += (int)(effectiveHealing * healRate);
-		value += (float)(end.aiMultiplier - start.aiMultiplier);
+		value += end.aiMultiplier - start.aiMultiplier;
 
 		return value;
 	}

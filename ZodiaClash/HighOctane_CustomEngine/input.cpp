@@ -178,7 +178,6 @@ void InputManager::MouseCheck() {
 }
 
 void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
-    return;
     UNREFERENCED_PARAMETER(pwin);
     if (focused) {
         assetmanager.audio.ResumeGroup("Master");
