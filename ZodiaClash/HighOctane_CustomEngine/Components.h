@@ -125,7 +125,7 @@ struct Visible {
 };
 
 struct MainCharacter {
-    // empty by design
+    bool moved{ false };
 };
 
 struct Circle {

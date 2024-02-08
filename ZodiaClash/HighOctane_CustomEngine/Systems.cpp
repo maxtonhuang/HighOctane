@@ -363,6 +363,8 @@ void MovementSystem::Update() {
 		auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 		auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 		auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
+		auto& mcArray = componentManager.GetComponentArrayRef<MainCharacter>();
+		auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 
 		//for (Entity const& entity : m_Entities) {
 		for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
@@ -372,8 +374,31 @@ void MovementSystem::Update() {
 						if (ECS::ecs().HasComponent<MainCharacter>(entity) && ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Model>(entity) && ECS::ecs().HasComponent<Size>(entity) && ECS::ecs().HasComponent<Tex>(entity)) {
 							Transform* transformData = &transformArray.GetData(entity);
 							Model* modelData = &modelArray.GetData(entity);
+							MainCharacter* mcData = &mcArray.GetData(entity);
+							AnimationSet* animationData = &animationArray.GetData(entity);
 
 							UpdateMovement(*transformData, *modelData);
+							//Idle
+							if (transformData->force.x == 0.f && transformData->force.y == 0.f) {
+								if (mcData->moved) {
+									animationData->Stop();
+								}
+								mcData->moved = false;
+							}
+							//Moving
+							else {
+								if (!mcData->moved) {
+									animationData->Start("Walk", entity);
+								}
+								mcData->moved = true;
+							}
+
+							if (transformData->force.x > 0.f) {
+								modelData->SetMirror(false);
+							}
+							else if (transformData->force.x < 0.f) {
+								modelData->SetMirror(true);
+							}
 							colliderArray.GetData(entity).type = Collider::MAIN;
 
 							camera.SetTarget(entity);

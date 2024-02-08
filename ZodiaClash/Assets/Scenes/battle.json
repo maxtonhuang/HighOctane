@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 73,
+            "layerCounter": 70,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -73,10 +73,7 @@
                 "Layer 66",
                 "Layer 67",
                 "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71",
-                "Layer 72"
+                "Layer 69"
             ]
         }
     },
@@ -142,7 +139,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -167,7 +164,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -251,7 +248,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

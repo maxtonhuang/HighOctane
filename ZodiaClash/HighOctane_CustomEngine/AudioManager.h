@@ -56,6 +56,8 @@ public:
 	bool IsGroupPaused(const char* name); 
 	//Sets the BGM of the scene
 	void SetBGM(const char* name); 
+	//Sets the ambience of the scene
+	void SetAmbience(const char* name);
 
 	//Releases all sounds from audio manager
 	void ReleaseAllSounds(); 
@@ -63,6 +65,8 @@ public:
 	FMOD::Sound* AddSound(const char* path, const char* name); 
 	//Add music to FMOD and audio manager
 	FMOD::Sound* AddMusic(const char* path, const char* name); 
+	//Add ambience to FMOD and audio manager
+	FMOD::Sound* AddAmbience(const char* path, const char* name); 
 	//Plays loaded sound
 	void PlaySounds(const char* sound, const char* channelGroup = nullptr); 
 	//Free a sound from FMOD and audio manager
@@ -76,8 +80,12 @@ public:
 	std::vector<std::string> GetSoundPaths(); 
 	//Get paths of all music in music folder
 	std::vector<std::string> GetMusicPaths(); 
+	//Get paths of all ambience in ambience folder
+	std::vector<std::string> GetAmbiencePaths();
 	//Get name of the current BGM
 	std::string GetCurrentBGM(); 
+	//Get name of the current ambience
+	std::string GetCurrentAmbience();
 	//Update the paths in sound and music folders
 	void UpdateAudioDirectory(); 
 private:
@@ -86,6 +94,8 @@ private:
 	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
 
 	std::string currentBGM{};
+	std::string currentAmbience{};
 	std::vector<std::string> soundPaths{};
 	std::vector<std::string> musicPaths{};
+	std::vector<std::string> ambiencePaths{};
 };

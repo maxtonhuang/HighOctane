@@ -7,8 +7,11 @@ Guard_Death.spritesheet
 mockup_title_logo_02 (1).png
 Guard_Death.spritesheet
 button_QUIT_v02.png
+Goat_Ulti_VFX.spritesheet
 VFX_Hit.spritesheet
+Goat_Ulti_VFX.spritesheet
 Cat_Idle.spritesheet
+VFX_Hit.spritesheet
 Boss_Circle.spritesheet
 Cat_Idle.spritesheet
 mockup_playbutton_04.png
@@ -36,9 +39,6 @@ NEW_guard_pfp.png
 GUARD_idle.png
 EXPLORATION_MAP_asset_rock.png
 mockup_pausemenu.png
-Goat_Ulti_VFX.spritesheet
-VFX_Hit.spritesheet
-Goat_Ulti_VFX.spritesheet
 UI_Target_Circle.spritesheet
 UI_Target_Circle.spritesheet
 NEW_howtoplay2.png
@@ -64,6 +64,10 @@ EXPLORATION_MAP_tiling_06.png
 EXPLORATION_MAP_tiling_08.png
 EXPLORATION_MAP_tiling_09.png
 How to Play.png
+Cat_Run.spritesheet
+Cat_Run.spritesheet
+Cutscene_v01_01.png
+exploration bg_03.png
 ZodiaClash_MainMenu2.ogg
 Ox Atk 2_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf

@@ -140,6 +140,16 @@ void AssetManager::LoadMusic(const std::string& audioPath) {
     }
 }
 
+void AssetManager::LoadAmbience(const std::string& audioPath) {
+    std::string path{ defaultPath };
+    path += "Ambience/" + audioPath;
+    if (FileExists(path)) {
+        audio.AddAmbience(path.c_str(), audioPath.c_str());
+    }
+    else {
+        ASSERT(1, "Unable to open music file!");
+    }
+}
 
 /**************************************FONTS**************************************************/
 void AssetManager::LoadFont(const std::string& fontPath) {
@@ -295,9 +305,14 @@ void AssetManager::SaveScene(const std::string& scenePath) {
         sceneFile << currentBGM << "\n";
     }
     
+    std::string currentAmbience{ audio.GetCurrentAmbience() };
+    if (currentAmbience != "") {
+        sceneFile << currentAmbience << "\n";
+    }
+
     auto files = assetmanager.GetFiles();
     for (auto& f : files) {
-        if (f != currentBGM) {
+        if (f != currentBGM && f != currentAmbience) {
             sceneFile << f << "\n";
         }
     }
@@ -372,14 +387,31 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     else if (extension == ".wav" || extension == ".ogg") {
         // Load as audio
         std::string soundPath{ defaultPath };
+        bool loaded{ false };
         soundPath += "Sound/" + assetPath;
         if (FileExists(soundPath)) {
             LoadSound(assetPath);
+            loaded = true;
         }
         else {
+            soundPath = defaultPath + "Music/" + assetPath;
+        }
+
+        if (FileExists(soundPath) && !loaded) {
             LoadMusic(assetPath);
+            loaded = true;
+        }
+        else {
+            soundPath = defaultPath + "Ambience/" + assetPath;
         }
         
+        if (FileExists(soundPath) && !loaded) {
+            LoadAmbience(assetPath);
+            loaded = true;
+        }
+        else if (!loaded) {
+            ASSERT(1, "Unable to find sound file!");
+        }
     }
     else if (extension == ".ttf" || extension == ".otf") {
         // Load as font

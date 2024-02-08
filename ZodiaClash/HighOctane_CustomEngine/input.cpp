@@ -70,6 +70,21 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_F1 == key) {
             events.Call("Change Scene", "mainmenu.scn");
         }
+        if (GLFW_KEY_F2 == key) {
+            events.Call("Change Scene", "beginning_cutscene1.scn");
+        }
+        if (GLFW_KEY_F3 == key) {
+            events.Call("Change Scene", "exploration1.scn");
+        }
+        if (GLFW_KEY_F4 == key) {
+            events.Call("Change Scene", "battle.scn");
+        }
+        if (GLFW_KEY_F5 == key) {
+            events.Call("Change Scene", "exploration2.scn");
+        }
+        if (GLFW_KEY_F6 == key) {
+            events.Call("Change Scene", "battle2.scn");
+        }
         if (GLFW_KEY_F11 == key) {
             fullscreen = !fullscreen;
             graphics.Fullscreen(fullscreen);

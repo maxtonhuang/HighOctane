@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 67,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,60 +28,19 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66"
+                "Layer 24"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Cat",
+            "Name": "Cat_Run.png",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 39,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -89,11 +48,11 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -544.4788818359375,
-            "position_y": 26.215194702148438,
+            "position_x": -526.0,
+            "position_y": -21.0,
             "rotation": 0.0,
-            "scale": 0.6240636110305786,
-            "velocity_x": 1.3096902552800984e-33,
+            "scale": 0.2549780011177063,
+            "velocity_x": 0.0,
             "velocity_y": 0.0
         },
         "Texture": {
@@ -101,14 +60,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Cat_Idle.spritesheet"
+            "Texture File Path": "Cat_Run.spritesheet"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 512.0,
-            "height": 513.0
+            "width": 958.0,
+            "height": 958.0
         },
         "Model": {
             "Model type": 0,
@@ -123,11 +82,97 @@
         "MainCharacter": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 225.5,
-            "Dimension Y": 312.0,
+            "Dimension X": 212.0,
+            "Dimension Y": 212.0,
             "Type": 1,
             "Event Name": "",
             "Event Input": ""
-        }
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 12,
+                "Group Name": "Walk",
+                "Loop": true,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Cat_Run.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 10,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Rest",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Cat_Idle.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Walk"
     }
 ]

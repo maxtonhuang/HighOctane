@@ -101,6 +101,7 @@ public:
     ***********************************************/
     void LoadSound(const std::string& audioPath);
     void LoadMusic(const std::string& audioPath);
+    void LoadAmbience(const std::string& audioPath);
 
     /***********************************************
     FONT METHODS

@@ -242,6 +242,9 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "CreatePrefab") {
 							selectedAnimGroup->animations.push_back(std::make_shared<CreatePrefabAnimation>());
 						}
+						else if (selectedType == "Event") {
+							selectedAnimGroup->animations.push_back(std::make_shared<EventAnimation>());
+						}
 					}
 				}
 				else {

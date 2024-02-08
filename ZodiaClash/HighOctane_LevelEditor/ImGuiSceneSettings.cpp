@@ -89,6 +89,31 @@ void UpdateSceneSettingsWindow() {
 		ImGui::EndCombo();
 	}
 
+	std::vector<std::string> ambienceList{ assetmanager.audio.GetAmbiencePaths() };
+	std::string currentAmbience{ assetmanager.audio.GetCurrentAmbience() };
+	if (currentAmbience == "") {
+		currentAmbience = "None";
+	}
+	if (ImGui::BeginCombo("Scene Ambience", currentAmbience.c_str())) {
+		bool is_selected = (currentAmbience == "None");
+		if (ImGui::Selectable("None", is_selected)) {
+			assetmanager.audio.SetAmbience("");
+		}
+		if (is_selected) {
+			ImGui::SetItemDefaultFocus();
+		}
+		for (int n = 0; n < ambienceList.size(); n++) {
+			is_selected = (currentAmbience == ambienceList[n]);
+			if (ImGui::Selectable(ambienceList[n].c_str(), is_selected)) {
+				assetmanager.audio.SetAmbience(ambienceList[n].c_str());
+			}
+			if (is_selected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
 	ImGui::Separator();
 	ImGui::Text("Loaded Assets:");
 	ImGui::Text("Textures:");

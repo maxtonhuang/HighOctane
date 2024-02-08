@@ -340,6 +340,19 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 			}
 			animations.push_back(ptr);
 		}
+		else if (animation->GetType() == "Event") {
+			std::shared_ptr <EventAnimation> ptr{ std::make_shared<EventAnimation>() };
+			std::shared_ptr<EventAnimation> copyptr{ std::dynamic_pointer_cast<EventAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
+			animations.push_back(ptr);
+		}
 		else {
 			ASSERT(1, "Unable to copy animation group!");
 		}

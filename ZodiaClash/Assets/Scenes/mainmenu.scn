@@ -1,20 +1,25 @@
 ZodiaClash_MainMenu2.ogg
 mockup_chi_icon.png
-EXPLORATION_MAP_tiling_01.png
 NEW_howtoplay.png
+EXPLORATION_MAP_tiling_01.png
 NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
 mockup_title_logo_02 (1).png
 Guard_Death.spritesheet
 button_QUIT_v02.png
+Goat_Ulti_VFX.spritesheet
+VFX_Hit.spritesheet
+Goat_Ulti_VFX.spritesheet
 Cat_Idle.spritesheet
+VFX_Hit.spritesheet
 Boss_Circle.spritesheet
+Cat_Idle.spritesheet
 mockup_playbutton_04.png
 Boss_Circle.spritesheet
-Goat_Death.spritesheet
-button_PLAY_v02.png
 EXPLORATION_MAP_tiling_05.png
+button_PLAY_v02.png
+Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Death.spritesheet
 Goat_Skill_VFX_Front.spritesheet
@@ -33,25 +38,20 @@ skill_icon_ulti.png
 NEW_bg_03.png
 NEW_guard_pfp.png
 GUARD_idle.png
-mockup_pausemenu.png
 EXPLORATION_MAP_asset_rock.png
-Goat_Ulti_VFX.spritesheet
-VFX_Hit.spritesheet
-Goat_Ulti_VFX.spritesheet
-Cat_Idle.spritesheet
-VFX_Hit.spritesheet
+mockup_pausemenu.png
 UI_Target_Circle.spritesheet
 UI_Target_Circle.spritesheet
 NEW_howtoplay2.png
 mockup_qn_icon.png
 goat.png
 Goat_Hit.spritesheet
-catSkill1_tooltip.png
 Goat_Basic.spritesheet
+catSkill1_tooltip.png
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
-catSkill3_tooltip.png
 EXPLORATION_MAP_tiling_07.png
+catSkill3_tooltip.png
 Goat_Skill_VFX_Back.spritesheet
 Goat_Skill_VFX_Back.spritesheet
 Goat_Ulti.spritesheet
@@ -65,14 +65,18 @@ EXPLORATION_MAP_tiling_06.png
 EXPLORATION_MAP_tiling_08.png
 EXPLORATION_MAP_tiling_09.png
 How to Play.png
+Cat_Run.spritesheet
+Cat_Run.spritesheet
+Cutscene_v01_01.png
+exploration bg_03.png
 Ox Atk 2_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
-Boss Goat Speedup.skill
-Boss Goat Attack.skill
-A strong attack is coming!.skill
+Yin-Yang Strike.skill
+Secret Arts: Pounce.skill
+Celestial Annihilation will be cast next!.skill
+Shepherd's Grace.skill
+Jade Thrust.skill
 Dance of Fury.skill
-Boss Goat Heal.skill
+Chi Surge.skill
 Scarlet Claw.skill
-Five Elements Bloodbath.skill
-Guard Attack.skill
 mainmenu.json

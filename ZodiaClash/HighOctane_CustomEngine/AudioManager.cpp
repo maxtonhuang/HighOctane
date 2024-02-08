@@ -54,6 +54,7 @@ void AudioManager::Initialize() {
     system->getMasterChannelGroup(&group["Master"]);
     CreateGroup("SFX");
     CreateGroup("BGM");
+    CreateGroup("ENV");
 
     UpdateAudioDirectory();
 }
@@ -66,6 +67,7 @@ void AudioManager::UpdateAudioDirectory() {
     std::filesystem::path soundFolder{ assetmanager.GetDefaultPath() + "Sound/" };
     std::vector <std::string> newSoundPaths{};
     std::vector <std::string> newMusicPaths{};
+    std::vector <std::string> newAmbiencePaths{};
     for (auto& entry : std::filesystem::directory_iterator(soundFolder)) {
         std::string path{ entry.path().string() };
         path = path.substr(path.find_last_of("/") + 1);
@@ -77,8 +79,15 @@ void AudioManager::UpdateAudioDirectory() {
         path = path.substr(path.find_last_of("/") + 1);
         newMusicPaths.push_back(path);
     }
+    std::filesystem::path ambienceFolder{ assetmanager.GetDefaultPath() + "Ambience/" };
+    for (auto& entry : std::filesystem::directory_iterator(ambienceFolder)) {
+        std::string path{ entry.path().string() };
+        path = path.substr(path.find_last_of("/") + 1);
+        newAmbiencePaths.push_back(path);
+    }
     soundPaths = newSoundPaths;
     musicPaths = newMusicPaths;
+    ambiencePaths = newAmbiencePaths;
 }
 
 void AudioManager::Release() {
@@ -147,6 +156,24 @@ FMOD::Sound* AudioManager::AddMusic(const char* path, const char* name) {
     return data[name];
 }
 
+FMOD::Sound* AudioManager::AddAmbience(const char* path, const char* name) {
+    if (data[name] != nullptr) {
+        return data[name];
+    }
+    FMOD_RESULT result;
+    result = system->createSound(path, FMOD_LOOP_NORMAL, 0, &data[name]);
+    if (result != FMOD_OK) {
+        ASSERT(1, "Error creating ambience!");
+    }
+
+    //If no BGM loaded, player current BGM
+    if (currentAmbience == "") {
+        PlaySounds(name, "ENV");
+        currentAmbience = name;
+    }
+    return data[name];
+}
+
 void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
     FMOD::Channel* tmp;
     if (data[sound] == nullptr) {
@@ -172,12 +199,20 @@ void AudioManager::SetBGM(const char* name) {
     PlaySounds(name, "BGM");
 }
 
+void AudioManager::SetAmbience(const char* name) {
+    StopGroup("ENV");
+    FreeSound(currentAmbience.c_str());
+    currentAmbience = name;
+    PlaySounds(name, "ENV");
+}
+
 void AudioManager::ReleaseAllSounds() {
     for (auto const& sound : data) {
         sound.second->release();
     }
     data.clear();
     currentBGM.clear();
+    currentAmbience.clear();
 }
 
 FMOD::System* AudioManager::GetSystem() {
@@ -200,6 +235,14 @@ std::vector<std::string> AudioManager::GetMusicPaths() {
     return musicPaths;
 }
 
+std::vector<std::string> AudioManager::GetAmbiencePaths() {
+    return ambiencePaths;
+}
+
 std::string AudioManager::GetCurrentBGM() {
     return currentBGM;
+}
+
+std::string AudioManager::GetCurrentAmbience() {
+    return currentAmbience;
 }
