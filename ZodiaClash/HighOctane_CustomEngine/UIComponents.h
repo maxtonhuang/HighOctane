@@ -381,9 +381,9 @@ public:
 	bool postDialogueScene{};
 	std::string targetScene{};
 
-	void StartDialogue(Entity entity); // trigger transition for dialogue UI to move in
-	void JumpNextLine(Entity entity); // move to next line after display duration
+	void StartDialogue(Entity entity);
+	void JumpNextLine(Entity entity);
 
-	void Update(Model& modelData, Entity entity); // event handling
+	void Update(Entity entity);
 	void EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData);
 };

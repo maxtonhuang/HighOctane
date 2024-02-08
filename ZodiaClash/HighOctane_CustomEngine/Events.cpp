@@ -305,16 +305,31 @@ void ToggleHelp(std::string input) {
 	}
 }
 
+/*!
+ * \brief Transitions from current scene to target scene.
+ *
+ * std::string input : The input string.
+ */
 void TransitionScene(std::string input) {
 	transitionActive = true;
 	transitionNextScene = input;
 	transitionType = true;
 }
 
+/*!
+ * \brief Test function.
+ *
+ * std::string input : The input string.
+ */
 void TestFunction(std::string input) {
 	std::cout << input << "\n";
 }
 
+/*!
+ * \brief Explicit event trigger to start dialogue if a DialogueHUD tagged component is on scene.
+ *
+ * std::string input : The input string.
+ */
 void StartDialogue(std::string input) {
 	(void)input;
 
@@ -334,6 +349,11 @@ void StartDialogue(std::string input) {
 	}
 }
 
+/*!
+ * \brief Explicit event trigger to move on to next scene of dialogue.
+ *
+ * std::string input : The input string.
+ */
 void AdvanceDialogue(std::string input) {
 	(void)input;
 
