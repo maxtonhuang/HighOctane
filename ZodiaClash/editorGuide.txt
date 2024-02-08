@@ -97,7 +97,7 @@ Menu Bar:
 Play Stop:
 - Play button would play the scene
 	- IF you click a button within a scene to change into another scene the stop button would reset you back to the previous scene screen.
-	- IF you play and remain on the same screen. Clicking stop would reset to the original state of where it was before pressing play
+	- IF you click the pause button, it will pause the scene in the current state, pressing play again wil resume.
 ================================================================
 
 Master Entities Library:
