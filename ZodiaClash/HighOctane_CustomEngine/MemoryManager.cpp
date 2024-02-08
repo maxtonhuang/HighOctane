@@ -341,11 +341,6 @@ ObjectAllocator::ObjectAllocator(size_t ObjectSize, const OAConfig& config) :
 	m_stats.Allocations_ = 0;
 	m_stats.Deallocations_ = 0;
 
-	// Set FLMAP to nullptr
-	for (unsigned i = 0; i < 65536; ++i) {
-		FLMAP[i] = nullptr;
-	}
-
 	if (!m_config.UseCPPMemManager_) {
 		try {
 			CreateNewPage();
@@ -476,19 +471,21 @@ void ObjectAllocator::Free(void* Object) {
 		delete[] reinterpret_cast<char*>(Object);
 	}
 	else {
-		// 1. check for double free - done.
+		// 1. check for double free
 		if (FindInMap(reinterpret_cast<char*>(Object))) {
 			throw OAException(OAException::E_MULTIPLE_FREE, "FreeObject: Object has already been freed.");
 		}
 
-		// 2. check for bad boundary - done.
+		// 2. check for bad boundary
 		if (CheckBadBoundary(reinterpret_cast<char*>(Object))) {
 			throw OAException(OAException::E_BAD_BOUNDARY, "validate_object: Object not on a boundary.");
 		}
 
-		// 3. validate padding
-		if (ValidatePadding(reinterpret_cast<char*>(Object))) {
-			throw OAException(OAException::E_CORRUPTED_BLOCK, "validate_padding: Pad bytes have been overwritten.");
+		if (m_config.PadBytes_) {
+			// 3. validate padding
+			if (ValidatePadding(reinterpret_cast<char*>(Object))) {
+				throw OAException(OAException::E_CORRUPTED_BLOCK, "validate_padding: Pad bytes have been overwritten.");
+			}
 		}
 
 

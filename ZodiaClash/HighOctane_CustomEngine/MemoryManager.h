@@ -28,6 +28,7 @@ class.
 // If the client doesn't specify these:
 static const int DEFAULT_OBJECTS_PER_PAGE = 4;
 static const int DEFAULT_MAX_PAGES = 3;
+static const int DEFAULT_MAP_SIZE = 65536;
 
 /*!
   Exception class
@@ -337,7 +338,7 @@ private:
         LList(uintptr_t p, std::unique_ptr<LList> nxt = nullptr) : ptr(p), next(std::move(nxt)) {}
     };
 
-    std::unique_ptr<LList> FLMAP[65536];
+    std::unique_ptr<LList> FLMAP[DEFAULT_MAP_SIZE];
 
 };
 
