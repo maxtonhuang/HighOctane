@@ -187,7 +187,7 @@
     <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
     <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
