@@ -265,8 +265,10 @@ void TextLabel::CalculateOffset() {
 /*!
 * \brief rel transform setter
 *
-* Internal function. currently re-centers textString's glyphs to middle of entity model
-* FUTURE IMPLEMENTATIONS: will likely change when alignment is implemented.
+* Internal function. 
+* [M3] currently re-centers textString's glyphs to middle of entity model
+* [M4] now aligns textString based on hAlignment and vAlignment, resizes entity based on textWrap.
+*		updates starting point for text to start drawing based off calculated dimensions.
 *
 */
 void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Padding const& paddingData) {	
@@ -885,18 +887,27 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
 /*************************
 **** DIALOGUE SYSTEM *****
 **************************/
+/*!
+* \brief DialogueHUD StartDialogue
+*
+* Triggers transition for dialogue UI to move in, sets isActive to true
+*
+*/
 void DialogueHUD::StartDialogue(Entity entity) {
 	isActive = 1;
-	/*transformData.position.y -= 400.f;*/
 	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 	if (animationArray.HasComponent(entity)) {
 		animationArray.GetData(entity).Start("Launch", entity);
 	}
 }
 
-void DialogueHUD::JumpNextLine(Entity entity) {
-	//viewingIndex = (viewingIndex + 1) % dialogueLines.size();
-	
+/*!
+* \brief DialogueHUD JumpNextLine
+*
+* Triggers next line of dialogue, sets isActive to false if no more lines
+*
+*/
+void DialogueHUD::JumpNextLine(Entity entity) {	
 	viewingIndex++;
 	if (viewingIndex > dialogueLines.size() - 1) {
 		isActive = 0;
@@ -910,7 +921,13 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 	}
 }
 
-void DialogueHUD::Update(Model& modelData, Entity entity) {
+/*!
+* \brief DialogueHUD Update
+*
+* Runs every game loop, does event handling for mouse click
+*
+*/
+void DialogueHUD::Update(Entity entity) {
 	// get cursorPos, compare with pos in Transform, return if no match
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -926,6 +943,12 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 	}
 }
 
+/*!
+* \brief DialogueHUD EnforceAlignment
+*
+* Auto left-aligns child DialogueSpeaker TextLabel to parent based on text width
+*
+*/
 void DialogueHUD::EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData) {
 	// take main dialogue box's position as anchor, ensure child label is aligned (with auto width)
 	if (childTextLabelData.textWrap != UI_TEXT_WRAP::AUTO_WIDTH) {
