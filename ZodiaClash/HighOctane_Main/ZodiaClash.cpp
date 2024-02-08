@@ -612,6 +612,7 @@ void EngineCore::Run(bool const& mode) {
 
 	physics::PHYSICS = new physics::PhysicsManager{ ECS::ecs(),graphics };
 
+	fullscreen = !game_mode;
 	graphics.Initialize(GRAPHICS::viewportWidth, GRAPHICS::viewportHeight);
 
 	assetmanager.Initialize();

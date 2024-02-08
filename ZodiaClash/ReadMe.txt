@@ -90,6 +90,23 @@ Main Gameplay Controls
 - Press esc to pause the game and show the game menu
 ================================================================
 
+HOTKEYS (for your convenience):
+
+Switches to corresponding scene
+F1 - mainmenu.scn
+F2 - beginning_cutscene1.scn
+F3 - exploration1.scn
+F4 - battle.scn
+F5 - exploration2.scn
+F6 - battle2.scn
+
+Toggles
+9   - FPS Counter
+0   - Viewable physics collider
+F9  - God mode (increases damage output)
+F10 - End game mode (defeats all enemies in the next attack)
+F11 - Fullscreen mode
+
 OTHERS:
 
 1) HUD/UI
@@ -112,39 +129,8 @@ In the final version of the game, the Goat and the Ox characters will also be an
 The player will first start on the map and navigate to the end goal. The player will then encounter different characters on the map and interact with them. Dialogues with unique conversations will be shown based on the character that they interacted with. After interacting with combat NPCs, the characters will then be transported to the turn-based battle scene.
 ================================================================
 
-ImGui BUTTONS:
-
-1) "Test Loader" tests deserialization of entitites from Json file
-
-2) "Save Scene" tests serialization of all entities in current scene (test with 2500, Json file will save accordingly)
-
-3) "Clone entity" Render an entity to test collision
-
-4) "Create Entity by Button Test: Cat" Initial test to just create an entity using ImGui button
-
-5) "Clone Cat Entity" Render the cat entity created by aforementioned button. 
-MUST USE AFOREMENTIONED "Create Entity by Button Test: Cat" BUTTON BEFORE CLONING. PROPER ERROR HANDLING HAS BEEN IN PLACED TO ENSURE AN ENTITY MUST BE CREATD BEFORE CLONING. CLICK "NO" IF CLONING IS DONE BEFORE CREATING TO CONTINUE PROGRAM TO CREATE AN ENTITY FIRST AS ASSERT WILL HAPPEN.
-================================================================
-
 AUDIO:
 
 Audio is implemented in all parts of the game.
-
-================================================================
-
-HOTKEYS (for your convenience):
-
-Switches to corresponding scene
-F1 - mainmenu.scn
-F2 - beginning_cutscene1.scn
-F3 - exploration1.scn
-F4 - battle.scn
-F5 - exploration2.scn
-F6 - battle2.scn
-
-Toggles
-F9  - God mode (increases damage output)
-F10 - End game mode (defeats all enemies in the next attack)
-F11 - Fullscreen mode
 
 ================================================================

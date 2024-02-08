@@ -551,13 +551,29 @@ void GraphicsSystem::Update() {
 
 	//FPS counter text
 	static Entity fpsCounter{};
+	static bool fpsCounterToggle{ true };
 	std::stringstream fps{ };
-	if (!ECS::ecs().EntityExists(fpsCounter)) {
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
+		if (msg.type == TYPE::KEY_TRIGGERED) {
+			switch (msg.info) {
+			case INFO::KEY_9:   fpsCounterToggle = !fpsCounterToggle;        break;
+			default: break;
+			}
+		}
+	}
+	bool fpsCounterExists{ ECS::ecs().EntityExists(fpsCounter) };
+	if (!fpsCounterExists && fpsCounterToggle) {
 		fpsCounter = EntityFactory::entityFactory().ClonePrefab("fps_counter.prefab");
 	}
-	fps << 1 / g_dt;
-	std::string fpsLabel{ "FPS: " + fps.str() };
-	textArray.GetData(fpsCounter).textString = fpsLabel;
+	else if (fpsCounterExists && !fpsCounterToggle) {
+		EntityFactory::entityFactory().DeleteCloneModel(fpsCounter);
+	}
+
+	if (fpsCounterExists) {
+		fps << 1 / g_dt;
+		std::string fpsLabel{ "FPS: " + fps.str() };
+		textArray.GetData(fpsCounter).textString = fpsLabel;
+	}
 }
 
 /******************************************************************************
