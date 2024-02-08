@@ -90,9 +90,9 @@
                 "struct Name",
                 "struct Parent",
                 "struct Color",
-                "class Button",
-                "struct Size",
                 "struct Tex",
+                "struct Size",
+                "class Button",
                 "class Model",
                 "class TextLabel"
             ]
