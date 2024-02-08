@@ -247,7 +247,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -780.0,
+            "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -257,7 +257,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "click to continue...",
+            "Text String": "You have defeated Yang.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -272,7 +272,7 @@
             "Dialogue Lines": [
                 {
                     "Speaker": "",
-                    "Line": "click to continue..."
+                    "Line": "You have defeated Yang."
                 }
             ],
             "Viewing Index": 0,

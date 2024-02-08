@@ -1,12 +1,16 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 3,
+            "layerCounter": 7,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
                 "Layer 1",
-                "Layer 2"
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6"
             ]
         }
     },
@@ -26,7 +30,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -780.0,
+            "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -36,7 +40,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 1750.0,
+            "width": 1600.0,
             "height": 188.5
         },
         "Scripts": {
@@ -46,10 +50,10 @@
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.20000000298023224,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.11764705926179886,
             "Mirror": false
         },
         "Movable": {},
@@ -159,8 +163,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -767.25,
-            "position_y": -1035.0,
+            "position_x": -690.25,
+            "position_y": -605.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -180,10 +184,10 @@
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.20000000298023224,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.11764705926179886,
             "Mirror": false
         },
         "Movable": {},
@@ -204,8 +208,75 @@
         },
         "DialogueSpeaker": {},
         "Child": {
-            "position_x": -765.25,
+            "position_x": -690.25,
             "position_y": 145.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "dialogue_prompt",
+            "Current Layer": 1,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": -870.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 427.5,
+            "height": 66.5999984741211
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.30000001192092896,
+            "Text String": "*click dialogue box to continue*",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 0,
+            "Background": false
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": -120.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

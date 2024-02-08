@@ -384,6 +384,6 @@ public:
 	void StartDialogue(Entity entity);
 	void JumpNextLine(Entity entity);
 
-	void Update(Entity entity);
+	void Update(Model& modelData, Entity entity);
 	void EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData);
 };

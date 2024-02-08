@@ -207,7 +207,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "This feels wrong. Why are these statues alive? There is something sinister here.",
+            "Text String": "This feels wrong. Why are these statues alive? \nThere is something sinister here.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -222,7 +222,7 @@
             "Dialogue Lines": [
                 {
                     "Speaker": "Mei",
-                    "Line": "This feels wrong. Why are these statues alive? There is something sinister here."
+                    "Line": "This feels wrong. Why are these statues alive? \nThere is something sinister here."
                 }
             ],
             "Viewing Index": 0,

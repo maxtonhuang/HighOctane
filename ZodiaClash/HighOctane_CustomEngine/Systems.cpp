@@ -1493,7 +1493,7 @@ void UIDialogueSystem::Update() {
 		}
 
 		// event handling if need to advance to next line
-		dialogueHudData->Update(entity);		
+		dialogueHudData->Update(*modelData, entity);		
 
 		// load text data into text labels
 		if (!(parentData->children.empty())) {

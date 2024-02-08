@@ -927,7 +927,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 * Runs every game loop, does event handling for mouse click
 *
 */
-void DialogueHUD::Update(Entity entity) {
+void DialogueHUD::Update(Model& modelData, Entity entity) {
 	// get cursorPos, compare with pos in Transform, return if no match
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
@@ -935,8 +935,11 @@ void DialogueHUD::Update(Entity entity) {
 			uiMousePos = { msg.posX, msg.posY };
 			break;
 		case(TYPE::MOUSE_CLICK):
-			if (isActive && GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
-				JumpNextLine(entity);
+			if (IsWithinObject(modelData, uiMousePos)) {
+				//on click event trigger (outside edit mode)
+				if (GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
+					JumpNextLine(entity);
+				}
 			}
 			break;
 		}
