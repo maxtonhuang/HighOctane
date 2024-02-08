@@ -110,9 +110,9 @@
         },
         "CharacterStats": {
             "Character type": 1,
-            "Max Health": 140.0,
-            "Health": 140.0,
-            "Attack": 15.0,
+            "Max Health": 120.0,
+            "Health": 120.0,
+            "Attack": 12.0,
             "Defense": 20.0,
             "Speed": 10,
             "Icon": "mockup_icon_goat.png",
