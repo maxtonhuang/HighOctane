@@ -551,7 +551,7 @@ void GraphicsSystem::Update() {
 
 	//FPS counter text
 	static Entity fpsCounter{};
-	static bool fpsCounterToggle{ true };
+	static bool fpsCounterToggle{ false };
 	std::stringstream fps{ };
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 		if (msg.type == TYPE::KEY_TRIGGERED) {
