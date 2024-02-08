@@ -918,11 +918,8 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 			uiMousePos = { msg.posX, msg.posY };
 			break;
 		case(TYPE::MOUSE_CLICK):
-			if (IsWithinObject(modelData, uiMousePos)) {
-				//on click event trigger (outside edit mode)
-				if (GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
-					JumpNextLine(entity);
-				}
+			if (isActive && GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
+				JumpNextLine(entity);
 			}
 			break;
 		}
