@@ -131,3 +131,20 @@ AUDIO:
 Audio is implemented in all parts of the game.
 
 ================================================================
+
+HOTKEYS (for your convenience):
+
+Switches to corresponding scene
+F1 - mainmenu.scn
+F2 - beginning_cutscene1.scn
+F3 - exploration1.scn
+F4 - battle.scn
+F5 - exploration2.scn
+F6 - battle2.scn
+
+Toggles
+F9  - God mode (increases damage output)
+F10 - End game mode (defeats all enemies in the next attack)
+F11 - Fullscreen mode
+
+================================================================
