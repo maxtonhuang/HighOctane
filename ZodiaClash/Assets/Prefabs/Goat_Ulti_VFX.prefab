@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,12 +28,7 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29"
+                "Layer 24"
             ]
         }
     },
@@ -94,31 +89,40 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 0
+                                "Frame Number": 0,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 1
+                                "Frame Number": 1,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 8
+                                "Frame Number": 8,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 9
+                                "Frame Number": 9,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 10
+                                "Frame Number": 10,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 11
+                                "Frame Number": 11,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 12
+                                "Frame Number": 12,
+                                "Reverse": false
                             }
                         ]
                     },

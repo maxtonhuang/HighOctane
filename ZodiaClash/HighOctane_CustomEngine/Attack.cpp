@@ -67,10 +67,10 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
     else if (attackName == "Celestial Annihilation will be cast next!") {
-        owner->charge = true;
         if (owner->stats.health < 0.5 * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }
+        owner->charge = true;
     }
 
     target->debuffs.bloodStack += bleed;

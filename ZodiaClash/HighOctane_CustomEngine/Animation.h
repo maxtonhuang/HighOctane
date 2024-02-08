@@ -404,3 +404,17 @@ public:
 	std::list<Keyframe<std::string>> keyframes;
 	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
 };
+
+//Calls an event, general use animation
+class EventAnimation : public Animation {
+public:
+	EventAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<std::pair<std::string,std::string>>> keyframes;
+	std::list<Keyframe<std::pair<std::string, std::string>>>::iterator nextKeyframe{};
+};

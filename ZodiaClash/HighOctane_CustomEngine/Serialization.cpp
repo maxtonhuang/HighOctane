@@ -49,6 +49,7 @@
 #include "Layering.h"
 #include "Animation.h"
 #include "ScriptEngine.h"
+#include "Particles.h"
 
 //extern std::unordered_map<std::string, Entity> masterEntitiesList;
 
@@ -611,7 +612,17 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyframe.AddMember("Prefab", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
 					keyFrames.PushBack(keyframe, allocator);
 				}
+			}
+			else if (animType == "Event") {
+				const std::shared_ptr<EventAnimation> eventAnim{ std::dynamic_pointer_cast<EventAnimation>(anim) };
+				for (auto const& k : eventAnim->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Event Name", rapidjson::Value(k.data.first.c_str(), allocator).Move(), allocator);
+					keyframe.AddMember("Event Input", rapidjson::Value(k.data.second.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
 				}
+			}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -896,9 +907,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			rapidjson::Value transformObject = SerializeTransform(*transform, allocator);
 			entityObject.AddMember("Child", transformObject, allocator);
 		}
+		if (CheckSerialize<Emitter>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("Emitter", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
 		if (CheckSerialize<Temporary>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("Temporary", rapidjson::Value(rapidjson::kObjectType), allocator);
-
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -1695,7 +1708,17 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<CreatePrefabAnimation>(a));
+						}
+						else if (animType == "Event") {
+							EventAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::pair<std::string, std::string> data{};
+								data.first = k["Event Name"].GetString();
+								data.second = k["Event Input"].GetString();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
+							anigrp.animations.push_back(std::make_shared<EventAnimation>(a));
+						}
 					}
 					animset.animationSet.push_back(anigrp);
 				}
@@ -1724,6 +1747,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 				ECS::ecs().AddComponent<Child>(entity, Child{ parentID, transform });
 				parent->children.push_back(entity);
+			}
+			if (entityObject.HasMember("Emitter")) {
+				ECS::ecs().AddComponent<Emitter>(entity, Emitter{});
 			}
 		}
 	}

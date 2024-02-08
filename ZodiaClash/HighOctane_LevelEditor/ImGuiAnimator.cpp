@@ -43,7 +43,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Swap", "SelfDestruct"};
+		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Event", "Swap", "SelfDestruct"};
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -426,6 +426,32 @@ void AnimatorWindow(Entity entity) {
 								}
 								ImGui::EndCombo();
 							}
+						}
+					}
+					else if (selectedAnimation->GetType() == "Event") {
+						std::shared_ptr<EventAnimation> eventAnim{ std::dynamic_pointer_cast<EventAnimation>(selectedAnimation) };
+						Keyframe<std::pair<std::string,std::string>>* keyframe{ nullptr };
+						for (auto& k : eventAnim->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							if (ImGui::BeginCombo("Events Available", keyframe->data.first.c_str())) {
+								std::vector<const char*> eventNames{ events.GetFunctionNames() };
+								for (int n = 0; n < eventNames.size(); n++) {
+									bool is_selected = (keyframe->data.first == eventNames[n]);
+									if (ImGui::Selectable(eventNames[n], is_selected)) {
+										keyframe->data.first = eventNames[n];
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
+							ImGui::InputText("Event Input", &keyframe->data.second);
 						}
 					}
 					else if (selectedAnimation->GetType() == "DamageImpact") {
