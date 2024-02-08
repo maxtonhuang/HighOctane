@@ -34,12 +34,13 @@
     },
     {
         "Entity": {
-            "Name": "bg_mainmenu",
+            "Name": "Cat_Death.png",
             "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -59,14 +60,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "MAINMENU_illust_03_v01.png"
+            "Texture File Path": "Cat_Death.spritesheet"
         },
         "Visible": {
-            "isVisible": true
+            "isVisible": false
         },
         "Size": {
-            "width": 1920.0,
-            "height": 1080.0
+            "width": 958.0,
+            "height": 959.0
         },
         "Model": {
             "Model type": 0,
@@ -77,6 +78,14 @@
             "Alpha": 1.0,
             "Mirror": false
         },
-        "Movable": {}
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 958.0,
+            "Dimension Y": 959.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        }
     }
 ]

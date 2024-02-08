@@ -1,7 +1,7 @@
 ZodiaClash_MainMenu2.ogg
 mockup_chi_icon.png
-NEW_howtoplay.png
 EXPLORATION_MAP_tiling_01.png
+NEW_howtoplay.png
 NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
@@ -17,9 +17,9 @@ Boss_Circle.spritesheet
 Cat_Idle.spritesheet
 mockup_playbutton_04.png
 Boss_Circle.spritesheet
-EXPLORATION_MAP_tiling_05.png
-button_PLAY_v02.png
 Goat_Death.spritesheet
+button_PLAY_v02.png
+EXPLORATION_MAP_tiling_05.png
 Goat_Basic_VFX.spritesheet
 Goat_Death.spritesheet
 Goat_Skill_VFX_Front.spritesheet
@@ -38,20 +38,20 @@ skill_icon_ulti.png
 NEW_bg_03.png
 NEW_guard_pfp.png
 GUARD_idle.png
-EXPLORATION_MAP_asset_rock.png
 mockup_pausemenu.png
+EXPLORATION_MAP_asset_rock.png
 UI_Target_Circle.spritesheet
 UI_Target_Circle.spritesheet
 NEW_howtoplay2.png
 mockup_qn_icon.png
 goat.png
 Goat_Hit.spritesheet
-Goat_Basic.spritesheet
 catSkill1_tooltip.png
+Goat_Basic.spritesheet
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
-EXPLORATION_MAP_tiling_07.png
 catSkill3_tooltip.png
+EXPLORATION_MAP_tiling_07.png
 Goat_Skill_VFX_Back.spritesheet
 Goat_Skill_VFX_Back.spritesheet
 Goat_Ulti.spritesheet
@@ -69,7 +69,17 @@ Cat_Run.spritesheet
 Cat_Run.spritesheet
 Cutscene_v01_01.png
 exploration bg_03.png
+MAINMENU_illust_03_v01.png
+START_button_v02.png
+QUIT_button_v02.png
+new_logo_03.png
+Cat_Death.spritesheet
+Cat_Death.spritesheet
+HELP_button_v02.png
+Leaf.png
 Ox Atk 2_Edited.wav
+Hover Select_Edited.wav
+Skill Select_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Yin-Yang Strike.skill
 Secret Arts: Pounce.skill

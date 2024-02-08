@@ -1,15 +1,38 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
             ]
         }
     },
     {
-        "Clone": {},
         "Entity": {
             "Name": "mockup_title_logo_02 (1).png_CLONE",
             "Current Layer": 0,
@@ -36,18 +59,18 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_title_logo_02 (1).png"
+            "Texture File Path": "new_logo_03.png"
         },
         "Visible": {
             "isVisible": true
         },
         "Size": {
-            "width": 512.0,
-            "height": 512.0
+            "width": 3508.0,
+            "height": 2480.0
         },
         "Scripts": {
             "className": "",
-            "scriptNameVec": []
+            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 0,
@@ -55,7 +78,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {}
     }
