@@ -437,7 +437,7 @@ void* ObjectAllocator::Allocate(const char* label) {
 				*ptrToExternal = info;
 			}
 			catch (std::bad_alloc&) {
-				OAException(OAException::E_NO_MEMORY, "out of physical memory (operator new fails)");
+				throw OAException(OAException::E_NO_MEMORY, "out of physical memory (operator new fails)");
 			}
 			break;
 

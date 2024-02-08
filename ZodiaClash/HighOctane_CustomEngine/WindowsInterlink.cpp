@@ -51,7 +51,7 @@ void OpenFileDialog() {
 	std::deque<std::string> filesList;
 
 	// Initialize COM
-	CoInitialize(NULL);
+	(void)CoInitialize(NULL);
 
 	// Create the File Open Dialog
 	IFileOpenDialog* p_fod = NULL; // Pointer to FileOpenDialog
@@ -150,7 +150,7 @@ void FileDropCallback(GLFWwindow* window, int count, const char** paths) {
 ******************************************************************************/
 std::string SaveFileDialog(std::string extensionName, std::string extensionDescription) {
 	// Initialize COM
-	CoInitialize(NULL);
+	(void)CoInitialize(NULL);
 
 	// Create the File Save Dialog
 	IFileSaveDialog* p_fsd = NULL; // Pointer to FileSaveDialog
@@ -220,7 +220,7 @@ std::string OpenSingleFileDialog(std::string extensionName, std::string extensio
 	std::string selectedFilePath;
 
 	// Initialize COM
-	CoInitialize(NULL);
+	(void)CoInitialize(NULL);
 
 	// Create the File Open Dialog
 	IFileOpenDialog* p_fod = NULL; // Pointer to FileOpenDialog

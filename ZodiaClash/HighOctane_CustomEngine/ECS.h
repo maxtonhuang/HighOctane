@@ -194,7 +194,7 @@ public:
 
         size_t indexOfLastElement = m_Size - 1;
         if (m_ComponentArray[indexOfRemovedEntity] != nullptr) {
-            m_ComponentArray[indexOfRemovedEntity]->~T(); // Manually call the destructor
+            (void)m_ComponentArray[indexOfRemovedEntity]->~T(); // Manually call the destructor
             m_MemoryManager->Free(m_ComponentArray[indexOfRemovedEntity]); // Free the memory
         }
         m_ComponentArray[indexOfRemovedEntity] = m_ComponentArray[indexOfLastElement];
@@ -261,7 +261,7 @@ public:
     ~ComponentArray() {
         for (auto& e : m_EntityToIndexMap) {
             if (m_ComponentArray[e.second] != nullptr) {
-				m_ComponentArray[e.second]->~T();
+                (void)m_ComponentArray[e.second]->~T();
 				m_MemoryManager->Free(m_ComponentArray[e.second]);
 			}
 		}
