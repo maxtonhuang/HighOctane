@@ -9,6 +9,6 @@
         "Crit Rate": 0.5,
         "Crit Multiplier": 1.5,
         "Chi Cost": -1,
-	"Bleed": 1
+	"Bleed": 3
     }
 ]

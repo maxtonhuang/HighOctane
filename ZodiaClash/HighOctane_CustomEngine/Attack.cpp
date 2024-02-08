@@ -46,8 +46,9 @@ void Attack::UseAttack(CharacterStats* target) {
     CalculateDamage(*target);
 
     if (attackName == "Secret Arts: Pounce") {
-        target->TakeDamage(1.5f * target->debuffs.bloodStack);
-        target->debuffs.bloodStack = 0;
+        while (target->debuffs.bloodStack) {
+            target->ApplyBloodStack();
+        }
     }
     else if (attackName == "Yin-Yang Strike") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
