@@ -1,17 +1,34 @@
-
-
-/*!************************************************************************
-\file ObjectAllocator.h
-\author Maxton Huang Xinghua
-\par DP email: m.huang@digipen.edu
-\par Course: CSD2183 Data Structures and Algorithms
-\par Section: a
-\par Assignment 1
-\date 1 February 2024
-\brief
-This header file contains the declarations of a robust memory manager
-class.
-**************************************************************************/
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		MemoryManager.h
+*
+*	@author		Maxton Huang Xinghua
+*
+*	@email		m.huang\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		1 February 2024
+*
+* *****************************************************************************
+*
+*	@brief		Memory Manager Class
+*
+*	This header file contains the declarations of a robust memory manager
+*   class.
+*
+******************************************************************************/
 
 #pragma once
 
