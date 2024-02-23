@@ -38,6 +38,7 @@
 #include "EntityFactory.h"
 #include "Global.h"
 #include "Camera.h"
+#include <random>
 
 void AnimationSet::Initialise(Entity entity) {
 	//activeAnimation = nullptr;
@@ -353,6 +354,19 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 			}
 			animations.push_back(ptr);
 		}
+		else if (animation->GetType() == "Event") {
+			std::shared_ptr <ChildAnimation> ptr{ std::make_shared<ChildAnimation>() };
+			std::shared_ptr<ChildAnimation> copyptr{ std::dynamic_pointer_cast<ChildAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
+			animations.push_back(ptr);
+		}
 		else {
 			ASSERT(1, "Unable to copy animation group!");
 		}
@@ -507,7 +521,13 @@ void SoundAnimation::Update(int frameNum) {
 	}
 	if (frameNum >= nextKeyframe->frameNum) {
 		//Play sound
-		events.Call("Play Sound", nextKeyframe->data);
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		if (nextKeyframe->data.size() > 0) {
+			std::uniform_int_distribution<int> dis(0, (int)nextKeyframe->data.size() - 1);
+			int num{ dis(gen) };
+			events.Call("Play Sound", nextKeyframe->data[num]);
+		}
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {
 			active = false;
@@ -515,18 +535,18 @@ void SoundAnimation::Update(int frameNum) {
 	}
 }
 void SoundAnimation::AddKeyFrame(int frameNum, void* frameData) {
-	Keyframe<std::string> frame{ frameNum };
+	Keyframe<std::vector<std::string>> frame{ frameNum };
 	if (frameData != nullptr) {
-		frame.data = *(static_cast<std::string*>(frameData));
+		frame.data = *(static_cast<std::vector<std::string>*>(frameData));
 	}
 	else {
-		frame.data = "";
+		frame.data = std::vector<std::string>{};
 	}
 	keyframes.push_back(frame);
 	keyframes.sort();
 }
 void SoundAnimation::RemoveKeyFrame(int frameNum) {
-	keyframes.remove(Keyframe<std::string>{frameNum});
+	keyframes.remove(Keyframe<std::vector<std::string>>{frameNum});
 }
 bool SoundAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
@@ -1110,7 +1130,6 @@ void EventAnimation::Start() {
 	active = true;
 }
 void EventAnimation::Update(int frameNum) {
-	static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
 	if (keyframes.size() == 0) {
 		return;
 	}
@@ -1134,6 +1153,54 @@ void EventAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<std::pair<std::string, std::string>>{frameNum});
 }
 bool EventAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+ChildAnimation::ChildAnimation() {
+	type = "Child";
+}
+void ChildAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void ChildAnimation::Update(int frameNum) {
+	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		Parent& p{ parentArray.GetData(parent) };
+		Entity child{ p.GetChildByName(nextKeyframe->data.first) };
+		if (child) {
+			animationArray.GetData(child).Start(nextKeyframe->data.second,child);
+		}
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+	}
+}
+void ChildAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<std::pair<std::string, std::string>> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::pair<std::string, std::string>*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void ChildAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<std::pair<std::string, std::string>>{frameNum});
+}
+bool ChildAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
 		if (k.frameNum == frameNum) {
 			return true;

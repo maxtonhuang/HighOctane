@@ -246,20 +246,6 @@ void BattleSystem::Update()
                     {
                         activeCharacter->action.entityState = EntityState::DYING;
                     }
-                    //if (goatSpeedup == true) {
-                    //    CharacterStats* tmp{};
-                    //    for (CharacterStats* character : activeCharacter->parent->GetEnemies()) {
-                    //        if (character->entity != activeCharacter->entity) {
-                    //            tmp = character;
-                    //            break;
-                    //        }
-                    //    }
-                    //    if (tmp->tag == CharacterType::ENEMYSPEDUP) {
-                    //        activeCharacter->parent->RevertTurnOrder(tmp);
-                    //    }
-                    //    goatSpeedup = false;
-                    //}
-                    //STILL NEED TO SWAP THE TURN TO ENEMY TURN TO PROCESS THEM DYING
                     battleState = ENEMYTURN;
                 }
                 else if (activeCharacter->tag == CharacterType::PLAYER)
@@ -300,7 +286,7 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
-        if (activeCharacter->action.entityState == EntityState::ENDING) {
+        if (activeCharacter->action.entityState == EntityState::ENDING || activeCharacter->action.entityState == EntityState::DYING) {
 
             //Update turn order animator
             if (locked) {
@@ -331,28 +317,21 @@ void BattleSystem::Update()
                 }
             }
             for (CharacterStats* c : deadchars) {
-                turnManage.turnOrderList.remove(c);
-                turnManage.originalTurnOrderList.remove(c);
-                turnManage.characterList.remove(*c);
-                battleState = NEXTTURN;
-            }
-            deadchars.clear();
-
-            battleState = NEXTTURN;
-        }
-        else if (activeCharacter->action.entityState == EntityState::DYING) {
-            //Process dead characters
-            std::vector<CharacterStats*> deadchars{};
-            for (CharacterStats* c : turnManage.turnOrderList) {
-                if (c->stats.health == 0) {
-                    deadchars.push_back(c);
+                //Handle boss goat death
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Goat_Enemy") {
+                    for (auto& character : turnManage.characterList) {
+                        if (character.tag == CharacterType::PLAYER) {
+                            character.stats.health += 0.3 * character.stats.maxHealth;
+                            if (character.stats.health > character.stats.maxHealth) {
+                                character.stats.health = character.stats.maxHealth;
+                            }
+                        }
+                    }
                 }
-            }
-            for (CharacterStats* c : deadchars) {
                 turnManage.turnOrderList.remove(c);
                 turnManage.originalTurnOrderList.remove(c);
                 turnManage.characterList.remove(*c);
-                battleState = NEXTTURN;
+                ProcessDamage();
             }
             deadchars.clear();
 
@@ -363,8 +342,8 @@ void BattleSystem::Update()
 }
 
 /**
- * @brief Determines the turn order of characters based on their stats and adds them to the turn management lists.
- */
+* @brief Determines the turn order of characters based on their stats and adds them to the turn management lists.
+**/
 bool BattleSystem::DetermineTurnOrder()
 {
     //charactersList
@@ -858,6 +837,12 @@ void BattleSystem::InitialiseUIAnimation() {
         for (Entity& e : allBattleUI) {
             animationArray.GetData(e).Start("Pop In", e);
         }
+        if (activeCharacter->tag == CharacterType::ENEMY) {
+            for (Entity& e : skillButtons) {
+                animationArray.GetData(e).Stop();
+            }
+            attackingAnimation = true;
+        }
     }
 }
 
@@ -868,7 +853,8 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
         std::deque<Entity> newTurnOrderQueueAnimator{};
         bool moveup{ false };
         bool deathAtStart{ false };
-        for (Entity e : turnOrderQueueAnimator) {
+        for (size_t i = 0; i < turnOrderQueueAnimator.size(); i++) {
+            Entity e{ turnOrderQueueAnimator[i] };
             if (ECS::ecs().GetComponent<TurnIndicator>(e).character == entity) {
                 ECS::ecs().GetComponent<AnimationSet>(e).Start("Pop Out", e);
                 Entity icon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
@@ -887,7 +873,7 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
                     ECS::ecs().GetComponent<AnimationSet>(icon).Start("Expand", icon);
                     deathAtStart = false;
                 }
-                else {
+                else if (i != turnOrderQueueAnimator.size() - 1) {
                     ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
                 }
             }

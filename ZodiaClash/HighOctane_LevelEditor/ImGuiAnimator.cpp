@@ -43,7 +43,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Event", "Swap", "SelfDestruct"};
+		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Event", "Child", "Swap", "SelfDestruct"};
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -245,6 +245,9 @@ void AnimatorWindow(Entity entity) {
 						else if (selectedType == "Event") {
 							selectedAnimGroup->animations.push_back(std::make_shared<EventAnimation>());
 						}
+						else if (selectedType == "Child") {
+							selectedAnimGroup->animations.push_back(std::make_shared<ChildAnimation>());
+						}
 					}
 				}
 				else {
@@ -302,7 +305,7 @@ void AnimatorWindow(Entity entity) {
 					}
 					else if (selectedAnimation->GetType() == "Sound") {
 						std::shared_ptr<SoundAnimation> sound{ std::dynamic_pointer_cast<SoundAnimation>(selectedAnimation) };
-						Keyframe<std::string>* keyframe{ nullptr };
+						Keyframe<std::vector<std::string>>* keyframe{ nullptr };
 						for (auto& k : sound->keyframes) {
 							if (k.frameNum == selectedFrame) {
 								keyframe = &k;
@@ -310,12 +313,31 @@ void AnimatorWindow(Entity entity) {
 							}
 						}
 						if (keyframe != nullptr) {
-							if (ImGui::BeginCombo("Sounds Available", keyframe->data.c_str())) {
+							int count{ 1 };
+							for (auto& k : keyframe->data) {
+								std::stringstream header{};
+								header << "Sound " << count++;
+								if (ImGui::BeginCombo(header.str().c_str(), k.c_str())) {
+									std::vector<std::string> soundPaths{ assetmanager.audio.GetSoundPaths() };
+									for (int n = 0; n < soundPaths.size(); n++) {
+										bool is_selected = (k == soundPaths[n]);
+										if (ImGui::Selectable(soundPaths[n].c_str(), is_selected)) {
+											k = soundPaths[n];
+										}
+										if (is_selected) {
+											ImGui::SetItemDefaultFocus();
+										}
+									}
+									ImGui::EndCombo();
+								}
+							}
+							std::string newSound{"None"};
+							if (ImGui::BeginCombo("Add New Sound", newSound.c_str())) {
 								std::vector<std::string> soundPaths{ assetmanager.audio.GetSoundPaths() };
 								for (int n = 0; n < soundPaths.size(); n++) {
-									bool is_selected = (keyframe->data == soundPaths[n]);
+									bool is_selected = (newSound == soundPaths[n]);
 									if (ImGui::Selectable(soundPaths[n].c_str(), is_selected)) {
-										keyframe->data = soundPaths[n];
+										keyframe->data.push_back(soundPaths[n]);
 									}
 									if (is_selected) {
 										ImGui::SetItemDefaultFocus();
@@ -455,6 +477,51 @@ void AnimatorWindow(Entity entity) {
 								ImGui::EndCombo();
 							}
 							ImGui::InputText("Event Input", &keyframe->data.second);
+						}
+					}
+					else if (selectedAnimation->GetType() == "Child") {
+						std::shared_ptr<ChildAnimation> eventAnim{ std::dynamic_pointer_cast<ChildAnimation>(selectedAnimation) };
+						Keyframe<std::pair<std::string, std::string>>* keyframe{ nullptr };
+						for (auto& k : eventAnim->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							Entity child{ 0 };
+							if (ImGui::BeginCombo("Children", keyframe->data.first.c_str())) {
+								std::vector<std::string> childrenNames{};
+								for (Entity& c : ECS::ecs().GetComponent<Parent>(entity).children) {
+									childrenNames.push_back(ECS::ecs().GetComponent<Name>(c).name);
+								}
+								for (int n = 0; n < childrenNames.size(); n++) {
+									bool is_selected = (keyframe->data.first == childrenNames[n]);
+									if (ImGui::Selectable(childrenNames[n].c_str(), is_selected)) {
+										keyframe->data.first = childrenNames[n];
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
+							if (child && ImGui::BeginCombo("Child Animation", keyframe->data.second.c_str())) {
+								std::vector<std::string> childAnim { };
+								for (auto& anim : ECS::ecs().GetComponent<AnimationSet>(child).animationSet) {
+									childAnim.push_back(anim.name);
+								}
+								for (int n = 0; n < childAnim.size(); n++) {
+									bool is_selected = (keyframe->data.second == childAnim[n]);
+									if (ImGui::Selectable(childAnim[n].c_str(), is_selected)) {
+										keyframe->data.second = childAnim[n];
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
 						}
 					}
 					else if (selectedAnimation->GetType() == "DamageImpact") {
