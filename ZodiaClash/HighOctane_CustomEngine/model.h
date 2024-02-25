@@ -61,7 +61,7 @@ public:
 	void Update(Transform const& entity, Size const& size); //Update transforms for the model
 	void Draw(Tex* const entity); //Add vertices to renderer
 	void DrawOutline(); //Draw an outline around the model, for debugging purposes
-
+	void DrawOutlineRed(); //Draw an outline around the model, for debugging purposes
 	void SetColor(float r, float g, float b); //Set color of model (colour bounds are between 0 and 1)
 	void SetAlpha(float a); //Set alpha of model (alpha bounds are between 0 and 1)
 	void AddAlpha(float a); //Add alpha of model (alpha bounds are between 0 and 1)

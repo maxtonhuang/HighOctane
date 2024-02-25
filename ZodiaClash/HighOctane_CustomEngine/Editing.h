@@ -35,3 +35,8 @@
 #include "model.h"
 
 void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size & size, Model * model, size_t layer_it);
+
+enum AXIS {
+	VERTICAL,
+	HORIZONTAL
+};

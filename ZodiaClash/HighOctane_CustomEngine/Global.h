@@ -39,8 +39,10 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <set>
 
 #define RESET_VEC2 0.f, 0.f
+#define RESET_VEC4 0.f, 0.f, 0.f, 0.f
 
 ////////// Defines for fixed dt system. ///////////////////////////////////////
 const float FIXED_DT{ 1.0f / 60.f };
@@ -85,9 +87,18 @@ extern bool thereWasAClickThisCycle;
 extern bool somethingWasSelectedThisCycle;
 extern bool draggingThisCycle;
 extern vmath::Vector2 currentMousePosition;
+extern vmath::Vector2 prevMousePosition;
 extern bool mouseMoved;
 extern bool withinSomething;
 extern Entity keyObjectID;
+extern glm::vec4 keyObjectColor;
+extern bool snappingOn;
+extern std::unordered_map<Entity,glm::vec4> snappingHighlight;
+extern std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines;
+extern std::set<Entity> centerVertical;
+extern std::set<Entity> intersectVertical;
+extern std::set<Entity> centerHorizontal;
+extern std::set<Entity> intersectHorizontal;
 extern bool goatSpeedup;
 extern bool shiftKeyPressed;
 extern bool controlKeyPressed;

@@ -229,6 +229,34 @@ void Model::DrawOutline() {
 	graphics.DrawPoint(rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);
 }
 
+void Model::DrawOutlineRed() {
+	Renderer* render{ nullptr };
+
+	//glm::vec2 topmidpoint{ (topright.x + topleft.x) / 2, (topright.y + topleft.y) / 2 };
+
+	if (type == UI) {
+		render = &graphics.renderer["staticline"];
+	}
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
+	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
+	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
+	//graphics.DrawLine(topmidpoint.x * GRAPHICS::w, topmidpoint.y * GRAPHICS::h, rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);
+
+	/*if (type == UI) {
+		render = &graphics.renderer["staticpoint"];
+	}
+	graphics.DrawPoint(topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(top.x * GRAPHICS::w, top.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(bot.x * GRAPHICS::w, bot.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(right.x * GRAPHICS::w, right.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(left.x * GRAPHICS::w, left.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
+	graphics.DrawPoint(rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);*/
+}
+
 bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
 	if (transform.position == previous.position && transform.rotation == previous.rotation && transform.scale == previous.scale && size.height == previous_size.height && size.width == previous_size.width) {
 		return false;

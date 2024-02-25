@@ -42,7 +42,7 @@
 #include "Global.h"
 
 #define RESET_VEC2 0.f, 0.f
-
+#define RESET_VEC4 0.f, 0.f, 0.f, 0.f
 
 // Declare global variables here
 
@@ -78,10 +78,18 @@ bool thereWasAClickThisCycle{ false };
 bool somethingWasSelectedThisCycle{ false };
 bool draggingThisCycle{ false };
 vmath::Vector2 currentMousePosition{ RESET_VEC2 };
+vmath::Vector2 prevMousePosition{ RESET_VEC2 };
 bool mouseMoved{ false };
 bool withinSomething{ false };
 Entity keyObjectID{ std::numeric_limits<Entity>().max() };
-
+glm::vec4 keyObjectColor{ RESET_VEC4 };
+bool snappingOn{ true };
+std::unordered_map<Entity, glm::vec4> snappingHighlight{};
+std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines{};
+std::set<Entity> centerVertical{};
+std::set<Entity> intersectVertical{};
+std::set<Entity> centerHorizontal{};
+std::set<Entity> intersectHorizontal{};
 bool shiftKeyPressed{ false };
 bool controlKeyPressed{ false };
 

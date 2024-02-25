@@ -161,7 +161,7 @@ void InputManager::CursorPosCallback(GLFWwindow* pwin, double xpos, double ypos)
     int currPosX = static_cast<int>(static_cast<float>(xpos) - GRAPHICS::w);
     int currPosY = static_cast<int>(static_cast<float>(ypos) - GRAPHICS::h);
 
-    if (abs(currPosX - previousPosX) > MOUSE_SENSITIVITY || abs(currPosY - previousPosY) > MOUSE_SENSITIVITY) {
+    if (std::abs(currPosX - previousPosX) > MOUSE_SENSITIVITY || std::abs(currPosY - previousPosY) > MOUSE_SENSITIVITY) {
         Mail::mail().CreatePostcard(TYPE::MOUSE_MOVE, ADDRESS::INPUT, INFO::NONE, static_cast<float>(currPosX), static_cast<float>(currPosY));
     }
 

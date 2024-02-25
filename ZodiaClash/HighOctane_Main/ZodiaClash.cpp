@@ -175,8 +175,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 #endif
 
-    EngineCore::engineCore(); // Instantiate Engine Core
-
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -187,6 +185,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     return 0;
 }
+
+
+
+
+
+
 
 void EngineCore::Run(bool const& mode) {
 
@@ -360,6 +364,8 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 	pauseSystemList.emplace_back(graphicsSystem, "Graphics System");
 	gameHelpSystemList.emplace_back(graphicsSystem, "Graphics System");
+
+
 
 	// Set Entity's Component combination signatures for each System 
 	{
@@ -594,6 +600,8 @@ void EngineCore::Run(bool const& mode) {
 
 		ECS::ecs().SetSystemSignature<TransitionSystem>(signature);
 	}
+
+
 
 	//////////////////////////////////////////////////////
 	//////////                                  //////////

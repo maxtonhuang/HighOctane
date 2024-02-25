@@ -47,9 +47,11 @@
 
 #define UNREFERENCED_PARAMETER(P) (P)
 
+constexpr float SNAP_SENSITIVITY{ 10.f };
+constexpr float SNAP_LINE_EXTENSION{ 100.f };
 constexpr float CORNER_SIZE{ 10.f };
-float pointAngle{ 0.f };
-bool changeCursor{ false };
+
+
 
 /******************************************************************************
 *
@@ -64,7 +66,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 	UNREFERENCED_PARAMETER(layer_it);
 
 	if (viewportWindowHovered && !popupHovered && name.selected && !draggingThisCycle) {
-		changeCursor = false;
+		float pointAngle{ 0.f };
+		bool changeCursor{ false };
 		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 				SetCursor(hAllDirCursor);
@@ -263,6 +266,24 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 
 		}	break;
 
+		case TYPE::MOUSE_UP: {
+
+			if (snappingOn) {
+				// clear the maps
+				auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
+				for (auto& [e, color] : snappingHighlight) {
+					modelArray.GetData(e).GetColorRef() = color;
+				}
+				snappingHighlight.clear();
+				snappingLines.clear();
+				centerVertical.clear();
+				intersectVertical.clear();
+				centerHorizontal.clear();
+				intersectHorizontal.clear();
+			}
+			
+		}	break;
+
 		case TYPE::MOUSE_DOWN: {
 
 			switch (selectedEntities.size()) {
@@ -282,7 +303,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						}
 					}
 					break;
-					
+
 					case CLICKED::E:
 					{
 						draggingThisCycle = true;
@@ -293,7 +314,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						}
 					}
 					break;
-					
+
 					case CLICKED::S:
 					{
 						draggingThisCycle = true;
@@ -304,7 +325,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						}
 					}
 					break;
-					
+
 					case CLICKED::W:
 					{
 						draggingThisCycle = true;
@@ -322,20 +343,20 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						if (mouseMoved) {
 							float deltaX = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetTopRight(), model->GetBotRight(), currentMousePosition));
 							float deltaY = vmath::Vector2::DistanceBetweenPoints(currentMousePosition, vmath::Vector2::ProjectedPointOnLine(model->GetTopRight(), model->GetTopLeft(), currentMousePosition));
-							
+
 							deltaX = vmath::Vector2::IsPointOutside(model->GetTopRight(), model->GetBotRight(), currentMousePosition) ? deltaX : -deltaX;
 							deltaY = vmath::Vector2::IsPointOutside(model->GetTopRight(), model->GetTopLeft(), currentMousePosition) ? -deltaY : deltaY;
-							
+
 							float currWidth = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetTopLeft());
 							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
-							
+
 							if (deltaX < deltaY) {
-								transform.scale = std::clamp( transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
 								//transform.position.x += deltaX / 2.f;
 								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
 							}
 							else {
-								transform.scale = std::clamp( transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
 								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
 								//transform.position.y += deltaY / 2.f;
 							}
@@ -425,19 +446,158 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						}
 					}
 					break;
-					
+
 					case CLICKED::INSIDE:
 						if (withinSomething) {
 							draggingThisCycle = true;
+
 							transform.position.x = currentMousePosition.x - name.draggingOffset.x;
 							transform.position.y = currentMousePosition.y - name.draggingOffset.y;
+
+							if (snappingOn) {
+								//snapping
+
+								auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
+
+								if (model->GetTop().x == model->GetBot().x/* || model->GetTop().y == model->GetBot().y*/) { // test whether This is vertical/xhorizontalx
+									for (size_t layer_it2 = 0; layer_it2 < layering.size(); ++layer_it2) {				// -----------------------------------------------------// Go through layering system.
+										if (layersToSkip[layer_it2] && layersToLock[layer_it2]) {																				//
+											for (Entity& e : layering[layer_it2]) {																								//
+												if (entitiesToSkip[static_cast<uint32_t>(e)] && entitiesToLock[static_cast<uint32_t>(e)] && ECS::ecs().EntityExists(e)) {		//
+													if (e == entity) {																											//
+														continue;																												//
+													}																															//
+													Model& mB = modelArray.GetData(e);									// -----------------------------------------------------//
+													if (mB.GetTop().x == mB.GetBot().x/* || mB.GetTop().y == mB.GetBot().y*/) { // test whether B is vertical/xhorizontalx
+
+														bool none = true;
+														bool vertical = true;
+														bool horizontal = true;
+														centerVertical.erase(e);
+														centerHorizontal.erase(e);
+														intersectVertical.erase(e);
+														intersectHorizontal.erase(e);
+
+														if (std::abs(mB.GetTop().x - transform.position.x) < SNAP_SENSITIVITY) {
+															transform.position.x = mB.GetTop().x;
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { mB.GetTop().x, mB.GetLeft().y };
+															vmath::Vector2 pt2 = { transform.position };
+															snappingLines[e][VERTICAL] = std::make_tuple(pt1, pt2, pt1, pt2);
+															none = false;
+															vertical = false;
+															centerVertical.emplace(e);
+															intersectVertical.emplace(e);
+														}
+														else if (std::abs(mB.GetRight().x - (transform.position.x - (model->GetTop().x - model->GetLeft().x))) < SNAP_SENSITIVITY) {
+															transform.position.x = mB.GetRight().x + (model->GetTop().x - model->GetLeft().x);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { mB.GetRight().x, std::max(mB.GetTop().y, transform.position.y + (model->GetTop().y - model->GetLeft().y)) + SNAP_LINE_EXTENSION };
+															vmath::Vector2 pt2 = { mB.GetRight().x, std::min(mB.GetBot().y, transform.position.y - (model->GetLeft().y - model->GetBot().y)) - SNAP_LINE_EXTENSION };
+															vmath::Vector2 cpt1 = { mB.GetRight().x, mB.GetRight().y };
+															vmath::Vector2 cpt2 = { mB.GetRight().x, transform.position.y };
+															snappingLines[e][VERTICAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															vertical = false;
+															intersectVertical.emplace(e);
+														}
+														else if (std::abs(mB.GetLeft().x - (transform.position.x + (model->GetRight().x - model->GetTop().x))) < SNAP_SENSITIVITY) {
+															transform.position.x = mB.GetLeft().x - (model->GetRight().x - model->GetTop().x);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { mB.GetLeft().x, std::max(mB.GetTop().y, transform.position.y + (model->GetTop().y - model->GetLeft().y)) + SNAP_LINE_EXTENSION };
+															vmath::Vector2 pt2 = { mB.GetLeft().x, std::min(mB.GetBot().y, transform.position.y - (model->GetLeft().y - model->GetBot().y)) - SNAP_LINE_EXTENSION };
+															vmath::Vector2 cpt1 = { mB.GetLeft().x, mB.GetLeft().y };
+															vmath::Vector2 cpt2 = { mB.GetLeft().x, transform.position.y };
+															snappingLines[e][VERTICAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															vertical = false;
+															intersectVertical.emplace(e);
+														}
+
+														if (std::abs(mB.GetLeft().y - transform.position.y) < SNAP_SENSITIVITY) {
+															transform.position.y = mB.GetLeft().y;
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { mB.GetTop().x, mB.GetLeft().y };
+															vmath::Vector2 pt2 = { transform.position };
+															snappingLines[e][HORIZONTAL] = std::make_tuple(pt1, pt2, pt1, pt2);
+															none = false;
+															horizontal = false;
+															centerHorizontal.emplace(e);
+															intersectHorizontal.emplace(e);
+														}
+														else if (std::abs(mB.GetTop().y - (transform.position.y - (model->GetLeft().y - model->GetBot().y))) < SNAP_SENSITIVITY) {
+															transform.position.y = mB.GetTop().y + (model->GetLeft().y - model->GetBot().y);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { std::max(mB.GetRight().x, transform.position.x + (model->GetRight().x - model->GetTop().x)) + SNAP_LINE_EXTENSION, mB.GetTop().y };
+															vmath::Vector2 pt2 = { std::min(mB.GetLeft().x, transform.position.x - (model->GetTop().x - model->GetLeft().x)) - SNAP_LINE_EXTENSION, mB.GetTop().y };
+															vmath::Vector2 cpt1 = { mB.GetTop().x, mB.GetTop().y };
+															vmath::Vector2 cpt2 = { transform.position.x, mB.GetTop().y };
+															snappingLines[e][HORIZONTAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															horizontal = false;
+															intersectHorizontal.emplace(e);
+														}
+														else if (std::abs(mB.GetBot().y - (transform.position.y + (model->GetTop().y - model->GetLeft().y))) < SNAP_SENSITIVITY) {
+															transform.position.y = mB.GetBot().y - (model->GetTop().y - model->GetLeft().y);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { std::max(mB.GetRight().x, transform.position.x + (model->GetRight().x - model->GetTop().x)) + SNAP_LINE_EXTENSION, mB.GetBot().y };
+															vmath::Vector2 pt2 = { std::min(mB.GetLeft().x, transform.position.x - (model->GetTop().x - model->GetLeft().x)) - SNAP_LINE_EXTENSION, mB.GetBot().y };
+															vmath::Vector2 cpt1 = { mB.GetBot().x, mB.GetBot().y };
+															vmath::Vector2 cpt2 = { transform.position.x, mB.GetBot().y };
+															snappingLines[e][HORIZONTAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															horizontal = false;
+															intersectHorizontal.emplace(e);
+														}
+
+														if (none) {
+															if (snappingHighlight.count(e)) {
+																mB.GetColorRef() = snappingHighlight[e];
+																snappingHighlight.erase(e);
+															}
+														}
+
+														if (vertical) {
+															if (snappingLines.count(e) && snappingLines[e].count(VERTICAL)) {
+																snappingLines[e].erase(VERTICAL);
+																if (snappingLines[e].empty()) {
+																	snappingLines.erase(e);
+																}
+															}
+														}
+														if (horizontal) {
+															if (snappingLines.count(e) && snappingLines[e].count(HORIZONTAL)) {
+																snappingLines[e].erase(HORIZONTAL);
+																if (snappingLines[e].empty()) {
+																	snappingLines.erase(e);
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
 						}
+
 						break;
-					
+
 					case CLICKED::DOT:
 						draggingThisCycle = true;
-						transform.rotation = (vmath::PI / 2.f) - (atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x));
+						transform.rotation = (vmath::PI / 2.f) - (std::atan2(currentMousePosition.y - transform.position.y, currentMousePosition.x - transform.position.x));
 						transform.rotation = (transform.rotation > vmath::PI) ? (transform.rotation - (2.f * vmath::PI)) : transform.rotation;
+
+						if (shiftKeyPressed) {
+							transform.rotation = std::round(transform.rotation / (vmath::PI / 4.f)) * (vmath::PI / 4.f);
+							float multiple = std::round((transform.rotation + 0.002f) / vmath::PI / 4.f) * vmath::PI / 4.f;
+							if (std::fabs(transform.rotation - multiple) < 0.001f) {
+								transform.rotation = multiple;
+							}
+							transform.rotation = transform.rotation == -vmath::PI ? vmath::PI : transform.rotation;
+						}
+
 						break;
 
 					default:

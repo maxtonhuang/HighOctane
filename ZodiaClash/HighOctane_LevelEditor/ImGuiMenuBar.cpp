@@ -79,13 +79,13 @@ void UpdateMenuBar() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Options")) {
+            if (ImGui::MenuItem(snappingOn ? "Turn Off Snapping Guides" : "Turn On Snapping Guides", NULL, &snappingOn)) {}
 
             ImGui::EndMenu();
         }
 
         if (ImGui::BeginMenu("View")) {
-            if (ImGui::MenuItem(fullscreen ? "Exit Fullscreen" : "Enter Fullscreen")) {
-                fullscreen = !fullscreen;
+            if (ImGui::MenuItem(fullscreen ? "Exit Fullscreen" : "Enter Fullscreen", "F11", &fullscreen)) {
                 graphics.Fullscreen(fullscreen);
             }
             ImGui::EndMenu();

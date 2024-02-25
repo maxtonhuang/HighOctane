@@ -108,13 +108,15 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 										if (keyObjectID != entity) {
 											// set key object
 											if (keyObjectID != std::numeric_limits<Entity>().max()) {
-												ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>().GetData(keyObjectID).GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
+												ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>().GetData(keyObjectID).GetColorRef() = keyObjectColor;
 											}
 											keyObjectID = entity;
+											keyObjectColor = model.GetColorRef();
 										}
-										else {
-											model.GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
+										else { // unset key object
+											model.GetColorRef() = keyObjectColor;
 											keyObjectID = std::numeric_limits<Entity>().max();
+											keyObjectColor = glm::vec4(RESET_VEC4);
 										}
 									}
 									else {

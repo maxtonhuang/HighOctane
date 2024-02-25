@@ -250,6 +250,33 @@ void GUIManager::Update()
 
             }
 
+            /*if (centerVertical && centerHorizontal) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Center");
+                ImGui::EndTooltip();
+            }*/
+
+            Entity centered{};
+
+            for (auto& val : centerVertical) {
+                if (centerHorizontal.count(val)) {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Center");
+                    centered = val;
+                    ImGui::EndTooltip();
+                    break;
+                }
+            }
+
+            for (auto& val : intersectVertical) {
+                if (val != centered && intersectHorizontal.count(val)) {
+					ImGui::BeginTooltip();
+					ImGui::Text("Intersect");
+					ImGui::EndTooltip();
+					break;
+				}
+			}
+
         }
         else {
             io.ConfigFlags &= ~ImGuiConfigFlags_NoMouseCursorChange;

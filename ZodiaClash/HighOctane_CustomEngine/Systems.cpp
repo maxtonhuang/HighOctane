@@ -35,7 +35,8 @@
 #include "ECS.h"
 #include "Components.h"
 #include "Movement.h"
-#include "graphics.h"
+#include "Graphics.h"
+#include "Camera.h"
 #include "model.h"
 #include "message.h"
 #include "physics.h"
@@ -63,7 +64,8 @@
 #define FIXED_DT 1.0f/60.f
 #define MAX_ACCUMULATED_TIME 5.f // to avoid the "spiral of death" if the system cannot keep up
 
-constexpr float CORNER_SIZE = 10.f;
+constexpr float CORNER_SIZE{ 10.f };
+constexpr float CROSS_SIZE{ 10.f };
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -627,6 +629,7 @@ void GraphicsSystem::Draw() {
 			}
 		}
 	}
+
 	graphics.Draw();
 }
 
@@ -828,6 +831,7 @@ void EditingSystem::Update() {
 		}
 
 		case TYPE::MOUSE_MOVE:
+			prevMousePosition = currentMousePosition;
 			currentMousePosition = { msg.posX, msg.posY };
 
 			for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
@@ -939,7 +943,7 @@ void EditingSystem::Update() {
 		}
 	}
 
-	{	
+	if (keyObjectID != std::numeric_limits<Entity>().max()) {
 		bool found = false;
 		for (Entity entity : selectedEntities) {
 			if (keyObjectID == entity && modelArray.HasComponent(keyObjectID)) {
@@ -953,8 +957,9 @@ void EditingSystem::Update() {
 		}
 		else if (keyObjectID != std::numeric_limits<Entity>().max()) {
 			// change back color
-			modelArray.GetData(keyObjectID).GetColorRef() = { 1.f, 1.f, 1.f, 1.f };
+			modelArray.GetData(keyObjectID).GetColorRef() = keyObjectColor;
 			keyObjectID = std::numeric_limits<Entity>().max();
+			keyObjectColor = { RESET_VEC4 };
 		}
 	}
 
@@ -979,6 +984,13 @@ void EditingSystem::Update() {
 		}
 	}
 
+
+	for (auto& [e, color] : snappingHighlight) {
+		if (modelArray.HasComponent(e)) {
+			modelArray.GetData(e).GetColorRef() = glm::vec4(1.f, 0.5f, 0.5f, 1.f); // Red;
+		}
+	}
+
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 		case TYPE::MOUSE_UP:
@@ -997,7 +1009,7 @@ void EditingSystem::Update() {
 *
 *	@brief Draws the green outline for selected entities
 * 
-*	-
+*	Includes drawing of red outline for entities that are being snapped to
 *
 ******************************************************************************/
 void EditingSystem::Draw() {
@@ -1007,12 +1019,10 @@ void EditingSystem::Draw() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 
-	//for (Entity entity : m_Entities) {
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity& entity : layering[layer_it]) {
 				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
-					//if (ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Transform>(entity) && ECS::ecs().HasComponent<Collider>(entity)) {
 					Name* n = &nameArray.GetData(entity);
 					if (n->selected && modelArray.HasComponent(entity)) {
 						Model* m = &modelArray.GetData(entity);
@@ -1022,6 +1032,29 @@ void EditingSystem::Draw() {
 			}
 		}
 	}
+
+	if (snappingOn) {
+
+		Renderer* render = &graphics.renderer["staticline"];
+		for (auto& it : snappingLines) {
+			for (auto& [axis, points] : it.second) {
+				auto& [linePoint1, linePoint2, crossPoint1, crossPoint2] = points;
+				graphics.DrawLine(linePoint1.x, linePoint1.y, linePoint2.x, linePoint2.y, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint1.x - CROSS_SIZE, crossPoint1.y + CROSS_SIZE, crossPoint1.x + CROSS_SIZE, crossPoint1.y - CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint1.x - CROSS_SIZE, crossPoint1.y - CROSS_SIZE, crossPoint1.x + CROSS_SIZE, crossPoint1.y + CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint2.x - CROSS_SIZE, crossPoint2.y + CROSS_SIZE, crossPoint2.x + CROSS_SIZE, crossPoint2.y - CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint2.x - CROSS_SIZE, crossPoint2.y - CROSS_SIZE, crossPoint2.x + CROSS_SIZE, crossPoint2.y + CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+			}
+		}
+
+		for (auto& [e, color] : snappingHighlight) {
+			if (modelArray.HasComponent(e)) {
+				modelArray.GetData(e).DrawOutlineRed();
+			}
+		}
+
+	}
+	
 }
 
 /******************************************************************************
