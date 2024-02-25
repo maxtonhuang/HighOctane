@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,15 +28,28 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24"
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "enemy_healthbar",
+            "Name": "enemyHp_healthbar",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -47,8 +60,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -150.5,
-            "position_y": 68.0,
+            "position_x": 1130.0,
+            "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -64,17 +77,6 @@
         "Scripts": {
             "className": "",
             "scriptAttachedNameVec": []
-        },
-        "CharacterStats": {
-            "Character type": 1,
-            "Max Health": 1000.0,
-            "Health": 1000.0,
-            "Attack": 0.0,
-            "Defense": 0.0,
-            "Speed": 0,
-            "Icon": "",
-            "Boss": false,
-            "Skills": []
         },
         "Model": {
             "Model type": 3,
@@ -95,13 +97,60 @@
             "Max Health": 1000.0,
             "Health Percentage": 100.0
         },
-        "Parent": {}
+        "EnemyHUD": {
+            "Enemy Index": 0
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 3,
+                "Group Name": "Pop In",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": -300.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Pop Out",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 300.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Parent": {},
+        "Temporary": {}
     },
     {
         "Entity": {
-            "Name": "remaininghealth",
-            "Current Layer": 2,
-            "Order in Layer": 1,
+            "Name": "enemyHp_remaininghealth1",
+            "Current Layer": 3,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -112,8 +161,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -150.5,
-            "position_y": 68.0,
+            "position_x": 1130.0,
+            "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -134,8 +183,8 @@
             "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
-            "Green": 0.0,
-            "Blue": 0.0,
+            "Green": 1.0,
+            "Blue": 1.0,
             "Alpha": 1.0,
             "Mirror": false
         },
@@ -155,9 +204,9 @@
     },
     {
         "Entity": {
-            "Name": "displayLbl",
+            "Name": "enemyHp_displayLbl1",
             "Current Layer": 2,
-            "Order in Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -168,8 +217,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -90.5,
-            "position_y": 108.0,
+            "position_x": 1055.0,
+            "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -179,8 +228,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 0.0,
-            "height": 24.0
+            "width": 73.80000305175781,
+            "height": 46.68000030517578
         },
         "Scripts": {
             "className": "",
@@ -206,13 +255,13 @@
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 2,
+            "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
             "Background": false
         },
         "Child": {
-            "position_x": 60.0,
+            "position_x": -75.0,
             "position_y": 40.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -220,5 +269,280 @@
             "velocity_y": 0.0
         },
         "Temporary": {}
+    },
+    {
+        "Entity": {
+            "Name": "hpBarBase",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 1130.0,
+            "position_y": 340.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 250.0,
+            "height": 120.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.4588235318660736,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.7843137383460999,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow_Dark",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 0.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 0.6779999732971191,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 0.4588235020637512,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 40.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Temporary": {}
+    },
+    {
+        "Entity": {
+            "Name": "hpBarIcon",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 1130.0,
+            "position_y": 344.5,
+            "rotation": 0.0,
+            "scale": 0.30000001192092896,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "NEW_guard_pfp.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 256.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow_Dark",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 0.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Glow",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 2.0,
+                                "Green": 2.0,
+                                "Blue": 2.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 44.5,
+            "rotation": 0.0,
+            "scale": 0.30000001192092896,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Temporary": {}
+    },
+    {
+        "Entity": {
+            "Name": "BORDER_side_test_01.png",
+            "Current Layer": 2,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 1148.0,
+            "position_y": 226.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "BORDER_side_test_01.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 530.0,
+            "height": 419.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Child": {
+            "position_x": 18.0,
+            "position_y": -73.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

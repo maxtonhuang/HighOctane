@@ -256,6 +256,8 @@ void SceneEntityComponents(Entity entity) {
 			parentlabel += ECS::ecs().GetComponent<Name>(entityChild.parent).name;
 			ImGui::Text(parentlabel.c_str());
 			if (ImGui::Button("Select parent")) {
+				ECS::ecs().GetComponent<Name>(currentSelectedEntity).selected = false;
+				ECS::ecs().GetComponent<Name>(entityChild.parent).selected = true;
 				currentSelectedEntity = entityChild.parent;
 			}
 		}

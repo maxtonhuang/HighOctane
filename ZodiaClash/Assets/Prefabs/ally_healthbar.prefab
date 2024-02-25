@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,7 +28,20 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24"
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37"
             ]
         }
     },
@@ -36,7 +49,7 @@
         "Entity": {
             "Name": "allyHp_healthbar",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -134,7 +147,7 @@
         "Entity": {
             "Name": "allyHp_remaininghealth1",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -145,7 +158,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -592.0,
+            "position_x": -1130.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -189,7 +202,7 @@
         "Entity": {
             "Name": "allyHp_displayLbl1",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -200,7 +213,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -667.0,
+            "position_x": -1205.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -268,7 +281,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -592.0,
+            "position_x": -1130.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -309,7 +322,7 @@
         "Entity": {
             "Name": "hpBarIcon",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -320,7 +333,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -592.0,
+            "position_x": -1130.0,
             "position_y": 344.5,
             "rotation": 0.0,
             "scale": 0.30000001192092896,
@@ -360,6 +373,61 @@
             "position_y": 44.5,
             "rotation": 0.0,
             "scale": 0.30000001192092896,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "BORDER_side_test_02.png",
+            "Current Layer": 2,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -1144.0,
+            "position_y": 223.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "BORDER_side_test_02.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 531.0,
+            "height": 419.0
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": true
+        },
+        "Movable": {},
+        "Child": {
+            "position_x": -14.0,
+            "position_y": -76.5,
+            "rotation": 0.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

@@ -511,8 +511,15 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 				const std::shared_ptr<SoundAnimation> sound{ std::dynamic_pointer_cast<SoundAnimation>(anim) };
 				for (auto const& k : sound->keyframes) {
 					rapidjson::Value keyframe(rapidjson::kObjectType);
+					rapidjson::Value sounds(rapidjson::kArrayType);
 					keyframe.AddMember("Frame Number", k.frameNum, allocator);
-					keyframe.AddMember("Sound", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					//keyframe.AddMember("Sound", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					for (std::string const& s : k.data) {
+						rapidjson::Value soundName;
+						soundName.SetString(s.c_str(), static_cast<rapidjson::SizeType>(s.length()), allocator);
+						sounds.PushBack(soundName, allocator);
+					}
+					keyframe.AddMember("Sounds", sounds, allocator);
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
@@ -620,6 +627,16 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyframe.AddMember("Frame Number", k.frameNum, allocator);
 					keyframe.AddMember("Event Name", rapidjson::Value(k.data.first.c_str(), allocator).Move(), allocator);
 					keyframe.AddMember("Event Input", rapidjson::Value(k.data.second.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
+			else if (animType == "Child") {
+				const std::shared_ptr<ChildAnimation> childAnim{ std::dynamic_pointer_cast<ChildAnimation>(anim) };
+				for (auto const& k : childAnim->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Child Name", rapidjson::Value(k.data.first.c_str(), allocator).Move(), allocator);
+					keyframe.AddMember("Child Animation", rapidjson::Value(k.data.second.c_str(), allocator).Move(), allocator);
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
@@ -1609,7 +1626,15 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 						else if (animType == "Sound") {
 							SoundAnimation a{};
 							for (auto& k : animations["Key Frames"].GetArray()) {
-								std::string data{ k["Sound"].GetString() };
+								std::vector<std::string> data{};
+								if (k.HasMember("Sound")) {
+									data.push_back(k["Sound"].GetString());
+								}
+								else if (k.HasMember("Sounds")) {
+									for (auto& s : k["Sounds"].GetArray()) {
+										data.push_back(s.GetString());
+									}
+								}
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<SoundAnimation>(a));
@@ -1718,6 +1743,16 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
 							}
 							anigrp.animations.push_back(std::make_shared<EventAnimation>(a));
+						}
+						else if (animType == "Child") {
+							ChildAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::pair<std::string, std::string> data{};
+								data.first = k["Child Name"].GetString();
+								data.second = k["Child Animation"].GetString();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ChildAnimation>(a));
 						}
 					}
 					animset.animationSet.push_back(anigrp);

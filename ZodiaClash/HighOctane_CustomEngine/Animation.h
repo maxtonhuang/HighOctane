@@ -224,8 +224,8 @@ public:
 	void RemoveKeyFrame(int frameNum) override;
 	bool HasKeyFrame(int frameNum) override;
 
-	std::list<Keyframe<std::string>> keyframes;
-	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
+	std::list<Keyframe<std::vector<std::string>>> keyframes;
+	std::list<Keyframe<std::vector<std::string>>>::iterator nextKeyframe{};
 };
 
 //Swaps the animation to another animation stored, ending the current animation 
@@ -416,5 +416,19 @@ public:
 	bool HasKeyFrame(int frameNum) override;
 
 	std::list<Keyframe<std::pair<std::string,std::string>>> keyframes;
+	std::list<Keyframe<std::pair<std::string, std::string>>>::iterator nextKeyframe{};
+};
+
+//Calls a childs animation, does not work if entity is not a parent
+class ChildAnimation : public Animation {
+public:
+	ChildAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<std::pair<std::string, std::string>>> keyframes;
 	std::list<Keyframe<std::pair<std::string, std::string>>>::iterator nextKeyframe{};
 };
