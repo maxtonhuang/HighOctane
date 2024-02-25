@@ -489,7 +489,7 @@ void AnimatorWindow(Entity entity) {
 							}
 						}
 						if (keyframe != nullptr) {
-							Entity child{ 0 };
+							Entity child{ ECS::ecs().GetComponent<Parent>(entity).GetChildByName(keyframe->data.first) };
 							if (ImGui::BeginCombo("Children", keyframe->data.first.c_str())) {
 								std::vector<std::string> childrenNames{};
 								for (Entity& c : ECS::ecs().GetComponent<Parent>(entity).children) {

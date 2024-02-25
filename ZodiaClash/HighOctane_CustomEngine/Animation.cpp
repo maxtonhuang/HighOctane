@@ -354,7 +354,7 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 			}
 			animations.push_back(ptr);
 		}
-		else if (animation->GetType() == "Event") {
+		else if (animation->GetType() == "Child") {
 			std::shared_ptr <ChildAnimation> ptr{ std::make_shared<ChildAnimation>() };
 			std::shared_ptr<ChildAnimation> copyptr{ std::dynamic_pointer_cast<ChildAnimation>(animation) };
 			*ptr = *copyptr;
