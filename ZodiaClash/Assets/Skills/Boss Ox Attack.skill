@@ -1,0 +1,11 @@
+[
+    {
+        "Name": "Chi-Absorbing Blow",
+        "Type": 0,
+        "Skill Attack": 100,
+        "Minimum Attack Multiplier": 0.9,
+        "Maximum Attack Multiplier": 1.1,
+        "Crit Rate": 30.0,
+        "Crit Multiplier": 1.2
+    }
+]

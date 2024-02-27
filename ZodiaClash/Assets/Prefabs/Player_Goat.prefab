@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 21,
+            "layerCounter": 24,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -24,15 +24,18 @@
                 "Layer 17",
                 "Layer 18",
                 "Layer 19",
-                "Layer 20"
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Goat",
+            "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -43,10 +46,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -518.0,
-            "position_y": -150.0,
+            "position_x": 247.0,
+            "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 3.8179094791412354,
+            "scale": 0.26726171374320984,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -55,14 +58,30 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Goat_Basic.spritesheet"
+            "Texture File Path": "Goat_Idle.spritesheet"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 80.0,
-            "height": 80.0
+            "width": 958.0,
+            "height": 959.0
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 115.0,
+            "Health": 115.0,
+            "Attack": 12.0,
+            "Defense": 20.0,
+            "Speed": 10,
+            "Icon": "mockup_icon_goat.png",
+            "Boss": false,
+            "Skills": [
+                "Yin-Yang Strike",
+                "Chi Surge",
+                "Shepherd's Grace",
+                "Celestial Annihilation will be cast next!"
+            ]
         },
         "Model": {
             "Model type": 0,
@@ -70,13 +89,471 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 80.0,
-            "Dimension Y": 80.0
-        }
+            "Dimension X": 958.0,
+            "Dimension Y": 959.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 6,
+                "Group Name": "Idle",
+                "Loop": true,
+                "Frame Time": 0.20000000298023224,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": true
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 13,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Prefab": "player_goat_vfx.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 10,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Goat_Basic.spritesheet"
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Texture": "Goat_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 12,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5,
+                                "Zoom": 1.5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Sounds": [
+                                    "Goat Atk 1_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 1.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat Damaged_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Goat_Hit.spritesheet"
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Texture": "Goat_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 16,
+                "Group Name": "Attack 2",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Goat_Ulti.spritesheet"
+                            },
+                            {
+                                "Frame Number": 14,
+                                "Texture": "Goat_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 12,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 13,
+                                "Reverse": true
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Prefab": "Goat_Ulti_VFX.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Sounds": [
+                                    "Goat Buff_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Death",
+                "Loop": false,
+                "Frame Time": 0.15000000596046448,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat Death_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Goat_Death.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 1.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 16,
+                "Group Name": "Attack 3",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Goat_Ulti.spritesheet"
+                            },
+                            {
+                                "Frame Number": 14,
+                                "Texture": "Goat_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 12,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 13,
+                                "Reverse": true
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Prefab": "Goat_Skill_VFX.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Sounds": [
+                                    "Goat Heal_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Idle"
     }
 ]

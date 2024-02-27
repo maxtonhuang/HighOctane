@@ -36,7 +36,8 @@ class CharacterStats;
 
 enum class AttackType {
     NORMAL,
-    AOE
+    AOE,
+    ALLY
 };
 
 class Attack {

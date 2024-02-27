@@ -1,0 +1,283 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 24,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Player Goat Projectile",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 469.0,
+            "position_y": 190.0,
+            "rotation": 0.0,
+            "scale": 0.1921016126871109,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Goat_Basic_VFX.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 958.0,
+            "height": 958.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 958.0,
+            "Dimension Y": 958.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 11,
+                "Group Name": "Attack Part 1",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 200.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10,
+                                "Destination": "Attack Part 2"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 11,
+                "Group Name": "Attack Part 2",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Target": "Attack Position"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10,
+                                "Destination": "Attack Part 3"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Prefab": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat Atk 4_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 7,
+                "Group Name": "Attack Part 3",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Attack Part 1"
+    }
+]

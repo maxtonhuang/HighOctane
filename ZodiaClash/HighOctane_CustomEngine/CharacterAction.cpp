@@ -57,6 +57,11 @@ void CharacterAction::UpdateState() {
         break;
     case WAITING:
         //Empty by design, to wait for other systems to change entity state
+        //Otherwise, if stunned then skip their turn
+        if (characterStats->debuffs.stunStack > 0) {
+            characterStats->debuffs.stunStack -= 1;
+            entityState = ENDING;
+        }
         break;
     case ATTACKING:
         ApplySkill();
@@ -155,10 +160,7 @@ void CharacterAction::ApplySkill() {
         battleManager->chi += 1;
     }
 
-    if (selectedSkill.attacktype == AttackType::NORMAL) {
-        selectedSkill.UseAttack(targetSelect.selectedTarget);
-    }
-    else if(selectedSkill.attacktype == AttackType::AOE) {
+    if (selectedSkill.attacktype == AttackType::AOE) {
         if (characterStats->tag == CharacterType::PLAYER) {
             selectedSkill.UseAttack(targetSelect.enemyTargets);
         }
@@ -166,5 +168,7 @@ void CharacterAction::ApplySkill() {
             selectedSkill.UseAttack(targetSelect.playerTargets);
         }
     }
-    
+    else {
+        selectedSkill.UseAttack(targetSelect.selectedTarget);
+    }
 }

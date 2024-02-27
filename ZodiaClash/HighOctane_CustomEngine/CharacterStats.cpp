@@ -66,6 +66,7 @@ CharacterStats::CharacterStats(CharacterStats const& input) {
     action.battleManager = input.action.battleManager;
     boss = input.boss;
     charge = input.charge;
+    debuffs = input.debuffs;
 }
 
 /**
