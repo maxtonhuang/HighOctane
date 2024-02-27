@@ -1,70 +1,93 @@
-Cat_Ulti.spritesheet
 mockup_chi_icon.png
-Cat_Ulti.spritesheet
-NEW_bg_03.png
+NEW_howtoplay.png
+EXPLORATION_MAP_tiling_01.png
+NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
+mockup_title_logo_02 (1).png
 Guard_Death.spritesheet
-Cat_Attack_1.spritesheet
-Cat_Attack_1.spritesheet
-mockup_skillframe (1).png
-UI_ICON_bleed.png
-catSkill2_tooltip.png
-skill_icon_skill.png
-skill_icon_ulti.png
-Goat_Idle.spritesheet
+button_QUIT_v02.png
+Goat_Ulti_VFX.spritesheet
+VFX_Hit.spritesheet
+Goat_Ulti_VFX.spritesheet
+Cat_Idle.spritesheet
+VFX_Hit.spritesheet
+Boss_Circle.spritesheet
+Cat_Idle.spritesheet
+mockup_playbutton_04.png
+Boss_Circle.spritesheet
+EXPLORATION_MAP_tiling_05.png
+button_PLAY_v02.png
+Goat_Death.spritesheet
+Goat_Basic_VFX.spritesheet
+Goat_Death.spritesheet
+Goat_Skill_VFX_Front.spritesheet
+Goat_Basic_VFX.spritesheet
+Goat_Skill_VFX_Front.spritesheet
 mockup_icon_cat.png
 Goat_Idle.spritesheet
-Cat_Damage.spritesheet
-Cat_Damage.spritesheet
-VFX_Hit.spritesheet
-VFX_Hit.spritesheet
-Cat_Idle.spritesheet
-Cat_Idle.spritesheet
-GUARD_idle.png
-Cat_Attack_2.spritesheet
-Cat_Attack_2.spritesheet
-UI_Target_Circle.spritesheet
-UI_Target_Circle.spritesheet
+Goat_Idle.spritesheet
+Heal_VFX.spritesheet
+mockup_skillframe (1).png
+Heal_VFX.spritesheet
+catSkill2_tooltip.png
+UI_ICON_bleed.png
+skill_icon_skill.png
+skill_icon_ulti.png
+NEW_bg_03.png
 NEW_guard_pfp.png
-Cat_Dash.spritesheet
-Cat_Dash.spritesheet
-Guard_Damage.spritesheet
-Guard_Damage.spritesheet
-Guard_Attack.spritesheet
-Guard_Attack.spritesheet
-mockup_chi_icon_lineart.png
+GUARD_idle.png
+EXPLORATION_MAP_asset_rock.png
+mockup_pausemenu.png
+UI_Target_Circle.spritesheet
+UI_Target_Circle.spritesheet
+NEW_howtoplay2.png
+mockup_qn_icon.png
+goat.png
+Goat_Hit.spritesheet
+Goat_Basic.spritesheet
+catSkill1_tooltip.png
+Goat_Hit.spritesheet
+Goat_Basic.spritesheet
+EXPLORATION_MAP_tiling_07.png
+catSkill3_tooltip.png
+Goat_Skill_VFX_Back.spritesheet
+Goat_Skill_VFX_Back.spritesheet
+Goat_Ulti.spritesheet
+Goat_Ulti.spritesheet
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
+EXPLORATION_MAP_tiling_02.png
+EXPLORATION_MAP_tiling_03.png
+EXPLORATION_MAP_tiling_04.png
+EXPLORATION_MAP_tiling_06.png
+EXPLORATION_MAP_tiling_08.png
+EXPLORATION_MAP_tiling_09.png
+How to Play.png
+Cat_Run.spritesheet
+Cat_Run.spritesheet
+Cutscene_v01_01.png
+exploration bg_03.png
+MAINMENU_illust_03_v01.png
+START_button_v02.png
+QUIT_button_v02.png
+new_logo_03.png
+Cat_Death.spritesheet
+Cat_Death.spritesheet
+HELP_button_v02.png
 Leaf.png
+BORDER_side_test_02.png
+BORDER_side_test_01.png
 BORDER_test_01.png
 BORDER_test_02.png
-BORDER_side_test_02.png
-mockup_icon_goat.png
-BORDER_side_test_01.png
-skill_icon_goat_3.png
-skill_icon_goat_2.png
-catSkill3_tooltip.png
-catSkill1_tooltip.png
-Goat_Basic.spritesheet
-Goat_Basic.spritesheet
-Goat_Basic_VFX.spritesheet
-Goat_Basic_VFX.spritesheet
-ZodiaClash_Battle.ogg
-Battle Ambience BGM_Edited.wav
-Cat_Atk_2_Edited.wav
-Guard Damaged_Edited.wav
-Cat Atk_1_Edited.wav
-Guard Atk_Edited.wav
-Cat Damaged_Edited.wav
-Cat_Atk_3_Edited.wav
+ox.png
+ZodiaClash_MainMenu2.ogg
+Ox Atk 2_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
-Goat Atk 1_Edited.wav
-Goat Atk 4_Edited.wav
-Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Yin-Yang Strike.skill
+Heavenly Chi Surge.skill
 Celestial Annihilation will be cast next!.skill
 Shepherd's Grace.skill
 Unstoppable Thunder.skill
@@ -74,5 +97,6 @@ Chi-Absorbing Blow.skill
 Scarlet Claw.skill
 Dance of Fury.skill
 Secret Arts: Pounce.skill
+Heavenly Shepherd's Grace.skill
 Jade Thrust.skill
 tmp.json

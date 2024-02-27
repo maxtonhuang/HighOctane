@@ -63,8 +63,16 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
-    else if (attackName == "Chi Surge") {
+    else if (attackName == "Heavenly Shepherd's Grace") {
+        target->HealBuff(0.5f * target->stats.maxHealth);
+        target->debuffs.bloodStack = 0;
+        target->debuffs.tauntStack = 0;
+        target->debuffs.stunStack = 0;
+    }
+    else if (attackName == "Chi Surge" || attackName == "Heavenly Chi Surge") {
         target->SpeedBuff(target);
+        target->buffs.attackBuff = 0.5f;
+        target->buffs.attackStack = 2;
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
@@ -75,12 +83,30 @@ void Attack::UseAttack(CharacterStats* target) {
         }
         owner->charge = true;
     }
+    else if (attackName == "Chi-Absorbing Blow") {
+        target->debuffs.defenseDebuff = 0.5f;
+        target->debuffs.defenseStack = 2;
+        if (owner->cycle == 1) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 2;
+        }
+    }
     else if (attackName == "Unstoppable Thunder") {
         target->debuffs.stunStack += 1;
+        if (owner->cycle == 2) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 0;
+        }
     }
     else if (attackName == "God of War's Challenge") {
         target->debuffs.tauntStack += 1;
         target->debuffs.tauntTarget = owner->entity;
+        owner->buffs.defenseBuff = 0.5f;
+        owner->buffs.defenseStack = 1;
+        if (owner->cycle == 0) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 1;
+        }
     }
 
     target->debuffs.bloodStack += bleed;
@@ -102,16 +128,19 @@ void Attack::CalculateDamage(CharacterStats const& target)
     //targetStats = target.GetComponent<CharacterStats>();
 
     //critical hit chance
-    static std::default_random_engine rng;
+    std::random_device rd;
+    std::mt19937 gen(rd());
     static std::uniform_real_distribution<float> rand(0.f, 1.f);
     
     float randomValue{1.f};
 
     //NO CRITS IF ITS AN AI SIMULATION
     if (target.parent->m_Entities.size() > 0) {
-        randomValue = rand(rng);
+        randomValue = rand(gen);
     }
     
+    float finalAttack{ owner->stats.attack * (1 + owner->buffs.attackBuff - owner->debuffs.attackDebuff) };
+    float finalDefense{ target.stats.defense * (1 + owner->buffs.defenseBuff - owner->debuffs.defenseDebuff) };
 
     if (randomValue <= critRate)
     {
@@ -119,13 +148,13 @@ void Attack::CalculateDamage(CharacterStats const& target)
         critCheck = true;
 
         damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
-            ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense)))
+            ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense)))
             * critMultiplier);
     }
     else
     {
         damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
-            ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense))));
+            ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense))));
     }
 }
 

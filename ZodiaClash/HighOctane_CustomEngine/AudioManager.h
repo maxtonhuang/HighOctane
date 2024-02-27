@@ -46,6 +46,8 @@ public:
 	FMOD::ChannelGroup* CreateGroup(const char* name); 
 	//Sets the volume of the group
 	void SetGroupVolume(const char* name, float volume); 
+	//Get the group volume, float* is the input volume
+	float GetGroupVolume(const char* name);
 	//Stops all sounds in the group
 	void StopGroup(const char* name);
 	//Resumes the group

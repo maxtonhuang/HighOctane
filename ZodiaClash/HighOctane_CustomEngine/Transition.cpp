@@ -34,9 +34,10 @@
 #include "Global.h"
 #include "Events.h"
 #include "EntityFactory.h"
+#include "AssetManager.h"
 
 bool transitionActive{ false };
-bool transitionType{};
+bool transitionType{}; //true for fade out, false for fade in
 const float TRANSITION_TIME{ 1.2f };
 std::string transitionNextScene{};
 
@@ -46,10 +47,16 @@ const std::string TRANSITION_FADEOUT_PREFAB{ "transition_fadeout.prefab" };
 void TransitionSystem::Update() {
 	if (transitionActive) {
 		if (timer > 0.f) {
+			if (transitionType) {
+				currentVolume -= volumeReduction;
+				assetmanager.audio.SetGroupVolume("BGM", currentVolume);
+			}
 			timer -= FIXED_DT;
 			if (timer < 0.f) {
 				if (transitionType) {
 					events.Call("Change Scene", transitionNextScene);
+					assetmanager.audio.SetGroupVolume("BGM", initialVolume);
+					initialVolume = 0.f;
 					transitionType = false;
 				}
 				else {
@@ -59,6 +66,9 @@ void TransitionSystem::Update() {
 		}
 		else {
 			timer = TRANSITION_TIME;
+			initialVolume = assetmanager.audio.GetGroupVolume("BGM");
+			currentVolume = initialVolume;
+			volumeReduction = initialVolume / TRANSITION_TIME * FIXED_DT;
 			if (transitionType) {
 				EntityFactory::entityFactory().ClonePrefab(TRANSITION_FADEOUT_PREFAB);
 			}

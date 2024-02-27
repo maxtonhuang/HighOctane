@@ -297,7 +297,7 @@ void BattleSystem::Update()
                 return;
             }
 
-            if (speedup && speedupCharacter->entity == turnManage.turnOrderList.front()->entity) {
+            if (speedup && speedupCharacter->entity == turnManage.turnOrderList.front()->entity && speedupAnimationPlayed) {
                 turnManage.turnOrderList.pop_front();
                 speedup = false;
                 AnimateReturnTurnOrder();
@@ -757,6 +757,7 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
     auto iterator = turnManage.turnOrderList.begin();
     int count{0};
     bool firstfound{ false };
+    speedupAnimationPlayed = true;
     if (m_Entities.size() == 0) {
         return;
     }
@@ -767,7 +768,7 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
         iterator++;
         count++;
     }
-    animationArray.GetData(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
+    animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Pop Out", turnOrderQueueAnimator.front());
     animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Shift In", turnOrderQueueAnimator.front());
     Entity retractingIcon{ parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon") };
     animationArray.GetData(retractingIcon).Start("Unexpand", retractingIcon);
@@ -782,14 +783,13 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
                 animation.Queue("Next Turn", e);
             }
             animation.Queue("Expand", e);
-            animationArray.GetData(turnIcon).Start("Expand",turnIcon);
+            animationArray.GetData(turnIcon).Queue("Expand",turnIcon);
         }
-        else if (e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
-            AnimationSet& animation{ animationArray.GetData(e) };
-            animation.Queue("Next Turn", e);
-        }
+        //else if (e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
+        //    AnimationSet& animation{ animationArray.GetData(e) };
+        //    animation.Queue("Next Turn", e);
+        //}
     }
-    speedupAnimationPlayed = true;
 }
 
 void BattleSystem::AnimateReturnTurnOrder() {
@@ -811,6 +811,9 @@ void BattleSystem::AnimateReturnTurnOrder() {
             break;
         }
     }
+    if (turnOrderQueueAnimator.front() == entity) {
+        count--;
+    }
     AnimationSet& animation{ animationArray.GetData(entity) };
     Entity turnIcon{ parentArray.GetData(entity).GetChildByName("turnOrderIcon") };
     animation.Queue("Pop Out", entity);
@@ -822,13 +825,13 @@ void BattleSystem::AnimateReturnTurnOrder() {
     
     animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Expand", turnOrderQueueAnimator.front());
     Entity expandingIcon = parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon");
-    animationArray.GetData(expandingIcon).Start("Expand", expandingIcon);
+    animationArray.GetData(expandingIcon).Queue("Expand", expandingIcon);
     for (Entity& e : turnOrderQueueAnimator) {
         if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
             break;
         }
         else if (e != turnOrderQueueAnimator.front()) {
-            animationArray.GetData(e).Start("Next Turn", e);
+            animationArray.GetData(e).Queue("Next Turn", e);
         }
     }
 }
@@ -916,6 +919,9 @@ void BattleSystem::CreateTargets() {
         for (CharacterStats* enemy : enemyList) {
             Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
             ECS::ecs().GetComponent<Transform>(targetcircle).position = ECS::ecs().GetComponent<Transform>(enemy->entity).position;
+            if (activeCharacter->debuffs.tauntStack > 0 && activeCharacter->action.selectedSkill.attacktype != AttackType::AOE && activeCharacter->debuffs.tauntTarget != enemy->entity) {
+                ECS::ecs().GetComponent<Transform>(targetcircle).position = Vec2{ -10000.f,-10000.f };
+            }
             if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
                 ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
             }

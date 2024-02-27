@@ -63,15 +63,28 @@ public:
         int             speed;
     }; stats stats{};
 
+    //positive effects
+    struct buff {
+        int   attackStack{ 0 };
+        float attackBuff{ 0.f };
+        int defenseStack{ 0 };
+        float defenseBuff{ 0.f };
+    }; buff buffs{};
+
     //negative effects 
     struct debuff {
        int    bloodStack{ 0 }; //decrease the health
        int    tauntStack{ 0 }; //must target debuff
        Entity tauntTarget{ 0 }; //who to target for taunt
        int    stunStack{ 0 }; //skip turn and reduce
+       int   attackStack{ 0 };
+       float attackDebuff{ 0.f };
+       int defenseStack{ 0 };
+       float defenseDebuff{ 0.f };
     }; debuff debuffs{};
 
     bool boss{};
+    int cycle{ 0 }; // for boss cycles
     bool charge{};
 
     void TakeDamage(float damage);

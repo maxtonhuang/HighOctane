@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 31,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -30,7 +30,11 @@
                 "Layer 23",
                 "Layer 24",
                 "Layer 25",
-                "Layer 26"
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30"
             ]
         }
     },
@@ -96,13 +100,13 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 355.0,
-            "position_y": 150.0,
+            "position_x": 476.0,
+            "position_y": 177.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -121,13 +125,13 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 467.0,
-            "position_y": -75.0,
+            "position_x": 488.0,
+            "position_y": -251.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -164,7 +168,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "This feels wrong. Why are these statues alive? \nThere is something sinister here.",
+            "Text String": "Congrats on clearing the bonus stage!!!!!!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -178,8 +182,8 @@
         "DialogueHUD": {
             "Dialogue Lines": [
                 {
-                    "Speaker": "Mei",
-                    "Line": "This feels wrong. Why are these statues alive? \nThere is something sinister here."
+                    "Speaker": "Me",
+                    "Line": "Congrats on clearing the bonus stage!!!!!!"
                 }
             ],
             "Viewing Index": 0,
@@ -189,7 +193,7 @@
             "Auto Launch": false,
             "Speaker Required": true,
             "Post Dialogue Scene": true,
-            "Target Scene": "exploration2.scn"
+            "Target Scene": "tbc.scn"
         },
         "Parent": {}
     },
@@ -230,7 +234,7 @@
         "Entity": {
             "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -239,6 +243,31 @@
             "position_y": -164.0,
             "rotation": 0.0,
             "scale": 0.26726171374320984,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_ox.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ox_Enemy",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 341.73095703125,
+            "position_y": -11.019012451171875,
+            "rotation": 0.0,
+            "scale": 0.9998514652252197,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

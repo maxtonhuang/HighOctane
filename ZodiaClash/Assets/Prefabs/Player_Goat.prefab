@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,9 +25,7 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23"
+                "Layer 21"
             ]
         }
     },
@@ -73,13 +71,13 @@
             "Health": 115.0,
             "Attack": 12.0,
             "Defense": 20.0,
-            "Speed": 10,
+            "Speed": 2,
             "Icon": "mockup_icon_goat.png",
             "Boss": false,
             "Skills": [
                 "Yin-Yang Strike",
-                "Chi Surge",
-                "Shepherd's Grace",
+                "Heavenly Chi Surge",
+                "Heavenly Shepherd's Grace",
                 "Celestial Annihilation will be cast next!"
             ]
         },
