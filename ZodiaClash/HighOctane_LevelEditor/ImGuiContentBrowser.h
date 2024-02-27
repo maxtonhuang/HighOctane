@@ -36,7 +36,9 @@
 *	- Allowed prefabs files to be dragged into the prefab editor
 ******************************************************************************/
 #include "ImGuiLib.h"
+#include <filesystem>
 
 void UpdateContentBrowser();
 void UnloadIcons();
 void LoadIcons();
+bool DeleteAssetFile(const std::string& filePath);
