@@ -5,9 +5,9 @@
 	"Tooltip": "catSkill1_tooltip.prefab",
         "Type": 0,
         "Skill Attack": 100,
-        "Minimum Attack Multiplier": 0.8,
-        "Maximum Attack Multiplier": 1.2,
-        "Crit Rate": 0.3,
+        "Minimum Attack Multiplier": 0.7,
+        "Maximum Attack Multiplier": 1.3,
+        "Crit Rate": 0.4,
         "Crit Multiplier": 1.2,
         "Chi Cost": -1,
 	"Bleed": 3
