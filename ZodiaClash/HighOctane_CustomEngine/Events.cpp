@@ -237,7 +237,7 @@ void SelectEnemy(std::string input) {
 	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
 		targets = bs->GetPlayers();
 	}
-	if (bs->activeCharacter->debuffs.tauntStack > 0) {
+	if (bs->activeCharacter->debuffs.tauntStack > 0 && bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLY) {
 		for (CharacterStats* target : targets) {
 			if (target->entity == bs->activeCharacter->debuffs.tauntTarget) {
 				bs->activeCharacter->action.targetSelect.selectedTarget = target;

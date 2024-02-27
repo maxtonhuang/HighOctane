@@ -69,6 +69,7 @@ CharacterStats::CharacterStats(CharacterStats const& input) {
     debuffs = input.debuffs;
     buffs = input.buffs;
     cycle = input.cycle;
+    crit = input.crit;
 }
 
 /**

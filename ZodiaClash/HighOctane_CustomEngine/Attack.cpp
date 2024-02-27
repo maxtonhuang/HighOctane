@@ -69,13 +69,16 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
-    else if (attackName == "Chi Surge" || attackName == "Heavenly Chi Surge") {
+    else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.5f;
         target->buffs.attackStack = 2;
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
+    }
+    else if (attackName == "Heavenly Chi Surge") {
+        target->SpeedBuff(target);
     }
     else if (attackName == "Celestial Annihilation will be cast next!") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
@@ -122,7 +125,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 }
 
-void Attack::CalculateDamage(CharacterStats const& target)
+void Attack::CalculateDamage(CharacterStats& target)
 {
     //attackerStats = owner.GetComponent<CharacterStats>();
     //targetStats = target.GetComponent<CharacterStats>();
@@ -142,18 +145,22 @@ void Attack::CalculateDamage(CharacterStats const& target)
     float finalAttack{ owner->stats.attack * (1 + owner->buffs.attackBuff - owner->debuffs.attackDebuff) };
     float finalDefense{ target.stats.defense * (1 + owner->buffs.defenseBuff - owner->debuffs.defenseDebuff) };
 
+    std::uniform_real_distribution<float> drand(minAttackMultiplier, maxAttackMultiplier);
+
     if (randomValue <= critRate)
     {
         //critical hit
-        critCheck = true;
+        target.crit = true;
 
-        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
+        damage = (drand(gen) *
             ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense)))
             * critMultiplier);
     }
     else
     {
-        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
+        target.crit = false;
+
+        damage = (drand(gen) *
             ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense))));
     }
 }

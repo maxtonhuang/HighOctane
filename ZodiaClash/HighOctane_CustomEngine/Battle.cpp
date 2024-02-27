@@ -326,6 +326,10 @@ void BattleSystem::Update()
                                 character.stats.health = character.stats.maxHealth;
                             }
                         }
+                        if (character.tag == CharacterType::ENEMY) {
+                            character.buffs.attackBuff = 0.5f;
+                            character.buffs.attackStack = 99;
+                        }
                     }
                     if (m_Entities.size() > 0) {
                         damagePrefab = "Goat_Skill_VFX.prefab";
@@ -492,7 +496,7 @@ void BattleSystem::ProcessDamage() {
                 continue;
             }
             bool found = false;
-            for (CharacterStats const& c : turnManage.characterList) {
+            for (CharacterStats& c : turnManage.characterList) {
                 if (c.entity == entity) {
                     if (speedup && entity == speedupCharacter->entity) {
                         Entity damageEffect{ EntityFactory::entityFactory().ClonePrefab(damagePrefab) };
@@ -516,6 +520,10 @@ void BattleSystem::ProcessDamage() {
                         if (c.stats.health > 0) {
                             if (damage > 0) {
                                 animationArray->GetData(entity).Start("Damaged", entity);
+                                if (c.crit == true) {
+                                    textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 1.f,0.f,0.f,1.f });
+                                    c.crit = false;
+                                }
                             }
                             else {
                                 textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 0.f,1.f,0.f,1.f });

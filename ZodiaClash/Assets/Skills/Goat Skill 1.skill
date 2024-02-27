@@ -6,7 +6,7 @@
         "Skill Attack": 100,
         "Minimum Attack Multiplier": 1.0,
         "Maximum Attack Multiplier": 1.0,
-        "Crit Rate": 10.0,
+        "Crit Rate": 0.1,
         "Crit Multiplier": 1.0,
         "Chi Cost": -1,
 	"Bleed": 2
