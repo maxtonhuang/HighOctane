@@ -1,3 +1,4 @@
+ZodiaClash_Battle.ogg
 Cat_Ulti.spritesheet
 mockup_chi_icon.png
 Cat_Ulti.spritesheet
@@ -8,12 +9,12 @@ Guard_Death.spritesheet
 Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-UI_ICON_bleed.png
 catSkill2_tooltip.png
+UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -42,6 +43,7 @@ BORDER_test_02.png
 BORDER_side_test_02.png
 mockup_icon_goat.png
 BORDER_side_test_01.png
+
 skill_icon_goat_3.png
 skill_icon_goat_2.png
 catSkill3_tooltip.png
@@ -50,14 +52,13 @@ Goat_Basic.spritesheet
 Goat_Basic.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Basic_VFX.spritesheet
-ZodiaClash_Battle.ogg
-Battle Ambience BGM_Edited.wav
 Cat_Atk_2_Edited.wav
-Guard Damaged_Edited.wav
+Battle Ambience BGM_Edited.wav
 Cat Atk_1_Edited.wav
-Guard Atk_Edited.wav
+Guard Damaged_Edited.wav
 Cat Damaged_Edited.wav
 Cat_Atk_3_Edited.wav
+Guard Atk_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
 Goat Atk 1_Edited.wav
@@ -75,4 +76,4 @@ Scarlet Claw.skill
 Dance of Fury.skill
 Secret Arts: Pounce.skill
 Jade Thrust.skill
-tmp.json
+battle3.json

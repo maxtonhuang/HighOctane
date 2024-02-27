@@ -466,7 +466,10 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 												if (entitiesToSkip[static_cast<uint32_t>(e)] && entitiesToLock[static_cast<uint32_t>(e)] && ECS::ecs().EntityExists(e)) {		//
 													if (e == entity) {																											//
 														continue;																												//
-													}																															//
+													}		
+													if (!modelArray.HasComponent(e)) {
+														continue;
+													}
 													Model& mB = modelArray.GetData(e);									// -----------------------------------------------------//
 													if (mB.GetTop().x == mB.GetBot().x/* || mB.GetTop().y == mB.GetBot().y*/) { // test whether B is vertical/xhorizontalx
 
