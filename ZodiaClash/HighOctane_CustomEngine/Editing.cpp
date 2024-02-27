@@ -505,7 +505,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 														intersectVertical.emplace(e);
 													}
 													else if (std::abs(rightB.x - (transform.position.x - (centerA.x - leftA.x))) < SNAP_SENSITIVITY) {
-														printf("Left Side\n");
 														transform.position.x = rightB.x + (centerA.x - leftA.x);
 														snappingHighlight.emplace(e, mB.GetColorRef());
 														vmath::Vector2 pt1 = { rightB.x, std::max(topB.y, transform.position.y + (topA.y - centerA.y)) + SNAP_LINE_EXTENSION};
@@ -518,7 +517,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 														intersectVertical.emplace(e);
 													}
 													else if (std::abs(leftB.x - (transform.position.x + (rightA.x - centerA.x))) < SNAP_SENSITIVITY) {
-														printf("Right Side\n");
 														transform.position.x = leftB.x - (rightA.x - centerA.x);
 														snappingHighlight.emplace(e, mB.GetColorRef());
 														vmath::Vector2 pt1 = { leftB.x, std::max(topB.y, transform.position.y + (topA.y - centerA.y)) + SNAP_LINE_EXTENSION };
