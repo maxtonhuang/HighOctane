@@ -459,7 +459,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 
 								auto& modelArray = ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>();
 
-								if (model->GetTop().x == model->GetBot().x/* || model->GetTop().y == model->GetBot().y*/) { // test whether This is vertical/xhorizontalx
+								if (model->GetTop().x == model->GetBot().x || model->GetTop().y == model->GetBot().y) { // test whether This is vertical/xhorizontalx
 									for (size_t layer_it2 = 0; layer_it2 < layering.size(); ++layer_it2) {				// -----------------------------------------------------// Go through layering system.
 										if (layersToSkip[layer_it2] && layersToLock[layer_it2]) {																				//
 											for (Entity& e : layering[layer_it2]) {																								//
@@ -468,7 +468,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 														continue;																												//
 													}																															//
 													Model& mB = modelArray.GetData(e);									// -----------------------------------------------------//
-													if (mB.GetTop().x == mB.GetBot().x/* || mB.GetTop().y == mB.GetBot().y*/) { // test whether B is vertical/xhorizontalx
+													if (mB.GetTop().x == mB.GetBot().x || mB.GetTop().y == mB.GetBot().y) { // test whether B is vertical/xhorizontalx
 
 														bool none = true;
 														bool vertical = true;
@@ -513,6 +513,30 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 															vertical = false;
 															intersectVertical.emplace(e);
 														}
+														else if (std::abs(mB.GetRight().x - (transform.position.x - (model->GetBot().x - model->GetLeft().x))) < SNAP_SENSITIVITY) {
+															transform.position.x = mB.GetRight().x + (model->GetBot().x - model->GetLeft().x);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { mB.GetRight().x, std::max(mB.GetTop().y, transform.position.y + (model->GetTop().y - model->GetLeft().y)) + SNAP_LINE_EXTENSION };
+															vmath::Vector2 pt2 = { mB.GetRight().x, std::min(mB.GetBot().y, transform.position.y - (model->GetLeft().y - model->GetBot().y)) - SNAP_LINE_EXTENSION };
+															vmath::Vector2 cpt1 = { mB.GetRight().x, mB.GetRight().y };
+															vmath::Vector2 cpt2 = { mB.GetRight().x, transform.position.y };
+															snappingLines[e][VERTICAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															vertical = false;
+															intersectVertical.emplace(e);
+														}
+														else if (std::abs(mB.GetLeft().x - (transform.position.x + (model->GetRight().x - model->GetBot().x))) < SNAP_SENSITIVITY) {
+															transform.position.x = mB.GetLeft().x - (model->GetRight().x - model->GetBot().x);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { mB.GetLeft().x, std::max(mB.GetTop().y, transform.position.y + (model->GetTop().y - model->GetLeft().y)) + SNAP_LINE_EXTENSION };
+															vmath::Vector2 pt2 = { mB.GetLeft().x, std::min(mB.GetBot().y, transform.position.y - (model->GetLeft().y - model->GetBot().y)) - SNAP_LINE_EXTENSION };
+															vmath::Vector2 cpt1 = { mB.GetLeft().x, mB.GetLeft().y };
+															vmath::Vector2 cpt2 = { mB.GetLeft().x, transform.position.y };
+															snappingLines[e][VERTICAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															vertical = false;
+															intersectVertical.emplace(e);
+														}
 
 														if (std::abs(mB.GetLeft().y - transform.position.y) < SNAP_SENSITIVITY) {
 															transform.position.y = mB.GetLeft().y;
@@ -539,6 +563,30 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 														}
 														else if (std::abs(mB.GetBot().y - (transform.position.y + (model->GetTop().y - model->GetLeft().y))) < SNAP_SENSITIVITY) {
 															transform.position.y = mB.GetBot().y - (model->GetTop().y - model->GetLeft().y);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { std::max(mB.GetRight().x, transform.position.x + (model->GetRight().x - model->GetTop().x)) + SNAP_LINE_EXTENSION, mB.GetBot().y };
+															vmath::Vector2 pt2 = { std::min(mB.GetLeft().x, transform.position.x - (model->GetTop().x - model->GetLeft().x)) - SNAP_LINE_EXTENSION, mB.GetBot().y };
+															vmath::Vector2 cpt1 = { mB.GetBot().x, mB.GetBot().y };
+															vmath::Vector2 cpt2 = { transform.position.x, mB.GetBot().y };
+															snappingLines[e][HORIZONTAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															horizontal = false;
+															intersectHorizontal.emplace(e);
+														}
+														else if (std::abs(mB.GetTop().y - (transform.position.y - (model->GetRight().y - model->GetBot().y))) < SNAP_SENSITIVITY) {
+															transform.position.y = mB.GetTop().y + (model->GetRight().y - model->GetBot().y);
+															snappingHighlight.emplace(e, mB.GetColorRef());
+															vmath::Vector2 pt1 = { std::max(mB.GetRight().x, transform.position.x + (model->GetRight().x - model->GetTop().x)) + SNAP_LINE_EXTENSION, mB.GetTop().y };
+															vmath::Vector2 pt2 = { std::min(mB.GetLeft().x, transform.position.x - (model->GetTop().x - model->GetLeft().x)) - SNAP_LINE_EXTENSION, mB.GetTop().y };
+															vmath::Vector2 cpt1 = { mB.GetTop().x, mB.GetTop().y };
+															vmath::Vector2 cpt2 = { transform.position.x, mB.GetTop().y };
+															snappingLines[e][HORIZONTAL] = std::make_tuple(pt1, pt2, cpt1, cpt2);
+															none = false;
+															horizontal = false;
+															intersectHorizontal.emplace(e);
+														}
+														else if (std::abs(mB.GetBot().y - (transform.position.y + (model->GetTop().y - model->GetRight().y))) < SNAP_SENSITIVITY) {
+															transform.position.y = mB.GetBot().y - (model->GetTop().y - model->GetRight().y);
 															snappingHighlight.emplace(e, mB.GetColorRef());
 															vmath::Vector2 pt1 = { std::max(mB.GetRight().x, transform.position.x + (model->GetRight().x - model->GetTop().x)) + SNAP_LINE_EXTENSION, mB.GetBot().y };
 															vmath::Vector2 pt2 = { std::min(mB.GetLeft().x, transform.position.x - (model->GetTop().x - model->GetLeft().x)) - SNAP_LINE_EXTENSION, mB.GetBot().y };
