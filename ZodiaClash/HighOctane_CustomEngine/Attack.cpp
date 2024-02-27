@@ -50,7 +50,7 @@ void Attack::UseAttack(CharacterStats* target) {
             target->ApplyBloodStack();
         }
     }
-    else if (attackName == "Yin-Yang Strike") {
+    else if (attackName == "Yin-Yang Strike" || attackName == "Heavenly Yin-Yang Strike") {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<int> rand(0, 1);
