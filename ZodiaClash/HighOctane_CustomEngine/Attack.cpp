@@ -124,6 +124,11 @@ void Attack::UseAttack(CharacterStats* target) {
     if (target->debuffs.bloodStack > 5) {
         target->debuffs.bloodStack = 5;
     }
+
+    if (damage > 0 && target->tag == owner->tag) {
+        owner->action.battleManager->aiMultiplier -= 100000;
+    }
+
     target->TakeDamage(damage);
 }
 
