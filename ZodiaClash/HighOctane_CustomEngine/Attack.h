@@ -50,6 +50,7 @@ public:
     AttackType attacktype{};
     std::string attackName;
     std::string skillTexture;
+    std::string skillTooltip;
 
     int skillAttackPercent{};
     float minAttackMultiplier{};

@@ -2,6 +2,7 @@
     {
         "Name": "Heavenly Shepherd's Grace",
 	"Texture": "skill_icon_goat_3.png",
+	"Tooltip": "tooltip_GoatSkill3.prefab",
         "Type": 2,
         "Skill Attack": 0,
         "Minimum Attack Multiplier": 0.0,

@@ -164,7 +164,7 @@ private:
 	std::vector<Entity> allBattleUI;
 	std::vector<CharacterAnimator> enemyAnimators;
 	std::vector<CharacterAnimator> allyAnimators;
-
+	std::vector<std::string> tooltips{}; //for tooltip creation
 
 	//Animation methods
 	//Initialises the battle system UI

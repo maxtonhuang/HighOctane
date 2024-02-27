@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 41,
+            "layerCounter": 31,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -34,17 +34,7 @@
                 "Layer 27",
                 "Layer 28",
                 "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40"
+                "Layer 30"
             ]
         }
     },
@@ -52,11 +42,10 @@
         "Entity": {
             "Name": "catSkill1_tooltip.png",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -64,10 +53,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 644.0,
-            "position_y": -213.0,
+            "position_x": 687.0,
+            "position_y": -284.86749267578125,
             "rotation": 0.0,
-            "scale": 1.145,
+            "scale": 1.1449999809265137,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },

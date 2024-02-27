@@ -2,6 +2,7 @@
     {
         "Name": "Heavenly Chi Surge",
 	"Texture": "skill_icon_goat_2.png",
+	"Tooltip": "tooltip_GoatSkill2.prefab",
         "Type": 2,
         "Skill Attack": 0,
         "Minimum Attack Multiplier": 0.0,

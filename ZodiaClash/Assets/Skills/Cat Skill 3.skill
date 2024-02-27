@@ -2,6 +2,7 @@
     {
         "Name": "Secret Arts: Pounce",
 	"Texture": "skill_icon_ulti.png",
+	"Tooltip": "catSkill3_tooltip.prefab",
         "Type": 1,
         "Skill Attack": 50,
         "Minimum Attack Multiplier": 0.8,

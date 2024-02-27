@@ -783,6 +783,7 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
     Entity queueFront{ turnOrderQueueAnimator.front() };
     turnOrderQueueAnimator.pop_front();
     turnOrderQueueAnimator.push_back(queueFront);
+    bool found{false};
     for (Entity e : turnOrderQueueAnimator) {
         if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
             AnimationSet& animation{ animationArray.GetData(e) };
@@ -792,11 +793,12 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
             }
             animation.Queue("Expand", e);
             animationArray.GetData(turnIcon).Queue("Expand",turnIcon);
+            found = true;
         }
-        //else if (e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
-        //    AnimationSet& animation{ animationArray.GetData(e) };
-        //    animation.Queue("Next Turn", e);
-        //}
+        else if (found && e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
+            AnimationSet& animation{ animationArray.GetData(e) };
+            animation.Queue("Next Turn", e);
+        }
     }
 }
 
@@ -1056,24 +1058,10 @@ void BattleSystem::UpdateTargets() {
         Model& skillModel{ modelArray.GetData(skillButtons[i])};
         if (IsWithinObject(skillModel, mousePos)) {
             isHovered = true;
-            if (i == 0) {
-                if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-                }
-                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill1_tooltip.prefab");
+            if (ECS::ecs().EntityExists(tooltipPrefab)) {
+                EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
             }
-            else if (i == 1) {
-                if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-                }
-                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill2_tooltip.prefab");
-            }
-            else if (i == 2) {
-                if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-                }
-                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill3_tooltip.prefab");
-            }
+            tooltipPrefab = EntityFactory::entityFactory().ClonePrefab(tooltips[i]);
         }
     }
     if (!isHovered && ECS::ecs().EntityExists(tooltipPrefab)) {
@@ -1154,6 +1142,8 @@ void BattleSystem::UpdateSkillIcons() {
         return;
     }
 
+    tooltips.clear();
+
     if (activeCharacter == nullptr) {
         activeCharacter = turnManage.turnOrderList.front();
     }
@@ -1163,6 +1153,7 @@ void BattleSystem::UpdateSkillIcons() {
             break;
         }
         std::string skillTexture = activeCharacter->action.skills[i].skillTexture;
+        tooltips.push_back(activeCharacter->action.skills[i].skillTooltip);
         textureArray.GetData(skillButtons[i]).tex = assetmanager.texture.Get(skillTexture.c_str());
         buttonArray.GetData(skillButtons[i]).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
         buttonArray.GetData(skillButtons[i]).defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };

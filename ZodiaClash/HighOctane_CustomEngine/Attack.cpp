@@ -51,6 +51,12 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
     else if (attackName == "Yin-Yang Strike") {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> rand(0, 1);
+        if (rand(gen)) {
+            target->debuffs.bloodStack += 2;
+        }
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
@@ -64,14 +70,14 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.stunStack = 0;
     }
     else if (attackName == "Heavenly Shepherd's Grace") {
-        target->HealBuff(0.5f * target->stats.maxHealth);
+        target->HealBuff(0.3f * owner->stats.maxHealth);
         target->debuffs.bloodStack = 0;
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
     else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
-        target->buffs.attackBuff = 0.5f;
+        target->buffs.attackBuff = 0.3f;
         target->buffs.attackStack = 2;
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
@@ -79,6 +85,8 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     else if (attackName == "Heavenly Chi Surge") {
         target->SpeedBuff(target);
+        target->buffs.attackBuff = 0.3f;
+        target->buffs.attackStack = 2;
     }
     else if (attackName == "Celestial Annihilation will be cast next!") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
@@ -192,6 +200,10 @@ void AttackList::SaveAttack(Attack const& attack) {
     skilltextureValue.SetString(attack.skillTexture.c_str(), static_cast<rapidjson::SizeType>(attack.skillTexture.length()), allocator);
     object.AddMember("Texture", skilltextureValue, allocator);
 
+    rapidjson::Value skillTooltip;
+    skilltextureValue.SetString(attack.skillTexture.c_str(), static_cast<rapidjson::SizeType>(attack.skillTooltip.length()), allocator);
+    object.AddMember("Tooltip", skillTooltip, allocator);
+
     object.AddMember("Type", (int)attack.attacktype, allocator);
     object.AddMember("Skill Attack", attack.skillAttackPercent, allocator);
     object.AddMember("Minimum Attack Multiplier", attack.minAttackMultiplier, allocator);
@@ -245,6 +257,11 @@ void AttackList::LoadAttack(std::string attackPath) {
         if (mainObject.HasMember("Texture")) {
             const rapidjson::Value& object = mainObject["Texture"];
             atk.skillTexture = object.GetString();
+        }
+
+        if (mainObject.HasMember("Tooltip")) {
+            const rapidjson::Value& object = mainObject["Tooltip"];
+            atk.skillTooltip = object.GetString();
         }
 
         if (mainObject.HasMember("Type")) {
