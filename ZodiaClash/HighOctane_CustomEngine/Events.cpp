@@ -234,6 +234,9 @@ void SelectEnemy(std::string input) {
 	ss >> enemynum;
 
 	auto targets = bs->GetEnemies();
+	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
+		targets = bs->GetPlayers();
+	}
 	bs->activeCharacter->action.targetSelect.selectedTarget = targets[enemynum];
 	bs->activeCharacter->action.entityState = ATTACKING;
 	bs->DestroyTargets();

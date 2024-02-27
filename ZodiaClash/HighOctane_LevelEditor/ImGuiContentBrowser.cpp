@@ -52,7 +52,7 @@ void UpdateDirectory(std::filesystem::path currentDirectory) {
 void UpdateContentBrowser() {
 	static std::filesystem::path currentDirectory = s_AssetPath;
 	
-	static bool init{ true }; //THIS IS TEMPORARY PLEASE FIND ANOTHER WAY
+	static bool init{ true }; 
 	if (init) {
 		s_AssetPath = assetmanager.GetDefaultPath();
 		currentDirectory = s_AssetPath;
@@ -107,7 +107,7 @@ void UpdateContentBrowser() {
 			}
 		}
 		if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left) && !isDirectory && relativePath.has_extension() && relativePath.extension() == ".prefab") {
-
+			
 			if (ImGui::BeginDragDropSource()) {
 				ImGui::SetDragDropPayload("PREFAB_ITEM", filenameString.c_str(), (strlen(filenameString.c_str()) + 1));
 				ImGui::EndDragDropSource();
@@ -124,23 +124,47 @@ void UpdateContentBrowser() {
 				break;
 			}
 		}
-		/*if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-		{
-			if (entry.is_directory())
-				currentDirectory /= path.filename();
+		if (ImGui::IsItemClicked(1) && !isDirectory && relativePath.has_extension()) {
+				ImGui::OpenPopup("FolderOptions");
+		}
 
-		}*/
+		if (ImGui::BeginPopup("FolderOptions")) {
+				if (ImGui::MenuItem("Delete")) {
+					std::string deleteFilePath = (currentDirectory / relativePath.filename()).string();
+					if (DeleteAssetFile(deleteFilePath)) {
+						// File deleted successfully, update the directory listing
+						UpdateDirectory(currentDirectory);
+					}
+					else {
+						// File deletion failed
+						ASSERT(false, "Failed to delete file: %s", deleteFilePath.c_str());
+					}
+				}
+			
+			ImGui::EndPopup();
+		}
 
-		// Use the correct file path with extension
-		//std::string fullFilePath = (currentDirectory / path.filename()).string();
-
-		// Check if it's a .scn file for drag-and-drop
 		ImGui::TextWrapped(filenameString.c_str());
 		ImGui::NextColumn();
 		ImGui::PopID();
 	}
 		ImGui::Columns(1);
 
+
 	
 	ImGui::End();
+}
+
+bool DeleteAssetFile(const std::string& filePath) {
+	std::string correctedPath = filePath;
+	std::replace(correctedPath.begin(), correctedPath.end(), '\\', '/');
+	try {
+		std::filesystem::remove(correctedPath);
+		return true; // File deleted successfully
+	}
+	catch (const std::filesystem::filesystem_error& error) {
+		// Handle error (e.g., file not found, permission denied)
+		ASSERT(false, "Error deleting file: %s", error.what());
+		return false; // File deletion failed
+	}
 }

@@ -1,7 +1,7 @@
 [
     {
         "Name": "Shepherd's Grace",
-        "Type": 0,
+        "Type": 2,
         "Skill Attack": 0,
         "Minimum Attack Multiplier": 0.0,
         "Maximum Attack Multiplier": 0.0,

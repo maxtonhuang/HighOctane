@@ -60,6 +60,8 @@ void Attack::UseAttack(CharacterStats* target) {
     else if (attackName == "Shepherd's Grace") {
         target->HealBuff(0.3f * target->stats.maxHealth);
         target->debuffs.bloodStack = 0;
+        target->debuffs.tauntStack = 0;
+        target->debuffs.stunStack = 0;
     }
     else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
@@ -72,6 +74,13 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }
         owner->charge = true;
+    }
+    else if (attackName == "Unstoppable Thunder") {
+        target->debuffs.stunStack += 1;
+    }
+    else if (attackName == "God of War's Challenge") {
+        target->debuffs.tauntStack += 1;
+        target->debuffs.tauntTarget = owner->entity;
     }
 
     target->debuffs.bloodStack += bleed;

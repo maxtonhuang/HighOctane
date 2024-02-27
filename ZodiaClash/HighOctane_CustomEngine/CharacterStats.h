@@ -66,6 +66,9 @@ public:
     //negative effects 
     struct debuff {
        int    bloodStack{ 0 }; //decrease the health
+       int    tauntStack{ 0 }; //must target debuff
+       Entity tauntTarget{ 0 }; //who to target for taunt
+       int    stunStack{ 0 }; //skip turn and reduce
     }; debuff debuffs{};
 
     bool boss{};
