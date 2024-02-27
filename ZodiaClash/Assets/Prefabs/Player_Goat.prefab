@@ -67,17 +67,17 @@
         },
         "CharacterStats": {
             "Character type": 0,
-            "Max Health": 115.0,
-            "Health": 115.0,
-            "Attack": 12.0,
+            "Max Health": 120.0,
+            "Health": 120.0,
+            "Attack": 15.0,
             "Defense": 20.0,
-            "Speed": 2,
+            "Speed": 3,
             "Icon": "mockup_icon_goat.png",
             "Boss": false,
             "Skills": [
                 "Yin-Yang Strike",
-                "Heavenly Chi Surge",
-                "Heavenly Shepherd's Grace",
+                "Chi Surge",
+                "Shepherd's Grace",
                 "Celestial Annihilation will be cast next!"
             ]
         },

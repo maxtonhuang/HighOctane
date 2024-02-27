@@ -4,11 +4,11 @@
 	"Texture": "skill_icon_ulti.png",
 	"Tooltip": "catSkill3_tooltip.prefab",
         "Type": 1,
-        "Skill Attack": 50,
+        "Skill Attack": 80,
         "Minimum Attack Multiplier": 0.8,
         "Maximum Attack Multiplier": 1.2,
-        "Crit Rate": 0.8,
-        "Crit Multiplier": 2.0,
+        "Crit Rate": 1.0,
+        "Crit Multiplier": 1.35,
         "Chi Cost": 3,
 	"Bleed": 0
     }
