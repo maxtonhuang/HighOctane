@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -27,7 +27,9 @@
                 "Layer 20",
                 "Layer 21",
                 "Layer 22",
-                "Layer 23"
+                "Layer 23",
+                "Layer 24",
+                "Layer 25"
             ]
         }
     },
@@ -74,7 +76,7 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": false
+            "Mirror": true
         },
         "Movable": {},
         "Collider": {

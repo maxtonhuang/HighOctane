@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 70,
+            "layerCounter": 29,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -32,48 +32,7 @@
                 "Layer 25",
                 "Layer 26",
                 "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69"
+                "Layer 28"
             ]
         }
     },
@@ -119,8 +78,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -548.2343139648438,
-            "position_y": 33.828590393066406,
+            "position_x": 483.76568603515625,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.6073969602584839,
             "velocity_x": 0.0,
@@ -144,8 +103,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 352.0,
-            "position_y": -32.0,
+            "position_x": -457.0,
+            "position_y": 11.0,
             "rotation": 0.0,
             "scale": 0.26726171374320984,
             "velocity_x": 0.0,
@@ -169,8 +128,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 476.0,
-            "position_y": 147.0,
+            "position_x": -232.0,
+            "position_y": 160.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -194,8 +153,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 617.0,
-            "position_y": -96.0,
+            "position_x": -232.0,
+            "position_y": -131.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

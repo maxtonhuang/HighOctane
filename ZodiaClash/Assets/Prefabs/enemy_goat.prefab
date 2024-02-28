@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 65,
+            "layerCounter": 67,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -68,7 +68,9 @@
                 "Layer 61",
                 "Layer 62",
                 "Layer 63",
-                "Layer 64"
+                "Layer 64",
+                "Layer 65",
+                "Layer 66"
             ]
         }
     },
@@ -131,7 +133,7 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": true
+            "Mirror": false
         },
         "Movable": {},
         "Collider": {
@@ -264,7 +266,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 8,
-                                "Sound": "Goat Atk 1_Edited.wav"
+                                "Sounds": [
+                                    "Goat Atk 1_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -307,7 +311,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Goat Damaged_Edited.wav"
+                                "Sounds": [
+                                    "Goat Damaged_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -418,7 +424,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "Sound": "Goat Buff_Edited.wav"
+                                "Sounds": [
+                                    "Goat Buff_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -435,7 +443,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Goat Death_Edited.wav"
+                                "Sounds": [
+                                    "Goat Death_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -578,7 +588,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "Sound": "Goat Heal_Edited.wav"
+                                "Sounds": [
+                                    "Goat Heal_Edited.wav"
+                                ]
                             }
                         ]
                     }

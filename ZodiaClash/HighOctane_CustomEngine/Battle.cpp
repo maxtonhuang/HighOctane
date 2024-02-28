@@ -321,7 +321,7 @@ void BattleSystem::Update()
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Goat_Enemy") {
                     for (auto& character : turnManage.characterList) {
                         if (character.tag == CharacterType::PLAYER) {
-                            character.stats.health += 0.3 * character.stats.maxHealth;
+                            character.stats.health += 0.3 * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
                             }
@@ -522,6 +522,7 @@ void BattleSystem::ProcessDamage() {
                                 animationArray->GetData(entity).Start("Damaged", entity);
                                 if (c.crit == true) {
                                     textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 1.f,0.f,0.f,1.f });
+                                    textArray->GetData(damagelabel).textString = "CRIT\n" + textArray->GetData(damagelabel).textString;
                                     c.crit = false;
                                 }
                             }

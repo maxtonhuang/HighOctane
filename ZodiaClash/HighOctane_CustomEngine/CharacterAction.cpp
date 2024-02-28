@@ -91,8 +91,8 @@ void CharacterAction::UpdateState() {
                     aoePoint = transformArray.GetData(attackpos).position;
                     for (auto& c : battleManager->GetEnemies()) {
                         float pos{ transformArray.GetData(c->entity).position.x };
-                        if (pos - 200.f < aoePoint.x) {
-                            aoePoint.x = pos - 200.f;
+                        if (pos + 200.f > aoePoint.x) {
+                            aoePoint.x = pos + 200.f;
                         }
                     }
                 }
@@ -104,10 +104,10 @@ void CharacterAction::UpdateState() {
                     attacktrans->position.y += (ECS::ecs().GetComponent<Size>(characterStats->entity).height * ECS::ecs().GetComponent<Transform>(characterStats->entity).scale
                         - ECS::ecs().GetComponent<Size>(targetSelect.selectedTarget->entity).height * ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).scale) / 2;
                     if (targetSelect.selectedTarget->tag == CharacterType::PLAYER) {
-                        attacktrans->position.x += 100.f;
+                        attacktrans->position.x -= 100.f;
                     }
                     else {
-                        attacktrans->position.x -= 100.f;
+                        attacktrans->position.x += 100.f;
                     }
                 }
                 else {

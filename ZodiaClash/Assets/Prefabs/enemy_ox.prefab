@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 27,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,12 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26"
             ]
         }
     },
@@ -71,7 +76,7 @@
             "Health": 175.0,
             "Attack": 15.0,
             "Defense": 40.0,
-            "Speed": 2,
+            "Speed": 3,
             "Icon": "ox_pfp.png",
             "Boss": true,
             "Skills": [
@@ -87,7 +92,7 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": true
+            "Mirror": false
         },
         "Movable": {},
         "Animation Set": [
@@ -216,33 +221,16 @@
                 ]
             },
             {
-                "Total Frames": 10,
+                "Total Frames": 13,
                 "Group Name": "Attack 2",
                 "Loop": false,
                 "Frame Time": 0.03999999910593033,
                 "Animations": [
                     {
-                        "Animation Type": "Color",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 3,
-                                "Red": 5.0,
-                                "Green": 5.0,
-                                "Blue": 5.0
-                            },
-                            {
-                                "Frame Number": 8,
-                                "Red": 1.0,
-                                "Green": 1.0,
-                                "Blue": 1.0
-                            }
-                        ]
-                    },
-                    {
                         "Animation Type": "DamageImpact",
                         "Key Frames": [
                             {
-                                "Frame Number": 3,
+                                "Frame Number": 6,
                                 "Prefab": "VFX_Hit.prefab"
                             }
                         ]
@@ -251,7 +239,7 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
-                                "Frame Number": 3,
+                                "Frame Number": 6,
                                 "Sounds": [
                                     "Ox Atk 2_Edited.wav"
                                 ]
@@ -262,8 +250,54 @@
                         "Animation Type": "Swap",
                         "Key Frames": [
                             {
-                                "Frame Number": 9,
+                                "Frame Number": 12,
                                 "Destination": "Attack End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Skill.spritesheet"
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Texture": "ox.png"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 10,
+                                "Reverse": false
                             }
                         ]
                     }

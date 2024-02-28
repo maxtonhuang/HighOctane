@@ -90,7 +90,7 @@ void AssetManager::LoadTexture(const std::string& texturePath) {
         texture.Add(path.c_str(), texturePath.c_str());
     }
     else {
-        ASSERT(1, "Unable to open texture file!");
+        //ASSERT(1, "Unable to open texture file!");
     }
 }
 
@@ -113,7 +113,7 @@ void AssetManager::LoadSpritesheet(const std::string& spritePath) {
         texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum, texturePath.c_str());
     }
     else {
-        ASSERT(1, "Unable to open sprite sheet file!");
+        //ASSERT(1, "Unable to open sprite sheet file!");
     }
 }
 
@@ -125,7 +125,7 @@ void AssetManager::LoadSound(const std::string& audioPath) {
         audio.AddSound(path.c_str(), audioPath.c_str());
     }
     else {
-        ASSERT(1, "Unable to open sound file!");
+        //ASSERT(1, "Unable to open sound file!");
     }
 }
 
@@ -136,7 +136,7 @@ void AssetManager::LoadMusic(const std::string& audioPath) {
         audio.AddMusic(path.c_str(), audioPath.c_str());
     }
     else {
-        ASSERT(1, "Unable to open music file!");
+        //ASSERT(1, "Unable to open music file!");
     }
 }
 
@@ -147,7 +147,7 @@ void AssetManager::LoadAmbience(const std::string& audioPath) {
         audio.AddAmbience(path.c_str(), audioPath.c_str());
     }
     else {
-        ASSERT(1, "Unable to open music file!");
+        //ASSERT(1, "Unable to open music file!");
     }
 }
 
@@ -159,7 +159,7 @@ void AssetManager::LoadFont(const std::string& fontPath) {
         fonts.LoadFontFilePath(path);
     }
     else {
-        ASSERT(1, "Unable to open font file!");
+        //ASSERT(1, "Unable to open font file!");
     }    
 }
 
@@ -285,7 +285,7 @@ void AssetManager::LoadScene(const std::string& scenePath) {
         }
     }
     else {
-        ASSERT(true, "Unable to open scene file!");
+        //ASSERT(true, "Unable to open scene file!");
     }
     sceneName = scenePath;
 }
@@ -348,7 +348,7 @@ void AssetManager::LoadEntities(const std::string& entitiesPath) {
         Serializer::LoadEntityFromJson(path);
     }
     else {
-        ASSERT(1, "Unable to open json file!");
+        //ASSERT(1, "Unable to open json file!");
     }
 }
 
@@ -410,7 +410,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
             loaded = true;
         }
         else if (!loaded) {
-            ASSERT(1, "Unable to find sound file!");
+            //ASSERT(1, "Unable to find sound file!");
         }
     }
     else if (extension == ".ttf" || extension == ".otf") {

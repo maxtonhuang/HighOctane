@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 19,
+            "layerCounter": 21,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -22,7 +22,9 @@
                 "Layer 15",
                 "Layer 16",
                 "Layer 17",
-                "Layer 18"
+                "Layer 18",
+                "Layer 19",
+                "Layer 20"
             ]
         }
     },
@@ -69,13 +71,16 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": true
+            "Mirror": false
         },
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
             "Dimension X": 958.0,
-            "Dimension Y": 958.0
+            "Dimension Y": 958.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
         },
         "Animation Set": [
             {
@@ -100,31 +105,40 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 1
+                                "Frame Number": 1,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 4
+                                "Frame Number": 4,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 5
+                                "Frame Number": 5,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 6
+                                "Frame Number": 6,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 7
+                                "Frame Number": 7,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 8
+                                "Frame Number": 8,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 9
+                                "Frame Number": 9,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -157,7 +171,8 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 0
+                                "Frame Number": 0,
+                                "Reverse": false
                             }
                         ]
                     },
@@ -192,7 +207,8 @@
                         "Animation Type": "DamageImpact",
                         "Key Frames": [
                             {
-                                "Frame Number": 9
+                                "Frame Number": 9,
+                                "Prefab": ""
                             }
                         ]
                     },
@@ -201,7 +217,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Goat Atk 4_Edited.wav"
+                                "Sounds": [
+                                    "Goat Atk 4_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -217,19 +235,24 @@
                         "Animation Type": "Sprite",
                         "Key Frames": [
                             {
-                                "Frame Number": 0
+                                "Frame Number": 0,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 1
+                                "Frame Number": 1,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 2
+                                "Frame Number": 2,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 3
+                                "Frame Number": 3,
+                                "Reverse": false
                             },
                             {
-                                "Frame Number": 4
+                                "Frame Number": 4,
+                                "Reverse": false
                             }
                         ]
                     },
