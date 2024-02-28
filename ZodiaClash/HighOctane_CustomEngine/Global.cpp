@@ -84,6 +84,7 @@ bool withinSomething{ false };
 Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 glm::vec4 keyObjectColor{ RESET_VEC4 };
 bool snappingOn{ true };
+bool tilemapOn{ false };
 std::unordered_map<Entity, glm::vec4> snappingHighlight{};
 std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines{};
 std::set<Entity> centerVertical{};

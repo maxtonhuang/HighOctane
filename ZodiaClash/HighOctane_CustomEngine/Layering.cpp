@@ -404,3 +404,17 @@ size_t GetHightestLayerWithSelection() {
 	}
 	return std::numeric_limits<size_t>::max();
 }
+
+/******************************************************************************
+*
+*	@brief Moves a specified entity to the top of a specified layer
+*
+*	-
+*
+******************************************************************************/
+void TransferToLayer(Entity e, size_t LayerIndex) {
+	// remove entity from source layer
+	RemoveEntityFromLayering(e);
+	// insert entity into target layer
+	layering[LayerIndex].emplace_back(e);
+}

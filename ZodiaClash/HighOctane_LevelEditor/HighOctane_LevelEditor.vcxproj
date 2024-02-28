@@ -459,6 +459,7 @@
     <ClCompile Include="ImGuiPlayStop.cpp" />
     <ClCompile Include="ImGuiSceneHierarchy.cpp" />
     <ClCompile Include="ImGuiSceneSettings.cpp" />
+    <ClCompile Include="ImGuiTilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Extern\imgui-1.87\glfw3.h" />
@@ -490,6 +491,7 @@
     <ClInclude Include="ImGuiPlayStop.h" />
     <ClInclude Include="ImGuiSceneHierarchy.h" />
     <ClInclude Include="ImGuiSceneSettings.h" />
+    <ClInclude Include="ImGuiTilemap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

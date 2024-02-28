@@ -12,7 +12,7 @@ void ColorManager::ReadColors() {
     std::string parentDir = assetmanager.GetDefaultPath();
     path = parentDir + filePath;
     if (!serializer.Open(path)) {
-        ASSERT(1, "Unable to initialize color!");
+        //ASSERT(1, "Unable to initialize color!");
         return;
     }
     /*
@@ -56,7 +56,7 @@ void ColorManager::UpdateColorsFile() {
     path = parentDir + filePath;
     std::ofstream colorsFile(path);
     if (!colorsFile.is_open()) {
-        ASSERT(1, "Unable to open colors file for writing!");
+        //ASSERT(1, "Unable to open colors file for writing!");
         return;
     }
 
@@ -65,5 +65,5 @@ void ColorManager::UpdateColorsFile() {
         colorsFile << entry.first << " " << entry.second.r << " " << entry.second.g << " " << entry.second.b << " " << entry.second.a << std::endl;
     }
     colorsFile.close();
-    DEBUG_PRINT("updated color preset!");
+    //DEBUG_PRINT("updated color preset!");
 }
