@@ -50,18 +50,18 @@ void Attack::UseAttack(CharacterStats* target) {
             target->ApplyBloodStack();
         }
     }
-    else if (attackName == "Yin-Yang Strike" || attackName == "Heavenly Yin-Yang Strike") {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<int> rand(0, 1);
-        if (rand(gen)) {
-            target->debuffs.bloodStack += 2;
-        }
+    else if (attackName == "Yin-Yang Strike") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
             owner->charge = false;
         }
+    }
+    else if (attackName == "Heavenly Yin-Yang Strike") {
+        target->buffs.attackStack = 0;
+        target->buffs.attackBuff = 0.f;
+        target->buffs.defenseStack = 0;
+        target->buffs.defenseBuff = 0.f;
     }
     else if (attackName == "Shepherd's Grace") {
         target->HealBuff(0.3f * target->stats.maxHealth);

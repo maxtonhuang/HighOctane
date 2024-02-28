@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 31,
+            "layerCounter": 33,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -34,7 +34,9 @@
                 "Layer 27",
                 "Layer 28",
                 "Layer 29",
-                "Layer 30"
+                "Layer 30",
+                "Layer 31",
+                "Layer 32"
             ]
         }
     },
@@ -80,8 +82,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -499.23431396484375,
-            "position_y": 138.82858276367188,
+            "position_x": 527.7656860351563,
+            "position_y": 149.82858276367188,
             "rotation": 0.0,
             "scale": 0.6073969602584839,
             "velocity_x": 0.0,
@@ -105,8 +107,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 476.0,
-            "position_y": 177.0,
+            "position_x": -199.28802490234375,
+            "position_y": 149.82858276367188,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -125,13 +127,13 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 488.0,
-            "position_y": -251.0,
+            "position_x": -199.28802490234375,
+            "position_y": -133.96871948242188,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -239,8 +241,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -499.23431396484375,
-            "position_y": -164.0,
+            "position_x": 527.7656860351563,
+            "position_y": -149.0,
             "rotation": 0.0,
             "scale": 0.26726171374320984,
             "velocity_x": 0.0,
@@ -259,13 +261,13 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 341.73095703125,
-            "position_y": -11.019012451171875,
+            "position_x": -455.26904296875,
+            "position_y": -10.019012451171875,
             "rotation": 0.0,
             "scale": 0.9998514652252197,
             "velocity_x": 0.0,

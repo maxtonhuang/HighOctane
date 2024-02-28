@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 24,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -27,8 +27,7 @@
                 "Layer 20",
                 "Layer 21",
                 "Layer 22",
-                "Layer 23",
-                "Layer 24"
+                "Layer 23"
             ]
         }
     },
@@ -90,7 +89,7 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": false
+            "Mirror": true
         },
         "Movable": {},
         "Animation Set": [
@@ -210,11 +209,15 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Cat_StartTurn_Edited.wav"
+                                "Sounds": [
+                                    "Cat_StartTurn_Edited.wav"
+                                ]
                             },
                             {
                                 "Frame Number": 46,
-                                "Sound": "Cat Atk_1_Edited.wav"
+                                "Sounds": [
+                                    "Cat Atk_1_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -372,11 +375,15 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Cat_StartTurn_Edited.wav"
+                                "Sounds": [
+                                    "Cat_StartTurn_Edited.wav"
+                                ]
                             },
                             {
                                 "Frame Number": 50,
-                                "Sound": "Cat_Atk_2_Edited.wav"
+                                "Sounds": [
+                                    "Cat_Atk_2_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -511,11 +518,15 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Cat_StartTurn_Edited.wav"
+                                "Sounds": [
+                                    "Cat_StartTurn_Edited.wav"
+                                ]
                             },
                             {
                                 "Frame Number": 42,
-                                "Sound": "Cat_Atk_3_Edited.wav"
+                                "Sounds": [
+                                    "Cat_Atk_3_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -575,7 +586,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Cat Damaged_Edited.wav"
+                                "Sounds": [
+                                    "Cat Damaged_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -715,7 +728,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 3,
-                                "Sound": "Cat_Atk_3_Edited.wav"
+                                "Sounds": [
+                                    "Cat_Atk_3_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -856,7 +871,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "Sound": "Cat Atk_1_Edited.wav"
+                                "Sounds": [
+                                    "Cat Atk_1_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -942,7 +959,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "Sound": "Cat_Atk_2_Edited.wav"
+                                "Sounds": [
+                                    "Cat_Atk_2_Edited.wav"
+                                ]
                             }
                         ]
                     },

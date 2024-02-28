@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,7 +28,8 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24"
+                "Layer 24",
+                "Layer 25"
             ]
         }
     },
@@ -88,7 +89,7 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": false
+            "Mirror": true
         },
         "Movable": {},
         "Animation Set": [
@@ -162,7 +163,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 35,
-                                "Sound": "Guard Atk_Edited.wav"
+                                "Sounds": [
+                                    "Guard Atk_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -265,7 +268,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Guard Damaged_Edited.wav"
+                                "Sounds": [
+                                    "Guard Damaged_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -346,7 +351,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Guard Death_Edited.wav"
+                                "Sounds": [
+                                    "Guard Death_Edited.wav"
+                                ]
                             }
                         ]
                     }

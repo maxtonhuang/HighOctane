@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 26,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,11 +25,7 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25"
+                "Layer 21"
             ]
         }
     },
@@ -48,7 +44,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -1130.0,
+            "position_x": 1130.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -77,7 +73,7 @@
         },
         "Movable": {},
         "HealthBar": {
-            "Show Health Stat": false,
+            "Show Health Stat": true,
             "Show Value or Percentage": false,
             "Bar Width": 0.0,
             "Bar Height": 0.0,
@@ -88,7 +84,7 @@
         "Animation Set": [
             {
                 "Total Frames": 3,
-                "Group Name": "Pop In",
+                "Group Name": "Pop Out",
                 "Loop": false,
                 "Frame Time": 0.10000000149011612,
                 "Animations": [
@@ -108,7 +104,7 @@
             },
             {
                 "Total Frames": 3,
-                "Group Name": "Pop Out",
+                "Group Name": "Pop In",
                 "Loop": false,
                 "Frame Time": 0.10000000149011612,
                 "Animations": [

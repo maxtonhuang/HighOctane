@@ -35,19 +35,26 @@ Guard_Attack.spritesheet
 mockup_chi_icon_lineart.png
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
-Cat Atk_1_Edited.wav
-Guard Damaged_Edited.wav
-Cat_Atk_3_Edited.wav
-Cat Damaged_Edited.wav
-Guard Atk_Edited.wav
 Cat_Atk_2_Edited.wav
+Guard Damaged_Edited.wav
+Cat Atk_1_Edited.wav
+Guard Atk_Edited.wav
+Cat Damaged_Edited.wav
+Cat_Atk_3_Edited.wav
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Yin-Yang Strike.skill
-Secret Arts: Pounce.skill
+Heavenly Chi Surge.skill
 Celestial Annihilation will be cast next!.skill
 Shepherd's Grace.skill
-Jade Thrust.skill
-Dance of Fury.skill
+Unstoppable Thunder.skill
 Chi Surge.skill
+God of War's Challenge.skill
+Chi-Absorbing Blow.skill
 Scarlet Claw.skill
+Dance of Fury.skill
+Secret Arts: Pounce.skill
+Heavenly Yin-Yang Strike.skill
+Heavenly Shepherd's Grace.skill
+Jade Thrust.skill
 battle.json
