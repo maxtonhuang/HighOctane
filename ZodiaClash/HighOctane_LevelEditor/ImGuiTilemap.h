@@ -8,11 +8,15 @@
 *
 * *****************************************************************************
 *
-*	@file		Editing.h
+*	@file		ImGuiAssetLibrary.h
 *
-*	@author		Maxton Huang Xinghua
+*	@author		Maxton Huang Xinghua (Initial creation as well as image drag and drop)
 *
 *	@email		m.huang\@digipen.edu
+*
+*   @co-author	Foong Pun Yuen Nigel (Audio drag and drop and error handling)
+*
+*	@email		p.foong\@digipen.edu
 *
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
@@ -23,7 +27,7 @@
 *
 * *****************************************************************************
 *
-*	@brief		Function declarations to functions in Editing.cpp
+*	@brief		Function declarations to functions in ImGuiAssetLibrary.cpp
 *
 *	-
 *
@@ -31,24 +35,6 @@
 
 #pragma once
 
-#include "Components.h"
-#include "model.h"
+#include "ImGuiLib.h"
 
-void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size & size, Model * model, size_t layer_it);
-
-enum AXIS {
-	VERTICAL,
-	HORIZONTAL
-};
-
-enum class SNAP_ALIGN {
-	CENTER,
-	TOP_LEFT,
-	TOP,
-	TOP_RIGHT,
-	CENTER_LEFT,
-	CENTER_RIGHT,
-	BOTTOM_LEFT,
-	BOTTOM,
-	BOTTOM_RIGHT
-};
+void UpdateTilemap();

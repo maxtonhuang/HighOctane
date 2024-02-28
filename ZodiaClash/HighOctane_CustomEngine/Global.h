@@ -93,6 +93,7 @@ extern bool withinSomething;
 extern Entity keyObjectID;
 extern glm::vec4 keyObjectColor;
 extern bool snappingOn;
+extern bool tilemapOn;
 extern std::unordered_map<Entity,glm::vec4> snappingHighlight;
 extern std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines;
 extern std::set<Entity> centerVertical;

@@ -79,7 +79,26 @@ void UpdateMenuBar() {
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Options")) {
-            if (ImGui::MenuItem(snappingOn ? "Turn Off Snapping Guides" : "Turn On Snapping Guides", NULL, &snappingOn)) {}
+
+            if (ImGui::MenuItem(snappingOn ? "Turn Off Snapping Guides" : "Turn On Snapping Guides", NULL, snappingOn)) {
+                if (snappingOn) {
+                    snappingOn = false;
+                }
+                else {
+                    snappingOn = true;
+                    tilemapOn = false;
+                }
+            }
+
+            if (ImGui::MenuItem(tilemapOn ? "Turn Off Tile Map Grid" : "Turn On Tile Map Grid", NULL, tilemapOn)) {
+                if (tilemapOn) {
+                    tilemapOn = false;
+                }
+                else {
+                    tilemapOn = true;
+                    snappingOn = false;
+                }
+            }
 
             ImGui::EndMenu();
         }
