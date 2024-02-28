@@ -237,7 +237,18 @@ void SelectEnemy(std::string input) {
 	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
 		targets = bs->GetPlayers();
 	}
-	bs->activeCharacter->action.targetSelect.selectedTarget = targets[enemynum];
+	if (bs->activeCharacter->debuffs.tauntStack > 0 && bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLY) {
+		for (CharacterStats* target : targets) {
+			if (target->entity == bs->activeCharacter->debuffs.tauntTarget) {
+				bs->activeCharacter->action.targetSelect.selectedTarget = target;
+				break;
+			}
+		}
+	}
+	else {
+		bs->activeCharacter->action.targetSelect.selectedTarget = targets[enemynum];
+	}
+	
 	bs->activeCharacter->action.entityState = ATTACKING;
 	bs->DestroyTargets();
 }

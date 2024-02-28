@@ -5,7 +5,7 @@
         "Skill Attack": 90,
         "Minimum Attack Multiplier": 0.9,
         "Maximum Attack Multiplier": 1.1,
-        "Crit Rate": 30.0,
+        "Crit Rate": 0.3,
         "Crit Multiplier": 1.2
     }
 ]

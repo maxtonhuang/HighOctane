@@ -60,6 +60,8 @@ void CharacterAction::UpdateState() {
         //Otherwise, if stunned then skip their turn
         if (characterStats->debuffs.stunStack > 0) {
             characterStats->debuffs.stunStack -= 1;
+            battleManager->locked = true;
+            battleManager->MoveOutUIAnimation();
             entityState = ENDING;
         }
         break;
@@ -122,6 +124,36 @@ void CharacterAction::UpdateState() {
         
         entityState = ENDING;
         break;
+    }
+
+    if (entityState == ENDING) {
+        if (characterStats->buffs.attackStack > 0) {
+            characterStats->buffs.attackStack -= 1;
+            if (characterStats->buffs.attackStack == 0) {
+                characterStats->buffs.attackBuff = 0.f;
+            }
+        }
+        if (characterStats->buffs.defenseStack > 0) {
+            characterStats->buffs.defenseStack -= 1;
+            if (characterStats->buffs.defenseStack == 0) {
+                characterStats->buffs.defenseBuff = 0.f;
+            }
+        }
+        if (characterStats->debuffs.attackStack > 0) {
+            characterStats->debuffs.attackStack -= 1;
+            if (characterStats->debuffs.attackStack == 0) {
+                characterStats->debuffs.attackDebuff = 0.f;
+            }
+        }
+        if (characterStats->debuffs.defenseStack > 0) {
+            characterStats->debuffs.defenseStack -= 1;
+            if (characterStats->debuffs.defenseStack == 0) {
+                characterStats->debuffs.defenseDebuff = 0.f;
+            }
+        }
+        if (characterStats->debuffs.tauntStack > 0) {
+            characterStats->debuffs.tauntStack -= 1;
+        }
     }
 }
 

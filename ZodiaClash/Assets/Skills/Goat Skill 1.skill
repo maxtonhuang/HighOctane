@@ -1,12 +1,14 @@
 [
     {
-        "Name": "Yin-Yang Strike",
+        "Name": "Heavenly Yin-Yang Strike",
 	"Texture": "skill_icon_goat_1.png",
+	"Tooltip": "tooltip_GoatSkill1.prefab",
         "Type": 0,
         "Skill Attack": 100,
-        "Minimum Attack Multiplier": 1.0,
-        "Maximum Attack Multiplier": 1.0,
-        "Crit Rate": 10.0,
-        "Crit Multiplier": 1.0
+        "Minimum Attack Multiplier": 0.7,
+        "Maximum Attack Multiplier": 1.3,
+        "Crit Rate": 0.3,
+        "Crit Multiplier": 1.2,
+        "Chi Cost": -1
     }
 ]

@@ -73,8 +73,8 @@
             "Max Health": 150.0,
             "Health": 150.0,
             "Attack": 30.0,
-            "Defense": 20.0,
-            "Speed": 3,
+            "Defense": 30.0,
+            "Speed": 4,
             "Icon": "mockup_icon_cat.png",
             "Boss": false,
             "Skills": [

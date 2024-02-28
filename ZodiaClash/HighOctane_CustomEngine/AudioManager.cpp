@@ -108,6 +108,12 @@ void AudioManager::SetGroupVolume(const char* name, float volume) {
     group[name]->setVolume(volume);
 }
 
+float AudioManager::GetGroupVolume(const char* name) {
+    float volume{};
+    group[name]->getVolume(&volume);
+    return volume;
+}
+
 void AudioManager::StopGroup(const char* name) {
     group[name]->stop();
 }

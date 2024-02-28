@@ -67,6 +67,9 @@ CharacterStats::CharacterStats(CharacterStats const& input) {
     boss = input.boss;
     charge = input.charge;
     debuffs = input.debuffs;
+    buffs = input.buffs;
+    cycle = input.cycle;
+    crit = input.crit;
 }
 
 /**
@@ -152,7 +155,7 @@ void CharacterStats::ApplyBloodStack()
     //Find cat attack
     if (catAttack == 0.f) {
         for (auto c : parent->GetPlayers()) {
-            if (c->stats.speed == 3) {
+            if (c->icon == "mockup_icon_cat.png") {
                 catAttack = c->stats.attack;
                 break;
             }

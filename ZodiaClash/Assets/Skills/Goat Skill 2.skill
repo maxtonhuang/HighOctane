@@ -1,12 +1,14 @@
 [
     {
-        "Name": "Shepherd's Grace",
+        "Name": "Heavenly Chi Surge",
 	"Texture": "skill_icon_goat_2.png",
+	"Tooltip": "tooltip_GoatSkill2.prefab",
         "Type": 2,
         "Skill Attack": 0,
         "Minimum Attack Multiplier": 0.0,
         "Maximum Attack Multiplier": 0.0,
         "Crit Rate": 0.0,
-        "Crit Multiplier": 0.0
+        "Crit Multiplier": 0.0,
+        "Chi Cost": 2
     }
 ]

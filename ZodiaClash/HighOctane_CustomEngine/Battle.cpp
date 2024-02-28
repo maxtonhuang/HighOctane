@@ -297,7 +297,7 @@ void BattleSystem::Update()
                 return;
             }
 
-            if (speedup && speedupCharacter->entity == turnManage.turnOrderList.front()->entity) {
+            if (speedup && speedupCharacter->entity == turnManage.turnOrderList.front()->entity && speedupAnimationPlayed) {
                 turnManage.turnOrderList.pop_front();
                 speedup = false;
                 AnimateReturnTurnOrder();
@@ -325,6 +325,10 @@ void BattleSystem::Update()
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
                             }
+                        }
+                        if (character.tag == CharacterType::ENEMY) {
+                            character.buffs.attackBuff = 0.5f;
+                            character.buffs.attackStack = 99;
                         }
                     }
                     if (m_Entities.size() > 0) {
@@ -492,7 +496,7 @@ void BattleSystem::ProcessDamage() {
                 continue;
             }
             bool found = false;
-            for (CharacterStats const& c : turnManage.characterList) {
+            for (CharacterStats& c : turnManage.characterList) {
                 if (c.entity == entity) {
                     if (speedup && entity == speedupCharacter->entity) {
                         Entity damageEffect{ EntityFactory::entityFactory().ClonePrefab(damagePrefab) };
@@ -516,6 +520,10 @@ void BattleSystem::ProcessDamage() {
                         if (c.stats.health > 0) {
                             if (damage > 0) {
                                 animationArray->GetData(entity).Start("Damaged", entity);
+                                if (c.crit == true) {
+                                    textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 1.f,0.f,0.f,1.f });
+                                    c.crit = false;
+                                }
                             }
                             else {
                                 textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 0.f,1.f,0.f,1.f });
@@ -757,6 +765,7 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
     auto iterator = turnManage.turnOrderList.begin();
     int count{0};
     bool firstfound{ false };
+    speedupAnimationPlayed = true;
     if (m_Entities.size() == 0) {
         return;
     }
@@ -767,13 +776,14 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
         iterator++;
         count++;
     }
-    animationArray.GetData(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
+    animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Pop Out", turnOrderQueueAnimator.front());
     animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Shift In", turnOrderQueueAnimator.front());
     Entity retractingIcon{ parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon") };
     animationArray.GetData(retractingIcon).Start("Unexpand", retractingIcon);
     Entity queueFront{ turnOrderQueueAnimator.front() };
     turnOrderQueueAnimator.pop_front();
     turnOrderQueueAnimator.push_back(queueFront);
+    bool found{false};
     for (Entity e : turnOrderQueueAnimator) {
         if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
             AnimationSet& animation{ animationArray.GetData(e) };
@@ -782,14 +792,14 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
                 animation.Queue("Next Turn", e);
             }
             animation.Queue("Expand", e);
-            animationArray.GetData(turnIcon).Start("Expand",turnIcon);
+            animationArray.GetData(turnIcon).Queue("Expand",turnIcon);
+            found = true;
         }
-        else if (e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
+        else if (found && e != turnOrderQueueAnimator.front() && e != turnOrderQueueAnimator.back()) {
             AnimationSet& animation{ animationArray.GetData(e) };
             animation.Queue("Next Turn", e);
         }
     }
-    speedupAnimationPlayed = true;
 }
 
 void BattleSystem::AnimateReturnTurnOrder() {
@@ -811,6 +821,9 @@ void BattleSystem::AnimateReturnTurnOrder() {
             break;
         }
     }
+    if (turnOrderQueueAnimator.front() == entity) {
+        count--;
+    }
     AnimationSet& animation{ animationArray.GetData(entity) };
     Entity turnIcon{ parentArray.GetData(entity).GetChildByName("turnOrderIcon") };
     animation.Queue("Pop Out", entity);
@@ -822,13 +835,13 @@ void BattleSystem::AnimateReturnTurnOrder() {
     
     animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Expand", turnOrderQueueAnimator.front());
     Entity expandingIcon = parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon");
-    animationArray.GetData(expandingIcon).Start("Expand", expandingIcon);
+    animationArray.GetData(expandingIcon).Queue("Expand", expandingIcon);
     for (Entity& e : turnOrderQueueAnimator) {
         if (ECS::ecs().GetComponent<TurnIndicator>(e).character == speedupCharacter->entity) {
             break;
         }
         else if (e != turnOrderQueueAnimator.front()) {
-            animationArray.GetData(e).Start("Next Turn", e);
+            animationArray.GetData(e).Queue("Next Turn", e);
         }
     }
 }
@@ -916,6 +929,9 @@ void BattleSystem::CreateTargets() {
         for (CharacterStats* enemy : enemyList) {
             Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
             ECS::ecs().GetComponent<Transform>(targetcircle).position = ECS::ecs().GetComponent<Transform>(enemy->entity).position;
+            if (activeCharacter->debuffs.tauntStack > 0 && activeCharacter->action.selectedSkill.attacktype != AttackType::AOE && activeCharacter->debuffs.tauntTarget != enemy->entity) {
+                ECS::ecs().GetComponent<Transform>(targetcircle).position = Vec2{ -10000.f,-10000.f };
+            }
             if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
                 ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
             }
@@ -1042,24 +1058,10 @@ void BattleSystem::UpdateTargets() {
         Model& skillModel{ modelArray.GetData(skillButtons[i])};
         if (IsWithinObject(skillModel, mousePos)) {
             isHovered = true;
-            if (i == 0) {
-                if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-                }
-                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill1_tooltip.prefab");
+            if (ECS::ecs().EntityExists(tooltipPrefab)) {
+                EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
             }
-            else if (i == 1) {
-                if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-                }
-                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill2_tooltip.prefab");
-            }
-            else if (i == 2) {
-                if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
-                }
-                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab("catSkill3_tooltip.prefab");
-            }
+            tooltipPrefab = EntityFactory::entityFactory().ClonePrefab(tooltips[i]);
         }
     }
     if (!isHovered && ECS::ecs().EntityExists(tooltipPrefab)) {
@@ -1140,6 +1142,8 @@ void BattleSystem::UpdateSkillIcons() {
         return;
     }
 
+    tooltips.clear();
+
     if (activeCharacter == nullptr) {
         activeCharacter = turnManage.turnOrderList.front();
     }
@@ -1149,6 +1153,7 @@ void BattleSystem::UpdateSkillIcons() {
             break;
         }
         std::string skillTexture = activeCharacter->action.skills[i].skillTexture;
+        tooltips.push_back(activeCharacter->action.skills[i].skillTooltip);
         textureArray.GetData(skillButtons[i]).tex = assetmanager.texture.Get(skillTexture.c_str());
         buttonArray.GetData(skillButtons[i]).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
         buttonArray.GetData(skillButtons[i]).defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };

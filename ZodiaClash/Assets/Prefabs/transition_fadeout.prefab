@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,7 +21,19 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29"
             ]
         }
     },
@@ -60,13 +72,101 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 0.0
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 21,
+                "Group Name": "Transition Start",
+                "Loop": false,
+                "Frame Time": 0.05000000074505806,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 20,
+                                "Alpha": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "logo",
+                                "Child Animation": "Fade out"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Child Name": "now_loading",
+                                "Child Animation": "Fade out"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Transition Start",
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "logo",
+            "Current Layer": 7,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.20000000298023224,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "new_logo_03.png"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 3508.0,
+            "height": 2480.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0,
+            "Mirror": false
         },
         "Movable": {},
         "Animation Set": [
             {
                 "Total Frames": 3,
-                "Group Name": "Transition Start",
+                "Group Name": "Fade out",
                 "Loop": false,
                 "Frame Time": 0.5,
                 "Animations": [
@@ -82,6 +182,101 @@
                 ]
             }
         ],
-        "Animation Set Default Animation": "Transition Start"
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.20000000298023224,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "now_loading",
+            "Current Layer": 7,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 680.5,
+            "position_y": -471.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 445.0000305175781,
+            "height": 60.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Now loading...",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": false
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 3,
+                "Group Name": "Fade out",
+                "Loop": false,
+                "Frame Time": 0.5,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Alpha": 1.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 680.5,
+            "position_y": -471.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

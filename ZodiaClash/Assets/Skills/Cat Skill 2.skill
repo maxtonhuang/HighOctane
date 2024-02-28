@@ -2,12 +2,13 @@
     {
         "Name": "Dance of Fury",
 	"Texture": "skill_icon_skill.png",
+	"Tooltip": "catSkill2_tooltip.prefab",
         "Type": 1,
         "Skill Attack": 80,
-        "Minimum Attack Multiplier": 0.8,
-        "Maximum Attack Multiplier": 1.2,
-        "Crit Rate": 0.5,
-        "Crit Multiplier": 1.5,
+        "Minimum Attack Multiplier": 0.7,
+        "Maximum Attack Multiplier": 1.3,
+        "Crit Rate": 0.4,
+        "Crit Multiplier": 1.2,
 	"Chi Cost": 2,
 	"Bleed": 2
     }

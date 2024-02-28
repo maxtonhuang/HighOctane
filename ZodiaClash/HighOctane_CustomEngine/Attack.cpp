@@ -50,7 +50,13 @@ void Attack::UseAttack(CharacterStats* target) {
             target->ApplyBloodStack();
         }
     }
-    else if (attackName == "Yin-Yang Strike") {
+    else if (attackName == "Yin-Yang Strike" || attackName == "Heavenly Yin-Yang Strike") {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> rand(0, 1);
+        if (rand(gen)) {
+            target->debuffs.bloodStack += 2;
+        }
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
@@ -63,11 +69,24 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
+    else if (attackName == "Heavenly Shepherd's Grace") {
+        target->HealBuff(0.3f * owner->stats.maxHealth);
+        target->debuffs.bloodStack = 0;
+        target->debuffs.tauntStack = 0;
+        target->debuffs.stunStack = 0;
+    }
     else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
+        target->buffs.attackBuff = 0.3f;
+        target->buffs.attackStack = 2;
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
+    }
+    else if (attackName == "Heavenly Chi Surge") {
+        target->SpeedBuff(target);
+        target->buffs.attackBuff = 0.3f;
+        target->buffs.attackStack = 2;
     }
     else if (attackName == "Celestial Annihilation will be cast next!") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
@@ -75,18 +94,41 @@ void Attack::UseAttack(CharacterStats* target) {
         }
         owner->charge = true;
     }
+    else if (attackName == "Chi-Absorbing Blow") {
+        target->debuffs.defenseDebuff = 0.5f;
+        target->debuffs.defenseStack = 2;
+        if (owner->cycle == 1) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 2;
+        }
+    }
     else if (attackName == "Unstoppable Thunder") {
         target->debuffs.stunStack += 1;
+        if (owner->cycle == 2) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 0;
+        }
     }
     else if (attackName == "God of War's Challenge") {
         target->debuffs.tauntStack += 1;
         target->debuffs.tauntTarget = owner->entity;
+        owner->buffs.defenseBuff = 0.5f;
+        owner->buffs.defenseStack = 1;
+        if (owner->cycle == 0) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 1;
+        }
     }
 
     target->debuffs.bloodStack += bleed;
     if (target->debuffs.bloodStack > 5) {
         target->debuffs.bloodStack = 5;
     }
+
+    if (damage > 0 && target->tag == owner->tag) {
+        owner->action.battleManager->aiMultiplier -= 100000;
+    }
+
     target->TakeDamage(damage);
 }
 
@@ -96,36 +138,43 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 }
 
-void Attack::CalculateDamage(CharacterStats const& target)
+void Attack::CalculateDamage(CharacterStats& target)
 {
     //attackerStats = owner.GetComponent<CharacterStats>();
     //targetStats = target.GetComponent<CharacterStats>();
 
     //critical hit chance
-    static std::default_random_engine rng;
+    std::random_device rd;
+    std::mt19937 gen(rd());
     static std::uniform_real_distribution<float> rand(0.f, 1.f);
     
     float randomValue{1.f};
 
     //NO CRITS IF ITS AN AI SIMULATION
     if (target.parent->m_Entities.size() > 0) {
-        randomValue = rand(rng);
+        randomValue = rand(gen);
     }
     
+    float finalAttack{ owner->stats.attack * (1 + owner->buffs.attackBuff - owner->debuffs.attackDebuff) };
+    float finalDefense{ target.stats.defense * (1 + owner->buffs.defenseBuff - owner->debuffs.defenseDebuff) };
+
+    std::uniform_real_distribution<float> drand(minAttackMultiplier, maxAttackMultiplier);
 
     if (randomValue <= critRate)
     {
         //critical hit
-        critCheck = true;
+        target.crit = true;
 
-        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
-            ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense)))
+        damage = (drand(gen) *
+            ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense)))
             * critMultiplier);
     }
     else
     {
-        damage = (std::max(minAttackMultiplier, maxAttackMultiplier) *
-            ((float)skillAttackPercent / 100.f) * (owner->stats.attack * (100.f / (100.f + target.stats.defense))));
+        target.crit = false;
+
+        damage = (drand(gen) *
+            ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense))));
     }
 }
 
@@ -155,6 +204,10 @@ void AttackList::SaveAttack(Attack const& attack) {
     rapidjson::Value skilltextureValue;
     skilltextureValue.SetString(attack.skillTexture.c_str(), static_cast<rapidjson::SizeType>(attack.skillTexture.length()), allocator);
     object.AddMember("Texture", skilltextureValue, allocator);
+
+    rapidjson::Value skillTooltip;
+    skilltextureValue.SetString(attack.skillTexture.c_str(), static_cast<rapidjson::SizeType>(attack.skillTooltip.length()), allocator);
+    object.AddMember("Tooltip", skillTooltip, allocator);
 
     object.AddMember("Type", (int)attack.attacktype, allocator);
     object.AddMember("Skill Attack", attack.skillAttackPercent, allocator);
@@ -209,6 +262,11 @@ void AttackList::LoadAttack(std::string attackPath) {
         if (mainObject.HasMember("Texture")) {
             const rapidjson::Value& object = mainObject["Texture"];
             atk.skillTexture = object.GetString();
+        }
+
+        if (mainObject.HasMember("Tooltip")) {
+            const rapidjson::Value& object = mainObject["Tooltip"];
+            atk.skillTooltip = object.GetString();
         }
 
         if (mainObject.HasMember("Type")) {

@@ -70,10 +70,10 @@
         },
         "CharacterStats": {
             "Character type": 1,
-            "Max Health": 130.0,
-            "Health": 130.0,
+            "Max Health": 100.0,
+            "Health": 100.0,
             "Attack": 10.0,
-            "Defense": 35.0,
+            "Defense": 25.0,
             "Speed": 1,
             "Icon": "NEW_guard_pfp.png",
             "Boss": false,

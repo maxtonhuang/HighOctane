@@ -44,12 +44,13 @@ class Attack {
 public:
     void UseAttack(CharacterStats* target);
     void UseAttack(std::vector<CharacterStats*> target);
-	void CalculateDamage(CharacterStats const& target);
+	void CalculateDamage(CharacterStats& target);
     void SetOwner(CharacterStats* input);
 
     AttackType attacktype{};
     std::string attackName;
     std::string skillTexture;
+    std::string skillTooltip;
 
     int skillAttackPercent{};
     float minAttackMultiplier{};
@@ -58,10 +59,10 @@ public:
     float critMultiplier{};
     int   chiCost{};
     int   bleed{};
+    bool critCheck{};
 
 private:
     CharacterStats* owner{};
-    bool critCheck{};
     float damage{};
 };
 

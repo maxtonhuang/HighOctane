@@ -49,4 +49,7 @@ public:
 	void Update() override;
 private:
 	float timer{};
+	float initialVolume{ 0.f }; //to fade out bgm
+	float currentVolume{ 0.f }; //current volume
+	float volumeReduction{ 0.f }; //volume reduction per frame
 };

@@ -54,7 +54,7 @@
 //WARNING: INCREASING THIS VALUE RESULTS IN EXPONENTIALLY HIGHER SEARCH TIMES
 const int MAXDEPTH = 0;
 
-const int DEVIATION = 0;
+const int DEVIATION = 1000;
 //----------------------------------------------------------------------------------------
 
 Node::Node(BattleSystem const& initial) {
@@ -257,9 +257,11 @@ void TreeManager::Search(BattleSystem* start) {
 	}
 
 	//Randomly choose an attack among the selected attacks
-	std::default_random_engine rng;
+	std::random_device rd;
+	std::mt19937 gen(rd());
 	std::uniform_int_distribution<size_t> rand_node(0, selectedNodes.size() - 1);
-	Node* chosenNode = selectedNodes[rand_node(rng)];
+	size_t chosenNum{ rand_node(gen) };
+	Node* chosenNode = selectedNodes[chosenNum];
 	std::vector<Node*> branch{};
 	Node* reverse{ chosenNode };
 	while (reverse->previous != nullptr) {

@@ -34,6 +34,7 @@ Guard_Damage.spritesheet
 Guard_Damage.spritesheet
 Guard_Attack.spritesheet
 Guard_Attack.spritesheet
+Goat_Ulti.spritesheet
 mockup_chi_icon_lineart.png
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
@@ -43,7 +44,6 @@ BORDER_test_02.png
 BORDER_side_test_02.png
 mockup_icon_goat.png
 BORDER_side_test_01.png
-
 skill_icon_goat_3.png
 skill_icon_goat_2.png
 catSkill3_tooltip.png
@@ -52,20 +52,50 @@ Goat_Basic.spritesheet
 Goat_Basic.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Basic_VFX.spritesheet
-Cat_Atk_2_Edited.wav
+ox.png
+ox_pfp.png
+
+skill_icon_goat_1.png
+tooltip_GoatSkill1.png
+tooltip_GoatSkill2.png
+Goat_Ulti.spritesheet
+Goat_Ulti_VFX.spritesheet
+Goat_Ulti_VFX.spritesheet
+Heal_VFX.spritesheet
+Heal_VFX.spritesheet
+Goat_Hit.spritesheet
+Goat_Hit.spritesheet
+Ox Atk 1_Edited.wav
 Battle Ambience BGM_Edited.wav
-Cat Atk_1_Edited.wav
+Cat_Atk_2_Edited.wav
 Guard Damaged_Edited.wav
-Cat Damaged_Edited.wav
-Cat_Atk_3_Edited.wav
+Cat Atk_1_Edited.wav
 Guard Atk_Edited.wav
+Cat_Atk_3_Edited.wav
+Cat Damaged_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
 Goat Atk 1_Edited.wav
 Goat Atk 4_Edited.wav
+Ox Atk 3_Edited.wav
+Ox Atk 2_Edited.wav
+Goat Buff_Edited.wav
+Goat Damaged_Edited.wav
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Yin-Yang Strike.skill
+Heavenly Chi Surge.skill
 Celestial Annihilation will be cast next!.skill
 Shepherd's Grace.skill
 Unstoppable Thunder.skill
@@ -75,5 +105,6 @@ Chi-Absorbing Blow.skill
 Scarlet Claw.skill
 Dance of Fury.skill
 Secret Arts: Pounce.skill
+Heavenly Shepherd's Grace.skill
 Jade Thrust.skill
 battle3.json
