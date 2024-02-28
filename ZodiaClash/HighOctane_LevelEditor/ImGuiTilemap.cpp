@@ -40,6 +40,7 @@
 
 
 #include "ImGuiTilemap.h"
+#include "Global.h"
 
 
 
@@ -52,33 +53,39 @@ void UpdateTilemap() {
 	ImGui::Text("X-axis: ");
 
 	int slider_i = 20; // to change
-	ImGui::SliderInt("10 - 500", &slider_i, 10, 500, "%d", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SliderInt("10 - 500", &gridSpacingX, 10, 300, "%d", ImGuiSliderFlags_AlwaysClamp);
 
 
 	ImGui::Text("Y-axis: ");
-	ImGui::SliderInt("10 - 500", &slider_i, 10, 500, "%d", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SliderInt("10 - 500", &gridSpacingY, 10, 300, "%d", ImGuiSliderFlags_AlwaysClamp);
 
 	ImGui::SeparatorText("Grid Offset");
 
 	ImGui::Text("X-axis: ");
-	ImGui::SliderInt("-50% - +50%", &slider_i, 10, 500, "%d%%", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SliderInt("-50% - +50%", &gridOffsetX, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp);
 
 	ImGui::Text("Y-axis: ");
-	ImGui::SliderInt("-50% - +50%", &slider_i, 10, 500, "%d%%", ImGuiSliderFlags_AlwaysClamp);
+	ImGui::SliderInt("-50% - +50%", &gridOffsetY, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp);
 
 	ImGui::SeparatorText("Snap To");
 
 	ImGui::Text("Corner of grid to snap tiles");
-
-	
-
-	// check box x 9
-
-
-
-
-	
-
+	ImGui::Dummy(ImVec2(0.f, 5.f));
+	for (int y = 0; y < 3; y++)	{
+		ImGui::Dummy(ImVec2(0.f, 5.f));
+		for (int x = 0; x < 3; x++) {
+			if (x > 0) ImGui::SameLine();
+			ImGui::Dummy(ImVec2(5.f, 0.f));
+			ImGui::SameLine();
+			ImGui::PushID(3 * y + x);
+			bool state = gridAlignment == (3 * y + x);
+			if (ImGui::Checkbox("", &state)) {
+				
+				gridAlignment = (3 * y + x);
+			}
+			ImGui::PopID();
+		}
+	}
 
 	ImGui::End();
 

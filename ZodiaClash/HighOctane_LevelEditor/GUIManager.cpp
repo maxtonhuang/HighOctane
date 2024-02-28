@@ -61,6 +61,7 @@
 #include "ImGuiComponents.h"
 #include "ImGuiSceneSettings.h"
 #include "ImGuiDialogue.h"
+#include "ImGuiTilemap.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -467,6 +468,7 @@ void GUIManager::Update()
     // Update Panels
     UpdateConsole();
     //UpdateEntitiesManager();
+    UpdateTilemap();
     UpdatePlayStop();
     UpdateAssetLibrary();
     UpdateSceneHierachy();

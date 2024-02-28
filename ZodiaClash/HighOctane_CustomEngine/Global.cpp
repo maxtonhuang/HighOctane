@@ -40,6 +40,7 @@
 #include "Components.h"
 #include "model.h"
 #include "Global.h"
+#include "Editing.h"
 
 #define RESET_VEC2 0.f, 0.f
 #define RESET_VEC4 0.f, 0.f, 0.f, 0.f
@@ -85,6 +86,15 @@ Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 glm::vec4 keyObjectColor{ RESET_VEC4 };
 bool snappingOn{ true };
 bool tilemapOn{ false };
+extern int gridSpacingX{ 100 };
+extern int gridSpacingY{ 100 };
+extern int gridOffsetX{ 0 };
+extern int gridOffsetY{ 0 };
+extern int gridAlignment{ SA_CENTER };
+
+
+
+
 std::unordered_map<Entity, glm::vec4> snappingHighlight{};
 std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines{};
 std::set<Entity> centerVertical{};
