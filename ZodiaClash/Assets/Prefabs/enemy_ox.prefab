@@ -76,7 +76,7 @@
             "Health": 175.0,
             "Attack": 15.0,
             "Defense": 40.0,
-            "Speed": 2,
+            "Speed": 3,
             "Icon": "ox_pfp.png",
             "Boss": true,
             "Skills": [

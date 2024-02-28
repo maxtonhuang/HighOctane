@@ -73,7 +73,7 @@
             "Health": 120.0,
             "Attack": 15.0,
             "Defense": 20.0,
-            "Speed": 3,
+            "Speed": 2,
             "Icon": "mockup_icon_goat.png",
             "Boss": false,
             "Skills": [
