@@ -8,31 +8,26 @@
 *
 * *****************************************************************************
 *
-*	@file		ImGuiAssetLibrary.h
+*	@file		ImGuiTileMap.h
 *
-*	@author		Maxton Huang Xinghua (Initial creation as well as image drag and drop)
+*	@author		Maxton Huang Xinghua
 *
 *	@email		m.huang\@digipen.edu
-*
-*   @co-author	Foong Pun Yuen Nigel (Audio drag and drop and error handling)
-*
-*	@email		p.foong\@digipen.edu
-*
+**
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
-*	@date		3 November 2023
+*	@date		29 February 2024
 *
 * *****************************************************************************
 *
-*	@brief		Function declarations to functions in ImGuiAssetLibrary.cpp
+*	@brief		Function declarations for the functions to ImguiTileMap.cpp
 *
 *	-
 *
 ******************************************************************************/
-
 #pragma once
 
 #include "ImGuiLib.h"

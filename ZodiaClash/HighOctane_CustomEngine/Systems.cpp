@@ -630,7 +630,7 @@ void GraphicsSystem::Draw() {
 		}
 	}
 
-	if (snappingOn) {
+	if (GetCurrentSystemMode() == SystemMode::EDIT && snappingOn) {
 		Renderer* render = &graphics.renderer["staticline"];
 		for (auto& it : snappingLines) {
 			for (auto& [axis, points] : it.second) {
@@ -644,7 +644,7 @@ void GraphicsSystem::Draw() {
 		}
 	}
 
-	if (tilemapOn) {
+	if (GetCurrentSystemMode() == SystemMode::EDIT && tilemapOn) {
 		int timesX = static_cast<int>(((static_cast<float>(std::abs(gridOffsetX)) / 100.f * static_cast<float>(gridSpacingX)) + (static_cast<float>(GRAPHICS::viewportWidth) / 2.f / camera.GetZoom())) / static_cast<float>(gridSpacingX));
 		for (int x = -timesX + static_cast<int>(camera.GetPos().x / static_cast<float>(gridSpacingX)) - 1; x < timesX + static_cast<int>(camera.GetPos().x / static_cast<float>(gridSpacingX)) + 2; ++x) {
 			graphics.DrawLine(

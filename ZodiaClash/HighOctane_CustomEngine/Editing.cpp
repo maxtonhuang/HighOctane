@@ -594,6 +594,91 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 									}
 								}
 							}
+							else if (tilemapOn) {
+
+								const vmath::Vector2 centerA = { (model->GetRight().x + model->GetLeft().x) / 2.f, (model->GetTop().y + model->GetBot().y) / 2.f };
+								const std::array<vmath::Vector2, 8> pointsA = { model->GetTop(), model->GetRight(), model->GetBot(), model->GetLeft(), model->GetTopRight(), model->GetBotLeft(), model->GetBotRight(), model->GetTopLeft() };
+								const vmath::Vector2 leftA = *std::min_element(pointsA.begin(), pointsA.end(), [](const vmath::Vector2& a, const vmath::Vector2& b) { return a.x < b.x; });
+								const vmath::Vector2 rightA = *std::max_element(pointsA.begin(), pointsA.end(), [](const vmath::Vector2& a, const vmath::Vector2& b) { return a.x < b.x; });
+								const vmath::Vector2 botA = *std::min_element(pointsA.begin(), pointsA.end(), [](const vmath::Vector2& a, const vmath::Vector2& b) { return a.y < b.y; });
+								const vmath::Vector2 topA = *std::max_element(pointsA.begin(), pointsA.end(), [](const vmath::Vector2& a, const vmath::Vector2& b) { return a.y < b.y; });
+
+
+								// snapping for grid here
+								switch (gridAlignment) {
+
+								case SA_TOP_LEFT:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + ((rightA.x - leftA.x) / 2.f);
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + (gridSpacingY - ((topA.y - botA.y) / 2.f));
+
+									break;
+
+								case SA_TOP:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + (gridSpacingX / 2.f);
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + (gridSpacingY - ((topA.y - botA.y) / 2.f));
+
+
+									break;
+
+								case SA_TOP_RIGHT:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + (gridSpacingX - ((rightA.x - leftA.x) / 2.f));
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + (gridSpacingY - ((topA.y - botA.y) / 2.f));
+
+									break;
+
+								case SA_CENTER_LEFT:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + ((rightA.x - leftA.x) / 2.f);
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + (gridSpacingY / 2.f);
+
+									break;
+
+								case SA_CENTER:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + (gridSpacingX / 2.f);
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + (gridSpacingY / 2.f);
+
+									break;
+
+								case SA_CENTER_RIGHT:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + (gridSpacingX - ((rightA.x - leftA.x) / 2.f));
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + (gridSpacingY / 2.f);
+
+									break;
+
+								case SA_BOTTOM_LEFT:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + ((rightA.x - leftA.x) / 2.f);
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + ((topA.y - botA.y) / 2.f);
+
+									break;
+
+								case SA_BOTTOM:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + (gridSpacingX / 2.f);
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + ((topA.y - botA.y) / 2.f);
+
+									break;
+
+								case SA_BOTTOM_RIGHT:
+
+									transform.position.x = std::floor((currentMousePosition.x - (gridOffsetX / 100.f * gridSpacingX)) / gridSpacingX) * gridSpacingX + gridOffsetX / 100.f * gridSpacingX + (gridSpacingX - ((rightA.x - leftA.x) / 2.f));
+									transform.position.y = std::floor((currentMousePosition.y - (gridOffsetY / 100.f * gridSpacingY)) / gridSpacingY) * gridSpacingY + gridOffsetY / 100.f * gridSpacingY + ((topA.y - botA.y) / 2.f);
+
+									break;
+
+								default:
+									break;
+
+								}
+
+
+
+							}
 						}
 
 						break;
