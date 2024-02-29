@@ -48,6 +48,7 @@ constexpr float buttonHeight = 40.f;
 int index{};
 
 extern std::map<std::string, ImTextureID> loadedIcons;
+
 /******************************************************************************
 *
 *	@brief Shows the Layers Panel

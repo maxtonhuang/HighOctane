@@ -8,22 +8,18 @@
 *
 * *****************************************************************************
 *
-*	@file		ImGuiAssetLibrary.cpp
+*	@file		ImGuiTileMap.cpp
 *
-*	@author		Maxton Huang Xinghua (Initial creation as well as image drag and drop)
+*	@author		Maxton Huang Xinghua
 *
 *	@email		m.huang\@digipen.edu
-*
-*   @co-author	Foong Pun Yuen Nigel (Audio drag and drop and error handling)
-*
-*	@email		p.foong\@digipen.edu
-*
+**
 *	@course		CSD 2401 - Software Engineering Project 3
 *				CSD 2451 - Software Engineering Project 4
 *
 *	@section	Section A
 *
-*	@date		3 November 2023
+*	@date		29 February 2024
 *
 * *****************************************************************************
 *
@@ -43,8 +39,20 @@
 #include "Global.h"
 
 
-
+/******************************************************************************
+*
+*	@brief Provides the options for the Grid Layout for Tilemap Editing
+*
+*	Allows the user to turn on the tilemap, set the grid spacing, grid offset,
+*	and the grid alignment. The user can also choose to lock the grid spacing
+*	and grid offset. The user can also choose the corner of the grid to snap
+* 	tiles to.
+*
+******************************************************************************/
 void UpdateTilemap() {
+
+	static bool lockSpacing = false;
+	static bool lockOffset = false;
 
 	ImGui::Begin("Tilemap Control");
 	
@@ -58,18 +66,86 @@ void UpdateTilemap() {
 		ImGui::SeparatorText("Grid Spacing");
 
 		ImGui::Text("X-axis: ");
-		ImGui::SliderInt("##XSpacing", &gridSpacingX, 50, 300, "%d", ImGuiSliderFlags_AlwaysClamp);
+		if (ImGui::SliderInt("##XSpacing", &gridSpacingX, 50, 300, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+			if (lockSpacing) {
+				gridSpacingY = gridSpacingX;
+			}
+		}
+
+		ImGui::SameLine();
+
+		ImGui::PushID("R_SizeX");
+		if (ImGui::Button("Reset")) {
+			gridSpacingX = 200;
+			if (lockSpacing) {
+				gridSpacingY = 200;
+			}
+		}
+		ImGui::PopID();
 
 		ImGui::Text("Y-axis: ");
-		ImGui::SliderInt("##Yspacing", &gridSpacingY, 50, 300, "%d", ImGuiSliderFlags_AlwaysClamp);
+		if (ImGui::SliderInt("##Yspacing", &gridSpacingY, 50, 300, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+			if (lockSpacing) {
+				gridSpacingX = gridSpacingY;
+			}
+		}
+
+		ImGui::SameLine();
+
+		ImGui::PushID("R_SizeY");
+		if (ImGui::Button("Reset")) {
+			gridSpacingY = 200;
+			if (lockSpacing) {
+				gridSpacingX = 200;
+			}
+		}
+		ImGui::PopID();
+
+		if (ImGui::Checkbox("Lock Spacing X and Y", &lockSpacing)) {
+			gridSpacingY = gridSpacingX;
+		}
 
 		ImGui::SeparatorText("Grid Offset");
 
 		ImGui::Text("X-axis: ");
-		ImGui::SliderInt("##Xoffset", &gridOffsetX, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp);
+		if (ImGui::SliderInt("##Xoffset", &gridOffsetX, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp)) {
+			if (lockOffset) {
+				gridOffsetY = gridOffsetX;
+			}
+		}
+
+		ImGui::SameLine();
+
+		ImGui::PushID("R_OffsetX");
+		if (ImGui::Button("Reset")) {
+			gridOffsetX = 0;
+			if (lockOffset) {
+				gridOffsetY = 0;
+			}
+		}
+		ImGui::PopID();
 
 		ImGui::Text("Y-axis: ");
-		ImGui::SliderInt("##Yoffset", &gridOffsetY, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp);
+		if (ImGui::SliderInt("##Yoffset", &gridOffsetY, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp)) {
+			if (lockOffset) {
+				gridOffsetX = gridOffsetY;
+			}
+		}
+
+		ImGui::SameLine();
+
+		ImGui::PushID("R_OffsetY");
+		if (ImGui::Button("Reset")) {
+			gridOffsetY = 0;
+			if (lockOffset) {
+				gridOffsetX = 0;
+			}
+		}
+		ImGui::PopID();
+
+		if (ImGui::Checkbox("Lock Offset X and Y", &lockOffset)) {
+			gridOffsetY = gridOffsetX;
+		}
 
 		ImGui::SeparatorText("Snap To");
 
@@ -93,8 +169,5 @@ void UpdateTilemap() {
 	}
 
 	ImGui::End();
-
-
-
 
 }
