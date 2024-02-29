@@ -630,7 +630,44 @@ void GraphicsSystem::Draw() {
 		}
 	}
 
+	if (snappingOn) {
+		Renderer* render = &graphics.renderer["staticline"];
+		for (auto& it : snappingLines) {
+			for (auto& [axis, points] : it.second) {
+				auto& [linePoint1, linePoint2, crossPoint1, crossPoint2] = points;
+				graphics.DrawLine(linePoint1.x, linePoint1.y, linePoint2.x, linePoint2.y, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint1.x - CROSS_SIZE, crossPoint1.y + CROSS_SIZE, crossPoint1.x + CROSS_SIZE, crossPoint1.y - CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint1.x - CROSS_SIZE, crossPoint1.y - CROSS_SIZE, crossPoint1.x + CROSS_SIZE, crossPoint1.y + CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint2.x - CROSS_SIZE, crossPoint2.y + CROSS_SIZE, crossPoint2.x + CROSS_SIZE, crossPoint2.y - CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+				graphics.DrawLine(crossPoint2.x - CROSS_SIZE, crossPoint2.y - CROSS_SIZE, crossPoint2.x + CROSS_SIZE, crossPoint2.y + CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
+			}
+		}
+	}
+
+	if (tilemapOn) {
+		int timesX = static_cast<int>(((static_cast<float>(std::abs(gridOffsetX)) / 100.f * static_cast<float>(gridSpacingX)) + (static_cast<float>(GRAPHICS::viewportWidth) / 2.f / camera.GetZoom())) / static_cast<float>(gridSpacingX));
+		for (int x = -timesX + static_cast<int>(camera.GetPos().x / static_cast<float>(gridSpacingX)) - 1; x < timesX + static_cast<int>(camera.GetPos().x / static_cast<float>(gridSpacingX)) + 2; ++x) {
+			graphics.DrawLine(
+				static_cast<float>(x * gridSpacingX) + (static_cast<float>(gridOffsetX) / 100.f * static_cast<float>(gridSpacingX)),
+				static_cast<float>(GRAPHICS::viewportHeight) / 2.f / camera.GetZoom() + camera.GetPos().y,
+				static_cast<float>(x * gridSpacingX) + (static_cast<float>(gridOffsetX) / 100.f * static_cast<float>(gridSpacingX)),
+				static_cast<float>(-GRAPHICS::viewportHeight) / 2.f / camera.GetZoom() + camera.GetPos().y, 0.7f, 0.7f, 0.7f, 0.2f, nullptr
+			);
+		}
+
+		int timesY = static_cast<int>(((static_cast<float>(std::abs(gridOffsetY)) / 100.f * static_cast<float>(gridSpacingY)) + (static_cast<float>(GRAPHICS::viewportHeight) / 2.f / camera.GetZoom())) / static_cast<float>(gridSpacingY));
+		for (int y = -timesY + static_cast<int>(camera.GetPos().y / static_cast<float>(gridSpacingY)) - 1; y < timesY + static_cast<int>(camera.GetPos().y / static_cast<float>(gridSpacingY)) + 2; ++y) {
+			graphics.DrawLine(
+				static_cast<float>(GRAPHICS::viewportWidth) / 2.f / camera.GetZoom() + camera.GetPos().x,
+				static_cast<float>(y * gridSpacingY) + (static_cast<float>(gridOffsetY) / 100.f * static_cast<float>(gridSpacingY)),
+				static_cast<float>(-GRAPHICS::viewportWidth) / 2.f / camera.GetZoom() + camera.GetPos().x,
+				static_cast<float>(y * gridSpacingY) + (static_cast<float>(gridOffsetY) / 100.f * static_cast<float>(gridSpacingY)), 0.7f, 0.7f, 0.7f, 0.2f, nullptr
+			);
+		}
+	}
+
 	graphics.Draw();
+
 }
 
 /******************************************************************************
@@ -1000,8 +1037,9 @@ void EditingSystem::Update() {
 	}
 
 	mouseMoved = false;
-	withinSomething = false;
-
+	if (!draggingThisCycle) {
+		withinSomething = false;
+	}
 }
 
 
@@ -1034,18 +1072,6 @@ void EditingSystem::Draw() {
 	}
 
 	if (snappingOn) {
-
-		Renderer* render = &graphics.renderer["staticline"];
-		for (auto& it : snappingLines) {
-			for (auto& [axis, points] : it.second) {
-				auto& [linePoint1, linePoint2, crossPoint1, crossPoint2] = points;
-				graphics.DrawLine(linePoint1.x, linePoint1.y, linePoint2.x, linePoint2.y, 0.6f, 0.6f, 1.f, 1.f, render);
-				graphics.DrawLine(crossPoint1.x - CROSS_SIZE, crossPoint1.y + CROSS_SIZE, crossPoint1.x + CROSS_SIZE, crossPoint1.y - CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
-				graphics.DrawLine(crossPoint1.x - CROSS_SIZE, crossPoint1.y - CROSS_SIZE, crossPoint1.x + CROSS_SIZE, crossPoint1.y + CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
-				graphics.DrawLine(crossPoint2.x - CROSS_SIZE, crossPoint2.y + CROSS_SIZE, crossPoint2.x + CROSS_SIZE, crossPoint2.y - CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
-				graphics.DrawLine(crossPoint2.x - CROSS_SIZE, crossPoint2.y - CROSS_SIZE, crossPoint2.x + CROSS_SIZE, crossPoint2.y + CROSS_SIZE, 0.6f, 0.6f, 1.f, 1.f, render);
-			}
-		}
 
 		for (auto& [e, color] : snappingHighlight) {
 			if (modelArray.HasComponent(e)) {
