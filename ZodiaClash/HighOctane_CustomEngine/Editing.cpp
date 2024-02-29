@@ -298,7 +298,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.height *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetTop(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetTop(), transform.position));
+							size.height = std::clamp(size.height * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetTop(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetTop(), transform.position)), 10.f, 100000.f);
 
 						}
 					}
@@ -309,7 +309,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
+							size.width = std::clamp(size.width * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)), 10.f, 100000.f);
 
 						}
 					}
@@ -320,7 +320,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.height *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetBot(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetBot(), transform.position));
+							size.height = std::clamp(size.height * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetBot(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetBot(), transform.position)), 10.f, 100000.f);
 
 						}
 					}
@@ -331,7 +331,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.width *= (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetLeft(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position));
+							size.width = std::clamp(size.width * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetLeft(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)), 10.f, 100000.f);
 
 						}
 					}
@@ -351,12 +351,12 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
-								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.01f, 10.f);
 								//transform.position.x += deltaX / 2.f;
 								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
 							}
 							else {
-								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.01f, 10.f);
 								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
 								//transform.position.y += deltaY / 2.f;
 							}
@@ -378,12 +378,12 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
-								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.01f, 10.f);
 								//transform.position.x += deltaX / 2.f;
 								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
 							}
 							else {
-								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.01f, 10.f);
 								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
 								//transform.position.y += deltaY / 2.f;
 							}
@@ -406,12 +406,12 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
-								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.01f, 10.f);
 								//transform.position.x += deltaX / 2.f;
 								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
 							}
 							else {
-								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.01f, 10.f);
 								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
 								//transform.position.y += deltaY / 2.f;
 							}
@@ -434,12 +434,12 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 							float currHeight = vmath::Vector2::DistanceBetweenPoints(model->GetTopRight(), model->GetBotRight());
 
 							if (deltaX < deltaY) {
-								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currWidth + deltaX) / currWidth), 0.01f, 10.f);
 								//transform.position.x += deltaX / 2.f;
 								//transform.position.y += (deltaX * currHeight / currWidth) / 2.f;
 							}
 							else {
-								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.1f, 10.f);
+								transform.scale = std::clamp(transform.scale * ((currHeight + deltaY) / currHeight), 0.01f, 10.f);
 								//transform.position.x += (deltaY * currWidth / currHeight) / 2.f;
 								//transform.position.y += deltaY / 2.f;
 							}
