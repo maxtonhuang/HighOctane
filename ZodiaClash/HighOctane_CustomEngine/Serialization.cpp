@@ -432,12 +432,12 @@ rapidjson::Value SerializeEnemyHUD(const EnemyHUD& enemyHUD, rapidjson::Document
 rapidjson::Value SerializeDialogueHUD(const DialogueHUD& dialogueHUD, rapidjson::Document::AllocatorType& allocator) {
 
 	rapidjson::Value dialogueHudObject(rapidjson::kObjectType);
-	rapidjson::Value dialogueLinesVec(rapidjson::kArrayType);
 	rapidjson::Value dialoguesVec(rapidjson::kArrayType);
 
 	// Serialize dialoguesVec
 	for (const DialogueHUD::Dialogue& dialogue : dialogueHUD.dialogues) {
 		rapidjson::Value dialogueObject(rapidjson::kObjectType);
+		rapidjson::Value dialogueLinesVec(rapidjson::kArrayType);
 
 		// Serialize dialogueLinesVec
 		for (const std::pair<std::string, std::string>& line : dialogue.dialogueLines) {

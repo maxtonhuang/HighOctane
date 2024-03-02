@@ -953,6 +953,18 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	}
 }
 
+void DialogueHUD::AddDialogue(Dialogue dialogue) {
+	int index{ 0 };
+	for (Dialogue const& d : dialogues) {
+		if (&d == currentDialogue) {
+			break;
+		}
+		index++;
+	}
+	dialogues.push_back(dialogue);
+	currentDialogue = &dialogues[index];
+}
+
 /*!
 * \brief DialogueHUD JumpNextLine
 *

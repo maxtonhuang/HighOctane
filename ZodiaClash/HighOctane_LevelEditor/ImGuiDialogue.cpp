@@ -11,7 +11,8 @@ void DialogueWindow(Entity entity) {
 
         // Button to add a new dialogue line
         if (ImGui::Button("Add New Dialogue##1")) {
-            dialogueData.dialogues.push_back(newDialogue);
+            //dialogueData.dialogues.push_back(newDialogue);
+            dialogueData.AddDialogue(newDialogue);
         }
 
         for (size_t i = 0; i < dialogueData.dialogues.size(); ++i)
@@ -144,7 +145,8 @@ void DialogueWindow(Entity entity) {
 
         // Button to add a new dialogue line
         if (ImGui::Button("Add New Dialogue##2")) {
-            dialogueData.dialogues.push_back(newDialogue);
+            //dialogueData.dialogues.push_back(newDialogue);
+            dialogueData.AddDialogue(newDialogue);
         }
     }
 }
