@@ -446,6 +446,31 @@ void GUIManager::Update()
                 if (ImGui::MenuItem("Save as Prefab", NULL, false, selectedEntities.size() == 1 ? true : false)) {
                     std::string prefabPath{ SaveFileDialog("*.prefab","Prefab") };
                     SaveAsPrefab(prefabPath, newSelection);
+                    rightClick = false;
+                }
+                ImGui::Separator();
+                if (ImGui::MenuItem("Scale to Grid Width", NULL, false, (tilemapOn && selectedEntities.size() == 1) ? true : false)) {
+                    Entity e = selectedEntities.front();
+                    if (ECS::ecs().HasComponent<Transform>(e) && ECS::ecs().HasComponent<Size>(e)) {
+                        ECS::ecs().GetComponent<Transform>(e).scale = gridSpacingX / ECS::ecs().GetComponent<Size>(e).width;
+                    }
+					rightClick = false;
+				}
+                if (ImGui::MenuItem("Scale to Grid Height", NULL, false, (tilemapOn && selectedEntities.size() == 1) ? true : false)) {
+                    Entity e = selectedEntities.front();
+                    if (ECS::ecs().HasComponent<Transform>(e) && ECS::ecs().HasComponent<Size>(e)) {
+                        ECS::ecs().GetComponent<Transform>(e).scale = gridSpacingX / ECS::ecs().GetComponent<Size>(e).height;
+                    }
+                    rightClick = false;
+                }
+                if (ImGui::MenuItem("Resize to Grid Width and Height", NULL, false, (tilemapOn && selectedEntities.size() == 1) ? true : false)) {
+                    Entity e = selectedEntities.front();
+                    if (ECS::ecs().HasComponent<Transform>(e) && ECS::ecs().HasComponent<Size>(e)) {
+                        ECS::ecs().GetComponent<Transform>(e).scale = 1.f;
+                        ECS::ecs().GetComponent<Size>(e).width = gridSpacingX;
+                        ECS::ecs().GetComponent<Size>(e).height = gridSpacingY;
+                    }
+                    rightClick = false;
                 }
                 ImGui::EndPopup();
             }

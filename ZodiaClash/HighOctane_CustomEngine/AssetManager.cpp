@@ -40,6 +40,7 @@
 #include "debugdiagnostic.h"
 #include "Serialization.h"
 #include "graphics.h"
+#include "MultiThreading.h"
 
 AssetManager assetmanager;
 
@@ -287,6 +288,7 @@ void AssetManager::LoadScene(const std::string& scenePath) {
     else {
         //ASSERT(true, "Unable to open scene file!");
     }
+
     sceneName = scenePath;
 }
 

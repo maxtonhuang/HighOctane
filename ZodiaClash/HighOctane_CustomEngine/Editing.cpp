@@ -298,7 +298,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.height = std::clamp(size.height * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetTop(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetTop(), transform.position)), 10.f, 100000.f);
+							size.height = std::clamp(size.height * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetTop(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetTop(), transform.position)), 10.f / transform.scale, 5000.f / transform.scale);
 
 						}
 					}
@@ -309,7 +309,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.width = std::clamp(size.width * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)), 10.f, 100000.f);
+							size.width = std::clamp(size.width * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetRight(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)), 10.f / transform.scale, 5000.f / transform.scale);
 
 						}
 					}
@@ -320,7 +320,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.height = std::clamp(size.height * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetBot(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetBot(), transform.position)), 10.f, 100000.f);
+							size.height = std::clamp(size.height * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetBot(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetBot(), transform.position)), 10.f / transform.scale, 5000.f / transform.scale);
 
 						}
 					}
@@ -331,7 +331,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 						draggingThisCycle = true;
 						if (mouseMoved) {
 
-							size.width = std::clamp(size.width * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetLeft(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)), 10.f, 100000.f);
+							size.width = std::clamp(size.width * (vmath::Vector2::DistanceBetweenPoints(vmath::Vector2::ProjectedPointOnLine(model->GetLeft(), transform.position, currentMousePosition), transform.position) / vmath::Vector2::DistanceBetweenPoints(model->GetRight(), transform.position)), 10.f / transform.scale, 5000.f / transform.scale);
 
 						}
 					}

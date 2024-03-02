@@ -932,7 +932,6 @@ void EditingSystem::Update() {
 					if (modelArray.HasComponent(entity)) {
 						m = &modelArray.GetData(entity);
 					}
-
 					Selection(entity, n, t, *m, static_cast<size_t>(layer_it));
 					if (somethingWasSelectedThisCycle) {
 						break;

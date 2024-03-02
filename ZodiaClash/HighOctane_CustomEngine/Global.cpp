@@ -86,10 +86,10 @@ Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 glm::vec4 keyObjectColor{ RESET_VEC4 };
 bool snappingOn{ true };
 bool tilemapOn{ false };
-extern int gridSpacingX{ 200 };
-extern int gridSpacingY{ 200 };
-extern int gridOffsetX{ 0 };
-extern int gridOffsetY{ 0 };
+extern float gridSpacingX{ 200.f };
+extern float gridSpacingY{ 200.f };
+extern float gridOffsetX{ 0.f };
+extern float gridOffsetY{ 0.f };
 extern int gridAlignment{ SA_CENTER };
 
 

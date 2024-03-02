@@ -37,6 +37,8 @@
 
 #include "ImGuiTilemap.h"
 #include "Global.h"
+#include "ECS.h"
+#include "model.h"
 
 
 /******************************************************************************
@@ -66,7 +68,7 @@ void UpdateTilemap() {
 		ImGui::SeparatorText("Grid Spacing");
 
 		ImGui::Text("X-axis: ");
-		if (ImGui::SliderInt("##XSpacing", &gridSpacingX, 50, 300, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+		if (ImGui::SliderFloat("##XSpacing", &gridSpacingX, 50.f, 300.f, "%.3f", ImGuiSliderFlags_AlwaysClamp)) {
 			if (lockSpacing) {
 				gridSpacingY = gridSpacingX;
 			}
@@ -76,15 +78,15 @@ void UpdateTilemap() {
 
 		ImGui::PushID("R_SizeX");
 		if (ImGui::Button("Reset")) {
-			gridSpacingX = 200;
+			gridSpacingX = 200.f;
 			if (lockSpacing) {
-				gridSpacingY = 200;
+				gridSpacingY = 200.f;
 			}
 		}
 		ImGui::PopID();
 
 		ImGui::Text("Y-axis: ");
-		if (ImGui::SliderInt("##Yspacing", &gridSpacingY, 50, 300, "%d", ImGuiSliderFlags_AlwaysClamp)) {
+		if (ImGui::SliderFloat("##Yspacing", &gridSpacingY, 50.f, 300.f, "%.3f", ImGuiSliderFlags_AlwaysClamp)) {
 			if (lockSpacing) {
 				gridSpacingX = gridSpacingY;
 			}
@@ -94,9 +96,9 @@ void UpdateTilemap() {
 
 		ImGui::PushID("R_SizeY");
 		if (ImGui::Button("Reset")) {
-			gridSpacingY = 200;
+			gridSpacingY = 200.f;
 			if (lockSpacing) {
-				gridSpacingX = 200;
+				gridSpacingX = 200.f;
 			}
 		}
 		ImGui::PopID();
@@ -108,7 +110,7 @@ void UpdateTilemap() {
 		ImGui::SeparatorText("Grid Offset");
 
 		ImGui::Text("X-axis: ");
-		if (ImGui::SliderInt("##Xoffset", &gridOffsetX, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp)) {
+		if (ImGui::SliderFloat("##Xoffset", &gridOffsetX, -50.f, 50.f, "%.3f%%", ImGuiSliderFlags_AlwaysClamp)) {
 			if (lockOffset) {
 				gridOffsetY = gridOffsetX;
 			}
@@ -118,15 +120,15 @@ void UpdateTilemap() {
 
 		ImGui::PushID("R_OffsetX");
 		if (ImGui::Button("Reset")) {
-			gridOffsetX = 0;
+			gridOffsetX = 0.f;
 			if (lockOffset) {
-				gridOffsetY = 0;
+				gridOffsetY = 0.f;
 			}
 		}
 		ImGui::PopID();
 
 		ImGui::Text("Y-axis: ");
-		if (ImGui::SliderInt("##Yoffset", &gridOffsetY, -50, 50, "%d%%", ImGuiSliderFlags_AlwaysClamp)) {
+		if (ImGui::SliderFloat("##Yoffset", &gridOffsetY, -50.f, 50.f, "%.3f%%", ImGuiSliderFlags_AlwaysClamp)) {
 			if (lockOffset) {
 				gridOffsetX = gridOffsetY;
 			}
@@ -136,9 +138,9 @@ void UpdateTilemap() {
 
 		ImGui::PushID("R_OffsetY");
 		if (ImGui::Button("Reset")) {
-			gridOffsetY = 0;
+			gridOffsetY = 0.f;
 			if (lockOffset) {
-				gridOffsetX = 0;
+				gridOffsetX = 0.f;
 			}
 		}
 		ImGui::PopID();
@@ -164,6 +166,31 @@ void UpdateTilemap() {
 					gridAlignment = (3 * y + x);
 				}
 				ImGui::PopID();
+			}
+		}
+
+		ImGui::SeparatorText("Resize Grid to Single Selected Object");
+
+		if (ImGui::Button("Resize Width", ImVec2(125.f, 35.f))) {
+			if (selectedEntities.size() == 1) {
+				Entity e = selectedEntities.front();
+				if (ECS::ecs().HasComponent<Model>(e)) {
+					gridSpacingX = ECS::ecs().GetComponent<Model>(e).GetMax().x - ECS::ecs().GetComponent<Model>(e).GetMin().x;
+					if (lockSpacing) {
+						gridSpacingY = gridSpacingX;
+					}
+				}
+			}
+		}
+		if (ImGui::Button("Resize Height", ImVec2(125.f, 35.f))) {
+			if (selectedEntities.size() == 1) {
+				Entity e = selectedEntities.front();
+				if (ECS::ecs().HasComponent<Model>(e)) {
+					gridSpacingY = ECS::ecs().GetComponent<Model>(e).GetMax().y - ECS::ecs().GetComponent<Model>(e).GetMin().y;
+					if (lockSpacing) {
+						gridSpacingX = gridSpacingY;
+					}
+				}
 			}
 		}
 	}

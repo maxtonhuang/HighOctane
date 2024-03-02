@@ -104,23 +104,24 @@ void Selection(Entity & entity, Name & name, Transform & transform, Model & mode
 								return;
 							}
 							else if (IsWithinObject(model, currentMousePosition)) {
-									if (name.selected) {
-										if (keyObjectID != entity) {
-											// set key object
-											if (keyObjectID != std::numeric_limits<Entity>().max()) {
-												ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>().GetData(keyObjectID).GetColorRef() = keyObjectColor;
-											}
-											keyObjectID = entity;
-											keyObjectColor = model.GetColorRef();
+								if (name.selected) {
+									if (keyObjectID != entity) {
+										// set key object
+										if (keyObjectID != std::numeric_limits<Entity>().max()) {
+											ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>().GetData(keyObjectID).GetColorRef() = keyObjectColor;
 										}
-										else { // unset key object
-											model.GetColorRef() = keyObjectColor;
-											keyObjectID = std::numeric_limits<Entity>().max();
-											keyObjectColor = glm::vec4(RESET_VEC4);
-										}
+										keyObjectID = entity;
+										keyObjectColor = model.GetColorRef();
 									}
-									else {
+									else { // unset key object
+										model.GetColorRef() = keyObjectColor;
+										keyObjectID = std::numeric_limits<Entity>().max();
+										keyObjectColor = glm::vec4(RESET_VEC4);
+									}
+								}
+								else {
 									ProcessSelection(name, layer_it);
+
 								}
 								somethingWasSelectedThisCycle = true;
 								return;

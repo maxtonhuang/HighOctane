@@ -95,10 +95,10 @@ extern glm::vec4 keyObjectColor;
 extern bool snappingOn;
 extern bool tilemapOn;
 
-extern int gridSpacingX;
-extern int gridSpacingY;
-extern int gridOffsetX;
-extern int gridOffsetY;
+extern float gridSpacingX;
+extern float gridSpacingY;
+extern float gridOffsetX;
+extern float gridOffsetY;
 extern int gridAlignment;
 
 

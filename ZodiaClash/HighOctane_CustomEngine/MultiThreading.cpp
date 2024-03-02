@@ -51,7 +51,7 @@
 *
 ******************************************************************************/
 void ThreadPool::WorkerFunction() {
-    // SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL); // turned of for now
+    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL); // turned off for now
     while (true) {
         std::function<void()> task;
         {
