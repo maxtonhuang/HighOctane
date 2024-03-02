@@ -887,17 +887,69 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
 /*************************
 **** DIALOGUE SYSTEM *****
 **************************/
+
+bool DialogueHUD::DialoguePtrComparator::operator() (const Dialogue* d1, const Dialogue* d2) const {
+	// Compare the triggers based on their priority
+	if (d1->triggerType != d2->triggerType) {
+		// priority is based on the enum order
+		return static_cast<int>(d1->triggerType) > static_cast<int>(d2->triggerType);
+	}
+
+	// If all attributes are equal, return false (indicating equal priority)
+	return false;
+}
+
+void DialogueHUD::Initialize() {
+	// if queue empty, populate queue
+	if (dialogueQueue.empty()) {
+		for (Dialogue dialogue : dialogues) {
+			if (!dialogue.isTriggered)
+				dialogueQueue.push(&dialogue);
+		}
+	}
+};
+
 /*!
 * \brief DialogueHUD StartDialogue
 *
 * Triggers transition for dialogue UI to move in, sets isActive to true
 *
 */
-void DialogueHUD::StartDialogue(Entity entity) {
-	isActive = 1;
-	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
-	if (animationArray.HasComponent(entity)) {
-		animationArray.GetData(entity).Start("Launch", entity);
+void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType) {
+	// check if currentDialogue assigned by system does not match inputTriggerType
+	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
+		dialogueQueue.push(currentDialogue);
+		//currentDialogue = nullptr;
+	}
+
+	// check if dialogue at top of queue is same as inputTriggerType
+	std::vector<Dialogue*> nonMatchingDialogues;
+	if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
+		// TODO: to check for turn and health counters?
+		while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType)) {
+			nonMatchingDialogues.push_back(dialogueQueue.top());
+			dialogueQueue.pop();
+		}
+		// if match pass dialogue pointer to currentDialogue
+		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType)) {
+			currentDialogue = dialogueQueue.top();
+		}
+		// push non-matching dialogues back into queue
+		for (Dialogue* dialogue : nonMatchingDialogues) {
+			dialogueQueue.push(dialogue);
+		}
+	}
+	else {
+		currentDialogue = dialogueQueue.top();
+	}
+
+	if (currentDialogue) {
+		currentDialogue->isActive = 1;
+		currentDialogue->viewingIndex = 0;
+		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+		if (animationArray.HasComponent(entity)) {
+			animationArray.GetData(entity).Start("Launch", entity);
+		}
 	}
 }
 
@@ -907,12 +959,16 @@ void DialogueHUD::StartDialogue(Entity entity) {
 * Triggers next line of dialogue, sets isActive to false if no more lines
 *
 */
-void DialogueHUD::JumpNextLine(Entity entity) {	
-	viewingIndex++;
-	if (viewingIndex > dialogueLines.size() - 1) {
-		isActive = 0;
-		isTriggered = 1;
-		viewingIndex--;
+void DialogueHUD::JumpNextLine(Entity entity) {
+	if (!currentDialogue) {
+		return;
+	}
+
+	currentDialogue->viewingIndex++;
+	if (currentDialogue->viewingIndex > currentDialogue->dialogueLines.size() - 1) {
+		currentDialogue->isActive = 0;
+		currentDialogue->isTriggered = 1;
+		currentDialogue->viewingIndex--;
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
@@ -937,7 +993,7 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
+				if (GetCurrentSystemMode() == SystemMode::RUN && currentDialogue && currentDialogue->dialogueLines.size()) {
 					JumpNextLine(entity);
 				}
 			}
@@ -957,9 +1013,7 @@ void DialogueHUD::EnforceAlignment(const Size& parentSizeData, Size& childSizeDa
 	if (childTextLabelData.textWrap != UI_TEXT_WRAP::AUTO_WIDTH) {
 		childTextLabelData.textWrap = UI_TEXT_WRAP::AUTO_WIDTH;
 	}
-	//smth is enforcing child position based on prefab?
 	childData.offset.position.x = (-0.5f * parentSizeData.width) + (0.5f * childSizeData.width);
-
 }
 
 

@@ -352,13 +352,13 @@ void StartDialogue(std::string input) {
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		if (!dialogueHudData->dialogueLines.size() && (dialogueHudData->targetScene != "")) {
-			events.Call("Transition Scene", dialogueHudData->targetScene);
+		if (!dialogueHudData->currentDialogue->dialogueLines.size() && (dialogueHudData->currentDialogue->targetScene != "")) {
+			events.Call("Transition Scene", dialogueHudData->currentDialogue->targetScene);
 			break;
 		}
-		if (!dialogueHudData->isActive && !dialogueHudData->isTriggered) {
-			dialogueHudData->viewingIndex = 0;
-			dialogueHudData->StartDialogue(entity);
+		if (!dialogueHudData->currentDialogue->isActive && !dialogueHudData->currentDialogue->isTriggered) {
+			dialogueHudData->currentDialogue->viewingIndex = 0;
+			dialogueHudData->StartDialogue(entity, DIALOGUE_TRIGGER::EVENT_BASED);
 		}
 	}
 }
@@ -376,7 +376,7 @@ void AdvanceDialogue(std::string input) {
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		if (dialogueHudData->dialogueLines.size()) {
+		if (dialogueHudData->currentDialogue->dialogueLines.size()) {
 			dialogueHudData->JumpNextLine(entity);
 		}
 	}
