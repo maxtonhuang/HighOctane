@@ -356,10 +356,25 @@ void StartDialogue(std::string input) {
 			events.Call("Transition Scene", dialogueHudData->currentDialogue->targetScene);
 			break;
 		}
-		if (!dialogueHudData->currentDialogue->isActive && !dialogueHudData->currentDialogue->isTriggered) {
-			dialogueHudData->currentDialogue->viewingIndex = 0;
-			dialogueHudData->StartDialogue(entity, DIALOGUE_TRIGGER::EVENT_BASED);
-		}
+
+		// check input
+		DIALOGUE_TRIGGER triggerEnum;
+		if (input == "EVENT")
+			triggerEnum = DIALOGUE_TRIGGER::EVENT_BASED;
+		else if (input == "PRE_BATTLE")
+			triggerEnum = DIALOGUE_TRIGGER::PRE_BATTLE;
+		else if (input == "TURN")
+			triggerEnum = DIALOGUE_TRIGGER::TURN_BASED;
+		else if (input == "HEALTH")
+			triggerEnum = DIALOGUE_TRIGGER::HEALTH_BASED;
+		else if (input == "WIN")
+			triggerEnum = DIALOGUE_TRIGGER::POST_BATTLE_WIN;
+		else if (input == "LOSE")
+			triggerEnum = DIALOGUE_TRIGGER::POST_BATTLE_LOSE;
+		else
+			triggerEnum = DIALOGUE_TRIGGER::DEFAULT;
+
+		dialogueHudData->StartDialogue(entity, triggerEnum);
 	}
 }
 

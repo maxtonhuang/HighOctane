@@ -160,7 +160,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -780.0,
+            "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -170,7 +170,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Congrats on clearing the bonus stage!!!!!!",
+            "Text String": "Prepare to utter your final words, feline creature!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -182,20 +182,132 @@
             "Background": true
         },
         "DialogueHUD": {
-            "Dialogue Lines": [
+            "Dialogues": [
                 {
-                    "Speaker": "Me",
-                    "Line": "Congrats on clearing the bonus stage!!!!!!"
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Me",
+                            "Line": "Congrats on clearing the bonus stage!!!!!!"
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Urgh..."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "It seems I was not resolute enough to withstand this curse as well."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "I am deeply apologetic for my actions."
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Are the other animals also cursed by their artifacts?"
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "I'm unsure of it."
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "Where are the other animals? Don't tell me, the Jade Emperor..."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "One thing is evident, the Zodiac Race was a deceitful scheme."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Like both of you, I want to know what exactly happened."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Allow me to right my wrongs by joining you in your journey."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "For deceiving the entirety of Ancient China to fulfill his own selfish desires..."
+                        }
+                    ],
+                    "Trigger Type": 5,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "tbc.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Prepare to utter your final words, feline creature!"
+                        }
+                    ],
+                    "Trigger Type": 3,
+                    "Round Trigger": 3,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Huh?"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "Sorry for the delay, assistance is here!"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Thanks, now let's wake this ox up."
+                        }
+                    ],
+                    "Trigger Type": 3,
+                    "Round Trigger": 4,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Urgh... you are strong..."
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "But by my decree, you shall not pass!"
+                        }
+                    ],
+                    "Trigger Type": 4,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": false,
-            "Speaker Required": true,
-            "Post Dialogue Scene": true,
-            "Target Scene": "tbc.scn"
+            ]
         },
         "Parent": {}
     },

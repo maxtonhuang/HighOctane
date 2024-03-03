@@ -71,13 +71,14 @@ enum class STATE {
 };
 // enums for dialogue
 enum class DIALOGUE_TRIGGER {
-	AUTO_LAUNCH,
-	EVENT_BASED,
-	PRE_BATTLE,
-	TURN_BASED,
-	HEALTH_BASED,
-	POST_BATTLE,
-	DEFAULT
+	AUTO_LAUNCH,		// 0 - AUTO
+	EVENT_BASED,		// 1 - EVENT
+	PRE_BATTLE,			// 2 - PRE_BATTLE
+	TURN_BASED,			// 3 - TURN
+	HEALTH_BASED,		// 4 - HEALTH
+	POST_BATTLE_WIN,	// 5 - WIN
+	POST_BATTLE_LOSE,	// 6 - LOSE
+	DEFAULT				// 7 - DEFAULT
 };
 
 // struct for padding within padding component
@@ -406,7 +407,7 @@ public:
 	std::priority_queue<Dialogue*, std::vector<Dialogue*>, DialoguePtrComparator> dialogueQueue;
 	Dialogue* currentDialogue{};
 
-	bool isAllTriggered{};
+	//bool isAllTriggered{};
 
 	DialogueHUD();
 

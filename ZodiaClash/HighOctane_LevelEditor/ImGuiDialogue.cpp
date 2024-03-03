@@ -63,7 +63,7 @@ void DialogueWindow(Entity entity) {
                     ImGui::TableSetColumnIndex(1);
                     DIALOGUE_TRIGGER& triggerSetting = dialogue.triggerType;
 
-                    const char* triggerOptions[] = { "Auto", "Event", "Pre-Battle", "Turn", "Health", "Post-Battle", "Default" };
+                    const char* triggerOptions[] = { "Auto", "Event", "Pre-Battle", "Turn", "Health", "Win", "Lose", "Default" };
 
                     if (ImGui::BeginCombo("##Trigger Condition", triggerOptions[static_cast<int>(triggerSetting)])) {
                         for (int j = 0; j < static_cast<int>(DIALOGUE_TRIGGER::DEFAULT) + 1; ++j) {

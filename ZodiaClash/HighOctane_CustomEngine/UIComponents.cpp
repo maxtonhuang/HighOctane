@@ -928,7 +928,28 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 
 	// check if dialogue at top of queue is same as inputTriggerType
 	std::vector<Dialogue*> nonMatchingDialogues;
-	if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
+	if (inputTriggerType == DIALOGUE_TRIGGER::TURN_BASED) {
+		BattleSystem* battleSys = events.GetBattleSystem();
+		if (battleSys) {
+			int roundIndex = battleSys->roundManage.roundCounter;
+			while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType) && (dialogueQueue.top()->roundTrigger != roundIndex)) {
+				nonMatchingDialogues.push_back(dialogueQueue.top());
+				dialogueQueue.pop();
+			}
+			// if match pass dialogue pointer to currentDialogue
+			if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType) && (dialogueQueue.top()->roundTrigger == roundIndex)) {
+				currentDialogue = dialogueQueue.top();
+			}
+			// push non-matching dialogues back into queue
+			for (Dialogue* dialogue : nonMatchingDialogues) {
+				dialogueQueue.push(dialogue);
+			}
+		}
+	}
+	// additional clause for health, if the health threshold has been hit
+	/*else if (inputTriggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
+	}*/
+	else if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
 		// TODO: to check for turn and health counters?
 		while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType)) {
 			nonMatchingDialogues.push_back(dialogueQueue.top());

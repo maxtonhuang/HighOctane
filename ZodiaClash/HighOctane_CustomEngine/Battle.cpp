@@ -138,6 +138,8 @@ void BattleSystem::StartBattle() {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
     }
 
+    events.Call("Start Dialogue", "PRE_BATTLE");
+
     //Initialise turn order animator
     InitialiseBattleUI();
 
@@ -335,12 +337,26 @@ void BattleSystem::Update()
                         damagePrefab = "Goat_Skill_VFX.prefab";
                     }
                 }
+                // Handle boss ox death
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                    events.Call("Start Dialogue", "HEALTH");
+                }
                 turnManage.turnOrderList.remove(c);
                 turnManage.originalTurnOrderList.remove(c);
                 turnManage.characterList.remove(*c);
                 ProcessDamage();
             }
             deadchars.clear();
+
+            //Check if turn/health conditions are met, trigger dialogue
+            for (CharacterStats* c : turnManage.turnOrderList) {
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                    if ((roundManage.roundCounter == 3) || (roundManage.roundCounter == 4)) {
+						events.Call("Start Dialogue", "TURN");
+					}
+                }
+            }
+            
 
             battleState = NEXTTURN;
         }
@@ -468,11 +484,12 @@ void BattleSystem::CompleteBattle() {
             animationArray->GetData(e).Start("Pop Out", e);
         }
         if (battleState == WIN) {
-            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");\
-            events.Call("Start Dialogue", "");
+            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
+            events.Call("Start Dialogue", "WIN");
         }
         else if (battleState == LOSE) {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
+            events.Call("Start Dialogue", "LOSE");
         }
         
     }

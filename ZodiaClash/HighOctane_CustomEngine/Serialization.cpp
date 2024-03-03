@@ -446,20 +446,25 @@ rapidjson::Value SerializeDialogueHUD(const DialogueHUD& dialogueHUD, rapidjson:
 			lineObject.AddMember("Line", rapidjson::Value(line.second.c_str(), allocator).Move(), allocator);
 			dialogueLinesVec.PushBack(lineObject, allocator);
 		}
-		dialogueHudObject.AddMember("Dialogue Lines", dialogueLinesVec, allocator);
+		dialogueObject.AddMember("Dialogue Lines", dialogueLinesVec, allocator);
 
-		dialogueHudObject.AddMember("Viewing Index", dialogue.viewingIndex, allocator);
-		dialogueHudObject.AddMember("Display Duration", dialogue.displayDuration, allocator);
-		dialogueHudObject.AddMember("Is Active", (bool)dialogue.isActive, allocator);
+		dialogueObject.AddMember("Trigger Type", (int)dialogue.triggerType, allocator);
+		dialogueObject.AddMember("Round Trigger", (int)dialogue.roundTrigger, allocator);
+		dialogueObject.AddMember("Health Trigger", (int)dialogue.healthTrigger, allocator);
 
-		dialogueHudObject.AddMember("Is Triggered", (bool)dialogue.isTriggered, allocator);
+		dialogueObject.AddMember("Viewing Index", dialogue.viewingIndex, allocator);
+		dialogueObject.AddMember("Display Duration", dialogue.displayDuration, allocator);
+		dialogueObject.AddMember("Is Active", (bool)dialogue.isActive, allocator);
+
+		dialogueObject.AddMember("Is Triggered", (bool)dialogue.isTriggered, allocator);
 		//dialogueHudObject.AddMember("Auto Launch", (bool)dialogue.autoLaunch, allocator);
-		dialogueHudObject.AddMember("Speaker Required", (bool)dialogue.speakerRequired, allocator);
-		dialogueHudObject.AddMember("Post Dialogue Scene", (bool)dialogue.postDialogueScene, allocator);
-		dialogueHudObject.AddMember("Target Scene", rapidjson::Value(dialogue.targetScene.c_str(), allocator).Move(), allocator);
+		dialogueObject.AddMember("Speaker Required", (bool)dialogue.speakerRequired, allocator);
+		dialogueObject.AddMember("Post Dialogue Scene", (bool)dialogue.postDialogueScene, allocator);
+		dialogueObject.AddMember("Target Scene", rapidjson::Value(dialogue.targetScene.c_str(), allocator).Move(), allocator);
 
 		dialoguesVec.PushBack(dialogueObject, allocator);
 	}
+	dialogueHudObject.AddMember("Dialogues", dialoguesVec, allocator);
 	return dialogueHudObject;
 }
 
@@ -1538,51 +1543,69 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			}
 			if (entityObject.HasMember("DialogueHUD")) {
 				DialogueHUD dialogueHud;
-				DialogueHUD::Dialogue dialogue;
 				const rapidjson::Value& dialogueHudObject = entityObject["DialogueHUD"];
 
-				// Check if any dialogue lines have been added
-				if (dialogueHudObject.HasMember("Dialogue Lines") && dialogueHudObject["Dialogue Lines"].IsArray()) {
-					const rapidjson::Value& dialogueLinesArray = dialogueHudObject["Dialogue Lines"];
-					for (rapidjson::SizeType j = 0; j < dialogueLinesArray.Size(); ++j) {
-						if (dialogueLinesArray[j].IsObject()) {
-							std::pair<std::string, std::string> line;
-							line.first = dialogueLinesArray[j]["Speaker"].GetString();
-							line.second = dialogueLinesArray[j]["Line"].GetString();
-							dialogue.dialogueLines.push_back(line);
+				// Check for dialogues
+				if (dialogueHudObject.HasMember("Dialogues") && dialogueHudObject["Dialogues"].IsArray()) {
+					const rapidjson::Value& dialoguesArray = dialogueHudObject["Dialogues"];
+					for (rapidjson::SizeType j = 0; j < dialoguesArray.Size(); ++j) {
+						const rapidjson::Value& dialogueObject = dialoguesArray[j];
+						DialogueHUD::Dialogue dialogue;
+
+						// Check if any dialogue lines have been added
+						if (dialogueObject.HasMember("Dialogue Lines") && dialogueObject["Dialogue Lines"].IsArray()) {
+							const rapidjson::Value& dialogueLinesArray = dialogueObject["Dialogue Lines"];
+							for (rapidjson::SizeType k = 0; k < dialogueLinesArray.Size(); ++k) {
+								if (dialogueLinesArray[k].IsObject()) {
+									std::pair<std::string, std::string> line;
+									line.first = dialogueLinesArray[k]["Speaker"].GetString();
+									line.second = dialogueLinesArray[k]["Line"].GetString();
+									dialogue.dialogueLines.push_back(line);
+								}
+							}
 						}
+
+						if (dialogueObject.HasMember("Trigger Type")) {
+							dialogue.triggerType = static_cast<DIALOGUE_TRIGGER>(dialogueObject["Trigger Type"].GetInt());
+						}
+						if (dialogueObject.HasMember("Round Trigger")) {
+							dialogue.roundTrigger = dialogueObject["Round Trigger"].GetInt();
+						}
+						if (dialogueObject.HasMember("Health Trigger")) {
+							dialogue.healthTrigger = dialogueObject["Health Trigger"].GetInt();
+						}
+
+						if (dialogueObject.HasMember("Viewing Index")) {
+							dialogue.viewingIndex = dialogueObject["Viewing Index"].GetInt();
+						}
+
+						if (dialogueObject.HasMember("Display Duration")) {
+							dialogue.displayDuration = dialogueObject["Display Duration"].GetFloat();
+						}
+
+						if (dialogueObject.HasMember("Is Active")) {
+							dialogue.isActive = dialogueObject["Is Active"].GetBool();
+						}
+
+						if (dialogueObject.HasMember("Is Triggered")) {
+							dialogue.isTriggered = dialogueObject["Is Triggered"].GetBool();
+						}
+						/*if (dialogueHudObject.HasMember("Auto Launch")) {
+							dialogue.autoLaunch = dialogueHudObject["Auto Launch"].GetBool();
+						}*/
+						if (dialogueObject.HasMember("Speaker Required")) {
+							dialogue.speakerRequired = dialogueObject["Speaker Required"].GetBool();
+						}
+						if (dialogueObject.HasMember("Post Dialogue Scene")) {
+							dialogue.postDialogueScene = dialogueObject["Post Dialogue Scene"].GetBool();
+						}
+						if (dialogueObject.HasMember("Target Scene")) {
+							dialogue.targetScene = dialogueObject["Target Scene"].GetString();
+						}
+
+						dialogueHud.dialogues.push_back(dialogue);
 					}
-				}
-
-				if (dialogueHudObject.HasMember("Viewing Index")) {
-					dialogue.viewingIndex = dialogueHudObject["Viewing Index"].GetInt();
-				}
-
-				if (dialogueHudObject.HasMember("Display Duration")) {
-					dialogue.displayDuration = dialogueHudObject["Display Duration"].GetFloat();
-				}
-
-				if (dialogueHudObject.HasMember("Is Active")) {
-					dialogue.isActive = dialogueHudObject["Is Active"].GetBool();
-				}
-
-				if (dialogueHudObject.HasMember("Is Triggered")) {
-					dialogue.isTriggered = dialogueHudObject["Is Triggered"].GetBool();
-				}
-				/*if (dialogueHudObject.HasMember("Auto Launch")) {
-					dialogue.autoLaunch = dialogueHudObject["Auto Launch"].GetBool();
-				}*/
-				if (dialogueHudObject.HasMember("Speaker Required")) {
-					dialogue.speakerRequired = dialogueHudObject["Speaker Required"].GetBool();
-				}
-				if (dialogueHudObject.HasMember("Post Dialogue Scene")) {
-					dialogue.postDialogueScene = dialogueHudObject["Post Dialogue Scene"].GetBool();
-				}
-				if (dialogueHudObject.HasMember("Target Scene")) {
-					dialogue.targetScene = dialogueHudObject["Target Scene"].GetString();
-				}
-
-				dialogueHud.dialogues.push_back(dialogue);
+				}						
 
 				if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
 					ECS::ecs().GetComponent<DialogueHUD>(entity) = dialogueHud;
