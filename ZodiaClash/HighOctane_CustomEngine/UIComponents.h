@@ -408,10 +408,13 @@ public:
 
 	bool isAllTriggered{};
 
+	DialogueHUD();
+
 	void Initialize();
 	void StartDialogue(Entity entity, DIALOGUE_TRIGGER triggerType = DIALOGUE_TRIGGER::DEFAULT);
 	void JumpNextLine(Entity entity);
-	void AddDialogue(Dialogue dialogue);
+	void AddDialogue(Dialogue dialogue, bool& result);
+	void RemoveDialogue(int index);
 
 	void Update(Model& modelData, Entity entity);
 	void EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData);

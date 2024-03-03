@@ -899,6 +899,10 @@ bool DialogueHUD::DialoguePtrComparator::operator() (const Dialogue* d1, const D
 	return false;
 }
 
+DialogueHUD::DialogueHUD() {
+	dialogues.reserve(10);
+}
+
 void DialogueHUD::Initialize() {
 	// if queue empty, populate queue
 	if (dialogueQueue.empty()) {
@@ -919,7 +923,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	// check if currentDialogue assigned by system does not match inputTriggerType
 	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
 		dialogueQueue.push(currentDialogue);
-		//currentDialogue = nullptr;
+		currentDialogue = nullptr;
 	}
 
 	// check if dialogue at top of queue is same as inputTriggerType
@@ -953,7 +957,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	}
 }
 
-void DialogueHUD::AddDialogue(Dialogue dialogue) {
+void DialogueHUD::AddDialogue(Dialogue dialogue, bool& result) {
 	int index{ 0 };
 	for (Dialogue const& d : dialogues) {
 		if (&d == currentDialogue) {
@@ -961,8 +965,38 @@ void DialogueHUD::AddDialogue(Dialogue dialogue) {
 		}
 		index++;
 	}
-	dialogues.push_back(dialogue);
-	currentDialogue = &dialogues[index];
+	if (dialogues.size() < dialogues.capacity()) {
+		dialogues.push_back(dialogue);
+		currentDialogue = &dialogues[index];
+		dialogueQueue.push(&dialogue);
+
+		result = true;
+	}	
+}
+
+void DialogueHUD::RemoveDialogue(int index) {
+	// step 1: check and update currentDialogue pointer
+	if (currentDialogue == &dialogues[index]) {
+		currentDialogue = nullptr; // clear away currentDialogue pointer
+	}
+
+	// step 2: remove from dialogueQueue
+	std::vector<Dialogue*> tempQueue;
+	while (!dialogueQueue.empty()) {
+		Dialogue* front = dialogueQueue.top();
+		dialogueQueue.pop();
+		if (front != &dialogues[index]) {
+			tempQueue.push_back(front);
+		}
+	}
+	for (Dialogue* ptr : tempQueue) {
+		dialogueQueue.push(ptr);
+	}
+
+	// step 3: remove from dialogues vector
+	if (index >= 0 && index < dialogues.size()) {
+		dialogues.erase(dialogues.begin() + index);
+	}
 }
 
 /*!
