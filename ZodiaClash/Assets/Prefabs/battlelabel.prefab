@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 57,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,7 +28,39 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24"
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56"
             ]
         }
     },
@@ -68,10 +100,10 @@
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.20000000298023224,
+            "Red": 0.4470588266849518,
+            "Green": 0.6039215922355652,
+            "Blue": 0.4156862795352936,
+            "Alpha": 0.7843137383460999,
             "Mirror": false
         },
         "Movable": {},
@@ -88,21 +120,21 @@
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 0,
-            "Background": false
+            "Background": true
         },
         "Animation Set": [
             {
                 "Total Frames": 60,
                 "Group Name": "Battle Label",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.026000000536441803,
                 "Animations": [
                     {
                         "Animation Type": "Fade",
                         "Key Frames": [
                             {
-                                "Frame Number": 40,
-                                "Alpha": 1.0
+                                "Frame Number": 48,
+                                "Alpha": 0.7839999794960022
                             },
                             {
                                 "Frame Number": 59,

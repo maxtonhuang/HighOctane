@@ -308,11 +308,38 @@ class SkillAttackType : UIComponent {
 	// empty by design - tags skill's atk type lbl (TextLabel) and icon (Tex)
 };
 
+class StatusEffect : UIComponent {
+public:
+	/*
+	* notes:
+	* - composite of icon (Tex) and stacks (TextLabel)
+	*/
+	enum StatusType {
+		BLEED,
+		TAUNT,
+		STUN,
+		ATKUP,
+		DEFUP,
+		DEFDOWN,
+		LASTEFFECT //MUST BE UNUSED, USED FOR ITERATION ONLY
+	}; StatusType statustype;
+
+	Entity character{};
+	Entity tooltip{};
+	bool enemy{};
+	int pos{}; //position label for multiple status labels
+	void UpdateOffset(Entity entity);
+	void UpdateStacksLbl(TextLabel& textLabelData, CharacterStats* charstats);
+};
+
 class AllyHUD : UIComponent {
 public:
 	int allyIndex{};
+	std::unordered_map<StatusEffect::StatusType, Entity> statusLabels;
+	bool initialised{ false };
 
 	void CheckValidIndex(int playerCount, bool& res);
+	void ToggleStatusFx(Entity parentEntity, CharacterStats* charstats);
 
 	// FUTURE IMPLEMENTATIONS: dynamic allocation!!
 	//static int allyInstanceIndex;
@@ -322,11 +349,11 @@ public:
 class EnemyHUD : UIComponent {
 public:
 	int enemyIndex{};
-	Entity statuslabel{};
+	std::unordered_map<StatusEffect::StatusType, Entity> statusLabels;
 	bool initialised{ false };
 
 	void CheckValidIndex(int enemyCount, bool& res);
-	void ToggleStatusFx(Entity parentEntity, int stacks);
+	void ToggleStatusFx(Entity parentEntity, CharacterStats* charstats);
 };
 
 class TurnIndicator : UIComponent {
@@ -349,17 +376,6 @@ public:
 //
 //	//void UpdateOffset();
 //};
-
-class StatusEffect : UIComponent {
-public:
-	/*
-	* notes:
-	* - composite of icon (Tex) and stacks (TextLabel)
-	*/
-	Entity character{};
-	void UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform);
-	void UpdateStacksLbl(TextLabel& textLabelData, int stacks);
-};
 
 class DialogueSpeaker : UIComponent {
 public:

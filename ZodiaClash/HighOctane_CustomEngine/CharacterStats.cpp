@@ -108,10 +108,14 @@ void CharacterStats::TakeDamage(float damage)
     }
 
     this->stats.health -= damage;
+    this->damage = damage;
     if (stats.health <= 0)
     {
         stats.health = 0;
         action.entityState = DYING;
+    }
+    else if (stats.health > stats.maxHealth) {
+        stats.health = stats.maxHealth;
     }
 }
 

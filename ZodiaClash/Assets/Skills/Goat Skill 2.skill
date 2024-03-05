@@ -1,6 +1,6 @@
 [
     {
-        "Name": "Heavenly Chi Surge",
+        "Name": "Chi Surge",
 	"Texture": "skill_icon_goat_2.png",
 	"Tooltip": "tooltip_GoatSkill2.prefab",
         "Type": 2,

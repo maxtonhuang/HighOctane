@@ -48,6 +48,7 @@
  */
 void CharacterAction::UpdateState() {
     static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+    const float darkred{ 117.f / 255.f };
     std::string name;
     switch (entityState) {
     case START:
@@ -80,9 +81,9 @@ void CharacterAction::UpdateState() {
                         break;
                     }
                 }
-                static Entity returnpos{ };
-                static Entity attackpos{ };
-                static vmath::Vector2 aoePoint{ };
+                static Entity returnpos{};
+                static Entity attackpos{};
+                static vmath::Vector2 aoePoint{};
                 if (!ECS::ecs().EntityExists(returnpos)) {
                     returnpos = EntityFactory::entityFactory().ClonePrefab("returnpos.prefab");
                 }
@@ -117,6 +118,8 @@ void CharacterAction::UpdateState() {
                 animation.Queue(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
+            glm::vec4& battleLabelColor{ ECS::ecs().GetComponent<Model>(battlelabel).GetColorRef() };
+            battleLabelColor = glm::vec4(darkred,0.f,0.f,battleLabelColor.a);
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
             battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
@@ -154,6 +157,7 @@ void CharacterAction::UpdateState() {
         if (characterStats->debuffs.tauntStack > 0) {
             characterStats->debuffs.tauntStack -= 1;
         }
+        entityState = END;
     }
 }
 

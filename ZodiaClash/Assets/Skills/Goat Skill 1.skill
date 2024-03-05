@@ -1,6 +1,6 @@
 [
     {
-        "Name": "Heavenly Yin-Yang Strike",
+        "Name": "Yin-Yang Strike",
 	"Texture": "skill_icon_goat_1.png",
 	"Tooltip": "tooltip_GoatSkill1.prefab",
         "Type": 0,
