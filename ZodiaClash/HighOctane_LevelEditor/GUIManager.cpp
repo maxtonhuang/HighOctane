@@ -452,21 +452,22 @@ void GUIManager::Update()
                 if (ImGui::MenuItem("Scale to Grid Width", NULL, false, (tilemapOn && selectedEntities.size() == 1) ? true : false)) {
                     Entity e = selectedEntities.front();
                     if (ECS::ecs().HasComponent<Transform>(e) && ECS::ecs().HasComponent<Size>(e)) {
-                        ECS::ecs().GetComponent<Transform>(e).scale = gridSpacingX / ECS::ecs().GetComponent<Size>(e).width;
+                        ECS::ecs().GetComponent<Transform>(e).scale = gridSpacingX / (ECS::ecs().GetComponent<Model>(e).GetMax().x - ECS::ecs().GetComponent<Model>(e).GetMin().x); //ECS::ecs().GetComponent<Size>(e).width;
                     }
 					rightClick = false;
 				}
                 if (ImGui::MenuItem("Scale to Grid Height", NULL, false, (tilemapOn && selectedEntities.size() == 1) ? true : false)) {
                     Entity e = selectedEntities.front();
                     if (ECS::ecs().HasComponent<Transform>(e) && ECS::ecs().HasComponent<Size>(e)) {
-                        ECS::ecs().GetComponent<Transform>(e).scale = gridSpacingX / ECS::ecs().GetComponent<Size>(e).height;
+                        ECS::ecs().GetComponent<Transform>(e).scale = gridSpacingY / (ECS::ecs().GetComponent<Model>(e).GetMax().y - ECS::ecs().GetComponent<Model>(e).GetMin().y); //ECS::ecs().GetComponent<Size>(e).height;
                     }
                     rightClick = false;
                 }
-                if (ImGui::MenuItem("Resize to Grid Width and Height", NULL, false, (tilemapOn && selectedEntities.size() == 1) ? true : false)) {
+                if (ImGui::MenuItem("Resize to Grid Width and Height", NULL, false, (tilemapOn && selectedEntities.size() == 1 && ECS::ecs().HasComponent<Transform>(selectedEntities.front()) && ECS::ecs().GetComponent<Transform>(selectedEntities.front()).rotation == 0.f) ? true : false)) {
                     Entity e = selectedEntities.front();
                     if (ECS::ecs().HasComponent<Transform>(e) && ECS::ecs().HasComponent<Size>(e)) {
                         ECS::ecs().GetComponent<Transform>(e).scale = 1.f;
+
                         ECS::ecs().GetComponent<Size>(e).width = gridSpacingX;
                         ECS::ecs().GetComponent<Size>(e).height = gridSpacingY;
                     }

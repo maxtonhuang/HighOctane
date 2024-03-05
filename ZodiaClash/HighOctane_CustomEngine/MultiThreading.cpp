@@ -86,7 +86,7 @@ void ThreadPool::WorkerFunction() {
 *
 ******************************************************************************/
 ThreadPool::ThreadPool() {
-    size_t numThreads = (std::thread::hardware_concurrency() / 2);
+    size_t numThreads = (std::thread::hardware_concurrency() - 1);
     for (size_t i = 0; i < numThreads; ++i) {
         workers.emplace_back(&ThreadPool::WorkerFunction, this);
     }

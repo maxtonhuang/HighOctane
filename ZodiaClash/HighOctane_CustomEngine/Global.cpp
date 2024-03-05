@@ -86,13 +86,11 @@ Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 glm::vec4 keyObjectColor{ RESET_VEC4 };
 bool snappingOn{ true };
 bool tilemapOn{ false };
-extern float gridSpacingX{ 200.f };
-extern float gridSpacingY{ 200.f };
-extern float gridOffsetX{ 0.f };
-extern float gridOffsetY{ 0.f };
-extern int gridAlignment{ SA_CENTER };
-
-
+float gridSpacingX{ 200.f };
+float gridSpacingY{ 200.f };
+float gridOffsetX{ 0.f };
+float gridOffsetY{ 0.f };
+int gridAlignment{ SA_CENTER };
 
 
 std::unordered_map<Entity, glm::vec4> snappingHighlight{};

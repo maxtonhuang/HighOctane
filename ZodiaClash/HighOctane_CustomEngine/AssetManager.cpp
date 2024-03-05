@@ -44,6 +44,12 @@
 
 AssetManager assetmanager;
 
+//std::mutex textureMutex;
+//std::mutex spritesheetMutex;
+//std::mutex fontMutex;
+//std::mutex rendererMutex;
+//std::mutex entitiesMutex;
+
 void AssetManager::Initialize() {
     const std::string initFilePath = "init.txt";
     defaultPath = "Assets/";
@@ -84,6 +90,7 @@ void AssetManager::UnloadAll() {
 
 /**************************************TEXTURES**************************************************/
 void AssetManager::LoadTexture(const std::string& texturePath) {
+    //std::lock_guard<std::mutex> guard(textureMutex);
     std::string path{ defaultPath };
     path += "Textures/";
     path += texturePath;
@@ -96,6 +103,7 @@ void AssetManager::LoadTexture(const std::string& texturePath) {
 }
 
 void AssetManager::LoadSpritesheet(const std::string& spritePath) {
+    //std::lock_guard<std::mutex> guard(spritesheetMutex);
     std::string path{ defaultPath };
     path += "Textures/" + spritePath;
     if (FileExists(path)) {
@@ -154,6 +162,7 @@ void AssetManager::LoadAmbience(const std::string& audioPath) {
 
 /**************************************FONTS**************************************************/
 void AssetManager::LoadFont(const std::string& fontPath) {
+    //std::lock_guard<std::mutex> guard(fontMutex);
     std::string path{ defaultPath };
     path += "Fonts/" + fontPath;
     if (FileExists(path)) {
@@ -166,6 +175,7 @@ void AssetManager::LoadFont(const std::string& fontPath) {
 
 /**************************************SHADERS*************************************************/
 void AssetManager::LoadRenderer(const std::string& rendererPath) {
+    //std::lock_guard<std::mutex> guard(rendererMutex);
     std::string path{ defaultPath };
     path += "Shaders/" + rendererPath;
     if (FileExists(path)) {
@@ -284,6 +294,7 @@ void AssetManager::LoadScene(const std::string& scenePath) {
                 LoadAssets(path);
             }
         }
+        //ThreadPool::threadPool().WaitForAllTasks();
     }
     else {
         //ASSERT(true, "Unable to open scene file!");
@@ -344,6 +355,7 @@ void AssetManager::SaveSceneAssets(const std::string& scenePath) {
 }
 
 void AssetManager::LoadEntities(const std::string& entitiesPath) {
+    //std::lock_guard<std::mutex> guard(entitiesMutex);
     std::string path{ defaultPath };
     path += "Scenes/" + entitiesPath;
     if (FileExists(path)) {
@@ -374,6 +386,7 @@ std::vector<std::string> AssetManager::GetFiles() {
 void AssetManager::LoadAssets(const std::string& assetPath) {
     // Determine the asset type based on the file extension or other criteria
     
+
     std::string extension = FilePath::GetFileExtension(assetPath);
     if (extension == "") {
         return;
@@ -381,9 +394,11 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
 
     if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") {
         // Load as a texture
+        //ThreadPool::threadPool().Enqueue([this, assetPath]() { LoadTexture(assetPath); });
         LoadTexture(assetPath);
     }
     else if (extension == ".spritesheet") {
+        //ThreadPool::threadPool().Enqueue([this, assetPath]() { LoadSpritesheet(assetPath); });
         LoadSpritesheet(assetPath);
     }
     else if (extension == ".wav" || extension == ".ogg") {
@@ -417,15 +432,18 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else if (extension == ".ttf" || extension == ".otf") {
         // Load as font
+        //ThreadPool::threadPool().Enqueue([this, assetPath]() { LoadFont(assetPath); });
         LoadFont(assetPath);
     }
     else if (extension == ".renderer") {
+        //ThreadPool::threadPool().Enqueue([this, assetPath]() { LoadRenderer(assetPath); });
         LoadRenderer(assetPath);
     }
     else if (extension == ".scn") {
         LoadScene(assetPath);
     }
     else if (extension == ".json") {
+        //ThreadPool::threadPool().Enqueue([this, assetPath]() { LoadEntities(assetPath); });
         LoadEntities(assetPath);
     }
     else if (extension == ".skill") {
@@ -436,6 +454,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
         ASSERT(true,"Unsupported asset type");
     }
     loadedFiles.push_back(assetPath);
+
 }
 
 std::string AssetManager::GetDefaultPath() {

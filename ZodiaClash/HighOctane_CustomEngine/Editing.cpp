@@ -52,7 +52,6 @@ constexpr float SNAP_LINE_EXTENSION{ 100.f };
 constexpr float CORNER_SIZE{ 10.f };
 
 
-
 /******************************************************************************
 *
 *	@brief Updates the editing functions for entities

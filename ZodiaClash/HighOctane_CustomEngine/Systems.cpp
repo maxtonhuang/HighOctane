@@ -356,6 +356,9 @@ void CollisionSystem::Update() {
 // For MainCharacter only
 void MovementSystem::Update() {
 
+	static vmath::Vector2 boundaryMax{ 0.f,0.f };
+	static vmath::Vector2 boundaryMin{ 0.f,0.f };
+
 	if (!inEditing || viewportWindowHovered) {
 
 		// Access the ComponentManager through the ECS class
@@ -373,12 +376,27 @@ void MovementSystem::Update() {
 			if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 				for (Entity& entity : layering[layer_it]) {
 					if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
+						if (colliderArray.HasComponent(entity)) {
+							Collider colliderData = colliderArray.GetData(entity);
+							boundaryMax.x = (colliderData.position.x > boundaryMax.x) ? (colliderData.position.x) : boundaryMax.x;
+							boundaryMax.y = (colliderData.position.y > boundaryMax.y) ? (colliderData.position.y) : boundaryMax.y;
+							boundaryMin.x = (colliderData.position.x < boundaryMin.x) ? (colliderData.position.x) : boundaryMin.x;
+							boundaryMin.y = (colliderData.position.y < boundaryMin.y) ? (colliderData.position.y) : boundaryMin.y;
+							if (boundaryMax.x - boundaryMin.x < GRAPHICS::defaultWidthF) {
+								boundaryMin.x = -GRAPHICS::w;
+								boundaryMax.x = GRAPHICS::w;
+							}
+							if (boundaryMax.y - boundaryMin.y < GRAPHICS::defaultHeightF) {
+								boundaryMin.y = -GRAPHICS::h;
+								boundaryMax.y = GRAPHICS::h;
+							}
+						}
+						
 						if (ECS::ecs().HasComponent<MainCharacter>(entity) && ECS::ecs().HasComponent<Clone>(entity) && ECS::ecs().HasComponent<Model>(entity) && ECS::ecs().HasComponent<Size>(entity) && ECS::ecs().HasComponent<Tex>(entity)) {
 							Transform* transformData = &transformArray.GetData(entity);
 							Model* modelData = &modelArray.GetData(entity);
 							MainCharacter* mcData = &mcArray.GetData(entity);
 							AnimationSet* animationData = &animationArray.GetData(entity);
-
 							UpdateMovement(*transformData, *modelData);
 							//Idle
 							if (transformData->force.x == 0.f && transformData->force.y == 0.f) {
@@ -403,7 +421,12 @@ void MovementSystem::Update() {
 							}
 							colliderArray.GetData(entity).type = Collider::MAIN;
 
-							camera.SetTarget(entity);
+							//camera.SetTarget(entity);
+
+							//printf("boundaryMax: %f, %f || boundaryMin: %f, %f\n", boundaryMax.x - GRAPHICS::w, boundaryMax.y - GRAPHICS::h, boundaryMin.x + GRAPHICS::w, boundaryMin.y + GRAPHICS::h);
+							//printf("charPos: %f, %f, %f\n",transformData->position.x, transformData->position.y, transformData->position.y);
+
+							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
 						}
 					}
 				}
