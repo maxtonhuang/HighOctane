@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 55,
+            "layerCounter": 84,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -58,7 +58,36 @@
                 "Layer 51",
                 "Layer 52",
                 "Layer 53",
-                "Layer 54"
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71",
+                "Layer 72",
+                "Layer 73",
+                "Layer 74",
+                "Layer 75",
+                "Layer 76",
+                "Layer 77",
+                "Layer 78",
+                "Layer 79",
+                "Layer 80",
+                "Layer 81",
+                "Layer 82",
+                "Layer 83"
             ]
         }
     },
