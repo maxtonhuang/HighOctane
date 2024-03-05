@@ -423,9 +423,6 @@ void MovementSystem::Update() {
 
 							//camera.SetTarget(entity);
 
-							//printf("boundaryMax: %f, %f || boundaryMin: %f, %f\n", boundaryMax.x - GRAPHICS::w, boundaryMax.y - GRAPHICS::h, boundaryMin.x + GRAPHICS::w, boundaryMin.y + GRAPHICS::h);
-							//printf("charPos: %f, %f, %f\n",transformData->position.x, transformData->position.y, transformData->position.y);
-
 							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
 						}
 					}
