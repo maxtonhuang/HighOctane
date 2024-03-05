@@ -791,6 +791,38 @@ void AttackSkill::UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost) {
 	textLabelData.textString += std::to_string(std::abs(skillCost));
 }
 
+//Helper function for switch case for ally and enemy HUDs
+void HUDStatusHelper(StatusEffect::StatusType status, CharacterStats* charstats, int& stacks, std::string& effectIcon) {
+	if (charstats == nullptr) {
+		return;
+	}
+	switch (status) {
+	case StatusEffect::BLEED:
+		stacks = charstats->debuffs.bloodStack;
+		effectIcon = "UI_ICON_bleed.png";
+		break;
+	case StatusEffect::TAUNT:
+		stacks = charstats->debuffs.tauntStack;
+		effectIcon = "UI_ICON_taunt.png";
+		break;
+	case StatusEffect::STUN:
+		stacks = charstats->debuffs.stunStack;
+		effectIcon = "UI_ICON_stun.png";
+		break;
+	case StatusEffect::ATKUP:
+		stacks = charstats->buffs.attackStack;
+		effectIcon = "UI_ICON_atk_up.png";
+		break;
+	case StatusEffect::DEFUP:
+		stacks = charstats->buffs.defenseStack;
+		effectIcon = "UI_ICON_def_up.png";
+		break;
+	case StatusEffect::DEFDOWN:
+		stacks = charstats->debuffs.defenseStack;
+		effectIcon = "UI_ICON_def_down.png";
+		break;
+	}
+}
 
 /**************************
 ***** ALLY HUD SYSTEM *****
@@ -810,6 +842,73 @@ void AllyHUD::CheckValidIndex(int playerCount, bool& result) {
 	}
 	result = true;
 	allyIndex = allyIndex % playerCount;
+}
+
+/*!
+* \brief AllyHUD toggle status effect indicator
+*
+* Event based trigger where it appears if ally has debuff stacks
+*
+*/
+void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
+	//DEBUG_PRINT("STACKS: %d", stacks);
+	static auto& statusEffectArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<StatusEffect>() };
+	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
+	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+
+	int stacks{ 0 };
+
+	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
+		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
+
+		int stacks{ 0 };
+		std::string effectIcon{};
+
+		HUDStatusHelper(status, charstats, stacks, effectIcon);
+
+		Entity& statuslabel = statusLabels[status];
+
+		if ((statuslabel != 0) && (stacks < 1)) {
+			int deleted_pos{ statusEffectArray.GetData(statuslabel).pos };
+			EntityFactory::entityFactory().DeleteCloneModel(statuslabel);
+			statuslabel = 0;
+			for (auto& s : statusLabels) {
+				if (s.second) {
+					StatusEffect& statusFxComp{ statusEffectArray.GetData(s.second) };
+					if (statusFxComp.pos > deleted_pos) {
+						statusFxComp.pos--;
+					}
+				}
+			}
+		}
+		else {
+			if ((statuslabel == 0) && (stacks > 0)) {
+				int effect_count{ 0 };
+
+				for (const auto& s : statusLabels) {
+					if (s.second) {
+						effect_count++;
+					}
+				}
+
+				statuslabel = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
+
+				if (statusEffectArray.HasComponent(statuslabel)) {
+					StatusEffect& statusFxComp{ statusEffectArray.GetData(statuslabel) };
+					statusFxComp.character = parent;
+					statusFxComp.statustype = status;
+					statusFxComp.enemy = false;
+					statusFxComp.pos = effect_count;
+				}
+
+				if (parentArray.HasComponent(statuslabel)) {
+					Entity child{ parentArray.GetData(statuslabel).children[0] };
+					textureArray.GetData(child).tex = assetmanager.texture.Get(effectIcon.c_str());
+				}
+			}
+		}
+	}
 }
 
 
@@ -839,18 +938,62 @@ void EnemyHUD::CheckValidIndex(int enemyCount, bool& result) {
 * Event based trigger where it appears if enemy has debuff stacks
 *
 */
-void EnemyHUD::ToggleStatusFx(Entity parent, int stacks) {
+void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	//DEBUG_PRINT("STACKS: %d", stacks);
-	if ((statuslabel != 0) && (stacks < 1)) {
-		EntityFactory::entityFactory().DeleteCloneModel(statuslabel);
-		statuslabel = 0;
-	}
-	else {
-		if ((statuslabel == 0) && (stacks > 0)) {
-			statuslabel = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
-			if (ECS::ecs().HasComponent<StatusEffect>(statuslabel)) {
-				StatusEffect& statusFxComp{ ECS::ecs().GetComponent<StatusEffect>(statuslabel) };
-				statusFxComp.character = parent;
+	static auto& statusEffectArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<StatusEffect>() };
+	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
+	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+
+	int stacks{ 0 };
+
+	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
+		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
+
+		int stacks{ 0 };
+		std::string effectIcon{};
+
+		HUDStatusHelper(status, charstats, stacks, effectIcon);
+
+		Entity& statuslabel = statusLabels[status];
+
+		if ((statuslabel != 0) && (stacks < 1)) {
+			int deleted_pos{ statusEffectArray.GetData(statuslabel).pos };
+			EntityFactory::entityFactory().DeleteCloneModel(statuslabel);
+			statuslabel = 0;
+			for (auto& s : statusLabels) {
+				if (s.second) {
+					StatusEffect& statusFxComp{ statusEffectArray.GetData(s.second) };
+					if (statusFxComp.pos > deleted_pos) {
+						statusFxComp.pos--;
+					}
+				}
+			}
+		}
+		else {
+			if ((statuslabel == 0) && (stacks > 0)) {
+				int effect_count{ 0 };
+
+				for (const auto& s : statusLabels) {
+					if (s.second) {
+						effect_count++;
+					}
+				}
+
+				statuslabel = EntityFactory::entityFactory().ClonePrefab("statusEffect.prefab");
+
+				if (statusEffectArray.HasComponent(statuslabel)) {
+					StatusEffect& statusFxComp{ statusEffectArray.GetData(statuslabel)};
+					statusFxComp.character = parent;
+					statusFxComp.statustype = status;
+					statusFxComp.enemy = true;
+					statusFxComp.pos = effect_count;
+				}
+
+				if (parentArray.HasComponent(statuslabel)) {
+					Entity child{ parentArray.GetData(statuslabel).children[0] };
+					textureArray.GetData(child).tex = assetmanager.texture.Get(effectIcon.c_str());
+				}
 			}
 		}
 	}
@@ -867,9 +1010,44 @@ void EnemyHUD::ToggleStatusFx(Entity parent, int stacks) {
 * Calculates position for indicator based off parent entity position
 *
 */
-void StatusEffect::UpdateOffset(Size& parentSize, Transform& parentTransform, Transform& childTransform) {
-	childTransform.position.y = parentTransform.position.y + (0.5f * parentSize.height);
-	childTransform.position.x = parentTransform.position.x - (0.8f * parentSize.width);
+void StatusEffect::UpdateOffset(Entity entity) {
+	static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+	static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
+	static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+
+	Transform& currentTransform{ transformArray.GetData(entity) };
+	Size& currentSize{ sizeArray.GetData(entity) };
+	Model& modelData{ modelArray.GetData(entity) };
+	Transform& parentTransform{ transformArray.GetData(character) };
+	Size& parentSize{ sizeArray.GetData(character) };
+
+	currentTransform.position.y = parentTransform.position.y + (0.5f * parentSize.height);
+	int multiplier{ enemy ? 1 : -1 };
+	currentTransform.position.x = parentTransform.position.x + (0.8f * parentSize.width * multiplier);
+	for (int i = 0; i < pos; i++) {
+		currentTransform.position.x += currentSize.width * multiplier * 1.2f;
+	}
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
+		switch (msg.type) {
+		case(TYPE::MOUSE_MOVE):
+			uiMousePos = { msg.posX, msg.posY };
+			break;
+		}
+	}
+
+	bool hover{ false };
+	if (IsWithinObject(modelData, uiMousePos)) {
+		hover = true;
+	}
+
+	if (hover && !tooltip) {
+		tooltip = EntityFactory::entityFactory().ClonePrefab("tooltip_effect_test.prefab");
+	}
+	else if (!hover && tooltip) {
+		EntityFactory::entityFactory().DeleteCloneModel(tooltip);
+		tooltip = 0;
+	}
 }
 
 /*!
@@ -879,7 +1057,10 @@ void StatusEffect::UpdateOffset(Size& parentSize, Transform& parentTransform, Tr
 * (CharacterStats tagged to parent entity)
 *
 */
-void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, int stacks) {
+void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, CharacterStats* charstats) {
+	int stacks{ 0 };
+	std::string emptystring; //in order to call status helper
+	HUDStatusHelper(statustype, charstats, stacks, emptystring);
 	textLabelData.textString = std::to_string(stacks);
 }
 

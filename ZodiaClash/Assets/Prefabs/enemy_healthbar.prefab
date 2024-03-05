@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,15 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29"
             ]
         }
     },
@@ -33,7 +41,7 @@
         "Entity": {
             "Name": "enemyHp_healthbar",
             "Current Layer": 2,
-            "Order in Layer": 2,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -134,7 +142,7 @@
         "Entity": {
             "Name": "enemyHp_remaininghealth1",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -145,7 +153,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1130.0,
+            "position_x": -1130.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -190,7 +198,7 @@
         "Entity": {
             "Name": "enemyHp_displayLbl1",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -201,8 +209,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1055.0,
-            "position_y": 340.0,
+            "position_x": -1071.0,
+            "position_y": 330.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -212,8 +220,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 73.80000305175781,
-            "height": 46.68000030517578
+            "width": 99.80000305175781,
+            "height": 50.0
         },
         "Scripts": {
             "className": "",
@@ -233,20 +241,20 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.36000001430511475,
-            "Text String": "",
+            "Text String": "1000",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 0,
+            "Horizontal Alignment": 2,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
             "Background": false
         },
         "Child": {
-            "position_x": -75.0,
-            "position_y": 40.0,
+            "position_x": 59.0,
+            "position_y": 30.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -258,7 +266,7 @@
         "Entity": {
             "Name": "hpBarBase",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -270,7 +278,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1130.0,
+            "position_x": -1130.0,
             "position_y": 340.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -365,7 +373,7 @@
         "Entity": {
             "Name": "hpBarIcon",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -376,7 +384,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1130.0,
+            "position_x": -1130.0,
             "position_y": 344.5,
             "rotation": 0.0,
             "scale": 0.30000001192092896,
@@ -478,7 +486,7 @@
         "Entity": {
             "Name": "BORDER_side_test_01.png",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -489,7 +497,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1148.0,
+            "position_x": -1144.0,
             "position_y": 226.5,
             "rotation": 0.0,
             "scale": 1.0,
@@ -517,11 +525,11 @@
             "Green": 1.0,
             "Blue": 1.0,
             "Alpha": 1.0,
-            "Mirror": false
+            "Mirror": true
         },
         "Movable": {},
         "Child": {
-            "position_x": 18.0,
+            "position_x": -14.0,
             "position_y": -73.5,
             "rotation": 0.0,
             "scale": 1.0,

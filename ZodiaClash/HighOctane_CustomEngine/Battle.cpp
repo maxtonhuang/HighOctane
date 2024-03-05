@@ -286,7 +286,7 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         activeCharacter->action.UpdateState();
-        if (activeCharacter->action.entityState == EntityState::ENDING || activeCharacter->action.entityState == EntityState::DYING) {
+        if (activeCharacter->action.entityState == EntityState::END || activeCharacter->action.entityState == EntityState::DYING) {
 
             //Update turn order animator
             if (locked) {
@@ -468,7 +468,7 @@ void BattleSystem::CompleteBattle() {
             animationArray->GetData(e).Start("Pop Out", e);
         }
         if (battleState == WIN) {
-            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");\
+            EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
             events.Call("Start Dialogue", "");
         }
         else if (battleState == LOSE) {
@@ -515,7 +515,7 @@ void BattleSystem::ProcessDamage() {
                         totalDamage += damage;
                         Entity damagelabel{ EntityFactory::entityFactory().ClonePrefab("damagelabel.prefab") };
                         transformArray->GetData(damagelabel).position = transformArray->GetData(entity).position;
-                        textArray->GetData(damagelabel).textString = std::to_string(abs((int)(damage)));
+                        textArray->GetData(damagelabel).textString = std::to_string(abs((int)(c.damage)));
 
                         if (c.stats.health > 0) {
                             if (damage > 0) {
@@ -643,7 +643,7 @@ void BattleSystem::InitialiseBattleUI() {
                     animator.turnorder = turnUI;
                     animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
                     texArray.GetData(animator.turnorderIcon).tex = assetmanager.texture.Get(c->icon.c_str());
-                    modelArray.GetData(animator.turnorderIcon).SetMirror(modelArray.GetData(c->entity).GetMirror());
+                    modelArray.GetData(animator.turnorderIcon).SetMirror(!modelArray.GetData(c->entity).GetMirror());
                     break;
                 }
             }
@@ -849,6 +849,8 @@ void BattleSystem::AnimateReturnTurnOrder() {
 
 void BattleSystem::InitialiseUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+    static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
     if (m_Entities.size() > 0) {
         UpdateSkillIcons();
         for (Entity& e : allBattleUI) {
@@ -859,6 +861,13 @@ void BattleSystem::InitialiseUIAnimation() {
                 animationArray.GetData(e).Stop();
             }
             attackingAnimation = true;
+        }
+        else {
+            turnIndicator = EntityFactory::entityFactory().ClonePrefab("turn_indicator.prefab");
+            transformArray.GetData(turnIndicator).position = transformArray.GetData(activeCharacter->entity).position;
+            float sizeDifference{ sizeArray.GetData(turnIndicator).height * transformArray.GetData(turnIndicator).scale -
+                sizeArray.GetData(activeCharacter->entity).height * transformArray.GetData(activeCharacter->entity).scale };
+            transformArray.GetData(turnIndicator).position.y += sizeDifference / 2;
         }
     }
 }
@@ -1080,6 +1089,10 @@ void BattleSystem::MoveOutUIAnimation() {
     if (attackingAnimation == true) {
         return;
     }
+    if (turnIndicator) {
+        EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
+        turnIndicator = 0;
+    }
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop Out", e);
     }
@@ -1102,11 +1115,23 @@ void BattleSystem::MoveOutUIAnimation() {
 
 void BattleSystem::MoveInUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+    static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
     if (m_Entities.size() == 0) {
         return;
     }
 
     UpdateSkillIcons();
+
+    if (turnIndicator) {
+        EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
+    }
+    turnIndicator = EntityFactory::entityFactory().ClonePrefab("turn_indicator.prefab");
+    transformArray.GetData(turnIndicator).position = transformArray.GetData(activeCharacter->entity).position;
+    float sizeDifference{ sizeArray.GetData(turnIndicator).height * transformArray.GetData(turnIndicator).scale -
+                sizeArray.GetData(activeCharacter->entity).height * transformArray.GetData(activeCharacter->entity).scale };
+    transformArray.GetData(turnIndicator).position.y += sizeDifference / 2;
+
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop In", e);
     }

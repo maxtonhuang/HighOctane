@@ -43,6 +43,10 @@
 #include <rapidjson-master/include/rapidjson/istreamwrapper.h>
 
 void Attack::UseAttack(CharacterStats* target) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    static std::uniform_real_distribution<float> rand(0.f, 1.f);
+
     CalculateDamage(*target);
 
     if (attackName == "Secret Arts: Pounce") {
@@ -50,32 +54,34 @@ void Attack::UseAttack(CharacterStats* target) {
             target->ApplyBloodStack();
         }
     }
-    else if (attackName == "Yin-Yang Strike") {
+    else if (attackName == "Raging Soul Surge") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
             owner->charge = false;
         }
     }
-    else if (attackName == "Heavenly Yin-Yang Strike") {
-        target->buffs.attackStack = 0;
-        target->buffs.attackBuff = 0.f;
-        target->buffs.defenseStack = 0;
-        target->buffs.defenseBuff = 0.f;
+    else if (attackName == "Yin-Yang Strike") {
+        if (rand(gen) > 0.6f) {
+            target->buffs.attackStack = 0;
+            target->buffs.attackBuff = 0.f;
+            target->buffs.defenseStack = 0;
+            target->buffs.defenseBuff = 0.f;
+        }
+    }
+    else if (attackName == "Dark Rising") {
+        damage = -0.3f * owner->stats.maxHealth;
+        target->debuffs.bloodStack = 0;
+        target->debuffs.tauntStack = 0;
+        target->debuffs.stunStack = 0;
     }
     else if (attackName == "Shepherd's Grace") {
-        target->HealBuff(0.3f * target->stats.maxHealth);
+        damage = -0.3f * owner->stats.maxHealth;
         target->debuffs.bloodStack = 0;
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
-    else if (attackName == "Heavenly Shepherd's Grace") {
-        target->HealBuff(0.3f * owner->stats.maxHealth);
-        target->debuffs.bloodStack = 0;
-        target->debuffs.tauntStack = 0;
-        target->debuffs.stunStack = 0;
-    }
-    else if (attackName == "Chi Surge") {
+    else if (attackName == "Dark Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
         target->buffs.attackStack = 2;
@@ -83,12 +89,12 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
     }
-    else if (attackName == "Heavenly Chi Surge") {
+    else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
         target->buffs.attackStack = 2;
     }
-    else if (attackName == "Celestial Annihilation will be cast next!") {
+    else if (attackName == "Raging Soul Surge will be cast next!") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }
@@ -102,18 +108,18 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->cycle = 2;
         }
     }
-    else if (attackName == "Unstoppable Thunder") {
+    else if (attackName == "Unstoppable Charge") {
         target->debuffs.stunStack += 1;
         if (owner->cycle == 2) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle = 0;
         }
     }
-    else if (attackName == "God of War's Challenge") {
+    else if (attackName == "Cursed War God's Wrath") {
         target->debuffs.tauntStack += 1;
         target->debuffs.tauntTarget = owner->entity;
         owner->buffs.defenseBuff = 0.5f;
-        owner->buffs.defenseStack = 1;
+        owner->buffs.defenseStack = 2;
         if (owner->cycle == 0) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle = 1;
@@ -176,6 +182,7 @@ void Attack::CalculateDamage(CharacterStats& target)
         damage = (drand(gen) *
             ((float)skillAttackPercent / 100.f) * (finalAttack * (100.f / (100.f + finalDefense))));
     }
+    damage = roundf(damage);
 }
 
 void Attack::SetOwner(CharacterStats* input) {

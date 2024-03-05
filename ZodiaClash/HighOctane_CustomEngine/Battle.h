@@ -165,6 +165,7 @@ private:
 	std::vector<CharacterAnimator> enemyAnimators;
 	std::vector<CharacterAnimator> allyAnimators;
 	std::vector<std::string> tooltips{}; //for tooltip creation
+	Entity turnIndicator{ 0 };
 
 	//Animation methods
 	//Initialises the battle system UI

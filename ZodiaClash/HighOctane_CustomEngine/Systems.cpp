@@ -1415,8 +1415,13 @@ void UIAllyHudSystem::Update() {
 			bool checkResult = false;
 			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
-				//healthBarData->charaStatsRef = &characterStatsArray.GetData(allPlayers[allyHudData->allyIndex]->entity);
-				healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+				if (!allyHudData->initialised) {
+					allyHudData->initialised = true;
+					healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+				}
+				if (healthBarData->charaStatsRef != nullptr) {
+					allyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef);
+				}
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
 				healthBarData->charaStatsRef = nullptr;
@@ -1457,7 +1462,7 @@ void UIEnemyHudSystem::Update() {
 					//healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
-					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef->debuffs.bloodStack);
+					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef);
 				}
 			}
 			else {
@@ -1494,15 +1499,13 @@ void UIEffectSystem::Update() {
 			Transform* transformData = &transformArray.GetData(entity);
 			StatusEffect* statusFxData = &statusFxArray.GetData(entity);
 
-			Transform* parentTransform = &transformArray.GetData(statusFxData->character);
-			Size* parentSize = &sizeArray.GetData(statusFxData->character);
-			statusFxData->UpdateOffset(*parentSize, *parentTransform, *transformData);
+			statusFxData->UpdateOffset(entity);
 
 			if (textLabelArray.HasComponent(entity)) {
 				HealthBar* parentHealth = &healthBarArray.GetData(statusFxData->character);
 				TextLabel* textLabelData = &textLabelArray.GetData(entity);
 				if (parentHealth->charaStatsRef != nullptr) {
-					statusFxData->UpdateStacksLbl(*textLabelData, parentHealth->charaStatsRef->debuffs.bloodStack);
+					statusFxData->UpdateStacksLbl(*textLabelData, parentHealth->charaStatsRef);
 				}
 			}
 		}

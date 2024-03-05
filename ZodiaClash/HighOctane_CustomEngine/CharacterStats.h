@@ -87,6 +87,7 @@ public:
     int cycle{ 0 }; // for boss cycles
     bool charge{};
     bool crit{}; //Check if enemy was hit by a critical
+    float damage{}; //damage taken
 
     void TakeDamage(float damage);
     void HealBuff(float buffAmount);

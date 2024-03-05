@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,12 +25,7 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26"
+                "Layer 21"
             ]
         }
     },
@@ -80,9 +75,9 @@
             "Icon": "ox_pfp.png",
             "Boss": true,
             "Skills": [
-                "Chi-Absorbing Blow",
-                "Unstoppable Thunder",
-                "God of War's Challenge"
+                "Shield Smash",
+                "Unstoppable Charge",
+                "Cursed War God's Wrath"
             ]
         },
         "Model": {
@@ -343,6 +338,15 @@
                             {
                                 "Frame Number": 10,
                                 "Destination": "Attack End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Prefab": ""
                             }
                         ]
                     }

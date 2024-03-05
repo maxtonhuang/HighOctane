@@ -1,6 +1,6 @@
 [
     {
-        "Name": "Heavenly Shepherd's Grace",
+        "Name": "Shepherd's Grace",
 	"Texture": "skill_icon_goat_3.png",
 	"Tooltip": "tooltip_GoatSkill3.prefab",
         "Type": 2,

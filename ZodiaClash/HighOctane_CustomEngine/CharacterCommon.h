@@ -92,6 +92,7 @@ enum EntityState
     SELECTION,
     ATTACKING,
     ENDING,
+    END,
     DYING,
     DEAD
 };
