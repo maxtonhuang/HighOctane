@@ -921,6 +921,7 @@ void DialogueHUD::Initialize() {
 */
 void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType) {
 	// check if currentDialogue assigned by system does not match inputTriggerType
+	BattleSystem* battleSys = events.GetBattleSystem();
 	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
 		dialogueQueue.push(currentDialogue);
 		currentDialogue = nullptr;
@@ -929,12 +930,24 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	// check if dialogue at top of queue is same as inputTriggerType
 	std::vector<Dialogue*> nonMatchingDialogues;
 	if (inputTriggerType == DIALOGUE_TRIGGER::TURN_BASED) {
-		BattleSystem* battleSys = events.GetBattleSystem();
 		if (battleSys) {
 			int roundIndex = battleSys->roundManage.roundCounter;
-			while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType) && (dialogueQueue.top()->roundTrigger != roundIndex)) {
-				nonMatchingDialogues.push_back(dialogueQueue.top());
-				dialogueQueue.pop();
+			// bounce back if currentDialogue is already playing dialogue of that turn
+			// NOTE: turn 3 is retriggered, turn 4 is not??
+			if (currentDialogue && (currentDialogue->triggerType == inputTriggerType) && (currentDialogue->roundTrigger == roundIndex)) {
+				return;
+			}
+			else {
+				dialogueQueue.push(currentDialogue);
+			}
+			while (!dialogueQueue.empty()) {
+				if ((dialogueQueue.top()->triggerType != inputTriggerType) || (dialogueQueue.top()->roundTrigger != roundIndex) || (dialogueQueue.top()->isTriggered))
+				{
+					nonMatchingDialogues.push_back(dialogueQueue.top());
+					dialogueQueue.pop();
+				}
+				else
+					break;
 			}
 			// if match pass dialogue pointer to currentDialogue
 			if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType) && (dialogueQueue.top()->roundTrigger == roundIndex)) {
@@ -943,6 +956,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 			// push non-matching dialogues back into queue
 			for (Dialogue* dialogue : nonMatchingDialogues) {
 				dialogueQueue.push(dialogue);
+				dialogueQueue.pop();
 			}
 		}
 	}
@@ -968,13 +982,14 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		currentDialogue = dialogueQueue.top();
 	}
 
-	if (currentDialogue) {
+	if (currentDialogue && !currentDialogue->isActive) {
 		currentDialogue->isActive = 1;
 		currentDialogue->viewingIndex = 0;
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
 			animationArray.GetData(entity).Start("Launch", entity);
 		}
+		battleSys->dialogueCalled = true;
 	}
 }
 
@@ -1037,8 +1052,19 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		currentDialogue->isTriggered = 1;
 		currentDialogue->viewingIndex--;
 
+		BattleSystem* battleSys = events.GetBattleSystem();
+		if (battleSys) {
+			// break soft lock cycle, reset dialogueCalled
+			battleSys->dialogueCalled = false;
+		}
+
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
+			if (currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
+				BattleSystem* battleSys = events.GetBattleSystem();
+				battleSys->activeCharacter->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
+				battleSys->ProcessDamage();
+			}
 			animationArray.GetData(entity).Start("Exit", entity);
 		}
 	}

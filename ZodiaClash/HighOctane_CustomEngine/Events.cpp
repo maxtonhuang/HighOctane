@@ -352,7 +352,7 @@ void StartDialogue(std::string input) {
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		if (!dialogueHudData->currentDialogue->dialogueLines.size() && (dialogueHudData->currentDialogue->targetScene != "")) {
+		if (dialogueHudData->currentDialogue && !dialogueHudData->currentDialogue->dialogueLines.size() && (dialogueHudData->currentDialogue->targetScene != "")) {
 			events.Call("Transition Scene", dialogueHudData->currentDialogue->targetScene);
 			break;
 		}

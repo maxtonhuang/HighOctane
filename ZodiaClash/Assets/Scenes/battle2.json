@@ -230,6 +230,24 @@
                     "Speaker Required": false,
                     "Post Dialogue Scene": true,
                     "Target Scene": "tbc.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "",
+                            "Line": "You have been defeated..."
+                        }
+                    ],
+                    "Trigger Type": 6,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration2.scn"
                 }
             ]
         },
