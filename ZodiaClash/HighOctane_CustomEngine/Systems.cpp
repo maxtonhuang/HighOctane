@@ -1414,7 +1414,7 @@ void UIAllyHudSystem::Update() {
 			if (checkResult) {
 				if (!allyHudData->initialised) {
 					allyHudData->initialised = true;
-					healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+					//healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
 					allyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef);
