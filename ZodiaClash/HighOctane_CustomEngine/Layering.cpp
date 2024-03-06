@@ -421,7 +421,7 @@ void TransferToLayer(Entity e, size_t LayerIndex) {
 
 /******************************************************************************
 *
-*	@brief Moves a specified entity to the top of a specified layer
+*	@brief Returns the Top Most Layer Index
 *
 *	-
 *
