@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 26,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,11 +25,7 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25"
+                "Layer 21"
             ]
         }
     },
@@ -164,7 +160,9 @@
                             {
                                 "Frame Number": 35,
                                 "Sounds": [
-                                    "Guard Atk_Edited.wav"
+                                    "Guard Atk_Edited.wav",
+                                    "Guard Atk2_Edited.wav",
+                                    "Guard Atk3_Edited.wav"
                                 ]
                             }
                         ]
@@ -244,7 +242,7 @@
                 "Total Frames": 60,
                 "Group Name": "Damaged",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "Color",
@@ -269,7 +267,8 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Guard Damaged_Edited.wav"
+                                    "Guard Damaged_Edited.wav",
+                                    "Guard Damaged2_Edited.wav"
                                 ]
                             }
                         ]

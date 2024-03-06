@@ -267,7 +267,11 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Goat Damaged_Edited.wav"
+                                    "Goat Damaged_Edited.wav",
+                                    "Goat Damaged2_Edited.wav",
+                                    "Goat Damaged3_Edited.wav",
+                                    "Goat Damaged4_Edited.wav",
+                                    "Goat Damaged5_Edited.wav"
                                 ]
                             }
                         ]

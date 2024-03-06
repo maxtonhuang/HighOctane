@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 21,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -24,7 +24,8 @@
                 "Layer 17",
                 "Layer 18",
                 "Layer 19",
-                "Layer 20"
+                "Layer 20",
+                "Layer 21"
             ]
         }
     },
@@ -126,7 +127,10 @@
         "Collider": {
             "Collider Enum": 0,
             "Dimension X": 0.0,
-            "Dimension Y": 0.0
+            "Dimension Y": 0.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
         },
         "Animation Set": [
             {
@@ -160,7 +164,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Hover Select_Edited.wav"
+                                "Sounds": [
+                                    "Hover Target_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -186,7 +192,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Skill Select_Edited.wav"
+                                "Sounds": [
+                                    "Skill Select_Edited.wav"
+                                ]
                             }
                         ]
                     },

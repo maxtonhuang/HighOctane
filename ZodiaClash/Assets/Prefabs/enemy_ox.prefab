@@ -154,7 +154,10 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Ox Atk 2_Edited.wav"
+                                    "Ox Damaged_Edited.wav",
+                                    "Ox Damaged2_Edited.wav",
+                                    "Ox Damaged3_Edited.wav",
+                                    "Ox Damaged4_Edited.wav"
                                 ]
                             }
                         ]
