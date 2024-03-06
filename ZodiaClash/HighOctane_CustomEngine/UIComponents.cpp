@@ -792,34 +792,31 @@ void AttackSkill::UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost) {
 }
 
 //Helper function for switch case for ally and enemy HUDs
-void HUDStatusHelper(StatusEffect::StatusType status, CharacterStats* charstats, int& stacks, std::string& effectIcon) {
-	if (charstats == nullptr) {
-		return;
-	}
+void HUDStatusHelper(StatusEffect::StatusType status, std::string& inputString, int& stacks, CharacterStats* charstats = nullptr) {
 	switch (status) {
 	case StatusEffect::BLEED:
-		stacks = charstats->debuffs.bloodStack;
-		effectIcon = "UI_ICON_bleed.png";
+		stacks = charstats ? charstats->debuffs.bloodStack : 0;
+		inputString = !charstats ? "Effect_Bleed.prefab" : "UI_ICON_bleed.png";
 		break;
 	case StatusEffect::TAUNT:
-		stacks = charstats->debuffs.tauntStack;
-		effectIcon = "UI_ICON_taunt.png";
+		stacks = charstats ? charstats->debuffs.tauntStack : 0;
+		inputString = !charstats ? "Effect_Taunted.prefab" : "UI_ICON_taunt.png";
 		break;
 	case StatusEffect::STUN:
-		stacks = charstats->debuffs.stunStack;
-		effectIcon = "UI_ICON_stun.png";
+		stacks = charstats ? charstats->debuffs.stunStack : 0;
+		inputString = !charstats ? "Effect_Stunned.prefab" : "UI_ICON_stun.png";
 		break;
 	case StatusEffect::ATKUP:
-		stacks = charstats->buffs.attackStack;
-		effectIcon = "UI_ICON_atk_up.png";
+		stacks = charstats ? charstats->buffs.attackStack : 0;
+		inputString = !charstats ? "Effect_Enraged.prefab" : "UI_ICON_atk_up.png";
 		break;
 	case StatusEffect::DEFUP:
-		stacks = charstats->buffs.defenseStack;
-		effectIcon = "UI_ICON_def_up.png";
+		stacks = charstats ? charstats->buffs.defenseStack : 0;
+		inputString = !charstats ? "Effect_Strengthened.prefab" : "UI_ICON_def_up.png";
 		break;
 	case StatusEffect::DEFDOWN:
-		stacks = charstats->debuffs.defenseStack;
-		effectIcon = "UI_ICON_def_down.png";
+		stacks = charstats ? charstats->debuffs.defenseStack : 0;
+		inputString = !charstats ? "Effect_Broken.prefab" : "UI_ICON_def_down.png";
 		break;
 	}
 }
@@ -857,15 +854,13 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
 
-	int stacks{ 0 };
-
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
 
 		int stacks{ 0 };
 		std::string effectIcon{};
 
-		HUDStatusHelper(status, charstats, stacks, effectIcon);
+		HUDStatusHelper(status, effectIcon, stacks, charstats);
 
 		Entity& statuslabel = statusLabels[status];
 
@@ -945,15 +940,13 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
 
-	int stacks{ 0 };
-
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
 
 		int stacks{ 0 };
 		std::string effectIcon{};
 
-		HUDStatusHelper(status, charstats, stacks, effectIcon);
+		HUDStatusHelper(status, effectIcon, stacks, charstats);
 
 		Entity& statuslabel = statusLabels[status];
 
@@ -1021,9 +1014,9 @@ void StatusEffect::UpdateOffset(Entity entity) {
 	Transform& parentTransform{ transformArray.GetData(character) };
 	Size& parentSize{ sizeArray.GetData(character) };
 
-	currentTransform.position.y = parentTransform.position.y + (0.5f * parentSize.height);
+	currentTransform.position.y = parentTransform.position.y + (2.f * parentSize.height);
 	int multiplier{ enemy ? 1 : -1 };
-	currentTransform.position.x = parentTransform.position.x + (0.8f * parentSize.width * multiplier);
+	currentTransform.position.x = parentTransform.position.x + (0.85f * parentSize.width * multiplier);
 	for (int i = 0; i < pos; i++) {
 		currentTransform.position.x += currentSize.width * multiplier * 1.2f;
 	}
@@ -1042,7 +1035,26 @@ void StatusEffect::UpdateOffset(Entity entity) {
 	}
 
 	if (hover && !tooltip) {
-		tooltip = EntityFactory::entityFactory().ClonePrefab("tooltip_effect_test.prefab");
+		int stacks{ 0 }; //to call status helper
+		std::string prefab{};
+		HUDStatusHelper(statustype, prefab, stacks);
+		tooltip = EntityFactory::entityFactory().ClonePrefab(prefab);
+		if (tooltip) {
+			Transform& tooltipTransform{ transformArray.GetData(tooltip) };
+			Size tooltipSize{ sizeArray.GetData(tooltip) };
+			tooltipSize.width *= tooltipTransform.scale;
+			tooltipSize.height *= tooltipTransform.scale;
+			tooltipTransform.position = uiMousePos;
+			tooltipTransform.position.y -= tooltipSize.height / 2;
+			if (tooltipTransform.position.x + tooltipSize.width / 2 > GRAPHICS::w) {
+				float posDiff{ fabs(tooltipTransform.position.x + tooltipSize.width / 2 - GRAPHICS::w) };
+				tooltipTransform.position.x -= posDiff;
+			}
+			else if (tooltipTransform.position.x - tooltipSize.width / 2 < -GRAPHICS::w) {
+				float posDiff{ fabs(tooltipTransform.position.x - tooltipSize.width / 2 + GRAPHICS::w) };
+				tooltipTransform.position.x += posDiff;
+			}
+		}
 	}
 	else if (!hover && tooltip) {
 		EntityFactory::entityFactory().DeleteCloneModel(tooltip);
@@ -1060,7 +1072,7 @@ void StatusEffect::UpdateOffset(Entity entity) {
 void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, CharacterStats* charstats) {
 	int stacks{ 0 };
 	std::string emptystring; //in order to call status helper
-	HUDStatusHelper(statustype, charstats, stacks, emptystring);
+	HUDStatusHelper(statustype, emptystring, stacks, charstats);
 	textLabelData.textString = std::to_string(stacks);
 }
 
@@ -1227,13 +1239,14 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		return;
 	}
 
+	BattleSystem* battleSys = events.GetBattleSystem();
+
 	currentDialogue->viewingIndex++;
 	if (currentDialogue->viewingIndex > currentDialogue->dialogueLines.size() - 1) {
 		currentDialogue->isActive = 0;
 		currentDialogue->isTriggered = 1;
 		currentDialogue->viewingIndex--;
-
-		BattleSystem* battleSys = events.GetBattleSystem();
+		
 		if (battleSys) {
 			// break soft lock cycle, reset dialogueCalled
 			battleSys->dialogueCalled = false;
@@ -1241,8 +1254,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
-			if (currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
-				BattleSystem* battleSys = events.GetBattleSystem();
+			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
 				battleSys->activeCharacter->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
 				battleSys->ProcessDamage();
 			}

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 7,
+            "layerCounter": 9,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -10,7 +10,9 @@
                 "Layer 3",
                 "Layer 4",
                 "Layer 5",
-                "Layer 6"
+                "Layer 6",
+                "Layer 7",
+                "Layer 8"
             ]
         }
     },
@@ -53,7 +55,7 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 0.11764705926179886,
+            "Alpha": 0.20000000298023224,
             "Mirror": false
         },
         "Movable": {},
@@ -61,40 +63,54 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "line 1",
+            "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 0,
+            "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
-            "Background": true
+            "Background": false
         },
         "DialogueHUD": {
-            "Dialogue Lines": [
+            "Dialogues": [
                 {
-                    "Speaker": "Speaker 1",
-                    "Line": "line 1"
-                },
-                {
-                    "Speaker": "Speaker 2",
-                    "Line": "line 2"
-                },
-                {
-                    "Speaker": "Speaker 3",
-                    "Line": "line 3"
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "",
+                            "Line": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone."
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "He divided time into twelve months, and every twelve months would then be considered a full cycle. To preserve this cycle, he created twelve powerful artifacts that represented every cycle."
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "On his birthday, he announced a Zodiac Race, where the twelve winners who possessed these artifacts would gain immortality and eternal blessings for their descendants. "
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "From then on, people would also worship them as the greatest animals in Ancient China. Hence, animals from all over Ancient China sent their strongest representatives to participate in the race."
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Mei (cat), chosen by the family of Cats, would then journey towards the Jade Mountains to fight for a place for the artifacts."
+                        }
+                    ],
+                    "Trigger Type": 0,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration1.scn"
                 }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": false,
-            "Speaker Required": true,
-            "Post Dialogue Scene": false,
-            "Target Scene": ""
+            ]
         },
         "Animation Set": [
             {
@@ -163,7 +179,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -690.25,
+            "position_x": -799.99951171875,
             "position_y": -605.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -174,8 +190,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 219.5,
-            "height": 80.25
+            "width": 24.0,
+            "height": 24.0
         },
         "Scripts": {
             "className": "",
@@ -187,7 +203,7 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 0.11764705926179886,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},
@@ -195,7 +211,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Speaker 1",
+            "Text String": "",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -204,11 +220,11 @@
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 0,
-            "Background": true
+            "Background": false
         },
         "DialogueSpeaker": {},
         "Child": {
-            "position_x": -690.25,
+            "position_x": -799.99951171875,
             "position_y": 145.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -242,7 +258,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 427.5,
+            "width": 377.70001220703125,
             "height": 66.5999984741211
         },
         "Scripts": {
@@ -263,7 +279,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.30000001192092896,
-            "Text String": "*click dialogue box to continue*",
+            "Text String": "*click dialogue to continue*",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,

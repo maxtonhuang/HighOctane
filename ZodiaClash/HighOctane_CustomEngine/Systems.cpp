@@ -1484,8 +1484,8 @@ void UIEffectSystem::Update() {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
 	// Access component arrays through the ComponentManager
-	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& statusFxArray = componentManager.GetComponentArrayRef<StatusEffect>();
@@ -1493,7 +1493,7 @@ void UIEffectSystem::Update() {
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
 		for (Entity const& entity : m_Entities) {
-			Transform* transformData = &transformArray.GetData(entity);
+			//Transform* transformData = &transformArray.GetData(entity);
 			StatusEffect* statusFxData = &statusFxArray.GetData(entity);
 
 			statusFxData->UpdateOffset(entity);

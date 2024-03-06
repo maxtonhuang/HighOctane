@@ -75,7 +75,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Shu and Mei, who were both representatives of the Rats and Cats respectively, turned out to be best friends as well.",
+            "Text String": "Shu (rat), a rat and best friend of Mei, was also chosen to fight in the race. Upon reaching the valley of the Jade Mountains, Shu promised to wake Mei up for the race and compete fairly.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -92,19 +92,15 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "Shu and Mei, who were both representatives of the Rats and Cats respectively, turned out to be best friends as well."
+                            "Line": "Shu (rat), a rat and best friend of Mei, was also chosen to fight in the race. Upon reaching the valley of the Jade Mountains, Shu promised to wake Mei up for the race and compete fairly."
                         },
                         {
                             "Speaker": "",
-                            "Line": "The day before the race, Shu promised to wake Mei for the race and compete fairly."
+                            "Line": "However, on the day of the race itself, Shu did not wake Mei up. Mei only realised when she woke up past noon. "
                         },
                         {
                             "Speaker": "",
-                            "Line": "However, Shu did not wake Mei, and Mei only realised when she woke up \nafter the race."
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "Furious, Mei sought out Shu for answers."
+                            "Line": "Furious and offended by Shu's betrayal, Mei travelled towards the top of the mountains to find Shu for answers."
                         }
                     ],
                     "Trigger Type": 0,

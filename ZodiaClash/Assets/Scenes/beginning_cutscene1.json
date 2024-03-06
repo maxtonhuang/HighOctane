@@ -46,7 +46,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "In Ancient China, the Jade Emperor needed a way to measure time.",
+            "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -63,23 +63,35 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone."
+                            "Line": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier."
                         },
                         {
                             "Speaker": "",
-                            "Line": "He divided time into twelve months, and every twelve months would then be considered a full cycle. To preserve this cycle, he created twelve powerful artifacts that represented every cycle."
+                            "Line": "He divided time into twelve months, and these twelve months would be a full cycle. To preserve this cycle, he then created twelve powerful artifacts."
                         },
                         {
                             "Speaker": "",
-                            "Line": "On his birthday, he announced a Zodiac Race, where the twelve winners who possessed these artifacts would gain immortality and eternal blessings for their descendants. "
+                            "Line": "On his birthday, he announced a Zodiac Race, where the winners who won these twelve artifacts would gain immortality and eternal blessings."
                         },
                         {
                             "Speaker": "",
-                            "Line": "From then on, people would also worship them as the greatest animals in Ancient China. Hence, animals from all over Ancient China sent their strongest representatives to participate in the race."
+                            "Line": "From then on, people will worship them as the greatest animals in Ancient China. Hence, animals all over Ancient China sent their best representatives to participate in the race."
                         },
                         {
                             "Speaker": "",
                             "Line": "Mei (cat), chosen by the family of Cats, would then journey towards the Jade Mountains to fight for a place for the artifacts."
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Shu (rat), best friend of Mei, was also chosen to be in the race. The day before, Shu promised to wake Mei up for the race and compete fairly."
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "However, on the day of the race, Shu did not wake Mei up. Mei only realised when she woke up past noon."
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Furious and offended by Shu's betrayal, Mei travelled towards the top of the mountains seeking Shu for answers."
                         }
                     ],
                     "Trigger Type": 0,
@@ -135,7 +147,7 @@
         "Entity": {
             "Name": "Cutscene 2",
             "Current Layer": 0,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -183,7 +195,7 @@
         "Entity": {
             "Name": "Cutscene 3",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -231,7 +243,7 @@
         "Entity": {
             "Name": "Cutscene 4",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -327,7 +339,7 @@
         "Entity": {
             "Name": "Cutscene 5",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -375,7 +387,7 @@
         "Entity": {
             "Name": "Cutscene 8",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -479,7 +491,7 @@
         "Entity": {
             "Name": "Cutscene Start",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -496,7 +508,7 @@
                 "Total Frames": 60,
                 "Group Name": "Cutscene",
                 "Loop": false,
-                "Frame Time": 1.0,
+                "Frame Time": 0.75,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -557,7 +569,7 @@
         "Entity": {
             "Name": "Cutscene End",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
