@@ -1414,7 +1414,7 @@ void UIAllyHudSystem::Update() {
 			if (checkResult) {
 				if (!allyHudData->initialised) {
 					allyHudData->initialised = true;
-					healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
+					//healthBarData->charaStatsRef = allPlayers[allyHudData->allyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
 					allyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef);
@@ -1550,31 +1550,53 @@ void UIDialogueSystem::Update() {
 		//Transform* transformData = &transformArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
-		if (dialogueHudData->dialogueLines.empty())
+		if (dialogueHudData->dialogues.empty())
 		{
 			continue;
 		}
 
-		if (GetCurrentSystemMode() == SystemMode::RUN && !dialogueHudData->isActive && dialogueHudData->dialogueLines.size()) {
-			// if dialogue is NOT triggered and autoLaunch is set to true, start dialogue
-			if (!dialogueHudData->isTriggered && dialogueHudData->autoLaunch)
+		if (dialogueHudData->dialogueQueue.empty())
+		{
+			// push dialogue lines into queue (dialogues that are not triggered)
+			for (DialogueHUD::Dialogue& dialogue : dialogueHudData->dialogues)
 			{
-				dialogueHudData->viewingIndex = 0;
-				dialogueHudData->StartDialogue(entity);
+				if (!dialogue.isTriggered && (&dialogue != dialogueHudData->currentDialogue))
+					dialogueHudData->dialogueQueue.push(&dialogue);
+			}
+		}
+
+		// assign dialogue pointer if empty
+		if (!dialogueHudData->currentDialogue && !dialogueHudData->dialogueQueue.empty())
+		{
+			dialogueHudData->currentDialogue = dialogueHudData->dialogueQueue.top();
+			dialogueHudData->dialogueQueue.pop();
+		}
+
+		if (GetCurrentSystemMode() == SystemMode::RUN && !dialogueHudData->currentDialogue->isActive && dialogueHudData->currentDialogue->dialogueLines.size()) {
+			// if dialogue is NOT triggered and triggerType is autoLaunch, start dialogue
+			if (!dialogueHudData->currentDialogue->isTriggered && (dialogueHudData->currentDialogue->triggerType == DIALOGUE_TRIGGER::AUTO_LAUNCH))
+			{
+				dialogueHudData->currentDialogue->viewingIndex = 0;
+				dialogueHudData->StartDialogue(entity, DIALOGUE_TRIGGER::AUTO_LAUNCH);
 			}
 			// else if dialogue is triggered and has animation set, transition to next scene after animation
-			else if (dialogueHudData->isTriggered && animationArray.HasComponent(entity)) {
-				if (dialogueHudData->postDialogueScene							// if postDialogueScene is set
-					&& !dialogueHudData->targetScene.empty()					// if targetScene is set
+			else if (dialogueHudData->currentDialogue->isTriggered && animationArray.HasComponent(entity)) {
+				if (dialogueHudData->currentDialogue->postDialogueScene							// if postDialogueScene is set
+					&& !dialogueHudData->currentDialogue->targetScene.empty()					// if targetScene is set
 					&& !animationArray.GetData(entity).activeAnimation->active) // if animation has finished playing
 				{
-					events.Call("Transition Scene", dialogueHudData->targetScene);
+					events.Call("Transition Scene", dialogueHudData->currentDialogue->targetScene);
 				}
 			}
 		}
 
 		// event handling if need to advance to next line
-		dialogueHudData->Update(*modelData, entity);		
+		dialogueHudData->Update(*modelData, entity);
+
+		if (!dialogueHudData->currentDialogue || dialogueHudData->currentDialogue->dialogueLines.empty())
+		{
+			continue;
+		}
 
 		// load text data into text labels
 		if (!(parentData->children.empty())) {
@@ -1585,23 +1607,23 @@ void UIDialogueSystem::Update() {
 				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
 				Size* speakerSizeData = &sizeArray.GetData(childEntity);
 				Model* speakerModelData = &modelArray.GetData(childEntity);
-				speakerTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].first;
-				
+				speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].first : "";
+
 				if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
 				{
 					speakerSizeData->height = 0.001f;
-					speakerSizeData->width = 0.001f;				
+					speakerSizeData->width = 0.001f;
 				}
-				speakerTextData->hasBackground = dialogueHudData->speakerRequired ? true : false;
+				speakerTextData->hasBackground = dialogueHudData->currentDialogue->speakerRequired ? true : false;
 				float parentAlpha = modelData->GetAlpha();
 				speakerModelData->SetAlpha(parentAlpha);
-				
+
 				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
-		dialogueTextData->textString = dialogueHudData->dialogueLines[dialogueHudData->viewingIndex].second;
-		dialogueTextData->hasBackground = dialogueHudData->speakerRequired ? true : false;
+		dialogueTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].second : "";
+		dialogueTextData->hasBackground = dialogueHudData->currentDialogue->speakerRequired ? true : false;
 	}
 }
 
