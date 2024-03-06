@@ -69,6 +69,17 @@ enum class STATE {
 	FOCUSED,
 	DISABLED
 };
+// enums for dialogue
+enum class DIALOGUE_TRIGGER {
+	AUTO_LAUNCH,		// 0 - AUTO
+	EVENT_BASED,		// 1 - EVENT
+	PRE_BATTLE,			// 2 - PRE_BATTLE
+	TURN_BASED,			// 3 - TURN
+	HEALTH_BASED,		// 4 - HEALTH
+	POST_BATTLE_WIN,	// 5 - WIN
+	POST_BATTLE_LOSE,	// 6 - LOSE
+	DEFAULT				// 7 - DEFAULT
+};
 
 // struct for padding within padding component
 struct Padding {
@@ -386,19 +397,41 @@ class DialogueHUD : UIComponent {
 public:
 	// to tag to textarea of speaker's lines (parent)
 	// also stores all lines of that conversation
-	std::vector<std::pair<std::string, std::string>> dialogueLines;
-	int viewingIndex{};
-	float displayDuration{}; // if 0 wait for click trigger
-	bool isActive{};
-	bool isTriggered{};
-	bool autoLaunch{};
-	bool speakerRequired{};
 
-	bool postDialogueScene{};
-	std::string targetScene{};
+	struct Dialogue {
+		std::vector<std::pair<std::string, std::string>> dialogueLines; //speaker, line
+		DIALOGUE_TRIGGER triggerType{ DIALOGUE_TRIGGER::DEFAULT }; // pre/post battle, turn/health based
+		int roundTrigger{};	// battle system: RoundManagement/roundCounter
+		int healthTrigger{};	// battle system: CharacterStats/stats/health
 
-	void StartDialogue(Entity entity);
+		int viewingIndex{};
+		float displayDuration{}; // if 0 wait for click trigger
+		bool isActive{};
+		bool isTriggered{};
+		//bool autoLaunch{}; // enum?
+		bool speakerRequired{};
+
+		bool postDialogueScene{};
+		std::string targetScene{};
+	};
+
+	struct DialoguePtrComparator {
+		bool operator()(const Dialogue* d1, const Dialogue* d2) const;
+	};
+
+	std::vector<Dialogue> dialogues;
+	std::priority_queue<Dialogue*, std::vector<Dialogue*>, DialoguePtrComparator> dialogueQueue;
+	Dialogue* currentDialogue{};
+
+	//bool isAllTriggered{};
+
+	DialogueHUD();
+
+	void Initialize();
+	void StartDialogue(Entity entity, DIALOGUE_TRIGGER triggerType = DIALOGUE_TRIGGER::DEFAULT);
 	void JumpNextLine(Entity entity);
+	void AddDialogue(Dialogue dialogue, bool& result);
+	void RemoveDialogue(int index);
 
 	void Update(Model& modelData, Entity entity);
 	void EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData);
