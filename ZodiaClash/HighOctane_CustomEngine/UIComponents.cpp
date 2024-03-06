@@ -1014,9 +1014,9 @@ void StatusEffect::UpdateOffset(Entity entity) {
 	Transform& parentTransform{ transformArray.GetData(character) };
 	Size& parentSize{ sizeArray.GetData(character) };
 
-	currentTransform.position.y = parentTransform.position.y + (0.5f * parentSize.height);
+	currentTransform.position.y = parentTransform.position.y + (2.f * parentSize.height);
 	int multiplier{ enemy ? 1 : -1 };
-	currentTransform.position.x = parentTransform.position.x + (0.8f * parentSize.width * multiplier);
+	currentTransform.position.x = parentTransform.position.x + (0.85f * parentSize.width * multiplier);
 	for (int i = 0; i < pos; i++) {
 		currentTransform.position.x += currentSize.width * multiplier * 1.2f;
 	}
