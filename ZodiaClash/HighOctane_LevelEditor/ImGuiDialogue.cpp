@@ -173,7 +173,7 @@ void DialogueWindow(Entity entity) {
                         // Column 3: InputTextMultiline for voice sound to play
                         ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 2 : 1);
                         //ImGui::InputTextMultiline(("##Voice" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].voice);
-                        ImGui::PushID(k);
+                        ImGui::PushID(static_cast<int>(k));
                         if (ImGui::BeginCombo("##Voice", dialogue.dialogueLines[k].voice.c_str())) {
                             std::vector<std::string> soundPaths{ assetmanager.audio.GetSoundPaths() };
                             for (int n = 0; n < soundPaths.size(); n++) {
