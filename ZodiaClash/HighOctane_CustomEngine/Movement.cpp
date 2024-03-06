@@ -74,16 +74,15 @@ void UpdateMovement(Transform & transform, Model & model) {
 			//transform.position = { msg.posX, msg.posY };
 			break;
 
-		case TYPE::MOUSE_CLICK:
+		case TYPE::MOUSE_DOWN:
 			
 			if (msg.info == INFO::MOUSE_LEFT && !hoveringPanel) {
 				finalPos = currMousePos;
-				transform.force = { RESET_VEC2 };
+				transform.force = { currMousePos.normalize() * 2000 };
 				direction = currMousePos - transform.position;
 				direction = direction.normalize();
 			}
 			break;
-			
 		default:
 			break;
 

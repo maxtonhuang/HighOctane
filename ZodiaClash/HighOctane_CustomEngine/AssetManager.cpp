@@ -434,7 +434,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else {
         // Error Handling
-        ASSERT(true,"Unsupported asset type");
+        //ASSERT(true,"Unsupported asset type");
     }
     loadedFiles.push_back(assetPath);
 

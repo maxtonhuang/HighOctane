@@ -440,10 +440,11 @@ rapidjson::Value SerializeDialogueHUD(const DialogueHUD& dialogueHUD, rapidjson:
 		rapidjson::Value dialogueLinesVec(rapidjson::kArrayType);
 
 		// Serialize dialogueLinesVec
-		for (const std::pair<std::string, std::string>& line : dialogue.dialogueLines) {
+		for (const auto& line : dialogue.dialogueLines) {
 			rapidjson::Value lineObject(rapidjson::kObjectType);
-			lineObject.AddMember("Speaker", rapidjson::Value(line.first.c_str(), allocator).Move(), allocator);
-			lineObject.AddMember("Line", rapidjson::Value(line.second.c_str(), allocator).Move(), allocator);
+			lineObject.AddMember("Speaker", rapidjson::Value(line.speaker.c_str(), allocator).Move(), allocator);
+			lineObject.AddMember("Line", rapidjson::Value(line.line.c_str(), allocator).Move(), allocator);
+			lineObject.AddMember("Voice", rapidjson::Value(line.voice.c_str(), allocator).Move(), allocator);
 			dialogueLinesVec.PushBack(lineObject, allocator);
 		}
 		dialogueObject.AddMember("Dialogue Lines", dialogueLinesVec, allocator);
@@ -1557,9 +1558,12 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 							const rapidjson::Value& dialogueLinesArray = dialogueObject["Dialogue Lines"];
 							for (rapidjson::SizeType k = 0; k < dialogueLinesArray.Size(); ++k) {
 								if (dialogueLinesArray[k].IsObject()) {
-									std::pair<std::string, std::string> line;
-									line.first = dialogueLinesArray[k]["Speaker"].GetString();
-									line.second = dialogueLinesArray[k]["Line"].GetString();
+									DialogueHUD::DialogueLine line;
+									line.speaker = dialogueLinesArray[k]["Speaker"].GetString();
+									line.line = dialogueLinesArray[k]["Line"].GetString();
+									if (dialogueLinesArray[k].HasMember("Voice")) {
+										line.voice = dialogueLinesArray[k]["Voice"].GetString();
+									}
 									dialogue.dialogueLines.push_back(line);
 								}
 							}

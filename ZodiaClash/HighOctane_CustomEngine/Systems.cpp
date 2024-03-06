@@ -397,11 +397,20 @@ void MovementSystem::Update() {
 							Model* modelData = &modelArray.GetData(entity);
 							MainCharacter* mcData = &mcArray.GetData(entity);
 							AnimationSet* animationData = &animationArray.GetData(entity);
+
+							for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
+								switch (msg.type) {
+								case(TYPE::DIALOGUE_ACTIVE):
+									animationData->Stop();
+									return;
+								}
+							}
+
 							UpdateMovement(*transformData, *modelData);
 							//Idle
 							if (transformData->force.x == 0.f && transformData->force.y == 0.f) {
 								if (mcData->moved) {
-									animationData->Stop();
+									//animationData->Stop();
 								}
 								mcData->moved = false;
 							}
@@ -1572,6 +1581,10 @@ void UIDialogueSystem::Update() {
 			dialogueHudData->dialogueQueue.pop();
 		}
 
+		if (dialogueHudData->currentDialogue->isActive) {
+			Mail::mail().CreatePostcard(TYPE::DIALOGUE_ACTIVE, ADDRESS::DIALOGUE, INFO::NONE, 0.f, 0.f);
+		}
+
 		if (GetCurrentSystemMode() == SystemMode::RUN && !dialogueHudData->currentDialogue->isActive && dialogueHudData->currentDialogue->dialogueLines.size()) {
 			// if dialogue is NOT triggered and triggerType is autoLaunch, start dialogue
 			if (!dialogueHudData->currentDialogue->isTriggered && (dialogueHudData->currentDialogue->triggerType == DIALOGUE_TRIGGER::AUTO_LAUNCH))
@@ -1602,12 +1615,14 @@ void UIDialogueSystem::Update() {
 		if (!(parentData->children.empty())) {
 			Entity childEntity = parentData->children.front();
 
-			if (dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
+			if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated && 
+				dialogueHudData->currentDialogue->isActive &&
+				dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 				Child* childData = &childArray.GetData(childEntity);
 				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
 				Size* speakerSizeData = &sizeArray.GetData(childEntity);
 				Model* speakerModelData = &modelArray.GetData(childEntity);
-				speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].first : "";
+				speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
 				if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
 				{
@@ -1618,11 +1633,15 @@ void UIDialogueSystem::Update() {
 				float parentAlpha = modelData->GetAlpha();
 				speakerModelData->SetAlpha(parentAlpha);
 
+				events.Call("Stop Group", "SFX");
+				events.Call("Play Sound", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+
 				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
+				dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
-		dialogueTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].second : "";
+		dialogueTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].line : "";
 		dialogueTextData->hasBackground = dialogueHudData->currentDialogue->speakerRequired ? true : false;
 	}
 }

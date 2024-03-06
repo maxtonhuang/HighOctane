@@ -185,11 +185,13 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "Mei",
-                            "Line": "This feels wrong. Why are these statues alive? Isn't this the Jade Emperor's statues?"
+                            "Line": "This feels wrong. Why are these statues alive? Isn't this the Jade Emperor's statues?",
+                            "Voice": "Cutscene_Mei_2.ogg"
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "I feel a sinister aura here."
+                            "Line": "I feel a sinister aura here.",
+                            "Voice": "Cutscene_Mei_3.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -207,7 +209,8 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "Mei",
-                            "Line": "Stop! What is happening...?"
+                            "Line": "Stop! What is happening...?",
+                            "Voice": "Cutscene_Mei_1.ogg"
                         }
                     ],
                     "Trigger Type": 2,
@@ -225,7 +228,8 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "You have been defeated..."
+                            "Line": "You have been defeated...",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 6,

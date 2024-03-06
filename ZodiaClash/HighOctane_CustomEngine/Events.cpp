@@ -120,7 +120,10 @@ void ChangeScene(std::string input) {
 void PlayAudio(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
-	DEBUG_PRINT("playing: %s", input.c_str());
+	//DEBUG_PRINT("playing: %s", input.c_str());
+	if (input == "") {
+		return;
+	}
 	assetmanager.audio.PlaySounds(input.c_str(),"SFX");
 }
 

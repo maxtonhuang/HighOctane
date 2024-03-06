@@ -398,8 +398,15 @@ public:
 	// to tag to textarea of speaker's lines (parent)
 	// also stores all lines of that conversation
 
+	struct DialogueLine {
+		std::string speaker;
+		std::string line;
+		std::string voice;
+		bool updated{ false };
+	};
+
 	struct Dialogue {
-		std::vector<std::pair<std::string, std::string>> dialogueLines; //speaker, line
+		std::vector<DialogueLine> dialogueLines; //speaker, line
 		DIALOGUE_TRIGGER triggerType{ DIALOGUE_TRIGGER::DEFAULT }; // pre/post battle, turn/health based
 		int roundTrigger{};	// battle system: RoundManagement/roundCounter
 		int healthTrigger{};	// battle system: CharacterStats/stats/health

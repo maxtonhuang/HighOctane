@@ -46,7 +46,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
+            "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -63,35 +63,43 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier."
+                            "Line": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier.",
+                            "Voice": "Cutscene_VO_1.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "He divided time into twelve months, and these twelve months would be a full cycle. To preserve this cycle, he then created twelve powerful artifacts."
+                            "Line": "He divided time into twelve months, and these twelve months would be a full cycle. To preserve this cycle, he then created twelve powerful artifacts.",
+                            "Voice": "Cutscene_VO_2.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "On his birthday, he announced a Zodiac Race, where the winners who won these twelve artifacts would gain immortality and eternal blessings."
+                            "Line": "On his birthday, he announced a Zodiac Race, where the winners who won these twelve artifacts would gain immortality and eternal blessings.",
+                            "Voice": "Cutscene_VO_3.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "From then on, people will worship them as the greatest animals in Ancient China. Hence, animals all over Ancient China sent their best representatives to participate in the race."
+                            "Line": "From then on, people will worship them as the greatest animals in Ancient China. Hence, animals all over Ancient China sent their best representatives to participate in the race.",
+                            "Voice": "Cutscene_VO_4.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "Mei (cat), chosen by the family of Cats, would then journey towards the Jade Mountains to fight for a place for the artifacts."
+                            "Line": "Mei (cat), chosen by the family of Cats, would then journey towards the Jade Mountains to fight for a place for the artifacts.",
+                            "Voice": "Cutscene_Ox_5.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "Shu (rat), best friend of Mei, was also chosen to be in the race. The day before, Shu promised to wake Mei up for the race and compete fairly."
+                            "Line": "Shu (rat), best friend of Mei, was also chosen to be in the race. The day before, Shu promised to wake Mei up for the race and compete fairly.",
+                            "Voice": "Cutscene_VO_6.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "However, on the day of the race, Shu did not wake Mei up. Mei only realised when she woke up past noon."
+                            "Line": "However, on the day of the race, Shu did not wake Mei up. Mei only realised when she woke up past noon.",
+                            "Voice": "Cutscene_VO_7.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "Furious and offended by Shu's betrayal, Mei travelled towards the top of the mountains seeking Shu for answers."
+                            "Line": "Furious and offended by Shu's betrayal, Mei travelled towards the top of the mountains seeking Shu for answers.",
+                            "Voice": "Cutscene_VO_8.ogg"
                         }
                     ],
                     "Trigger Type": 0,
@@ -147,7 +155,7 @@
         "Entity": {
             "Name": "Cutscene 2",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -491,7 +499,7 @@
         "Entity": {
             "Name": "Cutscene Start",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

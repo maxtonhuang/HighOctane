@@ -1271,6 +1271,9 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 */
 void DialogueHUD::Update(Model& modelData, Entity entity) {
 	// get cursorPos, compare with pos in Transform, return if no match
+	if (!currentDialogue || !currentDialogue->isActive) {
+		return;
+	}
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
 		switch (msg.type) {
 		case(TYPE::MOUSE_MOVE):

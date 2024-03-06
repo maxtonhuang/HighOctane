@@ -126,7 +126,7 @@ void BattleSystem::StartBattle() {
     roundInProgress = false;
     roundManage.characterCount = 0;
     roundManage.roundCounter = 0;
-    chi = 5;
+    chi = 3;
     speedup = false;
     aiMultiplier = 0;
 
@@ -169,6 +169,9 @@ void BattleSystem::Update()
         for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::BATTLE]) {
             switch (msg.type) {
             case(TYPE::ANIMATING):
+                Mail::mail().mailbox[ADDRESS::BATTLE].clear();
+                return;
+            case(TYPE::DIALOGUE_ACTIVE):
                 Mail::mail().mailbox[ADDRESS::BATTLE].clear();
                 return;
             }

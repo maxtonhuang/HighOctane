@@ -1,6 +1,7 @@
 #include "ImGuiDialogue.h"
 #include "ImGuiSceneHierarchy.h"
 #include "UIComponents.h"
+#include "AssetManager.h"
 
 static bool flag{};
 
@@ -139,16 +140,17 @@ void DialogueWindow(Entity entity) {
 
                 // Button to add a new dialogue line
                 if (ImGui::Button("Add New Line##1")) {
-                    dialogue.dialogueLines.emplace_back("", ""); // Add an empty line
+                    dialogue.dialogueLines.emplace_back(DialogueHUD::DialogueLine{}); // Add an empty line
                 }
 
-                int tableCols = (dialogue.speakerRequired) ? 3 : 2;
+                int tableCols = (dialogue.speakerRequired) ? 4 : 3;
 
                 if (ImGui::BeginTable("DialogueTable", tableCols, ImGuiTableFlags_Borders)) {
                     if (dialogue.speakerRequired) {
                         ImGui::TableSetupColumn("Speaker", ImGuiTableColumnFlags_WidthFixed, 150.0f);
                     }
                     ImGui::TableSetupColumn("Line", ImGuiTableColumnFlags_WidthStretch, 0.0f);
+                    ImGui::TableSetupColumn("Voiceline", ImGuiTableColumnFlags_WidthFixed, 150.0f);
                     ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_WidthFixed, 100.0f);
 
                     // Display headers row
@@ -161,12 +163,31 @@ void DialogueWindow(Entity entity) {
                         if (dialogue.speakerRequired) {
                             // Column 1: InputText for Speaker's name
                             ImGui::TableSetColumnIndex(0);
-                            ImGui::InputText(("##Speaker" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].first);
+                            ImGui::InputText(("##Speaker" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].speaker);
                         }
 
                         // Column 2: InputTextMultiline for Speaker's line
                         ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 1 : 0);
-                        ImGui::InputTextMultiline(("##Line" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].second);
+                        ImGui::InputTextMultiline(("##Line" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].line);
+
+                        // Column 3: InputTextMultiline for voice sound to play
+                        ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 2 : 1);
+                        //ImGui::InputTextMultiline(("##Voice" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].voice);
+                        ImGui::PushID(k);
+                        if (ImGui::BeginCombo("##Voice", dialogue.dialogueLines[k].voice.c_str())) {
+                            std::vector<std::string> soundPaths{ assetmanager.audio.GetSoundPaths() };
+                            for (int n = 0; n < soundPaths.size(); n++) {
+                                bool is_selected = (dialogue.dialogueLines[k].voice == soundPaths[n]);
+                                if (ImGui::Selectable(soundPaths[n].c_str(), is_selected)) {
+                                    dialogue.dialogueLines[k].voice = soundPaths[n];
+                                }
+                                if (is_selected) {
+                                    ImGui::SetItemDefaultFocus();
+                                }
+                            }
+                            ImGui::EndCombo();
+                        }
+                        ImGui::PopID();
 
                         // Column 3: Delete button
                         ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 2 : 1);
@@ -182,7 +203,7 @@ void DialogueWindow(Entity entity) {
 
                 // Button to add a new dialogue line
                 if (ImGui::Button("Add New Line##2")) {
-                    dialogue.dialogueLines.emplace_back("", ""); // Add an empty line
+                    dialogue.dialogueLines.emplace_back(DialogueHUD::DialogueLine{}); // Add an empty line
                 }
             }
         }

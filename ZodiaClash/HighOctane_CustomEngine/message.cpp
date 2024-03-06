@@ -88,11 +88,16 @@ void Mail::SendMails() {
             mailbox[ADDRESS::EDITING].emplace_back(msg);
             break;
         case TYPE::MOUSE_DOWN:
+            mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             mailbox[ADDRESS::EDITING].emplace_back(msg);
             mailbox[ADDRESS::UICOMPONENT].emplace_back(msg);
             break;
         case TYPE::ANIMATING:
             mailbox[ADDRESS::BATTLE].emplace_back(msg);
+            break;
+        case TYPE::DIALOGUE_ACTIVE:
+            mailbox[ADDRESS::BATTLE].emplace_back(msg);
+            mailbox[ADDRESS::MOVEMENT].emplace_back(msg);
             break;
         default:
             break;
@@ -111,6 +116,7 @@ void Mail::SendMails() {
 void Mail::ClearMails() {
     mailbox[ADDRESS::INPUT].clear();
     mailbox[ADDRESS::ANIMATION].clear();
+    mailbox[ADDRESS::DIALOGUE].clear();
     mailbox[ADDRESS::MOVEMENT].clear();
     mailbox[ADDRESS::PHYSICS].clear();
     mailbox[ADDRESS::SCRIPTING].clear();
