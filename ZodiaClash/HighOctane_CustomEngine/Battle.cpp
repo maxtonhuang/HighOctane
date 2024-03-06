@@ -138,6 +138,8 @@ void BattleSystem::StartBattle() {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
     }
 
+    events.Call("Start Dialogue", "PRE_BATTLE");
+
     //Initialise turn order animator
     InitialiseBattleUI();
 
@@ -279,6 +281,20 @@ void BattleSystem::Update()
         }
         break;
     case ENEMYTURN:
+        //Check if turn/health conditions are met, trigger dialogue
+        if (!dialogueCalled) {
+            for (CharacterStats* c : turnManage.turnOrderList) {
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                    if ((roundManage.roundCounter == 3) || (roundManage.roundCounter == 4)) {
+                        events.Call("Start Dialogue", "TURN");
+                    }
+                }
+            }
+        }
+        if (dialogueCalled) {
+            break;
+        }
+
         if (activeCharacter->action.entityState == WAITING) {
             gameAI.Search(this);
         }
@@ -321,7 +337,7 @@ void BattleSystem::Update()
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Goat_Enemy") {
                     for (auto& character : turnManage.characterList) {
                         if (character.tag == CharacterType::PLAYER) {
-                            character.stats.health += 0.3 * c->stats.maxHealth;
+                            character.stats.health += 0.3f * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
                             }
@@ -469,10 +485,11 @@ void BattleSystem::CompleteBattle() {
         }
         if (battleState == WIN) {
             EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
-            events.Call("Start Dialogue", "");
+            events.Call("Start Dialogue", "WIN");
         }
         else if (battleState == LOSE) {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
+            events.Call("Start Dialogue", "LOSE");
         }
         
     }
@@ -487,6 +504,7 @@ void BattleSystem::ProcessDamage() {
         ComponentArray<Transform>* transformArray = &componentManager.GetComponentArrayRef<Transform>();
         ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
         ComponentArray<Size>* sizeArray = &componentManager.GetComponentArrayRef<Size>();
+        ComponentArray<Name>* nameArray = &componentManager.GetComponentArrayRef<Name>();
         static Entity bossAura{ 0 };
 
         float totalDamage{ 0.f };
@@ -539,6 +557,12 @@ void BattleSystem::ProcessDamage() {
                             }
                         }
                         else {
+                            // Handle boss ox death
+                            if (nameArray->GetData(c.entity).name == "Ox_Enemy") {
+                                events.Call("Start Dialogue", "HEALTH");
+                                //c.stats.health = 0.5f * c.stats.maxHealth;
+                            }
+
                             animationArray->GetData(entity).Start("Death", entity);
                             if (cs->boss && ECS::ecs().EntityExists(bossAura)) {
                                 ECS::ecs().DestroyEntity(bossAura);

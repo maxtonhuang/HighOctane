@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 34,
+            "layerCounter": 82,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -37,7 +37,55 @@
                 "Layer 30",
                 "Layer 31",
                 "Layer 32",
-                "Layer 33"
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71",
+                "Layer 72",
+                "Layer 73",
+                "Layer 74",
+                "Layer 75",
+                "Layer 76",
+                "Layer 77",
+                "Layer 78",
+                "Layer 79",
+                "Layer 80",
+                "Layer 81"
             ]
         }
     },
@@ -529,7 +577,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1372,7 +1420,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1413,7 +1461,7 @@
             "Dimension Y": 0.0,
             "Type": 2,
             "Event Name": "Start Dialogue",
-            "Event Input": ""
+            "Event Input": "EVENT"
         }
     },
     {
@@ -1470,7 +1518,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1526,7 +1574,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1662,20 +1710,26 @@
             "Background": true
         },
         "DialogueHUD": {
-            "Dialogue Lines": [
+            "Dialogues": [
                 {
-                    "Speaker": "Jade Guard",
-                    "Line": "Halt!"
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Jade Guard",
+                            "Line": "Halt!"
+                        }
+                    ],
+                    "Trigger Type": 1,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "battle.scn"
                 }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": false,
-            "Speaker Required": true,
-            "Post Dialogue Scene": true,
-            "Target Scene": "battle.scn"
+            ]
         },
         "Parent": {}
     },
@@ -1734,7 +1788,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },

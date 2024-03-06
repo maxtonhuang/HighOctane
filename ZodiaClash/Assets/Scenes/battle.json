@@ -80,8 +80,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 586.50634765625,
-            "position_y": 18.828590393066406,
+            "position_x": 350.0,
+            "position_y": 20.0,
             "rotation": 0.0,
             "scale": 0.6073969602584839,
             "velocity_x": 0.0,
@@ -105,8 +105,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -356.0,
-            "position_y": 74.0,
+            "position_x": -300.0,
+            "position_y": 100.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -130,8 +130,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -497.5,
-            "position_y": -163.0,
+            "position_x": -400.0,
+            "position_y": -100.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -158,7 +158,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -780.0,
+            "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -168,7 +168,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "This feels wrong. Why are these statues alive? \nThere is something sinister here.",
+            "Text String": "Stop! What is happening...?",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -180,20 +180,66 @@
             "Background": true
         },
         "DialogueHUD": {
-            "Dialogue Lines": [
+            "Dialogues": [
                 {
-                    "Speaker": "Mei",
-                    "Line": "This feels wrong. Why are these statues alive? \nThere is something sinister here."
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Mei",
+                            "Line": "This feels wrong. Why are these statues alive? Isn't this the Jade Emperor's statues?"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "I feel a sinister aura here."
+                        }
+                    ],
+                    "Trigger Type": 5,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration2.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Stop! What is happening...?"
+                        }
+                    ],
+                    "Trigger Type": 2,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "",
+                            "Line": "You have been defeated..."
+                        }
+                    ],
+                    "Trigger Type": 6,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration1.scn"
                 }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": false,
-            "Speaker Required": true,
-            "Post Dialogue Scene": true,
-            "Target Scene": "exploration2.scn"
+            ]
         },
         "Parent": {}
     },

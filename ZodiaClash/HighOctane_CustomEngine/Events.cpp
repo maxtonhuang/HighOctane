@@ -352,14 +352,29 @@ void StartDialogue(std::string input) {
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		if (!dialogueHudData->dialogueLines.size() && (dialogueHudData->targetScene != "")) {
-			events.Call("Transition Scene", dialogueHudData->targetScene);
+		if (dialogueHudData->currentDialogue && !dialogueHudData->currentDialogue->dialogueLines.size() && (dialogueHudData->currentDialogue->targetScene != "")) {
+			events.Call("Transition Scene", dialogueHudData->currentDialogue->targetScene);
 			break;
 		}
-		if (!dialogueHudData->isActive && !dialogueHudData->isTriggered) {
-			dialogueHudData->viewingIndex = 0;
-			dialogueHudData->StartDialogue(entity);
-		}
+
+		// check input
+		DIALOGUE_TRIGGER triggerEnum;
+		if (input == "EVENT")
+			triggerEnum = DIALOGUE_TRIGGER::EVENT_BASED;
+		else if (input == "PRE_BATTLE")
+			triggerEnum = DIALOGUE_TRIGGER::PRE_BATTLE;
+		else if (input == "TURN")
+			triggerEnum = DIALOGUE_TRIGGER::TURN_BASED;
+		else if (input == "HEALTH")
+			triggerEnum = DIALOGUE_TRIGGER::HEALTH_BASED;
+		else if (input == "WIN")
+			triggerEnum = DIALOGUE_TRIGGER::POST_BATTLE_WIN;
+		else if (input == "LOSE")
+			triggerEnum = DIALOGUE_TRIGGER::POST_BATTLE_LOSE;
+		else
+			triggerEnum = DIALOGUE_TRIGGER::DEFAULT;
+
+		dialogueHudData->StartDialogue(entity, triggerEnum);
 	}
 }
 
@@ -376,7 +391,7 @@ void AdvanceDialogue(std::string input) {
 
 	for (Entity const& entity : ds->m_Entities) {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
-		if (dialogueHudData->dialogueLines.size()) {
+		if (dialogueHudData->currentDialogue->dialogueLines.size()) {
 			dialogueHudData->JumpNextLine(entity);
 		}
 	}

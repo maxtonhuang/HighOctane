@@ -418,3 +418,14 @@ void TransferToLayer(Entity e, size_t LayerIndex) {
 	// insert entity into target layer
 	layering[LayerIndex].emplace_back(e);
 }
+
+/******************************************************************************
+*
+*	@brief Returns the Top Most Layer Index
+*
+*	-
+*
+******************************************************************************/
+size_t GetTopLayer() {
+	return layering.size() - 1;
+}

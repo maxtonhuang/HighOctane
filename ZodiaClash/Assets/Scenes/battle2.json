@@ -62,8 +62,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 481.76568603515625,
-            "position_y": -76.15199279785156,
+            "position_x": 350.0,
+            "position_y": 20.0,
             "rotation": 0.0,
             "scale": 0.6073969602584839,
             "velocity_x": 0.0,
@@ -87,8 +87,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -465.0,
-            "position_y": -96.15199279785156,
+            "position_x": -550.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.26726171374320984,
             "velocity_x": 0.0,
@@ -112,8 +112,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -232.0,
-            "position_y": 87.0,
+            "position_x": -300.0,
+            "position_y": 150.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -137,8 +137,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -232.0,
-            "position_y": -187.0,
+            "position_x": -350.0,
+            "position_y": -150.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -212,20 +212,44 @@
             "Background": false
         },
         "DialogueHUD": {
-            "Dialogue Lines": [
+            "Dialogues": [
                 {
-                    "Speaker": "",
-                    "Line": "You have defeated Yang."
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "",
+                            "Line": "You have defeated Yang."
+                        }
+                    ],
+                    "Trigger Type": 5,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "tbc.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "",
+                            "Line": "You have been defeated..."
+                        }
+                    ],
+                    "Trigger Type": 6,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration2.scn"
                 }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": false,
-            "Speaker Required": false,
-            "Post Dialogue Scene": true,
-            "Target Scene": "tbc.scn"
+            ]
         },
         "Parent": {}
     }

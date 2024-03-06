@@ -854,8 +854,6 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
 
-	int stacks{ 0 };
-
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
 
@@ -941,8 +939,6 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
-
-	int stacks{ 0 };
 
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
@@ -1084,17 +1080,151 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, CharacterStats* cha
 /*************************
 **** DIALOGUE SYSTEM *****
 **************************/
+
+bool DialogueHUD::DialoguePtrComparator::operator() (const Dialogue* d1, const Dialogue* d2) const {
+	// Compare the triggers based on their priority
+	if (d1->triggerType != d2->triggerType) {
+		// priority is based on the enum order
+		return static_cast<int>(d1->triggerType) > static_cast<int>(d2->triggerType);
+	}
+
+	// If all attributes are equal, return false (indicating equal priority)
+	return false;
+}
+
+DialogueHUD::DialogueHUD() {
+	dialogues.reserve(10);
+}
+
+void DialogueHUD::Initialize() {
+	// if queue empty, populate queue
+	if (dialogueQueue.empty()) {
+		for (Dialogue dialogue : dialogues) {
+			if (!dialogue.isTriggered)
+				dialogueQueue.push(&dialogue);
+		}
+	}
+};
+
 /*!
 * \brief DialogueHUD StartDialogue
 *
 * Triggers transition for dialogue UI to move in, sets isActive to true
 *
 */
-void DialogueHUD::StartDialogue(Entity entity) {
-	isActive = 1;
-	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
-	if (animationArray.HasComponent(entity)) {
-		animationArray.GetData(entity).Start("Launch", entity);
+void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType) {
+	// check if currentDialogue assigned by system does not match inputTriggerType
+	BattleSystem* battleSys = events.GetBattleSystem();
+	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
+		dialogueQueue.push(currentDialogue);
+		currentDialogue = nullptr;
+	}
+
+	// check if dialogue at top of queue is same as inputTriggerType
+	std::vector<Dialogue*> nonMatchingDialogues;
+	if (inputTriggerType == DIALOGUE_TRIGGER::TURN_BASED) {
+		if (battleSys) {
+			int roundIndex = battleSys->roundManage.roundCounter;
+			// bounce back if currentDialogue is already playing dialogue of that turn
+			// NOTE: turn 3 is retriggered, turn 4 is not??
+			if (currentDialogue && (currentDialogue->triggerType == inputTriggerType) && (currentDialogue->roundTrigger == roundIndex)) {
+				return;
+			}
+			else {
+				dialogueQueue.push(currentDialogue);
+			}
+			while (!dialogueQueue.empty()) {
+				if ((dialogueQueue.top()->triggerType != inputTriggerType) || (dialogueQueue.top()->roundTrigger != roundIndex) || (dialogueQueue.top()->isTriggered))
+				{
+					nonMatchingDialogues.push_back(dialogueQueue.top());
+					dialogueQueue.pop();
+				}
+				else
+					break;
+			}
+			// if match pass dialogue pointer to currentDialogue
+			if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType) && (dialogueQueue.top()->roundTrigger == roundIndex)) {
+				currentDialogue = dialogueQueue.top();
+			}
+			// push non-matching dialogues back into queue
+			for (Dialogue* dialogue : nonMatchingDialogues) {
+				dialogueQueue.push(dialogue);
+				dialogueQueue.pop();
+			}
+		}
+	}
+	// additional clause for health, if the health threshold has been hit
+	/*else if (inputTriggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
+	}*/
+	else if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
+		// TODO: to check for turn and health counters?
+		while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType)) {
+			nonMatchingDialogues.push_back(dialogueQueue.top());
+			dialogueQueue.pop();
+		}
+		// if match pass dialogue pointer to currentDialogue
+		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType)) {
+			currentDialogue = dialogueQueue.top();
+		}
+		// push non-matching dialogues back into queue
+		for (Dialogue* dialogue : nonMatchingDialogues) {
+			dialogueQueue.push(dialogue);
+		}
+	}
+	else {
+		currentDialogue = dialogueQueue.top();
+	}
+
+	if (currentDialogue && !currentDialogue->isActive) {
+		currentDialogue->isActive = 1;
+		currentDialogue->viewingIndex = 0;
+		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+		if (animationArray.HasComponent(entity)) {
+			animationArray.GetData(entity).Start("Launch", entity);
+		}
+		battleSys->dialogueCalled = true;
+	}
+}
+
+void DialogueHUD::AddDialogue(Dialogue dialogue, bool& result) {
+	int index{ 0 };
+	for (Dialogue const& d : dialogues) {
+		if (&d == currentDialogue) {
+			break;
+		}
+		index++;
+	}
+	if (dialogues.size() < dialogues.capacity()) {
+		dialogues.push_back(dialogue);
+		currentDialogue = &dialogues[index];
+		dialogueQueue.push(&dialogue);
+
+		result = true;
+	}	
+}
+
+void DialogueHUD::RemoveDialogue(int index) {
+	// step 1: check and update currentDialogue pointer
+	if (currentDialogue == &dialogues[index]) {
+		currentDialogue = nullptr; // clear away currentDialogue pointer
+	}
+
+	// step 2: remove from dialogueQueue
+	std::vector<Dialogue*> tempQueue;
+	while (!dialogueQueue.empty()) {
+		Dialogue* front = dialogueQueue.top();
+		dialogueQueue.pop();
+		if (front != &dialogues[index]) {
+			tempQueue.push_back(front);
+		}
+	}
+	for (Dialogue* ptr : tempQueue) {
+		dialogueQueue.push(ptr);
+	}
+
+	// step 3: remove from dialogues vector
+	if (index >= 0 && index < dialogues.size()) {
+		dialogues.erase(dialogues.begin() + index);
 	}
 }
 
@@ -1104,15 +1234,30 @@ void DialogueHUD::StartDialogue(Entity entity) {
 * Triggers next line of dialogue, sets isActive to false if no more lines
 *
 */
-void DialogueHUD::JumpNextLine(Entity entity) {	
-	viewingIndex++;
-	if (viewingIndex > dialogueLines.size() - 1) {
-		isActive = 0;
-		isTriggered = 1;
-		viewingIndex--;
+void DialogueHUD::JumpNextLine(Entity entity) {
+	if (!currentDialogue) {
+		return;
+	}
+
+	BattleSystem* battleSys = events.GetBattleSystem();
+
+	currentDialogue->viewingIndex++;
+	if (currentDialogue->viewingIndex > currentDialogue->dialogueLines.size() - 1) {
+		currentDialogue->isActive = 0;
+		currentDialogue->isTriggered = 1;
+		currentDialogue->viewingIndex--;
+		
+		if (battleSys) {
+			// break soft lock cycle, reset dialogueCalled
+			battleSys->dialogueCalled = false;
+		}
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
+			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
+				battleSys->activeCharacter->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
+				battleSys->ProcessDamage();
+			}
 			animationArray.GetData(entity).Start("Exit", entity);
 		}
 	}
@@ -1134,7 +1279,7 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 		case(TYPE::MOUSE_CLICK):
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
-				if (GetCurrentSystemMode() == SystemMode::RUN && dialogueLines.size()) {
+				if (GetCurrentSystemMode() == SystemMode::RUN && currentDialogue && currentDialogue->dialogueLines.size()) {
 					JumpNextLine(entity);
 				}
 			}
@@ -1154,9 +1299,7 @@ void DialogueHUD::EnforceAlignment(const Size& parentSizeData, Size& childSizeDa
 	if (childTextLabelData.textWrap != UI_TEXT_WRAP::AUTO_WIDTH) {
 		childTextLabelData.textWrap = UI_TEXT_WRAP::AUTO_WIDTH;
 	}
-	//smth is enforcing child position based on prefab?
 	childData.offset.position.x = (-0.5f * parentSizeData.width) + (0.5f * childSizeData.width);
-
 }
 
 

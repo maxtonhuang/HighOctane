@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 76,
+            "layerCounter": 82,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -79,7 +79,13 @@
                 "Layer 72",
                 "Layer 73",
                 "Layer 74",
-                "Layer 75"
+                "Layer 75",
+                "Layer 76",
+                "Layer 77",
+                "Layer 78",
+                "Layer 79",
+                "Layer 80",
+                "Layer 81"
             ]
         }
     },
@@ -95,7 +101,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 39,
             "isLocked": true,
             "isSkipped": true
         },
@@ -505,7 +511,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_07.png",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
         },
@@ -955,7 +961,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 26,
+            "Order in Layer": 38,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1099,7 +1105,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 27,
+            "Order in Layer": 26,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1147,7 +1153,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 28,
+            "Order in Layer": 27,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1195,7 +1201,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 29,
+            "Order in Layer": 28,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1243,7 +1249,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 30,
+            "Order in Layer": 29,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1298,7 +1304,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_09.png",
             "Current Layer": 0,
-            "Order in Layer": 31,
+            "Order in Layer": 30,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1323,7 +1329,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_06.png",
             "Current Layer": 0,
-            "Order in Layer": 33,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1348,7 +1354,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_03.png",
             "Current Layer": 0,
-            "Order in Layer": 32,
+            "Order in Layer": 31,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1414,7 +1420,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1463,7 +1469,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 32,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1512,7 +1518,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 14,
+            "Order in Layer": 13,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1568,7 +1574,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1593,7 +1599,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 39,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1611,7 +1617,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1704,48 +1710,54 @@
             "Background": true
         },
         "DialogueHUD": {
-            "Dialogue Lines": [
+            "Dialogues": [
                 {
-                    "Speaker": "Mei",
-                    "Line": "What is this aura in the artifact?"
-                },
-                {
-                    "Speaker": "Yang",
-                    "Line": "There's a sinister power within these artifacts."
-                },
-                {
-                    "Speaker": "Yang",
-                    "Line": "As if it's devouring my consciousness."
-                },
-                {
-                    "Speaker": "Mei",
-                    "Line": "Hold on..."
-                },
-                {
-                    "Speaker": "Mei",
-                    "Line": "So the other animals are also consumed by this power."
-                },
-                {
-                    "Speaker": "Yang",
-                    "Line": "Looks like it. We have to save them!"
-                },
-                {
-                    "Speaker": "Mei",
-                    "Line": "Oh no... Ok, rest here, I will find the others and rescue them!"
-                },
-                {
-                    "Speaker": "Mei",
-                    "Line": "I hope you are okay, Shu..."
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Mei",
+                            "Line": "What is this aura in the artifact?"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "There's a sinister power within these artifacts."
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "As if it's devouring my consciousness."
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Hold on..."
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "So the other animals are also consumed by this power."
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "Looks like it. We have to save them!"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Oh no... Ok, rest here, I will find the others and rescue them!"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "I hope you are okay, Shu..."
+                        }
+                    ],
+                    "Trigger Type": 0,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "tbc.scn"
                 }
-            ],
-            "Viewing Index": 0,
-            "Display Duration": 0.0,
-            "Is Active": false,
-            "Is Triggered": false,
-            "Auto Launch": true,
-            "Speaker Required": true,
-            "Post Dialogue Scene": true,
-            "Target Scene": "tbc.scn"
+            ]
         },
         "Parent": {}
     },
@@ -1779,7 +1791,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 38,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
