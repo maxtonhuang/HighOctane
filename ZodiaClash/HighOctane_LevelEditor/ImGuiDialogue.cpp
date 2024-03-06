@@ -130,7 +130,7 @@ void DialogueWindow(Entity entity) {
                     // Column 5: Delete
                     ImGui::TableSetColumnIndex(1);
                     if (ImGui::Button("Remove")) {
-                        dialogueData.RemoveDialogue(i);
+                        dialogueData.RemoveDialogue(static_cast<int>(i));
                     }
                     ImGui::EndTable();
                 }

@@ -857,8 +857,6 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
 
-	int stacks{ 0 };
-
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
 
@@ -944,8 +942,6 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
-
-	int stacks{ 0 };
 
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
@@ -1227,13 +1223,14 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		return;
 	}
 
+	BattleSystem* battleSys = events.GetBattleSystem();
+
 	currentDialogue->viewingIndex++;
 	if (currentDialogue->viewingIndex > currentDialogue->dialogueLines.size() - 1) {
 		currentDialogue->isActive = 0;
 		currentDialogue->isTriggered = 1;
 		currentDialogue->viewingIndex--;
-
-		BattleSystem* battleSys = events.GetBattleSystem();
+		
 		if (battleSys) {
 			// break soft lock cycle, reset dialogueCalled
 			battleSys->dialogueCalled = false;
@@ -1241,8 +1238,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
-			if (currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
-				BattleSystem* battleSys = events.GetBattleSystem();
+			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
 				battleSys->activeCharacter->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
 				battleSys->ProcessDamage();
 			}
