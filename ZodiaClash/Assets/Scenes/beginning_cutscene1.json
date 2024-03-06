@@ -46,7 +46,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "In Ancient China, the Jade Emperor needed a way to measure time.",
+            "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -135,7 +135,7 @@
         "Entity": {
             "Name": "Cutscene 2",
             "Current Layer": 0,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -183,7 +183,7 @@
         "Entity": {
             "Name": "Cutscene 3",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -231,7 +231,7 @@
         "Entity": {
             "Name": "Cutscene 4",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -327,7 +327,7 @@
         "Entity": {
             "Name": "Cutscene 5",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -375,7 +375,7 @@
         "Entity": {
             "Name": "Cutscene 8",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -479,7 +479,7 @@
         "Entity": {
             "Name": "Cutscene Start",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -496,7 +496,7 @@
                 "Total Frames": 60,
                 "Group Name": "Cutscene",
                 "Loop": false,
-                "Frame Time": 1.0,
+                "Frame Time": 0.75,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -557,7 +557,7 @@
         "Entity": {
             "Name": "Cutscene End",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
