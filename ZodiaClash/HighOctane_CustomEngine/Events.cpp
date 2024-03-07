@@ -135,7 +135,7 @@ void PlayAudio(std::string input) {
 void PlayMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
-	DEBUG_PRINT("playing: %s", input.c_str());
+	//DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 
@@ -148,7 +148,7 @@ void RestartMusic(std::string input) {
 	//Find the entity from map using input string
 	//Call the sound component and play it
 	assetmanager.audio.StopGroup("BGM");
-	DEBUG_PRINT("playing: %s", input.c_str());
+	//DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 

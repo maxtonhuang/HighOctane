@@ -344,6 +344,7 @@ void BattleSystem::Update()
 
             //Process dead characters
             std::vector<CharacterStats*> deadchars{};
+            deadchars.reserve(turnManage.turnOrderList.size());
             for (CharacterStats* c : turnManage.turnOrderList) {
                 if (c->stats.health == 0) {
                     deadchars.push_back(c);
@@ -568,6 +569,7 @@ void BattleSystem::CompleteBattle() {
     static ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
     if (m_Entities.size() > 0) {
         assetmanager.audio.PauseGroup("BGM");
+        events.Call("Play Sound", "Battle End_Edited.wav");
         for (Entity& e : allBattleUI) {
             animationArray->GetData(e).Start("Pop Out", e);
         }
@@ -851,17 +853,17 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
         static bool turnanimated{ false };
         if (turnanimated == false) {
             Entity queueFront{ turnOrderQueueAnimator.front() };
-            animationArray.GetData(turnOrderQueueAnimator.front()).Start("Pop Out", turnOrderQueueAnimator.front());
+            animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Pop Out", turnOrderQueueAnimator.front());
             Entity retractingIcon{ parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon") };
-            animationArray.GetData(retractingIcon).Start("Unexpand", retractingIcon);
+            animationArray.GetData(retractingIcon).Queue("Unexpand", retractingIcon);
             turnOrderQueueAnimator.pop_front();
 
-            animationArray.GetData(turnOrderQueueAnimator.front()).Start("Expand", turnOrderQueueAnimator.front());
+            animationArray.GetData(turnOrderQueueAnimator.front()).Queue("Expand", turnOrderQueueAnimator.front());
             Entity expandingIcon = parentArray.GetData(turnOrderQueueAnimator.front()).GetChildByName("turnOrderIcon");
-            animationArray.GetData(expandingIcon).Start("Expand", expandingIcon);
+            animationArray.GetData(expandingIcon).Queue("Expand", expandingIcon);
             for (Entity& e : turnOrderQueueAnimator) {
                 if (e != turnOrderQueueAnimator.front()) {
-                    animationArray.GetData(e).Start("Next Turn", e);
+                    animationArray.GetData(e).Queue("Next Turn", e);
                 }
             }
             turnOrderQueueAnimator.push_back(queueFront);
@@ -930,6 +932,9 @@ void BattleSystem::AnimateReturnTurnOrder() {
     while (iterator != turnManage.turnOrderList.rend() && (*iterator)->entity != speedupCharacter->entity) {
         iterator++;
         count++;
+        if ((*iterator)->stats.health == 0) {
+            count--;
+        }
     }
     Entity entity {};
     for (Entity e : turnOrderQueueAnimator) {
@@ -998,9 +1003,9 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
         for (size_t i = 0; i < turnOrderQueueAnimator.size(); i++) {
             Entity e{ turnOrderQueueAnimator[i] };
             if (ECS::ecs().GetComponent<TurnIndicator>(e).character == entity) {
-                ECS::ecs().GetComponent<AnimationSet>(e).Start("Pop Out", e);
+                ECS::ecs().GetComponent<AnimationSet>(e).Queue("Pop Out", e);
                 Entity icon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
-                ECS::ecs().GetComponent<AnimationSet>(icon).Start("Unexpand", icon);
+                ECS::ecs().GetComponent<AnimationSet>(icon).Queue("Unexpand", icon);
                 moveup = true;
                 if (e == turnOrderQueueAnimator.front()) {
                     deathAtStart = true;
@@ -1010,13 +1015,13 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
             newTurnOrderQueueAnimator.push_back(e);
             if (moveup) {
                 if (deathAtStart) {
-                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Expand", e);
+                    ECS::ecs().GetComponent<AnimationSet>(e).Queue("Expand", e);
                     Entity icon{ parentArray.GetData(e).GetChildByName("turnOrderIcon") };
-                    ECS::ecs().GetComponent<AnimationSet>(icon).Start("Expand", icon);
+                    ECS::ecs().GetComponent<AnimationSet>(icon).Queue("Expand", icon);
                     deathAtStart = false;
                 }
-                else if (i != turnOrderQueueAnimator.size() - 1) {
-                    ECS::ecs().GetComponent<AnimationSet>(e).Start("Next Turn", e);
+                else if (e != turnOrderQueueAnimator.back()) {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Queue("Next Turn", e);
                 }
             }
         }
