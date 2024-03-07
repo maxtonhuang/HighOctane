@@ -144,6 +144,7 @@ void BattleSystem::StartBattle() {
     InitialiseBattleUI();
 
     battlestarted = true;
+    dialogueCalled = false;
 }
 
 /**
@@ -267,7 +268,7 @@ void BattleSystem::Update()
                 if (activeCharacter->action.entityState != EntityState::DYING) {
                     activeCharacter->action.entityState = EntityState::START;
                 }
-                ++roundManage.characterCount;
+                roundManage.characterCount++;
             }
             else
             {
@@ -289,8 +290,12 @@ void BattleSystem::Update()
             for (CharacterStats* c : turnManage.turnOrderList) {
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
                     if ((roundManage.roundCounter == 3) || (roundManage.roundCounter == 4)) {
-                        events.Call("Start Dialogue", "TURN");
+                        c->charge = true;
+                        if (m_Entities.size() > 0) {
+                            events.Call("Start Dialogue", "TURN");
+                        }
                     }
+                    
                 }
             }
         }
@@ -319,6 +324,7 @@ void BattleSystem::Update()
             if (speedup && speedupCharacter->entity == turnManage.turnOrderList.front()->entity && speedupAnimationPlayed) {
                 turnManage.turnOrderList.pop_front();
                 speedup = false;
+                roundManage.characterCount--;
                 AnimateReturnTurnOrder();
             }
             else {

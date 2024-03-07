@@ -165,7 +165,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Hover Target_Edited.wav"
+                                    "Hover Select_Edited.wav"
                                 ]
                             }
                         ]
@@ -193,7 +193,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Skill Select_Edited.wav"
+                                    "Hover Target_Edited.wav"
                                 ]
                             }
                         ]

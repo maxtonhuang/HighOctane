@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 13,
+            "layerCounter": 15,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -16,7 +16,9 @@
                 "Layer 9",
                 "Layer 10",
                 "Layer 11",
-                "Layer 12"
+                "Layer 12",
+                "Layer 13",
+                "Layer 14"
             ]
         }
     },
@@ -217,7 +219,8 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "You have defeated Yang."
+                            "Line": "You have defeated Yang.",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 5,
@@ -235,7 +238,8 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "You have been defeated..."
+                            "Line": "You have been defeated...",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 6,
