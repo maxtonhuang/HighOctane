@@ -8,6 +8,7 @@ static bool flag{};
 void DialogueWindow(Entity entity) {
     if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
         DialogueHUD& dialogueData = ECS::ecs().GetComponent<DialogueHUD>(entity);
+        Transform& transformData = ECS::ecs().GetComponent<Transform>(entity);
         DialogueHUD::Dialogue newDialogue{};
 
         // Button to add a new dialogue line
@@ -32,7 +33,7 @@ void DialogueWindow(Entity entity) {
             std::string headerTitle = "Dialogue " + std::to_string(i + 1);
             if (ImGui::CollapsingHeader(headerTitle.c_str())) {
                 if (ImGui::BeginTable("DialogueSettingsTable", 3, ImGuiTableFlags_Borders)) {
-                    ImGui::TableSetupColumn("Save Settings", ImGuiTableColumnFlags_WidthFixed, 400.0f);
+                    ImGui::TableSetupColumn("Toggles", ImGuiTableColumnFlags_WidthFixed, 400.0f);
                     ImGui::TableSetupColumn("Trigger Condition", ImGuiTableColumnFlags_WidthFixed, 200.0f);
                     ImGui::TableSetupColumn("Has Speaker?", ImGuiTableColumnFlags_WidthFixed, 100.0f);
                     
@@ -49,15 +50,25 @@ void DialogueWindow(Entity entity) {
                     ImGui::InputInt("Viewing Index", &selectedIndex);
                     selectedIndex = (maxViewingIndex > 0) ? std::clamp(selectedIndex, 0, maxViewingIndex) : 0;
 
-                    // IsActive (ensure this is unchecked when saving scene!)
-                    //ImGui::SameLine();
-                    bool& toggleActive = dialogue.isActive;
-                    ImGui::Checkbox("Is Active", &toggleActive);
-
-                    // IsTriggered (ensure this is unchecked when saving scene!)
+                    ImGui::Text("Is Active: %s", (dialogue.isActive) ? "true" : "false");
                     ImGui::SameLine();
-                    bool& toggleTriggered = dialogue.isTriggered;
-                    ImGui::Checkbox("Is Triggered", &toggleTriggered);
+                    ImGui::Text("\t Is Triggered: %s", (dialogue.isTriggered) ? "true" : "false");
+
+                    if (ImGui::Button("Edit this Dialogue")) {
+                        dialogueData.currentDialogue = &dialogue;
+                        dialogueData.isEditing = true;
+                        transformData.position.x = 0.0f;
+                        transformData.position.y = -350.0f;
+                    }
+                    ImGui::SameLine();
+                    if (ImGui::Button("Prepare for scene saving")) {
+                        dialogue.isActive = false;
+                        dialogue.isTriggered = false;
+                        dialogue.viewingIndex = 0;
+                        dialogueData.isEditing = false;
+                        transformData.position.x = 0.0f;
+                        transformData.position.y = -750.0f;
+                    }                 
 
 
                     // Column 2: Trigger Condition
@@ -80,11 +91,16 @@ void DialogueWindow(Entity entity) {
                     }
                     int& roundTrigger_ = dialogue.roundTrigger;
                     int& healthTrigger_ = dialogue.healthTrigger;
+                    BattleSystem* battleSys = events.GetBattleSystem();
                     switch (triggerSetting) {
                     case DIALOGUE_TRIGGER::TURN_BASED:
                         ImGui::InputInt("##Turn Number", &roundTrigger_);
                         roundTrigger_ = std::max(0, roundTrigger_);
                         healthTrigger_ = 0;
+                        
+                        if (battleSys) {
+							ImGui::Text("Current Turn: %d", battleSys->roundManage.roundCounter);
+						}
                         break;
                     case DIALOGUE_TRIGGER::HEALTH_BASED:
                         ImGui::InputInt("##Health Breakpoint", &healthTrigger_);
@@ -109,7 +125,7 @@ void DialogueWindow(Entity entity) {
                     
 
                     ImGui::EndTable();
-                    ImGui::Text("NOTE: Ensure Viewing Index is set to 0, Is Active and Is Triggered is UNCHECKED when saving scene!");
+                    ImGui::Text("NOTE: Ensure \"Prepare for scene saving\" button is clicked when saving scene!");
                 }
                 if (ImGui::BeginTable("DialogueSettingsTable2", 3, ImGuiTableFlags_Borders)) {
                     ImGui::TableSetupColumn("Set post-dialogue scene?", ImGuiTableColumnFlags_WidthFixed, 400.0f);
