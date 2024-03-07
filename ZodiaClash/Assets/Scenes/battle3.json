@@ -202,11 +202,11 @@
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "I'm unsure of it."
+                            "Line": "I'm not sure of it."
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "Where are the other animals? Don't tell me, the Jade Emperor..."
+                            "Line": "Where are the other animals? Don't tell me, the Jade Emperor gave them the artifacts too..."
                         },
                         {
                             "Speaker": "Niu",
@@ -222,7 +222,7 @@
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "For deceiving the entirety of Ancient China to fulfill his own selfish desires..."
+                            "Line": "For deceiving the entirety of Ancient China to fulfil his own selfish desires..."
                         }
                     ],
                     "Trigger Type": 5,
@@ -240,7 +240,7 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "Niu",
-                            "Line": "Prepare to utter your final words, feline creature!"
+                            "Line": "Prepare to utter your final words, cat!"
                         }
                     ],
                     "Trigger Type": 3,
@@ -262,11 +262,11 @@
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "Sorry for the delay, assistance is here!"
+                            "Line": "Support is here!"
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Thanks, now let's wake this ox up."
+                            "Line": "Alright, now let's wake this ox up."
                         }
                     ],
                     "Trigger Type": 3,
