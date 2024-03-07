@@ -285,17 +285,30 @@ void BattleSystem::Update()
         }
         break;
     case ENEMYTURN:
+        if (activeCharacter->action.entityState == WAITING) {
+            gameAI.Search(this);
+        }
+        [[fallthrough]];
+
+    case PLAYERTURN:
         //Check if turn/health conditions are met, trigger dialogue
-        if (!dialogueCalled) {
+        if (m_Entities.size() > 0 && !dialogueCalled && (roundManage.roundCounter == 3 || roundManage.roundCounter == 4)) {
             for (CharacterStats* c : turnManage.turnOrderList) {
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
-                    if ((roundManage.roundCounter == 3) || (roundManage.roundCounter == 4)) {
-                        c->charge = true;
-                        if (m_Entities.size() > 0) {
-                            events.Call("Start Dialogue", "TURN");
+                    if (activeCharacter == c) {
+                        events.Call("Start Dialogue", "TURN");
+                        if (dialogueCalled == 2) {
+                            for (CharacterStats* c : turnManage.turnOrderList) {
+                                if (c->tag == CharacterType::PLAYER) {
+                                    c->stats.health = c->stats.maxHealth;
+                                }
+                            }
+                            AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
+                            damagePrefab = "Goat_Skill_VFX.prefab";
+                            ProcessDamage();
                         }
                     }
-                    
+
                 }
             }
         }
@@ -303,13 +316,8 @@ void BattleSystem::Update()
             break;
         }
 
-        if (activeCharacter->action.entityState == WAITING) {
-            gameAI.Search(this);
-        }
-        [[fallthrough]];
-
-    case PLAYERTURN:
         activeCharacter->action.UpdateState();
+
         if (activeCharacter->action.entityState == EntityState::END || activeCharacter->action.entityState == EntityState::DYING) {
 
             //Update turn order animator
@@ -346,7 +354,7 @@ void BattleSystem::Update()
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Goat_Enemy") {
                     for (auto& character : turnManage.characterList) {
                         if (character.tag == CharacterType::PLAYER) {
-                            character.stats.health += 0.3f * c->stats.maxHealth;
+                            character.stats.health += 0.4f * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
                             }
@@ -392,6 +400,9 @@ bool BattleSystem::DetermineTurnOrder()
         m->entity = chara;
         m->parent = this;
         m->action.battleManager = this;
+        if (ECS::ecs().GetComponent<Name>(m->entity).name == "Ox_Enemy") {
+            m->buffs.reflectStack = 1;
+        }
         turnManage.characterList.push_back(*m);
         if (m->tag == CharacterType::PLAYER) {
             allyCount++;
@@ -419,6 +430,77 @@ bool BattleSystem::DetermineTurnOrder()
     //originalTurnOrderList
     turnManage.originalTurnOrderList = turnManage.turnOrderList;
     return true;
+}
+
+void BattleSystem::AddCharacter(Entity addition) {
+    if (m_Entities.size() == 0) {
+        return;
+    }
+
+    CharacterStats* m = &ECS::ecs().GetComponent<CharacterStats>(addition);
+    m->entity = addition;
+    m->parent = this;
+    m->action.battleManager = this;
+    turnManage.characterList.push_back(*m);
+    CharacterStats* newAddition{ &turnManage.characterList.back() };
+    turnManage.turnOrderList.push_back(newAddition);
+    turnManage.originalTurnOrderList = turnManage.turnOrderList;
+
+    static auto& turnorderArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<TurnIndicator>() };
+    static auto& texArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+    static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+    static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
+    static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
+
+    CharacterAnimator animator{};
+    Entity healthbar{};
+    float hp_offset{ 0.f };
+    Entity turnUI{};
+
+    animator.character = addition;
+    if (m->tag == CharacterType::PLAYER) {
+        healthbar = EntityFactory::entityFactory().ClonePrefab("ally_healthbar.prefab");
+        hp_offset = healthBarOffset * (GetPlayers().size() - 1);
+        turnUI = EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab");
+    }
+    else {
+        healthbar = EntityFactory::entityFactory().ClonePrefab("enemy_healthbar.prefab");
+        hp_offset = healthBarOffset * (GetEnemies().size() - 1);
+        turnUI = EntityFactory::entityFactory().ClonePrefab("turn_enemy.prefab");
+    }
+    transformArray.GetData(healthbar).position.y += hp_offset;
+    animationArray.GetData(healthbar).Start("Pop In", healthbar);
+    animator.healthbar = healthbar;
+    animator.turnorder = turnUI;
+    animator.healthbarIcon = parentArray.GetData(healthbar).GetChildByName("hpBarIcon");
+    texArray.GetData(animator.healthbarIcon).tex = assetmanager.texture.Get(m->icon.c_str());
+    modelArray.GetData(animator.healthbarIcon).SetMirror(modelArray.GetData(addition).GetMirror());
+    animator.healthbarBase = parentArray.GetData(healthbar).GetChildByName("hpBarBase");
+    healthbarArray.GetData(healthbar).charaStatsRef = m;
+    
+    allBattleUI.push_back(healthbar);
+
+    animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
+    //transformArray.GetData(turnOrderAnimator).position.x += sizeArray.GetData(turnUI).width * 0.25f;
+    //printf("%f\n", sizeArray.GetData(turnUI).width);
+    animationArray.GetData(turnUI).Start("Shift In", turnUI);
+    animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
+    texArray.GetData(animator.turnorderIcon).tex = assetmanager.texture.Get(m->icon.c_str());
+    turnOrderQueueAnimator.push_back(turnUI);
+
+    if (m->tag == CharacterType::PLAYER) {
+        modelArray.GetData(animator.turnorderIcon).SetMirror(!modelArray.GetData(addition).GetMirror());
+        allyHealthBars.push_back(healthbar);
+        allyAnimators.push_back(animator);
+    }
+    else {
+        modelArray.GetData(animator.turnorderIcon).SetMirror(modelArray.GetData(addition).GetMirror());
+        enemyHealthBars.push_back(healthbar);
+        enemyAnimators.push_back(animator);
+    }
 }
 
 /**
@@ -546,7 +628,7 @@ void BattleSystem::ProcessDamage() {
 
                         if (c.stats.health > 0) {
                             if (damage > 0) {
-                                animationArray->GetData(entity).Start("Damaged", entity);
+                                animationArray->GetData(entity).Queue("Damaged", entity);
                                 if (c.crit == true) {
                                     textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 1.f,0.f,0.f,1.f });
                                     textArray->GetData(damagelabel).textString = "CRIT\n" + textArray->GetData(damagelabel).textString;
@@ -587,7 +669,8 @@ void BattleSystem::ProcessDamage() {
             if (found == false) {
                 Model* model = &modelArray->GetData(entity);
                 cs->action.entityState = DEAD;
-                cs->debuffs.bloodStack = 0;
+                cs->debuffs = CharacterStats::debuff{};
+                cs->buffs = CharacterStats::buff{};
                 model->SetAlpha(0.2f);
                 AnimateRemoveTurnOrder(entity);
                 AnimateRemoveHealthBar(entity);

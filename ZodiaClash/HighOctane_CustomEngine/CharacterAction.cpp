@@ -60,6 +60,14 @@ void CharacterAction::UpdateState() {
         //Empty by design, to wait for other systems to change entity state
         //Otherwise, if stunned then skip their turn
         if (characterStats->debuffs.stunStack > 0) {
+            if (battleManager->m_Entities.size() > 0) {
+                Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
+                ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = "Stunned!";
+                if (characterStats->tag == CharacterType::ENEMY) {
+                    glm::vec4& battleLabelColor{ ECS::ecs().GetComponent<Model>(battlelabel).GetColorRef() };
+                    battleLabelColor = glm::vec4(darkred, 0.f, 0.f, battleLabelColor.a);
+                }
+            }
             characterStats->debuffs.stunStack -= 1;
             battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
@@ -118,8 +126,10 @@ void CharacterAction::UpdateState() {
                 animation.Queue(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
-            glm::vec4& battleLabelColor{ ECS::ecs().GetComponent<Model>(battlelabel).GetColorRef() };
-            battleLabelColor = glm::vec4(darkred,0.f,0.f,battleLabelColor.a);
+            if (characterStats->tag == CharacterType::ENEMY) {
+                glm::vec4& battleLabelColor{ ECS::ecs().GetComponent<Model>(battlelabel).GetColorRef() };
+                battleLabelColor = glm::vec4(darkred, 0.f, 0.f, battleLabelColor.a);
+            }
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
             battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
@@ -141,6 +151,9 @@ void CharacterAction::UpdateState() {
             if (characterStats->buffs.defenseStack == 0) {
                 characterStats->buffs.defenseBuff = 0.f;
             }
+        }
+        if (characterStats->buffs.reflectStack > 0 && battleManager->GetEnemies().size() == 1) {
+            characterStats->buffs.reflectStack -= 1;
         }
         if (characterStats->debuffs.attackStack > 0) {
             characterStats->debuffs.attackStack -= 1;

@@ -1182,7 +1182,12 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		if (animationArray.HasComponent(entity)) {
 			animationArray.GetData(entity).Start("Launch", entity);
 		}
-		battleSys->dialogueCalled = true;
+		switch (battleSys->dialogueCalled) {
+		case 0:
+			battleSys->dialogueCalled = 1;
+		}
+		dialogueCalledNum++;
+		battleSys->dialogueCalled = dialogueCalledNum;
 	}
 }
 
@@ -1249,7 +1254,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		
 		if (battleSys) {
 			// break soft lock cycle, reset dialogueCalled
-			battleSys->dialogueCalled = false;
+			battleSys->dialogueCalled = 0;
 		}
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };

@@ -430,6 +430,7 @@ public:
 	Dialogue* currentDialogue{};
 
 	bool isEditing{};
+	int dialogueCalledNum;
 	//bool isAllTriggered{};
 
 	DialogueHUD();

@@ -97,7 +97,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -122,7 +122,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -350,31 +350,6 @@
     },
     {
         "Clone": {
-            "Prefab": "Player_Goat.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Player_Goat",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 550.0,
-            "position_y": -150.0,
-            "rotation": 0.0,
-            "scale": 0.26726171374320984,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
             "Prefab": "enemy_ox.prefab",
             "Unique Components": [
                 "struct Transform",
@@ -385,7 +360,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },

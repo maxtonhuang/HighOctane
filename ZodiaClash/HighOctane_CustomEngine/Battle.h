@@ -146,7 +146,7 @@ public:
 
 	std::vector<Entity> skillButtons;
 	int aiMultiplier; //in order to control certain AI logic
-	bool dialogueCalled{ false };
+	int dialogueCalled{ 0 };
 private:
 	
 	//std::vector <GameObject> gameObjects;

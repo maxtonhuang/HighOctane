@@ -350,31 +350,6 @@
     },
     {
         "Clone": {
-            "Prefab": "Player_Goat.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Player_Goat",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 550.0,
-            "position_y": -150.0,
-            "rotation": 0.0,
-            "scale": 0.26726171374320984,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
             "Prefab": "enemy_ox.prefab",
             "Unique Components": [
                 "struct Transform",

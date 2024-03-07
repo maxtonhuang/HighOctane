@@ -87,6 +87,7 @@ void CharacterStats::Start()
  */
 void CharacterStats::TakeDamage(float damage) 
 {
+    damage = floorf(damage);
     if (godModeOn && this->tag == CharacterType::PLAYER) {
         // in God Mode, the player does not take damage
         RestoreFullHealth(*this);

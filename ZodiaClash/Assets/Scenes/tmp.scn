@@ -8,12 +8,12 @@ Guard_Death.spritesheet
 Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-catSkill2_tooltip.png
 UI_ICON_bleed.png
+catSkill2_tooltip.png
 skill_icon_skill.png
 skill_icon_ulti.png
-mockup_icon_cat.png
 Goat_Idle.spritesheet
+mockup_icon_cat.png
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -33,8 +33,8 @@ Guard_Damage.spritesheet
 Guard_Damage.spritesheet
 Guard_Attack.spritesheet
 Guard_Attack.spritesheet
-Goat_Ulti.spritesheet
 mockup_chi_icon_lineart.png
+Goat_Ulti.spritesheet
 Goat_Ulti.spritesheet
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
@@ -68,9 +68,9 @@ Ox Atk 1_Edited.wav
 Cat_Atk_2_Edited.wav
 Battle Ambience BGM_Edited.wav
 Cat Atk_1_Edited.wav
+Guard Atk_Edited.wav
 Cat Damaged_Edited.wav
 Cat_Atk_3_Edited.wav
-Guard Atk_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
 Goat Atk 1_Edited.wav

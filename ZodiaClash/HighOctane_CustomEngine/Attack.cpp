@@ -103,16 +103,27 @@ void Attack::UseAttack(CharacterStats* target) {
     else if (attackName == "Chi-Absorbing Blow") {
         target->debuffs.defenseDebuff = 0.5f;
         target->debuffs.defenseStack = 2;
+        //if (owner->cycle > 0 && owner->charge) {
+        //    owner->action.battleManager->aiMultiplier += 100000;
+        //    owner->cycle = owner->cycle >= 3 ? 0 : owner->cycle + 1;
+        //    printf("Attack 1 %d\n", owner->cycle);
+        //}
+    }
+    else if (attackName == "Shield Smash") {
         if (owner->cycle > 0 && owner->charge) {
             owner->action.battleManager->aiMultiplier += 100000;
-            owner->cycle = owner->cycle >= 2 ? 0 : owner->cycle + 1;
+            owner->cycle = owner->cycle > 2 ? 0 : owner->cycle + 1;
         }
     }
     else if (attackName == "Unstoppable Charge") {
         target->debuffs.stunStack += 1;
         if (owner->cycle > 0 && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 100000;
-            owner->cycle = owner->cycle >= 2 ? 0 : owner->cycle + 1;
+            owner->cycle = owner->cycle >= 3 ? 0 : owner->cycle + 1;
+            if (owner->cycle > 2) {
+                owner->cycle = 0;
+                owner->charge = true;
+            }
         }
     }
     else if (attackName == "Cursed War God's Wrath") {
@@ -136,6 +147,9 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 
     target->TakeDamage(damage);
+    if (target->buffs.reflectStack > 0) {
+        owner->TakeDamage(0.5 * damage);
+    }
 }
 
 void Attack::UseAttack(std::vector<CharacterStats*> target) {
