@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 32,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,11 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31"
             ]
         }
     },
@@ -77,7 +81,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 350.0,
+            "position_x": 350.00018310546875,
             "position_y": 20.0,
             "rotation": 0.0,
             "scale": 0.6073969602584839,
@@ -97,7 +101,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 21,
             "isLocked": true,
             "isSkipped": true
         },
@@ -122,7 +126,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 13,
             "isLocked": true,
             "isSkipped": true
         },
@@ -149,7 +153,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -165,7 +169,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Prepare to utter your final words, cat!",
+            "Text String": "Urgh...",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -180,11 +184,6 @@
             "Dialogues": [
                 {
                     "Dialogue Lines": [
-                        {
-                            "Speaker": "Me",
-                            "Line": "Congrats on clearing the bonus stage!!!!!!",
-                            "Voice": ""
-                        },
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh...",
@@ -275,7 +274,7 @@
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "Support is here!",
+                            "Line": "Sorry Mei, kept you waiting.",
                             "Voice": ""
                         },
                         {
@@ -360,7 +359,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -369,6 +368,56 @@
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.9998514652252197,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "turnorderattach.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Turn Order Attach Point",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -449.803955078125,
+            "position_y": -590.5,
+            "rotation": -0.4499998092651367,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "turn_indicator.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Turn Indicator",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 350.00018310546875,
+            "position_y": -7.7973175048828125,
+            "rotation": 0.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
