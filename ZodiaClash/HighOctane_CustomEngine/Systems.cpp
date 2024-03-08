@@ -1542,7 +1542,7 @@ void UIDialogueSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
@@ -1556,7 +1556,7 @@ void UIDialogueSystem::Update() {
 		Parent* parentData = &parentArray.GetData(entity);
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
-		//Transform* transformData = &transformArray.GetData(entity);
+		Transform* transformData = &transformArray.GetData(entity);
 		Size* sizeData = &sizeArray.GetData(entity);
 
 		if (dialogueHudData->dialogues.empty())
@@ -1601,6 +1601,12 @@ void UIDialogueSystem::Update() {
 					events.Call("Transition Scene", dialogueHudData->currentDialogue->targetScene);
 				}
 			}
+		}
+
+		if (GetCurrentSystemMode() == SystemMode::EDIT && dialogueHudData->isEditing)
+		{
+			transformData->position.x = 0.0f;
+			transformData->position.y = -350.0f;
 		}
 
 		// event handling if need to advance to next line

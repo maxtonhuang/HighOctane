@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 82,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,67 +31,38 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73",
-                "Layer 74",
-                "Layer 75",
-                "Layer 76",
-                "Layer 77",
-                "Layer 78",
-                "Layer 79",
-                "Layer 80",
-                "Layer 81"
+                "Layer 27"
             ]
         }
     },
     {
         "Clone": {
-            "Prefab": "exploration_cat.prefab",
+            "Prefab": "background_battle.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Player_Cat.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -101,188 +72,22 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 39,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -235.64857482910156,
-            "position_y": 31.353492736816406,
-            "rotation": 0.0,
-            "scale": 0.2549999952316284,
-            "velocity_x": -2.727568045753369e-37,
-            "velocity_y": -4.433911921764618e-37
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "wall_invisible.prefab",
-            "Unique Components": [
-                "struct Collider",
-                "struct Transform",
-                "struct Name",
-                "struct Parent",
-                "struct Size"
-            ]
-        },
-        "Entity": {
-            "Name": "Invisible Wall",
-            "Current Layer": 0,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -907.0,
-            "position_y": -14.0,
+            "position_x": 350.0,
+            "position_y": 20.0,
             "rotation": 0.0,
-            "scale": 0.9160967469215393,
+            "scale": 0.6073969602584839,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Size": {
-            "width": 111.34193420410156,
-            "height": 1161.4493408203125
-        },
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Invisible Wall",
-            "Current Layer": 0,
-            "Order in Layer": 2,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 178.0,
-            "position_y": 485.0,
-            "rotation": 0.0,
-            "scale": 0.9160967469215393,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 2676.572998046875,
-            "height": 128.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
         }
     },
     {
         "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_05.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent",
-                "struct Size"
-            ]
-        },
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 974.0,
-            "position_y": -37.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 354.4959716796875
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 6,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 974.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_08.prefab",
+            "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -290,184 +95,15 @@
             ]
         },
         "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
+            "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -248.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 8,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -496.0,
-            "position_y": -33.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 400.1841125488281
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 9,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -496.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
-            "Current Layer": 0,
-            "Order in Layer": 10,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -496.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_01.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_01.png",
-            "Current Layer": 0,
-            "Order in Layer": 11,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -732.0,
-            "position_y": 226.0,
+            "position_x": -450.0,
+            "position_y": 150.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -476,7 +112,7 @@
     },
     {
         "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_04.prefab",
+            "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -484,1188 +120,19 @@
             ]
         },
         "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_04.png",
-            "Current Layer": 0,
-            "Order in Layer": 12,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -732.0,
-            "position_y": -134.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_07.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_07.png",
-            "Current Layer": 0,
-            "Order in Layer": 13,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -732.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_04.png",
-            "Current Layer": 0,
-            "Order in Layer": 14,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -732.0,
-            "position_y": -20.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_04.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 16,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 483.0,
-            "position_y": -33.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 354.4959716796875
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 17,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 734.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
-            "Current Layer": 0,
-            "Order in Layer": 18,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 974.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 19,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -248.0,
-            "position_y": -33.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 354.4959716796875
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 20,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -8.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
-            "Current Layer": 0,
-            "Order in Layer": 21,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 734.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 22,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -8.0,
-            "position_y": -33.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 354.4959716796875
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 23,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -248.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
-            "Current Layer": 0,
-            "Order in Layer": 34,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -8.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 24,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 243.0,
-            "position_y": -33.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 354.4959716796875
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 25,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 483.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_02.png",
-            "Current Layer": 0,
-            "Order in Layer": 26,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 243.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
-            "Current Layer": 0,
-            "Order in Layer": 27,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 483.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_08.png",
-            "Current Layer": 0,
-            "Order in Layer": 28,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 243.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_05.png",
-            "Current Layer": 0,
-            "Order in Layer": 29,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 734.0,
-            "position_y": -33.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 354.4959716796875
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_09.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_09.png",
-            "Current Layer": 0,
-            "Order in Layer": 30,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 1229.0,
-            "position_y": -309.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_06.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_06.png",
-            "Current Layer": 0,
-            "Order in Layer": 37,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 1229.0,
-            "position_y": 21.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "EXPLORATION_MAP_tiling_03.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_03.png",
-            "Current Layer": 0,
-            "Order in Layer": 32,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 1229.0,
-            "position_y": 226.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_tiling_06.png",
+            "Name": "Guard 2",
             "Current Layer": 0,
             "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
         "Transform": {
-            "position_x": 1229.0,
-            "position_y": -57.0,
+            "position_x": -500.0,
+            "position_y": -150.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_tiling_06.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Dialogue Trigger",
-            "Current Layer": 1,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 1000.0,
-            "position_y": -113.0,
-            "rotation": 0.0,
-            "scale": 0.9160967469215393,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 100.0,
-            "height": 1334.2640380859375
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0,
-            "Type": 2,
-            "Event Name": "Start Dialogue",
-            "Event Input": "EVENT"
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Invisible Wall",
-            "Current Layer": 0,
-            "Order in Layer": 33,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 109.0,
-            "position_y": -484.0,
-            "rotation": 0.0,
-            "scale": 0.9160967469215393,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 2676.572998046875,
-            "height": 128.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Invisible Wall",
-            "Current Layer": 0,
-            "Order in Layer": 15,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 1100.0,
-            "position_y": -128.0,
-            "rotation": 0.0,
-            "scale": 0.9160967469215393,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 100.0,
-            "height": 1334.2640380859375
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 0.0,
-            "Dimension Y": 0.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "exploration_guard.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 35,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 1089.0,
-            "position_y": -186.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "exploration_guard.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 38,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 1076.0,
-            "position_y": 105.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_asset_rock.png",
-            "Current Layer": 0,
-            "Order in Layer": 36,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 369.0,
-            "position_y": 202.0,
-            "rotation": 0.0,
-            "scale": 0.6487853527069092,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_asset_rock.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 184.5,
-            "Dimension Y": 130.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
         }
     },
     {
@@ -1687,9 +154,9 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 2.0,
-            "position_y": -786.0,
-            "rotation": 6.2831854820251465,
+            "position_x": 0.0,
+            "position_y": -750.0,
+            "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
@@ -1698,14 +165,14 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Halt!",
+            "Text String": "Prepare to utter your final words, cat!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 0,
-            "Vertical Alignment": 0,
+            "Vertical Alignment": 1,
             "Text Wrap": 2,
             "Background": true
         },
@@ -1714,12 +181,62 @@
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "Jade Guard",
-                            "Line": "Halt!",
+                            "Speaker": "Me",
+                            "Line": "Congrats on clearing the bonus stage!!!!!!",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Urgh...",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "It seems I was not resolute enough to withstand this curse as well.",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "I am deeply apologetic for my actions.",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Are the other animals also cursed by their artifacts?",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "I'm not sure of it.",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "Where are the other animals? Don't tell me, the Jade Emperor gave them the artifacts too...",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "One thing is evident, the Zodiac Race was a deceitful scheme.",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Like both of you, I want to know what exactly happened.",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Allow me to right my wrongs by joining you in your journey.",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "For deceiving the entirety of Ancient China to fulfil his own selfish desires...",
                             "Voice": ""
                         }
                     ],
-                    "Trigger Type": 1,
+                    "Trigger Type": 5,
                     "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
@@ -1728,7 +245,79 @@
                     "Is Triggered": false,
                     "Speaker Required": true,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "battle.scn"
+                    "Target Scene": "tbc.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Prepare to utter your final words, cat!",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 3,
+                    "Round Trigger": 3,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Huh?",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "Support is here!",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Alright, now let's wake this ox up.",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 3,
+                    "Round Trigger": 4,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Urgh... you are strong...",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Niu",
+                            "Line": "But by my decree, you shall not pass!",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 4,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 }
             ]
         },
@@ -1746,13 +335,13 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -197.0,
-            "position_y": 101.0,
+            "position_x": 37.0,
+            "position_y": 394.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -1761,7 +350,7 @@
     },
     {
         "Clone": {
-            "Prefab": "exploration bg_03.prefab",
+            "Prefab": "enemy_ox.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -1769,75 +358,19 @@
             ]
         },
         "Entity": {
-            "Name": "exploration bg_03.png",
+            "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 0,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -275.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.9998514652252197,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "EXPLORATION_MAP_asset_rock.png",
-            "Current Layer": 0,
-            "Order in Layer": 31,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": -271.0,
-            "position_y": -287.0,
-            "rotation": 0.0,
-            "scale": 0.6487853527069092,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "EXPLORATION_MAP_asset_rock.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 256.0,
-            "height": 256.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {},
-        "Collider": {
-            "Collider Enum": 0,
-            "Dimension X": 184.5,
-            "Dimension Y": 130.0,
-            "Type": 1,
-            "Event Name": "",
-            "Event Input": ""
         }
     }
 ]

@@ -69,6 +69,7 @@ public:
         float attackBuff{ 0.f };
         int defenseStack{ 0 };
         float defenseBuff{ 0.f };
+        int   reflectStack{ 0 };
     }; buff buffs{};
 
     //negative effects 

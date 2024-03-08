@@ -1165,6 +1165,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		// if match pass dialogue pointer to currentDialogue
 		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType)) {
 			currentDialogue = dialogueQueue.top();
+			dialogueQueue.pop();
 		}
 		// push non-matching dialogues back into queue
 		for (Dialogue* dialogue : nonMatchingDialogues) {
@@ -1173,6 +1174,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	}
 	else {
 		currentDialogue = dialogueQueue.top();
+		dialogueQueue.pop();
 	}
 
 	if (currentDialogue && !currentDialogue->isActive) {
@@ -1182,7 +1184,12 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		if (animationArray.HasComponent(entity)) {
 			animationArray.GetData(entity).Start("Launch", entity);
 		}
-		battleSys->dialogueCalled = true;
+		switch (battleSys->dialogueCalled) {
+		case 0:
+			battleSys->dialogueCalled = 1;
+		}
+		dialogueCalledNum++;
+		battleSys->dialogueCalled = dialogueCalledNum;
 	}
 }
 
@@ -1249,13 +1256,21 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		
 		if (battleSys) {
 			// break soft lock cycle, reset dialogueCalled
-			battleSys->dialogueCalled = false;
+			battleSys->dialogueCalled = 0;
 		}
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
 			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
-				battleSys->activeCharacter->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
+				for (CharacterStats* cs : battleSys->GetEnemies())
+				{
+					if (cs->stats.health <= 0.f && cs->boss) {
+						cs->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
+						cs->buffs.reflectStack = 99;
+					}
+				}
+				events.Call("Restart Music", "ZodiaClash_Boss.ogg");
+				currentDialogue = nullptr;
 				battleSys->ProcessDamage();
 			}
 			animationArray.GetData(entity).Start("Exit", entity);

@@ -62,14 +62,14 @@ Node::Node(BattleSystem const& initial) {
 	battlesystem = initial;
 	depth = 0;
 	battlesystem.m_Entities.clear();
-	next.reserve(12);
+	next.reserve(100);
 }
 
 Node::Node(Node* node) {
 	previous = node;
 	battlesystem = node->battlesystem;
 	depth = node->depth + 1;
-	next.reserve(12);
+	next.reserve(100);
 }
 
 Node* Node::GetFront() {

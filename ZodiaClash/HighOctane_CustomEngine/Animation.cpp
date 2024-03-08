@@ -86,7 +86,7 @@ void AnimationSet::Update(Entity entity) {
 	if (activeAnimation != nullptr && !paused) {
 		activeAnimation->Update(entity);
 	}
-	if (!animationQueue.empty() && (activeAnimation == nullptr || activeAnimation->active == false)) {
+	if (!animationQueue.empty() && (activeAnimation == nullptr || activeAnimation->active == false || activeAnimation->loop == true)) {
 		activeAnimation = animationQueue.front();
 		activeAnimation->Start(entity);
 		animationQueue.pop();
@@ -564,7 +564,7 @@ SwapAnimation::SwapAnimation() {
 void SwapAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
 		AnimationSet& anim{ ECS::ecs().GetComponent<AnimationSet>(parent) };
-		anim.Start(keyframes.data, parent);
+		anim.Queue(keyframes.data, parent);
 		active = false;
 	}
 }

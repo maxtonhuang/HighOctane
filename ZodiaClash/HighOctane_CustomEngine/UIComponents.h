@@ -415,7 +415,6 @@ public:
 		float displayDuration{}; // if 0 wait for click trigger
 		bool isActive{};
 		bool isTriggered{};
-		//bool autoLaunch{}; // enum?
 		bool speakerRequired{};
 
 		bool postDialogueScene{};
@@ -430,6 +429,8 @@ public:
 	std::priority_queue<Dialogue*, std::vector<Dialogue*>, DialoguePtrComparator> dialogueQueue;
 	Dialogue* currentDialogue{};
 
+	bool isEditing{};
+	int dialogueCalledNum;
 	//bool isAllTriggered{};
 
 	DialogueHUD();
