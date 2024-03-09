@@ -76,6 +76,7 @@ void UITutorialSystem::UpdateState() {
 		// intro line
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_01.prefab");
 		overlayOn = true;
+		tutorialComplete = false;
 		break;
 	case 1:
 		// player hp ui
@@ -129,6 +130,8 @@ void UITutorialSystem::UpdateState() {
 		// skill 1 (ST)
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_08.prefab");
 		battleSys->tutorialLock = 0;
+
+		entityList.push_back(battleSys->chiLabel);
 		entityList.push_back(battleSys->skillButtons[0]);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
@@ -161,8 +164,10 @@ void UITutorialSystem::UpdateState() {
 			overlay = EntityFactory::entityFactory().ClonePrefab("tutorial_overlay.prefab");
 			overlayOn = true;
 		}
+		nextStepWait = false;
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_10.prefab");
 
+		entityList.push_back(battleSys->chiLabel);
 		entityList.push_back(battleSys->skillButtons[1]);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
@@ -170,6 +175,9 @@ void UITutorialSystem::UpdateState() {
 	case 10:
 		// select all enemy targets (AOE)
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_11.prefab");
+
+		// force tutorial to wait for battle system next step
+		nextStepWait = true;
 
 		entityList = battleSys->targetCircleList;
 		for (CharacterStats* c : battleSys->GetEnemies()) {
@@ -179,8 +187,26 @@ void UITutorialSystem::UpdateState() {
 		SurfaceTargetLayers(entityList);
 		break;
 	case 11:
-		// end of tutorial/outro
+		// end of tutorial/outro 1
+		// SP: at first call return, battle in progress. call again once its player turn again
+		if (nextStepWait && overlay) {
+			RevertLayers();
+			EntityFactory::entityFactory().DeleteCloneModel(overlay);
+			overlay = 0;
+			overlayOn = false;
+			return;
+		}
+		if (!overlay) {
+			overlay = EntityFactory::entityFactory().ClonePrefab("tutorial_overlay.prefab");
+			overlayOn = true;
+		}
+		nextStepWait = false;
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_12.prefab");
+		RevertLayers();
+		break;
+	case 12:
+		// end of tutorial/outro 2
+		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_13.prefab");
 		RevertLayers();
 		break;
 	default:

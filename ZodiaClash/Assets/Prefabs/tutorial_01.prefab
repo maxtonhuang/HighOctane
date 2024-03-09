@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 48,
+            "layerCounter": 61,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -51,7 +51,20 @@
                 "Layer 44",
                 "Layer 45",
                 "Layer 46",
-                "Layer 47"
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60"
             ]
         }
     },
@@ -71,7 +84,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 0.0,
+            "position_y": 341.5,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
