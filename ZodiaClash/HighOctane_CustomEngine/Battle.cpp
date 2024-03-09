@@ -160,6 +160,10 @@ void BattleSystem::Update()
     ComponentArray<CharacterStats>* statsArray{};
     ComponentArray<Model>* modelArray{};
     if (m_Entities.size() > 0) {
+        if (tutorialCalled) {
+            return;
+        }
+
         UpdateTargets();
 
         //If animation system is playing battle animation, do not progress game system

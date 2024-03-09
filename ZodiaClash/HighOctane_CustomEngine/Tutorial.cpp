@@ -115,7 +115,7 @@ void UITutorialSystem::UpdateState() {
 	case 7:
 		// skill 1 (ST)
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_08.prefab");
-
+		battleSys->tutorialCalled = 0;
 		entityList.push_back(battleSys->skillButtons[0]);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
@@ -167,7 +167,7 @@ void UITutorialSystem::UpdateState() {
 
 void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	static vmath::Vector2 tutMousePos{ RESET_VEC2 };
-	static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	BattleSystem* bs = events.GetBattleSystem();
 
 	if (!((stepIndex >= 7) && (stepIndex <= 10)))
@@ -191,8 +191,7 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 			case 8:
 			{
 				// return false if mouse click is not on enemy target
-				for (std::pair<Entity, size_t>& pair : modifiedLayers) {
-					Entity e = pair.first;
+				for (Entity& e : bs->targetCircleList) {
 					Model& targetModel{ modelArray.GetData(e) };
 					if (IsWithinObject(targetModel, tutMousePos)) {
 						return;
@@ -218,8 +217,7 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 					break;
 				}
 
-				for (std::pair<Entity, size_t>& pair : modifiedLayers) {
-					Entity e = pair.first;
+				for (Entity& e : bs->targetCircleList) {
 					Model& targetModel{ modelArray.GetData(e) };
 					if (IsWithinObject(targetModel, tutMousePos)) {
 						return;
