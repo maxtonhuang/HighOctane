@@ -5,32 +5,32 @@ NEW_howtoplay.png
 NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
-mockup_title_logo_02 (1).png
 Guard_Death.spritesheet
+mockup_title_logo_02 (1).png
 button_QUIT_v02.png
 Goat_Ulti_VFX.spritesheet
-VFX_Hit.spritesheet
 Goat_Ulti_VFX.spritesheet
-Cat_Idle.spritesheet
 VFX_Hit.spritesheet
-Boss_Circle.spritesheet
+VFX_Hit.spritesheet
 Cat_Idle.spritesheet
-mockup_playbutton_04.png
+Cat_Idle.spritesheet
 Boss_Circle.spritesheet
+Boss_Circle.spritesheet
+mockup_playbutton_04.png
+Goat_Death.spritesheet
 Goat_Death.spritesheet
 button_PLAY_v02.png
 EXPLORATION_MAP_tiling_05.png
 Goat_Basic_VFX.spritesheet
-Goat_Death.spritesheet
-Goat_Skill_VFX_Front.spritesheet
 Goat_Basic_VFX.spritesheet
+Goat_Skill_VFX_Front.spritesheet
 Goat_Skill_VFX_Front.spritesheet
 mockup_icon_cat.png
 Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Heal_VFX.spritesheet
-mockup_skillframe (1).png
 Heal_VFX.spritesheet
+mockup_skillframe (1).png
 catSkill2_tooltip.png
 UI_ICON_bleed.png
 skill_icon_skill.png
@@ -46,9 +46,9 @@ NEW_howtoplay2.png
 mockup_qn_icon.png
 goat.png
 Goat_Hit.spritesheet
+Goat_Hit.spritesheet
 catSkill1_tooltip.png
 Goat_Basic.spritesheet
-Goat_Hit.spritesheet
 Goat_Basic.spritesheet
 catSkill3_tooltip.png
 EXPLORATION_MAP_tiling_07.png
@@ -81,12 +81,53 @@ Ox Atk 2_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
-Yin-Yang Strike.skill
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Scarlet Claw.skill
+Raging Soul Surge will be cast next!.skill
+Raging Soul Surge.skill
+.skill
+Cursed War God's Wrath.skill
+Dark Rising.skill
+Dark Chi Surge.skill
+Shield Smash.skill
+Unstoppable Charge.skill
+Dance of Fury.skill
 Secret Arts: Pounce.skill
-Celestial Annihilation will be cast next!.skill
+Yin-Yang Strike.skill
+Chi Surge.skill
 Shepherd's Grace.skill
 Jade Thrust.skill
-Dance of Fury.skill
-Chi Surge.skill
-Scarlet Claw.skill
 mainmenu.json

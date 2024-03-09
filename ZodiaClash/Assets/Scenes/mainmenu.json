@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 53,
+            "layerCounter": 21,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -24,39 +24,7 @@
                 "Layer 17",
                 "Layer 18",
                 "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52"
+                "Layer 20"
             ]
         }
     },
@@ -192,8 +160,8 @@
             "Default Text B": 0.0,
             "Default Text A": 1.0,
             "Hovered Button R": 0.0,
-            "Hovered Button G": 0.0,
-            "Hovered Button B": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 0.47843137383461,
             "Hovered Button A": 1.0,
             "Hovered Text R": 0.0,
             "Hovered Text G": 0.0,
@@ -227,7 +195,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Hover Select_Edited.wav"
+                                "Sounds": [
+                                    "Hover Target_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -244,7 +214,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Skill Select_Edited.wav"
+                                "Sounds": [
+                                    "Skill Select_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -329,8 +301,8 @@
             "Default Text B": 0.0,
             "Default Text A": 1.0,
             "Hovered Button R": 0.0,
-            "Hovered Button G": 0.0,
-            "Hovered Button B": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 0.47843137383461,
             "Hovered Button A": 1.0,
             "Hovered Text R": 0.0,
             "Hovered Text G": 0.0,
@@ -364,7 +336,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Hover Select_Edited.wav"
+                                "Sounds": [
+                                    "Hover Target_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -411,7 +385,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Skill Select_Edited.wav"
+                                "Sounds": [
+                                    "Skill Select_Edited.wav"
+                                ]
                             }
                         ]
                     }
@@ -496,11 +472,11 @@
             "Default Text B": 1.0,
             "Default Text A": 1.0,
             "Hovered Button R": 0.0,
-            "Hovered Button G": 0.0,
-            "Hovered Button B": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 0.47863245010375977,
             "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
+            "Hovered Text R": 1.0,
+            "Hovered Text G": 1.0,
             "Hovered Text B": 1.0,
             "Hovered Text A": 1.0,
             "Focused Button R": 1.0,
@@ -531,7 +507,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Hover Select_Edited.wav"
+                                "Sounds": [
+                                    "Hover Target_Edited.wav"
+                                ]
                             }
                         ]
                     },
@@ -578,7 +556,9 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Sound": "Skill Select_Edited.wav"
+                                "Sounds": [
+                                    "Skill Select_Edited.wav"
+                                ]
                             }
                         ]
                     }
