@@ -355,7 +355,7 @@ void BattleSystem::Update()
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Goat_Enemy") {
                     for (auto& character : turnManage.characterList) {
                         if (character.tag == CharacterType::PLAYER) {
-                            character.stats.health += 0.4f * c->stats.maxHealth;
+                            character.stats.health += 0.5f * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
                             }
