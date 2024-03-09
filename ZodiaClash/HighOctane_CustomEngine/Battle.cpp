@@ -972,6 +972,8 @@ void BattleSystem::InitialiseUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
     static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
+    static auto& childArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Child>() };
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     if (m_Entities.size() > 0) {
         UpdateSkillIcons();
         for (Entity& e : allBattleUI) {
@@ -984,7 +986,15 @@ void BattleSystem::InitialiseUIAnimation() {
             attackingAnimation = true;
         }
         else {
-            turnIndicator = EntityFactory::entityFactory().ClonePrefab("turn_indicator.prefab");
+            //turnIndicator = EntityFactory::entityFactory().ClonePrefab("turn_indicator.prefab");
+            //ECS::ecs().AddComponent<Child>(turnIndicator, Child{ activeCharacter->entity });
+            //childArray.GetData(turnIndicator).offset = transformArray.GetData(turnIndicator);
+            if (parentArray.HasComponent(activeCharacter->entity)) {
+                for (Entity turnindicator : parentArray.GetData(activeCharacter->entity).children) {
+                    turnIndicator = turnindicator;
+                    animationArray.GetData(turnindicator).Queue("Show", turnindicator);
+                }
+            }
             transformArray.GetData(turnIndicator).position = transformArray.GetData(activeCharacter->entity).position;
             float sizeDifference{ sizeArray.GetData(turnIndicator).height * transformArray.GetData(turnIndicator).scale -
                 sizeArray.GetData(activeCharacter->entity).height * transformArray.GetData(activeCharacter->entity).scale };
@@ -1211,7 +1221,8 @@ void BattleSystem::MoveOutUIAnimation() {
         return;
     }
     if (turnIndicator) {
-        EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
+        //EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
+        animationArray.GetData(turnIndicator).Queue("Hide", turnIndicator);
         turnIndicator = 0;
     }
     for (Entity& e : skillButtons) {
@@ -1238,20 +1249,31 @@ void BattleSystem::MoveInUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
     static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
+    static auto& childArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Child>() };
+    static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     if (m_Entities.size() == 0) {
         return;
     }
 
     UpdateSkillIcons();
 
-    if (turnIndicator) {
-        EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
+    //if (turnIndicator) {
+    //    EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
+    //}
+    //turnIndicator = EntityFactory::entityFactory().ClonePrefab("turn_indicator.prefab");
+    //ECS::ecs().AddComponent<Child>(turnIndicator, Child{ activeCharacter->entity });
+    //childArray.GetData(turnIndicator).offset = transformArray.GetData(turnIndicator);
+    //childArray.GetData(turnIndicator).offset = transformArray.GetData(turnIndicator);
+    if (parentArray.HasComponent(activeCharacter->entity)) {
+        for (Entity turnindicator : parentArray.GetData(activeCharacter->entity).children) {
+            turnIndicator = turnindicator;
+            animationArray.GetData(turnindicator).Queue("Show", turnindicator);
+        }
     }
-    turnIndicator = EntityFactory::entityFactory().ClonePrefab("turn_indicator.prefab");
-    transformArray.GetData(turnIndicator).position = transformArray.GetData(activeCharacter->entity).position;
-    float sizeDifference{ sizeArray.GetData(turnIndicator).height * transformArray.GetData(turnIndicator).scale -
-                sizeArray.GetData(activeCharacter->entity).height * transformArray.GetData(activeCharacter->entity).scale };
-    transformArray.GetData(turnIndicator).position.y += sizeDifference / 2;
+    //transformArray.GetData(turnIndicator).position = transformArray.GetData(activeCharacter->entity).position;
+    //float sizeDifference{ sizeArray.GetData(turnIndicator).height * transformArray.GetData(turnIndicator).scale -
+                //sizeArray.GetData(activeCharacter->entity).height * transformArray.GetData(activeCharacter->entity).scale };
+    //transformArray.GetData(turnIndicator).position.y += sizeDifference / 2;
 
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop In", e);

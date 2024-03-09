@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -29,9 +29,7 @@
                 "Layer 22",
                 "Layer 23",
                 "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27"
+                "Layer 25"
             ]
         }
     },
@@ -54,7 +52,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.5,
+            "scale": 0.6000000238418579,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -63,13 +61,13 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Effect_Taunted.png"
+            "Texture File Path": "Status_Taunted.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 1280.0,
+            "width": 851.0,
             "height": 200.0
         },
         "Model": {

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,15 +25,19 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25"
             ]
         }
     },
     {
         "Entity": {
             "Name": "lblEffect",
-            "Current Layer": 0,
-            "Order in Layer": 2,
+            "Current Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -68,7 +72,8 @@
             "Red": 0.0,
             "Green": 0.0,
             "Blue": 0.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
@@ -83,6 +88,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": true
         },
         "StatusEffect": {},
@@ -91,7 +97,7 @@
     {
         "Entity": {
             "Name": "iconEffect",
-            "Current Layer": 1,
+            "Current Layer": 3,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -135,7 +141,8 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "Child": {

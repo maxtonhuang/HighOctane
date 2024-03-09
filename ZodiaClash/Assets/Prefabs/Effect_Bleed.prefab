@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 72,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,51 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71"
             ]
         }
     },
@@ -54,7 +98,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 0.5,
+            "scale": 0.6000000238418579,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -63,13 +107,13 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Effect_Bleed.png"
+            "Texture File Path": "Status_Bleed.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 1280.0,
+            "width": 695.0,
             "height": 200.0
         },
         "Model": {

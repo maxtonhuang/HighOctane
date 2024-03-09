@@ -9,9 +9,12 @@ Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
 UI_ICON_bleed.png
+catSkill2_tooltip.png
 skill_icon_skill.png
 skill_icon_ulti.png
+Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
 VFX_Hit.spritesheet
@@ -31,17 +34,55 @@ Guard_Damage.spritesheet
 Guard_Attack.spritesheet
 Guard_Attack.spritesheet
 mockup_chi_icon_lineart.png
+Goat_Ulti.spritesheet
+Goat_Ulti.spritesheet
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
+Leaf.png
+BORDER_test_01.png
+BORDER_test_02.png
+BORDER_side_test_02.png
+mockup_icon_goat.png
+BORDER_side_test_01.png
+skill_icon_goat_3.png
+skill_icon_goat_2.png
+catSkill3_tooltip.png
+catSkill1_tooltip.png
+Goat_Basic.spritesheet
+Goat_Basic.spritesheet
+Goat_Basic_VFX.spritesheet
+Goat_Basic_VFX.spritesheet
+ox.png
+ox_pfp.png
+skill_icon_goat_1.png
+tooltip_GoatSkill1.png
+tooltip_GoatSkill2.png
+Goat_Ulti_VFX.spritesheet
+Goat_Ulti_VFX.spritesheet
+Heal_VFX.spritesheet
+Heal_VFX.spritesheet
+Goat_Hit.spritesheet
+Goat_Hit.spritesheet
+UI_target_circle_f1.png
 mockup_qn_icon.png
 mockup_skillframe.png
+BattleInfo_Ox.png
 ZodiaClash_Battle.ogg
+Ox Atk 1_Edited.wav
 Cat_Atk_2_Edited.wav
 Battle Ambience BGM_Edited.wav
 Cat Atk_1_Edited.wav
 Guard Atk_Edited.wav
 Cat Damaged_Edited.wav
 Cat_Atk_3_Edited.wav
+Hover Select_Edited.wav
+Skill Select_Edited.wav
+Goat Atk 1_Edited.wav
+Goat Atk 4_Edited.wav
+Ox Atk 3_Edited.wav
+Ox Atk 2_Edited.wav
+Goat Buff_Edited.wav
+Goat Damaged_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Scarlet Claw.skill

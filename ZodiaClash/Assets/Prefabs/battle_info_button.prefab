@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 34,
+            "layerCounter": 41,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -37,7 +37,14 @@
                 "Layer 30",
                 "Layer 31",
                 "Layer 32",
-                "Layer 33"
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40"
             ]
         }
     },
@@ -45,11 +52,10 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -58,7 +64,7 @@
         },
         "Transform": {
             "position_x": -874.99951171875,
-            "position_y": -245.0,
+            "position_y": -333.0,
             "rotation": 0.0,
             "scale": 0.8014025688171387,
             "velocity_x": 0.0,
@@ -133,7 +139,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Toggle Battle Info",
-            "Event Input": "BattleInfo_Guard.prefab",
+            "Event Input": "BattleInfo_Ox.prefab",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -186,7 +192,7 @@
     {
         "Entity": {
             "Name": "Help Frame",
-            "Current Layer": 1,
+            "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -230,6 +236,62 @@
             "Mirror": false
         },
         "Movable": {},
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Help Background",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -874.99951171875,
+            "position_y": -245.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 128.0,
+            "height": 128.0
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.7843137383460999,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        },
         "Child": {
             "position_x": 0.0,
             "position_y": 0.0,

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 39,
+            "layerCounter": 50,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -42,7 +42,18 @@
                 "Layer 35",
                 "Layer 36",
                 "Layer 37",
-                "Layer 38"
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49"
             ]
         }
     },
@@ -286,23 +297,57 @@
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent"
+                "struct Parent",
+                "class Button"
             ]
         },
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
             "position_x": -874.99951171875,
-            "position_y": -245.0,
+            "position_y": -333.0,
             "rotation": 0.0,
             "scale": 0.8014025688171387,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        },
+        "Button": {
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 1.0,
+            "Hovered Button A": 1.0,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Toggle Battle Info",
+            "Event Input": "BattleInfo_Guard.prefab",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
         },
         "Parent": {}
     }

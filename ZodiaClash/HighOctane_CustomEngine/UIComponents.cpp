@@ -1008,6 +1008,10 @@ void StatusEffect::UpdateOffset(Entity entity) {
 	static auto& sizeArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Size>() };
 	static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 
+	if (!ECS::ecs().EntityExists(character)) {
+		return;
+	}
+
 	Transform& currentTransform{ transformArray.GetData(entity) };
 	Size& currentSize{ sizeArray.GetData(entity) };
 	Model& modelData{ modelArray.GetData(entity) };

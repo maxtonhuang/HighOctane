@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,19 +25,14 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26"
+                "Layer 21"
             ]
         }
     },
     {
         "Entity": {
             "Name": "BattleInfo_Goat.png",
-            "Current Layer": 1,
+            "Current Layer": 3,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -72,7 +67,7 @@
             "height": 694.0
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,

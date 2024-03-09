@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 35,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -29,16 +29,7 @@
                 "Layer 22",
                 "Layer 23",
                 "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34"
+                "Layer 25"
             ]
         }
     },
@@ -60,7 +51,7 @@
             "position_x": 720.0,
             "position_y": -267.79998779296875,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 1.100000023841858,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -69,14 +60,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "tooltip_GoatSkill2.png"
+            "Texture File Path": "skilltooltip_GoatSkill2.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
             "width": 447.0,
-            "height": 180.0
+            "height": 165.0
         },
         "Model": {
             "Model type": 0,
