@@ -1266,6 +1266,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 				{
 					if (cs->stats.health <= 0.f && cs->boss) {
 						cs->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
+						cs->action.entityState = START;
 						cs->buffs.reflectStack = 99;
 					}
 				}

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 42,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,21 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41"
             ]
         }
     },
@@ -97,13 +111,13 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -450.0,
-            "position_y": 150.0,
+            "position_x": -300.0,
+            "position_y": 100.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -122,13 +136,13 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -500.0,
-            "position_y": -150.0,
+            "position_x": -400.0,
+            "position_y": -100.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -149,7 +163,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -165,7 +179,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Prepare to utter your final words, cat!",
+            "Text String": "Stop! What is happening...?",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -181,59 +195,14 @@
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "Me",
-                            "Line": "Congrats on clearing the bonus stage!!!!!!",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Urgh...",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "It seems I was not resolute enough to withstand this curse as well.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "I am deeply apologetic for my actions.",
-                            "Voice": ""
+                            "Speaker": "Mei",
+                            "Line": "This feels wrong. Why are these statues alive? Isn't this the Jade Emperor's statues?",
+                            "Voice": "Cutscene_Mei_2.ogg"
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Are the other animals also cursed by their artifacts?",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "I'm not sure of it.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Yang",
-                            "Line": "Where are the other animals? Don't tell me, the Jade Emperor gave them the artifacts too...",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "One thing is evident, the Zodiac Race was a deceitful scheme.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Like both of you, I want to know what exactly happened.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Allow me to right my wrongs by joining you in your journey.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "For deceiving the entirety of Ancient China to fulfil his own selfish desires...",
-                            "Voice": ""
+                            "Line": "I feel a sinister aura here.",
+                            "Voice": "Cutscene_Mei_3.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -245,70 +214,17 @@
                     "Is Triggered": false,
                     "Speaker Required": true,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "tbc.scn"
+                    "Target Scene": "exploration2.scn"
                 },
                 {
                     "Dialogue Lines": [
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Prepare to utter your final words, cat!",
-                            "Voice": ""
-                        }
-                    ],
-                    "Trigger Type": 3,
-                    "Round Trigger": 3,
-                    "Health Trigger": 0,
-                    "Viewing Index": 0,
-                    "Display Duration": 0.0,
-                    "Is Active": false,
-                    "Is Triggered": false,
-                    "Speaker Required": true,
-                    "Post Dialogue Scene": false,
-                    "Target Scene": ""
-                },
-                {
-                    "Dialogue Lines": [
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Huh?",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Yang",
-                            "Line": "Support is here!",
-                            "Voice": ""
-                        },
                         {
                             "Speaker": "Mei",
-                            "Line": "Alright, now let's wake this ox up.",
-                            "Voice": ""
+                            "Line": "Stop! What is happening...?",
+                            "Voice": "Cutscene_Mei_1.ogg"
                         }
                     ],
-                    "Trigger Type": 3,
-                    "Round Trigger": 4,
-                    "Health Trigger": 0,
-                    "Viewing Index": 0,
-                    "Display Duration": 0.0,
-                    "Is Active": false,
-                    "Is Triggered": false,
-                    "Speaker Required": true,
-                    "Post Dialogue Scene": false,
-                    "Target Scene": ""
-                },
-                {
-                    "Dialogue Lines": [
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Urgh... you are strong...",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "But by my decree, you shall not pass!",
-                            "Voice": ""
-                        }
-                    ],
-                    "Trigger Type": 4,
+                    "Trigger Type": 2,
                     "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
@@ -318,6 +234,25 @@
                     "Speaker Required": true,
                     "Post Dialogue Scene": false,
                     "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "",
+                            "Line": "You have been defeated...",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 6,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration1.scn"
                 }
             ]
         },
@@ -350,7 +285,7 @@
     },
     {
         "Clone": {
-            "Prefab": "enemy_ox.prefab",
+            "Prefab": "battle_info_button.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -358,19 +293,20 @@
             ]
         },
         "Entity": {
-            "Name": "Ox_Enemy",
-            "Current Layer": 0,
-            "Order in Layer": 3,
+            "Name": "Help Button",
+            "Current Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -275.0,
-            "position_y": 0.0,
+            "position_x": -874.99951171875,
+            "position_y": -245.0,
             "rotation": 0.0,
-            "scale": 0.9998514652252197,
+            "scale": 0.8014025688171387,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Parent": {}
     }
 ]

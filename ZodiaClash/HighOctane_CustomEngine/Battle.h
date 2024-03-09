@@ -147,6 +147,8 @@ public:
 	std::vector<Entity> skillButtons;
 	int aiMultiplier; //in order to control certain AI logic
 	int dialogueCalled{ 0 };
+	Entity battleinfo{}; //battle info tooltip
+	bool attackingAnimation{ false };
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -155,7 +157,6 @@ private:
 
 	//Variables for animation
 	bool battlestarted{ false };
-	bool attackingAnimation{ false };
 	Entity turnOrderAnimator;
 	std::deque<Entity> turnOrderQueueInitializer;
 	std::deque<Entity> turnOrderQueueAnimator;

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 31,
+            "layerCounter": 39,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -34,7 +34,15 @@
                 "Layer 27",
                 "Layer 28",
                 "Layer 29",
-                "Layer 30"
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38"
             ]
         }
     },
@@ -152,7 +160,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -271,5 +279,31 @@
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
+    },
+    {
+        "Clone": {
+            "Prefab": "battle_info_button.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Help Button",
+            "Current Layer": 2,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -874.99951171875,
+            "position_y": -245.0,
+            "rotation": 0.0,
+            "scale": 0.8014025688171387,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
     }
 ]

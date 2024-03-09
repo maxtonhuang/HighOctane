@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 32,
+            "layerCounter": 39,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -35,7 +35,14 @@
                 "Layer 28",
                 "Layer 29",
                 "Layer 30",
-                "Layer 31"
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38"
             ]
         }
     },
@@ -101,7 +108,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 21,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -126,7 +133,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -153,7 +160,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 1,
-            "Order in Layer": 11,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -169,7 +176,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Urgh...",
+            "Text String": "Prepare to utter your final words, cat!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -374,7 +381,7 @@
     },
     {
         "Clone": {
-            "Prefab": "turnorderattach.prefab",
+            "Prefab": "battle_info_button.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -382,44 +389,20 @@
             ]
         },
         "Entity": {
-            "Name": "Turn Order Attach Point",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -449.803955078125,
-            "position_y": -590.5,
-            "rotation": -0.4499998092651367,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "turn_indicator.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Turn Indicator",
-            "Current Layer": 1,
+            "Name": "Help Button",
+            "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 350.00018310546875,
-            "position_y": -7.7973175048828125,
+            "position_x": -874.99951171875,
+            "position_y": -245.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.8014025688171387,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Parent": {}
     }
 ]

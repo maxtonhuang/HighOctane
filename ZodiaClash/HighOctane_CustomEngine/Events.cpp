@@ -223,6 +223,10 @@ void SelectSkill(std::string input) {
 	//auto targets = bs->GetEnemies();
 	//bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
 	//bs->activeCharacter->action.entityState = ATTACKING;
+	if (ECS::ecs().EntityExists(bs->battleinfo)) {
+		EntityFactory::entityFactory().DeleteCloneModel(bs->battleinfo);
+		bs->battleinfo = 0;
+	}
 }
 
 /*!
@@ -252,8 +256,30 @@ void SelectEnemy(std::string input) {
 		bs->activeCharacter->action.targetSelect.selectedTarget = targets[enemynum];
 	}
 	
+	if (ECS::ecs().EntityExists(bs->battleinfo)) {
+		EntityFactory::entityFactory().DeleteCloneModel(bs->battleinfo);
+		bs->battleinfo = 0;
+	}
+
 	bs->activeCharacter->action.entityState = ATTACKING;
 	bs->DestroyTargets();
+}
+
+void ToggleBattleInfo(std::string input) {
+	BattleSystem* bs = events.GetBattleSystem();
+
+	if (bs->attackingAnimation) {
+		return;
+	}
+
+	if (ECS::ecs().EntityExists(bs->battleinfo)) {
+		EntityFactory::entityFactory().DeleteCloneModel(bs->battleinfo);
+		bs->battleinfo = 0;
+		return;
+	}
+	else {
+		bs->battleinfo = EntityFactory::entityFactory().ClonePrefab(input);
+	}
 }
 
 /*!
@@ -415,6 +441,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Stop Group"] = StopGroup;
 	functions["Select Skill"] = SelectSkill;
 	functions["Select Enemy"] = SelectEnemy;
+	functions["Toggle Battle Info"] = ToggleBattleInfo;
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
