@@ -199,6 +199,11 @@ void BattleSystem::Update()
 
         InitialiseUIAnimation();
 
+        // trigger tutorial only for battle.scn
+        if (sceneName == "battle.scn") {
+            events.Call("Start Tutorial", "");
+        }
+
         battleState = NEWROUND;
         break;
     case NEWROUND:
@@ -1183,8 +1188,8 @@ void BattleSystem::UpdateTargets() {
     }
 
     //TOOLTIPS
-        static Entity tooltipPrefab{};
-        bool isHovered{ false };
+    static Entity tooltipPrefab{};
+    bool isHovered{ false };
     for (int i = 0; i < skillButtons.size(); i++) {
         Model& skillModel{ modelArray.GetData(skillButtons[i])};
         if (IsWithinObject(skillModel, mousePos)) {
@@ -1193,10 +1198,12 @@ void BattleSystem::UpdateTargets() {
                 EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
             }
             tooltipPrefab = EntityFactory::entityFactory().ClonePrefab(tooltips[i]);
+            skillTooltipCalled = true;
         }
     }
     if (!isHovered && ECS::ecs().EntityExists(tooltipPrefab)) {
         EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+        skillTooltipCalled = false;
     }
 }
 

@@ -1,7 +1,7 @@
 ZodiaClash_MainMenu2.ogg
 mockup_chi_icon.png
-EXPLORATION_MAP_tiling_01.png
 NEW_howtoplay.png
+EXPLORATION_MAP_tiling_01.png
 NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
@@ -17,9 +17,9 @@ Boss_Circle.spritesheet
 Cat_Idle.spritesheet
 mockup_playbutton_04.png
 Boss_Circle.spritesheet
-Goat_Death.spritesheet
-button_PLAY_v02.png
 EXPLORATION_MAP_tiling_05.png
+button_PLAY_v02.png
+Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Death.spritesheet
 Goat_Skill_VFX_Front.spritesheet
@@ -38,20 +38,20 @@ skill_icon_ulti.png
 NEW_bg_03.png
 NEW_guard_pfp.png
 GUARD_idle.png
-mockup_pausemenu.png
 EXPLORATION_MAP_asset_rock.png
+mockup_pausemenu.png
 UI_Target_Circle.spritesheet
 UI_Target_Circle.spritesheet
 NEW_howtoplay2.png
 mockup_qn_icon.png
 goat.png
 Goat_Hit.spritesheet
-catSkill1_tooltip.png
 Goat_Basic.spritesheet
+catSkill1_tooltip.png
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
-catSkill3_tooltip.png
 EXPLORATION_MAP_tiling_07.png
+catSkill3_tooltip.png
 Goat_Skill_VFX_Back.spritesheet
 Goat_Skill_VFX_Back.spritesheet
 Goat_Ulti.spritesheet
@@ -77,16 +77,43 @@ Cat_Death.spritesheet
 Cat_Death.spritesheet
 HELP_button_v02.png
 Leaf.png
+BORDER_side_test_02.png
+BORDER_side_test_01.png
+BORDER_test_01.png
+BORDER_test_02.png
+Effect_Bleed.png
+Effect_Broken.png
+Effect_Enraged.png
+Effect_Strengthened.png
+Effect_Stunned.png
+Effect_Taunted.png
+ox.png
+Ox_Skill.spritesheet
+Ox_Skill.spritesheet
+tooltip_GoatSkill2.png
+tooltip_GoatSkill1.png
+tooltip_GoatSkill3.png
+UI_target_circle_f1.png
+Tutorial 1.png
+Tutorial 2.png
+Tutorial 3.png
 Ox Atk 2_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
-Yin-Yang Strike.skill
+Scarlet Claw.skill
+Raging Soul Surge will be cast next!.skill
+Raging Soul Surge.skill
+.skill
+Cursed War God's Wrath.skill
+Dark Rising.skill
+Dark Chi Surge.skill
+Shield Smash.skill
+Unstoppable Charge.skill
+Dance of Fury.skill
 Secret Arts: Pounce.skill
-Celestial Annihilation will be cast next!.skill
+Yin-Yang Strike.skill
+Chi Surge.skill
 Shepherd's Grace.skill
 Jade Thrust.skill
-Dance of Fury.skill
-Chi Surge.skill
-Scarlet Claw.skill
 mainmenu.json
