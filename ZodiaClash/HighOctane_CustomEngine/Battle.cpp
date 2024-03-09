@@ -160,7 +160,7 @@ void BattleSystem::Update()
     ComponentArray<CharacterStats>* statsArray{};
     ComponentArray<Model>* modelArray{};
     if (m_Entities.size() > 0) {
-        if (tutorialCalled) {
+        if (tutorialLock) {
             return;
         }
 

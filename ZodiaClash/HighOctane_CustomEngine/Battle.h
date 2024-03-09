@@ -153,7 +153,7 @@ public:
 
 	int aiMultiplier; //in order to control certain AI logic
 	int dialogueCalled{ 0 };
-	int tutorialCalled{ 0 };
+	int tutorialLock{ 0 };
 	int skillTooltipCalled{ 0 };
 private:
 	

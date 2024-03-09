@@ -3,7 +3,6 @@
 #include "Layering.h"
 #include "message.h"
 #include "CharacterStats.h"
-#include "Global.h"
 #include "Utilities.h"
 
 void UITutorialSystem::Initialize() {
@@ -27,7 +26,21 @@ void UITutorialSystem::Update() {
 	if (battleSys) {
 		if (stepIndex && battleSys->skillTooltipCalled) {
 			MaintainLayers();
-		}		
+		}
+
+		if (battleSys->activeCharacter && battleSys->activeCharacter->tag == CharacterType::PLAYER && battleSys->activeCharacter->action.entityState == WAITING) {
+			if (!overlayOn && stepIndex && !tutorialComplete) {
+				UpdateState();
+			}
+		}
+
+		for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
+			switch (msg.type) {
+			case(TYPE::MOUSE_MOVE):
+				tutMousePos = { msg.posX, msg.posY };
+				break;
+			}
+		}
 
 		for (Entity const& entity : m_Entities) {
 			bool animating = false;
@@ -115,7 +128,7 @@ void UITutorialSystem::UpdateState() {
 	case 7:
 		// skill 1 (ST)
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_08.prefab");
-		battleSys->tutorialCalled = 0;
+		battleSys->tutorialLock = 0;
 		entityList.push_back(battleSys->skillButtons[0]);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
@@ -123,6 +136,9 @@ void UITutorialSystem::UpdateState() {
 	case 8:
 		// select enemy target (single)
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_09.prefab");
+
+		// force tutorial to wait for battle system next step
+		nextStepWait = true;
 
 		entityList = battleSys->targetCircleList;
 		for (CharacterStats* c : battleSys->GetEnemies()) {
@@ -133,6 +149,18 @@ void UITutorialSystem::UpdateState() {
 		break;
 	case 9:
 		// skill 2 (AOE)
+		// SP: at first call return, battle in progress. call again once its player turn again
+		if (nextStepWait && overlay) {
+			RevertLayers();
+			EntityFactory::entityFactory().DeleteCloneModel(overlay);
+			overlay = 0;
+			overlayOn = false;
+			return;
+		}
+		if (!overlay) {
+			overlay = EntityFactory::entityFactory().ClonePrefab("tutorial_overlay.prefab");
+			overlayOn = true;
+		}
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_10.prefab");
 
 		entityList.push_back(battleSys->skillButtons[1]);
@@ -156,81 +184,73 @@ void UITutorialSystem::UpdateState() {
 		RevertLayers();
 		break;
 	default:
+		RevertLayers();
 		if (overlay && overlayOn) {
 			EntityFactory::entityFactory().DeleteCloneModel(overlay);
 			overlay = 0;
 			overlayOn = false;
+			tutorialComplete = true;
 		}
 		break;
 	}
 }
 
 void UITutorialSystem::CheckConditionFulfilled(bool& result) {
-	static vmath::Vector2 tutMousePos{ RESET_VEC2 };
 	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	BattleSystem* bs = events.GetBattleSystem();
 
 	if (!((stepIndex >= 7) && (stepIndex <= 10)))
 		return;
 
-	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UICOMPONENT]) {
-		switch (msg.type) {
-		case(TYPE::MOUSE_MOVE):
-			tutMousePos = { msg.posX, msg.posY };
-			break;
-		case(TYPE::MOUSE_CLICK):
-			switch (stepIndex) {
-			case 7:
-			{
-				// return false if mouse click is not on skill button 1
-				Model& skillModel{ modelArray.GetData(bs->skillButtons[0]) };
-				if (!IsWithinObject(skillModel, tutMousePos))
-					result = false;
-				break;
+	switch (stepIndex) {
+	case 7:
+	{
+		// return false if mouse click is not on skill button 1
+		Model& skillModel{ modelArray.GetData(bs->skillButtons[0]) };
+		if (!IsWithinObject(skillModel, tutMousePos))
+			result = false;
+		break;
+	}
+	case 8:
+	{
+		// return false if mouse click is not on enemy target
+		for (Entity& e : bs->targetCircleList) {
+			Model& targetModel{ modelArray.GetData(e) };
+			if (IsWithinObject(targetModel, tutMousePos)) {
+				return;
 			}
-			case 8:
-			{
-				// return false if mouse click is not on enemy target
-				for (Entity& e : bs->targetCircleList) {
-					Model& targetModel{ modelArray.GetData(e) };
-					if (IsWithinObject(targetModel, tutMousePos)) {
-						return;
-					}
-				}
-				result = false;
-				break;
-			}
-			case 9:
-			{
-				// return false if mouse click is not on skill button 2
-				Model& skillModel{ modelArray.GetData(bs->skillButtons[1]) };
-				if (!IsWithinObject(skillModel, tutMousePos))
-					result = false;
-				break;
-			}
-			case 10:
-			{
-				// return false if mouse click is not on enemy target
-				bool aoe{ bs->activeCharacter->action.selectedSkill.attacktype == AttackType::AOE };
-				if (!aoe) {
-					result = false;
-					break;
-				}
-
-				for (Entity& e : bs->targetCircleList) {
-					Model& targetModel{ modelArray.GetData(e) };
-					if (IsWithinObject(targetModel, tutMousePos)) {
-						return;
-					}
-				}
-				result = false;
-				break;
-			}
-			default:
-				break;
-			}
+		}
+		result = false;
+		break;
+	}
+	case 9:
+	{
+		// return false if mouse click is not on skill button 2
+		Model& skillModel{ modelArray.GetData(bs->skillButtons[1]) };
+		if (!IsWithinObject(skillModel, tutMousePos))
+			result = false;
+		break;
+	}
+	case 10:
+	{
+		// return false if mouse click is not on enemy target
+		bool aoe{ bs->activeCharacter->action.selectedSkill.attacktype == AttackType::AOE };
+		if (!aoe) {
+			result = false;
 			break;
 		}
+
+		for (Entity& e : bs->targetCircleList) {
+			Model& targetModel{ modelArray.GetData(e) };
+			if (IsWithinObject(targetModel, tutMousePos)) {
+				return;
+			}
+		}
+		result = false;
+		break;
+	}
+	default:
+		break;
 	}
 }
 

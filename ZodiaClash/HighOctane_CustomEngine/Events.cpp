@@ -411,7 +411,7 @@ void StartTutorial(std::string input) {
 		ts->stepIndex = 0;
 		ts->UpdateState();
 
-		bs->tutorialCalled = 1;
+		bs->tutorialLock = 1;
 	}
 }
 
