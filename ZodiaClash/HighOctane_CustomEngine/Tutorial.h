@@ -17,7 +17,6 @@ public:
 	void Update() override;
 	void UpdateState();
 	void CheckConditionFulfilled(bool& result);
-	void CheckPrefabOverlap();
 	void SurfaceSystemOverlay(Entity& entity);
 	void MaintainLayers();
 private:

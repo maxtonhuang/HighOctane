@@ -24,8 +24,6 @@ void UITutorialSystem::Update() {
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
-		//CheckPrefabOverlap();
-
 		if (stepIndex && battleSys->skillTooltipCalled) {
 			MaintainLayers();
 		}
@@ -149,6 +147,7 @@ void UITutorialSystem::UpdateState() {
 		for (CharacterStats* c : battleSys->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
+		entityList.push_back(battleSys->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 		break;
@@ -185,6 +184,7 @@ void UITutorialSystem::UpdateState() {
 		for (CharacterStats* c : battleSys->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
+		entityList.push_back(battleSys->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 		break;
@@ -262,6 +262,7 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 		for (CharacterStats* c : bs->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
+		entityList.push_back(bs->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 
@@ -297,6 +298,7 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 		for (CharacterStats* c : bs->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
+		entityList.push_back(bs->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 
@@ -304,45 +306,6 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	}
 	default:
 		break;
-	}
-}
-
-void UITutorialSystem::CheckPrefabOverlap() {
-	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
-	BattleSystem* bs = events.GetBattleSystem();
-
-	if ((bs->skillTooltipCalled && prefabOffset) || (!bs->skillTooltipCalled && !prefabOffset))
-		return;
-
-	// check for stepIndex 7 and 9
-	std::string prefabName = "";
-	switch (stepIndex) {
-	case 7:
-		if (bs->skillTooltipCalled && !prefabOffset) {
-			prefabName = "tutorial_08a.prefab";
-		}
-		if (!bs->skillTooltipCalled && prefabOffset) {
-			prefabName = "tutorial_08.prefab";
-		}
-		break;
-	case 9:
-		if (bs->skillTooltipCalled && !prefabOffset) {
-			prefabName = "tutorial_10a.prefab";
-		}
-		if (!bs->skillTooltipCalled && prefabOffset) {
-			prefabName = "tutorial_10.prefab";
-		}
-		break;
-	default:
-		return;
-		break;
-	}
-
-	if (currentTutorialEntity) {
-		EntityFactory::entityFactory().DeleteCloneModel(currentTutorialEntity);
-		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab(prefabName);
-		prefabOffset = !prefabOffset;
-		MaintainLayers();
 	}
 }
 
