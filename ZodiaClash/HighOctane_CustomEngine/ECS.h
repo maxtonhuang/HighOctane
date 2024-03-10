@@ -583,6 +583,11 @@ public:
     void Draw() override;
 };
 
+class EmitterSystem : public System {
+public:
+    void Update() override;
+};
+
 class CollisionSystem : public System {
 public:
     void Update() override;

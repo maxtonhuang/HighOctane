@@ -187,12 +187,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return 0;
 }
 
-
-
-
-
-
-
 void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
@@ -251,6 +245,10 @@ void EngineCore::Run(bool const& mode) {
 	std::shared_ptr<ParticleSystem> particleSystem = ECS::ecs().RegisterSystem<ParticleSystem>();
 	runSystemList.emplace_back(particleSystem, "Particle System");
 	systemList.emplace_back(particleSystem, "Particle System");
+
+	std::shared_ptr<EmitterSystem> emitterSystem = ECS::ecs().RegisterSystem<EmitterSystem>();
+	runSystemList.emplace_back(emitterSystem, "Emitter System");
+	systemList.emplace_back(emitterSystem, "Emitter System");
 
 	std::shared_ptr<CollisionSystem> collisionSystem = ECS::ecs().RegisterSystem<CollisionSystem>();
 	runSystemList.emplace_back(collisionSystem, "Collison System");
@@ -399,6 +397,15 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 
 		ECS::ecs().SetSystemSignature<ParticleSystem>(signature);
+	}
+
+	{
+		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Emitter>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Particle>());
+
+		ECS::ecs().SetSystemSignature<EmitterSystem>(signature);
 	}
 
 	{

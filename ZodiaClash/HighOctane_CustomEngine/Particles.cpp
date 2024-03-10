@@ -52,10 +52,12 @@ ParticleManager::ParticleManager() : index{}, particleList{} {}
     @param timer The initial timer value for the particle.
 */
 /**************************************************************************/
-void ParticleManager::AddParticle( bool fixed, Vec2 position, Vec2 size, Vec2 velocity, Color color, void (*update)(Particle&),float rot,float rotSpeed, float timer) 
+Particle& ParticleManager::AddParticle( bool fixed, Vec2 position, Vec2 size, Vec2 velocity, Color color, void (*update)(Particle&),float rot,float rotSpeed, float timer) 
 {
-	particleList[particles.index++] = Particle{ true, fixed, position, size, velocity, color, update, rot, rotSpeed,timer };
+	Particle& out{ particleList[particles.index++] };
+	out = Particle{ true, fixed, position, size, velocity, color, update, rot, rotSpeed,timer };
 	index %= particleList.size();
+	return out;
 }
 
 /**************************************************************************/
@@ -80,7 +82,13 @@ void ParticleManager::Update(float dt)
 			p.active = false;
 			continue;
 		}
-		p.Update(p);
+		if (p.Update)
+			p.Update(p);
+		else {
+			p.timer -= dt;
+			if (p.timer <= 0)
+				p.active = false;
+		}
 	}
 }
 

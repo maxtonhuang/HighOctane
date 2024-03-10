@@ -53,6 +53,7 @@
 #include "Serialization.h"
 #include "UndoRedo.h"
 #include "Selection.h"
+#include "Particles.h"
 
 
 Entity currentSelectedPrefab;
@@ -1111,6 +1112,26 @@ void SceneEntityComponents(Entity entity) {
 				}
 				ImGui::EndCombo();
 			}
+			ImGui::TreePop();
+		}
+	}
+	if (ECS::ecs().HasComponent<Emitter>(entity)) {
+		if (ImGui::TreeNodeEx((void*)typeid(Emitter).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Emitter")) {
+			auto& emitter = ECS::ecs().GetComponent<Emitter>(entity);
+			ImGui::InputFloat2("Position", &emitter.position.x);
+			ImGui::InputFloat2("Size", &emitter.size.x);
+			ImGui::InputFloat2("Velocity", &emitter.velocity.x);
+
+			ImGui::ColorEdit4("Particle Color", &(emitter.particleColor.color.r));
+
+			ImGui::InputInt("Particles Rate", &emitter.particlesRate);
+
+			ImGui::InputFloat("Rotation", &emitter.rotation);
+			ImGui::InputFloat("Rotation Speed", &emitter.rotationSpeed);
+
+			ImGui::InputFloat("Particle Lifetime", &emitter.particleLifetime);
+			ImGui::InputFloat("Emitter Lifetime", &emitter.emitterLifetime);
+			ImGui::InputFloat("Frequency", &emitter.frequency);
 			ImGui::TreePop();
 		}
 	}
