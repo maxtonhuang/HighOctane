@@ -70,6 +70,7 @@
 #include "Animation.h"
 #include "Transition.h"
 #include "Particles.h"
+#include "Tutorial.h"
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -313,6 +314,11 @@ void EngineCore::Run(bool const& mode) {
 	runSystemList.emplace_back(uiDialogueSystem, "UI Dialogue System");
 	editSystemList.emplace_back(uiDialogueSystem, "UI Dialogue System");
 	systemList.emplace_back(uiDialogueSystem, "UI Dialogue System");
+
+	std::shared_ptr<UITutorialSystem> uiTutorialSystem = ECS::ecs().RegisterSystem<UITutorialSystem>();
+	runSystemList.emplace_back(uiTutorialSystem, "UI Tutorial System");
+	editSystemList.emplace_back(uiTutorialSystem, "UI Tutorial System");
+	systemList.emplace_back(uiTutorialSystem, "UI Tutorial System");
 
 	std::shared_ptr<UITextLabelSystem> uiTextLabelSystem = ECS::ecs().RegisterSystem<UITextLabelSystem>();
 	runSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
@@ -597,6 +603,15 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+
+		ECS::ecs().SetSystemSignature<UITutorialSystem>(signature);
+	}
+
+	{
+		Signature signature;
 
 		ECS::ecs().SetSystemSignature<TransitionSystem>(signature);
 	}
@@ -671,6 +686,7 @@ void EngineCore::Run(bool const& mode) {
 			graphicsSystem->Initialize();
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
+			uiTutorialSystem->Initialize();
 			initLevel = false;
 			newScene = false;
 		}
