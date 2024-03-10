@@ -736,6 +736,7 @@ void BattleSystem::InitialiseBattleUI() {
         allyHealthBars.clear();
         enemyHealthBars.clear();
         allBattleUI.clear();
+        battleInfoButton = 0;
 
         InitialiseTurnOrderAnimator();
 
@@ -1219,11 +1220,13 @@ void BattleSystem::UpdateTargets() {
         Model& skillModel{ modelArray.GetData(skillButtons[i])};
         if (IsWithinObject(skillModel, mousePos)) {
             isHovered = true;
-            if (ECS::ecs().EntityExists(tooltipPrefab)) {
-                EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+            if (!skillTooltipCalled) {
+                if (ECS::ecs().EntityExists(tooltipPrefab)) {
+                    EntityFactory::entityFactory().DeleteCloneModel(tooltipPrefab);
+                }
+                tooltipPrefab = EntityFactory::entityFactory().ClonePrefab(tooltips[i]);
+                skillTooltipCalled = true;
             }
-            tooltipPrefab = EntityFactory::entityFactory().ClonePrefab(tooltips[i]);
-            skillTooltipCalled = true;
         }
     }
     if (!isHovered && ECS::ecs().EntityExists(tooltipPrefab)) {

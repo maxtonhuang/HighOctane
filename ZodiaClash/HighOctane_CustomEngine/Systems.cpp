@@ -1208,6 +1208,7 @@ void UIButtonSystem::Update() {
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
+	bool updateBattleInfoButton{ battleSys && !ECS::ecs().EntityExists(battleSys->battleInfoButton) };
 
 	for (Entity const& entity : m_Entities) {
 		//Size* sizeData = &sizeArray.GetData(entity);
@@ -1222,7 +1223,7 @@ void UIButtonSystem::Update() {
 		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		modelData->SetAlpha(btnColor.a);
 
-		if (battleSys && buttonData->eventName == "Toggle Battle Info" && !ECS::ecs().EntityExists(battleSys->battleInfoButton)) {
+		if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
 			battleSys->battleInfoButton = entity;
 			battleSys->allBattleUI.push_back(entity);
 		}
