@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 49,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -41,18 +41,7 @@
                 "Layer 34",
                 "Layer 35",
                 "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48"
+                "Layer 37"
             ]
         }
     },
@@ -98,7 +87,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 350.00018310546875,
+            "position_x": 350.0,
             "position_y": 20.0,
             "rotation": 0.0,
             "scale": 0.6073969602584839,
@@ -106,6 +95,31 @@
             "velocity_y": 0.0
         },
         "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_goat.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Goat_Enemy",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -550.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.26726171374320984,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     },
     {
         "Clone": {
@@ -117,14 +131,14 @@
             ]
         },
         "Entity": {
-            "Name": "Guard 1",
+            "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -450.0,
+            "position_x": -300.0,
             "position_y": 150.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -142,15 +156,40 @@
             ]
         },
         "Entity": {
-            "Name": "Guard 2",
+            "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -500.0,
+            "position_x": -350.0,
             "position_y": -150.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "emitter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Emitter",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 45.0,
+            "position_y": 459.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -171,7 +210,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 1,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -187,69 +226,24 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Prepare to utter your final words, cat!",
+            "Text String": "You have defeated Yang.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 0,
+            "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
-            "Background": true
+            "Background": false
         },
         "DialogueHUD": {
             "Dialogues": [
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "Niu",
-                            "Line": "Urgh...",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "It seems I was not resolute enough to withstand this curse as well.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "I am deeply apologetic for my actions.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Mei",
-                            "Line": "Are the other animals also cursed by their artifacts?",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "I'm not sure of it.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Yang",
-                            "Line": "Where are the other animals? Don't tell me, the Jade Emperor gave them the artifacts too...",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "One thing is evident, the Zodiac Race was a deceitful scheme.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Like both of you, I want to know what exactly happened.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Allow me to right my wrongs by joining you in your journey.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "For deceiving the entirety of Ancient China to fulfil his own selfish desires...",
+                            "Speaker": "",
+                            "Line": "You have defeated Yang.",
                             "Voice": ""
                         }
                     ],
@@ -260,135 +254,32 @@
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": true,
+                    "Speaker Required": false,
                     "Post Dialogue Scene": true,
                     "Target Scene": "tbc.scn"
                 },
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "Niu",
-                            "Line": "Prepare to utter your final words, cat!",
+                            "Speaker": "",
+                            "Line": "You have been defeated...",
                             "Voice": ""
                         }
                     ],
-                    "Trigger Type": 3,
-                    "Round Trigger": 3,
-                    "Health Trigger": 0,
-                    "Viewing Index": 0,
-                    "Display Duration": 0.0,
-                    "Is Active": false,
-                    "Is Triggered": false,
-                    "Speaker Required": true,
-                    "Post Dialogue Scene": false,
-                    "Target Scene": ""
-                },
-                {
-                    "Dialogue Lines": [
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Huh?",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Yang",
-                            "Line": "Support is here!",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Mei",
-                            "Line": "Alright, now let's wake this ox up.",
-                            "Voice": ""
-                        }
-                    ],
-                    "Trigger Type": 3,
-                    "Round Trigger": 4,
-                    "Health Trigger": 0,
-                    "Viewing Index": 0,
-                    "Display Duration": 0.0,
-                    "Is Active": false,
-                    "Is Triggered": false,
-                    "Speaker Required": true,
-                    "Post Dialogue Scene": false,
-                    "Target Scene": ""
-                },
-                {
-                    "Dialogue Lines": [
-                        {
-                            "Speaker": "Niu",
-                            "Line": "Urgh... you are strong...",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "Niu",
-                            "Line": "But by my decree, you shall not pass!",
-                            "Voice": ""
-                        }
-                    ],
-                    "Trigger Type": 4,
+                    "Trigger Type": 6,
                     "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": true,
-                    "Post Dialogue Scene": false,
-                    "Target Scene": ""
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "exploration2.scn"
                 }
             ]
         },
         "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "emitter.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Emitter",
-            "Current Layer": 0,
-            "Order in Layer": 2,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 37.0,
-            "position_y": 394.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_ox.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Ox_Enemy",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -275.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.9998514652252197,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
     },
     {
         "Clone": {
@@ -441,7 +332,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Toggle Battle Info",
-            "Event Input": "BattleInfo_Ox.prefab",
+            "Event Input": "BattleInfo_Goat.prefab",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,

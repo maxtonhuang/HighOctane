@@ -303,6 +303,7 @@ void BattleSystem::Update()
                                     c->stats.health = c->stats.maxHealth;
                                 }
                             }
+                            events.Call("Restart Music", "ZodiaClash_Boss.ogg");
                             AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                             damagePrefab = "Goat_Skill_VFX.prefab";
                             ProcessDamage();
@@ -369,10 +370,12 @@ void BattleSystem::Update()
                         damagePrefab = "Goat_Skill_VFX.prefab";
                     }
                 }
+                ProcessDamage();
+            }
+            for (CharacterStats* c : deadchars) {
                 turnManage.turnOrderList.remove(c);
                 turnManage.originalTurnOrderList.remove(c);
                 turnManage.characterList.remove(*c);
-                ProcessDamage();
             }
             deadchars.clear();
 
@@ -569,7 +572,6 @@ void BattleSystem::CompleteBattle() {
     static ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
     if (m_Entities.size() > 0) {
         assetmanager.audio.PauseGroup("BGM");
-        events.Call("Play Sound", "Battle End_Edited.wav");
         for (Entity& e : allBattleUI) {
             animationArray->GetData(e).Start("Pop Out", e);
         }
@@ -584,7 +586,7 @@ void BattleSystem::CompleteBattle() {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
             events.Call("Start Dialogue", "LOSE");
         }
-        
+        events.Call("Play Sound", "Battle End_Edited.wav");
     }
 }
 
@@ -650,15 +652,14 @@ void BattleSystem::ProcessDamage() {
                             }
                         }
                         else {
-                            // Handle boss ox death
-                            if (nameArray->GetData(c.entity).name == "Ox_Enemy") {
-                                events.Call("Start Dialogue", "HEALTH");
-                                //c.stats.health = 0.5f * c.stats.maxHealth;
-                            }
-
                             animationArray->GetData(entity).Start("Death", entity);
                             if (cs->boss && ECS::ecs().EntityExists(bossAura)) {
                                 ECS::ecs().DestroyEntity(bossAura);
+                            }
+
+                            // Handle boss ox death
+                            if (nameArray->GetData(c.entity).name == "Ox_Enemy") {
+                                events.Call("Start Dialogue", "HEALTH");
                             }
                         }
                     }

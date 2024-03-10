@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 33,
+            "layerCounter": 23,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -26,17 +26,7 @@
                 "Layer 19",
                 "Layer 20",
                 "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32"
+                "Layer 22"
             ]
         }
     },
@@ -665,28 +655,13 @@
             "width": 256.0,
             "height": 256.0
         },
-        "CharacterStats": {
-            "Character type": 0,
-            "Max Health": 150.0,
-            "Health": 150.0,
-            "Attack": 30.0,
-            "Defense": 30.0,
-            "Speed": 4,
-            "Icon": "mockup_icon_cat.png",
-            "Boss": false,
-            "Skills": [
-                "Scarlet Claw",
-                "Dance of Fury",
-                "Secret Arts: Pounce"
-            ]
-        },
         "Model": {
             "Model type": 0,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},

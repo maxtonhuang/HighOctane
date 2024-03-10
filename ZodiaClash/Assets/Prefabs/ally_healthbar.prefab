@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 22,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,15 +25,7 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29"
+                "Layer 21"
             ]
         }
     },
@@ -52,7 +44,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 1130.0,
+            "position_x": 1330.0,
             "position_y": 300.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -104,7 +96,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "X movement": 300.0,
+                                "X movement": 500.0,
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
@@ -124,7 +116,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 2,
-                                "X movement": -300.0,
+                                "X movement": -500.0,
                                 "Y movement": 0.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0

@@ -55,6 +55,7 @@ void AudioManager::Initialize() {
     CreateGroup("SFX");
     CreateGroup("BGM");
     CreateGroup("ENV");
+    CreateGroup("VOC");
 
     UpdateAudioDirectory();
 }

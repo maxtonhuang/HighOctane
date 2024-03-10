@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 53,
+            "layerCounter": 49,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -52,11 +52,7 @@
                 "Layer 45",
                 "Layer 46",
                 "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52"
+                "Layer 48"
             ]
         }
     },
@@ -108,7 +104,8 @@
             "scale": 0.6073969602584839,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Parent": {}
     },
     {
         "Clone": {
@@ -122,7 +119,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -147,7 +144,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -180,7 +177,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -750.0,
+            "position_y": -742.4500732421875,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -208,52 +205,52 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh...",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "It seems I was not resolute enough to withstand this curse as well.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "I am deeply apologetic for my actions.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Are the other animals also cursed by their artifacts?",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "I'm not sure of it.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Where are the other animals? Don't tell me, the Jade Emperor gave them the artifacts too...",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "One thing is evident, the Zodiac Race was a deceitful scheme.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Like both of you, I want to know what exactly happened.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Allow me to right my wrongs by joining you in your journey.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "For deceiving the entirety of Ancient China to fulfil his own selfish desires...",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         }
                     ],
                     "Trigger Type": 5,
@@ -272,7 +269,7 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Prepare to utter your final words, cat!",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -291,17 +288,17 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Huh?",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Support is here!",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Alright, now let's wake this ox up.",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -320,12 +317,12 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh... you are strong...",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "But by my decree, you shall not pass!",
-                            "Voice": ""
+                            "Voice": "Skill Select_Edited.wav"
                         }
                     ],
                     "Trigger Type": 4,
@@ -385,10 +382,10 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -275.0,
-            "position_y": 0.0,
+            "position_x": -268.0,
+            "position_y": 20.0,
             "rotation": 0.0,
-            "scale": 0.9998514652252197,
+            "scale": 0.4000000059604645,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

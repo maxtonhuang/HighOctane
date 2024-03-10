@@ -1639,8 +1639,8 @@ void UIDialogueSystem::Update() {
 				float parentAlpha = modelData->GetAlpha();
 				speakerModelData->SetAlpha(parentAlpha);
 
-				events.Call("Stop Group", "SFX");
-				events.Call("Play Sound", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+				events.Call("Stop Group", "VOC");
+				events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
 
 				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 				dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;

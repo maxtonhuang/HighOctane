@@ -818,6 +818,10 @@ void HUDStatusHelper(StatusEffect::StatusType status, std::string& inputString, 
 		stacks = charstats ? charstats->debuffs.defenseStack : 0;
 		inputString = !charstats ? "Effect_Broken.prefab" : "UI_ICON_def_down.png";
 		break;
+	case StatusEffect::COUNTER:
+		stacks = charstats ? charstats->buffs.reflectStack : 0;
+		inputString = !charstats ? "Effect_Counter.prefab" : "UI_ICON_reflect.png";
+		break;
 	}
 }
 
@@ -1118,6 +1122,7 @@ void DialogueHUD::Initialize() {
 */
 void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType) {
 	// check if currentDialogue assigned by system does not match inputTriggerType
+	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
 		dialogueQueue.push(currentDialogue);
@@ -1159,6 +1164,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	}
 	// additional clause for health, if the health threshold has been hit
 	/*else if (inputTriggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
+
 	}*/
 	else if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
 		// TODO: to check for turn and health counters?
@@ -1174,6 +1180,15 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		// push non-matching dialogues back into queue
 		for (Dialogue* dialogue : nonMatchingDialogues) {
 			dialogueQueue.push(dialogue);
+		}
+
+		if (inputTriggerType == DIALOGUE_TRIGGER::HEALTH_BASED && battleSys && currentDialogue){
+			//STOP OX DEATH ANIMATION
+			for (CharacterStats* cs : battleSys->GetEnemies()) {
+				if (cs->stats.health <= 0.f && cs->boss) {
+					animationArray.GetData(cs->entity).Stop();
+				}
+			}
 		}
 	}
 	else {
@@ -1274,7 +1289,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 						cs->buffs.reflectStack = 99;
 					}
 				}
-				events.Call("Restart Music", "ZodiaClash_Boss.ogg");
+				//events.Call("Restart Music", "ZodiaClash_Boss.ogg");
 				currentDialogue = nullptr;
 				battleSys->ProcessDamage();
 			}

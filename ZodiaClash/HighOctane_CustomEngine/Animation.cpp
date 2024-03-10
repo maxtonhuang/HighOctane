@@ -624,7 +624,7 @@ void TransformAttachAnimation::Update(int frameNum) {
 		Transform* prevTransform{ GetEntityTransform(nextKeyframe->data) };
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {
-			entityTransform->position = prevTransform->position;
+			entityTransform->position = prevTransform ? prevTransform->position : entityTransform->position;
 			active = false;
 		}
 		else {

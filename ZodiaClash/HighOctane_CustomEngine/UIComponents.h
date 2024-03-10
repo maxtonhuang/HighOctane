@@ -332,6 +332,7 @@ public:
 		ATKUP,
 		DEFUP,
 		DEFDOWN,
+		COUNTER,
 		LASTEFFECT //MUST BE UNUSED, USED FOR ITERATION ONLY
 	}; StatusType statustype;
 
