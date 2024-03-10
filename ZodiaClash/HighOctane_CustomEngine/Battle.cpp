@@ -537,12 +537,22 @@ std::vector<CharacterStats*> BattleSystem::GetPlayers() {
  * @return std::vector<CharacterStats*> A vector containing pointers to the enemy characters.
  */
 std::vector<CharacterStats*> BattleSystem::GetEnemies() {
+    std::deque<CharacterStats*> tmpDeque;
     std::vector<CharacterStats*> output;
     for (auto& c : turnManage.characterList) {
         if (c.tag == CharacterType::ENEMY) {
-            output.push_back(&c);
+            if (c.boss) {
+                tmpDeque.push_front(&c);
+            }
+            else {
+                tmpDeque.push_back(&c);
+            }
         }
     }
+    for (auto& c : tmpDeque) {
+        output.push_back(c);
+    }
+    
     return output;
 }
 

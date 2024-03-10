@@ -144,12 +144,15 @@ public:
 	void SwitchTurnOrder(CharacterStats* target);
 	void RevertTurnOrder(CharacterStats* target);
 
+	std::vector<Entity> allBattleUI;
 	std::vector<Entity> skillButtons;
 	std::vector<Entity> allyHealthBars;
 	std::vector<Entity> enemyHealthBars;
 	std::deque<Entity> turnOrderQueueAnimator;
 	std::vector<Entity> targetCircleList;
+
 	Entity chiLabel;
+	Entity battleInfoButton;
 
 	int aiMultiplier; //in order to control certain AI logic
 	int dialogueCalled{ 0 };
@@ -167,7 +170,6 @@ private:
 	bool battlestarted{ false };
 	Entity turnOrderAnimator;
 	std::deque<Entity> turnOrderQueueInitializer;
-	std::vector<Entity> allBattleUI;
 	std::vector<CharacterAnimator> enemyAnimators;
 	std::vector<CharacterAnimator> allyAnimators;
 	std::vector<std::string> tooltips{}; //for tooltip creation

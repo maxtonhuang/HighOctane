@@ -1207,6 +1207,8 @@ void UIButtonSystem::Update() {
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
+	BattleSystem* battleSys = events.GetBattleSystem();
+
 	for (Entity const& entity : m_Entities) {
 		//Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
@@ -1219,6 +1221,11 @@ void UIButtonSystem::Update() {
 		glm::vec4 btnColor = (GetCurrentSystemMode() == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		modelData->SetAlpha(btnColor.a);
+
+		if (battleSys && buttonData->eventName == "Toggle Battle Info" && !ECS::ecs().EntityExists(battleSys->battleInfoButton)) {
+			battleSys->battleInfoButton = entity;
+			battleSys->allBattleUI.push_back(entity);
+		}
 	}
 }
 
