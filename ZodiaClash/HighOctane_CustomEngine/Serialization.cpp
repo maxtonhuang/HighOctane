@@ -189,7 +189,19 @@ rapidjson::Value SerializeColor(const Color& color, rapidjson::Document::Allocat
 	return colorObject;
 }
 
-
+rapidjson::Value SerializeParticle(const Emitter& emitter, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value emitterObject(rapidjson::kObjectType);
+	emitterObject.AddMember("Emitter Lifetime", emitter.emitterLifetime, allocator);
+	emitterObject.AddMember("Emitter PositionX", emitter.position.x, allocator);
+	emitterObject.AddMember("Emitter PositionY", emitter.position.y, allocator);
+	emitterObject.AddMember("Particles SizeX", emitter.size.x, allocator);
+	emitterObject.AddMember("Particles SizeY", emitter.size.y, allocator);
+	emitterObject.AddMember("Particles ColorR", emitter.particleColor.color.r, allocator);
+	emitterObject.AddMember("Particles ColorG", emitter.particleColor.color.g, allocator);
+	emitterObject.AddMember("Particles ColorB", emitter.particleColor.color.b, allocator);
+	emitterObject.AddMember("Particles ColorA", emitter.particleColor.color.a, allocator);
+	return emitterObject;
+}
 
 rapidjson::Value SerializeTex(const Tex& tex, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value texObject(rapidjson::kObjectType);
@@ -665,8 +677,6 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 }
 
 
-
-
 /*
 Helper function to check if class should be serialized
 */
@@ -716,6 +726,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	Size* size = nullptr;
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
+	Emitter* emitter = nullptr;
 	//Animator* anim = nullptr;
 	Name* name = nullptr;
 	Script* script = nullptr;
@@ -819,6 +830,11 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			aabb = &ECS::ecs().GetComponent<AABB>(entity);
 			rapidjson::Value aabbObject = SerializeAABB(*aabb, allocator);
 			entityObject.AddMember("Collision", aabbObject, allocator);
+		}
+		if (CheckSerialize<Emitter>(entity, isPrefabClone, uComponentMap)) {
+			emitter = &ECS::ecs().GetComponent<Emitter>(entity);
+			rapidjson::Value emitterObject = SerializeParticle(*emitter, allocator);
+			entityObject.AddMember("Emitter", emitterObject, allocator);
 		}
 		//if (CheckSerialize<Animator>(entity, isPrefabClone, uComponentMap)) {
 		//	anim = &ECS::ecs().GetComponent<Animator>(entity);
@@ -1184,6 +1200,27 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				else {
 					ECS::ecs().AddComponent<AABB>(entity, aabb);
 				}
+			}
+
+			if (entityObject.HasMember("Emitter")) {
+				const rapidjson::Value& emitterObject = entityObject["Emitter"];
+				Emitter emitter;
+				emitter.position.x= (emitterObject.HasMember("Emitter PositionX")) ? emitterObject["Emitter PositionX"].GetFloat() : 0.f;
+				emitter.position.y = (emitterObject.HasMember("Emitter PositionY")) ? emitterObject["Emitter PositionY"].GetFloat() : 0.f;
+				emitter.emitterLifetime = (emitterObject.HasMember("Emitter Lifetime")) ? emitterObject["Emitter Lifetime"].GetFloat() : 2.f;
+				emitter.size.x = (emitterObject.HasMember("Particle SizeX")) ? emitterObject["Particle SizeX"].GetFloat() : 5.f;
+				emitter.size.y = (emitterObject.HasMember("Particle SizeY")) ? emitterObject["Particle SizeY"].GetFloat() : 5.f;
+				emitter.particleColor.color.r = (emitterObject.HasMember("Particle ColorR")) ? emitterObject["Particle ColorR"].GetFloat() : 1.f;
+				emitter.particleColor.color.g = (emitterObject.HasMember("Particle ColorG")) ? emitterObject["Particle ColorG"].GetFloat() : 1.f;
+				emitter.particleColor.color.b = (emitterObject.HasMember("Particle ColorB")) ? emitterObject["Particle ColorB"].GetFloat() : 1.f;
+				emitter.particleColor.color.a = (emitterObject.HasMember("Particle ColorA")) ? emitterObject["Particle ColorA"].GetFloat() : 1.f;
+
+				if (ECS::ecs().HasComponent<Emitter>(entity)) {
+					ECS::ecs().GetComponent<Emitter>(entity) = emitter;
+				}
+				//else {
+				//	ECS::ecs().AddComponent<Emitter>(entity, emitter);
+				//}
 			}
 
 			if (entityObject.HasMember("Scripts")) {

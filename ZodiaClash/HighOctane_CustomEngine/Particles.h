@@ -44,7 +44,8 @@
 			supports customizable update behavior via a function pointer.
 */
 /**************************************************************************/
-struct Particle {
+struct Particle 
+{
 	bool                    active{};
 	bool                    fixed{};
 	Vec2                    position;
@@ -76,7 +77,7 @@ struct Particle {
 class ParticleManager 
 {
 public:
-	void AddParticle( bool fixed, Vec2 position, Vec2 size, Vec2 velocity, Color color, void (*update)(Particle&), float rot = 0.f, float rotSpeed = 0.f, float timer = 0.f );
+	Particle& AddParticle( bool fixed, Vec2 position, Vec2 size, Vec2 velocity, Color color, void (*update)(Particle&), float rot = 0.f, float rotSpeed = 0.f, float timer = 0.f );
 	void Update(float dt);
 	void Draw(float dt);
 	void ResetParticles();
@@ -85,14 +86,54 @@ public:
 	ParticleManager();
 };
 
-//TBD, right now used as a flag to create environmental particles in scene
-class Emitter {
-
-};
-
 namespace particlePresets 
 {
 	void ParticleFade(Particle& p);
 	void ParticleShrink(Particle& p);
 }
 extern ParticleManager particles;
+
+struct Emitter
+{
+	Vec2                    position;
+	Vec2                    size;
+	Vec2                    velocity;
+	Color                   particleColor;
+	int						particlesRate = 0;
+	float					rotation{ 0.f };
+	float					rotationSpeed{ 0.f };
+	float                   fadeDecay{ 2.f };
+	float                   shrinkDecay{ 2.f };
+	float					particleLifetime{ 0.f };
+	float					emitterLifetime{ 0.f };
+	float					frequency{ 0.f }; //how many seconds has passed before you spawn a particle
+	void					(*Update)(Emitter&) {};
+
+	Emitter(Vec2 pos = Vec2{}, Vec2 sz = Vec2{}, Vec2 vel = Vec2{}, Color clr = Color{}, 
+			int particlesToSpawn = 0, float rot = 0.f, float rotSpeed = 0.f, float ptcllifetime = 0.f, float lifeTime = 0.f, float freq = 0.f, void (*update)(Emitter&) = nullptr)
+			: 
+				position(pos), size(sz), velocity(vel), particleColor(clr), particlesRate(particlesToSpawn),
+				rotation(rot), rotationSpeed(rotSpeed), particleLifetime(ptcllifetime), emitterLifetime(lifeTime), frequency(freq), Update(update) {}
+};
+
+class EmitterManager {
+public:
+	std::array<Particle, 10000> particleList;
+	size_t index = 0; // Keep track of the next free spot in the array
+	EmitterManager() : index(0) {}
+
+	void AddParticle(bool fixed, Vec2 position, Vec2 size, Vec2 velocity, Color color, void (*update)(Particle&), float rotation = 0.f, float rotationSpeed = 0.f, float timer = 0.f) 
+	{
+		if (index >= particleList.size()) return;
+
+		// Construct a new Particle and place it in the particleList
+		particleList[index] = Particle(true, fixed, position, size, velocity, color, update, rotation, rotationSpeed, timer);
+		++index; // Increment the index to the next free spot
+	}
+
+	// Optional: Implement a method to reset or clear particles, adjust the index, etc.
+	void ResetParticles() 
+	{
+		index = 0; // Reset the index, effectively clearing the particles
+	}
+};

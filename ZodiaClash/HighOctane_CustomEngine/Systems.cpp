@@ -190,6 +190,48 @@ void PhysicsSystem::Draw() {
 	}
 }
 
+void EmitterSystem::Update()
+{
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
+
+	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+		// Ensure that skip and lock logic is applied as intended
+		//if (layersToSkip[layer_it] || !layersToLock[layer_it]) continue;
+
+		//for (Entity& entity : layering[layer_it]) {
+		for (Entity& entity : emitterArray.GetEntityArray()) {
+
+			// Check if entity should be skipped or is not locked as intended
+			//if (entitiesToSkip[static_cast<uint32_t>(entity)] || !entitiesToLock[static_cast<uint32_t>(entity)] || !ECS::ecs().EntityExists(entity)) continue;
+
+			if (ECS::ecs().HasComponent<Emitter>(entity)) {
+				Emitter* emitter = &ECS::ecs().GetComponent<Emitter>(entity);
+				emitter->emitterLifetime += FIXED_DT;
+				if (emitter->emitterLifetime >= emitter->frequency) {
+					for (int i = 0; i < emitter->particlesRate; ++i) {
+						// Here, you might introduce randomness or variations based on the emitter's properties
+						Vec2 position = emitter->position; // Plus any offset or randomness
+						Vec2 size = emitter->size;
+						Vec2 velocity = emitter->velocity; // Plus any randomness or directional adjustments
+						Color color = emitter->particleColor;
+						float rotation = emitter->rotation;
+						float rotationSpeed = emitter->rotationSpeed;
+						float timer = emitter->particleLifetime;
+
+						// Assuming nullptr for now, but you can pass custom update functions based on emitter or particle type
+						void (*particleUpdate)(Particle&) = nullptr;
+
+						// Adding the particle to the system
+						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
+						p.timer = timer;
+					}
+					emitter->emitterLifetime = 0.f; // Reset after spawning cycle
+				}
+			}
+		}
+	}
+}
 
 /**************************************************************************/
 /*!
@@ -209,29 +251,6 @@ void PhysicsSystem::Draw() {
 void ParticleSystem::Update()
 {
 	particles.Update(FIXED_DT);
-	float freq = 1.f;
-	static float timer = freq;
-	timer += FIXED_DT;
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	// Create a uniform distribution between 0 and 1
-	std::uniform_real_distribution<float> dis(0, 1);
-
-	if (m_Entities.size() == 0) {
-		return;
-	}
-
-	// Generate and print a random number
-	if (timer >= freq) {
-		float randomValue = dis(gen);
-		//float between_neg1and1 = -1 + ((2) * randomValue);
-		//float randomvelocity = randomValue;
-		float between_negwidthandwidth = -(GRAPHICS::w)+(GRAPHICS::w * 2 * randomValue);
-		//{ {123.f / 255.f, 201.f / 255.f, 141.f / 255.f, 1}
-		float randomAngle = dis(gen) * vmath::PI;
-		particles.AddParticle(true, { between_negwidthandwidth, GRAPHICS::h }, { 10, 10 }, { randomValue * 500, -300 }, { {1,1,1, 1} }, particlePresets::ParticleFade, randomAngle, 30.f * vmath::PI / 180);
-		timer = 0.f;
-	}
 }
 
 /******************************************************************************
