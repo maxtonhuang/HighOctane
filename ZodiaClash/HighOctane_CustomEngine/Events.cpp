@@ -45,6 +45,7 @@
 #include "Transition.h"
 #include "UIComponents.h"
 #include "ECS.h"
+#include "Tutorial.h"
 
 EventManager events;
 
@@ -306,6 +307,7 @@ void TogglePause(std::string input) {
 
 	(void)input;
 	static Entity pausemenu{};
+	UITutorialSystem* ts = events.GetTutorialSystem();
 
 	/*-----Prevent Softlocking-----*/
 	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
@@ -328,8 +330,15 @@ void TogglePause(std::string input) {
 		SetCurrentSystemMode(SystemMode::PAUSE);
 		if (pausemenu == 0) {
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
+			
+			if (ts->overlay)
+				ts->SurfaceSystemOverlay(pausemenu);
 		}
 	}
+
+	// reset tutorial system overlay flag
+	if (GetCurrentSystemMode() != SystemMode::PAUSE && ts->systemOverlayOn)
+		ts->systemOverlayOn = false;
 }
 
 /*!
@@ -348,6 +357,13 @@ void ToggleHelp(std::string input) {
 		if (gamehelpmenu != 0) {
 			ECS::ecs().DestroyEntity(gamehelpmenu);
 			gamehelpmenu = 0;
+		}
+
+		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+			UITutorialSystem* ts = events.GetTutorialSystem();
+			if (ts->systemOverlayOn) {
+				ts->MaintainLayers();
+			}
 		}
 	}
 	else {
@@ -436,6 +452,35 @@ void AdvanceDialogue(std::string input) {
 	}
 }
 
+void StartTutorial(std::string input) {
+	(void)input;
+	UITutorialSystem* ts = events.GetTutorialSystem();
+	BattleSystem* bs = events.GetBattleSystem();
+	if (!ts->overlay) {
+		//Create overlay prefab here
+		ts->overlay = EntityFactory::entityFactory().ClonePrefab("tutorial_overlay.prefab");
+		ts->stepIndex = 0;
+		ts->UpdateState();
+
+		bs->tutorialLock = 1;
+	}
+}
+
+void AdvanceTutorial(std::string input) {
+	UITutorialSystem* ts = events.GetTutorialSystem();
+	bool conditionFulfilled = true;
+	ts->CheckConditionFulfilled(conditionFulfilled);
+	if (!conditionFulfilled) {
+		return;
+	}
+	ts->stepIndex++;
+	if (ts->currentTutorialEntity) {
+		EntityFactory::entityFactory().DeleteCloneModel(ts->currentTutorialEntity);
+		ts->currentTutorialEntity = 0;
+	}
+	ts->UpdateState();
+}
+
 /*!
  * \brief Initializes the functions for the event manager.
  *
@@ -462,6 +507,8 @@ void EventManager::InitialiseFunctions() {
 	functions["Test"] = TestFunction;
 	functions["Start Dialogue"] = StartDialogue;
 	functions["Advance Dialogue"] = AdvanceDialogue;
+	functions["Start Tutorial"] = StartTutorial;
+	functions["Advance Tutorial"] = AdvanceTutorial;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}
@@ -522,4 +569,12 @@ void EventManager::ConnectDialogueSystem(UIDialogueSystem* input) {
  */
 UIDialogueSystem* EventManager::GetDialogueSystem() {
 	return dialogueSystem;
+}
+
+void EventManager::ConnectTutorialSystem(UITutorialSystem* input) {
+	tutorialSystem = input;
+}
+
+UITutorialSystem* EventManager::GetTutorialSystem() {
+	return tutorialSystem;
 }

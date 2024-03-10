@@ -58,3 +58,4 @@ void SetWholeLockLayer(size_t layer_it);
 bool CheckAnySelectedInLayer(size_t layer_it);
 size_t GetHightestLayerWithSelection();
 void TransferToLayer(Entity e, size_t LayerIndex);
+size_t GetTopLayer();

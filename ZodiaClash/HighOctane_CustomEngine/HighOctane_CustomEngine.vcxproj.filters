@@ -69,6 +69,9 @@
     <Filter Include="Reflection">
       <UniqueIdentifier>{9702622b-4f7e-4eb6-b7c1-ca998e062476}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tutorial">
+      <UniqueIdentifier>{0107adae-2ce0-43d7-9880-8f0c706075aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaderfilelist.h">
@@ -275,6 +278,9 @@
     <ClInclude Include="Particles.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Tutorial.h">
+      <Filter>Tutorial</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="physics.cpp">
@@ -447,6 +453,9 @@
     </ClCompile>
     <ClCompile Include="Particles.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>Tutorial</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

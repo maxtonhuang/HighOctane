@@ -36,6 +36,8 @@
 
 using Event = void(*)(std::string);
 
+class UITutorialSystem; //forward declaration
+
 class EventManager {
 public:
 	/*
@@ -59,11 +61,15 @@ public:
 
 	void ConnectDialogueSystem(UIDialogueSystem* input);
 	UIDialogueSystem* GetDialogueSystem();
+
+	void ConnectTutorialSystem(UITutorialSystem* input);
+	UITutorialSystem* GetTutorialSystem();
 private:
 	std::unordered_map<std::string, Event> functions;
 	std::vector<const char*> functionNames;
 	BattleSystem* battlesystem{}; //Connection to battle system
 	UIDialogueSystem* dialogueSystem{}; //Connection to dialogue system
+	UITutorialSystem* tutorialSystem{}; //Connection to tutorial
 };
 
 extern EventManager events;
