@@ -43,7 +43,7 @@
                 "Total Frames": 60,
                 "Group Name": "Cutscene",
                 "Loop": false,
-                "Frame Time": 0.75,
+                "Frame Time": 0.800000011920929,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -66,17 +66,17 @@
                         "Animation Type": "Event",
                         "Key Frames": [
                             {
-                                "Frame Number": 21,
+                                "Frame Number": 13,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
                             {
-                                "Frame Number": 33,
+                                "Frame Number": 28,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
                             {
-                                "Frame Number": 48,
+                                "Frame Number": 43,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
