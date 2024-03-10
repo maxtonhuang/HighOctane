@@ -47,6 +47,7 @@
 #include "AssetManager.h"
 #include "Layering.h"
 #include "Animation.h"
+#include "Tutorial.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -744,11 +745,36 @@ void AttackSkill::UpdateSkillEvent(Button& buttonData) {
 *
 */
 void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
+	UITutorialSystem* tutSys = events.GetTutorialSystem();
+	BattleSystem* battleSys = events.GetBattleSystem();
 	if (!isSufficient) {
 		buttonData.currentState = STATE::DISABLED;
 	}
 	else {
 		buttonData.currentState = STATE::NONE;
+	}
+
+	// also disable if tutorial is active
+	switch (tutSys->stepIndex) {
+	case 7:
+	case 8:
+		if (skillIndex)
+			buttonData.currentState = STATE::DISABLED;
+		break;
+	
+	case 9:
+	case 10:
+		if (skillIndex != 1)
+			buttonData.currentState = STATE::DISABLED;
+		break;
+	
+	case 11:
+	case 12:
+		if (battleSys->tutorialLock)
+			buttonData.currentState = STATE::DISABLED;
+		break;
+	default:
+		break;
 	}
 }
 

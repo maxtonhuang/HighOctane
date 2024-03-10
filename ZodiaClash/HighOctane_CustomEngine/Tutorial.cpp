@@ -24,6 +24,8 @@ void UITutorialSystem::Update() {
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
+		//CheckPrefabOverlap();
+
 		if (stepIndex && battleSys->skillTooltipCalled) {
 			MaintainLayers();
 		}
@@ -201,6 +203,7 @@ void UITutorialSystem::UpdateState() {
 			overlayOn = true;
 		}
 		nextStepWait = false;
+		battleSys->tutorialLock = 1;
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_12.prefab");
 		RevertLayers();
 		break;
@@ -209,13 +212,14 @@ void UITutorialSystem::UpdateState() {
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_13.prefab");
 		RevertLayers();
 		break;
-	default:
-		RevertLayers();
+	default:		
 		if (overlay && overlayOn) {
+			RevertLayers();
 			EntityFactory::entityFactory().DeleteCloneModel(overlay);
 			overlay = 0;
 			overlayOn = false;
 			tutorialComplete = true;
+			battleSys->tutorialLock = 0;
 		}
 		break;
 	}
@@ -224,6 +228,11 @@ void UITutorialSystem::UpdateState() {
 void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	BattleSystem* bs = events.GetBattleSystem();
+
+	if ((GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EXITCONFIRM)) {
+		result = false;
+		return;
+	}
 
 	if (!((stepIndex >= 7) && (stepIndex <= 10)))
 		return;
@@ -247,6 +256,15 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 			}
 		}
 		result = false;
+
+		// SP: ensure targetCircle is surfaced
+		std::vector<Entity> entityList = bs->targetCircleList;
+		for (CharacterStats* c : bs->GetEnemies()) {
+			entityList.push_back(c->entity);
+		}
+		GetChildren(entityList);
+		SurfaceTargetLayers(entityList);
+
 		break;
 	}
 	case 9:
@@ -266,18 +284,81 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 			break;
 		}
 
-		for (Entity& e : bs->targetCircleList) {
+		std::vector<Entity> entityList = bs->targetCircleList;
+		for (Entity& e : entityList) {
 			Model& targetModel{ modelArray.GetData(e) };
 			if (IsWithinObject(targetModel, tutMousePos)) {
 				return;
 			}
 		}
 		result = false;
+
+		// SP: ensure targetCircle is surfaced
+		for (CharacterStats* c : bs->GetEnemies()) {
+			entityList.push_back(c->entity);
+		}
+		GetChildren(entityList);
+		SurfaceTargetLayers(entityList);
+
 		break;
 	}
 	default:
 		break;
 	}
+}
+
+void UITutorialSystem::CheckPrefabOverlap() {
+	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+	BattleSystem* bs = events.GetBattleSystem();
+
+	if ((bs->skillTooltipCalled && prefabOffset) || (!bs->skillTooltipCalled && !prefabOffset))
+		return;
+
+	// check for stepIndex 7 and 9
+	std::string prefabName = "";
+	switch (stepIndex) {
+	case 7:
+		if (bs->skillTooltipCalled && !prefabOffset) {
+			prefabName = "tutorial_08a.prefab";
+		}
+		if (!bs->skillTooltipCalled && prefabOffset) {
+			prefabName = "tutorial_08.prefab";
+		}
+		break;
+	case 9:
+		if (bs->skillTooltipCalled && !prefabOffset) {
+			prefabName = "tutorial_10a.prefab";
+		}
+		if (!bs->skillTooltipCalled && prefabOffset) {
+			prefabName = "tutorial_10.prefab";
+		}
+		break;
+	default:
+		return;
+		break;
+	}
+
+	if (currentTutorialEntity) {
+		EntityFactory::entityFactory().DeleteCloneModel(currentTutorialEntity);
+		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab(prefabName);
+		prefabOffset = !prefabOffset;
+		MaintainLayers();
+	}
+}
+
+void UITutorialSystem::SurfaceSystemOverlay(Entity& entity) {
+	if (!overlayOn || tutorialComplete) {
+		return;
+	}
+
+	std::vector<Entity> entityList{};
+	for (std::pair<Entity, size_t> pair : originalLayers) {
+		entityList.push_back(pair.first);
+	}
+	entityList.push_back(entity);
+	GetChildren(entityList);
+	SurfaceTargetLayers(entityList);
+	systemOverlayOn = true;
 }
 
 void UITutorialSystem::GetChildren(std::vector<Entity>& entityList) {
@@ -297,7 +378,7 @@ void UITutorialSystem::GetChildren(std::vector<Entity>& entityList) {
 	}
 }
 
-void UITutorialSystem::SurfaceTargetLayers(std::vector<Entity> entities) {
+void UITutorialSystem::SurfaceTargetLayers(const std::vector<Entity> entities) {
 	if (entities.empty()) {
 		return;
 	}
@@ -316,6 +397,7 @@ void UITutorialSystem::SurfaceTargetLayers(std::vector<Entity> entities) {
 		size_t layer = FindInLayer(e).first;
 		highestLayer = std::max(highestLayer, layer);
 		lowestLayer = std::min(lowestLayer, layer);
+		originalLayers.push_back(std::make_pair(e, layer));
 	}
 
 	// ensure sufficient layers above overlay layer
@@ -326,14 +408,23 @@ void UITutorialSystem::SurfaceTargetLayers(std::vector<Entity> entities) {
 		topLayer++;
 	}
 
-	for (const Entity& e : entities) {
+	for (std::pair<Entity, size_t>& pair : originalLayers) {
+		size_t layer = pair.second;
+		size_t newLayer = (highestLayer >= 0) ? topLayer - (highestLayer - layer) : layer;
+
+		//originalLayers.push_back(std::make_pair(e, layer));
+		TransferToLayer(pair.first, newLayer);
+		modifiedLayers.push_back(std::make_pair(pair.first, newLayer));
+	}
+
+	/*for (const Entity& e : entities) {
 		size_t layer = FindInLayer(e).first;
 		size_t newLayer = (highestLayer >= 0) ? topLayer - (highestLayer - layer) : layer;
 
 		originalLayers.push_back(std::make_pair(e, layer));
 		TransferToLayer(e, newLayer);
 		modifiedLayers.push_back(std::make_pair(e, newLayer));
-	}
+	}*/
 }
 
 void UITutorialSystem::RevertLayers() {

@@ -271,6 +271,7 @@ void TogglePause(std::string input) {
 
 	(void)input;
 	static Entity pausemenu{};
+	UITutorialSystem* ts = events.GetTutorialSystem();
 
 	/*-----Prevent Softlocking-----*/
 	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
@@ -293,8 +294,15 @@ void TogglePause(std::string input) {
 		SetCurrentSystemMode(SystemMode::PAUSE);
 		if (pausemenu == 0) {
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
+			
+			if (ts->overlay)
+				ts->SurfaceSystemOverlay(pausemenu);
 		}
 	}
+
+	// reset tutorial system overlay flag
+	if (GetCurrentSystemMode() != SystemMode::PAUSE && ts->systemOverlayOn)
+		ts->systemOverlayOn = false;
 }
 
 /*!
@@ -313,6 +321,13 @@ void ToggleHelp(std::string input) {
 		if (gamehelpmenu != 0) {
 			ECS::ecs().DestroyEntity(gamehelpmenu);
 			gamehelpmenu = 0;
+		}
+
+		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+			UITutorialSystem* ts = events.GetTutorialSystem();
+			if (ts->systemOverlayOn) {
+				ts->MaintainLayers();
+			}
 		}
 	}
 	else {

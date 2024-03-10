@@ -29,7 +29,7 @@
     },
     {
         "Entity": {
-            "Name": "tutorial_08",
+            "Name": "tutorial_08a",
             "Current Layer": 6,
             "Order in Layer": 0,
             "isLocked": true,
@@ -42,7 +42,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 687.0,
+            "position_x": 165.0,
             "position_y": -299.9999694824219,
             "rotation": 0.0,
             "scale": 1.0,
