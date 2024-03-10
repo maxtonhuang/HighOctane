@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 31,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -34,7 +34,14 @@
                 "Layer 27",
                 "Layer 28",
                 "Layer 29",
-                "Layer 30"
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37"
             ]
         }
     },
@@ -124,7 +131,7 @@
             "height": 170.0
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
@@ -158,8 +165,8 @@
             "Default Text B": 1.0,
             "Default Text A": 1.0,
             "Hovered Button R": 0.0,
-            "Hovered Button G": 0.0,
-            "Hovered Button B": 1.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 0.47843137383461,
             "Hovered Button A": 1.0,
             "Hovered Text R": 1.0,
             "Hovered Text G": 1.0,

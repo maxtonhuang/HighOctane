@@ -1051,7 +1051,8 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
                     ECS::ecs().GetComponent<AnimationSet>(icon).Queue("Expand", icon);
                     deathAtStart = false;
                 }
-                else if (e != turnOrderQueueAnimator.back()) {
+                //else if (e != turnOrderQueueAnimator.back()) {
+                else {
                     ECS::ecs().GetComponent<AnimationSet>(e).Queue("Next Turn", e);
                 }
             }

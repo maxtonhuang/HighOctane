@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 4035,
+            "layerCounter": 4051,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -4038,7 +4038,23 @@
                 "Layer 4031",
                 "Layer 4032",
                 "Layer 4033",
-                "Layer 4034"
+                "Layer 4034",
+                "Layer 4035",
+                "Layer 4036",
+                "Layer 4037",
+                "Layer 4038",
+                "Layer 4039",
+                "Layer 4040",
+                "Layer 4041",
+                "Layer 4042",
+                "Layer 4043",
+                "Layer 4044",
+                "Layer 4045",
+                "Layer 4046",
+                "Layer 4047",
+                "Layer 4048",
+                "Layer 4049",
+                "Layer 4050"
             ]
         }
     },
@@ -4057,10 +4073,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 687.0,
-            "position_y": -284.86749267578125,
+            "position_x": 660.0,
+            "position_y": -230.0,
             "rotation": 0.0,
-            "scale": 1.100000023841858,
+            "scale": 1.2999999523162842,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
