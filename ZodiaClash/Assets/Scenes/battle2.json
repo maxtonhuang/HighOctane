@@ -218,25 +218,70 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "You have defeated Yang.",
+            "Text String": "Urgh...",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 1,
+            "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
-            "Background": false
+            "Background": true
         },
         "DialogueHUD": {
             "Dialogues": [
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "",
-                            "Line": "You have defeated Yang.",
-                            "Voice": ""
+                            "Speaker": "Yang",
+                            "Line": "Urgh...",
+                            "Voice": "Goat_1.ogg"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "What happened to you? Are you okay?",
+                            "Voice": "Mei_4.ogg"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "I think... I think I was not being myself earlier...",
+                            "Voice": "Goat_2.ogg"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "I think it's this artifact. I can't remember what exactly happened...",
+                            "Voice": "Goat_3.ogg"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Hold on, what about the Zodiac Race and others?",
+                            "Voice": "Mei_5.ogg"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "I'm not sure, but all I know is that there's something wrong with this artifact.",
+                            "Voice": "Goat_4.ogg"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "I hope the others are okay too...",
+                            "Voice": "Goat_5.ogg"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "...",
+                            "Voice": "Mei_6.ogg"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Very well, I will find the rest and destroy these artifacts.",
+                            "Voice": "Mei_7.ogg"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "Good luck, I will rest first. If need be, I will help you later.",
+                            "Voice": "Goat_6.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -246,9 +291,9 @@
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": false,
+                    "Speaker Required": true,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "tbc.scn"
+                    "Target Scene": "exploration3.scn"
                 },
                 {
                     "Dialogue Lines": [

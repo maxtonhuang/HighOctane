@@ -18,22 +18,62 @@ EXPLORATION_MAP_asset_rock.png
 Cat_Run.spritesheet
 Cat_Run.spritesheet
 exploration bg_03.png
+Leaf.png
+ox.png
+goat.png
+Ox_Idle.spritesheet
+Ox_Idle.spritesheet
+Mei_8.ogg
+footstep 8.wav
 Battle End_Edited.wav
+footstep 3.wav
+footstep 4.wav
+footstep 6.wav
+footstep 2.wav
+footstep 1.wav
+footstep 7.wav
+footstep 5.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Yin-Yang Strike.skill
-Heavenly Chi Surge.skill
-Celestial Annihilation will be cast next!.skill
-Shepherd's Grace.skill
-Unstoppable Thunder.skill
-Chi Surge.skill
-God of War's Challenge.skill
-Chi-Absorbing Blow.skill
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Scarlet Claw.skill
+Raging Soul Surge will be cast next!.skill
+Raging Soul Surge.skill
+.skill
+Cursed War God's Wrath.skill
+Dark Rising.skill
+Dark Chi Surge.skill
+Shield Smash.skill
+Unstoppable Charge.skill
 Dance of Fury.skill
 Secret Arts: Pounce.skill
-Heavenly Yin-Yang Strike.skill
-Heavenly Shepherd's Grace.skill
+Yin-Yang Strike.skill
+Chi Surge.skill
+Shepherd's Grace.skill
 Jade Thrust.skill
 exploration3.json

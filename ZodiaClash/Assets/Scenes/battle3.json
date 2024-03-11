@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 31,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,8 +33,7 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29",
-                "Layer 30"
+                "Layer 29"
             ]
         }
     },
@@ -159,7 +158,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -742.4500732421875,
+            "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -169,7 +168,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Prepare to utter your final words, cat!",
+            "Text String": "Urgh...",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -187,27 +186,27 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh...",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_5.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "It seems I was not resolute enough to withstand this curse as well.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_6.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "I am deeply apologetic for my actions.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_7.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Are the other animals also cursed by their artifacts?",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Mei_10.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "I'm not sure of it.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_8.ogg"
                         },
                         {
                             "Speaker": "Yang",
@@ -217,22 +216,22 @@
                         {
                             "Speaker": "Niu",
                             "Line": "One thing is evident, the Zodiac Race was a deceitful scheme.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_9.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Like both of you, I want to know what exactly happened.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_10.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Allow me to right my wrongs by joining you in your journey.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_11.ogg"
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "For deceiving the entirety of Ancient China to fulfil his own selfish desires...",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Line": "For deceiving the entirety of Ancient China, just to fulfil his own selfish desires...",
+                            "Voice": "Ox_12.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -251,7 +250,7 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Prepare to utter your final words, cat!",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_1.ogg"
                         }
                     ],
                     "Trigger Type": 3,
@@ -270,17 +269,17 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Huh?",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_2.ogg"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Support is here!",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Goat_7.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Alright, now let's wake this ox up.",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Mei_9.ogg"
                         }
                     ],
                     "Trigger Type": 3,
@@ -299,12 +298,12 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh... you are strong...",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_3.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "But by my decree, you shall not pass!",
-                            "Voice": "Skill Select_Edited.wav"
+                            "Voice": "Ox_4.ogg"
                         }
                     ],
                     "Trigger Type": 4,
