@@ -1648,8 +1648,7 @@ void UIDialogueSystem::Update() {
 		if (!(parentData->children.empty())) {
 			Entity childEntity = parentData->children.front();
 
-			if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated && 
-				dialogueHudData->currentDialogue->isActive &&
+			if (dialogueHudData->currentDialogue->isActive &&
 				dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 				Child* childData = &childArray.GetData(childEntity);
 				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
@@ -1666,11 +1665,14 @@ void UIDialogueSystem::Update() {
 				float parentAlpha = modelData->GetAlpha();
 				speakerModelData->SetAlpha(parentAlpha);
 
-				events.Call("Stop Group", "VOC");
-				events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+				if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
+					events.Call("Stop Group", "SFX");
+					events.Call("Play Sound", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+
+					dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
+				}
 
 				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
-				dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
