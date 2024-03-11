@@ -186,12 +186,12 @@
                         {
                             "Speaker": "Mei",
                             "Line": "This feels wrong. Why are these statues alive? Isn't this the Jade Emperor's statues?",
-                            "Voice": "Cutscene_Mei_2.ogg"
+                            "Voice": "Mei_2.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "I feel a sinister aura here.",
-                            "Voice": "Cutscene_Mei_3.ogg"
+                            "Voice": "Mei_3.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -210,7 +210,7 @@
                         {
                             "Speaker": "Mei",
                             "Line": "Stop! What is happening...?",
-                            "Voice": "Cutscene_Mei_1.ogg"
+                            "Voice": "Mei_1.ogg"
                         }
                     ],
                     "Trigger Type": 2,
