@@ -280,11 +280,7 @@ void ToggleBattleInfo(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
-	if (bs->attackingAnimation) {
-		return;
-	}
-
-	if (ts->overlayOn && (ts->stepIndex != 3)) {
+	if (bs->attackingAnimation || ts->overlayOn) {
 		return;
 	}
 
