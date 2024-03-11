@@ -282,6 +282,11 @@
                             "Speaker": "Yang",
                             "Line": "Good luck, I will rest first. If need be, I will help you later.",
                             "Voice": "Goat_6.ogg"
+                        },
+                        {
+                            "Speaker": "Yang",
+                            "Line": "May the heavens bless you...",
+                            "Voice": "Goat_8.ogg"
                         }
                     ],
                     "Trigger Type": 5,
