@@ -78,28 +78,13 @@
                         },
                         {
                             "Speaker": "",
-                            "Line": "From then on, people would worship them as the greatest animals in Ancient China. Hence, animals from all over Ancient China sent their strongest representatives to participate in the race.",
+                            "Line": "From then on, people would also worship them as the greatest animals in Ancient China. Hence, animals from all over Ancient China sent their strongest representatives to participate in the race.",
                             "Voice": "Cutscene_VO_4.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "Mei (cat), chosen by the family of Cats, would then journey towards the Jade Mountains to fight for a place for the artifacts.",
-                            "Voice": "Cutscene_Ox_5.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "Shu (rat), best friend of Mei, was also chosen to fight in the race. The day before, Shu promised to wake Mei up for the race and compete fairly.",
-                            "Voice": "Cutscene_VO_6.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "However, on the day of the race, Shu did not wake Mei up. Mei only realised when she woke up past noon.",
-                            "Voice": "Cutscene_VO_7.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "Furious and offended by Shu's betrayal, Mei travelled towards the top of the mountains seeking Shu for answers.",
-                            "Voice": "Cutscene_VO_8.ogg"
+                            "Voice": "Cutscene_VO_5.ogg"
                         }
                     ],
                     "Trigger Type": 0,
@@ -111,7 +96,7 @@
                     "Is Triggered": false,
                     "Speaker Required": false,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "exploration1.scn"
+                    "Target Scene": "beginning_cutscene2.scn"
                 }
             ]
         },
