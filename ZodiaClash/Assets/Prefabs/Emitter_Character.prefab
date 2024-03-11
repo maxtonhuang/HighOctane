@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 29,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -30,7 +30,9 @@
                 "Layer 23",
                 "Layer 24",
                 "Layer 25",
-                "Layer 26"
+                "Layer 26",
+                "Layer 27",
+                "Layer 28"
             ]
         }
     },
@@ -61,13 +63,13 @@
             "Emitter Lifetime": 0.30000004172325134,
             "Emitter PositionX": 0.0,
             "Emitter PositionY": 550.0,
-            "Particles SizeX": 10.0,
-            "Particles SizeY": 10.0,
+            "Particles SizeX": 15.0,
+            "Particles SizeY": 15.0,
             "Particles ColorR": 1.0,
             "Particles ColorG": 1.0,
             "Particles ColorB": 1.0,
             "Particles ColorA": 1.0,
-            "Frequency": 2.0,
+            "Frequency": 4.0,
             "Particle Lifetime": 0.5,
             "Rotation": 0.0,
             "Rotation Speed": 0.0,
