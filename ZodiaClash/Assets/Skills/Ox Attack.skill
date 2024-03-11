@@ -1,0 +1,13 @@
+[
+    {
+        "Name": "Shield Thrust",
+	"Texture": "skill_icon_basic.png",
+	"Tooltip": "catSkill1_tooltip.prefab",
+        "Type": 0,
+        "Skill Attack": 70,
+        "Minimum Attack Multiplier": 0.7,
+        "Maximum Attack Multiplier": 1.3,
+        "Crit Rate": 0.3,
+        "Crit Multiplier": 1.2
+    }
+]

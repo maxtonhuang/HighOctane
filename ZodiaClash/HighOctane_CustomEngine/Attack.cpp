@@ -49,11 +49,14 @@ void Attack::UseAttack(CharacterStats* target) {
 
     CalculateDamage(*target);
 
+    //Cat ult
     if (attackName == "Secret Arts: Pounce") {
         while (target->debuffs.bloodStack) {
             target->ApplyBloodStack();
         }
+    
     }
+    //Enemy goat attack
     else if (attackName == "Raging Soul Surge") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
@@ -61,6 +64,7 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->charge = false;
         }
     }
+    //Player goat attack
     else if (attackName == "Yin-Yang Strike") {
         if (rand(gen) > 0.6f) {
             target->buffs.attackStack = 0;
@@ -69,18 +73,21 @@ void Attack::UseAttack(CharacterStats* target) {
             target->buffs.defenseBuff = 0.f;
         }
     }
+    //Enemy goat heal
     else if (attackName == "Dark Rising") {
         damage = -0.3f * owner->stats.maxHealth;
         target->debuffs.bloodStack = 0;
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
+    //Player goat heal
     else if (attackName == "Shepherd's Grace") {
         damage = -0.3f * owner->stats.maxHealth;
         target->debuffs.bloodStack = 0;
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
     }
+    //Enemy goat speedup
     else if (attackName == "Dark Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
@@ -89,43 +96,40 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
     }
+    //Player goat speedup
     else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
         target->buffs.attackStack = 2;
     }
+    //Enemy goat charge
     else if (attackName == "Raging Soul Surge will be cast next!") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }
         owner->charge = true;
     }
-    else if (attackName == "Chi-Absorbing Blow") {
+    //Player ox attack
+    else if (attackName == "Shield Thrust") {
         target->debuffs.defenseDebuff = 0.5f;
         target->debuffs.defenseStack = 2;
-        //if (owner->cycle > 0 && owner->charge) {
-        //    owner->action.battleManager->aiMultiplier += 100000;
-        //    owner->cycle = owner->cycle >= 3 ? 0 : owner->cycle + 1;
-        //    printf("Attack 1 %d\n", owner->cycle);
-        //}
     }
+    //Enemy ox attack
     else if (attackName == "Shield Smash") {
         if (owner->cycle > 0 && owner->charge) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle = owner->cycle > 2 ? 0 : owner->cycle + 1;
         }
     }
+    //Enemy ox skill
+    else if (attackName == "Resolute Charge") {
+        target->debuffs.stunStack += 1;
+    }
+    //Enemy ox skill
     else if (attackName == "Unstoppable Charge") {
         target->debuffs.stunStack += 1;
-        if (owner->cycle > 0 && !owner->charge) {
-            owner->action.battleManager->aiMultiplier += 100000;
-            owner->cycle = owner->cycle >= 3 ? 0 : owner->cycle + 1;
-            if (owner->cycle > 2) {
-                owner->cycle = 0;
-                owner->charge = true;
-            }
-        }
     }
+    //Enemy ox ult
     else if (attackName == "Cursed War God's Wrath") {
         target->debuffs.tauntStack += 1;
         target->debuffs.tauntTarget = owner->entity;
@@ -136,6 +140,13 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->cycle = 1;
         }
     }
+    //Player ox ult
+    else if (attackName == "War God's Wrath") {
+        target->debuffs.tauntStack += 1;
+        target->debuffs.tauntTarget = owner->entity;
+        owner->buffs.defenseBuff = 0.5f;
+        owner->buffs.defenseStack = 2;
+    }
 
     target->debuffs.bloodStack += bleed;
     if (target->debuffs.bloodStack > 5) {
@@ -144,6 +155,10 @@ void Attack::UseAttack(CharacterStats* target) {
 
     if (damage > 0 && target->tag == owner->tag) {
         owner->action.battleManager->aiMultiplier -= 100000;
+    }
+
+    if (owner->debuffs.tauntTarget == target->entity) {
+        owner->action.battleManager->aiMultiplier += 10000;
     }
 
     target->TakeDamage(damage);

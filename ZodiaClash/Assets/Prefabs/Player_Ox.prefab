@@ -1,0 +1,642 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 29,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Player_Ox",
+            "Current Layer": 0,
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 571.5005493164063,
+            "position_y": 177.0,
+            "rotation": 6.2831854820251465,
+            "scale": 0.34200000762939453,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Ox_Idle.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 958.0,
+            "height": 959.0
+        },
+        "CharacterStats": {
+            "Character type": 0,
+            "Max Health": 175.0,
+            "Health": 175.0,
+            "Attack": 15.0,
+            "Defense": 40.0,
+            "Speed": 3,
+            "Icon": "ox_pfp.png",
+            "Boss": false,
+            "Skills": [
+                "Shield Thrust",
+                "Resolute Charge",
+                "War God's Wrath"
+            ]
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": true
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 5,
+                "Group Name": "Attack Start",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Zoom": 1.75
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Target": "Attack Position"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 11,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Red": 1.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Ox Damaged_Edited.wav",
+                                    "Ox Damaged2_Edited.wav",
+                                    "Ox Damaged3_Edited.wav",
+                                    "Ox Damaged4_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Damaged.spritesheet"
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Texture": "Ox_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 14,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Prefab": "VFX_Hit.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Sounds": [
+                                    "Ox Atk 1_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 13,
+                                "Destination": "Attack End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Basic.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 16,
+                "Group Name": "Attack 2 Main",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6,
+                                "Prefab": "VFX_Hit.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6,
+                                "Sounds": [
+                                    "Ox Atk 2_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Destination": "Attack 2 End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Skill.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 10,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 15,
+                "Group Name": "Attack 3",
+                "Loop": false,
+                "Frame Time": 0.07999999821186066,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6,
+                                "Sounds": [
+                                    "Ox Atk 3_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 14,
+                                "Destination": "Attack End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6,
+                                "Prefab": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Ulti.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 9,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Prefab": "Ox_Ulti_VFX.prefab"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Attack End",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Target": "Return Position"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Texture": "Ox_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 4,
+                "Group Name": "Idle",
+                "Loop": true,
+                "Frame Time": 0.4000000059604645,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 8,
+                "Group Name": "Death",
+                "Loop": false,
+                "Frame Time": 0.15000000596046448,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Ox Damaged4_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Death.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Attack 2 End",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": -0.07000000029802322
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Attack End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Ox_Idle.spritesheet"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Attack 2",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.07000000029802322
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Attack 2 Main"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Idle"
+    }
+]

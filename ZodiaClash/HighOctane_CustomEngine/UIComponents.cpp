@@ -886,8 +886,12 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
 	static auto& emitterArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Emitter>() };
 
+	if (!charstats) {
+		return;
+	}
+
 	//Initialise entity emitter if it does not already have one
-	if (!emitterArray.HasComponent(charstats->entity)) {
+	if (charstats && !emitterArray.HasComponent(charstats->entity)) {
 		Entity cEmitter = EntityFactory::entityFactory().ClonePrefab("Emitter_Character.prefab");
 		Emitter newEmitter{ emitterArray.GetData(cEmitter) };
 		ECS::ecs().AddComponent<Emitter>(charstats->entity, newEmitter);
@@ -1003,6 +1007,10 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
 	static auto& emitterArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Emitter>() };
+
+	if (!charstats) {
+		return;
+	}
 
 	if (!emitterArray.HasComponent(charstats->entity)) {
 		Entity cEmitter = EntityFactory::entityFactory().ClonePrefab("Emitter_Character.prefab");

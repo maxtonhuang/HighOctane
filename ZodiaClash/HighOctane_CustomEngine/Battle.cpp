@@ -129,6 +129,7 @@ void BattleSystem::StartBattle() {
     chi = 3;
     speedup = false;
     aiMultiplier = 0;
+    skillTooltipCalled = false;
 
     if (DetermineTurnOrder() == false) {
         return;
@@ -1071,6 +1072,7 @@ void BattleSystem::CreateTargets() {
         int count = 0;
         for (CharacterStats* ally : allyList) {
             if (ally->entity == activeCharacter->entity) {
+                count++;
                 continue;
             }
             Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
