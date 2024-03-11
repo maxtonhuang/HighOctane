@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,10 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
             ]
         }
     },
@@ -45,7 +48,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 0.0,
+            "position_y": 270.0,
             "rotation": 0.0,
             "scale": 1.4233474731445313,
             "velocity_x": 0.0,
