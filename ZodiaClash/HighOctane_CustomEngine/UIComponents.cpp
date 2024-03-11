@@ -1394,7 +1394,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 				currentDialogue = nullptr;
 				battleSys->ProcessDamage();
 			}
-			battleSys->MoveInAllUIAnimation();
+			//battleSys->MoveInAllUIAnimation();
 			animationArray.GetData(entity).Start("Exit", entity);
 		}
 	}
