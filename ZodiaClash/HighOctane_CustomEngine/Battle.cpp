@@ -489,6 +489,9 @@ void BattleSystem::AddCharacter(Entity addition) {
     }
     transformArray.GetData(healthbar).position.y += hp_offset;
     animationArray.GetData(healthbar).Start("Pop In", healthbar);
+    if (dialogueCalled) {
+        animationArray.GetData(healthbar).Queue("Pop Out", healthbar);
+    }
     animator.healthbar = healthbar;
     animator.turnorder = turnUI;
     animator.healthbarIcon = parentArray.GetData(healthbar).GetChildByName("hpBarIcon");
@@ -500,9 +503,10 @@ void BattleSystem::AddCharacter(Entity addition) {
     allBattleUI.push_back(healthbar);
 
     animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
-    //transformArray.GetData(turnOrderAnimator).position.x += sizeArray.GetData(turnUI).width * 0.25f;
-    //printf("%f\n", sizeArray.GetData(turnUI).width);
     animationArray.GetData(turnUI).Start("Shift In", turnUI);
+    if (dialogueCalled) {
+        animationArray.GetData(turnUI).Queue("Move Out",turnUI);
+    }
     animator.turnorderIcon = parentArray.GetData(turnUI).GetChildByName("turnOrderIcon");
     texArray.GetData(animator.turnorderIcon).tex = assetmanager.texture.Get(m->icon.c_str());
     turnOrderQueueAnimator.push_back(turnUI);
@@ -1309,6 +1313,27 @@ void BattleSystem::MoveInUIAnimation() {
         animationArray.GetData(e).Start("Pop In", e);
     }
     attackingAnimation = false;
+}
+
+//Calls "Pop Out" animation for all UI, to remove UI during attacking animations
+void BattleSystem::MoveOutAllUIAnimation() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    for (Entity& e : allBattleUI) {
+        animationArray.GetData(e).Start("Pop Out", e);
+    }
+    for (Entity& e : turnOrderQueueAnimator) {
+        animationArray.GetData(e).Start("Move Out", e);
+    }
+}
+//Calls "Pop In" animation for all UI, to add back UI after attacking
+void BattleSystem::MoveInAllUIAnimation() {
+    static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    for (Entity& e : allBattleUI) {
+        animationArray.GetData(e).Start("Pop In", e);
+    }
+    for (Entity& e : turnOrderQueueAnimator) {
+        animationArray.GetData(e).Start("Move In", e);
+    }
 }
 
 void BattleSystem::AnimateRemoveHealthBar(Entity entity) {

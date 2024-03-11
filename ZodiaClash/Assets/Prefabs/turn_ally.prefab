@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 29,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -27,7 +27,12 @@
                 "Layer 20",
                 "Layer 21",
                 "Layer 22",
-                "Layer 23"
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28"
             ]
         }
     },
@@ -400,6 +405,46 @@
                                 "Red": 0.21176470816135406,
                                 "Green": 0.47058823704719543,
                                 "Blue": 0.16078431904315948
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Move Out",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": -200.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Move In",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "X movement": 0.0,
+                                "Y movement": 200.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
                             }
                         ]
                     }

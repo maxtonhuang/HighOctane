@@ -137,10 +137,16 @@ public:
 	//Updates targets for battle system UI animations
 	void UpdateTargets();
 
-	//Calls "Pop Out" animation for all UI, to remove UI during attacking animations
+	//Calls "Pop Out" animation for skill UI, to remove UI during attacking animations
 	void MoveOutUIAnimation();
-	//Calls "Pop In" animation for all UI, to add back UI after attacking
+	//Calls "Pop In" animation for skill UI, to add back UI after attacking
 	void MoveInUIAnimation();
+
+	//Calls "Pop Out" animation for all UI, to remove UI during attacking animations
+	void MoveOutAllUIAnimation();
+	//Calls "Pop In" animation for all UI, to add back UI after attacking
+	void MoveInAllUIAnimation();
+
 	void SwitchTurnOrder(CharacterStats* target);
 	void RevertTurnOrder(CharacterStats* target);
 

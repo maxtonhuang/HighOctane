@@ -1309,6 +1309,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		}
 		dialogueCalledNum++;
 		battleSys->dialogueCalled = dialogueCalledNum;
+		battleSys->MoveOutAllUIAnimation();
 	}
 }
 
@@ -1393,6 +1394,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 				currentDialogue = nullptr;
 				battleSys->ProcessDamage();
 			}
+			battleSys->MoveInAllUIAnimation();
 			animationArray.GetData(entity).Start("Exit", entity);
 		}
 	}

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 47,
+            "layerCounter": 56,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -50,7 +50,16 @@
                 "Layer 43",
                 "Layer 44",
                 "Layer 45",
-                "Layer 46"
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55"
             ]
         }
     },
@@ -62,7 +71,6 @@
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -119,7 +127,7 @@
         },
         "Transform": {
             "position_x": 289.0,
-            "position_y": 283.0,
+            "position_y": 242.0,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,
@@ -240,7 +248,7 @@
         "Animation Set Default Animation": "",
         "Child": {
             "position_x": 289.0,
-            "position_y": 283.0,
+            "position_y": 242.0,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,
