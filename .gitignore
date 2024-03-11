@@ -10,11 +10,16 @@
 *.userosscache
 *.sln.docstates
 
+# Temporary scene files
+tmp.scn
+tmp.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
 # Mono auto generated files
 mono_crash.*
+HighOctane_CSharpScript.dll
 
 # Build results
 [Dd]ebug/
