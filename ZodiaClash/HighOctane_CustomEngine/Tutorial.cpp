@@ -95,10 +95,12 @@ void UITutorialSystem::UpdateState() {
 		SurfaceTargetLayers(entityList);
 		break;
 	case 3:
-		// view enemy skills
+		// view enemy skills - battleinfo
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_04.prefab");
-		// TODO: add button for tooltip
-		RevertLayers();
+		
+		entityList.push_back(battleSys->battleInfoButton);
+		GetChildren(entityList);
+		SurfaceTargetLayers(entityList);
 		break;
 	case 4:
 		// turn order
@@ -147,7 +149,6 @@ void UITutorialSystem::UpdateState() {
 		for (CharacterStats* c : battleSys->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
-		entityList.push_back(battleSys->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 		break;
@@ -184,7 +185,6 @@ void UITutorialSystem::UpdateState() {
 		for (CharacterStats* c : battleSys->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
-		entityList.push_back(battleSys->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 		break;
@@ -228,16 +228,28 @@ void UITutorialSystem::UpdateState() {
 void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	BattleSystem* bs = events.GetBattleSystem();
+	std::vector<Entity> entityList{};
 
 	if ((GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EXITCONFIRM)) {
 		result = false;
 		return;
 	}
 
-	if (!((stepIndex >= 7) && (stepIndex <= 10)))
-		return;
-
 	switch (stepIndex) {
+	case 3:
+		 // return false if battleinfo tooltip is open
+		if (ECS::ecs().EntityExists(bs->battleinfo))
+		{
+			entityList.push_back(bs->battleinfo);
+			result = false;
+		}
+
+		// SP: ensure battleInfoButton & battleinfo is surfaced
+		entityList.push_back(bs->battleInfoButton);		
+		GetChildren(entityList);
+		SurfaceTargetLayers(entityList);
+
+		break;
 	case 7:
 	{
 		// return false if mouse click is not on skill button 1
@@ -258,11 +270,10 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 		result = false;
 
 		// SP: ensure targetCircle is surfaced
-		std::vector<Entity> entityList = bs->targetCircleList;
+		entityList = bs->targetCircleList;
 		for (CharacterStats* c : bs->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
-		entityList.push_back(bs->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 
@@ -298,14 +309,13 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 		for (CharacterStats* c : bs->GetEnemies()) {
 			entityList.push_back(c->entity);
 		}
-		entityList.push_back(bs->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 
 		break;
 	}
 	default:
-		break;
+		return;
 	}
 }
 
@@ -379,15 +389,6 @@ void UITutorialSystem::SurfaceTargetLayers(const std::vector<Entity> entities) {
 		TransferToLayer(pair.first, newLayer);
 		modifiedLayers.push_back(std::make_pair(pair.first, newLayer));
 	}
-
-	/*for (const Entity& e : entities) {
-		size_t layer = FindInLayer(e).first;
-		size_t newLayer = (highestLayer >= 0) ? topLayer - (highestLayer - layer) : layer;
-
-		originalLayers.push_back(std::make_pair(e, layer));
-		TransferToLayer(e, newLayer);
-		modifiedLayers.push_back(std::make_pair(e, newLayer));
-	}*/
 }
 
 void UITutorialSystem::RevertLayers() {
