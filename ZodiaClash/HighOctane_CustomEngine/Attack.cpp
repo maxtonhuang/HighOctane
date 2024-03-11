@@ -128,6 +128,14 @@ void Attack::UseAttack(CharacterStats* target) {
     //Enemy ox skill
     else if (attackName == "Unstoppable Charge") {
         target->debuffs.stunStack += 1;
+        if (owner->cycle > 0 && !owner->charge) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = owner->cycle > 2 ? 0 : owner->cycle + 1;
+            if (owner->cycle > 2) {
+                owner->cycle = 0;
+                owner->charge = true;
+            }
+        }
     }
     //Enemy ox ult
     else if (attackName == "Cursed War God's Wrath") {

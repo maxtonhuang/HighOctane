@@ -1697,8 +1697,8 @@ void UIDialogueSystem::Update() {
 				speakerModelData->SetAlpha(parentAlpha);
 
 				if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
-					events.Call("Stop Group", "SFX");
-					events.Call("Play Sound", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+					events.Call("Stop Group", "VOC");
+					events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
 
 					dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
 				}

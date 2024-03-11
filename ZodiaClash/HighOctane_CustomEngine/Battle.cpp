@@ -383,6 +383,8 @@ void BattleSystem::Update()
                 ProcessDamage();
             }
             for (CharacterStats* c : deadchars) {
+                AnimateRemoveTurnOrder(c->entity);
+                AnimateRemoveHealthBar(c->entity);
                 turnManage.turnOrderList.remove(c);
                 turnManage.originalTurnOrderList.remove(c);
                 turnManage.characterList.remove(*c);
@@ -695,8 +697,8 @@ void BattleSystem::ProcessDamage() {
                 cs->debuffs = CharacterStats::debuff{};
                 cs->buffs = CharacterStats::buff{};
                 model->SetAlpha(0.2f);
-                AnimateRemoveTurnOrder(entity);
-                AnimateRemoveHealthBar(entity);
+                //AnimateRemoveTurnOrder(entity);
+                //AnimateRemoveHealthBar(entity);
                 if (cs->tag == CharacterType::PLAYER) {
                     std::vector<CharacterAnimator> newAnimators{};
                     for (CharacterAnimator& ca : allyAnimators) {

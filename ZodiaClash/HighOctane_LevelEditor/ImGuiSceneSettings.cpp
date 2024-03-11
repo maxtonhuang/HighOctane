@@ -125,12 +125,13 @@ void UpdateSceneSettingsWindow() {
 	ImGui::DragFloat("Game Sounds", &sfxVolume, 0.1f, 0.f, 1.f);
 	ImGui::DragFloat("Music", &bgmVolume, 0.1f, 0.f, 1.f);
 	ImGui::DragFloat("Environmental", &envVolume, 0.1f, 0.f, 1.f);
-	ImGui::DragFloat("Voice", &envVolume, 0.1f, 0.f, 1.f);
+	ImGui::DragFloat("Voice", &vocVolume, 0.1f, 0.f, 1.f);
 
 	assetmanager.audio.SetGroupVolume("Master", masterVolume);
 	assetmanager.audio.SetGroupVolume("SFX", sfxVolume);
 	assetmanager.audio.SetGroupVolume("BGM", bgmVolume);
 	assetmanager.audio.SetGroupVolume("ENV", envVolume);
+	assetmanager.audio.SetGroupVolume("VOC", vocVolume);
 
 	ImGui::Separator();
 	ImGui::Text("Loaded Assets:");

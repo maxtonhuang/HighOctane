@@ -1042,6 +1042,7 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				}
 			}
 
+			//Update character emitters
 			Emitter& emitter{ emitterArray.GetData(charstats->entity) };
 			std::vector<std::string> newTextureList{};
 			for (std::string& str : emitter.textures) {
@@ -1077,6 +1078,7 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 					textureArray.GetData(child).tex = assetmanager.texture.Get(effectIcon.c_str());
 				}
 
+				//Update character emitters
 				Emitter& emitter{ emitterArray.GetData(charstats->entity) };
 				bool found{ false };
 				for (std::string& str : emitter.textures) {
