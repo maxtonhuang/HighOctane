@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 23,
+            "layerCounter": 27,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -26,13 +26,17 @@
                 "Layer 19",
                 "Layer 20",
                 "Layer 21",
-                "Layer 22"
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "Emitter",
+            "Name": "Character Emitter",
             "Current Layer": 0,
             "Order in Layer": 4,
             "isLocked": true,
@@ -40,7 +44,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 550.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -50,8 +54,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 1920.0,
-            "height": 10.0
+            "width": 256.0,
+            "height": 256.0
         },
         "Emitter": {
             "Emitter Lifetime": 0.30000004172325134,
@@ -64,14 +68,14 @@
             "Particles ColorB": 1.0,
             "Particles ColorA": 1.0,
             "Frequency": 2.0,
-            "Particle Lifetime": 1.0,
-            "Rotation": 180.0,
-            "Rotation Speed": 0.5,
-            "VelocityX": 150.0,
-            "VelocityY": -300.0,
-            "Single Sided": true,
+            "Particle Lifetime": 0.5,
+            "Rotation": 0.0,
+            "Rotation Speed": 0.0,
+            "VelocityX": 100.0,
+            "VelocityY": 300.0,
+            "Single Sided": false,
             "Textures": [
-                "Leaf.png"
+                ""
             ]
         },
         "Model": {

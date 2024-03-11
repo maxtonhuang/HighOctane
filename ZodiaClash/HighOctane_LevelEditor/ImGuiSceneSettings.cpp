@@ -118,12 +118,14 @@ void UpdateSceneSettingsWindow() {
 	float sfxVolume{ assetmanager.audio.GetGroupVolume("SFX") };
 	float bgmVolume{ assetmanager.audio.GetGroupVolume("BGM") };
 	float envVolume{ assetmanager.audio.GetGroupVolume("ENV") };
+	float vocVolume{ assetmanager.audio.GetGroupVolume("VOC") };
 
 	ImGui::Text("Volume Settings");
 	ImGui::DragFloat("Master", &masterVolume, 0.1f, 0.f, 1.f);
 	ImGui::DragFloat("Game Sounds", &sfxVolume, 0.1f, 0.f, 1.f);
 	ImGui::DragFloat("Music", &bgmVolume, 0.1f, 0.f, 1.f);
 	ImGui::DragFloat("Environmental", &envVolume, 0.1f, 0.f, 1.f);
+	ImGui::DragFloat("Voice", &envVolume, 0.1f, 0.f, 1.f);
 
 	assetmanager.audio.SetGroupVolume("Master", masterVolume);
 	assetmanager.audio.SetGroupVolume("SFX", sfxVolume);

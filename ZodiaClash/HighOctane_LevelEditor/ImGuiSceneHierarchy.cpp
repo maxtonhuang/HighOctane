@@ -1122,6 +1122,8 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::InputFloat2("Size", &emitter.size.x);
 			ImGui::InputFloat2("Velocity", &emitter.velocity.x);
 
+			ImGui::Checkbox("Single Sided Velocity", &emitter.singleSided);
+
 			ImGui::ColorEdit4("Particle Color", &(emitter.particleColor.color.r));
 
 			ImGui::InputInt("Particles Rate", &emitter.particlesRate);
@@ -1132,6 +1134,24 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::InputFloat("Particle Lifetime", &emitter.particleLifetime);
 			ImGui::InputFloat("Emitter Lifetime", &emitter.emitterLifetime);
 			ImGui::InputFloat("Frequency", &emitter.frequency);
+			ImGui::InputFloat("Fade", &emitter.fadeDecay);
+
+			int count{ 1 };
+			
+			for (std::string& texture : emitter.textures) {
+				std::stringstream label{};
+				label << "Texture " << count;
+				ImGui::InputText(label.str().c_str(), &texture);
+				count++;
+			}
+			std::string newTexture{};
+			std::stringstream label{};
+			label << "Texture " << count;
+			ImGui::InputText(label.str().c_str(), &newTexture);
+			if (newTexture != "") {
+				emitter.textures.push_back(newTexture);
+			}
+
 			ImGui::TreePop();
 		}
 	}

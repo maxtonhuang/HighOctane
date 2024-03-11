@@ -48,6 +48,7 @@
 #include "Layering.h"
 #include "Animation.h"
 #include "Tutorial.h"
+#include "Particles.h"
 
 vmath::Vector2 uiMousePos{ RESET_VEC2 };
 
@@ -883,6 +884,15 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+	static auto& emitterArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Emitter>() };
+
+	//Initialise entity emitter if it does not already have one
+	if (!emitterArray.HasComponent(charstats->entity)) {
+		Entity cEmitter = EntityFactory::entityFactory().ClonePrefab("Emitter_Character.prefab");
+		Emitter newEmitter{ emitterArray.GetData(cEmitter) };
+		ECS::ecs().AddComponent<Emitter>(charstats->entity, newEmitter);
+		EntityFactory::entityFactory().DeleteCloneModel(cEmitter);
+	}
 
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
@@ -906,6 +916,16 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 					}
 				}
 			}
+
+			Emitter& emitter{ emitterArray.GetData(charstats->entity) };
+			std::vector<std::string> newTextureList{};
+			for (std::string& str : emitter.textures) {
+				if (str != effectIcon) {
+					newTextureList.push_back(str);
+				}
+			}
+			emitter.textures = newTextureList;
+			emitter.particlesRate = emitter.textures.size();
 		}
 		else {
 			if ((statuslabel == 0) && (stacks > 0)) {
@@ -931,6 +951,19 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 					Entity child{ parentArray.GetData(statuslabel).children[0] };
 					textureArray.GetData(child).tex = assetmanager.texture.Get(effectIcon.c_str());
 				}
+
+				Emitter& emitter{ emitterArray.GetData(charstats->entity) };
+				bool found{ false };
+				for (std::string& str : emitter.textures) {
+					if (str == effectIcon) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					emitter.textures.push_back(effectIcon);
+				}
+				emitter.particlesRate = emitter.textures.size();
 			}
 		}
 	}
@@ -969,6 +1002,14 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	static auto& textureArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
+	static auto& emitterArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Emitter>() };
+
+	if (!emitterArray.HasComponent(charstats->entity)) {
+		Entity cEmitter = EntityFactory::entityFactory().ClonePrefab("Emitter_Character.prefab");
+		Emitter newEmitter{ emitterArray.GetData(cEmitter)};
+		ECS::ecs().AddComponent<Emitter>(charstats->entity, newEmitter);
+		EntityFactory::entityFactory().DeleteCloneModel(cEmitter);
+	}
 
 	for (int i = 0; i < StatusEffect::LASTEFFECT; i++) {
 		StatusEffect::StatusType status{ static_cast<StatusEffect::StatusType>(i) };
@@ -992,6 +1033,16 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 					}
 				}
 			}
+
+			Emitter& emitter{ emitterArray.GetData(charstats->entity) };
+			std::vector<std::string> newTextureList{};
+			for (std::string& str : emitter.textures) {
+				if (str != effectIcon) {
+					newTextureList.push_back(str);
+				}
+			}
+			emitter.textures = newTextureList;
+			emitter.particlesRate = emitter.textures.size();
 		}
 		else {
 			if ((statuslabel == 0) && (stacks > 0)) {
@@ -1017,6 +1068,19 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 					Entity child{ parentArray.GetData(statuslabel).children[0] };
 					textureArray.GetData(child).tex = assetmanager.texture.Get(effectIcon.c_str());
 				}
+
+				Emitter& emitter{ emitterArray.GetData(charstats->entity) };
+				bool found{ false };
+				for (std::string& str : emitter.textures) {
+					if (str == effectIcon) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					emitter.textures.push_back(effectIcon);
+				}
+				emitter.particlesRate = emitter.textures.size();
 			}
 		}
 	}

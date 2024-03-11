@@ -403,7 +403,7 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Emitter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
-		signature.set(ECS::ecs().GetComponentType<Particle>());
+		//signature.set(ECS::ecs().GetComponentType<Particle>());
 
 		ECS::ecs().SetSystemSignature<EmitterSystem>(signature);
 	}
@@ -694,6 +694,7 @@ void EngineCore::Run(bool const& mode) {
 			scriptingSystem->Initialize();
 			battleSystem->Initialize();
 			uiTutorialSystem->Initialize();
+			particles.ResetParticles();
 			initLevel = false;
 			newScene = false;
 		}

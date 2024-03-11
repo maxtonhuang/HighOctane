@@ -453,7 +453,7 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 							transform.position.x = currentMousePosition.x - name.draggingOffset.x;
 							transform.position.y = currentMousePosition.y - name.draggingOffset.y;
 
-							if (snappingOn) {
+							if (snappingOn && model) {
 
 								// Snapping
 

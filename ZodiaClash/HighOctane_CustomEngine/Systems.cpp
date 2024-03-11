@@ -194,29 +194,54 @@ void EmitterSystem::Update()
 {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		// Ensure that skip and lock logic is applied as intended
 		//if (layersToSkip[layer_it] || !layersToLock[layer_it]) continue;
 
 		//for (Entity& entity : layering[layer_it]) {
-		for (Entity& entity : emitterArray.GetEntityArray()) {
+		for (Entity entity : m_Entities) {
 
 			// Check if entity should be skipped or is not locked as intended
 			//if (entitiesToSkip[static_cast<uint32_t>(entity)] || !entitiesToLock[static_cast<uint32_t>(entity)] || !ECS::ecs().EntityExists(entity)) continue;
 
 			if (ECS::ecs().HasComponent<Emitter>(entity)) {
 				Emitter* emitter = &ECS::ecs().GetComponent<Emitter>(entity);
+
+				if (emitter->textures.size() == 0) {
+					continue;
+				}
+
 				emitter->emitterLifetime += FIXED_DT;
+
+				//Initialise emitter
+				//if (emitter->size.x == 0 && emitter->size.y == 0) {
+				//	emitter->size.x = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale;
+				//	emitter->size.y = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale;
+				//}
+
+				emitter->position = transformArray.GetData(entity).position;
+				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
+				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
+				std::random_device rd;
+				std::mt19937 gen(rd());
+				// Create a uniform distribution
+				std::uniform_real_distribution<float> dis(-1.f, 1.f);
+				std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
+
 				if (emitter->emitterLifetime >= emitter->frequency) {
 					for (int i = 0; i < emitter->particlesRate; ++i) {
 						// Here, you might introduce randomness or variations based on the emitter's properties
-						Vec2 position = emitter->position; // Plus any offset or randomness
+						Vec2 position = emitter->position + Vec2{dis(gen) * emitterWidth,dis(gen) * emitterHeight}; // Plus any offset or randomness
 						Vec2 size = emitter->size;
-						Vec2 velocity = emitter->velocity; // Plus any randomness or directional adjustments
+
+						float velocityRandomness = emitter->singleSided ? fabs(dis(gen)) : dis(gen);
+						Vec2 velocity = { emitter->velocity.x * velocityRandomness, emitter->velocity.y * fabs(dis(gen))}; // Plus any randomness or directional adjustments
 						Color color = emitter->particleColor;
-						float rotation = emitter->rotation;
-						float rotationSpeed = emitter->rotationSpeed;
+						float rotation = emitter->rotation * dis(gen);
+						float rotationSpeed = emitter->rotationSpeed * dis(gen);
 						float timer = emitter->particleLifetime;
 
 						// Assuming nullptr for now, but you can pass custom update functions based on emitter or particle type
@@ -224,7 +249,13 @@ void EmitterSystem::Update()
 
 						// Adding the particle to the system
 						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
+
 						p.timer = timer;
+
+						int textureIndex{ disTex(gen) };
+						p.texture = assetmanager.texture.Get(emitter->textures[textureIndex].c_str());
+						if (!p.texture) continue;
+						p.textureID = (float)(p.texture->GetID() - 1.f);
 					}
 					emitter->emitterLifetime = 0.f; // Reset after spawning cycle
 				}

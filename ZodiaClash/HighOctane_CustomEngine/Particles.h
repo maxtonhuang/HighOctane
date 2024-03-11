@@ -58,6 +58,8 @@ struct Particle
 	float                   fadeDecay{ 2.f };
 	float                   shrinkDecay{ 2.f };
 	void					(*Update)(Particle&) {};
+	Texture*				texture;
+	float					textureID;
 
 	Particle() : active{ false }, fixed{ false }, position{}, size{}, velocity{}, particleColor{} {};
 	Particle(bool isActive, bool isFixed, Vec2 pos, Vec2 size, Vec2 vel, Color clr, void (*update)(Particle&), float rot = 0.f, float rotSpeed = 0.f, float timer = 0.f)
@@ -98,6 +100,7 @@ struct Emitter
 	Vec2                    position;
 	Vec2                    size;
 	Vec2                    velocity;
+	bool					singleSided{ false }; //does particle go one way or two ways
 	Color                   particleColor;
 	int						particlesRate = 0;
 	float					rotation{ 0.f };
@@ -108,7 +111,8 @@ struct Emitter
 	float					emitterLifetime{ 0.f };
 	float					frequency{ 0.f }; //how many seconds has passed before you spawn a particle
 	void					(*Update)(Emitter&) {};
-
+	std::vector<std::string> textures;
+	
 	Emitter(Vec2 pos = Vec2{}, Vec2 sz = Vec2{}, Vec2 vel = Vec2{}, Color clr = Color{}, 
 			int particlesToSpawn = 0, float rot = 0.f, float rotSpeed = 0.f, float ptcllifetime = 0.f, float lifeTime = 0.f, float freq = 0.f, void (*update)(Emitter&) = nullptr)
 			: 

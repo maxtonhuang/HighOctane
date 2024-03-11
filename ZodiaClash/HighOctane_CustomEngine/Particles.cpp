@@ -76,15 +76,16 @@ void ParticleManager::Update(float dt)
 		if (!p.fixed) p.velocity.y += dt;
 		p.position += p.velocity * dt;
 		p.rotation += p.rotationSpeed * dt;
-		if (p.position.x < 0.f - (float)(graphics.GetWindowWidth()) || p.position.x >(float)(2 * graphics.GetWindowWidth()) || 
-			p.position.y < 0.f - (float)(graphics.GetWindowHeight()) || p.position.y >(float)(2 * graphics.GetWindowHeight())) 
-		{
-			p.active = false;
-			continue;
-		}
+		//if (p.position.x < 0.f - (float)(graphics.GetWindowWidth()) || p.position.x >(float)(2 * graphics.GetWindowWidth()) || 
+		//	p.position.y < 0.f - (float)(graphics.GetWindowHeight()) || p.position.y >(float)(2 * graphics.GetWindowHeight())) 
+		//{
+		//	p.active = false;
+		//	continue;
+		//}
 		if (p.Update)
 			p.Update(p);
 		else {
+			p.Update = particlePresets::ParticleFade;
 			p.timer -= dt;
 			if (p.timer <= 0)
 				p.active = false;
@@ -104,12 +105,13 @@ void ParticleManager::Draw(float dt)
 {
 	UNREFERENCED_PARAMETER(dt);
 	static Renderer* particleRenderer = &graphics.renderer["particle"];
-	Texture* particleTexture = assetmanager.texture.Get("Leaf.png");
-	float textureID = (float)(particleTexture->GetID() - 1.f);
 
 	for (Particle& p : particleList) 
 	{
 		if (!p.active) continue;
+		Texture* particleTexture = p.texture;
+		if (!particleTexture) continue;
+		float textureID = p.textureID;
 		//graphics.DrawPoint(p.position.x, p.position.y,
 			//p.particleColor.color.r, p.particleColor.color.g, p.particleColor.color.b, p.particleColor.color.a);
 		glm::vec2 convertedPosition{ p.position.x / GRAPHICS::w, p.position.y / GRAPHICS::h };

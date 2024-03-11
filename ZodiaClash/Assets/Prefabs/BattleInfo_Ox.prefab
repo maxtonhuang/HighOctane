@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 38,
+            "layerCounter": 47,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -41,7 +41,16 @@
                 "Layer 34",
                 "Layer 35",
                 "Layer 36",
-                "Layer 37"
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46"
             ]
         }
     },
@@ -73,14 +82,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "BattleInfo_Ox.png"
+            "Texture File Path": "BattleInfo_Ox_1.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
             "width": 720.0,
-            "height": 694.0
+            "height": 608.0
         },
         "Model": {
             "Model type": 3,

@@ -339,8 +339,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 37.0,
-            "position_y": 394.0,
+            "position_x": 0.0,
+            "position_y": 550.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

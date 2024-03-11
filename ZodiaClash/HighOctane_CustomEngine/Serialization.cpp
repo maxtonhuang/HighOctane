@@ -200,6 +200,22 @@ rapidjson::Value SerializeParticle(const Emitter& emitter, rapidjson::Document::
 	emitterObject.AddMember("Particles ColorG", emitter.particleColor.color.g, allocator);
 	emitterObject.AddMember("Particles ColorB", emitter.particleColor.color.b, allocator);
 	emitterObject.AddMember("Particles ColorA", emitter.particleColor.color.a, allocator);
+	emitterObject.AddMember("Frequency", emitter.frequency, allocator);
+	emitterObject.AddMember("Particle Lifetime", emitter.particleLifetime, allocator);
+	emitterObject.AddMember("Rotation", emitter.rotation, allocator);
+	emitterObject.AddMember("Rotation Speed", emitter.rotationSpeed, allocator);
+	emitterObject.AddMember("VelocityX", emitter.velocity.x, allocator);
+	emitterObject.AddMember("VelocityY", emitter.velocity.y, allocator);
+	emitterObject.AddMember("Single Sided", emitter.singleSided, allocator);
+
+	rapidjson::Value particleTextures(rapidjson::kArrayType);
+	for (std::string const& a : emitter.textures) {
+		rapidjson::Value tex;
+		tex.SetString(a.c_str(), static_cast<rapidjson::SizeType>(a.length()), allocator);
+		particleTextures.PushBack(tex, allocator);
+	}
+	emitterObject.AddMember("Textures", particleTextures, allocator);
+
 	return emitterObject;
 }
 
@@ -1208,19 +1224,34 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				emitter.position.x= (emitterObject.HasMember("Emitter PositionX")) ? emitterObject["Emitter PositionX"].GetFloat() : 0.f;
 				emitter.position.y = (emitterObject.HasMember("Emitter PositionY")) ? emitterObject["Emitter PositionY"].GetFloat() : 0.f;
 				emitter.emitterLifetime = (emitterObject.HasMember("Emitter Lifetime")) ? emitterObject["Emitter Lifetime"].GetFloat() : 2.f;
-				emitter.size.x = (emitterObject.HasMember("Particle SizeX")) ? emitterObject["Particle SizeX"].GetFloat() : 5.f;
-				emitter.size.y = (emitterObject.HasMember("Particle SizeY")) ? emitterObject["Particle SizeY"].GetFloat() : 5.f;
+				emitter.size.x = (emitterObject.HasMember("Particles SizeX")) ? emitterObject["Particles SizeX"].GetFloat() : 5.f;
+				emitter.size.y = (emitterObject.HasMember("Particles SizeY")) ? emitterObject["Particles SizeY"].GetFloat() : 5.f;
 				emitter.particleColor.color.r = (emitterObject.HasMember("Particle ColorR")) ? emitterObject["Particle ColorR"].GetFloat() : 1.f;
 				emitter.particleColor.color.g = (emitterObject.HasMember("Particle ColorG")) ? emitterObject["Particle ColorG"].GetFloat() : 1.f;
 				emitter.particleColor.color.b = (emitterObject.HasMember("Particle ColorB")) ? emitterObject["Particle ColorB"].GetFloat() : 1.f;
 				emitter.particleColor.color.a = (emitterObject.HasMember("Particle ColorA")) ? emitterObject["Particle ColorA"].GetFloat() : 1.f;
+				emitter.particlesRate = (emitterObject.HasMember("Particle Rate")) ? emitterObject["Particle Rate"].GetFloat() : 1.f;
+				emitter.frequency = (emitterObject.HasMember("Frequency")) ? emitterObject["Frequency"].GetFloat() : 1.f;
+				emitter.particleLifetime = (emitterObject.HasMember("Particle Lifetime")) ? emitterObject["Particle Lifetime"].GetFloat() : 1.f;
+				emitter.rotation = (emitterObject.HasMember("Rotation")) ? emitterObject["Rotation"].GetFloat() : 0.f;
+				emitter.rotationSpeed = (emitterObject.HasMember("Rotation Speed")) ? emitterObject["Rotation Speed"].GetFloat() : 0.f;
+				emitter.velocity.x = (emitterObject.HasMember("VelocityX")) ? emitterObject["VelocityX"].GetFloat() : 0.f;
+				emitter.velocity.y = (emitterObject.HasMember("VelocityY")) ? emitterObject["VelocityY"].GetFloat() : 0.f;
+				emitter.singleSided = (emitterObject.HasMember("Single Sided")) ? emitterObject["Single Sided"].GetBool() : false;
+
+				if (emitterObject.HasMember("Textures")) {
+					for (auto& a : emitterObject["Textures"].GetArray()) {
+						emitter.textures.push_back(a.GetString());
+					}
+				}
+				
 
 				if (ECS::ecs().HasComponent<Emitter>(entity)) {
 					ECS::ecs().GetComponent<Emitter>(entity) = emitter;
 				}
-				//else {
-				//	ECS::ecs().AddComponent<Emitter>(entity, emitter);
-				//}
+				else {
+					ECS::ecs().AddComponent<Emitter>(entity, emitter);
+				}
 			}
 
 			if (entityObject.HasMember("Scripts")) {
@@ -1858,9 +1889,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				ECS::ecs().AddComponent<Child>(entity, Child{ parentID, transform });
 				parent->children.push_back(entity);
 			}
-			if (entityObject.HasMember("Emitter")) {
-				ECS::ecs().AddComponent<Emitter>(entity, Emitter{});
-			}
+			//if (entityObject.HasMember("Emitter")) {
+			//	ECS::ecs().AddComponent<Emitter>(entity, Emitter{});
+			//}
 		}
 	}
 	if (isPrefab && ECS::ecs().HasComponent<Clone>(entity)) {
