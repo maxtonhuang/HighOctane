@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 46,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,7 +33,23 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29"
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45"
             ]
         }
     },
@@ -201,13 +217,13 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 1,
-            "Order in Layer": 3,
+            "Current Layer": 6,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -70.0,
             "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -219,15 +235,15 @@
             "Font Variant": "Regular",
             "Font Size": 0.5,
             "Text String": "Urgh...",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
             "a": 1.0,
             "Color Preset": "white",
             "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
-            "Background": true
+            "Background": false
         },
         "DialogueHUD": {
             "Dialogues": [

@@ -1609,6 +1609,7 @@ void UIDialogueSystem::Update() {
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
@@ -1663,7 +1664,7 @@ void UIDialogueSystem::Update() {
 
 		if (GetCurrentSystemMode() == SystemMode::EDIT && dialogueHudData->isEditing)
 		{
-			transformData->position.x = 0.0f;
+			transformData->position.x = -70.0f;
 			transformData->position.y = -350.0f;
 		}
 
@@ -1677,38 +1678,57 @@ void UIDialogueSystem::Update() {
 
 		// load text data into text labels
 		if (!(parentData->children.empty())) {
-			Entity childEntity = parentData->children.front();
+			for (int count = 0; count < parentData->children.size(); count++) {
+				Entity childEntity = parentData->children[count];
+				// speaker text label
+				if (dialogueHudData->currentDialogue->isActive &&
+					dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
+					Child* childData = &childArray.GetData(childEntity);
+					TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
+					Size* speakerSizeData = &sizeArray.GetData(childEntity);
+					Model* speakerModelData = &modelArray.GetData(childEntity);
+					speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
-			if (dialogueHudData->currentDialogue->isActive &&
-				dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
-				Child* childData = &childArray.GetData(childEntity);
-				TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
-				Size* speakerSizeData = &sizeArray.GetData(childEntity);
-				Model* speakerModelData = &modelArray.GetData(childEntity);
-				speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
+					if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
+					{
+						speakerSizeData->height = 0.001f;
+						speakerSizeData->width = 0.001f;
+					}
+					speakerTextData->hasBackground = false;
 
-				if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
-				{
-					speakerSizeData->height = 0.001f;
-					speakerSizeData->width = 0.001f;
-				}
-				speakerTextData->hasBackground = dialogueHudData->currentDialogue->speakerRequired ? true : false;
-				float parentAlpha = modelData->GetAlpha();
-				speakerModelData->SetAlpha(parentAlpha);
-
-				if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
+					if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
 					events.Call("Stop Group", "VOC");
 					events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
 
 					dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
-				}
+					}
 
-				dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
+					//dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
+				}
+				// speaker tex label
+				if (dialogueHudData->currentDialogue->isActive &&
+					dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
+					Child* childData = &childArray.GetData(childEntity);
+					Size* speakerSizeData = &sizeArray.GetData(childEntity);
+					Model* speakerModelData = &modelArray.GetData(childEntity);
+					std::string speakerTextString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
+
+					if (speakerTextString == "" && cloneArray.HasComponent(childEntity))
+					{
+						/*speakerSizeData->height = 0.001f;
+						speakerSizeData->width = 0.001f;*/
+						speakerModelData->SetAlpha(0.0f);
+					}
+					else
+					{
+						speakerModelData->SetAlpha(1.0f);
+					}
+				}
 			}
 		}
 		TextLabel* dialogueTextData = &textLabelArray.GetData(entity);
 		dialogueTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].line : "";
-		dialogueTextData->hasBackground = dialogueHudData->currentDialogue->speakerRequired ? true : false;
+		dialogueTextData->hasBackground = false;
 	}
 }
 

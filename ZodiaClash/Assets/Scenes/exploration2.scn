@@ -22,16 +22,9 @@ Cat_Run.spritesheet
 exploration bg_03.png
 Ox_Idle.spritesheet
 Ox_Idle.spritesheet
+UI_dialogue_box_bg_v02.png
+mockup_playbutton_04.png
 Battle End_Edited.wav
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -67,4 +60,7 @@ Yin-Yang Strike.skill
 Chi Surge.skill
 Shepherd's Grace.skill
 Jade Thrust.skill
+Shield Thrust.skill
+Resolute Charge.skill
+War God's Wrath.skill
 exploration2.json

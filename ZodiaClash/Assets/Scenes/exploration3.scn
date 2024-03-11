@@ -23,6 +23,8 @@ ox.png
 goat.png
 Ox_Idle.spritesheet
 Ox_Idle.spritesheet
+UI_dialogue_box_bg_v02.png
+mockup_playbutton_04.png
 Mei_8.ogg
 footstep 8.wav
 Battle End_Edited.wav
@@ -33,13 +35,6 @@ footstep 2.wav
 footstep 1.wav
 footstep 7.wav
 footstep 5.wav
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -76,4 +71,7 @@ Yin-Yang Strike.skill
 Chi Surge.skill
 Shepherd's Grace.skill
 Jade Thrust.skill
+Shield Thrust.skill
+Resolute Charge.skill
+War God's Wrath.skill
 exploration3.json

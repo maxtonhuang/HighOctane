@@ -57,7 +57,7 @@ void DialogueWindow(Entity entity) {
                     if (ImGui::Button("Edit this Dialogue")) {
                         dialogueData.currentDialogue = &dialogue;
                         dialogueData.isEditing = true;
-                        transformData.position.x = 0.0f;
+                        transformData.position.x = -70.0f;
                         transformData.position.y = -350.0f;
                     }
                     ImGui::SameLine();
@@ -66,7 +66,7 @@ void DialogueWindow(Entity entity) {
                         dialogue.isTriggered = false;
                         dialogue.viewingIndex = 0;
                         dialogueData.isEditing = false;
-                        transformData.position.x = 0.0f;
+                        transformData.position.x = -70.0f;
                         transformData.position.y = -750.0f;
                     }                 
 
@@ -166,8 +166,8 @@ void DialogueWindow(Entity entity) {
                         ImGui::TableSetupColumn("Speaker", ImGuiTableColumnFlags_WidthFixed, 150.0f);
                     }
                     ImGui::TableSetupColumn("Line", ImGuiTableColumnFlags_WidthStretch, 0.0f);
-                    ImGui::TableSetupColumn("Voiceline", ImGuiTableColumnFlags_WidthFixed, 150.0f);
-                    ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_WidthFixed, 100.0f);
+                    ImGui::TableSetupColumn("Voiceline", ImGuiTableColumnFlags_WidthFixed, 200.0f);
+                    ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_WidthFixed, 75.0f);
 
                     // Display headers row
                     ImGui::TableHeadersRow();
@@ -206,7 +206,7 @@ void DialogueWindow(Entity entity) {
                         ImGui::PopID();
 
                         // Column 3: Delete button
-                        ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 2 : 1);
+                        ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 3 : 2);
                         if (ImGui::Button(("Delete##" + std::to_string(k)).c_str())) {
                             // Delete the line
                             dialogue.dialogueLines.erase(dialogue.dialogueLines.begin() + k);

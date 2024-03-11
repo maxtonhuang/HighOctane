@@ -11,6 +11,14 @@ Cutscene_v01_07.png
 Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cutscene_v01_08.png
+UI_dialogue_box_bg_v02.png
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Scarlet Claw.skill
@@ -28,4 +36,7 @@ Yin-Yang Strike.skill
 Chi Surge.skill
 Shepherd's Grace.skill
 Jade Thrust.skill
+Shield Thrust.skill
+Resolute Charge.skill
+War God's Wrath.skill
 beginning_cutscene1.json
