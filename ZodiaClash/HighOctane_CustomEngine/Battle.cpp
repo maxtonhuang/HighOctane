@@ -744,6 +744,7 @@ void BattleSystem::InitialiseBattleUI() {
         enemyHealthBars.clear();
         allBattleUI.clear();
         battleInfoButton = 0;
+        battleUIMovedOut = false;
 
         InitialiseTurnOrderAnimator();
 
@@ -1319,21 +1320,38 @@ void BattleSystem::MoveInUIAnimation() {
 void BattleSystem::MoveOutAllUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     for (Entity& e : allBattleUI) {
+        if (!animationArray.HasComponent(e)) {
+            continue;
+        }
         animationArray.GetData(e).Start("Pop Out", e);
     }
     for (Entity& e : turnOrderQueueAnimator) {
+        if (!animationArray.HasComponent(e)) {
+            continue;
+        }
         animationArray.GetData(e).Start("Move Out", e);
     }
+    battleUIMovedOut = true;
 }
 //Calls "Pop In" animation for all UI, to add back UI after attacking
 void BattleSystem::MoveInAllUIAnimation() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+    if (!battleUIMovedOut) {
+        return;
+    }
     for (Entity& e : allBattleUI) {
+        if (!animationArray.HasComponent(e)) {
+            continue;
+        }
         animationArray.GetData(e).Start("Pop In", e);
     }
     for (Entity& e : turnOrderQueueAnimator) {
+        if (!animationArray.HasComponent(e)) {
+            continue;
+        }
         animationArray.GetData(e).Start("Move In", e);
     }
+    battleUIMovedOut = false;
 }
 
 void BattleSystem::AnimateRemoveHealthBar(Entity entity) {

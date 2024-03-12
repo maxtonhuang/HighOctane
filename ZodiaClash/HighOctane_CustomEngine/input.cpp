@@ -91,6 +91,9 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_F8 == key) {
             events.Call("Change Scene", "battle4.scn");
         }
+        if (GLFW_KEY_ENTER) {
+            events.Call("Pause/Resume Group", "VOC");
+        }
         if (GLFW_KEY_F11 == key) {
             fullscreen = !fullscreen;
             graphics.Fullscreen(fullscreen);

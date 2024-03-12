@@ -180,6 +180,7 @@ private:
 	std::vector<CharacterAnimator> allyAnimators;
 	std::vector<std::string> tooltips{}; //for tooltip creation
 	Entity turnIndicator{ 0 };
+	bool battleUIMovedOut{ false };
 
 	//Animation methods
 	//Initialises the battle system UI
