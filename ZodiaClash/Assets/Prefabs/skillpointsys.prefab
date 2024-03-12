@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 99,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,76 +33,7 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73",
-                "Layer 74",
-                "Layer 75",
-                "Layer 76",
-                "Layer 77",
-                "Layer 78",
-                "Layer 79",
-                "Layer 80",
-                "Layer 81",
-                "Layer 82",
-                "Layer 83",
-                "Layer 84",
-                "Layer 85",
-                "Layer 86",
-                "Layer 87",
-                "Layer 88",
-                "Layer 89",
-                "Layer 90",
-                "Layer 91",
-                "Layer 92",
-                "Layer 93",
-                "Layer 94",
-                "Layer 95",
-                "Layer 96",
-                "Layer 97",
-                "Layer 98"
+                "Layer 29"
             ]
         }
     },
@@ -110,7 +41,7 @@
         "Entity": {
             "Name": "lbl_skillpt",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -153,7 +84,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "5",
+            "Text String": "3",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -165,7 +96,7 @@
             "Background": false
         },
         "SkillPointHUD": {
-            "Skill Point Balance": 5,
+            "Skill Point Balance": 3,
             "Skill Point Cap": 5
         },
         "Animation Set": [
@@ -218,7 +149,7 @@
         "Entity": {
             "Name": "skillpt01",
             "Current Layer": 0,
-            "Order in Layer": 11,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -230,8 +161,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 22.0,
-            "position_y": -647.0000610351563,
+            "position_x": 148.0,
+            "position_y": -682.0,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -322,7 +253,7 @@
         "Entity": {
             "Name": "skillpt2",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -334,8 +265,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 72.0,
-            "position_y": -647.0000610351563,
+            "position_x": 198.0,
+            "position_y": -682.0,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -426,7 +357,7 @@
         "Entity": {
             "Name": "skillpt3",
             "Current Layer": 0,
-            "Order in Layer": 20,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -438,8 +369,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 122.0,
-            "position_y": -647.0000610351563,
+            "position_x": 248.0,
+            "position_y": -682.0,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -530,7 +461,7 @@
         "Entity": {
             "Name": "skillpt4",
             "Current Layer": 0,
-            "Order in Layer": 22,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -542,8 +473,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 172.0,
-            "position_y": -647.0000610351563,
+            "position_x": 298.0,
+            "position_y": -682.0,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -554,7 +485,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_chi_icon.png"
+            "Texture File Path": "mockup_chi_icon_lineart.png"
         },
         "Visible": {
             "isVisible": false
@@ -634,7 +565,7 @@
         "Entity": {
             "Name": "skillpt5",
             "Current Layer": 0,
-            "Order in Layer": 12,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -646,8 +577,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 222.0,
-            "position_y": -647.0000610351563,
+            "position_x": 348.0,
+            "position_y": -682.0,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -658,7 +589,7 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_chi_icon.png"
+            "Texture File Path": "mockup_chi_icon_lineart.png"
         },
         "Visible": {
             "isVisible": false
