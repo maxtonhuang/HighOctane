@@ -1258,7 +1258,7 @@ void UIButtonSystem::Update() {
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
-	bool updateBattleInfoButton{ battleSys && !ECS::ecs().EntityExists(battleSys->battleInfoButton) };
+	bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
 
 	for (Entity const& entity : m_Entities) {
 		//Size* sizeData = &sizeArray.GetData(entity);
