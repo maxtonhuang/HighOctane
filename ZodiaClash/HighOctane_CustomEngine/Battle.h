@@ -181,6 +181,7 @@ private:
 	std::vector<std::string> tooltips{}; //for tooltip creation
 	Entity turnIndicator{ 0 };
 	bool battleUIMovedOut{ false };
+	bool speedUpAndDeath{ false }; //For special case where there is a speed up and death animation
 
 	//Animation methods
 	//Initialises the battle system UI

@@ -745,6 +745,7 @@ void BattleSystem::InitialiseBattleUI() {
         allBattleUI.clear();
         battleInfoButton = 0;
         battleUIMovedOut = false;
+        speedUpAndDeath = false;
 
         InitialiseTurnOrderAnimator();
 
@@ -958,12 +959,23 @@ void BattleSystem::AnimateReturnTurnOrder() {
     if (m_Entities.size() == 0) {
         return;
     }
-    while (iterator != turnManage.turnOrderList.rend() && (*iterator)->entity != speedupCharacter->entity) {
-        iterator++;
-        count++;
-        if ((*iterator)->stats.health == 0) {
-            count--;
+
+    bool iteratorfound{ false };
+    while (iterator != turnManage.turnOrderList.rend()) {
+        if (!iteratorfound && (*iterator)->entity != speedupCharacter->entity) {
+            count++;
         }
+        else {
+            iteratorfound = true;
+        }
+        if ((*iterator)->stats.health == 0) {
+            speedUpAndDeath = true;
+            count--;
+            if (!iteratorfound && (*iterator)->entity != speedupCharacter->entity) {
+                
+            }
+        }
+        iterator++;
     }
     Entity entity {};
     for (Entity e : turnOrderQueueAnimator) {
@@ -1059,8 +1071,10 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
                     ECS::ecs().GetComponent<AnimationSet>(icon).Queue("Expand", icon);
                     deathAtStart = false;
                 }
-                //else if (e != turnOrderQueueAnimator.back()) {
-                else {
+                else if (speedUpAndDeath && ECS::ecs().GetComponent<TurnIndicator>(e).character == entity != speedupCharacter->entity) {
+                    ECS::ecs().GetComponent<AnimationSet>(e).Queue("Next Turn", e);
+                }
+                else if (!speedUpAndDeath && e != turnOrderQueueAnimator.back()) {
                     ECS::ecs().GetComponent<AnimationSet>(e).Queue("Next Turn", e);
                 }
             }
@@ -1068,6 +1082,7 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
         animationArray.GetData(turnOrderAnimator).Queue("Subtract", turnOrderAnimator);
         turnOrderQueueAnimator = newTurnOrderQueueAnimator;
     }
+    speedUpAndDeath = false;
 }
 
 void BattleSystem::CreateTargets() {
