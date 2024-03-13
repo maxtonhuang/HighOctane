@@ -49,15 +49,14 @@
 
 EventManager events;
 
+Entity exitconfirmationmenu{};
+
 /*!
  * \brief Exits the game menu, voids input
  *
  * std::string input : The input string.
  */
 void ExitGame(std::string input) {
-	(void)input;
-	static Entity exitconfirmationmenu{};
-
 	if (GetCurrentSystemMode() == SystemMode::EXITCONFIRM) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
 
@@ -69,7 +68,12 @@ void ExitGame(std::string input) {
 	else {
 		SetCurrentSystemMode(SystemMode::EXITCONFIRM);
 		if (exitconfirmationmenu == 0) {
-			exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("exitconfirmationmenu.prefab");
+			if (input == "Main Menu") {
+				exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("mainmenuconfirmation.prefab");
+			}
+			else {
+				exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("exitconfirmationmenu.prefab");
+			}
 		}
 	}
 
@@ -252,10 +256,11 @@ void SelectEnemy(std::string input) {
 	ss >> enemynum;
 
 	auto targets = bs->GetEnemies();
-	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
+	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY || bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLYSELF) {
 		targets = bs->GetPlayers();
 	}
-	if (bs->activeCharacter->debuffs.tauntStack > 0 && bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLY) {
+	if (bs->activeCharacter->debuffs.tauntStack > 0 && bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLY 
+		&& bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLYSELF) {
 		for (CharacterStats* target : targets) {
 			if (target->entity == bs->activeCharacter->debuffs.tauntTarget) {
 				bs->activeCharacter->action.targetSelect.selectedTarget = target;
@@ -300,6 +305,10 @@ void ToggleBattleInfo(std::string input) {
  * std::string input : The input string.
  */
 void TogglePause(std::string input) {
+
+	if (sceneName == "mainmenu.scn") {
+		return;
+	}
 
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
 
@@ -381,6 +390,13 @@ void ToggleHelp(std::string input) {
  * std::string input : The input string.
  */
 void TransitionScene(std::string input) {
+	if (exitconfirmationmenu) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
+		TogglePause("");
+		ECS::ecs().DestroyEntity(exitconfirmationmenu);
+		exitconfirmationmenu = 0;
+	}
+
 	transitionActive = true;
 	transitionNextScene = input;
 	transitionType = true;

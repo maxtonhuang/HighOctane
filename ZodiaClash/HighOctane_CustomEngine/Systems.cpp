@@ -448,8 +448,8 @@ void MovementSystem::Update() {
 								boundaryMax.x = GRAPHICS::w;
 							}
 							if (boundaryMax.y - boundaryMin.y < GRAPHICS::defaultHeightF) {
-								boundaryMin.y = -GRAPHICS::h;
-								boundaryMax.y = GRAPHICS::h;
+								//boundaryMin.y = -GRAPHICS::h;
+								boundaryMax.y = GRAPHICS::defaultHeightF;
 							}
 						}
 						
@@ -462,7 +462,7 @@ void MovementSystem::Update() {
 							for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 								switch (msg.type) {
 								case(TYPE::DIALOGUE_ACTIVE):
-									animationData->Stop();
+									//animationData->Stop();
 									return;
 								}
 							}
@@ -472,13 +472,14 @@ void MovementSystem::Update() {
 							if (transformData->force.x == 0.f && transformData->force.y == 0.f) {
 								if (mcData->moved) {
 									//animationData->Stop();
+									animationData->Start("Idle Start", entity);
 								}
 								mcData->moved = false;
 							}
 							//Moving
 							else {
 								if (!mcData->moved) {
-									animationData->Start("Walk", entity);
+									animationData->Start("Walk Start", entity);
 								}
 								mcData->moved = true;
 							}
@@ -493,7 +494,8 @@ void MovementSystem::Update() {
 
 							//camera.SetTarget(entity);
 
-							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
+							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), 
+								std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
 						}
 					}
 				}

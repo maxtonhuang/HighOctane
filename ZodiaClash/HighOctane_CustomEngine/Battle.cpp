@@ -1086,22 +1086,22 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
 }
 
 void BattleSystem::CreateTargets() {
-    if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
+    if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY || activeCharacter->action.selectedSkill.attacktype == AttackType::ALLYSELF) {
         auto allyList{ GetPlayers() };
         if (!targetCircleList.empty()) {
             DestroyTargets();
         }
         int count = 0;
         for (CharacterStats* ally : allyList) {
-            if (ally->entity == activeCharacter->entity) {
+            if (ally->entity == activeCharacter->entity && activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
                 count++;
                 continue;
             }
             Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
             ECS::ecs().GetComponent<Transform>(targetcircle).position = ECS::ecs().GetComponent<Transform>(ally->entity).position;
-            if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
-                ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
-            }
+            //if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
+            //    ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
+            //}
             ECS::ecs().GetComponent<Button>(targetcircle).eventInput = std::to_string(count);
             targetCircleList.push_back(targetcircle);
             count++;
