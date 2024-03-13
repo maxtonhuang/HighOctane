@@ -111,6 +111,7 @@ struct Emitter
 	float					emitterLifetime{ 0.f };
 	float					frequency{ 0.f }; //how many seconds has passed before you spawn a particle
 	void					(*Update)(Emitter&) {};
+	bool					initialised{ false };
 	std::vector<std::string> textures;
 	
 	Emitter(Vec2 pos = Vec2{}, Vec2 sz = Vec2{}, Vec2 vel = Vec2{}, Color clr = Color{}, 

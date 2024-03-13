@@ -214,6 +214,17 @@ void EmitterSystem::Update()
 					continue;
 				}
 
+				std::random_device rd;
+				std::mt19937 gen(rd());
+				// Create a uniform distribution
+				std::uniform_real_distribution<float> dis(-1.f, 1.f);
+				std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
+
+				if (!emitter->initialised) {
+					emitter->emitterLifetime = fabs(dis(gen)) * emitter->frequency;
+					emitter->initialised = true;
+				}
+
 				emitter->emitterLifetime += FIXED_DT;
 
 				//Initialise emitter
@@ -225,17 +236,17 @@ void EmitterSystem::Update()
 				emitter->position = transformArray.GetData(entity).position;
 				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
 				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
-				std::random_device rd;
-				std::mt19937 gen(rd());
-				// Create a uniform distribution
-				std::uniform_real_distribution<float> dis(-1.f, 1.f);
-				std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
+				
 
 				if (emitter->emitterLifetime >= emitter->frequency) {
 					for (int i = 0; i < emitter->particlesRate; ++i) {
 						// Here, you might introduce randomness or variations based on the emitter's properties
 						Vec2 position = emitter->position + Vec2{dis(gen) * emitterWidth,dis(gen) * emitterHeight}; // Plus any offset or randomness
 						Vec2 size = emitter->size;
+
+						if (!emitter->singleSided) {
+							position = emitter->position + Vec2{ dis(gen) * (emitterWidth / 2),-fabs(dis(gen)) * emitterHeight };
+						}
 
 						float velocityRandomness = emitter->singleSided ? fabs(dis(gen)) : dis(gen);
 						Vec2 velocity = { emitter->velocity.x * velocityRandomness, emitter->velocity.y * fabs(dis(gen))}; // Plus any randomness or directional adjustments
