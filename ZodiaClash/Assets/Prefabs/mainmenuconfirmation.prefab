@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 39,
+            "layerCounter": 36,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -39,17 +39,14 @@
                 "Layer 32",
                 "Layer 33",
                 "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38"
+                "Layer 35"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "mainmenuconfirmation",
-            "Current Layer": 8,
+            "Name": "MainMenu Confirmation",
+            "Current Layer": 5,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -65,7 +62,7 @@
             "position_x": 0.0,
             "position_y": 0.0,
             "rotation": 0.0,
-            "scale": 1.2999999523162842,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -74,14 +71,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "NEW_howtoplay2.png"
+            "Texture File Path": "UI_pause_menu_v02.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 1200.0,
-            "height": 720.0
+            "width": 3508.0,
+            "height": 2480.0
         },
         "Scripts": {
             "className": "",
@@ -97,64 +94,18 @@
             "Mirror": false
         },
         "Movable": {},
-        "Parent": {}
-    },
-    {
-        "Entity": {
-            "Name": "exitconfirmationmenu_button0",
-            "Current Layer": 9,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Master": {},
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 300.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 360.0,
-            "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
-        "Model": {
-            "Model type": 3,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 0.0,
-            "Mirror": false
-        },
-        "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Font Size": 1.5,
-            "Text String": "Confirm Exit?",
+            "Font Size": 0.9599999785423279,
+            "Text String": "Paused",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
             "a": 1.0,
-            "Color Preset": "black",
+            "Color Preset": "",
             "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
+            "Vertical Alignment": 0,
             "Text Wrap": 2,
             "Background": false
         },
@@ -162,7 +113,7 @@
             "Default Button R": 1.0,
             "Default Button G": 1.0,
             "Default Button B": 1.0,
-            "Default Button A": 0.0,
+            "Default Button A": 1.0,
             "Default Text R": 0.0,
             "Default Text G": 0.0,
             "Default Text B": 0.0,
@@ -185,15 +136,56 @@
             "Focused Text A": 1.0,
             "Event Name": "",
             "Event Input": "",
-            "Padding Top": 30.0,
-            "Padding Bottom": 30.0,
-            "Padding Left": 60.0,
-            "Padding Right": 60.0,
+            "Padding Top": 85.0,
+            "Padding Bottom": 85.0,
+            "Padding Left": 0.0,
+            "Padding Right": 0.0,
             "Padding Setting": 1
         },
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "overlay",
+            "Current Layer": 4,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 1920.0,
+            "height": 1080.0
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.4901960790157318,
+            "Mirror": false
+        },
+        "Movable": {},
         "Child": {
             "position_x": 0.0,
-            "position_y": 300.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -202,9 +194,9 @@
     },
     {
         "Entity": {
-            "Name": "exitconfirmationmenu_button1",
-            "Current Layer": 9,
-            "Order in Layer": 1,
+            "Name": "pause_menuitem1",
+            "Current Layer": 6,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -216,8 +208,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -300.0,
-            "position_y": -160.0,
+            "position_x": 0.0,
+            "position_y": -12.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -227,7 +219,7 @@
             "isVisible": false
         },
         "Size": {
-            "width": 487.9999694824219,
+            "width": 421.5,
             "height": 80.0
         },
         "Scripts": {
@@ -248,7 +240,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Return to main menu",
+            "Text String": "YES",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -293,8 +285,8 @@
             "Padding Setting": 1
         },
         "Child": {
-            "position_x": -300.0,
-            "position_y": -160.0,
+            "position_x": 0.0,
+            "position_y": -12.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -303,8 +295,8 @@
     },
     {
         "Entity": {
-            "Name": "exitconfirmationmenu_button2",
-            "Current Layer": 9,
+            "Name": "pause_menuitem2",
+            "Current Layer": 6,
             "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
@@ -317,8 +309,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -300.0,
-            "position_y": -80.0,
+            "position_x": 0.0,
+            "position_y": -146.5,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -328,7 +320,7 @@
             "isVisible": false
         },
         "Size": {
-            "width": 360.0,
+            "width": 580.0,
             "height": 80.0
         },
         "Scripts": {
@@ -349,7 +341,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Resume Game",
+            "Text String": "NO",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -386,7 +378,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Exit Game",
-            "Event Input": "",
+            "Event Input": "Main Menu",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -394,8 +386,75 @@
             "Padding Setting": 1
         },
         "Child": {
-            "position_x": -300.0,
-            "position_y": -80.0,
+            "position_x": 0.0,
+            "position_y": -146.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "pause_menuitem0",
+            "Current Layer": 6,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 215.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 612.0000610351563,
+            "height": 60.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.800000011920929,
+            "Text String": "Confirm return to Main Menu?",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "white",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": false
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 215.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

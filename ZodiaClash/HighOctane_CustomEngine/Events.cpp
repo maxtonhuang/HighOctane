@@ -50,6 +50,7 @@
 EventManager events;
 
 Entity exitconfirmationmenu{};
+Entity pausemenu{};
 
 /*!
  * \brief Exits the game menu, voids input
@@ -57,23 +58,30 @@ Entity exitconfirmationmenu{};
  * std::string input : The input string.
  */
 void ExitGame(std::string input) {
-	if (GetCurrentSystemMode() == SystemMode::EXITCONFIRM) {
-		SetCurrentSystemMode(GetPreviousSystemMode());
+	if (exitconfirmationmenu) {
+		//SetCurrentSystemMode(GetPreviousSystemMode());
+		ECS::ecs().DestroyEntity(exitconfirmationmenu);
+		exitconfirmationmenu = 0;
 
-		if (exitconfirmationmenu != 0) {
-			ECS::ecs().DestroyEntity(exitconfirmationmenu);
-			exitconfirmationmenu = 0;
+		if (!pausemenu) {
+			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
 		}
+
+		//if (exitconfirmationmenu != 0) {
+		//	
+		//}
 	}
 	else {
-		SetCurrentSystemMode(SystemMode::EXITCONFIRM);
-		if (exitconfirmationmenu == 0) {
-			if (input == "Main Menu") {
-				exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("mainmenuconfirmation.prefab");
-			}
-			else {
-				exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("exitconfirmationmenu.prefab");
-			}
+		//SetCurrentSystemMode(SystemMode::EXITCONFIRM);
+		if (input == "Main Menu") {
+			exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("mainmenuconfirmation.prefab");
+		}
+		else {
+			exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("exitconfirmationmenu.prefab");
+		}
+		if (pausemenu) {
+			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+			pausemenu = 0;
 		}
 	}
 
@@ -316,7 +324,6 @@ void TogglePause(std::string input) {
 	}
 
 	(void)input;
-	static Entity pausemenu{};
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
 	/*-----Prevent Softlocking-----*/
@@ -391,7 +398,7 @@ void ToggleHelp(std::string input) {
  */
 void TransitionScene(std::string input) {
 	if (exitconfirmationmenu) {
-		SetCurrentSystemMode(GetPreviousSystemMode());
+		//SetCurrentSystemMode(GetPreviousSystemMode());
 		TogglePause("");
 		ECS::ecs().DestroyEntity(exitconfirmationmenu);
 		exitconfirmationmenu = 0;

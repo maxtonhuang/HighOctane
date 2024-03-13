@@ -236,7 +236,7 @@ void EmitterSystem::Update()
 				emitter->position = transformArray.GetData(entity).position;
 				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
 				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
-				
+				int layernum = FindInLayer(entity).first;
 
 				if (emitter->emitterLifetime >= emitter->frequency) {
 					for (int i = 0; i < emitter->particlesRate; ++i) {
@@ -262,6 +262,7 @@ void EmitterSystem::Update()
 						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
 
 						p.timer = timer;
+						p.layer = layernum;
 
 						int textureIndex{ disTex(gen) };
 						p.texture = assetmanager.texture.Get(emitter->textures[textureIndex].c_str());
@@ -302,7 +303,7 @@ void ParticleSystem::Update()
 ******************************************************************************/
 void ParticleSystem::Draw()
 {
-	particles.Draw(FIXED_DT);
+	//particles.Draw(FIXED_DT);
 }
 
 /******************************************************************************
@@ -720,6 +721,7 @@ void GraphicsSystem::Draw() {
 				}
 			}
 		}
+		particles.Draw((int)layer_it);
 	}
 
 	if (GetCurrentSystemMode() == SystemMode::EDIT && snappingOn) {
@@ -1759,13 +1761,14 @@ void ChildSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {
 		Child* childData = &childArray.GetData(entity);
 		Entity parent = childData->parent;
 
-		if (!ECS::ecs().EntityExists(parent)) {
+		if (!ECS::ecs().EntityExists(parent) && !cloneArray.HasComponent(parent)) {
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
 			continue;
 		}
@@ -1791,13 +1794,14 @@ void ParentSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
 
 		std::unordered_set <Entity> childrenToRemove{};
 		for (auto& child : parentData->children) {
-			if (!childArray.HasComponent(child)) {
+			if (!cloneArray.HasComponent(child)) {
 				childrenToRemove.insert(child);
 			}
 		}

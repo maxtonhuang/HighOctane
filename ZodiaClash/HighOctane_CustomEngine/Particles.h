@@ -60,6 +60,7 @@ struct Particle
 	void					(*Update)(Particle&) {};
 	Texture*				texture;
 	float					textureID;
+	int						layer;
 
 	Particle() : active{ false }, fixed{ false }, position{}, size{}, velocity{}, particleColor{} {};
 	Particle(bool isActive, bool isFixed, Vec2 pos, Vec2 size, Vec2 vel, Color clr, void (*update)(Particle&), float rot = 0.f, float rotSpeed = 0.f, float timer = 0.f)
@@ -81,7 +82,7 @@ class ParticleManager
 public:
 	Particle& AddParticle( bool fixed, Vec2 position, Vec2 size, Vec2 velocity, Color color, void (*update)(Particle&), float rot = 0.f, float rotSpeed = 0.f, float timer = 0.f );
 	void Update(float dt);
-	void Draw(float dt);
+	void Draw(int layer);
 	void ResetParticles();
 	size_t index;
 	std::array<Particle, 10000> particleList;
