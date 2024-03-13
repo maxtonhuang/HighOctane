@@ -155,6 +155,22 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->buffs.defenseBuff = 0.5f;
         owner->buffs.defenseStack = 2;
     }
+    //Enemy monkey AOE
+    else if (attackName == "Monkey AOE") {
+        if (!owner->charge) {
+            damage = 0;
+        }
+        else {
+            owner->charge = false;
+        }
+    }
+    //Enemy monkey charge
+    else if (attackName == "Monkey Charge") {
+        target->charge = true;
+        if (!owner->charge && !target->charge) {
+            owner->action.battleManager->aiMultiplier += 100000;
+        }
+    }
 
     target->debuffs.bloodStack += bleed;
     if (target->debuffs.bloodStack > 5) {
