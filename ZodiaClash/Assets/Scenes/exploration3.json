@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 43,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -41,12 +41,7 @@
                 "Layer 34",
                 "Layer 35",
                 "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42"
+                "Layer 37"
             ]
         }
     },
@@ -62,7 +57,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 40,
+            "Order in Layer": 38,
             "isLocked": true,
             "isSkipped": true
         },
@@ -119,7 +114,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 39,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
@@ -176,7 +171,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -198,7 +193,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -253,7 +248,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 11,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -271,7 +266,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 12,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -447,7 +442,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_04.png",
             "Current Layer": 0,
-            "Order in Layer": 17,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
@@ -472,7 +467,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_07.png",
             "Current Layer": 0,
-            "Order in Layer": 18,
+            "Order in Layer": 17,
             "isLocked": true,
             "isSkipped": true
         },
@@ -490,7 +485,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_04.png",
             "Current Layer": 0,
-            "Order in Layer": 22,
+            "Order in Layer": 18,
             "isLocked": true,
             "isSkipped": true
         },
@@ -538,7 +533,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 24,
+            "Order in Layer": 20,
             "isLocked": true,
             "isSkipped": true
         },
@@ -586,7 +581,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 25,
+            "Order in Layer": 21,
             "isLocked": true,
             "isSkipped": true
         },
@@ -634,7 +629,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 26,
+            "Order in Layer": 22,
             "isLocked": true,
             "isSkipped": true
         },
@@ -682,7 +677,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 27,
+            "Order in Layer": 24,
             "isLocked": true,
             "isSkipped": true
         },
@@ -730,7 +725,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 30,
+            "Order in Layer": 25,
             "isLocked": true,
             "isSkipped": true
         },
@@ -778,7 +773,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 31,
+            "Order in Layer": 26,
             "isLocked": true,
             "isSkipped": true
         },
@@ -826,7 +821,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 32,
+            "Order in Layer": 27,
             "isLocked": true,
             "isSkipped": true
         },
@@ -874,7 +869,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 30,
             "isLocked": true,
             "isSkipped": true
         },
@@ -922,7 +917,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 19,
+            "Order in Layer": 31,
             "isLocked": true,
             "isSkipped": true
         },
@@ -970,7 +965,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 33,
+            "Order in Layer": 29,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1018,7 +1013,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 32,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1066,7 +1061,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1114,7 +1109,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1162,7 +1157,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 38,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1210,7 +1205,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1265,7 +1260,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_09.png",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1290,7 +1285,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_06.png",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1315,7 +1310,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_03.png",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1333,7 +1328,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_06.png",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1381,7 +1376,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1430,7 +1425,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 23,
+            "Order in Layer": 28,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1479,7 +1474,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 19,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1533,9 +1528,9 @@
             ]
         },
         "Entity": {
-            "Name": "Guard",
+            "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 28,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1558,9 +1553,9 @@
             ]
         },
         "Entity": {
-            "Name": "Guard",
+            "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 29,
+            "Order in Layer": 40,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1578,7 +1573,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 20,
+            "Order in Layer": 23,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1707,7 +1702,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1725,7 +1720,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1814,7 +1809,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 21,
+            "Order in Layer": 39,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1834,6 +1829,55 @@
             "Blue": 1.0,
             "Alpha": 1.0,
             "Mirror": true
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "Dialogue Trigger",
+            "Current Layer": 1,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 1518.8048095703125,
+            "position_y": -58.855010986328125,
+            "rotation": 0.0,
+            "scale": 0.9160967469215393,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 100.0,
+            "height": 1334.2640380859375
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 0.0,
+            "Dimension Y": 0.0,
+            "Type": 2,
+            "Event Name": "Start Dialogue",
+            "Event Input": ""
         }
     }
 ]

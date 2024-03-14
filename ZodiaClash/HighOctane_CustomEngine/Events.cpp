@@ -333,7 +333,7 @@ void TogglePause(std::string input) {
 		return;
 	}
 
-	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
+	if (GetCurrentSystemMode() == SystemMode::GAMEHELP ||GetCurrentSystemMode() == SystemMode::SETTINGS || GetCurrentSystemMode() == SystemMode::EDIT) {
 
 		return;
 	}
@@ -348,7 +348,7 @@ void TogglePause(std::string input) {
 
 	PauseResumeGroup("VOC");
 	/*-----Prevent Softlocking-----*/
-	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
+	if ((GetPreviousSystemMode() == SystemMode::GAMEHELP || GetPreviousSystemMode() == SystemMode::SETTINGS) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::RUN);
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
@@ -357,7 +357,7 @@ void TogglePause(std::string input) {
 	}
 	/*-----Prevent Softlocking-----*/
 
-	else if (!(GetPreviousSystemMode() == SystemMode::GAMEHELP) && GetCurrentSystemMode() == SystemMode::PAUSE) {
+	else if ((!(GetPreviousSystemMode() == SystemMode::GAMEHELP) || !(GetPreviousSystemMode() == SystemMode::SETTINGS)) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
