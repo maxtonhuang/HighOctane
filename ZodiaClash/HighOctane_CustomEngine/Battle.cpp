@@ -308,18 +308,25 @@ void BattleSystem::Update()
                     if (activeCharacter == c) {
                         events.Call("Start Dialogue", "TURN");
                         if (dialogueCalled == 2) {
+
+                            //Do player healing and VFX first
                             for (CharacterStats* c : turnManage.turnOrderList) {
                                 //c->stats.health = c->stats.maxHealth;
                                 if (c->tag == CharacterType::PLAYER) {
                                     c->stats.health = c->stats.maxHealth;
+                                    c->damage = c->stats.maxHealth;
                                 }
                             }
                             damagePrefab = "Goat_Skill_VFX.prefab";
                             ProcessDamage();
+
+                            //Do for the rest of the enemies afterwards
                             for (CharacterStats* c : turnManage.turnOrderList) {
                                 c->stats.health = c->stats.maxHealth;
+                                c->damage = c->stats.maxHealth;
                             }
                             ProcessDamage();
+
                             events.Call("Restart Music", "ZodiaClash_Boss.ogg");
                             AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                         }
@@ -1283,6 +1290,9 @@ void BattleSystem::MoveOutUIAnimation() {
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop Out", e);
     }
+    if (animationArray.HasComponent(battleInfoButton)) {
+        animationArray.GetData(battleInfoButton).Start("Pop Out", battleInfoButton);
+    }
     for (CharacterAnimator& ca : enemyAnimators) {
         const float darkred{ 117.f / 255.f };
         animationArray.GetData(ca.healthbarIcon).Stop();
@@ -1332,6 +1342,9 @@ void BattleSystem::MoveInUIAnimation() {
 
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop In", e);
+    }
+    if (animationArray.HasComponent(battleInfoButton)) {
+        animationArray.GetData(battleInfoButton).Start("Pop In", battleInfoButton);
     }
     attackingAnimation = false;
 }

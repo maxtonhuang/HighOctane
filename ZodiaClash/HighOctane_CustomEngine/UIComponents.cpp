@@ -1323,6 +1323,12 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		if (animationArray.HasComponent(entity)) {
 			animationArray.GetData(entity).Start("Launch", entity);
 		}
+
+		//Update audio system
+		events.Call("Stop Group", "VOC");
+		events.Call("Play Voice", currentDialogue->dialogueLines[currentDialogue->viewingIndex].voice);
+
+		//Update battle system
 		switch (battleSys->dialogueCalled) {
 		case 0:
 			battleSys->dialogueCalled = 1;
@@ -1417,6 +1423,10 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 			battleSys->MoveInAllUIAnimation();
 			animationArray.GetData(entity).Start("Exit", entity);
 		}
+	}
+	else {
+		events.Call("Stop Group", "VOC");
+		events.Call("Play Voice", currentDialogue->dialogueLines[currentDialogue->viewingIndex].voice);
 	}
 }
 
