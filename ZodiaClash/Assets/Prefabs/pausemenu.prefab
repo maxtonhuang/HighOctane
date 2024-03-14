@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,15 +23,7 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27"
+                "Layer 19"
             ]
         }
     },
@@ -188,7 +180,7 @@
         "Entity": {
             "Name": "pause_menuitem1",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -201,7 +193,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 80.0,
+            "position_y": 85.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -278,7 +270,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": 80.0,
+            "position_y": 85.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -302,7 +294,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 0.0,
+            "position_y": 5.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -379,7 +371,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": 0.0,
+            "position_y": 5.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -403,7 +395,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -80.0,
+            "position_y": -75.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -480,7 +472,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": -80.0,
+            "position_y": -75.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -504,7 +496,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -160.0,
+            "position_y": -155.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -515,6 +507,107 @@
         },
         "Size": {
             "width": 360.0,
+            "height": 80.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Settings",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.09803921729326248,
+            "Hovered Text R": 0.0,
+            "Hovered Text G": 0.0,
+            "Hovered Text B": 0.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.19607843458652496,
+            "Focused Text R": 0.0,
+            "Focused Text G": 0.0,
+            "Focused Text B": 0.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Toggle Pause",
+            "Event Input": "",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
+        },
+        "Child": {
+            "position_x": 0.0,
+            "position_y": -155.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "pause_menuitem5",
+            "Current Layer": 6,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": -235.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 355.5,
             "height": 80.0
         },
         "Scripts": {
@@ -581,7 +674,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": -160.0,
+            "position_y": -235.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -590,9 +683,9 @@
     },
     {
         "Entity": {
-            "Name": "pause_menuitem0",
+            "Name": "pause_menuheader",
             "Current Layer": 6,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -604,7 +697,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 215.0,
+            "position_y": 220.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -615,7 +708,7 @@
         },
         "Size": {
             "width": 612.0000610351563,
-            "height": 60.0
+            "height": 110.0
         },
         "Scripts": {
             "className": "",
@@ -648,7 +741,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": 215.0,
+            "position_y": 220.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

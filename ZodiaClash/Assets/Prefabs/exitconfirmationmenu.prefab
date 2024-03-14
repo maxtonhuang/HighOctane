@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 44,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,31 +23,7 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43"
+                "Layer 19"
             ]
         }
     },
@@ -203,7 +179,7 @@
         "Entity": {
             "Name": "pause_menuitem1",
             "Current Layer": 6,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -216,7 +192,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -12.0,
+            "position_y": -15.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -226,7 +202,7 @@
             "isVisible": false
         },
         "Size": {
-            "width": 421.5,
+            "width": 450.0,
             "height": 80.0
         },
         "Scripts": {
@@ -247,7 +223,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "YES",
+            "Text String": "Yes",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -293,7 +269,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": -12.0,
+            "position_y": -15.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -317,7 +293,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -146.5,
+            "position_y": -135.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -327,7 +303,7 @@
             "isVisible": false
         },
         "Size": {
-            "width": 580.0,
+            "width": 450.0,
             "height": 80.0
         },
         "Scripts": {
@@ -348,7 +324,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "NO",
+            "Text String": "No",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -394,7 +370,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": -146.5,
+            "position_y": -135.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -403,9 +379,9 @@
     },
     {
         "Entity": {
-            "Name": "pause_menuitem0",
+            "Name": "pause_menuheader",
             "Current Layer": 6,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -417,7 +393,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 215.0,
+            "position_y": 220.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -427,8 +403,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 612.0000610351563,
-            "height": 60.0
+            "width": 700.0,
+            "height": 110.0
         },
         "Scripts": {
             "className": "",
@@ -461,7 +437,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": 215.0,
+            "position_y": 220.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
