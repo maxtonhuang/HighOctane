@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 46,
+            "layerCounter": 43,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -46,10 +46,7 @@
                 "Layer 39",
                 "Layer 40",
                 "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45"
+                "Layer 42"
             ]
         }
     },
@@ -217,8 +214,8 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 6,
-            "Order in Layer": 0,
+            "Current Layer": 2,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

@@ -1722,9 +1722,9 @@ void UIDialogueSystem::Update() {
 					}
 					speakerTextData->hasBackground = false;
 
-					if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
-					//events.Call("Stop Group", "VOC");
-					//events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+					if (dialogueHudData->currentDialogue->isActive && !dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
+					events.Call("Stop Group", "VOC");
+					events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
 
 					dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
 					}

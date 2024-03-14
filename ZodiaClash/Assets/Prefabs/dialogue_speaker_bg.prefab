@@ -88,7 +88,7 @@
     {
         "Entity": {
             "Name": "dialogue_speaker_bg",
-            "Current Layer": 6,
+            "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true

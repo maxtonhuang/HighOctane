@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 108,
+            "layerCounter": 104,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -107,11 +107,7 @@
                 "Layer 100",
                 "Layer 101",
                 "Layer 102",
-                "Layer 103",
-                "Layer 104",
-                "Layer 105",
-                "Layer 106",
-                "Layer 107"
+                "Layer 103"
             ]
         }
     },
@@ -537,7 +533,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_07.png",
             "Current Layer": 0,
-            "Order in Layer": 14,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1330,7 +1326,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_09.png",
             "Current Layer": 0,
-            "Order in Layer": 33,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1355,7 +1351,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_06.png",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1446,7 +1442,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1495,7 +1491,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1544,7 +1540,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1600,7 +1596,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 1,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1625,7 +1621,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 1,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1643,7 +1639,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1707,7 +1703,7 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 6,
+            "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true

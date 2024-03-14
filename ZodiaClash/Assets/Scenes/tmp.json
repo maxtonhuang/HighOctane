@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 38,
+            "layerCounter": 34,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -37,11 +37,7 @@
                 "Layer 30",
                 "Layer 31",
                 "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37"
+                "Layer 33"
             ]
         }
     },
@@ -98,7 +94,7 @@
     },
     {
         "Clone": {
-            "Prefab": "enemy_goat.prefab",
+            "Prefab": "guards.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -106,40 +102,15 @@
             ]
         },
         "Entity": {
-            "Name": "Goat_Enemy",
+            "Name": "Guard 1",
             "Current Layer": 0,
             "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -550.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.26726171374320984,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "guards.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 6,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
             "position_x": -300.0,
-            "position_y": 150.0,
+            "position_y": 100.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -156,40 +127,15 @@
             ]
         },
         "Entity": {
-            "Name": "Guard",
+            "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -350.0,
-            "position_y": -150.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "emitter.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Emitter",
-            "Current Layer": 0,
-            "Order in Layer": 7,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 550.0,
+            "position_x": -400.0,
+            "position_y": -100.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -209,13 +155,13 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 1,
-            "Order in Layer": 3,
+            "Current Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -70.0,
             "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -226,13 +172,13 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "You have defeated Yang.",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
+            "Text String": "Stop! What is happening...?",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 1,
+            "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
             "Background": false
@@ -242,9 +188,14 @@
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "",
-                            "Line": "You have defeated Yang.",
-                            "Voice": ""
+                            "Speaker": "Mei",
+                            "Line": "This feels wrong. Why are these statues alive? Isn't this the Jade Emperor's statues?",
+                            "Voice": "Mei_2.ogg"
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "I feel a sinister aura here.",
+                            "Voice": "Mei_3.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -254,9 +205,28 @@
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": false,
+                    "Speaker Required": true,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "tbc.scn"
+                    "Target Scene": "exploration2.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Stop! What is happening...?",
+                            "Voice": "Mei_1.ogg"
+                        }
+                    ],
+                    "Trigger Type": 2,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 },
                 {
                     "Dialogue Lines": [
@@ -275,11 +245,36 @@
                     "Is Triggered": false,
                     "Speaker Required": false,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "exploration2.scn"
+                    "Target Scene": "exploration1.scn"
                 }
             ]
         },
         "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "emitter.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Emitter",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 550.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     },
     {
         "Clone": {
@@ -294,7 +289,7 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -332,7 +327,7 @@
             "Focused Text B": 0.0,
             "Focused Text A": 1.0,
             "Event Name": "Toggle Battle Info",
-            "Event Input": "BattleInfo_Goat.prefab",
+            "Event Input": "BattleInfo_Guard.prefab",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -340,56 +335,5 @@
             "Padding Setting": 1
         },
         "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "Player_Goat.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Player_Goat",
-            "Current Layer": 0,
-            "Order in Layer": 8,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 550.0005493164063,
-            "position_y": -150.0,
-            "rotation": 0.0,
-            "scale": 0.26726171374320984,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "Player_Ox.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Player_Ox",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 571.5005493164063,
-            "position_y": 177.0,
-            "rotation": 6.2831854820251465,
-            "scale": 0.34200000762939453,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
     }
 ]
