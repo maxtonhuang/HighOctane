@@ -1278,10 +1278,10 @@ void UIButtonSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
+	//auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 
-	BattleSystem* battleSys = events.GetBattleSystem();
-	bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
+	//BattleSystem* battleSys = events.GetBattleSystem();
+	//bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
 
 	for (Entity const& entity : m_Entities) {
 		//Size* sizeData = &sizeArray.GetData(entity);
@@ -1633,7 +1633,7 @@ void UIDialogueSystem::Update() {
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
 	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
@@ -1643,7 +1643,7 @@ void UIDialogueSystem::Update() {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
+		//Size* sizeData = &sizeArray.GetData(entity);
 
 		if (dialogueHudData->dialogues.empty())
 		{
@@ -1710,10 +1710,10 @@ void UIDialogueSystem::Update() {
 				// speaker text label
 				if (/*dialogueHudData->currentDialogue->isActive &&*/
 					dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
-					Child* childData = &childArray.GetData(childEntity);
+					//Child* childData = &childArray.GetData(childEntity);
 					TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
 					Size* speakerSizeData = &sizeArray.GetData(childEntity);
-					Model* speakerModelData = &modelArray.GetData(childEntity);
+					//Model* speakerModelData = &modelArray.GetData(childEntity);
 					speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
 					if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
@@ -1735,8 +1735,8 @@ void UIDialogueSystem::Update() {
 				// speaker tex label
 				if (/*dialogueHudData->currentDialogue->isActive &&*/
 					dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Child* childData = &childArray.GetData(childEntity);
-					Size* speakerSizeData = &sizeArray.GetData(childEntity);
+					//Child* childData = &childArray.GetData(childEntity);
+					//Size* speakerSizeData = &sizeArray.GetData(childEntity);
 					Model* speakerModelData = &modelArray.GetData(childEntity);
 					std::string speakerTextString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
@@ -1803,7 +1803,7 @@ void ParentSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {

@@ -86,9 +86,9 @@ void CharacterStats::Start()
  * @brief Applies damage to the character and updates the character's state if health drops to or below zero.
  * @param damage The amount of damage to apply to the character.
  */
-void CharacterStats::TakeDamage(float damage) 
+void CharacterStats::TakeDamage(float d) 
 {
-    damage = floorf(damage);
+    d = floorf(d);
     if (godModeOn && this->tag == CharacterType::PLAYER) {
         // in God Mode, the player does not take damage
         RestoreFullHealth(*this);
@@ -97,7 +97,7 @@ void CharacterStats::TakeDamage(float damage)
 
     if (godModeOn && this->tag == CharacterType::ENEMY) {
         // in God Mode, the enemy takes double the damage from the player
-        damage *= 2;
+        d *= 2;
     }
 
     if (endGameOn && this->tag == CharacterType::ENEMY) {
@@ -106,11 +106,11 @@ void CharacterStats::TakeDamage(float damage)
 
     if (parent->m_Entities.size() > 0) {
         std::string name{ ECS::ecs().GetComponent<Name>(entity).name };
-        DEBUG_PRINT("%s took %f damage!", name.c_str(), damage);
+        DEBUG_PRINT("%s took %f damage!", name.c_str(), d);
     }
 
-    this->stats.health -= damage;
-    this->damage = damage;
+    this->stats.health -= d;
+    this->damage = d;
     if (stats.health <= 0)
     {
         stats.health = 0;
@@ -168,8 +168,8 @@ void CharacterStats::ApplyBloodStack()
         }
     }
     if (debuffs.bloodStack > 0) {
-        float damage = catAttack * bleedPercent;
-        TakeDamage(damage);
+        float d = catAttack * bleedPercent;
+        TakeDamage(d);
         debuffs.bloodStack--;
         if (parent->m_Entities.size() > 0) {
             parent->damagePrefab = "VFX_Bleed.prefab";

@@ -1319,7 +1319,6 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	if (currentDialogue && !currentDialogue->isActive) {
 		currentDialogue->isActive = 1;
 		currentDialogue->viewingIndex = 0;
-		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
 			animationArray.GetData(entity).Start("Launch", entity);
 		}

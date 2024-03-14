@@ -310,20 +310,20 @@ void BattleSystem::Update()
                         if (dialogueCalled == 2) {
 
                             //Do player healing and VFX first
-                            for (CharacterStats* c : turnManage.turnOrderList) {
+                            for (CharacterStats* cc : turnManage.turnOrderList) {
                                 //c->stats.health = c->stats.maxHealth;
-                                if (c->tag == CharacterType::PLAYER) {
-                                    c->stats.health = c->stats.maxHealth;
-                                    c->damage = c->stats.maxHealth;
+                                if (cc->tag == CharacterType::PLAYER) {
+                                    cc->stats.health = cc->stats.maxHealth;
+                                    cc->damage = cc->stats.maxHealth;
                                 }
                             }
                             damagePrefab = "Goat_Skill_VFX.prefab";
                             ProcessDamage();
 
                             //Do for the rest of the enemies afterwards
-                            for (CharacterStats* c : turnManage.turnOrderList) {
-                                c->stats.health = c->stats.maxHealth;
-                                c->damage = c->stats.maxHealth;
+                            for (CharacterStats* cc : turnManage.turnOrderList) {
+                                cc->stats.health = cc->stats.maxHealth;
+                                cc->damage = cc->stats.maxHealth;
                             }
                             ProcessDamage();
 
@@ -1099,7 +1099,7 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
                     ECS::ecs().GetComponent<AnimationSet>(icon).Queue("Expand", icon);
                     deathAtStart = false;
                 }
-                else if (speedUpAndDeath && ECS::ecs().GetComponent<TurnIndicator>(e).character == entity != speedupCharacter->entity) {
+                else if (speedUpAndDeath) {
                     ECS::ecs().GetComponent<AnimationSet>(e).Queue("Next Turn", e);
                 }
                 else if (!speedUpAndDeath && e != turnOrderQueueAnimator.back()) {
