@@ -1036,6 +1036,9 @@ void BattleSystem::InitialiseUIAnimation() {
             for (Entity& e : skillButtons) {
                 animationArray.GetData(e).Stop();
             }
+            if (animationArray.HasComponent(battleInfoButton)) {
+                animationArray.GetData(battleInfoButton).Stop();
+            }
             attackingAnimation = true;
         }
         else {

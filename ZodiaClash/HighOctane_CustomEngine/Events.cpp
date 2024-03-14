@@ -345,6 +345,7 @@ void TogglePause(std::string input) {
 	(void)input;
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
+	PauseResumeGroup("VOC");
 	/*-----Prevent Softlocking-----*/
 	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::RUN);
