@@ -51,6 +51,7 @@ EventManager events;
 
 Entity exitconfirmationmenu{};
 Entity pausemenu{};
+Entity settingsmenu{};
 
 /*!
  * \brief Exits the game menu, voids input
@@ -365,6 +366,41 @@ void TogglePause(std::string input) {
 
 
 //! : Add in the toggle settings function here.
+void ToggleSettings(std::string input) {
+	switch (GetCurrentSystemMode()) {
+	case SystemMode::RUN: std::cout << "RUN\n"; break;
+	case SystemMode::EDIT: std::cout << "EDIT\n"; break;
+	case SystemMode::PAUSE: std::cout << "PAUSE\n"; break;
+	case SystemMode::GAMEHELP: std::cout << "GAMEHELP\n"; break;
+	case SystemMode::SETTINGS: std::cout << "SETTINGS\n"; break;
+	case SystemMode::EXITCONFIRM: std::cout << "EXITCONFIRM\n"; break;
+	case SystemMode::NONE: std::cout << "NONE\n"; break;
+	}
+
+
+	if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+		SetCurrentSystemMode(SystemMode::SETTINGS);
+		settingsmenu = EntityFactory::entityFactory().ClonePrefab("settingsmenu.prefab");
+	}
+	else if (GetCurrentSystemMode() == SystemMode::SETTINGS) {
+		SetCurrentSystemMode(SystemMode::PAUSE);
+		if (settingsmenu != 0) {
+			EntityFactory::entityFactory().DeleteCloneModel(settingsmenu);
+			settingsmenu = 0;
+		}
+	}
+
+
+	switch (GetCurrentSystemMode()) {
+	case SystemMode::RUN: std::cout << "RUN\n"; break;
+	case SystemMode::EDIT: std::cout << "EDIT\n"; break;
+	case SystemMode::PAUSE: std::cout << "PAUSE\n"; break;
+	case SystemMode::GAMEHELP: std::cout << "GAMEHELP\n"; break;
+	case SystemMode::SETTINGS: std::cout << "SETTINGS\n"; break;
+	case SystemMode::EXITCONFIRM: std::cout << "EXITCONFIRM\n"; break;
+	case SystemMode::NONE: std::cout << "NONE\n"; break;
+	}
+}
 
 
 
@@ -515,6 +551,7 @@ void AdvanceTutorial(std::string input) {
 	ts->UpdateState();
 }
 
+
 /*!
  * \brief Initializes the functions for the event manager.
  *
@@ -543,6 +580,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Advance Dialogue"] = AdvanceDialogue;
 	functions["Start Tutorial"] = StartTutorial;
 	functions["Advance Tutorial"] = AdvanceTutorial;
+	functions["Toggle Settings"] = ToggleSettings;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}

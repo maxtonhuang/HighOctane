@@ -453,23 +453,23 @@ struct SliderUI : UIComponent {
 
 	//track, thumb
 	
-	enum class UI_TYPE {
-		NONE,
-		DOT,
-		LINE
+	enum UI_TYPE {
+		UI_TYPE_NONE,
+		UI_TYPE_DOT,
+		UI_TYPE_LINE
 	};
 
-	enum class CONTROL_WHICH {
-		NONE,
-		MASTER,
-		GAME_SOUNDS,
-		MUSIC,
-		ENVIRONMENTAL,
-		VOICE
+	enum CONTROL_WHICH {
+		CONTROL_WHICH_NONE,
+		CONTROL_WHICH_MASTER,
+		CONTROL_WHICH_GAME_SOUNDS,
+		CONTROL_WHICH_MUSIC,
+		CONTROL_WHICH_ENVIRONMENTAL,
+		CONTROL_WHICH_VOICE
 	};
 
-	float thumbvalue{};
-	bool isBeingDragged{};
+	//float thumbvalue{};
+	//bool isBeingDragged{};
 	Entity linkedEntity{};
 	UI_TYPE type{};
 	CONTROL_WHICH controlWhich{};

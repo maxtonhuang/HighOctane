@@ -1757,10 +1757,13 @@ void UIDialogueSystem::Update() {
 ******************************************************************************/
 void UISliderSystem::Update() {
 
-	vmath::Vector2 cmp = { 0.f ,0.f };
+	//std::cout << "Inside UISliderSystem::Update()" << std::endl;
+
+	static vmath::Vector2 cmp = { 0.f ,0.f };
 	bool sliderMouseClicked = false;
-	bool sliderMousedragging = false;
+	bool sliderMouseDragging = false;
 	bool sliderMouseReleased = false;
+	Entity matchSliders[6] = { {std::numeric_limits<Entity>().max()} };
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UISLIDER]) {
 		switch (msg.type) {
@@ -1773,70 +1776,103 @@ void UISliderSystem::Update() {
 			break;
 
 		case TYPE::MOUSE_DOWN:
-			sliderMousedragging = true;
-			break;
-
-		case TYPE::MOUSE_UP:
-			sliderMouseReleased = true;
+			sliderMouseDragging = true;
 			break;
 		}
 	}
 
-	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
-	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
 	auto& sliderUIArray = componentManager.GetComponentArrayRef<SliderUI>();
+	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 
-	// std::numeric_limits<Entity>().max()
-	if (sliderMouseClicked) {
-		for (Entity const& entity : m_Entities) {
-
-			Transform& transformData = transformArray.GetData(entity);
-			SliderUI& sliderUIData = sliderUIArray.GetData(entity);
-			//Size& sizeData = sizeArray.GetData(entity);
-			//Tex& texData = texArray.GetData(entity);
-
-			if (sliderMouseClicked && IsNearby(transformData.position, cmp, 10.f) && sliderUIData.type == SliderUI::UI_TYPE::DOT) {
-				settingsEntityBeingDragged = entity;
+	for (Entity const& entity : m_Entities) {
+		Name& nameData = nameArray.GetData(entity);
+		if (nameData.name.find("Slider") != std::string::npos) {
+			if (nameData.name[nameData.name.length() - 1] == 'b') {
+				matchSliders[nameData.name[nameData.name.length() - 2] - '0'] = entity;
 			}
 		}
 	}
 
-	if (sliderMousedragging && settingsEntityBeingDragged != std::numeric_limits<Entity>().max()) {
+	for (Entity const& entity : m_Entities) {
 
+		Name& nameData = nameArray.GetData(entity);
+		Transform& transformData = transformArray.GetData(entity);
+
+		if (nameData.name.find("Slider") != std::string::npos && nameData.name[nameData.name.length() - 1] != 'b') {
+
+			Child& childData = childArray.GetData(entity);
+			SliderUI& sliderUIData = sliderUIArray.GetData(entity);
+			sliderUIData.linkedEntity = matchSliders[sliderUIData.controlWhich];
+			Model& modelDataParent = modelArray.GetData(sliderUIData.linkedEntity);
+				
+			switch (sliderUIData.controlWhich) {
+
+			case 1: // Master
+				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("Master") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				break;
+
+			case 2: // Game Sounds
+				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("SFX") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				break;
+
+			case 3: // Music
+				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("BGM") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				break;
+
+			case 4: // Environment
+				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("ENV") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				break;
+
+			case 5: // Voice
+				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("VOC") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				break;
+
+			default:
+				break;
+
+			}		
+		}
+
+		if (sliderMouseClicked && IsNearby(transformData.position, cmp, 25.f) && sliderUIArray.HasComponent(entity) && sliderUIArray.GetData(entity).type == SliderUI::UI_TYPE::UI_TYPE_DOT) {
+			settingsEntityBeingDragged = entity;
+		}
+	}
+
+	if (sliderMouseDragging && settingsEntityBeingDragged != std::numeric_limits<Entity>().max()) {
 			Transform& transformData = transformArray.GetData(settingsEntityBeingDragged);
+			Child& childData = childArray.GetData(settingsEntityBeingDragged);
 			SliderUI& sliderUIData = sliderUIArray.GetData(settingsEntityBeingDragged);
 			Model& modelDataParent = modelArray.GetData(sliderUIData.linkedEntity);
-			transformData.position.x = std::clamp(cmp.x, modelDataParent.GetLeft().x/* + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)*/, modelDataParent.GetRight().x)/* - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)*/;
-			int volume_new = static_cast<int>((transformData.position.x - modelDataParent.GetLeft().x) / (modelDataParent.GetRight().x - modelDataParent.GetLeft().x));
+			childData.offset.position.x = transformData.position.x = std::clamp(cmp.x, modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f), modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+			float volume_new = ((transformData.position.x - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f))) / ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f))));
 			switch (sliderUIData.controlWhich) {
-			case SliderUI::CONTROL_WHICH::MASTER:
-				std::cout << "Master Volume: " << volume_new << std::endl;
+			case SliderUI::CONTROL_WHICH::CONTROL_WHICH_MASTER:
 				// set master volume
+				assetmanager.audio.SetGroupVolume("Master", volume_new);
 				break;
 				
-			case SliderUI::CONTROL_WHICH::GAME_SOUNDS:
-				std::cout << "Game Sounds Volume: " << volume_new << std::endl;
+			case SliderUI::CONTROL_WHICH::CONTROL_WHICH_GAME_SOUNDS:
 				// set game sounds volume
+				assetmanager.audio.SetGroupVolume("SFX", volume_new);
 				break;
 
-			case SliderUI::CONTROL_WHICH::MUSIC:
-				std::cout << "Music Volume: " << volume_new << std::endl;
+			case SliderUI::CONTROL_WHICH::CONTROL_WHICH_MUSIC:
 				// set music volume
+				assetmanager.audio.SetGroupVolume("BGM", volume_new);
 				break;
 
-			case SliderUI::CONTROL_WHICH::ENVIRONMENTAL:
-				std::cout << "Environmental Volume: " << volume_new << std::endl;
+			case SliderUI::CONTROL_WHICH::CONTROL_WHICH_ENVIRONMENTAL:
 				// set environmental volume
+				assetmanager.audio.SetGroupVolume("ENV", volume_new);
 				break;
 
-			case SliderUI::CONTROL_WHICH::VOICE:
-				std::cout << "Voice Volume: " << volume_new << std::endl;
+			case SliderUI::CONTROL_WHICH::CONTROL_WHICH_VOICE:
 				// set voice volume
+				assetmanager.audio.SetGroupVolume("VOC", volume_new);
 				break;
 
 			default:
@@ -1845,12 +1881,9 @@ void UISliderSystem::Update() {
 			}
 	}		
 
-	if (sliderMouseReleased) {
+	if (!sliderMouseDragging) {
 		settingsEntityBeingDragged = std::numeric_limits<Entity>().max();
 	}
-
-
-
 }
 
 

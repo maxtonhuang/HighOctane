@@ -280,6 +280,7 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
 	pauseSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	gameHelpSystemList.emplace_back(uiButtonSystem, "UI Button System");
+	settingsSystemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	std::shared_ptr<UIHealthBarSystem> uiHealthBarSystem = ECS::ecs().RegisterSystem<UIHealthBarSystem>();
 	runSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
@@ -334,7 +335,7 @@ void EngineCore::Run(bool const& mode) {
 	//editSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 	//systemList.emplace_back(uiSliderSystem, "UI Slider System");
 	//pauseSystemList.emplace_back(uiSliderSystem, "UI Slider System");
-	//gameHelpSystemList.emplace_back(uiSliderSystem, "UI Slider System");
+	gameHelpSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 	settingsSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
@@ -368,6 +369,7 @@ void EngineCore::Run(bool const& mode) {
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");
 	systemList.emplace_back(modelSystem, "Model System");
+	settingsSystemList.emplace_back(modelSystem, "Model System");
 
 	std::shared_ptr<AudioSystem> audioSystem = ECS::ecs().RegisterSystem<AudioSystem>();
 	runSystemList.emplace_back(audioSystem, "Audio System");
@@ -628,10 +630,10 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		signature.set(ECS::ecs().GetComponentType<Parent>());
+		//signature.set(ECS::ecs().GetComponentType<Parent>());
 		signature.set(ECS::ecs().GetComponentType<Child>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
-		signature.set(ECS::ecs().GetComponentType<SliderUI>());
+		//signature.set(ECS::ecs().GetComponentType<SliderUI>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
