@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 13,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -16,19 +16,7 @@
                 "Layer 9",
                 "Layer 10",
                 "Layer 11",
-                "Layer 12",
-                "Layer 13",
-                "Layer 14",
-                "Layer 15",
-                "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24"
+                "Layer 12"
             ]
         }
     },
@@ -45,7 +33,7 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 6,
+            "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -61,7 +49,7 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Font Size": 0.5,
+            "Font Size": 0.20000000298023224,
             "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
             "r": 1.0,
             "g": 1.0,

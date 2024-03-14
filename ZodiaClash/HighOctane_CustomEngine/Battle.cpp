@@ -308,15 +308,27 @@ void BattleSystem::Update()
                     if (activeCharacter == c) {
                         events.Call("Start Dialogue", "TURN");
                         if (dialogueCalled == 2) {
-                            for (CharacterStats* c : turnManage.turnOrderList) {
-                                if (c->tag == CharacterType::PLAYER) {
-                                    c->stats.health = c->stats.maxHealth;
+
+                            //Do player healing and VFX first
+                            for (CharacterStats* cc : turnManage.turnOrderList) {
+                                //c->stats.health = c->stats.maxHealth;
+                                if (cc->tag == CharacterType::PLAYER) {
+                                    cc->stats.health = cc->stats.maxHealth;
+                                    cc->damage = cc->stats.maxHealth;
                                 }
                             }
-                            events.Call("Restart Music", "ZodiaClash_Boss.ogg");
-                            AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                             damagePrefab = "Goat_Skill_VFX.prefab";
                             ProcessDamage();
+
+                            //Do for the rest of the enemies afterwards
+                            for (CharacterStats* cc : turnManage.turnOrderList) {
+                                cc->stats.health = cc->stats.maxHealth;
+                                cc->damage = cc->stats.maxHealth;
+                            }
+                            ProcessDamage();
+
+                            events.Call("Restart Music", "ZodiaClash_Boss.ogg");
+                            AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                         }
                     }
 
@@ -366,9 +378,10 @@ void BattleSystem::Update()
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Goat_Enemy") {
                     for (auto& character : turnManage.characterList) {
                         if (character.tag == CharacterType::PLAYER) {
-                            character.stats.health += 0.5f * c->stats.maxHealth;
+                            character.stats.health += 0.6f * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
+                                character.damage = -character.stats.maxHealth;
                             }
                         }
                         if (character.tag == CharacterType::ENEMY) {
@@ -610,7 +623,7 @@ void BattleSystem::CompleteBattle() {
         }
         else if (battleState == LOSE) {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
-            events.Call("Start Dialogue", "LOSE");
+            //events.Call("Start Dialogue", "LOSE");
         }
         events.Call("Play Sound", "Battle End_Edited.wav");
     }
@@ -679,6 +692,8 @@ void BattleSystem::ProcessDamage() {
                         }
                         else {
                             animationArray->GetData(entity).Start("Death", entity);
+                            c.buffs = CharacterStats::buff{};
+                            c.debuffs = CharacterStats::debuff{};
                             if (cs->boss && ECS::ecs().EntityExists(bossAura)) {
                                 ECS::ecs().DestroyEntity(bossAura);
                             }
@@ -736,6 +751,8 @@ void BattleSystem::InitialiseBattleUI() {
     static auto& turnorderArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<TurnIndicator>() };
     static auto& texArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
     static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+    static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
+    static auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
     if (m_Entities.size() > 0) {
         skillButtons.clear();
         enemyAnimators.clear();
@@ -827,6 +844,17 @@ void BattleSystem::InitialiseBattleUI() {
                 }
             }
             enemyAnimators.push_back(animator);
+        }
+
+        //Initialise battle info button
+        for (auto& pair : buttonArray.GetPairArray()) {
+            if (cloneArray.HasComponent(pair.first)) {
+                if (pair.second->eventName == "Toggle Battle Info") {
+                    battleInfoButton = pair.first;
+                    allBattleUI.push_back(pair.first);
+                    break;
+                }
+            }
         }
     }
 }
@@ -1071,7 +1099,7 @@ void BattleSystem::AnimateRemoveTurnOrder(Entity entity) {
                     ECS::ecs().GetComponent<AnimationSet>(icon).Queue("Expand", icon);
                     deathAtStart = false;
                 }
-                else if (speedUpAndDeath && ECS::ecs().GetComponent<TurnIndicator>(e).character == entity != speedupCharacter->entity) {
+                else if (speedUpAndDeath) {
                     ECS::ecs().GetComponent<AnimationSet>(e).Queue("Next Turn", e);
                 }
                 else if (!speedUpAndDeath && e != turnOrderQueueAnimator.back()) {

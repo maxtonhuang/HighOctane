@@ -58,6 +58,8 @@ public:
 	bool IsGroupPaused(const char* name); 
 	//Sets the BGM of the scene
 	void SetBGM(const char* name); 
+	//Restarts scene BGM to original
+	void RestartBGM();
 	//Sets the ambience of the scene
 	void SetAmbience(const char* name);
 
@@ -96,6 +98,7 @@ private:
 	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
 
 	std::string currentBGM{};
+	std::string originalBGM{};
 	std::string currentAmbience{};
 	std::vector<std::string> soundPaths{};
 	std::vector<std::string> musicPaths{};

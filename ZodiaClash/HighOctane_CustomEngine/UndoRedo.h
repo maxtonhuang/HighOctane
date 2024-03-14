@@ -41,24 +41,43 @@ enum class ACTION
     NONE,
     TRANSFORM,
     ADDENTITY,
-    DELENTITY
+    DELENTITY,
+    SIZE,
+    TEXTURE,
+    ADDCOMP,
+    DELCOMP
 };
 
 class UndoRedo {
 public:
     void RecordCurrent(Entity entity, ACTION action);
+    void RecordComponent(Entity entity, ACTION action, std::string component);
     void Undo();
+    void Redo();
+    size_t UndoSize();
+    size_t RedoSize();
+    void Layer(size_t layer);
     Transform CheckFrontTransform();
+    bool notInUndoStack(size_t checkEntity);
+    bool notInRedoStack(size_t checkEntity);
     void StackPopFront();
+    bool Find(Entity entity);
+    bool undoFlag = false;
 private:
     struct EntityChanges {
         Entity entity{};
+        ACTION action{};
         Transform transform{};
         Clone clone{};
-        ACTION action{};
+        Size size{};
+        Tex tex{};
+        size_t layerIndex{};
+        std::string component;
     };
 
     std::deque<EntityChanges> undoStack;
+    std::deque<EntityChanges> redoStack;
+    std::deque<Entity>entityBuffer;
 };
 
 extern UndoRedo undoRedo;

@@ -45,16 +45,27 @@ void DialogueWindow(Entity entity) {
                     // Column 1: Save Settings
                     ImGui::TableSetColumnIndex(0);
                     // Enforce index
-                    int& selectedIndex = dialogue.viewingIndex;
-                    int maxViewingIndex = static_cast<int>(dialogue.dialogueLines.size()) - 1;
-                    ImGui::InputInt("Viewing Index", &selectedIndex);
-                    selectedIndex = (maxViewingIndex > 0) ? std::clamp(selectedIndex, 0, maxViewingIndex) : 0;
+                    if (dialogueData.currentDialogue == &dialogue) {
+                        int& selectedIndex = dialogueData.currentDialogue->viewingIndex;
+                        int maxViewingIndex = static_cast<int>(dialogue.dialogueLines.size()) - 1;
+                        ImGui::InputInt("Viewing Index", &selectedIndex);
+                        selectedIndex = (maxViewingIndex > 0) ? std::clamp(selectedIndex, 0, maxViewingIndex) : 0;
+                    }
+                    else {
+                        ImGui::Text("Viewing Index: Edit this Dialogue to toggle!");
+                    }
 
                     ImGui::Text("Is Active: %s", (dialogue.isActive) ? "true" : "false");
                     ImGui::SameLine();
                     ImGui::Text("\t Is Triggered: %s", (dialogue.isTriggered) ? "true" : "false");
 
                     if (ImGui::Button("Edit this Dialogue")) {
+                        // reset prev editing dialogue to defaults
+                        if (dialogueData.currentDialogue) {
+                            dialogueData.currentDialogue->isActive = false;
+                            dialogueData.currentDialogue->isTriggered = false;
+							dialogueData.currentDialogue->viewingIndex = 0;
+                        }
                         dialogueData.currentDialogue = &dialogue;
                         dialogueData.isEditing = true;
                         transformData.position.x = -70.0f;

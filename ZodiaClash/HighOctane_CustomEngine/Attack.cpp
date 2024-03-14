@@ -187,7 +187,7 @@ void Attack::UseAttack(CharacterStats* target) {
 
     target->TakeDamage(damage);
     if (target->buffs.reflectStack > 0) {
-        owner->TakeDamage(0.5 * damage);
+        owner->TakeDamage(0.5f * damage);
     }
 }
 

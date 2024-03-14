@@ -110,8 +110,8 @@ void ChangeScene(std::string input) {
 	if (sceneName == input) {
 		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 			events.Call("Toggle Pause", "");
+			return;
 		}
-		return;
 	}
 
 	newScene = true;
@@ -126,6 +126,20 @@ void ChangeScene(std::string input) {
 	ExtractSkipLockAfterDeserialization();*/
 	//playButton = true;
 }
+
+/*!
+ * \brief Restarts the current scene
+ *
+ * std::string input : The input string.
+ */
+void RestartScene(std::string input) {
+	(void)input;
+
+	transitionActive = true;
+	transitionNextScene = sceneName;
+	transitionType = true;
+}
+
 /*!
  * \brief Plays the input audio name to SFX group
  *
@@ -294,7 +308,7 @@ void ToggleBattleInfo(std::string input) {
 	BattleSystem* bs = events.GetBattleSystem();
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
-	if (bs->attackingAnimation || ts->overlayOn) {
+	if (ts->overlayOn) {
 		return;
 	}
 
@@ -324,9 +338,15 @@ void TogglePause(std::string input) {
 		return;
 	}
 
+	BattleSystem* bs = events.GetBattleSystem();
+	if (bs->battleState == LOSE) {
+		return;
+	}
+
 	(void)input;
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
+	PauseResumeGroup("VOC");
 	/*-----Prevent Softlocking-----*/
 	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::RUN);
@@ -572,6 +592,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Toggle Pause"] = TogglePause;
 	functions["Exit Game"] = ExitGame;
 	functions["Change Scene"] = ChangeScene;
+	functions["Restart Scene"] = RestartScene;
 	functions["Transition Scene"] = TransitionScene;
 	functions["Toggle Help"] = ToggleHelp;
 	functions["Confirm Exit"] = ConfirmExit;

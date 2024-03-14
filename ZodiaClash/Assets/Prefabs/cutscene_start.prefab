@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 7,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -10,7 +10,25 @@
                 "Layer 3",
                 "Layer 4",
                 "Layer 5",
-                "Layer 6"
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24"
             ]
         }
     },
@@ -43,7 +61,7 @@
                 "Total Frames": 60,
                 "Group Name": "Cutscene",
                 "Loop": false,
-                "Frame Time": 0.800000011920929,
+                "Frame Time": 0.8999999761581421,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
@@ -66,17 +84,22 @@
                         "Animation Type": "Event",
                         "Key Frames": [
                             {
-                                "Frame Number": 13,
+                                "Frame Number": 12,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
                             {
-                                "Frame Number": 28,
+                                "Frame Number": 24,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
                             {
-                                "Frame Number": 43,
+                                "Frame Number": 35,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 47,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },

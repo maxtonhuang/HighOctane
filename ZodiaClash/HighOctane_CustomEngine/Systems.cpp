@@ -796,9 +796,17 @@ void SerializationSystem::Update() {
 	}
 
 	if (newScene) {
-		assetmanager.UnloadAll();
-		if (newSceneName != "") {
-			assetmanager.LoadAssets(newSceneName);
+		if (newSceneName != sceneName) {
+			assetmanager.UnloadAll();
+			if (newSceneName != "") {
+				assetmanager.LoadAssets(newSceneName);
+			}
+		}
+		else {
+			std::string jsonpath{ sceneName.substr(0,sceneName.find('.')) };
+			jsonpath += ".json";
+			assetmanager.LoadAssets(jsonpath);
+			assetmanager.audio.RestartBGM();
 		}
 		initLevel = true;
 		newScene = false;
@@ -939,7 +947,12 @@ void EditingSystem::Update() {
 				break;
 			case INFO::KEY_Z:
 				if (controlKeyPressed) {
-					undoRedo.Undo();
+					if (shiftKeyPressed) {
+						undoRedo.Redo();
+					}
+					else {
+						undoRedo.Undo();
+					}
 				}
 				break;
 			}
@@ -1053,12 +1066,18 @@ void EditingSystem::Update() {
 
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
-			undoRedo.RecordCurrent(entity, ACTION::DELENTITY);
-			ECS::ecs().RemoveComponent<Clone>(entity);
-			entitiesToSkip[entity] = false;
-			entitiesToLock[entity] = false;
+			if (!fullyDeleteLayer) {
+				undoRedo.RecordCurrent(entity, ACTION::DELENTITY); // if !Delete layer then record
+				ECS::ecs().RemoveComponent<Clone>(entity);
+				entitiesToSkip[entity] = false;
+				entitiesToLock[entity] = false;
+			}
+			else {
+				EntityFactory::entityFactory().DeleteCloneModel(entity);
+			}
 		}
 		toDestroy = false;
+		fullyDeleteLayer = false;
 		selectedEntities.clear();
 		UnselectAll();
 		selectedLayer = std::numeric_limits<size_t>::max();
@@ -1270,9 +1289,10 @@ void UIButtonSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+	//auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 
-	BattleSystem* battleSys = events.GetBattleSystem();
-	bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
+	//BattleSystem* battleSys = events.GetBattleSystem();
+	//bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
 
 	for (Entity const& entity : m_Entities) {
 		//Size* sizeData = &sizeArray.GetData(entity);
@@ -1287,10 +1307,14 @@ void UIButtonSystem::Update() {
 		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		modelData->SetAlpha(btnColor.a);
 
-		if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
-			battleSys->battleInfoButton = entity;
-			battleSys->allBattleUI.push_back(entity);
-		}
+		//if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
+		//	battleSys->battleInfoButton = entity;
+		//	battleSys->allBattleUI.push_back(entity);
+		//	if (!battleSys->battlestarted) {
+		//		animationArray.GetData(entity).Stop();
+		//		animationArray.GetData(entity).Start("Pop In", entity);
+		//	}
+		//}
 	}
 }
 
@@ -1490,8 +1514,8 @@ void UIAllyHudSystem::Update() {
 		for (Entity const& entity : m_Entities) {
 			AllyHUD* allyHudData = &allyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
-			bool checkResult = false;
-			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
+			bool checkResult = true;
+			//allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
 				if (!allyHudData->initialised) {
 					allyHudData->initialised = true;
@@ -1502,7 +1526,7 @@ void UIAllyHudSystem::Update() {
 				}
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
-				healthBarData->charaStatsRef = nullptr;
+				//healthBarData->charaStatsRef = nullptr;
 			}
 		}
 	}
@@ -1532,8 +1556,8 @@ void UIEnemyHudSystem::Update() {
 		for (Entity const& entity : m_Entities) {
 			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
-			bool checkResult = false;
-			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
+			bool checkResult = true;
+			//enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
 			if (checkResult) {
 				if (!enemyHudData->initialised) {
 					enemyHudData->initialised = true;
@@ -1620,7 +1644,7 @@ void UIDialogueSystem::Update() {
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
 	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
@@ -1630,7 +1654,7 @@ void UIDialogueSystem::Update() {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		Size* sizeData = &sizeArray.GetData(entity);
+		//Size* sizeData = &sizeArray.GetData(entity);
 
 		if (dialogueHudData->dialogues.empty())
 		{
@@ -1695,12 +1719,12 @@ void UIDialogueSystem::Update() {
 			for (int count = 0; count < parentData->children.size(); count++) {
 				Entity childEntity = parentData->children[count];
 				// speaker text label
-				if (dialogueHudData->currentDialogue->isActive &&
+				if (/*dialogueHudData->currentDialogue->isActive &&*/
 					dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
-					Child* childData = &childArray.GetData(childEntity);
+					//Child* childData = &childArray.GetData(childEntity);
 					TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
 					Size* speakerSizeData = &sizeArray.GetData(childEntity);
-					Model* speakerModelData = &modelArray.GetData(childEntity);
+					//Model* speakerModelData = &modelArray.GetData(childEntity);
 					speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
 					if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
@@ -1710,9 +1734,9 @@ void UIDialogueSystem::Update() {
 					}
 					speakerTextData->hasBackground = false;
 
-					if (!dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
-					events.Call("Stop Group", "VOC");
-					events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
+					if (dialogueHudData->currentDialogue->isActive && !dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
+					//events.Call("Stop Group", "VOC");
+					//events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
 
 					dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
 					}
@@ -1720,17 +1744,15 @@ void UIDialogueSystem::Update() {
 					//dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 				}
 				// speaker tex label
-				if (dialogueHudData->currentDialogue->isActive &&
+				if (/*dialogueHudData->currentDialogue->isActive &&*/
 					dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					Child* childData = &childArray.GetData(childEntity);
-					Size* speakerSizeData = &sizeArray.GetData(childEntity);
+					//Child* childData = &childArray.GetData(childEntity);
+					//Size* speakerSizeData = &sizeArray.GetData(childEntity);
 					Model* speakerModelData = &modelArray.GetData(childEntity);
 					std::string speakerTextString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
 					if (speakerTextString == "" && cloneArray.HasComponent(childEntity))
 					{
-						/*speakerSizeData->height = 0.001f;
-						speakerSizeData->width = 0.001f;*/
 						speakerModelData->SetAlpha(0.0f);
 					}
 					else
@@ -1933,7 +1955,7 @@ void ParentSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {

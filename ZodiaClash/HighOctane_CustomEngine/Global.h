@@ -94,6 +94,8 @@ extern Entity keyObjectID;
 extern glm::vec4 keyObjectColor;
 extern bool snappingOn;
 extern bool tilemapOn;
+extern bool fullyDeleteLayer;
+extern std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> typeMap;
 
 extern float gridSpacingX;
 extern float gridSpacingY;

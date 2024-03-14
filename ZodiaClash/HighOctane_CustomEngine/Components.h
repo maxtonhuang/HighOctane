@@ -70,6 +70,18 @@ struct Transform {
     float                   inverseMass{1/mass};
     Vec2                    acceleration{};
     Vec2                    force{acceleration * mass};
+    bool operator==(const Transform& rhs) {
+        if (position == rhs.position) {
+            return false;
+        }
+        if (rotation == rhs.rotation) {
+            return false;
+        }
+        if (scale == rhs.scale) {
+            return false;
+        }
+        return true;
+    }
 };
 
 //Operator overload for child offset calculations

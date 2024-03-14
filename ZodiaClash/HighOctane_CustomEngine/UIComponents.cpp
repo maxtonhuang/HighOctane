@@ -536,10 +536,11 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, 
 					animationArray.GetData(entity).Queue("Reset", entity);
 				}
 				else {
-					textLabelData.textColor = hoveredColor.textColor;
+					textLabelData.textColor = defaultColor.textColor;
 				}
 			}
 			previousState = STATE::NONE;
+			textLabelData.textColor = defaultColor.textColor;
 			break;
 		default:
 			textLabelData.textColor = defaultColor.textColor;
@@ -1318,10 +1319,15 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	if (currentDialogue && !currentDialogue->isActive) {
 		currentDialogue->isActive = 1;
 		currentDialogue->viewingIndex = 0;
-		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		if (animationArray.HasComponent(entity)) {
 			animationArray.GetData(entity).Start("Launch", entity);
 		}
+
+		//Update audio system
+		events.Call("Stop Group", "VOC");
+		events.Call("Play Voice", currentDialogue->dialogueLines[currentDialogue->viewingIndex].voice);
+
+		//Update battle system
 		switch (battleSys->dialogueCalled) {
 		case 0:
 			battleSys->dialogueCalled = 1;
@@ -1416,6 +1422,10 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 			battleSys->MoveInAllUIAnimation();
 			animationArray.GetData(entity).Start("Exit", entity);
 		}
+	}
+	else {
+		events.Call("Stop Group", "VOC");
+		events.Call("Play Voice", currentDialogue->dialogueLines[currentDialogue->viewingIndex].voice);
 	}
 }
 

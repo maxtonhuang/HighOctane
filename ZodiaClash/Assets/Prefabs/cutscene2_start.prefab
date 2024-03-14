@@ -1,0 +1,101 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 13,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Cutscene Start",
+            "Current Layer": 0,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 9089.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 512.0,
+            "height": 512.0
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Cutscene",
+                "Loop": false,
+                "Frame Time": 0.5,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59,
+                                "Target": "Cutscene End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Event",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 13,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 28,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 43,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Cutscene"
+    }
+]
