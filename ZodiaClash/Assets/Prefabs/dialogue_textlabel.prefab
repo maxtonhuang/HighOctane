@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,12 +23,7 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24"
+                "Layer 19"
             ]
         }
     },
@@ -48,7 +43,7 @@
         },
         "Transform": {
             "position_x": -70.0,
-            "position_y": -750.0,
+            "position_y": -350.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -79,13 +74,13 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
+            "Text String": "line1",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 1,
+            "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
             "Background": false
@@ -95,32 +90,12 @@
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "Mei",
-                            "Line": "In Ancient China, the people struggled to keep track of time. Hence, the Jade Emperor decided to have a way to measure time to make things easier for everyone.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "He divided time into twelve months, and every twelve months would then be considered a full cycle. To preserve this cycle, he created twelve powerful artifacts that represented every cycle.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "On his birthday, he announced a Zodiac Race, where the twelve winners who possessed these artifacts would gain immortality and eternal blessings for their descendants. ",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "From then on, people would also worship them as the greatest animals in Ancient China. Hence, animals from all over Ancient China sent their strongest representatives to participate in the race.",
-                            "Voice": ""
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "Mei (cat), chosen by the family of Cats, would then journey towards the Jade Mountains to fight for a place for the artifacts.",
+                            "Speaker": "speaker1",
+                            "Line": "line1",
                             "Voice": ""
                         }
                     ],
-                    "Trigger Type": 0,
+                    "Trigger Type": 7,
                     "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
@@ -128,8 +103,8 @@
                     "Is Active": false,
                     "Is Triggered": false,
                     "Speaker Required": true,
-                    "Post Dialogue Scene": true,
-                    "Target Scene": "exploration1.scn"
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 }
             ]
         },
@@ -201,7 +176,7 @@
         },
         "Transform": {
             "position_x": -620.0,
-            "position_y": -605.0,
+            "position_y": -205.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -211,7 +186,7 @@
             "isVisible": true
         },
         "Size": {
-            "width": 100.5,
+            "width": 24.0,
             "height": 74.25
         },
         "Scripts": {
@@ -232,7 +207,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Mei",
+            "Text String": "",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -269,7 +244,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -750.0,
+            "position_y": -169.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -280,14 +255,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "UI_dialogue_box_bg_v02.png"
+            "Texture File Path": "UI_dialogue_box_bg_v03.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 1800.0,
-            "height": 500.0
+            "width": 1900.0,
+            "height": 900.0
         },
         "Model": {
             "Model type": 3,
@@ -302,7 +277,7 @@
         "DialogueSpeaker": {},
         "Child": {
             "position_x": 70.0,
-            "position_y": 0.0,
+            "position_y": 181.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -325,7 +300,7 @@
         },
         "Transform": {
             "position_x": -620.0,
-            "position_y": -605.0,
+            "position_y": -205.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

@@ -536,10 +536,11 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, 
 					animationArray.GetData(entity).Queue("Reset", entity);
 				}
 				else {
-					textLabelData.textColor = hoveredColor.textColor;
+					textLabelData.textColor = defaultColor.textColor;
 				}
 			}
 			previousState = STATE::NONE;
+			textLabelData.textColor = defaultColor.textColor;
 			break;
 		default:
 			textLabelData.textColor = defaultColor.textColor;

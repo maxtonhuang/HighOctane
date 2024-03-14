@@ -1707,7 +1707,7 @@ void UIDialogueSystem::Update() {
 			for (int count = 0; count < parentData->children.size(); count++) {
 				Entity childEntity = parentData->children[count];
 				// speaker text label
-				if (dialogueHudData->currentDialogue->isActive &&
+				if (/*dialogueHudData->currentDialogue->isActive &&*/
 					dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 					Child* childData = &childArray.GetData(childEntity);
 					TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
@@ -1732,7 +1732,7 @@ void UIDialogueSystem::Update() {
 					//dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 				}
 				// speaker tex label
-				if (dialogueHudData->currentDialogue->isActive &&
+				if (/*dialogueHudData->currentDialogue->isActive &&*/
 					dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
 					Child* childData = &childArray.GetData(childEntity);
 					Size* speakerSizeData = &sizeArray.GetData(childEntity);
@@ -1741,8 +1741,6 @@ void UIDialogueSystem::Update() {
 
 					if (speakerTextString == "" && cloneArray.HasComponent(childEntity))
 					{
-						/*speakerSizeData->height = 0.001f;
-						speakerSizeData->width = 0.001f;*/
 						speakerModelData->SetAlpha(0.0f);
 					}
 					else
