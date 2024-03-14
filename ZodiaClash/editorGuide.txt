@@ -80,7 +80,21 @@ Editing System:
 - Within the viewport,(if it is not locked by the layering system) selecting an entity would have a green box highlighted around it, means it is editable.
 - Resize it by hovering over the corners or sides and dragging. It would increase or decrease the scale.
 - Drag the editable entity anywhere on screen.
+- Object Snapping Guide lines will appear as you drag objects around the scene.
+- The object that you are moving will snap when it comes near any other object - center to current object's center, top to current object's bottom, bottom to current object's top, left to current object's right, and right to current object's left, in that order of priority. When the 2 objects are centered, a tool tip with the word "Center" will appear, and when the 2 objects are snapped in 2 directions (x and y), a tool tip with the word "Intersect" will appear.
+- Toggle on/off the Snapping Guide in "Options > Turn Off Snapping Guide". (Snapping Guides and Tilemap editor are mutually exclusive. Both can be turned off at the same time. Turning one on will turn off the other.)
 ================================================================
+
+Tilemap Editor:
+- In the Tilemap Control panel, check the checkbox to Turn on the Tilemap Editor. (Snapping guides and Tilemap editor are mutually exclusive. Both can be turned off at the same time. Turning one on will turn off the other.)
+- A grid will appear in the viewport.
+- In the Tilemap Control panel, you can adjust the X width, Y height, and offset values of the grid.
+- Offset shifts the grid from -50% to +50% for fine grained control.
+- You can also lock both the X and Y axes to have the same values for grid spacing and offset.
+- Below the sliders, is the Snap-to-corner selection where you can select which corner of the grid you want your "tile" to snap to.
+- In the last section of the Tilemap Control Panel, you can automatically resize the grid width and height to the dimensions of the selected object. Even if the object is rotated, clicking the buttons will automatically resize the grid to the exact fit of the object. Note that this function only works when only 1 object is selected. (Multiple selected objects is not supported for this)
+- Finally, you can also resize the object to the grid's width or height (aspect ratio will be maintained), by right-clicking on the selected object, and choosing Scale to Grid Width or Height. There is also a function to resize the object to fit into the grid's width and height without maintaining aspect ratio, but will only be available if the object's rotation is 0 (ie, no rotation).
+=================================================================
 
 Content Browser:
 - Browse through various files and folders within asset.
@@ -167,10 +181,19 @@ SkillPointHUD:
 
 DialogueHUD:
 - Able save lines of a dialogue specific to the scene.
-- Able to conveniently add, edit and delete lines of the dialogue. Dialogue Editor window is docked at the bottom to facilitate this purpose.
-- Able to toggle dialogue's trigger condition. Selecting the "Launch dialogue automatically?" checkbox will allow the dialogue to trigger as soon as the scene begins. Otherwise, the dialogue trigger will be event-based, either as an explicit button event trigger with "Start Dialogue" selected in the Events Availble field of the Button Event property (Properties panel docked to the left), or as internal event call as specified by the system.
-- Able to toggle the dialogue's background. Currently we recommend selecting the "Dialogue has speaker?" checkbox to facilitate dialogue conversations (for contrast over other on-screen elements), not doing so is recommended for dialogue cutscenes (narration). However feel free to customize as you wish.
-- If "Dialogue has speaker?" is not checked, the Speaker column of the table will be hidden. Ensure all entries in the Speaker column is cleared before unchecking this.
+- Able to conveniently add, edit and delete lines of the dialogue. Each scene can have 1 or more dialogues, and each dialogue can have 1 or more lines. Dialogue Editor window is docked at the bottom to facilitate this purpose.
+- Able to toggle dialogue's trigger condition.
+	- Auto: Triggers as soon as the scene begins. Used in beginning cutscene.
+	- Event: Triggers either by internal event call. Used in exploration cutscenes through collision event.
+	- Pre-battle: Triggers as soon as the battle begins. Used in battle.scn (tutorial level).
+	- Turn: Triggers when the round counter hits the specified number. Used in battle3.scn (ox level)
+	- Health: Triggers when the boss of the battle reaches a certain health breakpoint. Used in battle3.scn (ox level)
+	- Win: Triggers when winning a battle. Used in all battle scenes.
+	- Lose: Triggers when losing a battle. Used in all battle scenes.
+	- Default: Triggers if StartDialogue is called, and this dialogue is the only untriggered dialogue.
+- Able to toggle the dialogue's speaker. Currently we recommend selecting the "Has speaker?" checkbox to facilitate dialogue conversations (for contrast over other on-screen elements), not doing so is recommended for dialogue cutscenes (narration). However feel free to customize as you wish.
+- Able to set voiceline for the dialogue line. Select from the list of available sound files to play when the line is shown.
+- If "Has speaker?" is not checked, the Speaker column of the table will be hidden. Ensure all entries in the Speaker column is cleared before unchecking this.
 - Able to toggle post dialogue state. Selecting the "Set post-dialogue scene?" checkbox and specifying the scene in the Target Scene field will trigger the Transition Scene event to transition to the next scene. Otherwise the dialogue will conclude on the current scene.
 - Note that dialogues in a scene is single-occurence only, and cannot be triggered again after it has concluded.
-- When saving the instance on the scene, especially if testing has been done, ensure the Viewing Index field is set to 0, Is Active field is unchecked and Is Triggered field is unchecked. Refrain from toggling these settings when the game is running.
+- To facilitate editing and saving dialogues on scene, click "Edit this Dialogue" to show the corresponding dialogue on screen, and lock its position in place. When done, click "Prepare for scene saving" to reset the necessary flags and hide the dialogue box, so that it is ready for the user to save the scene.

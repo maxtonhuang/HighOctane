@@ -3,7 +3,7 @@ ZODIACLASH README
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.4 M4 build
+Version: v0.5 M5 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
@@ -22,9 +22,9 @@ Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 About:
 
-Currently, the game for M4 consists of the main exploration map, as well as 2 battle stages. For now, the exploration map is not yet complete, as since there are only 2 battles, only not all NPCs will be displayed on the map yet. The game stats are also not fully balanced yet, but it is playable.
+Currently, the game for M5 consists of the 3 exploration maps, as well as 3 battle stages. The game stats will continue to be balanced, but it is playable.
 
-Scenes: Start Menu, Exploration Map, 2 Battle Scenes
+Scenes: Start Menu, 3 Exploration Maps, 3 Battle Scenes
 
 ================================================================
 GAME FEATURES:
@@ -113,8 +113,8 @@ OTHERS:
 Below are a list of HUD that the player will see.
 
 [Main HUD/UI]
-Player Characters' HP - Displays the player characters and their HP (Top-left)
-Enemy Characters' HP - Displays the enemy characters and their HP (Top-right)
+Player Characters' HP - Displays the player characters and their HP (Top-right)
+Enemy Characters' HP - Displays the enemy characters and their HP (Top-left)
 Turn Order UI - Displays the turn order of all characters in the battle stage (Bottom-left)
 Characters' Skills - Displays the characters' skills based on the current character that the player is controlling (Bottom-right)
 Chi Points - Displays the amount of Chi that the player currently has represented by the fire icons (Bottom-right)
@@ -132,5 +132,11 @@ The player will first start on the map and navigate to the end goal. The player 
 AUDIO:
 
 Audio is implemented in all parts of the game.
+
+================================================================
+
+TUTORIAL:
+
+Tutorial is implemented in the first battle (battle.scn). Rules are outlined during the tutorial phase.
 
 ================================================================

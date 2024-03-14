@@ -929,7 +929,7 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				}
 			}
 			emitter.textures = newTextureList;
-			emitter.particlesRate = emitter.textures.size();
+			emitter.particlesRate = static_cast<int>(emitter.textures.size());
 		}
 		else {
 			if ((statuslabel == 0) && (stacks > 0)) {
@@ -967,7 +967,7 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				if (!found) {
 					emitter.textures.push_back(effectIcon);
 				}
-				emitter.particlesRate = emitter.textures.size();
+				emitter.particlesRate = static_cast<int>(emitter.textures.size());
 			}
 		}
 	}
@@ -1051,7 +1051,7 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				}
 			}
 			emitter.textures = newTextureList;
-			emitter.particlesRate = emitter.textures.size();
+			emitter.particlesRate = static_cast<int>(emitter.textures.size());
 		}
 		else {
 			if ((statuslabel == 0) && (stacks > 0)) {
@@ -1090,7 +1090,7 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				if (!found) {
 					emitter.textures.push_back(effectIcon);
 				}
-				emitter.particlesRate = emitter.textures.size();
+				emitter.particlesRate = static_cast<int>(emitter.textures.size());
 			}
 		}
 	}
@@ -1202,6 +1202,7 @@ bool DialogueHUD::DialoguePtrComparator::operator() (const Dialogue* d1, const D
 
 DialogueHUD::DialogueHUD() {
 	dialogues.reserve(10);
+	dialogueCalledNum = 0;
 }
 
 void DialogueHUD::Initialize() {
@@ -1224,6 +1225,24 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	// check if currentDialogue assigned by system does not match inputTriggerType
 	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 	BattleSystem* battleSys = events.GetBattleSystem();
+
+	if (dialogueQueue.empty())
+	{
+		// push dialogue lines into queue (dialogues that are not triggered)
+		for (DialogueHUD::Dialogue& dialogue : dialogues)
+		{
+			if (!dialogue.isTriggered && (&dialogue != currentDialogue))
+				dialogueQueue.push(&dialogue);
+		}
+	}
+
+	// assign dialogue pointer if empty
+	if (!currentDialogue && !dialogueQueue.empty())
+	{
+		currentDialogue = dialogueQueue.top();
+		dialogueQueue.pop();
+	}
+
 	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
 		dialogueQueue.push(currentDialogue);
 		currentDialogue = nullptr;

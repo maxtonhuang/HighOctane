@@ -101,14 +101,14 @@ void ParticleManager::Update(float dt)
 
 */
 /**************************************************************************/
-void ParticleManager::Draw(float dt) 
+void ParticleManager::Draw(int layer) 
 {
-	UNREFERENCED_PARAMETER(dt);
 	static Renderer* particleRenderer = &graphics.renderer["particle"];
 
 	for (Particle& p : particleList) 
 	{
 		if (!p.active) continue;
+		if (p.layer != layer) continue;
 		Texture* particleTexture = p.texture;
 		if (!particleTexture) continue;
 		float textureID = p.textureID;
@@ -140,6 +140,7 @@ void ParticleManager::Draw(float dt)
 		particleRenderer->AddVertex(Vertex{ topleft, p.particleColor.color, particleTexture->GetTexCoords(0,2), textureID }); //top left
 		//graphics.DrawRect(p.position.x, p.position.y, p.position.x +( p.size.x / 2), p.position.y + (p.size.y / 2));
 	}
+	particleRenderer->Draw();
 }
 
 /**************************************************************************/

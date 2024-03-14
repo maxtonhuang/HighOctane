@@ -64,8 +64,8 @@
         },
         "Entity": {
             "Name": "Cat",
-            "Current Layer": 0,
-            "Order in Layer": 41,
+            "Current Layer": 1,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -637,7 +637,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 17,
+            "Order in Layer": 18,
             "isLocked": true,
             "isSkipped": true
         },
@@ -685,7 +685,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 18,
+            "Order in Layer": 19,
             "isLocked": true,
             "isSkipped": true
         },
@@ -733,7 +733,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 19,
+            "Order in Layer": 20,
             "isLocked": true,
             "isSkipped": true
         },
@@ -925,7 +925,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 40,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1268,7 +1268,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_09.png",
             "Current Layer": 0,
-            "Order in Layer": 30,
+            "Order in Layer": 32,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1293,7 +1293,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_06.png",
             "Current Layer": 0,
-            "Order in Layer": 39,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1318,7 +1318,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_03.png",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1384,7 +1384,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1433,7 +1433,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 31,
+            "Order in Layer": 30,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1482,7 +1482,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1537,8 +1537,8 @@
         },
         "Entity": {
             "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 38,
+            "Current Layer": 1,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1562,8 +1562,8 @@
         },
         "Entity": {
             "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 37,
+            "Current Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1581,7 +1581,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1728,7 +1728,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 33,
+            "Order in Layer": 31,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1817,8 +1817,8 @@
         },
         "Entity": {
             "Name": "Goat_Enemy",
-            "Current Layer": 0,
-            "Order in Layer": 32,
+            "Current Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1853,7 +1853,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 20,
+            "Order in Layer": 17,
             "isLocked": true,
             "isSkipped": true
         },

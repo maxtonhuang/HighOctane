@@ -193,7 +193,6 @@ void PhysicsSystem::Draw() {
 void EmitterSystem::Update()
 {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
@@ -214,6 +213,17 @@ void EmitterSystem::Update()
 					continue;
 				}
 
+				std::random_device rd;
+				std::mt19937 gen(rd());
+				// Create a uniform distribution
+				std::uniform_real_distribution<float> dis(-1.f, 1.f);
+				std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
+
+				if (!emitter->initialised) {
+					emitter->emitterLifetime = fabs(dis(gen)) * emitter->frequency;
+					emitter->initialised = true;
+				}
+
 				emitter->emitterLifetime += FIXED_DT;
 
 				//Initialise emitter
@@ -225,17 +235,17 @@ void EmitterSystem::Update()
 				emitter->position = transformArray.GetData(entity).position;
 				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
 				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
-				std::random_device rd;
-				std::mt19937 gen(rd());
-				// Create a uniform distribution
-				std::uniform_real_distribution<float> dis(-1.f, 1.f);
-				std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
+				int layernum = static_cast<int>(FindInLayer(entity).first);
 
 				if (emitter->emitterLifetime >= emitter->frequency) {
 					for (int i = 0; i < emitter->particlesRate; ++i) {
 						// Here, you might introduce randomness or variations based on the emitter's properties
 						Vec2 position = emitter->position + Vec2{dis(gen) * emitterWidth,dis(gen) * emitterHeight}; // Plus any offset or randomness
 						Vec2 size = emitter->size;
+
+						if (!emitter->singleSided) {
+							position = emitter->position + Vec2{ dis(gen) * (emitterWidth / 2),-fabs(dis(gen)) * emitterHeight };
+						}
 
 						float velocityRandomness = emitter->singleSided ? fabs(dis(gen)) : dis(gen);
 						Vec2 velocity = { emitter->velocity.x * velocityRandomness, emitter->velocity.y * fabs(dis(gen))}; // Plus any randomness or directional adjustments
@@ -251,6 +261,7 @@ void EmitterSystem::Update()
 						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
 
 						p.timer = timer;
+						p.layer = layernum;
 
 						int textureIndex{ disTex(gen) };
 						p.texture = assetmanager.texture.Get(emitter->textures[textureIndex].c_str());
@@ -291,7 +302,7 @@ void ParticleSystem::Update()
 ******************************************************************************/
 void ParticleSystem::Draw()
 {
-	particles.Draw(FIXED_DT);
+	//particles.Draw(FIXED_DT);
 }
 
 /******************************************************************************
@@ -437,8 +448,8 @@ void MovementSystem::Update() {
 								boundaryMax.x = GRAPHICS::w;
 							}
 							if (boundaryMax.y - boundaryMin.y < GRAPHICS::defaultHeightF) {
-								boundaryMin.y = -GRAPHICS::h;
-								boundaryMax.y = GRAPHICS::h;
+								//boundaryMin.y = -GRAPHICS::h;
+								boundaryMax.y = GRAPHICS::defaultHeightF;
 							}
 						}
 						
@@ -451,7 +462,7 @@ void MovementSystem::Update() {
 							for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 								switch (msg.type) {
 								case(TYPE::DIALOGUE_ACTIVE):
-									animationData->Stop();
+									//animationData->Stop();
 									return;
 								}
 							}
@@ -461,13 +472,14 @@ void MovementSystem::Update() {
 							if (transformData->force.x == 0.f && transformData->force.y == 0.f) {
 								if (mcData->moved) {
 									//animationData->Stop();
+									animationData->Start("Idle Start", entity);
 								}
 								mcData->moved = false;
 							}
 							//Moving
 							else {
 								if (!mcData->moved) {
-									animationData->Start("Walk", entity);
+									animationData->Start("Walk Start", entity);
 								}
 								mcData->moved = true;
 							}
@@ -482,7 +494,8 @@ void MovementSystem::Update() {
 
 							//camera.SetTarget(entity);
 
-							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
+							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), 
+								std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
 						}
 					}
 				}
@@ -707,6 +720,7 @@ void GraphicsSystem::Draw() {
 				}
 			}
 		}
+		particles.Draw((int)layer_it);
 	}
 
 	if (GetCurrentSystemMode() == SystemMode::EDIT && snappingOn) {
@@ -1854,13 +1868,14 @@ void ChildSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {
 		Child* childData = &childArray.GetData(entity);
 		Entity parent = childData->parent;
 
-		if (!ECS::ecs().EntityExists(parent)) {
+		if (!ECS::ecs().EntityExists(parent) && !cloneArray.HasComponent(parent)) {
 			EntityFactory::entityFactory().DeleteCloneModel(entity);
 			continue;
 		}
@@ -1886,13 +1901,14 @@ void ParentSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
 
 		std::unordered_set <Entity> childrenToRemove{};
 		for (auto& child : parentData->children) {
-			if (!childArray.HasComponent(child)) {
+			if (!cloneArray.HasComponent(child)) {
 				childrenToRemove.insert(child);
 			}
 		}

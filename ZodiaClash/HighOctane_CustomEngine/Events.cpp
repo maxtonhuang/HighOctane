@@ -49,27 +49,39 @@
 
 EventManager events;
 
+Entity exitconfirmationmenu{};
+Entity pausemenu{};
+
 /*!
  * \brief Exits the game menu, voids input
  *
  * std::string input : The input string.
  */
 void ExitGame(std::string input) {
-	(void)input;
-	static Entity exitconfirmationmenu{};
+	if (exitconfirmationmenu) {
+		//SetCurrentSystemMode(GetPreviousSystemMode());
+		ECS::ecs().DestroyEntity(exitconfirmationmenu);
+		exitconfirmationmenu = 0;
 
-	if (GetCurrentSystemMode() == SystemMode::EXITCONFIRM) {
-		SetCurrentSystemMode(GetPreviousSystemMode());
-
-		if (exitconfirmationmenu != 0) {
-			ECS::ecs().DestroyEntity(exitconfirmationmenu);
-			exitconfirmationmenu = 0;
+		if (!pausemenu) {
+			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
 		}
+
+		//if (exitconfirmationmenu != 0) {
+		//	
+		//}
 	}
 	else {
-		SetCurrentSystemMode(SystemMode::EXITCONFIRM);
-		if (exitconfirmationmenu == 0) {
+		//SetCurrentSystemMode(SystemMode::EXITCONFIRM);
+		if (input == "Main Menu") {
+			exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("mainmenuconfirmation.prefab");
+		}
+		else {
 			exitconfirmationmenu = EntityFactory::entityFactory().ClonePrefab("exitconfirmationmenu.prefab");
+		}
+		if (pausemenu) {
+			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+			pausemenu = 0;
 		}
 	}
 
@@ -252,10 +264,11 @@ void SelectEnemy(std::string input) {
 	ss >> enemynum;
 
 	auto targets = bs->GetEnemies();
-	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
+	if (bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY || bs->activeCharacter->action.selectedSkill.attacktype == AttackType::ALLYSELF) {
 		targets = bs->GetPlayers();
 	}
-	if (bs->activeCharacter->debuffs.tauntStack > 0 && bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLY) {
+	if (bs->activeCharacter->debuffs.tauntStack > 0 && bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLY 
+		&& bs->activeCharacter->action.selectedSkill.attacktype != AttackType::ALLYSELF) {
 		for (CharacterStats* target : targets) {
 			if (target->entity == bs->activeCharacter->debuffs.tauntTarget) {
 				bs->activeCharacter->action.targetSelect.selectedTarget = target;
@@ -301,13 +314,16 @@ void ToggleBattleInfo(std::string input) {
  */
 void TogglePause(std::string input) {
 
+	if (sceneName == "mainmenu.scn") {
+		return;
+	}
+
 	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
 
 		return;
 	}
 
 	(void)input;
-	static Entity pausemenu{};
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
 	/*-----Prevent Softlocking-----*/
@@ -391,6 +407,13 @@ void ToggleHelp(std::string input) {
  * std::string input : The input string.
  */
 void TransitionScene(std::string input) {
+	if (exitconfirmationmenu) {
+		//SetCurrentSystemMode(GetPreviousSystemMode());
+		TogglePause("");
+		ECS::ecs().DestroyEntity(exitconfirmationmenu);
+		exitconfirmationmenu = 0;
+	}
+
 	transitionActive = true;
 	transitionNextScene = input;
 	transitionType = true;
