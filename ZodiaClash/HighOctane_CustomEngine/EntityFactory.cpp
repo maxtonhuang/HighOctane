@@ -242,8 +242,10 @@ void EntityFactory::DeleteMasterModel(Entity entity) {
 *
 ******************************************************************************/
 void EntityFactory::DeleteCloneModel(Entity entity) {
-	deletionEntitiesList.push_back(entity);
-	--cloneCounter;
+	if (ECS::ecs().HasComponent<Clone>(entity)) {
+		deletionEntitiesList.push_back(entity);
+		--cloneCounter;
+	}
 }
 
 /******************************************************************************

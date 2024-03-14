@@ -55,7 +55,7 @@
     },
     {
         "Clone": {
-            "Prefab": "background_battle.prefab",
+            "Prefab": "background_battle2.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -184,7 +184,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Urgh...",
+            "Text String": "Prepare to utter your final words, cat!",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,

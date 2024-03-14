@@ -1,4 +1,5 @@
 ZodiaClash_Battle.ogg
+Battle Ambience BGM_Edited.wav
 Cat_Ulti.spritesheet
 mockup_chi_icon.png
 Cat_Ulti.spritesheet
@@ -38,6 +39,7 @@ mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
+Ox_Ulti_VFX.spritesheet
 VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
 Leaf.png
@@ -79,17 +81,17 @@ Ox_Death.spritesheet
 Boss_Circle.spritesheet
 Boss_Circle.spritesheet
 UI_ICON_reflect.png
-
 Ox_Damaged.spritesheet
 Ox_Damaged.spritesheet
 Ox_Ulti.spritesheet
 Ox_Ulti.spritesheet
-Ox_Ulti_VFX.spritesheet
 UI_ICON_taunt.png
 UI_ICON_def_up.png
+UI_dialogue_box_bg_v02.png
+mockup_playbutton_04.png
+BG_sunset_level.png
 Ox Atk 1_Edited.wav
 Cat_Atk_2_Edited.wav
-Battle Ambience BGM_Edited.wav
 Cat Atk_1_Edited.wav
 Guard Atk_Edited.wav
 Cat Damaged_Edited.wav
@@ -116,22 +118,24 @@ Guard Atk2_Edited.wav
 Cat Damaged7_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Scarlet Claw.skill
 Raging Soul Surge will be cast next!.skill
 Raging Soul Surge.skill
-.skill
-Cursed War God's Wrath.skill
 Dark Rising.skill
 Dark Chi Surge.skill
 Shield Smash.skill
+Monkey Charge.skill
+Shepherd's Grace.skill
+Monkey Attack.skill
+Jade Thrust.skill
+Monkey AOE.skill
 Unstoppable Charge.skill
+.skill
+Cursed War God's Wrath.skill
+Scarlet Claw.skill
 Dance of Fury.skill
 Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
-Shepherd's Grace.skill
-Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill

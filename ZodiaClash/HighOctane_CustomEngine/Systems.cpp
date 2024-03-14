@@ -796,9 +796,16 @@ void SerializationSystem::Update() {
 	}
 
 	if (newScene) {
-		assetmanager.UnloadAll();
-		if (newSceneName != "") {
-			assetmanager.LoadAssets(newSceneName);
+		if (newSceneName != sceneName) {
+			assetmanager.UnloadAll();
+			if (newSceneName != "") {
+				assetmanager.LoadAssets(newSceneName);
+			}
+		}
+		else {
+			std::string jsonpath{ sceneName.substr(0,sceneName.find('.')) };
+			jsonpath += ".json";
+			assetmanager.LoadAssets(jsonpath);
 		}
 		initLevel = true;
 		newScene = false;

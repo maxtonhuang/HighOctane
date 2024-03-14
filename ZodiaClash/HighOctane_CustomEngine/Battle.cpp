@@ -309,9 +309,10 @@ void BattleSystem::Update()
                         events.Call("Start Dialogue", "TURN");
                         if (dialogueCalled == 2) {
                             for (CharacterStats* c : turnManage.turnOrderList) {
-                                if (c->tag == CharacterType::PLAYER) {
-                                    c->stats.health = c->stats.maxHealth;
-                                }
+                                c->stats.health = c->stats.maxHealth;
+                                //if (c->tag == CharacterType::PLAYER) {
+                                //    c->stats.health = c->stats.maxHealth;
+                                //}
                             }
                             events.Call("Restart Music", "ZodiaClash_Boss.ogg");
                             AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
@@ -610,7 +611,7 @@ void BattleSystem::CompleteBattle() {
         }
         else if (battleState == LOSE) {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
-            events.Call("Start Dialogue", "LOSE");
+            //events.Call("Start Dialogue", "LOSE");
         }
         events.Call("Play Sound", "Battle End_Edited.wav");
     }
