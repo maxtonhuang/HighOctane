@@ -1502,8 +1502,8 @@ void UIAllyHudSystem::Update() {
 		for (Entity const& entity : m_Entities) {
 			AllyHUD* allyHudData = &allyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
-			bool checkResult = false;
-			allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
+			bool checkResult = true;
+			//allyHudData->CheckValidIndex(static_cast<int>(allPlayers.size()), checkResult);
 			if (checkResult) {
 				if (!allyHudData->initialised) {
 					allyHudData->initialised = true;
@@ -1514,7 +1514,7 @@ void UIAllyHudSystem::Update() {
 				}
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
-				healthBarData->charaStatsRef = nullptr;
+				//healthBarData->charaStatsRef = nullptr;
 			}
 		}
 	}
@@ -1544,8 +1544,8 @@ void UIEnemyHudSystem::Update() {
 		for (Entity const& entity : m_Entities) {
 			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
-			bool checkResult = false;
-			enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
+			bool checkResult = true;
+			//enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
 			if (checkResult) {
 				if (!enemyHudData->initialised) {
 					enemyHudData->initialised = true;

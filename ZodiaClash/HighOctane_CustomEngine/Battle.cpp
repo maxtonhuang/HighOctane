@@ -381,6 +381,7 @@ void BattleSystem::Update()
                             character.stats.health += 0.5f * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
+                                character.damage = -character.stats.maxHealth;
                             }
                         }
                         if (character.tag == CharacterType::ENEMY) {
@@ -691,6 +692,8 @@ void BattleSystem::ProcessDamage() {
                         }
                         else {
                             animationArray->GetData(entity).Start("Death", entity);
+                            c.buffs = CharacterStats::buff{};
+                            c.debuffs = CharacterStats::debuff{};
                             if (cs->boss && ECS::ecs().EntityExists(bossAura)) {
                                 ECS::ecs().DestroyEntity(bossAura);
                             }
@@ -1036,9 +1039,6 @@ void BattleSystem::InitialiseUIAnimation() {
             for (Entity& e : skillButtons) {
                 animationArray.GetData(e).Stop();
             }
-            if (animationArray.HasComponent(battleInfoButton)) {
-                animationArray.GetData(battleInfoButton).Stop();
-            }
             attackingAnimation = true;
         }
         else {
@@ -1293,9 +1293,6 @@ void BattleSystem::MoveOutUIAnimation() {
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop Out", e);
     }
-    if (animationArray.HasComponent(battleInfoButton)) {
-        animationArray.GetData(battleInfoButton).Start("Pop Out", battleInfoButton);
-    }
     for (CharacterAnimator& ca : enemyAnimators) {
         const float darkred{ 117.f / 255.f };
         animationArray.GetData(ca.healthbarIcon).Stop();
@@ -1345,9 +1342,6 @@ void BattleSystem::MoveInUIAnimation() {
 
     for (Entity& e : skillButtons) {
         animationArray.GetData(e).Start("Pop In", e);
-    }
-    if (animationArray.HasComponent(battleInfoButton)) {
-        animationArray.GetData(battleInfoButton).Start("Pop In", battleInfoButton);
     }
     attackingAnimation = false;
 }
