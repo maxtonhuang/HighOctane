@@ -66,7 +66,7 @@
         "Entity": {
             "Name": "dialogue_box_bg",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
