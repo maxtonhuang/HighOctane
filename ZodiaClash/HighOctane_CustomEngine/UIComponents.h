@@ -447,11 +447,7 @@ public:
 };
 
 
-
 struct SliderUI : UIComponent {
-	// 0.000 - 1.000
-
-	//track, thumb
 	
 	enum UI_TYPE {
 		UI_TYPE_NONE,
@@ -468,8 +464,6 @@ struct SliderUI : UIComponent {
 		CONTROL_WHICH_VOICE
 	};
 
-	//float thumbvalue{};
-	//bool isBeingDragged{};
 	Entity linkedEntity{};
 	UI_TYPE type{};
 	CONTROL_WHICH controlWhich{};

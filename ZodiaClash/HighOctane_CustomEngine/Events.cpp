@@ -382,8 +382,11 @@ void TogglePause(std::string input) {
 // Add in toggle settings in events which is here.
 
 
-
-//! : Add in the toggle settings function here.
+/*!
+ * \brief Toggling of the settings state of the game.
+ *
+ * std::string input : The input string. (Not used)
+ */
 void ToggleSettings(std::string input) {
 	if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::SETTINGS);
