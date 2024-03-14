@@ -67,11 +67,11 @@
         },
         "CharacterStats": {
             "Character type": 1,
-            "Max Health": 175.0,
-            "Health": 175.0,
+            "Max Health": 250.0,
+            "Health": 250.0,
             "Attack": 15.0,
             "Defense": 40.0,
-            "Speed": 3,
+            "Speed": 2,
             "Icon": "ox_pfp.png",
             "Boss": true,
             "Skills": [
