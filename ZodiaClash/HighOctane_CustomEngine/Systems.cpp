@@ -1300,6 +1300,7 @@ void UIButtonSystem::Update() {
 			battleSys->battleInfoButton = entity;
 			battleSys->allBattleUI.push_back(entity);
 			if (!battleSys->battlestarted) {
+				animationArray.GetData(entity).Stop();
 				animationArray.GetData(entity).Start("Pop In", entity);
 			}
 		}
