@@ -383,21 +383,8 @@ void TogglePause(std::string input) {
 
 
 
-
-
 //! : Add in the toggle settings function here.
 void ToggleSettings(std::string input) {
-	switch (GetCurrentSystemMode()) {
-	case SystemMode::RUN: std::cout << "RUN\n"; break;
-	case SystemMode::EDIT: std::cout << "EDIT\n"; break;
-	case SystemMode::PAUSE: std::cout << "PAUSE\n"; break;
-	case SystemMode::GAMEHELP: std::cout << "GAMEHELP\n"; break;
-	case SystemMode::SETTINGS: std::cout << "SETTINGS\n"; break;
-	case SystemMode::EXITCONFIRM: std::cout << "EXITCONFIRM\n"; break;
-	case SystemMode::NONE: std::cout << "NONE\n"; break;
-	}
-
-
 	if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::SETTINGS);
 		settingsmenu = EntityFactory::entityFactory().ClonePrefab("settingsmenu.prefab");
@@ -408,17 +395,6 @@ void ToggleSettings(std::string input) {
 			EntityFactory::entityFactory().DeleteCloneModel(settingsmenu);
 			settingsmenu = 0;
 		}
-	}
-
-
-	switch (GetCurrentSystemMode()) {
-	case SystemMode::RUN: std::cout << "RUN\n"; break;
-	case SystemMode::EDIT: std::cout << "EDIT\n"; break;
-	case SystemMode::PAUSE: std::cout << "PAUSE\n"; break;
-	case SystemMode::GAMEHELP: std::cout << "GAMEHELP\n"; break;
-	case SystemMode::SETTINGS: std::cout << "SETTINGS\n"; break;
-	case SystemMode::EXITCONFIRM: std::cout << "EXITCONFIRM\n"; break;
-	case SystemMode::NONE: std::cout << "NONE\n"; break;
 	}
 }
 

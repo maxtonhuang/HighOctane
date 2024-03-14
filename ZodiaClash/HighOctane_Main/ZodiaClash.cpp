@@ -751,7 +751,7 @@ void EngineCore::Run(bool const& mode) {
 			sList = &pauseSystemList; // Same things as pause system list
 			break;
 		case SystemMode::SETTINGS:
-			sList = &settingsSystemList; // Same things as pause system list
+			sList = &settingsSystemList;
 			break;
 		}
 
@@ -829,6 +829,8 @@ void EngineCore::Run(bool const& mode) {
 		}
 
 		EntityFactory::entityFactory().UpdateDeletion();
+
+		printf("System Mode: %s\n", SystemModeToString(GetCurrentSystemMode()).c_str());
 
 	}
 
