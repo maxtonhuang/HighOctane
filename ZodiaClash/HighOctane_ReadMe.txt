@@ -22,9 +22,9 @@ Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 About:
 
-Currently, the game for M5 consists of the 3 exploration maps, as well as 3 battle stages. The game stats will continue to be balanced, but it is playable.
+Currently, the game for M5 consists of the main exploration map, as well as 3 battle stages. There will be a final level for M6. The characters' stats are also not fully balanced yet, but it is playable.
 
-Scenes: Start Menu, 3 Exploration Maps, 3 Battle Scenes
+Scenes: Start Menu, Cutscene, Exploration Map, 3 Battle Scenes
 
 ================================================================
 GAME FEATURES:
@@ -41,71 +41,85 @@ GAME FEATURES:
 
 
 2) Unique Player Skills
-Currently, the game consists of 1 playable character, the Cat (Mei). The Cat is a damage dealer.
+Currently, the game consists of 2 playable characters, Mei(Cat) and Yang(Goat).
 
 [Mei - Cat]
-Skill 1 (Scarlet Claw) - Deals damage to a single enemy and inflicts Bleed equal to 10% of Mei's attack for 3 turns.
+Skill 1 (Scarlet Claw) - Deals damage and inflicts 1 bleed stack to an enemy for 3 turns.
 (+1 Chi)
 
-Skill 2 (Dance of Fury) - Deals damage to all enemies and inflicts Bleed equal to 10% of Mei's attack for 2 turns.
-(-2 Chi)
+Skill 2 (Dance of Fury) - Deals damage and inflicts 1 bleed stack to all enemies for 2 turns.
+(-1 Chi)
 
-Skill 3 (Secret Arts: Pounce) - Deals damage to all enemies, then if an enemy already has Bleed, all Bleed on that enemy will be activated and removed.
+Skill 3 (Secret Arts: Pounce) - Deals damage to all enemies. If enemies have existing bleed stacks, all bleed will be triggered and removed.
 (-3 Chi)
 
+[Yang - Goat]
+Skill 1 (Yin-Yang Strike) - Deals damage and has a 40% chance to remove all buffs from an enemy.
+(+1 Chi)
+
+Skill 2 (Chi Surge) - Enrages and makes an ally (except Yang) take action immediately for 1 turn.
+(-2 Chi)
+
+Skill 3 (Shepherd's Grace) - Removes all debuffs and heals an ally based on Yang’s maximum health.
+(-2 Chi)
 
 3) Status Effects
 Below are the current status effects in the game.
 
 [Debuffs]
-Bleed - Deals damage equal to a percentage of the attacker's attack every time the affected character’s turn begins for several turns. Maximum limit of 5 stacks.
+Bleed - Takes damage at the start of the next turn. Maximum limit of 5 stacks.
 
-Shatter - Lowers the defense of the affected character equal to a percentage of the affected character’s defense for several turns.
+Break - Has reduced defense and takes more damage on the next turn.
+
+Stun - Unable to perform any actions on the next turn.
+
+Taunt - Forced to target a specific character on the next turn.
 
 [Buffs]
+Enrage - Has increased attack and deals more damage on the next turn.
 
-Cleanse - Removes all negative effects of the affected character.
+Strengthen - Has increased defense and takes less damage on the next turn.
+
+Berserk - Has significantly increased attack and drains life from attacks on the next turn.
+
+Counter (Unremovable) - Deals damage back to the attacker immediately
 
 ================================================================
 
 GAME CONTROLS:
 
 1) Start Menu
-Navigate through the start menu with mouse selection.
+Navigate through the start menu with LMB.
 
-2) Battle Screen
+2) Exploration Map
+Navigate through the exploration map with LMB.
+
+3) Battle Screen
 Main Gameplay Controls
 - Only mouse selection is needed.
 - When it is your character's turn, select a skill.
 - After selecting a skill, a popout will show which targets you can select.
-- After selecting the target, the attack animation will be played out.
+- After selecting the target, the skill will take effect.
 - Repeat steps 1-3, until the battle has ended.
 
-3) Cheat Codes
-- Press 'F9' to toggle GodMode, player restores full health and do at least twice the normal damage.
-- Press 'F10' to toggle EndGameMode, enemy's health decreased to zero and end the game with the player's victory.
+4) Cheat Codes
+- Press F1 to go to Main Menu.
+- Press F2 to go to the Beginning cutscene.
+- Press F3 to go to the first part of the exploration map.
+- Press F4 to go to the first battle stage/tutorial.
+- Press F5 to go to the second part of the exploration map.
+- Press F6 to go to the second battle stage.
+- Press F7 to go to the third battle stage.
+- Press F9 to toggle GodMode, the player restores full health and do at least twice the normal damage.
+- Press F10 to toggle EndGameMode, enemy's health will be decreased to zero after the next attack.
+- Press 9 for FPS Counter
+- Press 0 for viewable physics collider
 
-4) Other Controls
+5) Other Controls
 - Press F11 for fullscreen.
-- Press esc to pause the game and show the game menu
+- Press Esc for pause menu.
+
 ================================================================
-
-HOTKEYS (for your convenience):
-
-Switches to corresponding scene
-F1 - mainmenu.scn
-F2 - beginning_cutscene1.scn
-F3 - exploration1.scn
-F4 - battle.scn
-F5 - exploration2.scn
-F6 - battle2.scn
-
-Toggles
-9   - FPS Counter
-0   - Viewable physics collider
-F9  - God mode (increases damage output)
-F10 - End game mode (defeats all enemies in the next attack)
-F11 - Fullscreen mode
 
 OTHERS:
 
@@ -119,14 +133,21 @@ Turn Order UI - Displays the turn order of all characters in the battle stage (B
 Characters' Skills - Displays the characters' skills based on the current character that the player is controlling (Bottom-right)
 Chi Points - Displays the amount of Chi that the player currently has represented by the fire icons (Bottom-right)
 
-2) Enemy Bosses
-Currently, there is a Goat boss within the demo.
+[Other HUD/UI]
+Pause Menu (Press Esc to toggle the Pause Menu)
 
-In the final version of the game, the Goat and the Ox characters will also be an enemy at a certain point of the game, where the Goat and the Ox will also be playable characters for now. There will also be a final boss, which will have elements of the Zodiac animals combined together.
+2) Enemy Bosses
+Currently, there are the Goat and Ox bosses.
+
+In the final version of the game, both the Goat and Ox will also be playable characters as well. There will also be a final boss, which will have several elements of the Zodiac animals combined together.
 
 
 3) Top-down Exploration Map
-The player will first start on the map and navigate to the end goal. The player will then encounter different characters on the map and interact with them. Dialogues with unique conversations will be shown based on the character that they interacted with. After interacting with combat NPCs, the characters will then be transported to the turn-based battle scene.
+The player will first start on the map and navigate to the end goal. The player will then encounter characters on the map and interact with them. Dialogues will be shown based on the character that they interacted with. After interacting with them, the characters will then be transported to the turn-based battle scene.
+
+
+4) Audio
+Audio is implemented in all parts of the game. More dialogues will be fleshed out in M6, along with more voiceover audio, as well as more sound effects. 
 ================================================================
 
 AUDIO:
