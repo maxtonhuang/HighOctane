@@ -1732,6 +1732,114 @@ void UIDialogueSystem::Update() {
 	}
 }
 
+
+
+/******************************************************************************
+*
+*	@brief Updates the sliders for the settings menu
+*
+*	-
+*
+******************************************************************************/
+void UISliderSystem::Update() {
+
+	vmath::Vector2 cmp = { 0.f ,0.f };
+	bool sliderMouseClicked = false;
+	bool sliderMousedragging = false;
+	bool sliderMouseReleased = false;
+
+	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UISLIDER]) {
+		switch (msg.type) {
+		case TYPE::MOUSE_MOVE:
+			cmp = { msg.posX, msg.posY };
+			break;
+
+		case TYPE::MOUSE_CLICK:
+			sliderMouseClicked = true;
+			break;
+
+		case TYPE::MOUSE_DOWN:
+			sliderMousedragging = true;
+			break;
+
+		case TYPE::MOUSE_UP:
+			sliderMouseReleased = true;
+			break;
+		}
+	}
+
+	// Access the ComponentManager through the ECS class
+	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+
+	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
+	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
+	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
+	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& sliderUIArray = componentManager.GetComponentArrayRef<SliderUI>();
+
+	// std::numeric_limits<Entity>().max()
+	if (sliderMouseClicked) {
+		for (Entity const& entity : m_Entities) {
+
+			Transform& transformData = transformArray.GetData(entity);
+			SliderUI& sliderUIData = sliderUIArray.GetData(entity);
+			//Size& sizeData = sizeArray.GetData(entity);
+			//Tex& texData = texArray.GetData(entity);
+
+			if (sliderMouseClicked && IsNearby(transformData.position, cmp, 10.f) && sliderUIData.type == SliderUI::UI_TYPE::DOT) {
+				settingsEntityBeingDragged = entity;
+			}
+		}
+	}
+
+	if (sliderMousedragging && settingsEntityBeingDragged != std::numeric_limits<Entity>().max()) {
+
+			Transform& transformData = transformArray.GetData(settingsEntityBeingDragged);
+			SliderUI& sliderUIData = sliderUIArray.GetData(settingsEntityBeingDragged);
+			Model& modelDataParent = modelArray.GetData(sliderUIData.linkedEntity);
+			transformData.position.x = std::clamp(cmp.x, modelDataParent.GetLeft().x/* + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)*/, modelDataParent.GetRight().x)/* - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)*/;
+			int volume_new = static_cast<int>((transformData.position.x - modelDataParent.GetLeft().x) / (modelDataParent.GetRight().x - modelDataParent.GetLeft().x));
+			switch (sliderUIData.controlWhich) {
+			case SliderUI::CONTROL_WHICH::MASTER:
+				std::cout << "Master Volume: " << volume_new << std::endl;
+				// set master volume
+				break;
+				
+			case SliderUI::CONTROL_WHICH::GAME_SOUNDS:
+				std::cout << "Game Sounds Volume: " << volume_new << std::endl;
+				// set game sounds volume
+				break;
+
+			case SliderUI::CONTROL_WHICH::MUSIC:
+				std::cout << "Music Volume: " << volume_new << std::endl;
+				// set music volume
+				break;
+
+			case SliderUI::CONTROL_WHICH::ENVIRONMENTAL:
+				std::cout << "Environmental Volume: " << volume_new << std::endl;
+				// set environmental volume
+				break;
+
+			case SliderUI::CONTROL_WHICH::VOICE:
+				std::cout << "Voice Volume: " << volume_new << std::endl;
+				// set voice volume
+				break;
+
+			default:
+				break;
+
+			}
+	}		
+
+	if (sliderMouseReleased) {
+		settingsEntityBeingDragged = std::numeric_limits<Entity>().max();
+	}
+
+
+
+}
+
+
 /******************************************************************************
 *
 *	@brief Updates transform of child entities based on its parent entity

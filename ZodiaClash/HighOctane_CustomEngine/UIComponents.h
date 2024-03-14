@@ -445,3 +445,33 @@ public:
 	void Update(Model& modelData, Entity entity);
 	void EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData);
 };
+
+
+
+struct SliderUI : UIComponent {
+	// 0.000 - 1.000
+
+	//track, thumb
+	
+	enum class UI_TYPE {
+		NONE,
+		DOT,
+		LINE
+	};
+
+	enum class CONTROL_WHICH {
+		NONE,
+		MASTER,
+		GAME_SOUNDS,
+		MUSIC,
+		ENVIRONMENTAL,
+		VOICE
+	};
+
+	float thumbvalue{};
+	bool isBeingDragged{};
+	Entity linkedEntity{};
+	UI_TYPE type{};
+	CONTROL_WHICH controlWhich{};
+
+};

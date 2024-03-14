@@ -92,6 +92,8 @@ float gridOffsetX{ 0.f };
 float gridOffsetY{ 0.f };
 int gridAlignment{ SA_CENTER };
 
+Entity settingsEntityBeingDragged{ std::numeric_limits<Entity>().max() };
+
 
 std::unordered_map<Entity, glm::vec4> snappingHighlight{};
 std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines{};

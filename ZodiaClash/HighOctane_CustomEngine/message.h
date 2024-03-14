@@ -76,6 +76,7 @@ enum class ADDRESS {
 	EDITING,
 	UICOMPONENT,
 	BATTLE,
+	UISLIDER,
 	NONE
 };
 

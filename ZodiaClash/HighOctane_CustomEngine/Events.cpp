@@ -342,6 +342,16 @@ void TogglePause(std::string input) {
 		ts->systemOverlayOn = false;
 }
 
+// Add in toggle settings in events which is here.
+
+
+
+
+
+//! : Add in the toggle settings function here.
+
+
+
 /*!
  * \brief Toggling of the help state of the game.
  *
