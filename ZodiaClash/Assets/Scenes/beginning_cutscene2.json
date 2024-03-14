@@ -303,10 +303,9 @@
     },
     {
         "Clone": {
-            "Prefab": "cutscene_start.prefab",
+            "Prefab": "cutscene2_start.prefab",
             "Unique Components": [
                 "struct Transform",
-                "class AnimationSet",
                 "struct Name",
                 "struct Parent"
             ]
@@ -325,60 +324,7 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Animation Set": [
-            {
-                "Total Frames": 60,
-                "Group Name": "Cutscene",
-                "Loop": false,
-                "Frame Time": 0.800000011920929,
-                "Animations": [
-                    {
-                        "Animation Type": "TransformAttach",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 59,
-                                "Target": "Cutscene End"
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "CameraTarget",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0
-                            }
-                        ]
-                    },
-                    {
-                        "Animation Type": "Event",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 13,
-                                "Event Name": "Advance Dialogue",
-                                "Event Input": ""
-                            },
-                            {
-                                "Frame Number": 28,
-                                "Event Name": "Advance Dialogue",
-                                "Event Input": ""
-                            },
-                            {
-                                "Frame Number": 43,
-                                "Event Name": "Advance Dialogue",
-                                "Event Input": ""
-                            },
-                            {
-                                "Frame Number": 59,
-                                "Event Name": "Advance Dialogue",
-                                "Event Input": ""
-                            }
-                        ]
-                    }
-                ]
-            }
-        ],
-        "Animation Set Default Animation": "Cutscene"
+        }
     },
     {
         "Clone": {
