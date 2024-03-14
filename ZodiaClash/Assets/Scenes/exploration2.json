@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 46,
+            "layerCounter": 43,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -46,10 +46,7 @@
                 "Layer 39",
                 "Layer 40",
                 "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45"
+                "Layer 42"
             ]
         }
     },
@@ -65,7 +62,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 1,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -925,7 +922,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1213,7 +1210,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 29,
+            "Order in Layer": 31,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1268,7 +1265,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_09.png",
             "Current Layer": 0,
-            "Order in Layer": 32,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1318,7 +1315,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_03.png",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1384,7 +1381,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1482,7 +1479,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 33,
+            "Order in Layer": 32,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1538,7 +1535,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 1,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1563,7 +1560,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1581,7 +1578,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1645,7 +1642,7 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 6,
+            "Current Layer": 2,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -1710,7 +1707,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 17,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1728,7 +1725,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock.png",
             "Current Layer": 0,
-            "Order in Layer": 31,
+            "Order in Layer": 29,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1853,7 +1850,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 17,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
