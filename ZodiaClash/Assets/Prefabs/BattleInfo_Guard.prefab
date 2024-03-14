@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 33,
+            "layerCounter": 36,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -36,7 +36,10 @@
                 "Layer 29",
                 "Layer 30",
                 "Layer 31",
-                "Layer 32"
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35"
             ]
         }
     },
@@ -48,7 +51,6 @@
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -126,7 +128,7 @@
             "height": 170.0
         },
         "Model": {
-            "Model type": 0,
+            "Model type": 3,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
@@ -142,7 +144,7 @@
             "Text String": "",
             "r": 0.0,
             "g": 0.0,
-            "b": 0.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "",
             "Horizontal Alignment": 1,

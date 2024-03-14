@@ -1296,14 +1296,14 @@ void UIButtonSystem::Update() {
 		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		modelData->SetAlpha(btnColor.a);
 
-		if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
-			battleSys->battleInfoButton = entity;
-			battleSys->allBattleUI.push_back(entity);
-			if (!battleSys->battlestarted) {
-				animationArray.GetData(entity).Stop();
-				animationArray.GetData(entity).Start("Pop In", entity);
-			}
-		}
+		//if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
+		//	battleSys->battleInfoButton = entity;
+		//	battleSys->allBattleUI.push_back(entity);
+		//	if (!battleSys->battlestarted) {
+		//		animationArray.GetData(entity).Stop();
+		//		animationArray.GetData(entity).Start("Pop In", entity);
+		//	}
+		//}
 	}
 }
 

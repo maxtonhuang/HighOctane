@@ -751,6 +751,8 @@ void BattleSystem::InitialiseBattleUI() {
     static auto& turnorderArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<TurnIndicator>() };
     static auto& texArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tex>() };
     static auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
+    static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
+    static auto& cloneArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Clone>() };
     if (m_Entities.size() > 0) {
         skillButtons.clear();
         enemyAnimators.clear();
@@ -842,6 +844,17 @@ void BattleSystem::InitialiseBattleUI() {
                 }
             }
             enemyAnimators.push_back(animator);
+        }
+
+        //Initialise battle info button
+        for (auto& pair : buttonArray.GetPairArray()) {
+            if (cloneArray.HasComponent(pair.first)) {
+                if (pair.second->eventName == "Toggle Battle Info") {
+                    battleInfoButton = pair.first;
+                    allBattleUI.push_back(pair.first);
+                    break;
+                }
+            }
         }
     }
 }
