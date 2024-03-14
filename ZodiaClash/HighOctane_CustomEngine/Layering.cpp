@@ -39,6 +39,7 @@
 #include <sstream>
 #include <algorithm>
 #include <limits>
+#include "UndoRedo.h"
 
 /******************************************************************************
 *
@@ -150,9 +151,16 @@ void CreateNewLayer() {
 *
 ******************************************************************************/
 void DeleteLayer() {
+
+	// manually delete entities in the stack first.
+
 	selectedEntities.clear();
 	for (Entity entity : layering[selectedLayer]) {
 		selectedEntities.emplace_back(entity);
+		/*if (undoRedo.Find(entity)) {
+			EntityFactory::entityFactory().DeleteCloneModel(entity);
+		}*/
+		undoRedo.Layer(selectedLayer);
 	}
 	toDestroy = true;
 	layerNames[selectedLayer].second = false;
@@ -352,7 +360,8 @@ bool CheckLockLayerAllTrue(size_t layer_it) {
 ******************************************************************************/
 void SetWholeSkipLayer(size_t layer_it) {
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
-		entitiesToSkip[layering[layer_it][entity_it]] = layersToSkip[layer_it];
+	if (undoRedo.notInUndoStack(layering[layer_it][entity_it]) && undoRedo.notInRedoStack(layering[layer_it][entity_it]))
+			entitiesToSkip[layering[layer_it][entity_it]] = layersToSkip[layer_it];
 	}
 }
 

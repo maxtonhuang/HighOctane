@@ -38,6 +38,8 @@
 #include "AssetManager.h"
 #include "Serialization.h"
 #include <sstream>
+#include "UndoRedo.h"
+#include "Global.h"
 
 void UpdateComponentViewer() {
 	
@@ -78,7 +80,7 @@ void SaveAsPrefab(std::string prefabPath, Entity entity) {
 }
 
 void ComponentBrowser(Entity currentEntity) {
-	static auto& typeMap{ ECS::ecs().GetTypeManager() };
+	typeMap = ECS::ecs().GetTypeManager();
 
 	if (currentEntity) {
 		int buttonID{ 0 };
@@ -115,7 +117,9 @@ void ComponentBrowser(Entity currentEntity) {
 				ImGui::SameLine();
 				ImGui::PushID(buttonID++);
 				if (ImGui::Button("Remove")) {
+					undoRedo.RecordComponent(currentEntity, ACTION::DELCOMP, ecsType.first);
 					ecsType.second->RemoveComponent(currentEntity);
+					
 				}
 				ImGui::PopID();
 
@@ -151,6 +155,7 @@ void ComponentBrowser(Entity currentEntity) {
 				ImGui::SameLine();
 				ImGui::PushID(buttonID++);
 				if (ImGui::Button("Add")) {
+					undoRedo.RecordComponent(currentEntity, ACTION::ADDCOMP, ecsType.first);
 					ecsType.second->AddComponent(currentEntity);
 				}
 				ImGui::PopID();

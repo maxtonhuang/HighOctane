@@ -67,6 +67,8 @@ bool toCopy{ false };
 bool inEditing{ false };
 bool viewportWindowHovered{ false };
 bool goatSpeedup{ false };
+bool fullyDeleteLayer{ false };
+std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> typeMap;
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
 
 std::vector<Entity> selectedEntities{};

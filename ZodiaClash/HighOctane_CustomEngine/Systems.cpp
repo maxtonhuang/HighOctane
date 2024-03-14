@@ -947,7 +947,12 @@ void EditingSystem::Update() {
 				break;
 			case INFO::KEY_Z:
 				if (controlKeyPressed) {
-					undoRedo.Undo();
+					if (shiftKeyPressed) {
+						undoRedo.Redo();
+					}
+					else {
+						undoRedo.Undo();
+					}
 				}
 				break;
 			}
@@ -1061,12 +1066,18 @@ void EditingSystem::Update() {
 
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
-			undoRedo.RecordCurrent(entity, ACTION::DELENTITY);
-			ECS::ecs().RemoveComponent<Clone>(entity);
-			entitiesToSkip[entity] = false;
-			entitiesToLock[entity] = false;
+			if (!fullyDeleteLayer) {
+				undoRedo.RecordCurrent(entity, ACTION::DELENTITY); // if !Delete layer then record
+				ECS::ecs().RemoveComponent<Clone>(entity);
+				entitiesToSkip[entity] = false;
+				entitiesToLock[entity] = false;
+			}
+			else {
+				EntityFactory::entityFactory().DeleteCloneModel(entity);
+			}
 		}
 		toDestroy = false;
+		fullyDeleteLayer = false;
 		selectedEntities.clear();
 		UnselectAll();
 		selectedLayer = std::numeric_limits<size_t>::max();
