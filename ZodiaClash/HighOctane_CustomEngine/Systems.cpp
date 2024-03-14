@@ -193,7 +193,6 @@ void PhysicsSystem::Draw() {
 void EmitterSystem::Update()
 {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& emitterArray = componentManager.GetComponentArrayRef<Emitter>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
@@ -236,7 +235,7 @@ void EmitterSystem::Update()
 				emitter->position = transformArray.GetData(entity).position;
 				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
 				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
-				int layernum = FindInLayer(entity).first;
+				int layernum = static_cast<int>(FindInLayer(entity).first);
 
 				if (emitter->emitterLifetime >= emitter->frequency) {
 					for (int i = 0; i < emitter->particlesRate; ++i) {

@@ -58,9 +58,9 @@ struct Particle
 	float                   fadeDecay{ 2.f };
 	float                   shrinkDecay{ 2.f };
 	void					(*Update)(Particle&) {};
-	Texture*				texture;
-	float					textureID;
-	int						layer;
+	Texture*				texture{};
+	float					textureID{};
+	int						layer{};
 
 	Particle() : active{ false }, fixed{ false }, position{}, size{}, velocity{}, particleColor{} {};
 	Particle(bool isActive, bool isFixed, Vec2 pos, Vec2 size, Vec2 vel, Color clr, void (*update)(Particle&), float rot = 0.f, float rotSpeed = 0.f, float timer = 0.f)

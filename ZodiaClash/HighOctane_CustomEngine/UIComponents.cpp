@@ -929,7 +929,7 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				}
 			}
 			emitter.textures = newTextureList;
-			emitter.particlesRate = emitter.textures.size();
+			emitter.particlesRate = static_cast<int>(emitter.textures.size());
 		}
 		else {
 			if ((statuslabel == 0) && (stacks > 0)) {
@@ -967,7 +967,7 @@ void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				if (!found) {
 					emitter.textures.push_back(effectIcon);
 				}
-				emitter.particlesRate = emitter.textures.size();
+				emitter.particlesRate = static_cast<int>(emitter.textures.size());
 			}
 		}
 	}
@@ -1051,7 +1051,7 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				}
 			}
 			emitter.textures = newTextureList;
-			emitter.particlesRate = emitter.textures.size();
+			emitter.particlesRate = static_cast<int>(emitter.textures.size());
 		}
 		else {
 			if ((statuslabel == 0) && (stacks > 0)) {
@@ -1090,7 +1090,7 @@ void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
 				if (!found) {
 					emitter.textures.push_back(effectIcon);
 				}
-				emitter.particlesRate = emitter.textures.size();
+				emitter.particlesRate = static_cast<int>(emitter.textures.size());
 			}
 		}
 	}

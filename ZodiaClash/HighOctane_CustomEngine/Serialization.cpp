@@ -1230,7 +1230,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				emitter.particleColor.color.g = (emitterObject.HasMember("Particle ColorG")) ? emitterObject["Particle ColorG"].GetFloat() : 1.f;
 				emitter.particleColor.color.b = (emitterObject.HasMember("Particle ColorB")) ? emitterObject["Particle ColorB"].GetFloat() : 1.f;
 				emitter.particleColor.color.a = (emitterObject.HasMember("Particle ColorA")) ? emitterObject["Particle ColorA"].GetFloat() : 1.f;
-				emitter.particlesRate = (emitterObject.HasMember("Particle Rate")) ? emitterObject["Particle Rate"].GetFloat() : 1.f;
+				emitter.particlesRate = (emitterObject.HasMember("Particle Rate")) ? emitterObject["Particle Rate"].GetInt() : 1;
 				emitter.frequency = (emitterObject.HasMember("Frequency")) ? emitterObject["Frequency"].GetFloat() : 1.f;
 				emitter.particleLifetime = (emitterObject.HasMember("Particle Lifetime")) ? emitterObject["Particle Lifetime"].GetFloat() : 1.f;
 				emitter.rotation = (emitterObject.HasMember("Rotation")) ? emitterObject["Rotation"].GetFloat() : 0.f;

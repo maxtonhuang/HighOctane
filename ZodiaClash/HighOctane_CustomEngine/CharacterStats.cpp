@@ -47,6 +47,7 @@ CharacterStats::CharacterStats() {
     action.characterStats = this;
     boss = false;
     charge = false;
+    checkedStatus = false;
 }
 
 /**
