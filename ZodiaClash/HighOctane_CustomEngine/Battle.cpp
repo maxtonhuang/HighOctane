@@ -309,15 +309,19 @@ void BattleSystem::Update()
                         events.Call("Start Dialogue", "TURN");
                         if (dialogueCalled == 2) {
                             for (CharacterStats* c : turnManage.turnOrderList) {
-                                c->stats.health = c->stats.maxHealth;
-                                //if (c->tag == CharacterType::PLAYER) {
-                                //    c->stats.health = c->stats.maxHealth;
-                                //}
+                                //c->stats.health = c->stats.maxHealth;
+                                if (c->tag == CharacterType::PLAYER) {
+                                    c->stats.health = c->stats.maxHealth;
+                                }
                             }
-                            events.Call("Restart Music", "ZodiaClash_Boss.ogg");
-                            AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                             damagePrefab = "Goat_Skill_VFX.prefab";
                             ProcessDamage();
+                            for (CharacterStats* c : turnManage.turnOrderList) {
+                                c->stats.health = c->stats.maxHealth;
+                            }
+                            ProcessDamage();
+                            events.Call("Restart Music", "ZodiaClash_Boss.ogg");
+                            AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                         }
                     }
 

@@ -166,6 +166,7 @@ public:
 	int skillTooltipCalled{ 0 };
 	Entity battleinfo{}; //battle info tooltip
 	bool attackingAnimation{ false };
+	bool battlestarted{ false };
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -173,7 +174,6 @@ private:
 	bool speedupAnimationPlayed{ false };
 
 	//Variables for animation
-	bool battlestarted{ false };
 	Entity turnOrderAnimator;
 	std::deque<Entity> turnOrderQueueInitializer;
 	std::vector<CharacterAnimator> enemyAnimators;

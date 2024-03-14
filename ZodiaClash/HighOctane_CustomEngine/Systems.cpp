@@ -806,6 +806,7 @@ void SerializationSystem::Update() {
 			std::string jsonpath{ sceneName.substr(0,sceneName.find('.')) };
 			jsonpath += ".json";
 			assetmanager.LoadAssets(jsonpath);
+			assetmanager.audio.RestartBGM();
 		}
 		initLevel = true;
 		newScene = false;
@@ -1277,6 +1278,7 @@ void UIButtonSystem::Update() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
+	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
@@ -1297,6 +1299,9 @@ void UIButtonSystem::Update() {
 		if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
 			battleSys->battleInfoButton = entity;
 			battleSys->allBattleUI.push_back(entity);
+			if (!battleSys->battlestarted) {
+				animationArray.GetData(entity).Start("Pop In", entity);
+			}
 		}
 	}
 }

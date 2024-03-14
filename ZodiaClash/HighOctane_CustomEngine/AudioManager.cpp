@@ -156,8 +156,9 @@ FMOD::Sound* AudioManager::AddMusic(const char* path, const char* name) {
     }
 
     //If no BGM loaded, player current BGM
-    if (currentBGM == "") {
+    if (originalBGM == "") {
         PlaySounds(name, "BGM");
+        originalBGM = name;
         currentBGM = name;
     }
     return data[name];
@@ -206,6 +207,10 @@ void AudioManager::SetBGM(const char* name) {
     PlaySounds(name, "BGM");
 }
 
+void AudioManager::RestartBGM() {
+    SetBGM(originalBGM.c_str());
+}
+
 void AudioManager::SetAmbience(const char* name) {
     StopGroup("ENV");
     FreeSound(currentAmbience.c_str());
@@ -219,6 +224,7 @@ void AudioManager::ReleaseAllSounds() {
     }
     data.clear();
     currentBGM.clear();
+    originalBGM.clear();
     currentAmbience.clear();
 }
 
