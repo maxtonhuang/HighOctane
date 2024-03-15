@@ -830,8 +830,6 @@ void EngineCore::Run(bool const& mode) {
 
 		EntityFactory::entityFactory().UpdateDeletion();
 
-		printf("System Mode: %s\n", SystemModeToString(GetCurrentSystemMode()).c_str());
-
 	}
 
 	///////////////////////////////////////
