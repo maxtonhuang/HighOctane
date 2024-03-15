@@ -1190,6 +1190,12 @@ void StatusEffect::UpdateStacksLbl(TextLabel& textLabelData, CharacterStats* cha
 **** DIALOGUE SYSTEM *****
 **************************/
 
+/*!
+* \brief DialogueHUD DialoguePtrComparator
+*
+* Compares dialogues inserted into queue and sorts by trigger priority.
+*
+*/
 bool DialogueHUD::DialoguePtrComparator::operator() (const Dialogue* d1, const Dialogue* d2) const {
 	// Compare the triggers based on their priority
 	if (d1->triggerType != d2->triggerType) {
@@ -1201,11 +1207,23 @@ bool DialogueHUD::DialoguePtrComparator::operator() (const Dialogue* d1, const D
 	return false;
 }
 
+/*!
+* \brief DialogueHUD object initializer
+*
+* Reserves space and enforces a limit on the number of dialogues that can be stored.
+*
+*/
 DialogueHUD::DialogueHUD() {
 	dialogues.reserve(10);
 	dialogueCalledNum = 0;
 }
 
+/*!
+* \brief DialogueHUD initializer
+*
+* Unused function, queue population is conditionally handled by StartDialogue.
+*
+*/
 void DialogueHUD::Initialize() {
 	// if queue empty, populate queue
 	if (dialogueQueue.empty()) {
@@ -1255,7 +1273,6 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		if (battleSys) {
 			int roundIndex = battleSys->roundManage.roundCounter;
 			// bounce back if currentDialogue is already playing dialogue of that turn
-			// NOTE: turn 3 is retriggered, turn 4 is not??
 			if (currentDialogue && (currentDialogue->triggerType == inputTriggerType) && (currentDialogue->roundTrigger == roundIndex)) {
 				return;
 			}
@@ -1282,12 +1299,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 			}
 		}
 	}
-	// additional clause for health, if the health threshold has been hit
-	/*else if (inputTriggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
-
-	}*/
 	else if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
-		// TODO: to check for turn and health counters?
 		while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType)) {
 			nonMatchingDialogues.push_back(dialogueQueue.top());
 			dialogueQueue.pop();
@@ -1338,6 +1350,12 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	}
 }
 
+/*!
+* \brief DialogueHUD AddDialogue
+*
+* Adds dialogue to dialogues vector and queue
+*
+*/
 void DialogueHUD::AddDialogue(Dialogue dialogue, bool& result) {
 	int index{ 0 };
 	for (Dialogue const& d : dialogues) {
@@ -1355,6 +1373,12 @@ void DialogueHUD::AddDialogue(Dialogue dialogue, bool& result) {
 	}	
 }
 
+/*!
+* \brief DialogueHUD RemoveDialogue
+*
+* Removes dialogue from dialogues vector and queue
+*
+*/
 void DialogueHUD::RemoveDialogue(int index) {
 	// step 1: check and update currentDialogue pointer
 	if (currentDialogue == &dialogues[index]) {
@@ -1460,7 +1484,8 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 /*!
 * \brief DialogueHUD EnforceAlignment
 *
-* Auto left-aligns child DialogueSpeaker TextLabel to parent based on text width
+* Auto left-aligns child DialogueSpeaker TextLabel to parent based on text width.
+* Unused now with asset designated. May repurpose in future for auto width label resizing.
 *
 */
 void DialogueHUD::EnforceAlignment(const Size& parentSizeData, Size& childSizeData, TextLabel& childTextLabelData, Child& childData) {

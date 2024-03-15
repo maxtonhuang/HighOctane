@@ -50,17 +50,110 @@ enum class ACTION
 
 class UndoRedo {
 public:
+/*!***********************************************************************
+ \brief
+    A function to record what action is being done in the editor, such as changing transform 
+    or changing texture will be stored and recorded
+ \param [in] Entity 
+    The current entity being edited
+ \param [in] Action
+    An enum class of action being change such as TRANSFORM, ADDENTITY
+ \return
+    void
+ *************************************************************************/
     void RecordCurrent(Entity entity, ACTION action);
+/*!***********************************************************************
+\brief
+   A function to record what action is being done in the editor
+   This function differs at it is meant for the adding and removing of components from the editor.
+   The component is being stored in a string to be access via typeMap
+\param [in] Entity
+   The current entity being edited
+\param [in] Action
+   An enum class of action being change such as TRANSFORM, ADDENTITY
+\param [in] component
+   The string representing the component
+\return
+   void
+*************************************************************************/
     void RecordComponent(Entity entity, ACTION action, std::string component);
+/*!***********************************************************************
+    \brief
+        Function to undo the recorded entity and action
+        \return
+        void
+*************************************************************************/
     void Undo();
+/*!***********************************************************************
+   \brief
+       Function to redo the recorded entity and action
+       \return
+       void
+   *************************************************************************/
     void Redo();
+/*!***********************************************************************
+   \brief
+       Function to return the undo stack size
+       \return
+       size_t stack size
+   *************************************************************************/
     size_t UndoSize();
+ /*!***********************************************************************
+\brief
+    Function to return the redo stack size
+    \return
+    size_t stack size
+*************************************************************************/
     size_t RedoSize();
+/*!***********************************************************************
+\brief
+   A helper function to see what layer the entity is in. In order to properly use
+   the delete layer function in the layer panel of the level editor
+\param [in] layer
+    current layer to compoare with the entities of both stacks
+\return
+   void
+*************************************************************************/
     void Layer(size_t layer);
+/*!***********************************************************************
+\brief
+    Function to return the transform of the top of the stack
+    \return
+    Transform
+*************************************************************************/
     Transform CheckFrontTransform();
+/*!***********************************************************************
+\brief
+   A helper function to check if the entity is not in the undostack
+\param [in] entity 
+    the entity to check
+\return
+   bool true if it is not in stack
+*************************************************************************/
     bool notInUndoStack(size_t checkEntity);
+/*!***********************************************************************
+\brief
+   A helper function to check if the entity is not in the redostack
+\param [in] entity 
+    the entity to check
+\return
+   bool true if it is not in stack
+*************************************************************************/
     bool notInRedoStack(size_t checkEntity);
+/*!***********************************************************************
+\brief
+   A helper function to  pop the front of the stack
+\return
+   void
+*************************************************************************/
     void StackPopFront();
+/*!***********************************************************************
+\brief
+   A helper function to  find the entity within the stack
+\param [in] entity
+\return
+   bool true if is within stack
+*************************************************************************/
     bool Find(Entity entity);
     bool undoFlag = false;
 private:
