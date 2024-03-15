@@ -141,8 +141,9 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 *
 ******************************************************************************/
 Entity EntityFactory::CloneMaster(Entity& masterEntity) {
+	static auto& typeMap2{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
-	for (auto& ecsType : typeMap) {
+	for (auto& ecsType : typeMap2) {
 		if (ecsType.second->HasComponent(masterEntity)) {
 			ecsType.second->AddComponent(entity);
 			ecsType.second->CopyComponent(entity, masterEntity);
@@ -160,7 +161,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		ECS::ecs().GetComponent<Parent>(entity).children.clear();
 		for (auto& child : ECS::ecs().GetComponent<Parent>(masterEntity).children) {
 			Entity childClone = ECS::ecs().CreateEntity();
-			for (auto& ecsType : typeMap) {
+			for (auto& ecsType : typeMap2) {
 				if (ecsType.second->HasComponent(child)) {
 					ecsType.second->AddComponent(childClone);
 					ecsType.second->CopyComponent(childClone, child);
