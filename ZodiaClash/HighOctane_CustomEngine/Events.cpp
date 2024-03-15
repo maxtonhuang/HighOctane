@@ -398,6 +398,10 @@ void ToggleSettings(std::string input) {
 			EntityFactory::entityFactory().DeleteCloneModel(settingsmenu);
 			settingsmenu = 0;
 		}
+		UITutorialSystem* ts = events.GetTutorialSystem();
+		if (ts->systemOverlayOn) {
+			ts->MaintainLayers();
+		}
 	}
 }
 
@@ -521,6 +525,11 @@ void AdvanceDialogue(std::string input) {
 	}
 }
 
+/*!
+ * \brief Event trigger to start tutorial in battle.scn
+ *
+ * std::string input : The input string.
+ */
 void StartTutorial(std::string input) {
 	(void)input;
 	UITutorialSystem* ts = events.GetTutorialSystem();
@@ -535,6 +544,11 @@ void StartTutorial(std::string input) {
 	}
 }
 
+/*!
+ * \brief Event trigger to advance tutorial in battle.scn
+ *
+ * std::string input : The input string.
+ */
 void AdvanceTutorial(std::string input) {
 	UITutorialSystem* ts = events.GetTutorialSystem();
 	bool conditionFulfilled = true;
@@ -635,18 +649,28 @@ void EventManager::ConnectDialogueSystem(UIDialogueSystem* input) {
 }
 
 /*!
- * \brief Retrieves the connected BattleSystem instance.
+ * \brief Retrieves the connected UIDialogueSystem instance.
  *
- * \return A pointer to the connected BattleSystem instance.
+ * \return A pointer to the connected UIDialogueSystem instance.
  */
 UIDialogueSystem* EventManager::GetDialogueSystem() {
 	return dialogueSystem;
 }
 
+/*!
+ * \brief Connects the event manager to a UITutorialSystem instance.
+ *
+ * \param input A pointer to the UITutorialSystem instance to be connected.
+ */
 void EventManager::ConnectTutorialSystem(UITutorialSystem* input) {
 	tutorialSystem = input;
 }
 
+/*!
+ * \brief Retrieves the connected UITutorialSystem instance.
+ *
+ * \return A pointer to the connected UITutorialSystem instance.
+ */
 UITutorialSystem* EventManager::GetTutorialSystem() {
 	return tutorialSystem;
 }
