@@ -324,7 +324,7 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 			break;
 		}
 
-		std::vector<Entity> entityList = bs->targetCircleList;
+		entityList = bs->targetCircleList;
 		for (Entity& e : entityList) {
 			Model& targetModel{ modelArray.GetData(e) };
 			if (IsWithinObject(targetModel, tutMousePos)) {
