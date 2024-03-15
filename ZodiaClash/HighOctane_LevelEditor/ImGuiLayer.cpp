@@ -133,6 +133,8 @@ void UpdateLayer() {
 						RemoveEntityFromLayering(sourceEntity);
 						// insert entity into target layer
 						layering[layer_it].emplace_back(sourceEntity);
+						PrepareLayeringForSerialization();
+						EmbedSkipLockForSerialization();
 					}
 					ImGui::EndDragDropTarget();
 
@@ -180,6 +182,8 @@ void UpdateLayer() {
 									RemoveEntityFromLayering(sourceEntity);
 									// insert entity into target layer
 									layering[layer_it].insert(layering[layer_it].begin() + entity_it, sourceEntity);
+									PrepareLayeringForSerialization();
+									EmbedSkipLockForSerialization();
 								}
 								ImGui::EndDragDropTarget();
 							}
