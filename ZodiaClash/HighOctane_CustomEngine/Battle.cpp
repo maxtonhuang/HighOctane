@@ -139,6 +139,7 @@ void BattleSystem::StartBattle() {
         std::string name = ECS::ecs().GetComponent<Name>(c.entity).name;
     }
 
+   // triggers any dialogue set with PRE_BATTLE trigger condition
     events.Call("Start Dialogue", "PRE_BATTLE");
 
     //Initialise turn order animator
@@ -304,6 +305,7 @@ void BattleSystem::Update()
         //Check if turn/health conditions are met, trigger dialogue
         if (m_Entities.size() > 0 && !dialogueCalled && (roundManage.roundCounter == 3 || roundManage.roundCounter == 4)) {
             for (CharacterStats* c : turnManage.turnOrderList) {
+                // dialogue call trigger specific to round 3 and 4, OX_Enemy is the boss
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
                     if (activeCharacter == c) {
                         events.Call("Start Dialogue", "TURN");
@@ -1201,31 +1203,34 @@ void BattleSystem::UpdateTargets() {
         for (int i = 0; i < targetCircleList.size(); i++) {
             Entity currentTarget{ targetCircleList[i] };
             Button& targetButton{ buttonArray.GetData(currentTarget) };
-            Entity hpIcon{ enemyAnimators[i].healthbarIcon };
-            Entity turnIcon{ enemyAnimators[i].turnorderIcon };
-            Entity turn{ enemyAnimators[i].turnorder };
-            Entity hpBase{ enemyAnimators[i].healthbarBase };
+            Entity hpIcon{};
+            Entity turnIcon{};
+            Entity turn{};
+            Entity hpBase{};
+
+            if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY || activeCharacter->action.selectedSkill.attacktype == AttackType::ALLYSELF) {
+                hpIcon = allyAnimators[i].healthbarIcon;
+                turnIcon = allyAnimators[i].turnorderIcon;
+                turn = allyAnimators[i].turnorder;
+                hpBase = allyAnimators[i].healthbarBase;
+            }
+            else {
+                hpIcon = enemyAnimators[i].healthbarIcon;
+                turnIcon = enemyAnimators[i].turnorderIcon;
+                turn = enemyAnimators[i].turnorder;
+                hpBase = enemyAnimators[i].healthbarBase;
+            }
 
             AnimationSet& iconAnimation{ animationArray.GetData(hpIcon) };
             AnimationSet& turniconAnimation{ animationArray.GetData(turnIcon) };
             AnimationSet& turnAnimation{ animationArray.GetData(turn) };
             AnimationSet& hpbaseAnimation{ animationArray.GetData(hpBase) };
 
-            //if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
-            //    targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
-            //    targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
-            //    continue;
-            //    hpIcon = allyAnimators[i].healthbarIcon;
-            //    turnIcon = allyAnimators[i].turnorderIcon;
-            //    turn = allyAnimators[i].turnorder;
-            //    hpBase = allyAnimators[i].healthbarBase;
-            //}
-
             if ((aoe && selected >= 0) || (selected == i)) {
                 targetButton.defaultColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
                 targetButton.hoveredColor.buttonColor = glm::vec4{ 1.f,0.f,0.f,1.f };
 
-                if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY) {
+                if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY || activeCharacter->action.selectedSkill.attacktype == AttackType::ALLYSELF) {
                     continue;
                 }
 

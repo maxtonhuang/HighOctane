@@ -1744,10 +1744,7 @@ void UIDialogueSystem::Update() {
 					//dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 				}
 				// speaker tex label
-				if (/*dialogueHudData->currentDialogue->isActive &&*/
-					dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
-					//Child* childData = &childArray.GetData(childEntity);
-					//Size* speakerSizeData = &sizeArray.GetData(childEntity);
+				if (dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
 					Model* speakerModelData = &modelArray.GetData(childEntity);
 					std::string speakerTextString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 

@@ -42,6 +42,11 @@
 #include <rapidjson-master/include/rapidjson/stringbuffer.h>
 #include <rapidjson-master/include/rapidjson/istreamwrapper.h>
 
+/**
+ * @brief Executes the skill against the target(s).
+ *
+ * This function applies the skill to the selected target
+ */
 void Attack::UseAttack(CharacterStats* target) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -191,17 +196,24 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 }
 
+/**
+ * @brief Executes the skill against the target(s).
+ *
+ * This function applies the skill to the selected AOE targets
+ */
 void Attack::UseAttack(std::vector<CharacterStats*> target) {
     for (CharacterStats* t : target) {
         UseAttack(t);
     }
 }
 
+/**
+ * @brief Damage formula of the game
+ *
+ * This function applies damage formula of the game onto the target
+ */
 void Attack::CalculateDamage(CharacterStats& target)
 {
-    //attackerStats = owner.GetComponent<CharacterStats>();
-    //targetStats = target.GetComponent<CharacterStats>();
-
     //critical hit chance
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -238,10 +250,20 @@ void Attack::CalculateDamage(CharacterStats& target)
     damage = roundf(damage);
 }
 
+/**
+ * @brief Set owner of the skill
+ *
+ * This function ties the owner of the skill to a set character
+ */
 void Attack::SetOwner(CharacterStats* input) {
     owner = input;
 }
 
+/**
+ * @brief Get attack names loaded
+ *
+ * This function returns all attack names loaded by the system
+ */
 std::vector<std::string> AttackList::GetAttackNames() {
     std::vector<std::string> output{};
     for (auto& a : data) {
@@ -250,6 +272,11 @@ std::vector<std::string> AttackList::GetAttackNames() {
     return output;
 }
 
+/**
+ * @brief Save Attack
+ *
+ * This function saves an attack to a .skill file
+ */
 void AttackList::SaveAttack(Attack const& attack) {
     rapidjson::Document document;
     document.SetArray();
@@ -290,6 +317,11 @@ void AttackList::SaveAttack(Attack const& attack) {
     }
 }
 
+/**
+ * @brief Load Attack
+ *
+ * This function loads an attack into the system
+ */
 void AttackList::LoadAttack(std::string attackPath) {
     Attack atk{};
     std::string atkname{};
@@ -372,6 +404,11 @@ void AttackList::LoadAttack(std::string attackPath) {
     data[atkname] = atk;
 }
 
+/**
+ * @brief Load all attack
+ *
+ * This function loads all attacks found in the skills folder into the system
+ */
 void AttackList::LoadAllAttacks() {
     std::filesystem::path skillFolder{ assetmanager.GetDefaultPath() + "Skills/" };
     for (auto& entry : std::filesystem::directory_iterator(skillFolder)) {

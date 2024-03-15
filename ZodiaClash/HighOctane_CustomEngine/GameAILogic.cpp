@@ -45,6 +45,12 @@ const float healRate = 10000.f;
 #include "CharacterStats.h"
 
 namespace GameAILogic {
+	/**
+	* @brief AI evaluation function
+	*
+	* This function evaluates the score of the move, and the AI
+	* will be more likely to choose a move with a higher score
+	*/
 	int Evaluate(BattleSystem const& start, BattleSystem const& end) {
 		int value = 0;
 
