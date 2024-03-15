@@ -366,6 +366,7 @@ void SceneEntityComponents(Entity entity) {
 			ImGui::TreePop();
 		}
 	}
+	static bool mouseDragged = false;
 	if (ECS::ecs().HasComponent<Transform>(entity)) {
 		Transform* entityTransform{ &ECS::ecs().GetComponent<Transform>(entity) };
 		if (ECS::ecs().HasComponent<Child>(entity)) {
@@ -375,15 +376,29 @@ void SceneEntityComponents(Entity entity) {
 			auto& positionComponent = entityTransform->position;
 			auto& rotationComponent = entityTransform->rotation;
 			auto& scaleComponent = entityTransform->scale;
-			ImGui::DragFloat2("Position", &positionComponent[0], 0.5f);
-			ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI);
-			ImGui::DragFloat("Scale", &scaleComponent,0.5f,1.f,100.f);
-			/*const char* rotationOptions[] = { "0 degrees", "90 degrees", "180 degrees", "270 degrees" };
-			int currentRotationIndex = static_cast<int>(rotationComponent / 90.0f);
-			if (ImGui::Combo("Rotation", &currentRotationIndex, rotationOptions, IM_ARRAYSIZE(rotationOptions))) {
-				rotationComponent = static_cast<float>(currentRotationIndex) * 90.0f;
-			}*/
-
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowFocused()) {
+				mouseDragged = true;
+			}
+			if (ImGui::DragFloat2("Position", &positionComponent[0], 0.5f)) {
+				if (mouseDragged) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					mouseDragged = false;
+				}
+				
+			}
+			if (ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI)) {
+				if (mouseDragged) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					mouseDragged = false;
+				}
+			}
+			if (ImGui::DragFloat("Scale", &scaleComponent, 0.1f, 0.f, 100.f)) {
+				if (mouseDragged) {
+					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					mouseDragged = false;
+				}
+			}
+			
 			ImGui::TreePop();
 		}
 	}
@@ -392,8 +407,21 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(Transform).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Size")) {
 			auto& widthComponent = entitySize->width;
 			auto& heightComponent = entitySize->height;
-			ImGui::DragFloat("Width", &widthComponent);
-			ImGui::DragFloat("Height", &heightComponent);
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowFocused()) {
+				mouseDragged = true;
+			}
+			if (ImGui::DragFloat("Width", &widthComponent)) {
+				if (mouseDragged) {
+					undoRedo.RecordCurrent(entity, ACTION::SIZE);
+					mouseDragged = false;
+				}
+			}
+			if (ImGui::DragFloat("Height", &heightComponent)) {
+				if (mouseDragged) {
+					undoRedo.RecordCurrent(entity, ACTION::SIZE);
+					mouseDragged = false;
+				}
+			}
 
 			ImGui::TreePop();
 		}
@@ -447,7 +475,7 @@ void SceneEntityComponents(Entity entity) {
 				ImGui::Text(textureComponent.tex->GetName().c_str());
 			}
 			if (ImGui::Button("Edit Current Texture")) {
-
+				undoRedo.RecordCurrent(entity, ACTION::TEXTURE);
 				std::string fullFilePath =	OpenSingleFileDialog();
 				std::string selectedFile = fullFilePath.substr(fullFilePath.find_last_of("\\")+1);
 				if (!selectedFile.empty()) {

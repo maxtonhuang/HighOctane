@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 36,
+            "layerCounter": 39,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -39,18 +39,22 @@
                 "Layer 32",
                 "Layer 33",
                 "Layer 34",
-                "Layer 35"
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "tutorial_02",
-            "Current Layer": 6,
+            "Name": "Slider_Button_01.png",
+            "Current Layer": 0,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -58,8 +62,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 462.05999755859375,
-            "position_y": 460.0,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -70,17 +74,17 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Tutorial 2.png"
+            "Texture File Path": "Slider_Button_01.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 393.0,
-            "height": 67.0
+            "width": 142.0,
+            "height": 140.0
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,

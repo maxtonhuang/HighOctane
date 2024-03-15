@@ -94,6 +94,8 @@ extern Entity keyObjectID;
 extern glm::vec4 keyObjectColor;
 extern bool snappingOn;
 extern bool tilemapOn;
+extern bool fullyDeleteLayer;
+extern std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> typeMap;
 
 extern float gridSpacingX;
 extern float gridSpacingY;
@@ -101,6 +103,7 @@ extern float gridOffsetX;
 extern float gridOffsetY;
 extern int gridAlignment;
 
+extern Entity settingsEntityBeingDragged;
 
 extern std::unordered_map<Entity,glm::vec4> snappingHighlight;
 extern std::unordered_map<Entity, std::unordered_map<bool, std::tuple<vmath::Vector2, vmath::Vector2, vmath::Vector2, vmath::Vector2>>> snappingLines;
@@ -153,6 +156,7 @@ enum class SystemMode
 	EDIT,
 	PAUSE,
 	GAMEHELP,
+	SETTINGS,
 	EXITCONFIRM,
 	NONE
 };

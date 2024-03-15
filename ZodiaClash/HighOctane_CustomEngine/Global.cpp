@@ -67,6 +67,8 @@ bool toCopy{ false };
 bool inEditing{ false };
 bool viewportWindowHovered{ false };
 bool goatSpeedup{ false };
+bool fullyDeleteLayer{ false };
+std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> typeMap;
 vmath::Vector2 rightClickPos{ RESET_VEC2 };
 
 std::vector<Entity> selectedEntities{};
@@ -91,6 +93,8 @@ float gridSpacingY{ 200.f };
 float gridOffsetX{ 0.f };
 float gridOffsetY{ 0.f };
 int gridAlignment{ SA_CENTER };
+
+Entity settingsEntityBeingDragged{ std::numeric_limits<Entity>().max() };
 
 
 std::unordered_map<Entity, glm::vec4> snappingHighlight{};

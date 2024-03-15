@@ -131,7 +131,9 @@ std::vector<std::pair<std::shared_ptr<System>, std::string>> runSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> editSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> pauseSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> gameHelpSystemList;
+std::vector<std::pair<std::shared_ptr<System>, std::string>> settingsSystemList;
 std::vector<std::pair<std::shared_ptr<System>, std::string>> systemList;
+
 
 
 
@@ -227,6 +229,7 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<StatusEffect>();
 	ECS::ecs().RegisterComponent<DialogueSpeaker>();
 	ECS::ecs().RegisterComponent<DialogueHUD>();
+	ECS::ecs().RegisterComponent<SliderUI>();
 	ECS::ecs().RegisterComponent<Parent>();
 	ECS::ecs().RegisterComponent<Child>();
 	ECS::ecs().RegisterComponent<Emitter>();
@@ -277,6 +280,7 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(uiButtonSystem, "UI Button System");
 	pauseSystemList.emplace_back(uiButtonSystem, "UI Button System");
 	gameHelpSystemList.emplace_back(uiButtonSystem, "UI Button System");
+	settingsSystemList.emplace_back(uiButtonSystem, "UI Button System");
 
 	std::shared_ptr<UIHealthBarSystem> uiHealthBarSystem = ECS::ecs().RegisterSystem<UIHealthBarSystem>();
 	runSystemList.emplace_back(uiHealthBarSystem, "UI Health Bar System");
@@ -324,6 +328,15 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	pauseSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 	gameHelpSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+	settingsSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
+
+	std::shared_ptr<UISliderSystem> uiSliderSystem = ECS::ecs().RegisterSystem<UISliderSystem>();
+	//runSystemList.emplace_back(uiSliderSystem, "UI Slider System");
+	//editSystemList.emplace_back(uiSliderSystem, "UI Slider System");
+	//systemList.emplace_back(uiSliderSystem, "UI Slider System");
+	//pauseSystemList.emplace_back(uiSliderSystem, "UI Slider System");
+	gameHelpSystemList.emplace_back(uiSliderSystem, "UI Slider System");
+	settingsSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 
 	std::shared_ptr<EditingSystem> editingSystem = ECS::ecs().RegisterSystem<EditingSystem>();
 	editSystemList.emplace_back(editingSystem, "Editing System");
@@ -343,6 +356,7 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(parentSystem, "Parent System");
 	pauseSystemList.emplace_back(parentSystem, "Parent System");
 	gameHelpSystemList.emplace_back(parentSystem, "Parent System");
+	settingsSystemList.emplace_back(parentSystem, "Parent System");
 
 	std::shared_ptr<ChildSystem> childSystem = ECS::ecs().RegisterSystem<ChildSystem>();
 	runSystemList.emplace_back(childSystem, "Child System");
@@ -350,10 +364,12 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(childSystem, "Child System");
 	pauseSystemList.emplace_back(childSystem, "Child System");
 	gameHelpSystemList.emplace_back(childSystem, "Child System");
+	settingsSystemList.emplace_back(childSystem, "Child System");
 
 	std::shared_ptr<ModelSystem> modelSystem = ECS::ecs().RegisterSystem<ModelSystem>();
 	runSystemList.emplace_back(modelSystem, "Model System");
 	systemList.emplace_back(modelSystem, "Model System");
+	settingsSystemList.emplace_back(modelSystem, "Model System");
 
 	std::shared_ptr<AudioSystem> audioSystem = ECS::ecs().RegisterSystem<AudioSystem>();
 	runSystemList.emplace_back(audioSystem, "Audio System");
@@ -361,6 +377,7 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(audioSystem, "Audio System");
 	pauseSystemList.emplace_back(audioSystem, "Audio System");
 	gameHelpSystemList.emplace_back(audioSystem, "Audio System");
+	settingsSystemList.emplace_back(audioSystem, "Audio System");
 
 	std::shared_ptr<GraphicsSystem> graphicsSystem = ECS::ecs().RegisterSystem<GraphicsSystem>();
 	runSystemList.emplace_back(graphicsSystem, "Graphics System");
@@ -368,6 +385,7 @@ void EngineCore::Run(bool const& mode) {
 	systemList.emplace_back(graphicsSystem, "Graphics System");
 	pauseSystemList.emplace_back(graphicsSystem, "Graphics System");
 	gameHelpSystemList.emplace_back(graphicsSystem, "Graphics System");
+	settingsSystemList.emplace_back(graphicsSystem, "Graphics System");
 
 
 
@@ -610,6 +628,21 @@ void EngineCore::Run(bool const& mode) {
 
 	{
 		Signature signature;
+		signature.set(ECS::ecs().GetComponentType<Transform>());
+		signature.set(ECS::ecs().GetComponentType<Size>());
+		//signature.set(ECS::ecs().GetComponentType<Parent>());
+		signature.set(ECS::ecs().GetComponentType<Child>());
+		signature.set(ECS::ecs().GetComponentType<Tex>());
+		//signature.set(ECS::ecs().GetComponentType<SliderUI>());
+		signature.set(ECS::ecs().GetComponentType<Model>());
+		signature.set(ECS::ecs().GetComponentType<Clone>());
+		signature.set(ECS::ecs().GetComponentType<Name>());
+
+		ECS::ecs().SetSystemSignature<UISliderSystem>(signature);
+	}
+
+	{
+		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
@@ -673,6 +706,7 @@ void EngineCore::Run(bool const& mode) {
 	Mail::mail().RegisterMailbox(ADDRESS::EDITING);
 	Mail::mail().RegisterMailbox(ADDRESS::UICOMPONENT);
 	Mail::mail().RegisterMailbox(ADDRESS::BATTLE);
+	Mail::mail().RegisterMailbox(ADDRESS::UISLIDER);
 
 
 	///////////////////////////////////
@@ -715,6 +749,9 @@ void EngineCore::Run(bool const& mode) {
 			break;
 		case SystemMode::GAMEHELP:
 			sList = &pauseSystemList; // Same things as pause system list
+			break;
+		case SystemMode::SETTINGS:
+			sList = &settingsSystemList;
 			break;
 		}
 
@@ -792,6 +829,8 @@ void EngineCore::Run(bool const& mode) {
 		}
 
 		EntityFactory::entityFactory().UpdateDeletion();
+
+		printf("System Mode: %s\n", SystemModeToString(GetCurrentSystemMode()).c_str());
 
 	}
 

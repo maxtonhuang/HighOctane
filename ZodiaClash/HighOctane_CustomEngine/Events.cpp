@@ -51,6 +51,7 @@ EventManager events;
 
 Entity exitconfirmationmenu{};
 Entity pausemenu{};
+Entity settingsmenu{};
 
 /*!
  * \brief Exits the game menu, voids input
@@ -332,7 +333,7 @@ void TogglePause(std::string input) {
 		return;
 	}
 
-	if (GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EDIT) {
+	if (GetCurrentSystemMode() == SystemMode::GAMEHELP ||GetCurrentSystemMode() == SystemMode::SETTINGS || GetCurrentSystemMode() == SystemMode::EDIT) {
 
 		return;
 	}
@@ -347,7 +348,7 @@ void TogglePause(std::string input) {
 
 	PauseResumeGroup("VOC");
 	/*-----Prevent Softlocking-----*/
-	if (GetPreviousSystemMode() == SystemMode::GAMEHELP && GetCurrentSystemMode() == SystemMode::PAUSE) {
+	if ((GetPreviousSystemMode() == SystemMode::GAMEHELP || GetPreviousSystemMode() == SystemMode::SETTINGS) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::RUN);
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
@@ -356,7 +357,7 @@ void TogglePause(std::string input) {
 	}
 	/*-----Prevent Softlocking-----*/
 
-	else if (!(GetPreviousSystemMode() == SystemMode::GAMEHELP) && GetCurrentSystemMode() == SystemMode::PAUSE) {
+	else if ((!(GetPreviousSystemMode() == SystemMode::GAMEHELP) || !(GetPreviousSystemMode() == SystemMode::SETTINGS)) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
@@ -377,6 +378,34 @@ void TogglePause(std::string input) {
 	if (GetCurrentSystemMode() != SystemMode::PAUSE && ts->systemOverlayOn)
 		ts->systemOverlayOn = false;
 }
+
+// Add in toggle settings in events which is here.
+
+
+/*!
+ * \brief Toggling of the settings state of the game.
+ *
+ * std::string input : The input string. (Not used)
+ */
+void ToggleSettings(std::string input) {
+	if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+		SetCurrentSystemMode(SystemMode::SETTINGS);
+		settingsmenu = EntityFactory::entityFactory().ClonePrefab("settingsmenu.prefab");
+	}
+	else if (GetCurrentSystemMode() == SystemMode::SETTINGS) {
+		SetCurrentSystemMode(SystemMode::PAUSE);
+		if (settingsmenu != 0) {
+			EntityFactory::entityFactory().DeleteCloneModel(settingsmenu);
+			settingsmenu = 0;
+		}
+		UITutorialSystem* ts = events.GetTutorialSystem();
+		if (ts->systemOverlayOn) {
+			ts->MaintainLayers();
+		}
+	}
+}
+
+
 
 /*!
  * \brief Toggling of the help state of the game.
@@ -496,6 +525,11 @@ void AdvanceDialogue(std::string input) {
 	}
 }
 
+/*!
+ * \brief Event trigger to start tutorial in battle.scn
+ *
+ * std::string input : The input string.
+ */
 void StartTutorial(std::string input) {
 	(void)input;
 	UITutorialSystem* ts = events.GetTutorialSystem();
@@ -510,6 +544,11 @@ void StartTutorial(std::string input) {
 	}
 }
 
+/*!
+ * \brief Event trigger to advance tutorial in battle.scn
+ *
+ * std::string input : The input string.
+ */
 void AdvanceTutorial(std::string input) {
 	UITutorialSystem* ts = events.GetTutorialSystem();
 	bool conditionFulfilled = true;
@@ -524,6 +563,7 @@ void AdvanceTutorial(std::string input) {
 	}
 	ts->UpdateState();
 }
+
 
 /*!
  * \brief Initializes the functions for the event manager.
@@ -554,6 +594,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Advance Dialogue"] = AdvanceDialogue;
 	functions["Start Tutorial"] = StartTutorial;
 	functions["Advance Tutorial"] = AdvanceTutorial;
+	functions["Toggle Settings"] = ToggleSettings;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}
@@ -608,18 +649,28 @@ void EventManager::ConnectDialogueSystem(UIDialogueSystem* input) {
 }
 
 /*!
- * \brief Retrieves the connected BattleSystem instance.
+ * \brief Retrieves the connected UIDialogueSystem instance.
  *
- * \return A pointer to the connected BattleSystem instance.
+ * \return A pointer to the connected UIDialogueSystem instance.
  */
 UIDialogueSystem* EventManager::GetDialogueSystem() {
 	return dialogueSystem;
 }
 
+/*!
+ * \brief Connects the event manager to a UITutorialSystem instance.
+ *
+ * \param input A pointer to the UITutorialSystem instance to be connected.
+ */
 void EventManager::ConnectTutorialSystem(UITutorialSystem* input) {
 	tutorialSystem = input;
 }
 
+/*!
+ * \brief Retrieves the connected UITutorialSystem instance.
+ *
+ * \return A pointer to the connected UITutorialSystem instance.
+ */
 UITutorialSystem* EventManager::GetTutorialSystem() {
 	return tutorialSystem;
 }

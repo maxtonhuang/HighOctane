@@ -218,19 +218,19 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 					}
 				}
 				else if (IsNearby(model->GetTop(), currentMousePosition, CORNER_SIZE)) {
-					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					undoRedo.RecordCurrent(entity, ACTION::SIZE);
 					name.clicked = CLICKED::N;
 				}
 				else if (IsNearby(model->GetRight(), currentMousePosition, CORNER_SIZE)) {
-					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					undoRedo.RecordCurrent(entity, ACTION::SIZE);
 					name.clicked = CLICKED::E;
 				}
 				else if (IsNearby(model->GetBot(), currentMousePosition, CORNER_SIZE)) {
-					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					undoRedo.RecordCurrent(entity, ACTION::SIZE);
 					name.clicked = CLICKED::S;
 				}
 				else if (IsNearby(model->GetLeft(), currentMousePosition, CORNER_SIZE)) {
-					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
+					undoRedo.RecordCurrent(entity, ACTION::SIZE);
 					name.clicked = CLICKED::W;
 				}
 				else if (IsNearby(model->GetTopRight(), currentMousePosition, CORNER_SIZE)) {

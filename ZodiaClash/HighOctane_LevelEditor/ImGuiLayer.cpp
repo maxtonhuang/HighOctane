@@ -43,6 +43,7 @@
 #include <limits>
 #include "Global.h"
 #include<map>
+#include "UndoRedo.h"
 
 constexpr float buttonHeight = 40.f;
 int index{};
@@ -83,7 +84,7 @@ void UpdateLayer() {
 		// If press delete, must remove all clone component and hide layer.
 		// But if not, layer should still be showing.
 		if (layerNames[layer_it].second) {
-
+			
 			std::string label1 = "##label" + std::to_string(checkboxCounter++);
 			if (ImGui::Checkbox(label1.c_str(), &layersToSkip[layer_it])) {
 				UnselectAll();
@@ -204,6 +205,7 @@ void UpdateLayer() {
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Delete Layer", {panelWidth / 2.f, buttonHeight})) {
+		fullyDeleteLayer = true;
 		// Delete Layer
 		if (selectedLayer != std::numeric_limits<size_t>::max()) {
 			DeleteLayer();

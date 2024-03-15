@@ -143,6 +143,7 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	static auto& typeMap{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
+	std::cout << "Clone Master Entity ID: " << entity << " || Master Entity ID: " << masterEntity << std::endl;
 	for (auto& ecsType : typeMap) {
 		if (ecsType.second->HasComponent(masterEntity)) {
 			ecsType.second->AddComponent(entity);

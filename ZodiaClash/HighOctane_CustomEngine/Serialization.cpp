@@ -332,6 +332,17 @@ rapidjson::Value SerializeCollider(const Collider& collider, rapidjson::Document
 	return colliderObject;
 }
 
+rapidjson::Value SerializeSliderUI(const SliderUI& slider, rapidjson::Document::AllocatorType& allocator) {
+	rapidjson::Value sliderObject(rapidjson::kObjectType);
+
+	sliderObject.AddMember("Linked Entity", slider.linkedEntity, allocator);
+
+	sliderObject.AddMember("Slider Type", (int)slider.type, allocator);
+	sliderObject.AddMember("Control Which", (int)slider.controlWhich, allocator);
+
+	return sliderObject;
+}
+
 rapidjson::Value SerializeTextLabel(const TextLabel& textLabel, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value textObject(rapidjson::kObjectType);
 	
@@ -763,6 +774,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	Collider* collider = nullptr;
 	AnimationSet* animset = nullptr;
 	//Temporary* temporary = nullptr;
+	SliderUI* sliderUI = nullptr;
 
 	for (const Entity& entity : m_entity) {
 
@@ -975,6 +987,12 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 		}
 		if (CheckSerialize<Temporary>(entity, isPrefabClone, uComponentMap)) {
 			entityObject.AddMember("Temporary", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
+		if (CheckSerialize<SliderUI>(entity, isPrefabClone, uComponentMap)) {
+			printf("Inside CheckSerialize<SliderUI>\n");
+			sliderUI = &ECS::ecs().GetComponent<SliderUI>(entity);
+			rapidjson::Value sliderObject = SerializeSliderUI(*sliderUI, allocator);
+			entityObject.AddMember("SliderUI", sliderObject, allocator);
 		}
 		document.PushBack(entityObject, allocator);
 		//document.PushBack(entityArray, allocator);
@@ -1888,6 +1906,15 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 
 				ECS::ecs().AddComponent<Child>(entity, Child{ parentID, transform });
 				parent->children.push_back(entity);
+			}
+			if (entityObject.HasMember("SliderUI")) {
+				const rapidjson::Value& sliderObject = entityObject["SliderUI"];
+				SliderUI sliderUI;
+				sliderUI.linkedEntity = sliderObject["Linked Entity"].GetUint();
+				sliderUI.type = static_cast<SliderUI::UI_TYPE>(sliderObject["Slider Type"].GetInt());
+				sliderUI.controlWhich = static_cast<SliderUI::CONTROL_WHICH>(sliderObject["Control Which"].GetInt());
+				ECS::ecs().AddComponent<SliderUI>(entity, sliderUI);
+
 			}
 			//if (entityObject.HasMember("Emitter")) {
 			//	ECS::ecs().AddComponent<Emitter>(entity, Emitter{});

@@ -685,6 +685,11 @@ public:
     void Update() override;
 };
 
+class UISliderSystem : public System {
+public:
+    void Update() override;
+};
+
 class ModelSystem : public System {
 public:
     void Update() override;

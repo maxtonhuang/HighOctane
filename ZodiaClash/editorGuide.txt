@@ -56,7 +56,8 @@ Layering system:
 ================================================================
 
 Undo:
-- CTRL + Z to undo tranform(Position, Rotation, Scale), adding and deleting of entites.
+- CTRL + Z to undo 
+- CTRL + SHIFT + Z to redo
 ================================================================
 
 Scene Hiearchy:
@@ -100,6 +101,7 @@ Content Browser:
 - Browse through various files and folders within asset.
 - Go over the Scenes folder. Able to drag and drop any scene with the extension (.scn) into the viewport to seamlessly edit scenes.
 - Go over the Prefabs folder. Able to drag and drop any prefabs with the extension (.prefabs) into the prefabs panel to seamlessly edit.
+- Right click, select delete to completely delete the file from the file explorer of the project
 ================================================================
 
 Menu Bar:
