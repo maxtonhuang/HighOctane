@@ -78,22 +78,6 @@ void UITutorialSystem::Update() {
 				break;
 			}
 		}
-
-		for (Entity const& entity : m_Entities) {
-			bool animating = false;
-			for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::BATTLE]) {
-				switch (msg.type) {
-				case(TYPE::ANIMATING):
-					animating = true;
-
-					break;
-				}
-			}
-
-			if (!animating) {
-				//UpdateState();
-			}
-		}
 	}
 }
 
