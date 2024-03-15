@@ -1779,12 +1779,9 @@ void UIDialogueSystem::Update() {
 ******************************************************************************/
 void UISliderSystem::Update() {
 
-	//std::cout << "Inside UISliderSystem::Update()" << std::endl;
-
 	static vmath::Vector2 cmp = { 0.f ,0.f };
 	bool sliderMouseClicked = false;
 	bool sliderMouseDragging = false;
-	bool sliderMouseReleased = false;
 	Entity matchSliders[6] = { {std::numeric_limits<Entity>().max()} };
 
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::UISLIDER]) {
@@ -1808,7 +1805,7 @@ void UISliderSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& sliderUIArray = componentManager.GetComponentArrayRef<SliderUI>();
-	auto& childArray = componentManager.GetComponentArrayRef<Child>();
+	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 
 	for (Entity const& entity : m_Entities) {
 		Name& nameData = nameArray.GetData(entity);
@@ -1823,10 +1820,10 @@ void UISliderSystem::Update() {
 
 		Name& nameData = nameArray.GetData(entity);
 		Transform& transformData = transformArray.GetData(entity);
+		//Child& childData = childArray.GetData(entity);
 
 		if (nameData.name.find("Slider") != std::string::npos && nameData.name[nameData.name.length() - 1] != 'b') {
 
-			Child& childData = childArray.GetData(entity);
 			SliderUI& sliderUIData = sliderUIArray.GetData(entity);
 			sliderUIData.linkedEntity = matchSliders[sliderUIData.controlWhich];
 			Model& modelDataParent = modelArray.GetData(sliderUIData.linkedEntity);
@@ -1834,23 +1831,23 @@ void UISliderSystem::Update() {
 			switch (sliderUIData.controlWhich) {
 
 			case 1: // Master
-				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("Master") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				/*childData.offset.position.x = */transformData.position.x = (assetmanager.audio.GetGroupVolume("Master") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
 				break;
 
 			case 2: // Game Sounds
-				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("SFX") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				/*childData.offset.position.x = */transformData.position.x = (assetmanager.audio.GetGroupVolume("SFX") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
 				break;
 
 			case 3: // Music
-				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("BGM") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				/*childData.offset.position.x = */transformData.position.x = (assetmanager.audio.GetGroupVolume("BGM") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
 				break;
 
 			case 4: // Environment
-				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("ENV") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				/*childData.offset.position.x = */transformData.position.x = (assetmanager.audio.GetGroupVolume("ENV") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
 				break;
 
 			case 5: // Voice
-				childData.offset.position.x = transformData.position.x = (assetmanager.audio.GetGroupVolume("VOC") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+				/*childData.offset.position.x = */transformData.position.x = (assetmanager.audio.GetGroupVolume("VOC") * ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)))) + (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
 				break;
 
 			default:
@@ -1866,10 +1863,10 @@ void UISliderSystem::Update() {
 
 	if (sliderMouseDragging && settingsEntityBeingDragged != std::numeric_limits<Entity>().max()) {
 			Transform& transformData = transformArray.GetData(settingsEntityBeingDragged);
-			Child& childData = childArray.GetData(settingsEntityBeingDragged);
+			//Child& childData = childArray.GetData(settingsEntityBeingDragged);
 			SliderUI& sliderUIData = sliderUIArray.GetData(settingsEntityBeingDragged);
 			Model& modelDataParent = modelArray.GetData(sliderUIData.linkedEntity);
-			childData.offset.position.x = transformData.position.x = std::clamp(cmp.x, modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f), modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
+			/*childData.offset.position.x = */transformData.position.x = std::clamp(cmp.x, modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f), modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f));
 			float volume_new = ((transformData.position.x - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f))) / ((modelDataParent.GetRight().x - ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f)) - (modelDataParent.GetLeft().x + ((modelDataParent.GetTop().y - modelDataParent.GetBot().y) / 2.f))));
 			switch (sliderUIData.controlWhich) {
 			case SliderUI::CONTROL_WHICH::CONTROL_WHICH_MASTER:
