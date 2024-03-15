@@ -1,3 +1,40 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		Tutorial.cpp
+*
+*	@co-author	Chua Zhen Rong
+*
+*	@email		c.zhenrong\@digipen.edu
+* 
+*   @author		Foong Pun Yuen Nigel (core system structure outline)
+*
+*	@email		p.foong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		[M5] 15 March 2024
+*
+* *****************************************************************************
+*
+*	@brief		Event handling and automation of tutiorial system
+*
+*	Contains logic and event handling for the tutorial system. Layer management
+*	and storing of tutorials state is handled by the system, and makes use of
+*	on click event triggers to advance the tutorial.
+*
+******************************************************************************/
+
 #include "Tutorial.h"
 #include "Events.h"
 #include "Layering.h"
@@ -225,6 +262,13 @@ void UITutorialSystem::UpdateState() {
 	}
 }
 
+/*!
+* \brief Tutorial CheckConditionFulfilled
+*
+* When on click, confirm system mode is current and pre-requisites of current step are fulfilled
+* (e.g . mouse click on skill button 1, mouse click on enemy target)
+*
+*/
 void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	auto& modelArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Model>() };
 	BattleSystem* bs = events.GetBattleSystem();
@@ -319,6 +363,12 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	}
 }
 
+/*!
+* \brief Tutorial SurfaceSystemOverlay
+*
+* Self explanatory. System overlays take precedence over tutorial under any condition.
+*
+*/
 void UITutorialSystem::SurfaceSystemOverlay(Entity& entity) {
 	if (!overlayOn || tutorialComplete) {
 		return;
@@ -334,6 +384,12 @@ void UITutorialSystem::SurfaceSystemOverlay(Entity& entity) {
 	systemOverlayOn = true;
 }
 
+/*!
+* \brief Tutorial GetChildren
+*
+* Helper function to get children of entities to surface
+*
+*/
 void UITutorialSystem::GetChildren(std::vector<Entity>& entityList) {
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
 	std::vector<Entity> tmp{};
@@ -351,6 +407,12 @@ void UITutorialSystem::GetChildren(std::vector<Entity>& entityList) {
 	}
 }
 
+/*!
+* \brief Tutorial SurfaceTargetLayers
+*
+* Helper function to get surface target entities to the appropriate layer
+*
+*/
 void UITutorialSystem::SurfaceTargetLayers(const std::vector<Entity> entities) {
 	if (entities.empty()) {
 		return;
@@ -391,6 +453,13 @@ void UITutorialSystem::SurfaceTargetLayers(const std::vector<Entity> entities) {
 	}
 }
 
+/*!
+* \brief Tutorial RevertLayers
+*
+* Helper function to return entities to their original layers before surfacing
+* new set of entities.
+*
+*/
 void UITutorialSystem::RevertLayers() {
 	for (std::pair<Entity, size_t>& pair : originalLayers) {
 		TransferToLayer(pair.first, pair.second);
@@ -399,6 +468,13 @@ void UITutorialSystem::RevertLayers() {
 	modifiedLayers.clear();
 }
 
+/*!
+* \brief Tutorial MaintainLayers
+*
+* Enforce surfaced layers to remain in their new layer so that it remains unaffected
+* by tooltip hovers, prefab cloning or any other layering changes.
+*
+*/
 void UITutorialSystem::MaintainLayers() {
 	size_t topLayer = GetTopLayer();
 	for (std::pair<Entity, size_t>& pair : modifiedLayers) {
