@@ -68,16 +68,17 @@ private:
         Entity entity{};
         ACTION action{};
         Transform transform{};
-        Clone clone{};
+        Transform prevTransform{};
         Size size{};
+        Size prevSize{};
         Tex tex{};
+        Tex prevTex{};
         size_t layerIndex{};
         std::string component;
     };
 
     std::deque<EntityChanges> undoStack;
     std::deque<EntityChanges> redoStack;
-    std::deque<Entity>entityBuffer;
 };
 
 extern UndoRedo undoRedo;

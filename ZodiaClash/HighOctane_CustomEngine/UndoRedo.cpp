@@ -53,14 +53,14 @@ void UndoRedo::RecordCurrent(Entity entity, ACTION action) {
     }
     switch (action) {
     case ACTION::TRANSFORM:
-        currentState.transform = ECS::ecs().GetComponent<Transform>(entity);
+        currentState.prevTransform = ECS::ecs().GetComponent<Transform>(entity); // Store previous transform
         break;
     case ACTION::SIZE:
-        currentState.size = ECS::ecs().GetComponent<Size>(entity);
+        currentState.prevSize = ECS::ecs().GetComponent<Size>(entity); // Store previous size
         break;
     case ACTION::TEXTURE:
-        currentState.tex.tex = ECS::ecs().GetComponent<Tex>(entity).tex;
-        currentState.size = ECS::ecs().GetComponent<Size>(entity);
+        currentState.prevTex.tex = ECS::ecs().GetComponent<Tex>(entity).tex; // Store previous texture
+        currentState.prevSize = ECS::ecs().GetComponent<Size>(entity); // Store previous size
         break;
     case ACTION::DELENTITY:
         currentState.layerIndex = FindInLayer(entity).first;
@@ -85,17 +85,31 @@ void UndoRedo::RecordComponent(Entity entity, ACTION action, std::string compone
 
     undoStack.push_front(currentState);
 }
-
 void UndoRedo::Undo() {
     if (!undoStack.empty()) {
         undoFlag = true;
         EntityChanges currentState = undoStack.front();
         undoStack.pop_front();
-        //Move the undone action to the redoStack
-        redoStack.push_front(currentState);
-        switch(currentState.action) {
+
+        // Store current state before pushing onto redo stack
+        switch (currentState.action) {
         case ACTION::TRANSFORM:
-            ECS::ecs().GetComponent<Transform>(currentState.entity) = currentState.transform;
+            currentState.transform = ECS::ecs().GetComponent<Transform>(currentState.entity); // Store current transform
+            break;
+        case ACTION::SIZE:
+            currentState.size = ECS::ecs().GetComponent<Size>(currentState.entity); // Store current size
+            break;
+        case ACTION::TEXTURE:
+            currentState.tex.tex = ECS::ecs().GetComponent<Tex>(currentState.entity).tex; // Store current texture
+            currentState.size = ECS::ecs().GetComponent<Size>(currentState.entity); // Store current size
+            break;
+        }
+
+        redoStack.push_front(currentState);
+
+        switch (currentState.action) {
+        case ACTION::TRANSFORM:
+            ECS::ecs().GetComponent<Transform>(currentState.entity) = currentState.prevTransform; // Restore previous transform
             break;
         case ACTION::ADDENTITY:
             ECS::ecs().RemoveComponent<Clone>(currentState.entity);
@@ -108,11 +122,11 @@ void UndoRedo::Undo() {
             entitiesToLock[currentState.entity] = true;
             break;
         case ACTION::SIZE:
-            ECS::ecs().GetComponent<Size>(currentState.entity) = currentState.size;
+            ECS::ecs().GetComponent<Size>(currentState.entity) = currentState.prevSize; // Restore previous size
             break;
         case ACTION::TEXTURE:
-            ECS::ecs().GetComponent<Tex>(currentState.entity).tex = assetmanager.texture.Get(currentState.tex.tex->GetName().c_str());
-            ECS::ecs().GetComponent<Size>(currentState.entity) = currentState.size;
+            ECS::ecs().GetComponent<Tex>(currentState.entity).tex = currentState.prevTex.tex; // Restore previous texture
+            ECS::ecs().GetComponent<Size>(currentState.entity) = currentState.prevSize; // Restore previous size
             break;
         case ACTION::ADDCOMP:
             for (auto& compType : typeMap) {
@@ -129,10 +143,8 @@ void UndoRedo::Undo() {
             }
             break;
         }
-
     }
 }
-
 void UndoRedo::Redo() {
     if (!undoFlag) {
         redoStack.clear();
@@ -161,7 +173,7 @@ void UndoRedo::Redo() {
             ECS::ecs().GetComponent<Size>(currentState.entity) = currentState.size;
             break;
         case ACTION::TEXTURE:
-            ECS::ecs().GetComponent<Tex>(currentState.entity).tex = assetmanager.texture.Get(currentState.tex.tex->GetName().c_str());
+            ECS::ecs().GetComponent<Tex>(currentState.entity).tex = currentState.tex.tex;
             ECS::ecs().GetComponent<Size>(currentState.entity) = currentState.size;
             break;
         case ACTION::ADDCOMP:

@@ -376,12 +376,10 @@ void SceneEntityComponents(Entity entity) {
 			auto& positionComponent = entityTransform->position;
 			auto& rotationComponent = entityTransform->rotation;
 			auto& scaleComponent = entityTransform->scale;
-			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowFocused) {
-				std::cout << "Click" << std::endl;
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowFocused()) {
 				mouseDragged = true;
 			}
 			if (ImGui::DragFloat2("Position", &positionComponent[0], 0.5f)) {
-				std::cout << "Inside" << std::endl;
 				if (mouseDragged) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					mouseDragged = false;
@@ -389,14 +387,12 @@ void SceneEntityComponents(Entity entity) {
 				
 			}
 			if (ImGui::DragFloat("Rotation", &rotationComponent, 0.01f, -(vmath::PI), vmath::PI)) {
-				std::cout << "Inside" << std::endl;
 				if (mouseDragged) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					mouseDragged = false;
 				}
 			}
 			if (ImGui::DragFloat("Scale", &scaleComponent, 0.1f, 0.f, 100.f)) {
-				std::cout << "Inside" << std::endl;
 				if (mouseDragged) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
 					mouseDragged = false;
@@ -411,19 +407,16 @@ void SceneEntityComponents(Entity entity) {
 		if (ImGui::TreeNodeEx((void*)typeid(Transform).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Size")) {
 			auto& widthComponent = entitySize->width;
 			auto& heightComponent = entitySize->height;
-			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowFocused) {
-				std::cout << "Click" << std::endl;
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && ImGui::IsWindowFocused()) {
 				mouseDragged = true;
 			}
 			if (ImGui::DragFloat("Width", &widthComponent)) {
-				std::cout << "Inside" << std::endl;
 				if (mouseDragged) {
 					undoRedo.RecordCurrent(entity, ACTION::SIZE);
 					mouseDragged = false;
 				}
 			}
 			if (ImGui::DragFloat("Height", &heightComponent)) {
-				std::cout << "Inside" << std::endl;
 				if (mouseDragged) {
 					undoRedo.RecordCurrent(entity, ACTION::SIZE);
 					mouseDragged = false;
