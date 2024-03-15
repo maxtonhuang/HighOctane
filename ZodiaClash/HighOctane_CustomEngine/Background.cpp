@@ -33,15 +33,30 @@
 #include "Background.h"
 #include "graphics.h"
 
+/**
+ * @brief Cconstructor
+ *
+ * Constructor of the background system
+ */
 BackgroundSystem::BackgroundSystem() {
 	scrolldata = new float[GRAPHICS::vertexBufferSize];
 	count = 0;
 }
 
+/**
+ * @brief Destructor
+ *
+ * Destructor of the background system
+ */
 BackgroundSystem::~BackgroundSystem() {
 	delete[] scrolldata;
 }
 
+/**
+ * @brief Update
+ *
+ * Main update function of the background system
+ */
 void BackgroundSystem::Update() {
 	if (!ECS::ecs().HasComponent<Transform>(focus)) {
 		count = 0;
@@ -53,10 +68,20 @@ void BackgroundSystem::Update() {
 	count = 0;
 }
 
+/**
+ * @brief SetFocusEntity
+ *
+ * Sets the focused entity for the background to center around
+ */
 void BackgroundSystem::SetFocusEntity(Entity entity) {
 	focus = entity;
 }
 
+/**
+ * @brief AddBackground
+ *
+ * Add a background to the background system
+ */
 void BackgroundSystem::AddBackground(float scroll) {
 	ASSERT(count > GRAPHICS::vertexBufferSize, "Background system error!");
 	scrolldata[count] = scroll;
