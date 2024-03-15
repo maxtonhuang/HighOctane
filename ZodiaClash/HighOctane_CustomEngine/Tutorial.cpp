@@ -230,7 +230,7 @@ void UITutorialSystem::CheckConditionFulfilled(bool& result) {
 	BattleSystem* bs = events.GetBattleSystem();
 	std::vector<Entity> entityList{};
 
-	if ((GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::EXITCONFIRM)) {
+	if ((GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::SETTINGS || GetCurrentSystemMode() == SystemMode::EXITCONFIRM)) {
 		result = false;
 		return;
 	}
