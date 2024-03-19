@@ -160,21 +160,25 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->buffs.defenseBuff = 0.5f;
         owner->buffs.defenseStack = 2;
     }
+    else if (attackName == "Monkey Attack") {
+        owner->cycle++;
+    }
     //Enemy monkey AOE
     else if (attackName == "Monkey AOE") {
         if (!owner->charge) {
             damage = 0;
         }
-        else {
-            owner->charge = false;
-        }
     }
     //Enemy monkey charge
     else if (attackName == "Monkey Charge") {
-        target->charge = true;
-        if (!owner->charge && !target->charge) {
+        if (!owner->charge && !target->charge && target->tag == CharacterType::ENEMY && owner->cycle >= 2) {
             owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 0;
         }
+        else {
+            owner->action.battleManager->aiMultiplier -= 100000;
+        }
+        target->charge = true;
     }
 
     target->debuffs.bloodStack += bleed;
@@ -204,6 +208,17 @@ void Attack::UseAttack(CharacterStats* target) {
 void Attack::UseAttack(std::vector<CharacterStats*> target) {
     for (CharacterStats* t : target) {
         UseAttack(t);
+    }
+
+    if (attackName == "Monkey AOE") {
+        if (!owner->charge) {
+            owner->action.battleManager->aiMultiplier -= 100000;
+        }
+        else if (owner->cycle >= 2) {
+            owner->charge = false;
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle = 0;
+        }
     }
 }
 

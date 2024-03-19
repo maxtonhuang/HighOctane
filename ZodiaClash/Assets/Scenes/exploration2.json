@@ -438,7 +438,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_04.png",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -961,7 +961,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 24,
+            "Order in Layer": 26,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1057,7 +1057,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_02.png",
             "Current Layer": 0,
-            "Order in Layer": 28,
+            "Order in Layer": 29,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1105,7 +1105,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 29,
+            "Order in Layer": 30,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1153,7 +1153,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 30,
+            "Order in Layer": 31,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1201,7 +1201,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 31,
+            "Order in Layer": 32,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1256,7 +1256,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_09.png",
             "Current Layer": 0,
-            "Order in Layer": 33,
+            "Order in Layer": 34,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1281,7 +1281,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_06.png",
             "Current Layer": 0,
-            "Order in Layer": 34,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1421,7 +1421,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 25,
+            "Order in Layer": 24,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1470,7 +1470,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 26,
+            "Order in Layer": 25,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1569,7 +1569,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock_lower",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1642,7 +1642,7 @@
             "position_x": -70.0,
             "position_y": -750.0,
             "rotation": 6.2831854820251465,
-            "scale": 1.0,
+            "scale": 1.3480000495910645,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -1716,7 +1716,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock_upper",
             "Current Layer": 0,
-            "Order in Layer": 32,
+            "Order in Layer": 28,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1841,7 +1841,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 11,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },

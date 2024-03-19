@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 34,
+            "layerCounter": 58,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -37,33 +37,32 @@
                 "Layer 30",
                 "Layer 31",
                 "Layer 32",
-                "Layer 33"
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57"
             ]
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "background_battle.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "bg_battle",
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
         }
     },
     {
@@ -91,81 +90,6 @@
             "velocity_y": 0.0
         },
         "Parent": {}
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_goat.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Goat_Enemy",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -550.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.26726171374320984,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "guards.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 6,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -300.0,
-            "position_y": 150.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "guards.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Guard",
-            "Current Layer": 0,
-            "Order in Layer": 9,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -350.0,
-            "position_y": -150.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
     },
     {
         "Clone": {
@@ -206,7 +130,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 1,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -214,7 +138,7 @@
             "position_x": 0.0,
             "position_y": -750.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 1.3480000495910645,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -290,7 +214,7 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -375,7 +299,7 @@
         "Entity": {
             "Name": "Player_Ox",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -384,6 +308,81 @@
             "position_y": 177.0,
             "rotation": 6.2831854820251465,
             "scale": 0.34200000762939453,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_monkey.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Monkey",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -298.0,
+            "position_y": 142.1409912109375,
+            "rotation": 0.0,
+            "scale": 0.34200000762939453,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_monkey.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Monkey",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -439.6360168457031,
+            "position_y": -117.72123718261719,
+            "rotation": 0.0,
+            "scale": 0.34200000762939453,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "background_battle2.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
