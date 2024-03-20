@@ -39,7 +39,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -70.0,
             "position_y": -750.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -49,8 +49,8 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "Shu (rat), best friend of Mei, was also chosen to fight in the race.",
+            "Font Size": 0.4000000059604645,
+            "Text String": "Shu(rat), best friend of Mei, was also in the race.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -67,23 +67,23 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "Shu (rat), best friend of Mei, was also chosen to fight in the race.",
+                            "Line": "Shu(rat), best friend of Mei, was also in the race.",
                             "Voice": "Cutscene_VO_6.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "Upon reaching the valley of the Jade Mountains, Shu promised to wake Mei up for the race and compete fairly.",
-                            "Voice": "Cutscene_VO_7.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "However, on the day of the race itself, Shu did not wake Mei up. Mei only realised when she woke up past noon. ",
+                            "Line": "The day before, she promised to wake Mei up for the race and compete fairly. ",
                             "Voice": "Cutscene_VO_8.ogg"
                         },
                         {
                             "Speaker": "",
-                            "Line": "Furious and offended by Shu's betrayal, Mei travelled towards the top of the mountains to find Shu for answers.",
+                            "Line": "However, on the day of the race itself, she did not wake Mei up, as Mei only realised when she woke up several hours after the race. ",
                             "Voice": "Cutscene_VO_9.ogg"
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Furious and offended, Mei travelled towards the Jade Palace to find Shu for answers.",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 0,

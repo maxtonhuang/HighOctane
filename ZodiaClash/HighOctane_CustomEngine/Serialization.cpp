@@ -910,6 +910,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			rapidjson::Value hpRemBarObject = SerializeHealthRemaining(*hpRemBar, allocator);
 			entityObject.AddMember("HealthRemaining", hpRemBarObject, allocator);
 		}
+		if (CheckSerialize<HealthLerp>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("HealthLerp", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
 		if (CheckSerialize<SkillPointHUD>(entity, isPrefabClone, uComponentMap)) {
 			spHUD = &ECS::ecs().GetComponent<SkillPointHUD>(entity);
 			rapidjson::Value spHudObject = SerializeSkillPointHUD(*spHUD, allocator);
@@ -1549,6 +1552,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				else {
 					ECS::ecs().AddComponent<HealthRemaining>(entity, hpRemBar);
 				}
+			}
+			if (entityObject.HasMember("HealthLerp")) {
+				ECS::ecs().AddComponent<HealthLerp>(entity, HealthLerp{});
 			}
 			if (entityObject.HasMember("SkillPointHUD")) {
 				SkillPointHUD spHud;

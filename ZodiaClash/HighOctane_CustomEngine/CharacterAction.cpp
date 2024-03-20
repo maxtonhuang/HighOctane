@@ -98,11 +98,22 @@ void CharacterAction::UpdateState() {
                 if (!ECS::ecs().EntityExists(attackpos)) {
                     attackpos = EntityFactory::entityFactory().ClonePrefab("attackpoint.prefab");
                     aoePoint = transformArray.GetData(attackpos).position;
-                    for (auto& c : battleManager->GetEnemies()) {
-                        float pos{ transformArray.GetData(c->entity).position.x };
-                        if (pos + 200.f > aoePoint.x) {
-                            aoePoint.x = pos + 200.f;
+                    if (characterStats->tag == CharacterType::PLAYER) {
+                        for (auto& c : battleManager->GetEnemies()) {
+                            float pos{ transformArray.GetData(c->entity).position.x };
+                            if (pos + 200.f > aoePoint.x) {
+                                aoePoint.x = pos + 200.f;
+                            }
                         }
+                    }
+                    else {
+                        aoePoint.x = 0.f;
+                        //for (auto& c : battleManager->GetPlayers()) {
+                        //    float pos{ transformArray.GetData(c->entity).position.x };
+                        //    if (pos - 200.f > aoePoint.x) {
+                        //        aoePoint.x = pos - 200.f;
+                        //    }
+                        //}
                     }
                 }
                 ECS::ecs().GetComponent<Transform>(returnpos).position = ECS::ecs().GetComponent<Transform>(characterStats->entity).position;

@@ -52,6 +52,7 @@ EventManager events;
 Entity exitconfirmationmenu{};
 Entity pausemenu{};
 Entity settingsmenu{};
+Entity scenemenu{};
 
 /*!
  * \brief Exits the game menu, voids input
@@ -441,6 +442,42 @@ void ToggleHelp(std::string input) {
 }
 
 /*!
+ * \brief Toggling of the scene of the game.
+ *
+ * std::string input : The input string.
+ */
+void ToggleScene(std::string input) {
+	(void)input;
+
+	/*if (GetCurrentSystemMode() != SystemMode::PAUSE) {
+		scenemenu = EntityFactory::entityFactory().ClonePrefab("scene_select.prefab");
+	}
+	else if (GetCurrentSystemMode() == SystemMode::SETTINGS) {
+		SetCurrentSystemMode(SystemMode::PAUSE);
+		if (scenemenu != 0) {
+			EntityFactory::entityFactory().DeleteCloneModel(scenemenu);
+			scenemenu = 0;
+		}
+		UITutorialSystem* ts = events.GetTutorialSystem();
+		if (ts->systemOverlayOn) {
+			ts->MaintainLayers();
+		}
+	}*/
+
+	if (scenemenu != 0) {
+		EntityFactory::entityFactory().DeleteCloneModel(scenemenu);
+		scenemenu = 0;
+	}
+	else {
+		scenemenu = EntityFactory::entityFactory().ClonePrefab("scene_select.prefab");
+	}
+	UITutorialSystem* ts = events.GetTutorialSystem();
+	if (ts->systemOverlayOn) {
+		ts->MaintainLayers();
+	}
+}
+
+/*!
  * \brief Transitions from current scene to target scene.
  *
  * std::string input : The input string.
@@ -595,6 +632,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Start Tutorial"] = StartTutorial;
 	functions["Advance Tutorial"] = AdvanceTutorial;
 	functions["Toggle Settings"] = ToggleSettings;
+	functions["Toggle Scene"] = ToggleScene;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}

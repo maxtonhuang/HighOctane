@@ -1,0 +1,579 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 29,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Monkey",
+            "Current Layer": 0,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -112.0,
+            "position_y": 19.0,
+            "rotation": 0.0,
+            "scale": 0.34200000762939453,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Emperor_Monkey_Idle.spritesheet"
+        },
+        "Visible": {
+            "isVisible": true
+        },
+        "Size": {
+            "width": 958.0,
+            "height": 959.0
+        },
+        "CharacterStats": {
+            "Character type": 1,
+            "Max Health": 900.0,
+            "Health": 900.0,
+            "Attack": 15.0,
+            "Defense": 15.0,
+            "Speed": 99,
+            "Icon": "NEW_guard_pfp.png",
+            "Boss": false,
+            "Skills": [
+                "Monkey Attack",
+                "Monkey AOE",
+                "Monkey Charge"
+            ]
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Attack 1 (Unused)",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Target": "Attack Position"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Texture": "Guard_Attack.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 20,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 25,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 30,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 35,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 40,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 45,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 50,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 55,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 35,
+                                "Sounds": [
+                                    "Guard Atk_Edited.wav",
+                                    "Guard Atk2_Edited.wav",
+                                    "Guard Atk3_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 56,
+                                "Destination": "Guard moveback"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 35,
+                                "Prefab": "VFX_Hit.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15,
+                                "Zoom": 2.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 15
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 32,
+                "Group Name": "Emperor moveback",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Target": "Return Position"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Texture": "Emperor_Monkey_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 31,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 61,
+                "Group Name": "Damaged",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 25,
+                                "Red": 1.0,
+                                "Green": 0.0,
+                                "Blue": 0.0
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Guard Damaged_Edited.wav",
+                                    "Guard Damaged2_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59,
+                                "Texture": "Emperor_Monkey_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 60,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 8,
+                "Group Name": "Death",
+                "Loop": false,
+                "Frame Time": 0.15000000596046448,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Guard_Death.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Guard Death_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 4,
+                "Group Name": "Idle",
+                "Loop": true,
+                "Frame Time": 0.4000000059604645,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 14,
+                "Group Name": "Attack 1",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Emperor_Monkey_Basic.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 13,
+                                "Destination": "Emperor moveback"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6,
+                                "Prefab": "VFX_Hit.prefab"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 5,
+                "Group Name": "Attack Start",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Zoom": 1.75
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Target": "Attack Position"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 14,
+                "Group Name": "Attack 2",
+                "Loop": false,
+                "Frame Time": 0.03999999910593033,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "Emperor_Monkey_AOE.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Prefab": "VFX_Hit.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 13,
+                                "Destination": "Emperor moveback"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Attack 3",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Emperor moveback"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Idle"
+    }
+]

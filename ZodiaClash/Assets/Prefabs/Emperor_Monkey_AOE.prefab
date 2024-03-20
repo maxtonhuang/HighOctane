@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 20,
+            "layerCounter": 41,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,18 +23,40 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19"
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "tutorial_03",
-            "Current Layer": 6,
-            "Order in Layer": 1,
+            "Name": "Emperor_Monkey_AOE.png",
+            "Current Layer": 0,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
+        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -42,8 +64,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -417.2030029296875,
-            "position_y": 461.5,
+            "position_x": 0.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -54,17 +76,17 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "Tutorial 3.png"
+            "Texture File Path": "Emperor_Monkey_AOE.spritesheet"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 469.0,
-            "height": 67.0
+            "width": 958.0,
+            "height": 958.0
         },
         "Model": {
-            "Model type": 3,
+            "Model type": 0,
             "Background scroll speed": 0.0,
             "Red": 1.0,
             "Green": 1.0,
@@ -72,6 +94,14 @@
             "Alpha": 1.0,
             "Mirror": false
         },
-        "Movable": {}
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 958.0,
+            "Dimension Y": 958.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        }
     }
 ]
