@@ -40,7 +40,7 @@
 #include "debugdiagnostic.h"
 #include "Serialization.h"
 #include "graphics.h"
-#include "MultiThreading.h"
+#include "Layering.h"
 
 AssetManager assetmanager;
 
@@ -80,6 +80,7 @@ void AssetManager::UnloadAll() {
     audio.ReleaseAllSounds();
     fonts.Clear();
     prefabMap.clear();
+    layering.clear();
 }
 
 /**************************************TEXTURES**************************************************/

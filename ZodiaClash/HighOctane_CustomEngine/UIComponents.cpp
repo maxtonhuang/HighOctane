@@ -686,6 +686,31 @@ void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar,
 }
 
 
+
+// health lerp section
+void HealthLerp::LerpHealth() {
+	if (previousHealth == currentHealth)
+		return;
+
+	if (previousHealth < currentHealth) {
+		previousHealth = currentHealth;
+		return;
+	}
+	
+	float lerpTimeElapsed = lerpFactor * g_dt;
+	previousHealth = previousHealth + lerpTimeElapsed * (currentHealth - previousHealth);
+}
+
+void HealthLerp::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize) {
+	childSize.width = parentSize.width * (previousHealth / parentHealthBar.maxHealth) * 0.95f;
+	childSize.height = parentSize.height * 0.8f;
+}
+
+void HealthLerp::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData) {
+	childData.offset.position.x = (-0.5f * parentSize.width) + (previousHealth / parentHealthBar.maxHealth * 0.5f * parentSize.width);
+}
+
+
 /**************************
 ***** SKILLPT SYSTEM ******
 **************************/

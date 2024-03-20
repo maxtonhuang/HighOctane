@@ -38,6 +38,7 @@
 #include "File.h"
 #include "GUIManager.h"
 #include "graphics.h"
+#include "Layering.h"
 
 constexpr float fontSizeS = 10.f;
 constexpr float fontSizeM = 20.f;
@@ -63,6 +64,8 @@ void UpdateMenuBar() {
                 }
             }
             if (ImGui::MenuItem("Save Scene")) {
+                //PrepareLayeringForSerialization();
+                //EmbedSkipLockForSerialization();
                 button_clicked = true;
                 saveFile = true;
             }

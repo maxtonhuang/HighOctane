@@ -913,7 +913,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1306,7 +1306,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_03.png",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1569,6 +1569,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock_lower",
             "Current Layer": 0,
+            "Order in Layer": 32,
             "Order in Layer": 33,
             "isLocked": true,
             "isSkipped": true

@@ -910,6 +910,9 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 			rapidjson::Value hpRemBarObject = SerializeHealthRemaining(*hpRemBar, allocator);
 			entityObject.AddMember("HealthRemaining", hpRemBarObject, allocator);
 		}
+		if (CheckSerialize<HealthLerp>(entity, isPrefabClone, uComponentMap)) {
+			entityObject.AddMember("HealthLerp", rapidjson::Value(rapidjson::kObjectType), allocator);
+		}
 		if (CheckSerialize<SkillPointHUD>(entity, isPrefabClone, uComponentMap)) {
 			spHUD = &ECS::ecs().GetComponent<SkillPointHUD>(entity);
 			rapidjson::Value spHudObject = SerializeSkillPointHUD(*spHUD, allocator);
@@ -1035,7 +1038,6 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 			}
 		}
 	}
-	
 }
 
 Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab) {
@@ -1053,7 +1055,7 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 	if (document.HasParseError()) {
 		std::cerr << "Failed to parse .json file: " << fileName << std::endl;
 	}
-	layering.clear();
+	//layering.clear();
 
 	for (rapidjson::SizeType i = 0; i < document.Size(); ++i) {
 		const rapidjson::Value& entityObject = document[i];
@@ -1551,6 +1553,9 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 					ECS::ecs().AddComponent<HealthRemaining>(entity, hpRemBar);
 				}
 			}
+			if (entityObject.HasMember("HealthLerp")) {
+				ECS::ecs().AddComponent<HealthLerp>(entity, HealthLerp{});
+			}
 			if (entityObject.HasMember("SkillPointHUD")) {
 				SkillPointHUD spHud;
 				const rapidjson::Value& spHudObject = entityObject["SkillPointHUD"];
@@ -1921,12 +1926,17 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 			//}
 		}
 	}
+
+	if (!isPrefab) {
+		RebuildLayeringAfterDeserialization();
+		ExtractSkipLockAfterDeserialization();
+	}
+
 	if (isPrefab && ECS::ecs().HasComponent<Clone>(entity)) {
 		ECS::ecs().RemoveComponent<Clone>(entity);
 	}
-	RebuildLayeringAfterDeserialization();
-	ExtractSkipLockAfterDeserialization();
 
+	
 	// To load the state from a file for reflection
 	if (parentID == 0) {
 		return entity;

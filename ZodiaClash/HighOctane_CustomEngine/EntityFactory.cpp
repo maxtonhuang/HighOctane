@@ -141,6 +141,8 @@ Entity EntityFactory::CreateMasterModel(const char* filename, int rows, int cols
 *
 ******************************************************************************/
 Entity EntityFactory::CloneMaster(Entity& masterEntity) {
+	//PrepareLayeringForSerialization();
+	//EmbedSkipLockForSerialization();
 	static auto& typeMap2{ ECS::ecs().GetTypeManager() };
 	Entity entity = ECS::ecs().CreateEntity();
 	for (auto& ecsType : typeMap2) {
@@ -171,14 +173,35 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 			ECS::ecs().GetComponent<Child>(childClone).parent = entity;
 			ECS::ecs().GetComponent<Parent>(entity).children.push_back(childClone);
 
-			std::pair<size_t, size_t> p = FindInLayer(child);
+			Name& childName = ECS::ecs().GetComponent<Name>(child);
+			std::pair<size_t, size_t> p{ childName.serializationLayer,childName.serializationOrderInLayer };
 			if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
+				if (p.first >= layering.size()) {
+					while (p.first >= layering.size()) {
+						CreateNewLayer();
+					}
+				}
+				printf("Created child clone in layer %d at %d\n", p.first, layering[p.first].size());
 				layering[p.first].emplace_back(childClone);
+				//layering[layering.size() - 1].emplace_back(childClone);
 			}
 			else {
 				if (layering.size() == 0) {
-					layering.emplace_back(std::deque<Entity>{});
+					//layering.emplace_back(std::deque<Entity>{});
+					CreateNewLayer();
+					//printf("CREATING NEW LAYER\n");
 				}
+				else if (p.first != ULLONG_MAX && p.first > layering.size() + 1) {
+
+					while (p.first >= layering.size()) {
+						CreateNewLayer();
+					}
+					/*for (unsigned i = 0; i < p.first - (layering.size() + 1); i++) {
+						CreateNewLayer();
+					}*/
+				}
+				printf("CREATING AT TOP LAYER\n");
+				printf("Created child clone in layer %d at %d\n", layering.size() - 1, layering[layering.size() - 1].size());
 				layering[layering.size() - 1].emplace_back(childClone);
 			}
 		}
@@ -188,19 +211,40 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		ECS::ecs().GetComponent<Clone>(entity).prefab = assetmanager.GetPrefabName(masterEntity);
 	}
 
-	std::pair<size_t, size_t> p = FindInLayer(masterEntity);
+	//std::pair<size_t, size_t> p = FindInLayer(masterEntity);
+	Name& entityName = ECS::ecs().GetComponent<Name>(masterEntity);
+	std::pair<size_t, size_t> p{ entityName.serializationLayer,entityName.serializationOrderInLayer };
 	if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
+		if (layering.size() == 0) {
+			//layering.emplace_back(std::deque<Entity>{});
+			CreateNewLayer();
+		}
+		else if (p.first >= layering.size()) {
+			while (p.first >= layering.size()) {
+				CreateNewLayer();
+			}
+		}
+		printf("Created master clone in layer %d at %d\n", p.first, layering[p.first].size());
 		layering[p.first].emplace_back(entity);
+		//layering[layering.size() - 1].emplace_back(entity);
 	}
 	else {
 		if (layering.size() == 0) {
-			layering.emplace_back(std::deque<Entity>{});
+			//layering.emplace_back(std::deque<Entity>{});
+			CreateNewLayer();
 		}
+		else if (p.first != ULLONG_MAX && p.first > layering.size()) {
+			for (unsigned i = 0; i < p.first - layering.size(); i++) {
+				CreateNewLayer();
+			}
+		}
+		printf("Created master clone in layer %d at %d\n", layering.size() - 1, layering[layering.size() - 1].size());
 		layering[layering.size() - 1].emplace_back(entity);
 	}
 
-	RebuildLayeringAfterDeserialization();
-	ExtractSkipLockAfterDeserialization();
+	//RebuildLayeringAfterDeserialization();
+	//ExtractSkipLockAfterDeserialization();
+
 	++cloneCounter;
 	if (GetCurrentSystemMode() != SystemMode::GAMEHELP && GetCurrentSystemMode() != SystemMode::PAUSE && !initLevel) {
 		undoRedo.RecordCurrent(entity, ACTION::ADDENTITY);
@@ -222,6 +266,8 @@ Entity EntityFactory::ClonePrefab(std::string prefabName) {
 	}
 	Entity clone{ CloneMaster(prefab) };
 	ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
+	//PrepareLayeringForSerialization(); //! check this
+	//EmbedSkipLockForSerialization(); //! check this
 	return clone;
 }
 
@@ -261,4 +307,6 @@ void EntityFactory::UpdateDeletion() {
 		}
 	}
 	deletionEntitiesList.clear();
+	PrepareLayeringForSerialization();
+	EmbedSkipLockForSerialization();
 }

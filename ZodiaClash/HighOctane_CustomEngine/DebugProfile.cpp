@@ -166,8 +166,8 @@ float GetCPUUsage() {
         float idlePercent = static_cast<float>(((idle.QuadPart) / total) * 100.0);
         float usagePercent = static_cast<float>(100.0 - idlePercent);
 
-        // If CPU usage is more than 50%
-        ASSERT(usagePercent > 50.f, "CPU usage is more than 50%!");
+        // If CPU usage is more than 90%
+        //ASSERT(usagePercent > 90.f, "CPU usage is more than 90%!");
         return usagePercent;
     }
     return 0.f;

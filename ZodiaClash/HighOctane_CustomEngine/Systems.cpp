@@ -775,7 +775,7 @@ void GraphicsSystem::Draw() {
 void SerializationSystem::Update() {
 	if (saveFile) {
 		PrepareLayeringForSerialization();
-		//EmbedSkipLockForSerialization();
+		EmbedSkipLockForSerialization();
 		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
 		if (scenePath != "") {
 			assetmanager.SaveScene(scenePath);
@@ -1337,6 +1337,7 @@ void UIHealthBarSystem::Update() {
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& healthRemainingArray = componentManager.GetComponentArrayRef<HealthRemaining>();
+	auto& healthLerpArray = componentManager.GetComponentArrayRef<HealthLerp>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 
@@ -1362,6 +1363,16 @@ void UIHealthBarSystem::Update() {
 				healthRemainingData->UpdateSize(*healthBarData, *pSizeData, *cSizeData);
 				healthRemainingData->UpdateColors(*childModel, *healthBarData->charaStatsRef);
 				healthRemainingData->UpdateOffset(*pSizeData, *healthBarData, *childData);
+			}
+			if (healthLerpArray.HasComponent(childEntity)) {
+				HealthLerp* healthLerpData = &healthLerpArray.GetData(childEntity);
+				healthLerpData->currentHealth = healthBarData->currentHealth;
+				Child* childLerpData = &childArray.GetData(childEntity);
+				Size* sizeLerpData = &sizeArray.GetData(childEntity);
+
+				healthLerpData->LerpHealth();
+				healthLerpData->UpdateSize(*healthBarData, *pSizeData, *sizeLerpData);
+				healthLerpData->UpdateOffset(*pSizeData, *healthBarData, *childLerpData);
 			}
 			if (textLabelArray.HasComponent(childEntity)) {
 				TextLabel* textLabelData = &textLabelArray.GetData(childEntity);

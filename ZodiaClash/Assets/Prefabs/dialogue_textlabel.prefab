@@ -178,7 +178,7 @@
         "Entity": {
             "Name": "dialogue_speaker",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -301,8 +301,8 @@
     {
         "Entity": {
             "Name": "dialogue_speaker_bg",
-            "Current Layer": 2,
-            "Order in Layer": 1,
+            "Current Layer": 3,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },

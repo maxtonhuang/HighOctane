@@ -222,7 +222,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Urgh...",
+            "Text String": "The heavens shall punish you for treason!",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -244,12 +244,12 @@
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "What happened to you? Are you okay?",
+                            "Line": "What happened to you?",
                             "Voice": "Mei_4.ogg"
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "I think... I think I was not being myself earlier...",
+                            "Line": "I think... I think I wasn't being myself earlier...",
                             "Voice": "Goat_2.ogg"
                         },
                         {
@@ -259,37 +259,27 @@
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Hold on, what about the Zodiac Race and others?",
+                            "Line": "Huh, aren't the artifacts fom the Jade Emperor? Wait... Where are the others?",
                             "Voice": "Mei_5.ogg"
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "I'm not sure, but all I know is that there's something wrong with this artifact.",
+                            "Line": "I'm not sure, a part of my memory is not with me.",
                             "Voice": "Goat_4.ogg"
-                        },
-                        {
-                            "Speaker": "Yang",
-                            "Line": "I hope the others are okay too...",
-                            "Voice": "Goat_5.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "...",
-                            "Voice": "Mei_6.ogg"
+                            "Voice": "Goat_5.ogg"
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Very well, I will find the rest and destroy these artifacts.",
-                            "Voice": "Mei_7.ogg"
+                            "Line": "Alright, rest here. I will find the others and come back for you.",
+                            "Voice": "Mei_6.ogg"
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "Good luck, I will rest first. If need be, I will help you later.",
-                            "Voice": "Goat_6.ogg"
-                        },
-                        {
-                            "Speaker": "Yang",
-                            "Line": "May the heavens bless you...",
+                            "Line": "All the best. May the heavens bless you.",
                             "Voice": "Goat_8.ogg"
                         }
                     ],
@@ -322,6 +312,25 @@
                     "Speaker Required": false,
                     "Post Dialogue Scene": true,
                     "Target Scene": "exploration2.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Yang",
+                            "Line": "The heavens shall punish you for treason!",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 3,
+                    "Round Trigger": 1,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 }
             ]
         },
