@@ -526,7 +526,9 @@ void SoundAnimation::Update(int frameNum) {
 		if (nextKeyframe->data.size() > 0) {
 			std::uniform_int_distribution<int> dis(0, (int)nextKeyframe->data.size() - 1);
 			int num{ dis(gen) };
-			events.Call("Play Sound", nextKeyframe->data[num]);
+			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), "SFX");
+			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - camera.GetPos().x) / GRAPHICS::w };
+			channel->setPan(pan);
 		}
 		nextKeyframe++;
 		if (nextKeyframe == keyframes.end()) {

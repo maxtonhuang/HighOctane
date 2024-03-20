@@ -76,7 +76,7 @@ public:
 	//Add ambience to FMOD and audio manager
 	FMOD::Sound* AddAmbience(const char* path, const char* name); 
 	//Plays loaded sound
-	void PlaySounds(const char* sound, const char* channelGroup = nullptr); 
+	FMOD::Channel* PlaySounds(const char* sound, const char* channelGroup = nullptr);
 	//Free a sound from FMOD and audio manager
 	void FreeSound(const char* sound); 
 	//Gets the FMOD system
