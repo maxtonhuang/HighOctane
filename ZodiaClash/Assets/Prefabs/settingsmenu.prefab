@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 49,
+            "layerCounter": 47,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -50,9 +50,7 @@
                 "Layer 43",
                 "Layer 44",
                 "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48"
+                "Layer 46"
             ]
         }
     },
@@ -1150,19 +1148,26 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 650.0,
-            "position_y": 380.0,
+            "position_x": 297.5,
+            "position_y": 296.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "button_x.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 360.0,
-            "height": 80.0
+            "width": 170.0,
+            "height": 170.0
         },
         "Scripts": {
             "className": "",
@@ -1174,7 +1179,7 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.0,
+            "Alpha": 1.0,
             "Mirror": false
         },
         "Movable": {},
@@ -1182,7 +1187,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Exit",
+            "Text String": "",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -1191,21 +1196,21 @@
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
-            "Background": false
+            "Background": true
         },
         "Button": {
             "Default Button R": 1.0,
             "Default Button G": 1.0,
             "Default Button B": 1.0,
-            "Default Button A": 0.0,
+            "Default Button A": 1.0,
             "Default Text R": 1.0,
             "Default Text G": 1.0,
             "Default Text B": 1.0,
             "Default Text A": 1.0,
-            "Hovered Button R": 0.5,
-            "Hovered Button G": 0.5,
-            "Hovered Button B": 0.5,
-            "Hovered Button A": 0.5,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 1.0,
+            "Hovered Button B": 0.47843137383461,
+            "Hovered Button A": 1.0,
             "Hovered Text R": 1.0,
             "Hovered Text G": 1.0,
             "Hovered Text B": 1.0,
@@ -1227,10 +1232,10 @@
             "Padding Setting": 1
         },
         "Child": {
-            "position_x": 650.0,
-            "position_y": 380.0,
+            "position_x": 297.5,
+            "position_y": 296.0,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

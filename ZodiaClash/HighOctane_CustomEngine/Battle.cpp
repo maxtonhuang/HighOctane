@@ -388,7 +388,7 @@ void BattleSystem::Update()
                         }
                         if (character.tag == CharacterType::ENEMY) {
                             character.buffs.attackBuff = 0.5f;
-                            character.buffs.attackStack = 99;
+                            character.buffs.attackStack = 9;
                         }
                     }
                     if (m_Entities.size() > 0) {

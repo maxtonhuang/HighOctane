@@ -96,7 +96,7 @@ void Attack::UseAttack(CharacterStats* target) {
     else if (attackName == "Dark Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
-        target->buffs.attackStack = 2;
+        target->buffs.attackStack = 1;
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
@@ -105,7 +105,7 @@ void Attack::UseAttack(CharacterStats* target) {
     else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
-        target->buffs.attackStack = 2;
+        target->buffs.attackStack = 1;
     }
     //Enemy goat charge
     else if (attackName == "Raging Soul Surge will be cast next!") {

@@ -141,7 +141,14 @@ void CharacterAction::UpdateState() {
                 glm::vec4& battleLabelColor{ ECS::ecs().GetComponent<Model>(battlelabel).GetColorRef() };
                 battleLabelColor = glm::vec4(darkred, 0.f, 0.f, battleLabelColor.a);
             }
+            Entity battlelabelborder{ ECS::ecs().GetComponent<Parent>(battlelabel).GetChildByName("Battle Label Border") };
+            Size prevsize{ ECS::ecs().GetComponent<Size>(battlelabel) };
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+            ECS::ecs().GetComponent<TextLabel>(battlelabel).UpdateOffset(ECS::ecs().GetComponent<Transform>(battlelabel), ECS::ecs().GetComponent<Size>(battlelabel));
+            Size& battlelabelbordersize{ ECS::ecs().GetComponent<Size>(battlelabelborder) };
+            Size& currsize{ ECS::ecs().GetComponent<Size>(battlelabel) };
+            battlelabelbordersize.width += currsize.width - prevsize.width;
+            battlelabelbordersize.height += currsize.height - prevsize.height;
             battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
         }

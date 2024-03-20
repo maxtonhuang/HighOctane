@@ -1470,7 +1470,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 					if (cs->stats.health <= 0.f && cs->boss) {
 						cs->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
 						cs->action.entityState = START;
-						cs->buffs.reflectStack = 99;
+						cs->buffs.reflectStack = 9;
 					}
 				}
 				//events.Call("Restart Music", "ZodiaClash_Boss.ogg");
@@ -1481,7 +1481,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 			animationArray.GetData(entity).Start("Exit", entity);
 
 			//Return filter for BGM after dialogue
-			if (!currentDialogue->speakerRequired) {
+			if (currentDialogue->speakerRequired) {
 				assetmanager.audio.SetGroupFilter("BGM", 1.f);
 			}
 		}
