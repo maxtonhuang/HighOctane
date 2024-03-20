@@ -73,8 +73,8 @@ void LayerOrderSendBackward(Entity entity) {
 			std::swap(layering[pos.first][pos.second], layering[pos.first][pos.second - 1]);
 		}
 	}
-	PrepareLayeringForSerialization();
-	EmbedSkipLockForSerialization();
+	//PrepareLayeringForSerialization();
+	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -92,8 +92,8 @@ void LayerOrderSendToBack(Entity entity) {
 			layering[pos.first].emplace_front(entity);
 		}
 	}
-	PrepareLayeringForSerialization();
-	EmbedSkipLockForSerialization();
+	//PrepareLayeringForSerialization();
+	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -110,8 +110,8 @@ void LayerOrderBringForward(Entity entity) {
 			std::swap(layering[pos.first][pos.second], layering[pos.first][pos.second + 1]);
 		}
 	}
-	PrepareLayeringForSerialization();
-	EmbedSkipLockForSerialization();
+	//PrepareLayeringForSerialization();
+	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -129,8 +129,8 @@ void LayerOrderBringToFront(Entity entity) {
 			layering[pos.first].emplace_back(entity);
 		}
 	}
-	PrepareLayeringForSerialization();
-	EmbedSkipLockForSerialization();
+	//PrepareLayeringForSerialization();
+	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -186,8 +186,8 @@ void RemoveEntityFromLayering(Entity entity) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 			if (layering[layer_it][entity_it] == entity) {
 				layering[layer_it].erase(layering[layer_it].begin() + entity_it);
-				PrepareLayeringForSerialization();
-				EmbedSkipLockForSerialization();
+				//PrepareLayeringForSerialization();
+				//EmbedSkipLockForSerialization();
 				return;
 			}
 		}
@@ -233,8 +233,8 @@ void RebuildLayeringAfterDeserialization() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	std::set<Entity> * e = &(edit_ptr->m_Entities);
-	unsigned lsizes[1000]{ 0 };
-	unsigned numLayers{ 0 };
+	size_t lsizes[1000]{ 0 };
+	size_t numLayers{ 0 };
 	for (const Entity& entity : *e) {
 		if (!cloneArray.HasComponent(entity)) {
 			continue;
