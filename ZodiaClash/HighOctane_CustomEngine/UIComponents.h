@@ -259,9 +259,14 @@ public:
 class HealthLerp : UIComponent {
 public:
 	// child entity of HealthBar
-	float initialHealth{};
-	float currentHealth{};
-	float lerpFactor{};
+	float currentHealth{}; // reference to parent currentHealth
+	float previousHealth{}; // current state of lerp bar, work on this for lerping
+	float lerpFactor{1.5f};
+
+	void LerpHealth();
+	void UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize);
+	void UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData);
+	//void AnimateLerp(HealthRemaining& hpRemaining, Size& hpRemSize, Size& hpLerpSize);
 };
 
 
