@@ -172,7 +172,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Prepare to utter your final words, cat!",
+            "Text String": "Leave while you still can, cat!",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -189,52 +189,52 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "Niu",
-                            "Line": "Urgh...",
+                            "Line": "Argh... what is this?",
                             "Voice": "Ox_5.ogg"
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "It seems I was not resolute enough to withstand this curse as well.",
+                            "Line": "How did I even get tempted by this artifact?",
                             "Voice": "Ox_6.ogg"
                         },
                         {
-                            "Speaker": "Niu",
-                            "Line": "I am deeply apologetic for my actions.",
+                            "Speaker": "Yang",
+                            "Line": "From what it looks like, the Jade Emperor placed this curse within these artifacts to control us.",
                             "Voice": "Ox_7.ogg"
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Are the other animals also cursed by their artifacts?",
+                            "Line": "No way... Are the others also cursed by these artifacts?",
                             "Voice": "Mei_10.ogg"
                         },
                         {
-                            "Speaker": "Niu",
-                            "Line": "I'm not sure of it.",
+                            "Speaker": "Yang",
+                            "Line": "Unfortunately, I believe so...",
                             "Voice": "Ox_8.ogg"
                         },
                         {
-                            "Speaker": "Yang",
-                            "Line": "Where are the others? Don't tell me, they also have these artifacts...",
+                            "Speaker": "Mei",
+                            "Line": "Oh no, that means Shu...",
                             "Voice": "Goat_9.ogg"
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "One thing is evident, the Zodiac Race was a deceitful scheme.",
+                            "Line": "Hmm... If so, then one thing is evident.",
                             "Voice": "Ox_9.ogg"
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "Like both of you, I want to know what exactly happened.",
+                            "Line": "The Zodiac race is a deceitful scheme by the Jade Emperor. He must be stopped before it's too late!",
                             "Voice": "Ox_10.ogg"
                         },
                         {
-                            "Speaker": "Niu",
-                            "Line": "Allow me to right my wrongs by joining you in your journey.",
+                            "Speaker": "Yang",
+                            "Line": "Then we must go now! If we join hands, I believe we can stop him.",
                             "Voice": "Ox_11.ogg"
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "For deceiving the entirety of Ancient China, just to fulfil his own selfish desires...",
+                            "Line": "Alright, count on me!",
                             "Voice": "Ox_12.ogg"
                         }
                     ],
@@ -277,12 +277,12 @@
                         },
                         {
                             "Speaker": "Yang",
-                            "Line": "Support is here!",
+                            "Line": "You shall not die on me!",
                             "Voice": "Goat_7.ogg"
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Alright, now let's wake this ox up.",
+                            "Line": "Thanks, now let's wake this ox up!",
                             "Voice": "Mei_9.ogg"
                         }
                     ],
@@ -301,17 +301,41 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "Niu",
-                            "Line": "Urgh... you are strong...",
+                            "Line": "Urgh... both of you are strong...",
                             "Voice": "Ox_3.ogg"
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "But by my decree, you shall not pass!",
+                            "Line": "But you cannot defeat me!",
                             "Voice": "Ox_4.ogg"
                         }
                     ],
                     "Trigger Type": 4,
                     "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Niu",
+                            "Line": "Leave while you still can, cat!",
+                            "Voice": ""
+                        },
+                        {
+                            "Speaker": "Mei",
+                            "Line": "Hmph... Stop me if you can!",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 3,
+                    "Round Trigger": 1,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
@@ -388,7 +412,7 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

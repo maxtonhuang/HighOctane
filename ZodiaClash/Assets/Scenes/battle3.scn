@@ -10,12 +10,12 @@ Guard_Death.spritesheet
 Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-UI_ICON_bleed.png
 catSkill2_tooltip.png
+UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -35,8 +35,8 @@ Guard_Damage.spritesheet
 Guard_Damage.spritesheet
 Guard_Attack.spritesheet
 Guard_Attack.spritesheet
-mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
+mockup_chi_icon_lineart.png
 Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
@@ -94,15 +94,15 @@ UI_dialogue_box_bg_v03.png
 Ox Atk 1_Edited.wav
 Cat_Atk_2_Edited.wav
 Cat Atk_1_Edited.wav
-Guard Atk_Edited.wav
 Cat Damaged_Edited.wav
 Cat_Atk_3_Edited.wav
+Guard Atk_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
 Goat Atk 1_Edited.wav
 Goat Atk 4_Edited.wav
-Guard Damaged2_Edited.wav
 Ox Atk 3_Edited.wav
+Guard Damaged2_Edited.wav
 Ox Atk 2_Edited.wav
 Goat Buff_Edited.wav
 Goat Damaged_Edited.wav
@@ -110,21 +110,14 @@ Guard Death_Edited.wav
 Ox Damaged4_Edited.wav
 Cat Damaged5_Edited.wav
 ZodiaClash_Boss.ogg
-Cat Damaged2_Edited.wav
 Battle End_Edited.wav
+Cat Damaged2_Edited.wav
 Guard Damaged_Edited.wav
 Ox Damaged_Edited.wav
 Ox Damaged3_Edited.wav
 Guard Atk2_Edited.wav
 Cat Damaged7_Edited.wav
 Ox_1.ogg
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Raging Soul Surge will be cast next!.skill
