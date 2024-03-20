@@ -233,7 +233,6 @@ void RebuildLayeringAfterDeserialization() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	std::set<Entity> * e = &(edit_ptr->m_Entities);
-	//printf("============");
 	unsigned lsizes[1000]{ 0 };
 	unsigned numLayers{ 0 };
 	for (const Entity& entity : *e) {
@@ -247,8 +246,6 @@ void RebuildLayeringAfterDeserialization() {
 	}
 	
 	for (unsigned i = 0; i < numLayers + 1; ++i) {
-		//! .resize each layer...
-		//printf("Layer %d has %d\n", i, lsizes[i] + 1);
 		CreateNewLayer();
 		layering[i].resize(static_cast<size_t>(lsizes[i] + 1));
 	}

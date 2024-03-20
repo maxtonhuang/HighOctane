@@ -112,7 +112,10 @@ void UndoRedo::Undo() {
             ECS::ecs().GetComponent<Transform>(currentState.entity) = currentState.prevTransform; // Restore previous transform
             break;
         case ACTION::ADDENTITY:
-            ECS::ecs().RemoveComponent<Clone>(currentState.entity);
+            if (ECS::ecs().HasComponent<Clone>(currentState.entity)) {
+                ECS::ecs().RemoveComponent<Clone>(currentState.entity);
+            }
+            
             entitiesToSkip[currentState.entity] = false;
             entitiesToLock[currentState.entity] = false;
             break;
