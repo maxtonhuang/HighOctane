@@ -73,6 +73,8 @@ void LayerOrderSendBackward(Entity entity) {
 			std::swap(layering[pos.first][pos.second], layering[pos.first][pos.second - 1]);
 		}
 	}
+	PrepareLayeringForSerialization();
+	EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -90,6 +92,8 @@ void LayerOrderSendToBack(Entity entity) {
 			layering[pos.first].emplace_front(entity);
 		}
 	}
+	PrepareLayeringForSerialization();
+	EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -106,6 +110,8 @@ void LayerOrderBringForward(Entity entity) {
 			std::swap(layering[pos.first][pos.second], layering[pos.first][pos.second + 1]);
 		}
 	}
+	PrepareLayeringForSerialization();
+	EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -121,9 +127,10 @@ void LayerOrderBringToFront(Entity entity) {
 		if (pos.second != layering[pos.first].size() - 1) {
 			layering[pos.first].erase(layering[pos.first].begin() + pos.second);
 			layering[pos.first].emplace_back(entity);
-			PrepareLayeringForSerialization();
 		}
 	}
+	PrepareLayeringForSerialization();
+	EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -179,10 +186,13 @@ void RemoveEntityFromLayering(Entity entity) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 			if (layering[layer_it][entity_it] == entity) {
 				layering[layer_it].erase(layering[layer_it].begin() + entity_it);
+				PrepareLayeringForSerialization();
+				EmbedSkipLockForSerialization();
 				return;
 			}
 		}
 	}
+
 	return;
 }
 
@@ -223,14 +233,42 @@ void RebuildLayeringAfterDeserialization() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	std::set<Entity> * e = &(edit_ptr->m_Entities);
+	//printf("============");
+	unsigned lsizes[1000]{ 0 };
+	unsigned numLayers{ 0 };
+	for (const Entity& entity : *e) {
+		if (!cloneArray.HasComponent(entity)) {
+			continue;
+		}
+
+		Name & n = nameArray.GetData(entity);
+		numLayers = numLayers < n.serializationLayer ? n.serializationLayer : numLayers;
+		lsizes[n.serializationLayer] = lsizes[n.serializationLayer] < n.serializationOrderInLayer ? n.serializationOrderInLayer : lsizes[n.serializationLayer];
+	}
+	
+	for (unsigned i = 0; i < numLayers + 1; ++i) {
+		//! .resize each layer...
+		//printf("Layer %d has %d\n", i, lsizes[i] + 1);
+		CreateNewLayer();
+		layering[i].resize(static_cast<size_t>(lsizes[i] + 1));
+	}
+
 	for (const Entity & entity : *e) {
 		if (!cloneArray.HasComponent(entity)) {
 			continue;
 		}
+
 		Name & n = nameArray.GetData(entity);
-		if (n.serializationLayer < layering.size()) {
+		layering[n.serializationLayer][n.serializationOrderInLayer] = entity;
+
+
+		/*if (n.serializationLayer < layering.size()) {
 			if (n.serializationOrderInLayer < layering[n.serializationLayer].size()) {
+
 				layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + n.serializationOrderInLayer, entity);
+
+				printf("Inserted - ");
+
 			}
 			else {
 				int i;
@@ -250,7 +288,13 @@ void RebuildLayeringAfterDeserialization() {
 				CreateNewLayer();
 			}
  			layering[n.serializationLayer].emplace_back(entity);
-		}
+		}*/
+
+		//auto ittt = std::find(layering[n.serializationLayer].begin(), layering[n.serializationLayer].end(), entity);
+		//if (ittt != layering[n.serializationLayer].end()) {
+		//	printf("Entity %d for position %d at position %d\n", entity, n.serializationOrderInLayer, std::distance(layering[n.serializationLayer].begin(), ittt));
+		//}
+
 	}
 }
 

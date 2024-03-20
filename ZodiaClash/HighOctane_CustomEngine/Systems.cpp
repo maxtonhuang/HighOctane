@@ -775,7 +775,7 @@ void GraphicsSystem::Draw() {
 void SerializationSystem::Update() {
 	if (saveFile) {
 		PrepareLayeringForSerialization();
-		//EmbedSkipLockForSerialization();
+		EmbedSkipLockForSerialization();
 		std::string scenePath{ SaveFileDialog("*.scn","Scene File") };
 		if (scenePath != "") {
 			assetmanager.SaveScene(scenePath);

@@ -438,7 +438,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_04.png",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -913,7 +913,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_08.png",
             "Current Layer": 0,
-            "Order in Layer": 37,
+            "Order in Layer": 36,
             "isLocked": true,
             "isSkipped": true
         },
@@ -961,7 +961,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_05.png",
             "Current Layer": 0,
-            "Order in Layer": 24,
+            "Order in Layer": 26,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1306,7 +1306,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_tiling_03.png",
             "Current Layer": 0,
-            "Order in Layer": 36,
+            "Order in Layer": 35,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1421,7 +1421,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 25,
+            "Order in Layer": 24,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1470,7 +1470,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 26,
+            "Order in Layer": 25,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1569,7 +1569,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock_lower",
             "Current Layer": 0,
-            "Order in Layer": 35,
+            "Order in Layer": 32,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1716,7 +1716,7 @@
         "Entity": {
             "Name": "EXPLORATION_MAP_asset_rock_upper",
             "Current Layer": 0,
-            "Order in Layer": 32,
+            "Order in Layer": 37,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1841,7 +1841,7 @@
         "Entity": {
             "Name": "Invisible Wall",
             "Current Layer": 0,
-            "Order in Layer": 11,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
