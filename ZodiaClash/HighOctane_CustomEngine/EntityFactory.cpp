@@ -176,11 +176,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 			Name& childName = ECS::ecs().GetComponent<Name>(child);
 			std::pair<size_t, size_t> p{ childName.serializationLayer,childName.serializationOrderInLayer };
 			if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
-				if (layering.size() == 0) {
-					//layering.emplace_back(std::deque<Entity>{});
-					CreateNewLayer();
-				}
-				else if (p.first >= layering.size()) {
+				if (p.first >= layering.size()) {
 					while (p.first >= layering.size()) {
 						CreateNewLayer();
 					}
