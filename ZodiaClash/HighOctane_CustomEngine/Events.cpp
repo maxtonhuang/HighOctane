@@ -60,18 +60,21 @@ Entity scenemenu{};
  * std::string input : The input string.
  */
 void ExitGame(std::string input) {
+	static auto& nameArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Name>() };
+
+	BattleSystem* bs{ events.GetBattleSystem() };
+
 	if (exitconfirmationmenu) {
 		//SetCurrentSystemMode(GetPreviousSystemMode());
 		ECS::ecs().DestroyEntity(exitconfirmationmenu);
 		exitconfirmationmenu = 0;
 
-		if (!pausemenu) {
+		if (!pausemenu && input != "Main Menu") {
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
 		}
-
-		//if (exitconfirmationmenu != 0) {
-		//	
-		//}
+		else if (bs->battleState == LOSE) {
+			EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
+		}
 	}
 	else {
 		//SetCurrentSystemMode(SystemMode::EXITCONFIRM);
@@ -85,11 +88,15 @@ void ExitGame(std::string input) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
 			pausemenu = 0;
 		}
+		else if (bs->battleState == LOSE) {
+			auto namePairs{ nameArray.GetPairArray() };
+			for (auto& p : namePairs) {
+				if (p.second->name == "Lose Screen") {
+					EntityFactory::entityFactory().DeleteCloneModel(p.first);
+				}
+			}
+		}
 	}
-
-	//EntityFactory::entityFactory().DeleteCloneModel(exitconfirmationmenu);
-
-	//EngineCore::engineCore().setGameActive(false);
 }
 
 /*!

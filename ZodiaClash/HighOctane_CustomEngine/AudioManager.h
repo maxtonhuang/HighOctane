@@ -35,6 +35,8 @@
 #include <unordered_map>
 #include <string>
 
+const float LOW_FILTER_VALUE{ 0.2f };
+
 class AudioManager {
 public:
 	void Initialize(); //Creates FMOD system
@@ -48,6 +50,8 @@ public:
 	void SetGroupVolume(const char* name, float volume); 
 	//Get the group volume, float* is the input volume
 	float GetGroupVolume(const char* name);
+	//Sets the low pass filter of the group
+	void SetGroupFilter(const char* name, float filter);
 	//Stops all sounds in the group
 	void StopGroup(const char* name);
 	//Resumes the group
@@ -96,6 +100,7 @@ private:
 	FMOD::System* system{};
 	std::unordered_map<std::string, FMOD::Sound*> data{};
 	std::unordered_map<std::string, FMOD::ChannelGroup*> group{};
+	std::unordered_map<std::string, std::list<FMOD::Channel*>> channels{};
 
 	std::string currentBGM{};
 	std::string originalBGM{};
