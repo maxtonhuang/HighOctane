@@ -309,7 +309,7 @@ void BattleSystem::Update()
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
                     if (activeCharacter == c) {
                         events.Call("Start Dialogue", "TURN");
-                        if (dialogueCalled == 2) {
+                        if (dialogueCalled == 3) {
 
                             //Do player healing and VFX first
                             for (CharacterStats* cc : turnManage.turnOrderList) {

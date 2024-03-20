@@ -266,7 +266,6 @@ public:
 	void LerpHealth();
 	void UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize);
 	void UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData);
-	//void AnimateLerp(HealthRemaining& hpRemaining, Size& hpRemSize, Size& hpLerpSize);
 };
 
 
