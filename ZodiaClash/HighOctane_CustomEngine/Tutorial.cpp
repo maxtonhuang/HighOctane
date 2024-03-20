@@ -41,6 +41,7 @@
 #include "message.h"
 #include "CharacterStats.h"
 #include "Utilities.h"
+#include "AssetManager.h"
 
 void UITutorialSystem::Initialize() {
 	events.ConnectTutorialSystem(this);
@@ -98,6 +99,7 @@ void UITutorialSystem::UpdateState() {
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_01.prefab");
 		overlayOn = true;
 		tutorialComplete = false;
+		assetmanager.audio.SetGroupFilter("BGM", LOW_FILTER_VALUE);
 		break;
 	case 1:
 		// player hp ui
@@ -181,11 +183,13 @@ void UITutorialSystem::UpdateState() {
 			EntityFactory::entityFactory().DeleteCloneModel(overlay);
 			overlay = 0;
 			overlayOn = false;
+			assetmanager.audio.SetGroupFilter("BGM", 1.f);
 			return;
 		}
 		if (!overlay) {
 			overlay = EntityFactory::entityFactory().ClonePrefab("tutorial_overlay.prefab");
 			overlayOn = true;
+			assetmanager.audio.SetGroupFilter("BGM", LOW_FILTER_VALUE);
 		}
 		nextStepWait = false;
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_10.prefab");
@@ -217,11 +221,13 @@ void UITutorialSystem::UpdateState() {
 			EntityFactory::entityFactory().DeleteCloneModel(overlay);
 			overlay = 0;
 			overlayOn = false;
+			assetmanager.audio.SetGroupFilter("BGM", 1.f);
 			return;
 		}
 		if (!overlay) {
 			overlay = EntityFactory::entityFactory().ClonePrefab("tutorial_overlay.prefab");
 			overlayOn = true;
+			assetmanager.audio.SetGroupFilter("BGM", LOW_FILTER_VALUE);
 		}
 		nextStepWait = false;
 		battleSys->tutorialLock = 1;
@@ -241,6 +247,7 @@ void UITutorialSystem::UpdateState() {
 			overlayOn = false;
 			tutorialComplete = true;
 			battleSys->tutorialLock = 0;
+			assetmanager.audio.SetGroupFilter("BGM", 1.f);
 		}
 		break;
 	}

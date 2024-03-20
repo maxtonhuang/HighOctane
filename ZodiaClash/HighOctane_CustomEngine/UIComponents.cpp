@@ -1339,6 +1339,11 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		events.Call("Stop Group", "VOC");
 		events.Call("Play Voice", currentDialogue->dialogueLines[currentDialogue->viewingIndex].voice);
 
+		//Add filter to BGM for dialogue
+		if (currentDialogue->speakerRequired) {
+			assetmanager.audio.SetGroupFilter("BGM", LOW_FILTER_VALUE);
+		}
+
 		//Update battle system
 		switch (battleSys->dialogueCalled) {
 		case 0:
@@ -1445,6 +1450,11 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 			}
 			battleSys->MoveInAllUIAnimation();
 			animationArray.GetData(entity).Start("Exit", entity);
+
+			//Return filter for BGM after dialogue
+			if (!currentDialogue->speakerRequired) {
+				assetmanager.audio.SetGroupFilter("BGM", 1.f);
+			}
 		}
 	}
 	else {

@@ -104,6 +104,12 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_F10 == key) {
             ToggleEndGameMode();
         }
+        if (GLFW_KEY_1 == key) {
+            assetmanager.audio.SetGroupFilter("BGM", 0.5f);
+        }
+        if (GLFW_KEY_2 == key) {
+            assetmanager.audio.SetGroupFilter("BGM", 1.f);
+        }
         break;
     case GLFW_RELEASE:
         keyStatus[key] = INFO::NONE;

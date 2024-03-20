@@ -46,7 +46,7 @@ void AudioManager::Initialize() {
         ASSERT(1, "Unable to create FMOD system!");
     }
 
-    result = system->init(512, FMOD_INIT_NORMAL, 0);    // Initialize FMOD.
+    result = system->init(512, FMOD_INIT_CHANNEL_LOWPASS, 0);    // Initialize FMOD.
     if (result != FMOD_OK)
     {
         ASSERT(1, "Unable to initialise FMOD system!");
@@ -62,6 +62,19 @@ void AudioManager::Initialize() {
 
 void AudioManager::Update() {
     system->update();
+    for (auto& c : channels) {
+        std::vector<FMOD::Channel*> removeList{};
+        for (auto& s : c.second) {
+            bool isPlaying;
+            s->isPlaying(&isPlaying);
+            if (!isPlaying) {
+                removeList.push_back(s);
+            }
+        }
+        for (auto& r : removeList) {
+            c.second.remove(r);
+        }
+    }
 }
 
 void AudioManager::UpdateAudioDirectory() {
@@ -193,6 +206,7 @@ void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
     else {
         system->playSound(data[sound], group[channelGroup], false, &tmp);
     }
+    channels[channelGroup].push_back(tmp);
 }
 
 void AudioManager::FreeSound(const char* sound) {
@@ -258,4 +272,10 @@ std::string AudioManager::GetCurrentBGM() {
 
 std::string AudioManager::GetCurrentAmbience() {
     return currentAmbience;
+}
+
+void AudioManager::SetGroupFilter(const char* name, float filter) {
+    for (auto& c : channels[name]) {
+        c->setLowPassGain(filter);
+    }
 }
