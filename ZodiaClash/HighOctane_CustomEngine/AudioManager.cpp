@@ -195,7 +195,7 @@ FMOD::Sound* AudioManager::AddAmbience(const char* path, const char* name) {
     return data[name];
 }
 
-void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
+FMOD::Channel* AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
     FMOD::Channel* tmp;
     if (data[sound] == nullptr) {
         assetmanager.LoadAssets(sound);
@@ -207,6 +207,7 @@ void AudioManager::PlaySounds(const char* sound, const char* channelGroup) {
         system->playSound(data[sound], group[channelGroup], false, &tmp);
     }
     channels[channelGroup].push_back(tmp);
+    return tmp;
 }
 
 void AudioManager::FreeSound(const char* sound) {

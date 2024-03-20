@@ -1288,7 +1288,9 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 	}
 
 	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
-		dialogueQueue.push(currentDialogue);
+		if (currentDialogue != nullptr) {
+			dialogueQueue.push(currentDialogue);
+		}			
 		currentDialogue = nullptr;
 	}
 
@@ -1302,7 +1304,9 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 				return;
 			}
 			else {
-				dialogueQueue.push(currentDialogue);
+				if (currentDialogue != nullptr) {
+					dialogueQueue.push(currentDialogue);
+				}
 			}
 			while (!dialogueQueue.empty()) {
 				if ((dialogueQueue.top()->triggerType != inputTriggerType) || (dialogueQueue.top()->roundTrigger != roundIndex) || (dialogueQueue.top()->isTriggered))

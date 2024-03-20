@@ -334,8 +334,8 @@
                             "Voice": ""
                         }
                     ],
-                    "Trigger Type": 3,
-                    "Round Trigger": 1,
+                    "Trigger Type": 2,
+                    "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
