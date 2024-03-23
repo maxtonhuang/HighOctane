@@ -9,6 +9,7 @@ void DialogueWindow(Entity entity) {
     if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
         DialogueHUD& dialogueData = ECS::ecs().GetComponent<DialogueHUD>(entity);
         Transform& transformData = ECS::ecs().GetComponent<Transform>(entity);
+        TextLabel& textData = ECS::ecs().GetComponent<TextLabel>(entity);
         DialogueHUD::Dialogue newDialogue{};
 
         // Button to add a new dialogue line
@@ -68,7 +69,7 @@ void DialogueWindow(Entity entity) {
                         }
                         dialogueData.currentDialogue = &dialogue;
                         dialogueData.isEditing = true;
-                        transformData.position.x = -70.0f;
+                        transformData.position.x = 0.f;
                         transformData.position.y = -350.0f;
                     }
                     ImGui::SameLine();
@@ -77,8 +78,8 @@ void DialogueWindow(Entity entity) {
                         dialogue.isTriggered = false;
                         dialogue.viewingIndex = 0;
                         dialogueData.isEditing = false;
-                        transformData.position.x = -70.0f;
-                        transformData.position.y = -750.0f;
+                        transformData.position.x = 0.f;
+                        transformData.position.y = -800.0f;
                     }                 
 
 
@@ -197,7 +198,7 @@ void DialogueWindow(Entity entity) {
                         ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 1 : 0);
                         ImGui::InputTextMultiline(("##Line" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].line);
 
-                        // Column 3: InputTextMultiline for voice sound to play
+                        // Column 3: Combo box for voice sound to play
                         ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 2 : 1);
                         //ImGui::InputTextMultiline(("##Voice" + std::to_string(k)).c_str(), &dialogue.dialogueLines[k].voice);
                         ImGui::PushID(static_cast<int>(k));
@@ -216,7 +217,7 @@ void DialogueWindow(Entity entity) {
                         }
                         ImGui::PopID();
 
-                        // Column 3: Delete button
+                        // Column 4: Delete button
                         ImGui::TableSetColumnIndex(dialogue.speakerRequired ? 3 : 2);
                         if (ImGui::Button(("Delete##" + std::to_string(k)).c_str())) {
                             // Delete the line

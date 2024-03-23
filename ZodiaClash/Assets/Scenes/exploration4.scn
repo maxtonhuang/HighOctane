@@ -18,23 +18,37 @@ EXPLORATION_MAP_asset_rock.png
 Cat_Run.spritesheet
 Cat_Run.spritesheet
 exploration bg_03.png
+UI_dialogue_box_bg_v03.png
+mockup_playbutton_04.png
 Battle End_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Scarlet Claw.skill
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Raging Soul Surge will be cast next!.skill
 Raging Soul Surge.skill
-.skill
-Cursed War God's Wrath.skill
 Dark Rising.skill
 Dark Chi Surge.skill
 Shield Smash.skill
+Monkey Charge.skill
+Shepherd's Grace.skill
+Monkey Attack.skill
+Jade Thrust.skill
+Monkey AOE.skill
 Unstoppable Charge.skill
+.skill
+Cursed War God's Wrath.skill
+Scarlet Claw.skill
 Dance of Fury.skill
 Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
-Shepherd's Grace.skill
-Jade Thrust.skill
+Shield Thrust.skill
+Resolute Charge.skill
+War God's Wrath.skill
 exploration4.json

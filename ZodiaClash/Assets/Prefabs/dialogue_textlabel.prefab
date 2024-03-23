@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 34,
+            "layerCounter": 6,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -9,35 +9,7 @@
                 "Layer 2",
                 "Layer 3",
                 "Layer 4",
-                "Layer 5",
-                "Layer 6",
-                "Layer 7",
-                "Layer 8",
-                "Layer 9",
-                "Layer 10",
-                "Layer 11",
-                "Layer 12",
-                "Layer 13",
-                "Layer 14",
-                "Layer 15",
-                "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33"
+                "Layer 5"
             ]
         }
     },
@@ -45,7 +17,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 2,
-            "Order in Layer": 0,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -56,10 +28,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -70.0,
-            "position_y": -350.0,
+            "position_x": 0.0,
+            "position_y": -800.0,
             "rotation": 0.0,
-            "scale": 1.3480000495910645,
+            "scale": 1.25,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -68,7 +40,7 @@
         },
         "Size": {
             "width": 1450.0,
-            "height": 188.5
+            "height": 250.0
         },
         "Scripts": {
             "className": "",
@@ -135,7 +107,7 @@
                             {
                                 "Frame Number": 1,
                                 "X movement": 0.0,
-                                "Y movement": 400.0,
+                                "Y movement": 450.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
                             }
@@ -162,7 +134,7 @@
                             {
                                 "Frame Number": 1,
                                 "X movement": 0.0,
-                                "Y movement": -400.0,
+                                "Y movement": -450.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
                             }
@@ -177,8 +149,8 @@
     {
         "Entity": {
             "Name": "dialogue_speaker",
-            "Current Layer": 3,
-            "Order in Layer": 1,
+            "Current Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -189,8 +161,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -620.0,
-            "position_y": -205.0,
+            "position_x": -550.0,
+            "position_y": -640.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -235,7 +207,7 @@
         "DialogueSpeaker": {},
         "Child": {
             "position_x": -550.0,
-            "position_y": 145.0,
+            "position_y": 160.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -246,7 +218,7 @@
         "Entity": {
             "Name": "dialogue_box_bg",
             "Current Layer": 1,
-            "Order in Layer": 8,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -257,8 +229,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
-            "position_y": -190.0,
+            "position_x": -15.0,
+            "position_y": -640.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -290,7 +262,7 @@
         "Movable": {},
         "DialogueSpeaker": {},
         "Child": {
-            "position_x": 70.0,
+            "position_x": -15.0,
             "position_y": 160.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -302,7 +274,7 @@
         "Entity": {
             "Name": "dialogue_speaker_bg",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -313,8 +285,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -620.0,
-            "position_y": -205.0,
+            "position_x": -550.0,
+            "position_y": -640.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -347,7 +319,7 @@
         "DialogueSpeaker": {},
         "Child": {
             "position_x": -550.0,
-            "position_y": 145.0,
+            "position_y": 160.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

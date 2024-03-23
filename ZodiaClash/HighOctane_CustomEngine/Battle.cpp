@@ -303,6 +303,18 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         //Check if turn/health conditions are met, trigger dialogue
+        if (m_Entities.size() > 0 && !dialogueCalled && (roundManage.roundCounter == 1)) {
+            for (CharacterStats* c : turnManage.turnOrderList) {
+                // dialogue call trigger specific to round 1, Monkey is the boss
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Monkey") {
+                    if (activeCharacter == c) {
+                        events.Call("Start Dialogue", "TURN");
+                        // to confirm indexing?
+                    }
+                }
+            }
+        }
+
         if (m_Entities.size() > 0 && !dialogueCalled && (roundManage.roundCounter == 3 || roundManage.roundCounter == 4)) {
             for (CharacterStats* c : turnManage.turnOrderList) {
                 // dialogue call trigger specific to round 3 and 4, OX_Enemy is the boss
@@ -333,7 +345,6 @@ void BattleSystem::Update()
                             AddCharacter(EntityFactory::entityFactory().ClonePrefab("Player_Goat.prefab"));
                         }
                     }
-
                 }
             }
         }
@@ -702,6 +713,11 @@ void BattleSystem::ProcessDamage() {
 
                             // Handle boss ox death
                             if (nameArray->GetData(c.entity).name == "Ox_Enemy") {
+                                events.Call("Start Dialogue", "HEALTH");
+                            }
+
+                            // Handle boss monkey death
+                            if (nameArray->GetData(c.entity).name == "Monkey") {
                                 events.Call("Start Dialogue", "HEALTH");
                             }
                         }

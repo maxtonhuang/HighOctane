@@ -1715,7 +1715,7 @@ void UIDialogueSystem::Update() {
 		// locks dialogue object in place if in edit mode
 		if (GetCurrentSystemMode() == SystemMode::EDIT && dialogueHudData->isEditing)
 		{
-			transformData->position.x = -70.0f;
+			transformData->position.x = 0.f;
 			transformData->position.y = -350.0f;
 		}
 

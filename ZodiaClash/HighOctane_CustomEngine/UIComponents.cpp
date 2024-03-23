@@ -1329,12 +1329,17 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		}
 	}
 	else if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
-		while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType)) {
-			nonMatchingDialogues.push_back(dialogueQueue.top());
-			dialogueQueue.pop();
+		while (!dialogueQueue.empty()) {
+			if ((dialogueQueue.top()->triggerType != inputTriggerType) || (dialogueQueue.top()->isTriggered))
+			{
+				nonMatchingDialogues.push_back(dialogueQueue.top());
+				dialogueQueue.pop();
+			}
+			else
+				break;
 		}
 		// if match pass dialogue pointer to currentDialogue
-		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType)) {
+		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType) && (!dialogueQueue.top()->isTriggered)) {
 			currentDialogue = dialogueQueue.top();
 			dialogueQueue.pop();
 		}
@@ -1353,11 +1358,13 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		}
 	}
 	else {
-		currentDialogue = dialogueQueue.top();
-		dialogueQueue.pop();
+		if (!dialogueQueue.empty()) {
+			currentDialogue = dialogueQueue.top();
+			dialogueQueue.pop();
+		}
 	}
 
-	if (currentDialogue && !currentDialogue->isActive) {
+	if (currentDialogue && !currentDialogue->isActive && !currentDialogue->isTriggered) {
 		currentDialogue->isActive = 1;
 		currentDialogue->viewingIndex = 0;
 		if (animationArray.HasComponent(entity)) {
@@ -1474,7 +1481,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 					}
 				}
 				//events.Call("Restart Music", "ZodiaClash_Boss.ogg");
-				currentDialogue = nullptr;
+				//currentDialogue = nullptr;
 				battleSys->ProcessDamage();
 			}
 			battleSys->MoveInAllUIAnimation();
