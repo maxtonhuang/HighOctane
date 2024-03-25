@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,13 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27"
             ]
         }
     },
@@ -46,8 +52,8 @@
         "Transform": {
             "position_x": -268.0,
             "position_y": 20.0,
-            "rotation": 6.2831854820251465,
-            "scale": 0.34200000762939453,
+            "rotation": 0.0,
+            "scale": 0.4000000059604645,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -559,6 +565,16 @@
                                 "Texture": "Ox_Death.spritesheet"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 7,
+                                "Child Name": "Shadow",
+                                "Child Animation": "Disappear"
+                            }
+                        ]
                     }
                 ]
             },
@@ -630,6 +646,82 @@
                 ]
             }
         ],
-        "Animation Set Default Animation": "Idle"
+        "Animation Set Default Animation": "Idle",
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "Shadow",
+            "Current Layer": 0,
+            "Order in Layer": 17,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -252.5,
+            "position_y": -157.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "circle-512.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 340.0,
+            "height": 60.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 0.18039216101169586,
+            "Green": 0.1725490242242813,
+            "Blue": 0.1725490242242813,
+            "Alpha": 0.19607843458652496,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Disappear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 15.5,
+            "position_y": -177.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

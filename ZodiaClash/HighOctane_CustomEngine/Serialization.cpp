@@ -298,6 +298,7 @@ rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson:
 	charstats.AddMember("Icon", iconStr, allocator);
 	//charstats.AddMember("Bleedstack", stats.debuffs.bleedStack, allocator);
 	charstats.AddMember("Boss", stats.boss, allocator);
+	charstats.AddMember("Untargetable", stats.untargetable, allocator);
 
 	for (Attack const& a : stats.action.skills) {
 		rapidjson::Value attackName;
@@ -1387,6 +1388,10 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 				for (auto& a : statsObject["Skills"].GetArray()) {
 					charstats.action.skills.push_back(assetmanager.attacks.data[a.GetString()]);
+				}
+
+				if (statsObject.HasMember("Untargetable")) {
+					charstats.untargetable = statsObject["Untargetable"].GetBool();
 				}
 
 				if (ECS::ecs().HasComponent<CharacterStats>(entity)) {

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 58,
+            "layerCounter": 33,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -36,32 +36,7 @@
                 "Layer 29",
                 "Layer 30",
                 "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57"
+                "Layer 32"
             ]
         }
     },
@@ -103,7 +78,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -129,16 +104,16 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 1,
-            "Order in Layer": 1,
+            "Current Layer": 2,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -750.0,
+            "position_y": -800.0,
             "rotation": 0.0,
-            "scale": 1.3480000495910645,
+            "scale": 1.25,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -146,13 +121,13 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "You have defeated Yang.",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
+            "Text String": "Feel the might of Wukong!",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
             "a": 1.0,
             "Color Preset": "white",
-            "Horizontal Alignment": 1,
+            "Horizontal Alignment": 0,
             "Vertical Alignment": 1,
             "Text Wrap": 2,
             "Background": false
@@ -162,40 +137,59 @@
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "",
-                            "Line": "You have defeated Yang.",
+                            "Speaker": "Emperor",
+                            "Line": "Feel the might of Wukong!",
                             "Voice": ""
                         }
                     ],
-                    "Trigger Type": 5,
+                    "Trigger Type": 2,
                     "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": false,
-                    "Post Dialogue Scene": true,
-                    "Target Scene": "tbc.scn"
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 },
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": "",
-                            "Line": "You have been defeated...",
+                            "Speaker": "Emperor",
+                            "Line": "Say your last words now, as you burn from these flames!",
                             "Voice": ""
                         }
                     ],
-                    "Trigger Type": 6,
+                    "Trigger Type": 3,
+                    "Round Trigger": 1,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": "Emperor",
+                            "Line": "Argh...",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 4,
                     "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": false,
-                    "Post Dialogue Scene": true,
-                    "Target Scene": "exploration2.scn"
+                    "Speaker Required": true,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 }
             ]
         },
@@ -214,7 +208,7 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -273,7 +267,7 @@
         "Entity": {
             "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -299,7 +293,7 @@
         "Entity": {
             "Name": "Player_Ox",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -310,57 +304,8 @@
             "scale": 0.34200000762939453,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_monkey.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
         },
-        "Entity": {
-            "Name": "Monkey",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -298.0,
-            "position_y": 142.1409912109375,
-            "rotation": 0.0,
-            "scale": 0.34200000762939453,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "enemy_monkey.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Monkey",
-            "Current Layer": 0,
-            "Order in Layer": 6,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -439.6360168457031,
-            "position_y": -117.72123718261719,
-            "rotation": 0.0,
-            "scale": 0.34200000762939453,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
+        "Parent": {}
     },
     {
         "Clone": {
@@ -386,5 +331,83 @@
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
+    },
+    {
+        "Clone": {
+            "Prefab": "guards.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Guard",
+            "Current Layer": 0,
+            "Order in Layer": 24,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -311.0,
+            "position_y": -172.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "guards.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Guard",
+            "Current Layer": 0,
+            "Order in Layer": 25,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -311.0,
+            "position_y": 125.15198516845703,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "enemy_emperor.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Emperor",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -533.0,
+            "position_y": 20.0,
+            "rotation": 0.0,
+            "scale": 0.34200000762939453,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
     }
 ]

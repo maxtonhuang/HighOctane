@@ -17,8 +17,8 @@ mockup_skillframe (1).png
 UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -44,8 +44,8 @@ Goat_Hit.spritesheet
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
 Goat_Basic.spritesheet
-Goat_Ulti.spritesheet
 mockup_chi_icon_lineart.png
+Goat_Ulti.spritesheet
 Goat_Ulti.spritesheet
 Goat_Death.spritesheet
 Goat_Death.spritesheet
@@ -67,11 +67,11 @@ Emperor_Monkey_Idle.spritesheet
 Emperor_Monkey_Idle.spritesheet
 BG_sunset_level.png
 Cat_Atk_2_Edited.wav
-Cat Atk_1_Edited.wav
 Guard Damaged_Edited.wav
+Cat Atk_1_Edited.wav
+Guard Atk_Edited.wav
 Cat_Atk_3_Edited.wav
 Cat Damaged_Edited.wav
-Guard Atk_Edited.wav
 Skill Select_Edited.wav
 Goat Damaged_Edited.wav
 Hover Select_Edited.wav
@@ -82,30 +82,25 @@ Goat Death_Edited.wav
 Battle End_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
+Dark Chi Surge.skill
+Secret Arts: Pounce.skill
+Emperor Attack.skill
 Raging Soul Surge will be cast next!.skill
 Raging Soul Surge.skill
+Emperor Buff.skill
+Locking on!.skill
 Dark Rising.skill
-Dark Chi Surge.skill
-Shield Smash.skill
-Monkey Charge.skill
 Shepherd's Grace.skill
 Monkey Attack.skill
+Monkey Charge.skill
 Jade Thrust.skill
 Monkey AOE.skill
+Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
 Scarlet Claw.skill
 Dance of Fury.skill
-Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
 Shield Thrust.skill

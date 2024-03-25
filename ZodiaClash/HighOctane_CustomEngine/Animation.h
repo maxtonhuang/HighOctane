@@ -142,6 +142,9 @@ public:
 	//Updates the animation set by 1 frame
 	void Update(Entity entity);
 
+	//Instantly finishes the animation
+	void InstantFinish(Entity entity);
+
 	//Default constructor of animation set
 	AnimationSet() = default;
 
@@ -289,8 +292,8 @@ public:
 	std::list<Keyframe<float>> keyframes;
 	std::list<Keyframe<float>>::iterator nextKeyframe{};
 private:
-	Model* entityModel;
-	TextLabel* entityText;
+	Model* entityModel{};
+	TextLabel* entityText{};
 	float alpha;
 	float alphatext;
 };

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,13 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27"
             ]
         }
     },
@@ -95,27 +101,27 @@
             "Default Button R": 1.0,
             "Default Button G": 1.0,
             "Default Button B": 1.0,
-            "Default Button A": 1.0,
+            "Default Button A": 0.7843137383460999,
             "Default Text R": 1.0,
             "Default Text G": 1.0,
             "Default Text B": 1.0,
-            "Default Text A": 1.0,
+            "Default Text A": 0.7843137383460999,
             "Hovered Button R": 0.0,
             "Hovered Button G": 0.0,
             "Hovered Button B": 1.0,
-            "Hovered Button A": 1.0,
+            "Hovered Button A": 0.7843137383460999,
             "Hovered Text R": 1.0,
             "Hovered Text G": 1.0,
             "Hovered Text B": 1.0,
-            "Hovered Text A": 1.0,
+            "Hovered Text A": 0.7843137383460999,
             "Focused Button R": 0.0,
             "Focused Button G": 0.0,
             "Focused Button B": 1.0,
-            "Focused Button A": 1.0,
+            "Focused Button A": 0.7843137383460999,
             "Focused Text R": 1.0,
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
-            "Focused Text A": 1.0,
+            "Focused Text A": 0.7843137383460999,
             "Event Name": "Select Enemy",
             "Event Input": "0",
             "Padding Top": 20.0,
@@ -193,7 +199,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Hover Target_Edited.wav"
+                                    "Select_Target_Edited.wav"
                                 ]
                             }
                         ]
@@ -204,6 +210,22 @@
                             {
                                 "Frame Number": 1,
                                 "Destination": "Rotation"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Destroy",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
                             }
                         ]
                     }

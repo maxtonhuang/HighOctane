@@ -1083,6 +1083,7 @@ void SceneEntityComponents(Entity entity) {
 
 			ImGui::InputText("Icon", &charstatsComponent.icon);
 			ImGui::Checkbox("Boss", &charstatsComponent.boss);
+			ImGui::Checkbox("Untargetable", &charstatsComponent.untargetable);
 			//std::vector<std::string> texNames{ assetmanager.texture.GetTextureNames() };
 			//if (ImGui::BeginCombo("Icon", charstatsComponent.icon.c_str())) {
 			//	for (int n = 0; n < texNames.size(); n++) {

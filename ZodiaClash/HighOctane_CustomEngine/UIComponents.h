@@ -337,6 +337,8 @@ public:
 		DEFUP,
 		DEFDOWN,
 		COUNTER,
+		HUNTED,
+		IGNITE,
 		LASTEFFECT //MUST BE UNUSED, USED FOR ITERATION ONLY
 	}; StatusType statustype;
 

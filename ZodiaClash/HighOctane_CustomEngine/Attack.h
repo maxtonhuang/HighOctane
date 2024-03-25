@@ -61,6 +61,7 @@ public:
     int   chiCost{};
     int   bleed{};
     bool critCheck{};
+    bool staticAnimation{}; //if animation is static
 
 private:
     CharacterStats* owner{};

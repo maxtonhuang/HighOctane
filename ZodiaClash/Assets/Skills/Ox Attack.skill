@@ -1,7 +1,7 @@
 [
     {
         "Name": "Shield Thrust",
-	"Texture": "skill_icon_basic.png",
+	"Texture": "OX_skill_icon_basic.png",
 	"Tooltip": "catSkill1_tooltip.prefab",
         "Type": 0,
         "Skill Attack": 70,

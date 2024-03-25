@@ -793,6 +793,7 @@ void SerializationSystem::Update() {
 			//ECS::ecs().DestroyEntity(e);
 			EntityFactory::entityFactory().DeleteCloneModel(e);
 		}
+		EntityFactory::entityFactory().UpdateDeletion();
 		destroyAll = false;
 	}
 
