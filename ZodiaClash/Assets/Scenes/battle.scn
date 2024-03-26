@@ -39,12 +39,12 @@ VFX_Bleed.spritesheet
 VFX_Bleed.spritesheet
 mockup_qn_icon.png
 mockup_skillframe.png
-Tutorial 4.png
 BattleInfo_Ox.png
+Tutorial 4.png
 UI_target_circle_f1.png
 UI_dialogue_box_bg_v03.png
-Tutorial 12.png
 mockup_playbutton_04.png
+Tutorial 12.png
 new_logo_03.png
 Leaf.png
 UI_target_circle_f2.png
@@ -65,11 +65,12 @@ Tutorial 11.png
 Tutorial 13.png
 skilltooltip_CatSkill3.png
 UI_dialogue_box_bg_v02.png
+circle-512.png
 Cat_Atk_2_Edited.wav
 Cat Atk_1_Edited.wav
+Guard Atk_Edited.wav
 Cat Damaged_Edited.wav
 Cat_Atk_3_Edited.wav
-Guard Atk_Edited.wav
 Mei_1.ogg
 Hover Select_Edited.wav
 Skill Select_Edited.wav
@@ -78,8 +79,8 @@ Guard Damaged2_Edited.wav
 Guard Atk2_Edited.wav
 Cat Damaged6_Edited.wav
 Guard Atk3_Edited.wav
-Battle End_Edited.wav
 Cat Damaged2_Edited.wav
+Battle End_Edited.wav
 Cat Damaged3_Edited.wav
 Cat Damaged5_Edited.wav
 Guard Death_Edited.wav
@@ -88,22 +89,25 @@ Cat Damaged7_Edited.wav
 Mei_2.ogg
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Raging Soul Surge will be cast next!.skill
-Raging Soul Surge.skill
-Dark Rising.skill
 Dark Chi Surge.skill
-Shield Smash.skill
-Monkey Charge.skill
+Raging Surge.skill
+Secret Arts: Pounce.skill
+Emperor Attack.skill
+Emperor Buff.skill
+Locking on!.skill
 Shepherd's Grace.skill
 Monkey Attack.skill
+Monkey Charge.skill
+Charging up Raging Surge!.skill
+Dark Rising.skill
 Jade Thrust.skill
 Monkey AOE.skill
+Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
 Scarlet Claw.skill
 Dance of Fury.skill
-Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
 Shield Thrust.skill

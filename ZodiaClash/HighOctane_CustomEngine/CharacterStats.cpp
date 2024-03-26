@@ -114,7 +114,7 @@ void CharacterStats::TakeDamage(float d)
     if (this->buffs.shieldStack) {
         for (CharacterStats* c : parent->GetEnemies()) {
             if (c->entity == this->buffs.shieldEntity) {
-                c->stats.health -= d;
+                c->stats.health = d > c->stats.health ? 0.f : c->stats.health - d;
                 c->damage = d;
                 break;
             }

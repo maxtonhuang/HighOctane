@@ -572,7 +572,7 @@ SwapAnimation::SwapAnimation() {
 void SwapAnimation::Update(int frameNum) {
 	if (frameNum == keyframes.frameNum) {
 		AnimationSet& anim{ ECS::ecs().GetComponent<AnimationSet>(parent) };
-		anim.Queue(keyframes.data, parent);
+		anim.Start(keyframes.data, parent);
 		active = false;
 	}
 }

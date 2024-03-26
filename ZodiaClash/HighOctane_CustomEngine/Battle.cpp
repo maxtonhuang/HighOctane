@@ -301,7 +301,7 @@ void BattleSystem::Update()
         }
         break;
     case ENEMYTURN:
-        if (activeCharacter->action.entityState == WAITING) {
+        if (activeCharacter->action.entityState == WAITING && activeCharacter->debuffs.stunStack == 0) {
             gameAI.Search(this);
         }
         [[fallthrough]];
@@ -702,6 +702,7 @@ void BattleSystem::ProcessDamage() {
         ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
         ComponentArray<Size>* sizeArray = &componentManager.GetComponentArrayRef<Size>();
         ComponentArray<Name>* nameArray = &componentManager.GetComponentArrayRef<Name>();
+        ComponentArray<Parent>* parentArray = &componentManager.GetComponentArrayRef<Parent>();
         static Entity bossAura{ 0 };
 
         float totalDamage{ 0.f };
@@ -735,6 +736,20 @@ void BattleSystem::ProcessDamage() {
                         if (c.stats.health > 0) {
                             if (damage > 0) {
                                 animationArray->GetData(entity).Queue("Damaged", entity);
+
+                                //For shield, play the respective shield animations for the children also
+                                if (c.untargetable) {
+                                    for (CharacterStats* enemy : GetEnemies()) {
+                                        if (!parentArray->HasComponent(enemy->entity)) {
+                                            continue;
+                                        }
+                                        Entity enemyshield{ parentArray->GetData(enemy->entity).GetChildByName("Monkey Shield") };
+                                        if (animationArray->HasComponent(enemyshield)) {
+                                            animationArray->GetData(enemyshield).Queue("Damaged", enemyshield);
+                                        }
+                                    }
+                                }
+
                                 if (c.crit == true) {
                                     textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 1.f,0.f,0.f,1.f });
                                     textArray->GetData(damagelabel).textString = "CRIT\n" + textArray->GetData(damagelabel).textString;
@@ -765,6 +780,21 @@ void BattleSystem::ProcessDamage() {
                             if (nameArray->GetData(c.entity).name == "Ox_Enemy") {
                                 events.Call("Start Dialogue", "HEALTH");
                             }
+
+                            //Handle shield death
+                            if (c.untargetable) {
+                                for (CharacterStats* enemy : GetEnemies()) {
+                                    if (!parentArray->HasComponent(enemy->entity)) {
+                                        continue;
+                                    }
+                                    animationArray->GetData(enemy->entity).Start("Damaged",enemy->entity);
+                                    Entity enemyshield{ parentArray->GetData(enemy->entity).GetChildByName("Monkey Shield") };
+                                    if (animationArray->HasComponent(enemyshield)) {
+                                        animationArray->GetData(enemyshield).Queue("Death", enemyshield);
+                                    }
+                                }
+                                chi = 5;
+                            }
                         }
                     }
                     *cs = c;
@@ -778,9 +808,6 @@ void BattleSystem::ProcessDamage() {
                 cs->action.entityState = DEAD;
                 cs->debuffs = CharacterStats::debuff{};
                 cs->buffs = CharacterStats::buff{};
-                //model->SetAlpha(0.2f);
-                //AnimateRemoveTurnOrder(entity);
-                //AnimateRemoveHealthBar(entity);
                 if (cs->tag == CharacterType::PLAYER) {
                     std::vector<CharacterAnimator> newAnimators{};
                     for (CharacterAnimator& ca : allyAnimators) {
