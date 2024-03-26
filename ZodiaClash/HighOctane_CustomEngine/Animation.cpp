@@ -93,6 +93,12 @@ void AnimationSet::Update(Entity entity) {
 	}
 }
 
+void AnimationSet::InstantFinish(Entity entity) {
+	while (!animationQueue.empty() || !(activeAnimation == nullptr || activeAnimation->active == false || activeAnimation->loop == true)) {
+		Update(entity);
+	}
+}
+
 void AnimationSet::Stop() {
 	std::queue<AnimationGroup*> newQueue{};
 	animationQueue = newQueue;

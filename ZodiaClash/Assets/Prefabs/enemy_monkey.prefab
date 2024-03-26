@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 29,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,8 +31,7 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27",
-                "Layer 28"
+                "Layer 27"
             ]
         }
     },
@@ -40,7 +39,7 @@
         "Entity": {
             "Name": "Monkey",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -51,8 +50,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -112.0,
-            "position_y": 19.0,
+            "position_x": -326.0,
+            "position_y": 142.14100646972656,
             "rotation": 0.0,
             "scale": 0.34200000762939453,
             "velocity_x": 0.0,
@@ -72,6 +71,27 @@
             "width": 958.0,
             "height": 959.0
         },
+        "Emitter": {
+            "Emitter Lifetime": 9.50002670288086,
+            "Emitter PositionX": -326.0,
+            "Emitter PositionY": 142.14100646972656,
+            "Particles SizeX": 30.0,
+            "Particles SizeY": 30.0,
+            "Particles ColorR": 1.0,
+            "Particles ColorG": 1.0,
+            "Particles ColorB": 1.0,
+            "Particles ColorA": 1.0,
+            "Frequency": 12.0,
+            "Particle Lifetime": 0.5,
+            "Rotation": 0.0,
+            "Rotation Speed": 0.0,
+            "VelocityX": 0.0,
+            "VelocityY": 100.0,
+            "Single Sided": false,
+            "Textures": [
+                ""
+            ]
+        },
         "CharacterStats": {
             "Character type": 1,
             "Max Health": 900.0,
@@ -79,8 +99,9 @@
             "Attack": 15.0,
             "Defense": 15.0,
             "Speed": 99,
-            "Icon": "NEW_guard_pfp.png",
+            "Icon": "EMPEROR_MONKEY_potrait.png",
             "Boss": false,
+            "Untargetable": false,
             "Skills": [
                 "Monkey Attack",
                 "Monkey AOE",
@@ -93,7 +114,7 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0,
+            "Alpha": 0.9999997615814209,
             "Mirror": false
         },
         "Movable": {},
@@ -463,6 +484,15 @@
                                 "Prefab": "VFX_Hit.prefab"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Sounds": []
+                            }
+                        ]
                     }
                 ]
             },
@@ -527,11 +557,11 @@
                                 "Reverse": false
                             },
                             {
-                                "Frame Number": 3,
+                                "Frame Number": 9,
                                 "Reverse": false
                             },
                             {
-                                "Frame Number": 4,
+                                "Frame Number": 10,
                                 "Reverse": false
                             }
                         ]
@@ -540,7 +570,7 @@
                         "Animation Type": "DamageImpact",
                         "Key Frames": [
                             {
-                                "Frame Number": 4,
+                                "Frame Number": 11,
                                 "Prefab": "VFX_Hit.prefab"
                             }
                         ]
@@ -551,6 +581,17 @@
                             {
                                 "Frame Number": 13,
                                 "Destination": "Emperor moveback"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Boss_Aoe.wav"
+                                ]
                             }
                         ]
                     }
@@ -572,8 +613,146 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 11,
+                "Group Name": "Intro 2",
+                "Loop": false,
+                "Frame Time": 0.05000000074505806,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Alpha": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Prefab": "VFX_Smoke.prefab"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Intro",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Intro 2"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
-        "Animation Set Default Animation": "Idle"
+        "Animation Set Default Animation": "Intro",
+        "Parent": {},
+        "Emitter": {}
+    },
+    {
+        "Entity": {
+            "Name": "Shadow",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -313.5,
+            "position_y": 0.1410064697265625,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "circle-512.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 220.0,
+            "height": 46.71799850463867
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 0.18039216101169586,
+            "Green": 0.1725490242242813,
+            "Blue": 0.1725490242242813,
+            "Alpha": 0.19607843458652496,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Disappear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 12.5,
+            "position_y": -142.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

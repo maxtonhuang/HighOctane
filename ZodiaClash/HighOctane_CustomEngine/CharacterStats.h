@@ -70,6 +70,8 @@ public:
         int defenseStack{ 0 };
         float defenseBuff{ 0.f };
         int   reflectStack{ 0 };
+        int   shieldStack{ 0 }; //Protected by another entity
+        Entity shieldEntity{ 0 };
     }; buff buffs{};
 
     //negative effects 
@@ -78,6 +80,8 @@ public:
        int    tauntStack{ 0 }; //must target debuff
        Entity tauntTarget{ 0 }; //who to target for taunt
        int    stunStack{ 0 }; //skip turn and reduce
+       int    huntedStack{ 0 }; //will be targeted by enemies
+       int    igniteStack{ 0 }; //takes damage when using chi
        int   attackStack{ 0 };
        float attackDebuff{ 0.f };
        int defenseStack{ 0 };
@@ -85,6 +89,7 @@ public:
     }; debuff debuffs{};
 
     bool boss{};
+    bool untargetable{};
     int cycle{ 0 }; // for boss cycles
     bool charge{};
     bool crit{}; //Check if enemy was hit by a critical

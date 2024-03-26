@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 29,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,8 +31,7 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27",
-                "Layer 28"
+                "Layer 27"
             ]
         }
     },
@@ -40,7 +39,7 @@
         "Entity": {
             "Name": "Player_Ox",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 51,
             "isLocked": true,
             "isSkipped": true
         },
@@ -51,7 +50,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 571.5005493164063,
+            "position_x": 567.5005493164063,
             "position_y": 177.0,
             "rotation": 6.2831854820251465,
             "scale": 0.34200000762939453,
@@ -72,15 +71,37 @@
             "width": 958.0,
             "height": 959.0
         },
+        "Emitter": {
+            "Emitter Lifetime": 7.766713619232178,
+            "Emitter PositionX": 571.5005493164063,
+            "Emitter PositionY": 177.0,
+            "Particles SizeX": 30.0,
+            "Particles SizeY": 30.0,
+            "Particles ColorR": 1.0,
+            "Particles ColorG": 1.0,
+            "Particles ColorB": 1.0,
+            "Particles ColorA": 1.0,
+            "Frequency": 12.0,
+            "Particle Lifetime": 0.5,
+            "Rotation": 0.0,
+            "Rotation Speed": 0.0,
+            "VelocityX": 0.0,
+            "VelocityY": 100.0,
+            "Single Sided": false,
+            "Textures": [
+                ""
+            ]
+        },
         "CharacterStats": {
             "Character type": 0,
             "Max Health": 175.0,
-            "Health": 175.0,
+            "Health": 167.0,
             "Attack": 15.0,
             "Defense": 40.0,
             "Speed": 3,
             "Icon": "ox_pfp.png",
             "Boss": false,
+            "Untargetable": false,
             "Skills": [
                 "Shield Thrust",
                 "Resolute Charge",
@@ -566,6 +587,16 @@
                                 "Texture": "Ox_Death.spritesheet"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 7,
+                                "Child Name": "Shadow",
+                                "Child Animation": "Disappear"
+                            }
+                        ]
                     }
                 ]
             },
@@ -635,8 +666,266 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Intro",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 1000.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Intro 2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 10,
+                "Group Name": "Intro 2",
+                "Loop": false,
+                "Frame Time": 0.05000000074505806,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "X movement": -1000.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
-        "Animation Set Default Animation": "Idle"
+        "Animation Set Default Animation": "Idle",
+        "Parent": {},
+        "Emitter": {}
+    },
+    {
+        "Entity": {
+            "Name": "Shadow",
+            "Current Layer": 0,
+            "Order in Layer": 11,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 567.5005493164063,
+            "position_y": 28.5,
+            "rotation": 6.2831854820251465,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "circle-512.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 308.0,
+            "height": 69.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 0.18039216101169586,
+            "Green": 0.1725490242242813,
+            "Blue": 0.1725490242242813,
+            "Alpha": 0.19607843458652496,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Disappear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 0.0,
+            "position_y": -148.5,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Turn Indicator",
+            "Current Layer": 0,
+            "Order in Layer": 14,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 562.5005493164063,
+            "position_y": 159.5,
+            "rotation": 6.2831854820251465,
+            "scale": 1.2999999523162842,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "UI_target_circle_f1.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 256.0,
+            "height": 256.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Default",
+                "Loop": true,
+                "Frame Time": 0.5,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "UI_target_circle_f1.png"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Texture": "UI_target_circle_f2.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Show",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Alpha": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Default"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hide",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Default",
+        "Child": {
+            "position_x": -5.0,
+            "position_y": -17.5,
+            "rotation": 0.0,
+            "scale": 1.2999999523162842,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

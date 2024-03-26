@@ -256,8 +256,13 @@ void RebuildLayeringAfterDeserialization() {
 		}
 
 		Name & n = nameArray.GetData(entity);
-		layering[n.serializationLayer][n.serializationOrderInLayer] = entity;
 
+		if (layering[n.serializationLayer][n.serializationOrderInLayer] == 0) {
+			layering[n.serializationLayer][n.serializationOrderInLayer] = entity;
+		}
+		else {
+			layering[n.serializationLayer].emplace_back(entity);
+		}
 
 		/*if (n.serializationLayer < layering.size()) {
 			if (n.serializationOrderInLayer < layering[n.serializationLayer].size()) {
@@ -308,6 +313,9 @@ void EmbedSkipLockForSerialization() {
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	std::set<Entity>* e = &(s_ptr->m_Entities);
 	for (const Entity& entity : *e) {
+		if (!entity || !nameArray.HasComponent(entity)) {
+			continue;
+		}
 		Name& n = nameArray.GetData(entity);
 		n.skip = entitiesToSkip[static_cast<int>(entity)];
 		n.lock = entitiesToLock[static_cast<int>(entity)];

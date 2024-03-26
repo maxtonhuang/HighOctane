@@ -108,12 +108,6 @@ void CharacterAction::UpdateState() {
                     }
                     else {
                         aoePoint.x = 0.f;
-                        //for (auto& c : battleManager->GetPlayers()) {
-                        //    float pos{ transformArray.GetData(c->entity).position.x };
-                        //    if (pos - 200.f > aoePoint.x) {
-                        //        aoePoint.x = pos - 200.f;
-                        //    }
-                        //}
                     }
                 }
                 ECS::ecs().GetComponent<Transform>(returnpos).position = ECS::ecs().GetComponent<Transform>(characterStats->entity).position;
@@ -124,16 +118,18 @@ void CharacterAction::UpdateState() {
                     attacktrans->position.y += (ECS::ecs().GetComponent<Size>(characterStats->entity).height * ECS::ecs().GetComponent<Transform>(characterStats->entity).scale
                         - ECS::ecs().GetComponent<Size>(targetSelect.selectedTarget->entity).height * ECS::ecs().GetComponent<Transform>(targetSelect.selectedTarget->entity).scale) / 2;
                     if (targetSelect.selectedTarget->tag == CharacterType::PLAYER) {
-                        attacktrans->position.x -= 100.f;
+                        attacktrans->position.x -= (ECS::ecs().GetComponent<Transform>(characterStats->entity).scale * ECS::ecs().GetComponent<Size>(characterStats->entity).width / 2);
                     }
                     else {
-                        attacktrans->position.x += 100.f;
+                        attacktrans->position.x += (ECS::ecs().GetComponent<Transform>(characterStats->entity).scale * ECS::ecs().GetComponent<Size>(characterStats->entity).width / 2);
                     }
                 }
                 else {
                     ECS::ecs().GetComponent<Transform>(attackpos).position = aoePoint;
                 }
-                animation.Start("Attack Start", characterStats->entity);
+                if (!selectedSkill.staticAnimation) {
+                    animation.Start("Attack Start", characterStats->entity);
+                }
                 animation.Queue(animationName.str(), characterStats->entity);
             }
             Entity battlelabel = EntityFactory::entityFactory().ClonePrefab("battlelabel.prefab");
@@ -141,7 +137,14 @@ void CharacterAction::UpdateState() {
                 glm::vec4& battleLabelColor{ ECS::ecs().GetComponent<Model>(battlelabel).GetColorRef() };
                 battleLabelColor = glm::vec4(darkred, 0.f, 0.f, battleLabelColor.a);
             }
+            Entity battlelabelborder{ ECS::ecs().GetComponent<Parent>(battlelabel).GetChildByName("Battle Label Border") };
+            Size prevsize{ ECS::ecs().GetComponent<Size>(battlelabel) };
             ECS::ecs().GetComponent<TextLabel>(battlelabel).textString = selectedSkill.attackName;
+            ECS::ecs().GetComponent<TextLabel>(battlelabel).UpdateOffset(ECS::ecs().GetComponent<Transform>(battlelabel), ECS::ecs().GetComponent<Size>(battlelabel));
+            Size& battlelabelbordersize{ ECS::ecs().GetComponent<Size>(battlelabelborder) };
+            Size& currsize{ ECS::ecs().GetComponent<Size>(battlelabel) };
+            battlelabelbordersize.width += currsize.width - prevsize.width;
+            battlelabelbordersize.height += currsize.height - prevsize.height;
             battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
         }
@@ -180,6 +183,12 @@ void CharacterAction::UpdateState() {
         }
         if (characterStats->debuffs.tauntStack > 0) {
             characterStats->debuffs.tauntStack -= 1;
+        }
+        if (characterStats->debuffs.huntedStack > 0) {
+            characterStats->debuffs.huntedStack -= 1;
+        }
+        if (characterStats->debuffs.igniteStack > 0) {
+            characterStats->debuffs.igniteStack -= 1;
         }
         entityState = END;
     }

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 34,
+            "layerCounter": 26,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -29,15 +29,7 @@
                 "Layer 22",
                 "Layer 23",
                 "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33"
+                "Layer 25"
             ]
         }
     },
@@ -104,7 +96,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -129,7 +121,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -156,15 +148,15 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 2,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -70.0,
-            "position_y": -750.0,
+            "position_x": 0.0,
+            "position_y": -800.0,
             "rotation": 0.0,
-            "scale": 1.3480000495910645,
+            "scale": 1.25,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -412,7 +404,7 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },

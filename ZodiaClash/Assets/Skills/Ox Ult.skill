@@ -1,7 +1,7 @@
 [
     {
         "Name": "War God's Wrath",
-	"Texture": "skill_icon_basic.png",
+	"Texture": "OX_skill_icon_ult.png",
 	"Tooltip": "catSkill1_tooltip.prefab",
         "Type": 1,
         "Skill Attack": 0,

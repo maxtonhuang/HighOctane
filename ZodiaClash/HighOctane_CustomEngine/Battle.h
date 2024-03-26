@@ -167,6 +167,7 @@ public:
 	Entity battleinfo{}; //battle info tooltip
 	bool attackingAnimation{ false };
 	bool battlestarted{ false };
+	bool emperorDead{ false }; //To call dialogue for emperor
 private:
 	
 	//std::vector <GameObject> gameObjects;
@@ -182,7 +183,7 @@ private:
 	Entity turnIndicator{ 0 };
 	bool battleUIMovedOut{ false };
 	bool speedUpAndDeath{ false }; //For special case where there is a speed up and death animation
-
+	
 	//Animation methods
 	//Initialises the battle system UI
 	void InitialiseBattleUI();

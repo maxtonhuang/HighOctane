@@ -91,12 +91,13 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.bloodStack = 0;
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
+        target->debuffs.huntedStack = 0;
     }
     //Enemy goat speedup
     else if (attackName == "Dark Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
-        target->buffs.attackStack = 2;
+        target->buffs.attackStack = 1;
         if (target->tag == CharacterType::ENEMY) {
             owner->action.battleManager->aiMultiplier += 100000;
         }
@@ -105,7 +106,7 @@ void Attack::UseAttack(CharacterStats* target) {
     else if (attackName == "Chi Surge") {
         target->SpeedBuff(target);
         target->buffs.attackBuff = 0.3f;
-        target->buffs.attackStack = 2;
+        target->buffs.attackStack = 1;
     }
     //Enemy goat charge
     else if (attackName == "Raging Soul Surge will be cast next!") {
@@ -160,6 +161,34 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->buffs.defenseBuff = 0.5f;
         owner->buffs.defenseStack = 2;
     }
+    //Enemy emperor buff
+    else if (attackName == "Emperor Buff") {
+        if (owner->cycle == 0 && target->entity == owner->entity) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle++;
+        }
+        owner->buffs.attackBuff += 0.5;
+        owner->buffs.attackStack += 3;
+    }
+    //Enemey emperor lock-on
+    else if (attackName == "Locking on!") {
+        if (owner->cycle == 1 && target->entity == owner->parent->GetPlayers()[0]->entity) {
+            owner->action.battleManager->aiMultiplier += 100000;
+            owner->cycle++;
+        }
+        target->debuffs.huntedStack = 9;
+    }
+    //Enemy emperor attack
+    else if (attackName == "Emperor Attack") {
+        if (owner->cycle > 1) {
+            owner->action.battleManager->aiMultiplier += 10000;
+        }
+        owner->cycle++;
+        if (owner->cycle > 3) {
+            owner->cycle = 0;
+        }
+    }
+    //Enemy monkey attack
     else if (attackName == "Monkey Attack") {
         owner->cycle++;
     }
@@ -168,6 +197,7 @@ void Attack::UseAttack(CharacterStats* target) {
         if (!owner->charge) {
             damage = 0;
         }
+        target->debuffs.igniteStack += 1;
     }
     //Enemy monkey charge
     else if (attackName == "Monkey Charge") {
@@ -191,12 +221,20 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 
     if (owner->debuffs.tauntTarget == target->entity) {
+        owner->action.battleManager->aiMultiplier += 50000;
+    }
+
+    if (target->debuffs.huntedStack) {
         owner->action.battleManager->aiMultiplier += 10000;
     }
 
     target->TakeDamage(damage);
     if (target->buffs.reflectStack > 0) {
         owner->TakeDamage(0.5f * damage);
+    }
+
+    if (owner->debuffs.igniteStack && chiCost > 0 && attacktype != AttackType::AOE) {
+        owner->TakeDamage(10.f);
     }
 }
 
@@ -219,6 +257,10 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle = 0;
         }
+    }
+
+    if (owner->debuffs.igniteStack && chiCost > 0) {
+        owner->TakeDamage(10.f);
     }
 }
 
@@ -319,6 +361,7 @@ void AttackList::SaveAttack(Attack const& attack) {
     object.AddMember("Crit Multiplier", attack.critMultiplier, allocator);
     object.AddMember("Chi Cost", attack.chiCost, allocator);
     object.AddMember("Bleed", attack.bleed, allocator);
+    object.AddMember("Static", attack.staticAnimation, allocator);
     document.PushBack(object, allocator);
 
     // Save the JSON document to a file
@@ -414,6 +457,11 @@ void AttackList::LoadAttack(std::string attackPath) {
         if (mainObject.HasMember("Bleed")) {
             const rapidjson::Value& object = mainObject["Bleed"];
             atk.bleed = object.GetInt();
+        }
+
+        if (mainObject.HasMember("Static")) {
+            const rapidjson::Value& object = mainObject["Static"];
+            atk.staticAnimation = object.GetBool();
         }
     }
     data[atkname] = atk;

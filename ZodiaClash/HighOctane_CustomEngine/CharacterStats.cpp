@@ -46,6 +46,7 @@ CharacterStats::CharacterStats() {
     stats.health = stats.maxHealth;
     action.characterStats = this;
     boss = false;
+    untargetable = false;
     charge = false;
     checkedStatus = false;
 }
@@ -71,6 +72,7 @@ CharacterStats::CharacterStats(CharacterStats const& input) {
     buffs = input.buffs;
     cycle = input.cycle;
     crit = input.crit;
+    untargetable = input.untargetable;
 }
 
 /**
@@ -109,8 +111,20 @@ void CharacterStats::TakeDamage(float d)
         DEBUG_PRINT("%s took %f damage!", name.c_str(), d);
     }
 
-    this->stats.health -= d;
-    this->damage = d;
+    if (this->buffs.shieldStack) {
+        for (CharacterStats* c : parent->GetEnemies()) {
+            if (c->entity == this->buffs.shieldEntity) {
+                c->stats.health -= d;
+                c->damage = d;
+                break;
+            }
+        }
+    }
+    else {
+        this->stats.health -= d;
+        this->damage = d;
+    }
+    
     if (stats.health <= 0)
     {
         stats.health = 0;

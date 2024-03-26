@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 37,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,7 +33,14 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29"
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36"
             ]
         }
     },
@@ -116,8 +123,8 @@
     {
         "Entity": {
             "Name": "logo",
-            "Current Layer": 7,
-            "Order in Layer": 2,
+            "Current Layer": 8,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -195,8 +202,8 @@
     {
         "Entity": {
             "Name": "now_loading",
-            "Current Layer": 7,
-            "Order in Layer": 1,
+            "Current Layer": 8,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },

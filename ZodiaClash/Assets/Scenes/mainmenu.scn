@@ -1,7 +1,7 @@
 ZodiaClash_MainMenu2.ogg
 mockup_chi_icon.png
-EXPLORATION_MAP_tiling_01.png
 NEW_howtoplay.png
+EXPLORATION_MAP_tiling_01.png
 NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
@@ -25,14 +25,14 @@ Goat_Basic_VFX.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Skill_VFX_Front.spritesheet
 Goat_Skill_VFX_Front.spritesheet
-mockup_icon_cat.png
 Goat_Idle.spritesheet
+mockup_icon_cat.png
 Goat_Idle.spritesheet
 Heal_VFX.spritesheet
 Heal_VFX.spritesheet
 mockup_skillframe (1).png
-catSkill2_tooltip.png
 UI_ICON_bleed.png
+catSkill2_tooltip.png
 skill_icon_skill.png
 skill_icon_ulti.png
 NEW_bg_03.png
@@ -77,6 +77,7 @@ Cat_Death.spritesheet
 Cat_Death.spritesheet
 HELP_button_v02.png
 Leaf.png
+UI_target_circle_f1.png
 Ox Atk 2_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
@@ -85,49 +86,28 @@ Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Scarlet Claw.skill
+Dark Chi Surge.skill
+Secret Arts: Pounce.skill
+Emperor Attack.skill
 Raging Soul Surge will be cast next!.skill
 Raging Soul Surge.skill
-.skill
-Cursed War God's Wrath.skill
+Emperor Buff.skill
+Locking on!.skill
 Dark Rising.skill
-Dark Chi Surge.skill
+Shepherd's Grace.skill
+Monkey Attack.skill
+Monkey Charge.skill
+Jade Thrust.skill
+Monkey AOE.skill
 Shield Smash.skill
 Unstoppable Charge.skill
+.skill
+Cursed War God's Wrath.skill
+Scarlet Claw.skill
 Dance of Fury.skill
-Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
-Shepherd's Grace.skill
-Jade Thrust.skill
+Shield Thrust.skill
+Resolute Charge.skill
+War God's Wrath.skill
 mainmenu.json

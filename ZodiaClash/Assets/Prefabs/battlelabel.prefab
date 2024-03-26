@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 57,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,34 +33,7 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56"
+                "Layer 29"
             ]
         }
     },
@@ -68,7 +41,7 @@
         "Entity": {
             "Name": "Battle Label",
             "Current Layer": 1,
-            "Order in Layer": 0,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -90,8 +63,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 200.0,
-            "height": 60.0
+            "width": 216.0,
+            "height": 77.25
         },
         "Scripts": {
             "className": "",
@@ -153,6 +126,87 @@
                 ]
             }
         ],
-        "Animation Set Default Animation": "Battle Label"
+        "Animation Set Default Animation": "Battle Label",
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "Battle Label Border",
+            "Current Layer": 2,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -7.0,
+            "position_y": 275.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "mockup_skillframe.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 234.0,
+            "height": 98.25
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 60,
+                "Group Name": "Fade",
+                "Loop": false,
+                "Frame Time": 0.026000000536441803,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 48,
+                                "Alpha": 1.0
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Fade",
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

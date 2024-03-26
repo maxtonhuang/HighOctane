@@ -69,11 +69,11 @@ void ExitGame(std::string input) {
 		ECS::ecs().DestroyEntity(exitconfirmationmenu);
 		exitconfirmationmenu = 0;
 
-		if (!pausemenu && input != "Main Menu") {
-			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
-		}
-		else if (bs->battleState == LOSE) {
+		if (bs->battleState == LOSE) {
 			EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
+		}
+		else if (!pausemenu && sceneName != "mainmenu.scn") {
+			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
 		}
 	}
 	else {

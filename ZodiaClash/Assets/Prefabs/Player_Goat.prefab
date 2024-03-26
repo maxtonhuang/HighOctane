@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 23,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -26,7 +26,12 @@
                 "Layer 19",
                 "Layer 20",
                 "Layer 21",
-                "Layer 22"
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27"
             ]
         }
     },
@@ -34,7 +39,7 @@
         "Entity": {
             "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -470,6 +475,16 @@
                                 "Scale": 1.0
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Child Name": "Shadow",
+                                "Child Animation": "Disappear"
+                            }
+                        ]
                     }
                 ]
             },
@@ -735,6 +750,81 @@
         "Child": {
             "position_x": 21.5,
             "position_y": -22.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Shadow",
+            "Current Layer": 0,
+            "Order in Layer": 13,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 569.5005493164063,
+            "position_y": -267.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "circle-512.png"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 283.0011291503906,
+            "height": 56.00002670288086
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 0.18039216101169586,
+            "Green": 0.1725490242242813,
+            "Blue": 0.1725490242242813,
+            "Alpha": 0.19607843458652496,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Disappear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Child": {
+            "position_x": 19.5,
+            "position_y": -117.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

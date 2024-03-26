@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 36,
+            "layerCounter": 70,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -39,7 +39,41 @@
                 "Layer 32",
                 "Layer 33",
                 "Layer 34",
-                "Layer 35"
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69"
             ]
         }
     },
@@ -80,7 +114,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 27,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -106,7 +140,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -131,7 +165,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 23,
+            "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
         },
@@ -158,15 +192,15 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -70.0,
-            "position_y": -349.9999084472656,
+            "position_x": 0.0,
+            "position_y": -800.0,
             "rotation": 0.0,
-            "scale": 1.3480000495910645,
+            "scale": 1.25,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -174,7 +208,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "This is weird. How are these statues alive? Aren't these the Jade Emperor's statues?",
+            "Text String": "Huh? What is happening?",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -205,7 +239,7 @@
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
-                    "Is Active": true,
+                    "Is Active": false,
                     "Is Triggered": false,
                     "Speaker Required": true,
                     "Post Dialogue Scene": true,
@@ -291,7 +325,7 @@
         "Entity": {
             "Name": "Help Button",
             "Current Layer": 2,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -350,7 +384,7 @@
         "Entity": {
             "Name": "Turn Order Attach Point",
             "Current Layer": 0,
-            "Order in Layer": 20,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -359,31 +393,6 @@
             "position_y": -590.5,
             "rotation": 5.83318567276001,
             "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "wintext.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "Win Text",
-            "Current Layer": 0,
-            "Order in Layer": 2,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 270.0,
-            "rotation": 0.0,
-            "scale": 1.4233474731445313,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }

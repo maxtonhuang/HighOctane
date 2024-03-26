@@ -875,6 +875,14 @@ void HUDStatusHelper(StatusEffect::StatusType status, std::string& inputString, 
 		stacks = charstats ? charstats->buffs.reflectStack : 0;
 		inputString = !charstats ? "Effect_Counter.prefab" : "UI_ICON_reflect.png";
 		break;
+	case StatusEffect::HUNTED:
+		stacks = charstats ? charstats->debuffs.huntedStack : 0;
+		inputString = !charstats ? "Effect_Hunted.prefab" : "UI_icon_lock_on.png";
+		break;
+	case StatusEffect::IGNITE:
+		stacks = charstats ? charstats->debuffs.igniteStack : 0;
+		inputString = !charstats ? "Effect_Hunted.prefab" : "UI_icon_ignite.png";
+		break;
 	}
 }
 
@@ -1329,12 +1337,17 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		}
 	}
 	else if (inputTriggerType != DIALOGUE_TRIGGER::DEFAULT) {
-		while (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType != inputTriggerType)) {
-			nonMatchingDialogues.push_back(dialogueQueue.top());
-			dialogueQueue.pop();
+		while (!dialogueQueue.empty()) {
+			if ((dialogueQueue.top()->triggerType != inputTriggerType) || (dialogueQueue.top()->isTriggered))
+			{
+				nonMatchingDialogues.push_back(dialogueQueue.top());
+				dialogueQueue.pop();
+			}
+			else
+				break;
 		}
 		// if match pass dialogue pointer to currentDialogue
-		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType)) {
+		if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType) && (!dialogueQueue.top()->isTriggered)) {
 			currentDialogue = dialogueQueue.top();
 			dialogueQueue.pop();
 		}
@@ -1346,18 +1359,20 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		if (inputTriggerType == DIALOGUE_TRIGGER::HEALTH_BASED && battleSys && currentDialogue){
 			//STOP OX DEATH ANIMATION
 			for (CharacterStats* cs : battleSys->GetEnemies()) {
-				if (cs->stats.health <= 0.f && cs->boss) {
+				if (cs->stats.health <= 0.f && ECS::ecs().GetComponent<Name>(cs->entity).name == "Ox_Enemy") {
 					animationArray.GetData(cs->entity).Stop();
 				}
 			}
 		}
 	}
 	else {
-		currentDialogue = dialogueQueue.top();
-		dialogueQueue.pop();
+		if (!dialogueQueue.empty()) {
+			currentDialogue = dialogueQueue.top();
+			dialogueQueue.pop();
+		}
 	}
 
-	if (currentDialogue && !currentDialogue->isActive) {
+	if (currentDialogue && !currentDialogue->isActive && !currentDialogue->isTriggered) {
 		currentDialogue->isActive = 1;
 		currentDialogue->viewingIndex = 0;
 		if (animationArray.HasComponent(entity)) {
@@ -1463,25 +1478,38 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		}
 
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+		static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
+		static auto& charstatsArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>() };
 		if (animationArray.HasComponent(entity)) {
 			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
 				for (CharacterStats* cs : battleSys->GetEnemies())
 				{
-					if (cs->stats.health <= 0.f && cs->boss) {
+					if (cs->stats.health <= 0.f && ECS::ecs().GetComponent<Name>(cs->entity).name == "Ox_Enemy") {
 						cs->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
 						cs->action.entityState = START;
-						cs->buffs.reflectStack = 99;
+						cs->buffs.reflectStack = 9;
 					}
 				}
-				//events.Call("Restart Music", "ZodiaClash_Boss.ogg");
-				currentDialogue = nullptr;
+				if (battleSys->emperorDead) {
+					Entity monkey1{ EntityFactory::entityFactory().ClonePrefab("enemy_monkey.prefab") };
+					Entity monkey2{ EntityFactory::entityFactory().ClonePrefab("enemy_monkey.prefab") };
+					Entity shield{ EntityFactory::entityFactory().ClonePrefab("enemy_shield.prefab") };
+					transformArray.GetData(monkey2).position.y -= 350.f;
+					charstatsArray.GetData(monkey1).buffs.shieldStack = 1;
+					charstatsArray.GetData(monkey1).buffs.shieldEntity = shield;
+					charstatsArray.GetData(monkey2).buffs.shieldStack = 1;
+					charstatsArray.GetData(monkey2).buffs.shieldEntity = shield;
+					battleSys->AddCharacter(monkey1);
+					battleSys->AddCharacter(monkey2);
+					battleSys->AddCharacter(shield);
+				}
 				battleSys->ProcessDamage();
 			}
 			battleSys->MoveInAllUIAnimation();
 			animationArray.GetData(entity).Start("Exit", entity);
 
 			//Return filter for BGM after dialogue
-			if (!currentDialogue->speakerRequired) {
+			if (currentDialogue->speakerRequired) {
 				assetmanager.audio.SetGroupFilter("BGM", 1.f);
 			}
 		}
