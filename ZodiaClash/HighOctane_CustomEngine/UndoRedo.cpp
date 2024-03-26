@@ -234,7 +234,6 @@ size_t UndoRedo::RedoSize() {
 }
 
 void UndoRedo::Clear() {
-    std::cout << "CLear stacks" << std::endl;
 	undoStack.clear();
 	redoStack.clear();
 }
