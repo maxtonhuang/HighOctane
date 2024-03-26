@@ -41,6 +41,7 @@
 #include "Serialization.h"
 #include "graphics.h"
 #include "Layering.h"
+#include "UndoRedo.h"
 
 AssetManager assetmanager;
 
@@ -425,6 +426,7 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
         LoadRenderer(assetPath);
     }
     else if (extension == ".scn") {
+        undoRedo.Clear();
         LoadScene(assetPath);
     }
     else if (extension == ".json") {

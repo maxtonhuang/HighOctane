@@ -155,6 +155,13 @@ public:
    bool true if is within stack
 *************************************************************************/
     bool Find(Entity entity);
+/*!***********************************************************************
+\brief
+   A helper function to  clear both stack
+\return
+   void
+*************************************************************************/
+    void Clear();
     bool undoFlag = false;
 private:
     struct EntityChanges {
