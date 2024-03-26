@@ -80,11 +80,12 @@
             "Speed": 6,
             "Icon": "mockup_icon_goat.png",
             "Boss": true,
+            "Untargetable": false,
             "Skills": [
-                "Raging Soul Surge",
+                "Raging Surge",
                 "Dark Chi Surge",
                 "Dark Rising",
-                "Raging Soul Surge will be cast next!"
+                "Charging up Raging Surge!"
             ]
         },
         "Model": {

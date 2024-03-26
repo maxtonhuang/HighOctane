@@ -881,7 +881,7 @@ void HUDStatusHelper(StatusEffect::StatusType status, std::string& inputString, 
 		break;
 	case StatusEffect::IGNITE:
 		stacks = charstats ? charstats->debuffs.igniteStack : 0;
-		inputString = !charstats ? "Effect_Hunted.prefab" : "UI_icon_ignite.png";
+		inputString = !charstats ? "Effect_Ignited.prefab" : "UI_icon_ignite.png";
 		break;
 	}
 }

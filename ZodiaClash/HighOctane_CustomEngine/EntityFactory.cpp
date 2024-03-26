@@ -247,8 +247,8 @@ Entity EntityFactory::ClonePrefab(std::string prefabName) {
 	}
 	Entity clone{ CloneMaster(prefab) };
 	ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
-	//PrepareLayeringForSerialization(); //! check this
-	//EmbedSkipLockForSerialization(); //! check this
+	RebuildLayeringAfterDeserialization();
+	ExtractSkipLockAfterDeserialization();
 	return clone;
 }
 

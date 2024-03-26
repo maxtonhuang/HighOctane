@@ -691,10 +691,10 @@ void GraphicsSystem::Draw() {
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] || GetCurrentSystemMode() != SystemMode::EDIT) {
+		if (layersToSkip[layer_it]/* || GetCurrentSystemMode() != SystemMode::EDIT*/) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity] || GetCurrentSystemMode() != SystemMode::EDIT) {
+				if (entitiesToSkip[entity]/* || GetCurrentSystemMode() != SystemMode::EDIT*/) {
 					Tex* tex{};
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {

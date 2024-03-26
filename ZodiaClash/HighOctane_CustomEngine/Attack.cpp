@@ -62,11 +62,14 @@ void Attack::UseAttack(CharacterStats* target) {
     
     }
     //Enemy goat attack
-    else if (attackName == "Raging Soul Surge") {
+    else if (attackName == "Raging Surge") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && owner->charge) {
             owner->TakeDamage(-damage);
             owner->action.battleManager->aiMultiplier += 1000000;
             owner->charge = false;
+        }
+        else if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
+            damage = 0;
         }
     }
     //Player goat attack
@@ -109,7 +112,7 @@ void Attack::UseAttack(CharacterStats* target) {
         target->buffs.attackStack = 1;
     }
     //Enemy goat charge
-    else if (attackName == "Raging Soul Surge will be cast next!") {
+    else if (attackName == "Charging up Raging Surge!") {
         if (owner->stats.health < 0.5f * owner->stats.maxHealth && !owner->charge) {
             owner->action.battleManager->aiMultiplier += 1000000;
         }

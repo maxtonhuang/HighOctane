@@ -397,9 +397,9 @@ void BattleSystem::Update()
                     for (auto& character : turnManage.characterList) {
                         if (character.tag == CharacterType::PLAYER) {
                             character.stats.health += 0.6f * c->stats.maxHealth;
+                            character.damage = 0.6f * c->stats.maxHealth;
                             if (character.stats.health > character.stats.maxHealth) {
                                 character.stats.health = character.stats.maxHealth;
-                                character.damage = -character.stats.maxHealth;
                             }
                         }
                         if (character.tag == CharacterType::ENEMY) {
@@ -941,6 +941,7 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c->entity;
             }
             animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
+            animationArray.GetData(turnOrderAnimator).InstantFinish(turnOrderAnimator);
         }
     }
 }

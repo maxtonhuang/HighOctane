@@ -41,7 +41,7 @@
         "Entity": {
             "Name": "Battle Label",
             "Current Layer": 1,
-            "Order in Layer": 7,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -53,7 +53,7 @@
         },
         "Transform": {
             "position_x": -7.0,
-            "position_y": 275.0,
+            "position_y": 450.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -63,8 +63,8 @@
             "isVisible": true
         },
         "Size": {
-            "width": 216.0,
-            "height": 77.25
+            "width": 500.0,
+            "height": 65.0
         },
         "Scripts": {
             "className": "",
@@ -83,8 +83,8 @@
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
-            "Font Size": 0.5,
-            "Text String": "TextLabel",
+            "Font Size": 0.4000000059604645,
+            "Text String": "Charging up Raging Surge!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -92,7 +92,7 @@
             "Color Preset": "white",
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
-            "Text Wrap": 0,
+            "Text Wrap": 2,
             "Background": true
         },
         "Animation Set": [
@@ -133,7 +133,7 @@
         "Entity": {
             "Name": "Battle Label Border",
             "Current Layer": 2,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -146,7 +146,7 @@
         },
         "Transform": {
             "position_x": -7.0,
-            "position_y": 275.0,
+            "position_y": 450.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -163,8 +163,8 @@
             "isVisible": false
         },
         "Size": {
-            "width": 234.0,
-            "height": 98.25
+            "width": 550.0,
+            "height": 65.0
         },
         "Model": {
             "Model type": 3,
