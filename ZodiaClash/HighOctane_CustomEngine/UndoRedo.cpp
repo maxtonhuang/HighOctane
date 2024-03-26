@@ -233,6 +233,11 @@ size_t UndoRedo::RedoSize() {
    return redoStack.size();
 }
 
+void UndoRedo::Clear() {
+    std::cout << "CLear stacks" << std::endl;
+	undoStack.clear();
+	redoStack.clear();
+}
 
 bool UndoRedo::Find(Entity entity) {
     for (const auto& entityChanges : undoStack) {
