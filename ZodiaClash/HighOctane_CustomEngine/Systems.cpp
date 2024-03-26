@@ -691,10 +691,10 @@ void GraphicsSystem::Draw() {
 
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] || GetCurrentSystemMode() != SystemMode::EDIT) {
+		if (layersToSkip[layer_it] /*|| GetCurrentSystemMode() != SystemMode::EDIT*/) {
 			for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 				Entity entity = layering[layer_it][entity_it];
-				if (entitiesToSkip[entity] || GetCurrentSystemMode() != SystemMode::EDIT) {
+				if (entitiesToSkip[entity] /*|| GetCurrentSystemMode() != SystemMode::EDIT*/) {
 					Tex* tex{};
 					Model* m{};
 					if (modelArray.HasComponent(entity)) {
@@ -971,7 +971,7 @@ void EditingSystem::Update() {
 				break;
 			}
 		}
-						 break;
+		break;
 		}
 
 		case TYPE::MOUSE_MOVE:
@@ -1067,14 +1067,24 @@ void EditingSystem::Update() {
 
 	if (toDestroy) {
 		for (Entity entity : selectedEntities) {
-			if (!fullyDeleteLayer) {
-				undoRedo.RecordCurrent(entity, ACTION::DELENTITY); // if !Delete layer then record
-				ECS::ecs().RemoveComponent<Clone>(entity);
-				entitiesToSkip[entity] = false;
-				entitiesToLock[entity] = false;
+			if (ECS::ecs().HasComponent<Parent>(entity)) {
+				std::vector<Entity>& children = ECS::ecs().GetComponent<Parent>(entity).children;
+				for (Entity child : children) {
+					undoRedo.RecordCurrent(child, ACTION::DELENTITY);
+					entitiesToSkip[child] = false;
+					entitiesToLock[child] = false;
+				}
 			}
 			else {
-				EntityFactory::entityFactory().DeleteCloneModel(entity);
+				if (!fullyDeleteLayer) {
+					undoRedo.RecordCurrent(entity, ACTION::DELENTITY); // if !Delete layer then record
+					ECS::ecs().RemoveComponent<Clone>(entity);
+					entitiesToSkip[entity] = false;
+					entitiesToLock[entity] = false;
+				}
+				else {
+					EntityFactory::entityFactory().DeleteCloneModel(entity);
+				}
 			}
 		}
 		toDestroy = false;

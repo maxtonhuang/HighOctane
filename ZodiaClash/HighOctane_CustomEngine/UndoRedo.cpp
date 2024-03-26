@@ -120,7 +120,9 @@ void UndoRedo::Undo() {
             entitiesToLock[currentState.entity] = false;
             break;
         case ACTION::DELENTITY:
-            ECS::ecs().AddComponent(currentState.entity, Clone{});
+            if (!ECS::ecs().HasComponent<Clone>(currentState.entity)) {
+				ECS::ecs().AddComponent(currentState.entity, Clone{});
+			}
             entitiesToSkip[currentState.entity] = true;
             entitiesToLock[currentState.entity] = true;
             break;
