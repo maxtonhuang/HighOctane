@@ -34,6 +34,8 @@
 #include "Battle.h"
 #include "CharacterStats.h"
 #include "AssetManager.h"
+#include "EntityFactory.h"
+#include "Animation.h"
 #include <random>
 
 #include <rapidjson-master/include/rapidjson/document.h>
@@ -206,16 +208,49 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.igniteStack += 1;
     }
     //Enemy monkey charge
-    else if (attackName == "Monkey Charge") {
-        //if (!owner->charge && !target->charge && target->tag == CharacterType::ENEMY && owner->cycle >= 2) {
-        //    owner->action.battleManager->aiMultiplier += 100000;
-        //    owner->cycle = 0;
-        //}
-        //else {
-        //    owner->action.battleManager->aiMultiplier -= 100000;
-        //}
-        //target->charge = true;
-        owner->action.battleManager->aiMultiplier -= 100000;
+    else if (attackName == "Create Shield") {
+        if (owner->buffs.shieldStack == 0) {
+            bool hasStun{ false };
+            for (auto& enemy : owner->action.battleManager->GetEnemies()) {
+                if (enemy->debuffs.stunStack) {
+                    hasStun = true;
+                    break;
+                }
+            }
+            
+            if (!hasStun) {
+                owner->action.battleManager->aiMultiplier += 200000;
+
+                if (owner->action.battleManager->m_Entities.size()) {
+                    Entity shield{ EntityFactory::entityFactory().ClonePrefab("enemy_shield.prefab") };
+                    for (auto& enemy : owner->action.battleManager->GetEnemies()) {
+                        if (enemy->debuffs.stunStack) {
+                            hasStun = true;
+                            break;
+                        }
+                        enemy->buffs.shieldStack = 1;
+                        enemy->buffs.shieldEntity = shield;
+
+                        if (ECS::ecs().HasComponent<Parent>(enemy->entity)) {
+                            Entity child_shield{ ECS::ecs().GetComponent<Parent>(enemy->entity).GetChildByName("Monkey Shield") };
+                            if (child_shield) {
+                                ECS::ecs().GetComponent<AnimationSet>(child_shield).Start("Appear",child_shield);
+                            }
+                        }
+                    }
+                    owner->action.battleManager->AddCharacter(shield);
+                }
+                
+                owner->cycle++;
+                if (owner->cycle > 2) {
+                    owner->cycle = 0;
+                }
+
+            }
+        }
+        else {
+            owner->action.battleManager->aiMultiplier -= 100000;
+        }
     }
 
     target->debuffs.bloodStack += bleed;

@@ -1495,13 +1495,8 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 					Entity monkey2{ EntityFactory::entityFactory().ClonePrefab("enemy_monkey.prefab") };
 					Entity shield{ EntityFactory::entityFactory().ClonePrefab("enemy_shield.prefab") };
 					transformArray.GetData(monkey2).position.y -= 350.f;
-					charstatsArray.GetData(monkey1).buffs.shieldStack = 1;
-					charstatsArray.GetData(monkey1).buffs.shieldEntity = shield;
-					charstatsArray.GetData(monkey2).buffs.shieldStack = 1;
-					charstatsArray.GetData(monkey2).buffs.shieldEntity = shield;
 					battleSys->AddCharacter(monkey1);
 					battleSys->AddCharacter(monkey2);
-					battleSys->AddCharacter(shield);
 				}
 				battleSys->ProcessDamage();
 			}
