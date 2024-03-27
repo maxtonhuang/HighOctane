@@ -103,7 +103,7 @@
             "Health": 175.0,
             "Attack": 15.0,
             "Defense": 40.0,
-            "Speed": 3,
+            "Speed": 5,
             "Icon": "ox_pfp.png",
             "Boss": false,
             "Untargetable": false,
