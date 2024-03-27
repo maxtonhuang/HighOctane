@@ -180,7 +180,7 @@
                             {
                                 "Frame Number": 5,
                                 "Sounds": [
-                                    "Boss_AtkBuff.wav"
+                                    "Boss_Debuff.wav"
                                 ]
                             }
                         ]

@@ -179,7 +179,7 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
-        target->debuffs.huntedStack = 9;
+        target->debuffs.huntedStack = 1;
     }
     //Enemy emperor attack
     else if (attackName == "Emperor Attack") {
@@ -237,7 +237,7 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0 && attacktype != AttackType::AOE) {
-        owner->TakeDamage(10.f);
+        owner->TakeDamage(0.1f * owner->stats.maxHealth);
     }
 }
 
@@ -263,7 +263,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0) {
-        owner->TakeDamage(10.f);
+        owner->TakeDamage(0.1f * owner->stats.maxHealth);
     }
 }
 

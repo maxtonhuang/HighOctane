@@ -117,6 +117,18 @@
                                 "Blue": 1.0
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "shield damaged 1.wav",
+                                    "shield damaged 2.wav"
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
@@ -141,12 +153,19 @@
                         "Animation Type": "Fade",
                         "Key Frames": [
                             {
-                                "Frame Number": 1,
-                                "Alpha": 1.0
-                            },
-                            {
                                 "Frame Number": 4,
                                 "Alpha": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "shield broken.wav"
+                                ]
                             }
                         ]
                     }

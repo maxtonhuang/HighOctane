@@ -2,7 +2,7 @@
     {
         "Name": "Resolute Charge",
 	"Texture": "OX_skill_icon_skill.png",
-	"Tooltip": "catSkill1_tooltip.prefab",
+	"Tooltip": "tooltip_OxSkill2.prefab",
         "Type": 0,
         "Skill Attack": 100,
         "Minimum Attack Multiplier": 0.7,

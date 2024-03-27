@@ -2,7 +2,7 @@
     {
         "Name": "Shield Thrust",
 	"Texture": "OX_skill_icon_basic.png",
-	"Tooltip": "catSkill1_tooltip.prefab",
+	"Tooltip": "tooltip_OxSkill1.prefab",
         "Type": 0,
         "Skill Attack": 70,
         "Minimum Attack Multiplier": 0.7,

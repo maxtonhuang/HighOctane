@@ -80,6 +80,7 @@
             "Speed": 1,
             "Icon": "NEW_guard_pfp.png",
             "Boss": false,
+            "Untargetable": false,
             "Skills": [
                 "Jade Thrust"
             ]
@@ -163,6 +164,13 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "movement 1.wav",
+                                    "movement 2.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 35,
                                 "Sounds": [

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 65,
+            "layerCounter": 70,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -68,7 +68,12 @@
                 "Layer 61",
                 "Layer 62",
                 "Layer 63",
-                "Layer 64"
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69"
             ]
         }
     },
@@ -138,6 +143,7 @@
                 ]
             }
         ],
-        "Animation Set Default Animation": ""
+        "Animation Set Default Animation": "",
+        "Temporary": {}
     }
 ]

@@ -2,7 +2,7 @@
     {
         "Name": "War God's Wrath",
 	"Texture": "OX_skill_icon_ult.png",
-	"Tooltip": "catSkill1_tooltip.prefab",
+	"Tooltip": "tooltip_OxSkill3.prefab",
         "Type": 1,
         "Skill Attack": 0,
         "Minimum Attack Multiplier": 1.0,
