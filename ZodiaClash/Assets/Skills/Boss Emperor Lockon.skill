@@ -2,7 +2,7 @@
     {
         "Name": "Locking on!",
         "Type": 0,
-        "Skill Attack": 10,
+        "Skill Attack": 0,
         "Minimum Attack Multiplier": 1.0,
         "Maximum Attack Multiplier": 1.0,
         "Crit Rate": 0.0,
