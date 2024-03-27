@@ -74,13 +74,13 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             events.Call("Change Scene", "beginning_cutscene1.scn");
         }
         if (GLFW_KEY_F3 == key) {
-            events.Call("Change Scene", "exploration1.scn");
+            // empty slot
         }
         if (GLFW_KEY_F4 == key) {
-            events.Call("Change Scene", "battle.scn");
+            events.Call("Toggle Scene", std::string{});
         }
         if (GLFW_KEY_F5 == key) {
-            events.Call("Change Scene", "exploration2.scn");
+            events.Call("Change Scene", "battle.scn");
         }
         if (GLFW_KEY_F6 == key) {
             events.Call("Change Scene", "battle2.scn");

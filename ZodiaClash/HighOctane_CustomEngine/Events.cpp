@@ -456,20 +456,10 @@ void ToggleHelp(std::string input) {
 void ToggleScene(std::string input) {
 	(void)input;
 
-	/*if (GetCurrentSystemMode() != SystemMode::PAUSE) {
-		scenemenu = EntityFactory::entityFactory().ClonePrefab("scene_select.prefab");
+	if (GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::SETTINGS || GetCurrentSystemMode() == SystemMode::EDIT) {
+
+		return;
 	}
-	else if (GetCurrentSystemMode() == SystemMode::SETTINGS) {
-		SetCurrentSystemMode(SystemMode::PAUSE);
-		if (scenemenu != 0) {
-			EntityFactory::entityFactory().DeleteCloneModel(scenemenu);
-			scenemenu = 0;
-		}
-		UITutorialSystem* ts = events.GetTutorialSystem();
-		if (ts->systemOverlayOn) {
-			ts->MaintainLayers();
-		}
-	}*/
 
 	if (scenemenu != 0) {
 		EntityFactory::entityFactory().DeleteCloneModel(scenemenu);
@@ -495,6 +485,10 @@ void TransitionScene(std::string input) {
 		TogglePause("");
 		ECS::ecs().DestroyEntity(exitconfirmationmenu);
 		exitconfirmationmenu = 0;
+	}
+	if (scenemenu) {
+		ECS::ecs().DestroyEntity(scenemenu);
+		scenemenu = 0;
 	}
 
 	transitionActive = true;

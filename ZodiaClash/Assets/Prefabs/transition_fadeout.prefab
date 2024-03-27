@@ -47,7 +47,7 @@
     {
         "Entity": {
             "Name": "transition_fadeout",
-            "Current Layer": 7,
+            "Current Layer": 15,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -123,7 +123,7 @@
     {
         "Entity": {
             "Name": "logo",
-            "Current Layer": 8,
+            "Current Layer": 16,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
@@ -202,7 +202,7 @@
     {
         "Entity": {
             "Name": "now_loading",
-            "Current Layer": 8,
+            "Current Layer": 16,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
