@@ -30,7 +30,7 @@
     {
         "Entity": {
             "Name": "Exit Confirmation",
-            "Current Layer": 5,
+            "Current Layer": 10,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -130,7 +130,7 @@
     {
         "Entity": {
             "Name": "overlay",
-            "Current Layer": 4,
+            "Current Layer": 9,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -178,7 +178,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem1",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
@@ -279,7 +279,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem2",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
@@ -380,7 +380,7 @@
     {
         "Entity": {
             "Name": "pause_menuheader",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
