@@ -173,13 +173,13 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->buffs.attackBuff += 0.5;
         owner->buffs.attackStack += 3;
     }
-    //Enemey emperor lock-on
+    //Enemy emperor lock-on
     else if (attackName == "Locking on!") {
         if (owner->cycle == 1 && target->entity == owner->parent->GetPlayers()[0]->entity) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
-        target->debuffs.huntedStack = 1;
+        target->debuffs.huntedStack = 2;
     }
     //Enemy emperor attack
     else if (attackName == "Emperor Attack") {
@@ -194,24 +194,28 @@ void Attack::UseAttack(CharacterStats* target) {
     //Enemy monkey attack
     else if (attackName == "Monkey Attack") {
         owner->cycle++;
+        if (owner->cycle > 2) {
+            owner->cycle = 0;
+        }
     }
     //Enemy monkey AOE
     else if (attackName == "Monkey AOE") {
-        if (!owner->charge) {
-            damage = 0;
+        if (target->debuffs.igniteStack) {
+            owner->action.battleManager->aiMultiplier -= 100000;
         }
         target->debuffs.igniteStack += 1;
     }
     //Enemy monkey charge
     else if (attackName == "Monkey Charge") {
-        if (!owner->charge && !target->charge && target->tag == CharacterType::ENEMY && owner->cycle >= 2) {
-            owner->action.battleManager->aiMultiplier += 100000;
-            owner->cycle = 0;
-        }
-        else {
-            owner->action.battleManager->aiMultiplier -= 100000;
-        }
-        target->charge = true;
+        //if (!owner->charge && !target->charge && target->tag == CharacterType::ENEMY && owner->cycle >= 2) {
+        //    owner->action.battleManager->aiMultiplier += 100000;
+        //    owner->cycle = 0;
+        //}
+        //else {
+        //    owner->action.battleManager->aiMultiplier -= 100000;
+        //}
+        //target->charge = true;
+        owner->action.battleManager->aiMultiplier -= 100000;
     }
 
     target->debuffs.bloodStack += bleed;
@@ -252,13 +256,12 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 
     if (attackName == "Monkey AOE") {
-        if (!owner->charge) {
-            owner->action.battleManager->aiMultiplier -= 100000;
-        }
-        else if (owner->cycle >= 2) {
-            owner->charge = false;
+        if (owner->cycle == 0) {
             owner->action.battleManager->aiMultiplier += 100000;
-            owner->cycle = 0;
+            owner->cycle++;
+        }
+        else {
+            owner->action.battleManager->aiMultiplier -= 100000;
         }
     }
 
