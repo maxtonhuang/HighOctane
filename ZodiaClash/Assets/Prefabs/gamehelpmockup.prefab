@@ -33,7 +33,7 @@
     {
         "Entity": {
             "Name": "gamehelpmenu",
-            "Current Layer": 8,
+            "Current Layer": 13,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -86,7 +86,7 @@
     {
         "Entity": {
             "Name": "overlay",
-            "Current Layer": 7,
+            "Current Layer": 12,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -134,7 +134,7 @@
     {
         "Entity": {
             "Name": "helpmenu_button1",
-            "Current Layer": 9,
+            "Current Layer": 14,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true

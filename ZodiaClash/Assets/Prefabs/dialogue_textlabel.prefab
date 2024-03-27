@@ -16,7 +16,7 @@
     {
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 2,
+            "Current Layer": 6,
             "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
@@ -149,7 +149,7 @@
     {
         "Entity": {
             "Name": "dialogue_speaker",
-            "Current Layer": 4,
+            "Current Layer": 8,
             "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
@@ -217,7 +217,7 @@
     {
         "Entity": {
             "Name": "dialogue_box_bg",
-            "Current Layer": 1,
+            "Current Layer": 5,
             "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
@@ -273,7 +273,7 @@
     {
         "Entity": {
             "Name": "dialogue_speaker_bg",
-            "Current Layer": 3,
+            "Current Layer": 7,
             "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true

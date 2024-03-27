@@ -99,7 +99,7 @@
         },
         "Entity": {
             "Name": "dialogue_box",
-            "Current Layer": 2,
+            "Current Layer": 6,
             "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
