@@ -1032,10 +1032,12 @@ void LoadLayeringData(const rapidjson::Value& layeringObject) {
 
 	if (layeringObject.HasMember("layerNames") && layeringObject["layerNames"].IsArray()) {
 		const rapidjson::Value& layerNamesArray = layeringObject["layerNames"];
-		layerNames.clear();
-		for (rapidjson::SizeType i = 0; i < layerNamesArray.Size(); ++i) {
-			if (layerNamesArray[i].IsString()) {
-				layerNames.push_back(std::make_pair(layerNamesArray[i].GetString(), true)); //
+		if (layerNames.size() < layerCounter) {
+			layerNames.clear();
+			for (rapidjson::SizeType i = 0; i < layerNamesArray.Size(); ++i) {
+				if (layerNamesArray[i].IsString()) {
+					layerNames.push_back(std::make_pair(layerNamesArray[i].GetString(), true)); //
+				}
 			}
 		}
 	}

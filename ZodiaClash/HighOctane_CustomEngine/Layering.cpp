@@ -257,47 +257,23 @@ void RebuildLayeringAfterDeserialization() {
 
 		Name & n = nameArray.GetData(entity);
 
-		if (layering[n.serializationLayer][n.serializationOrderInLayer] == 0) {
+		if (!static_cast<unsigned>(layering[n.serializationLayer][n.serializationOrderInLayer])) {
 			layering[n.serializationLayer][n.serializationOrderInLayer] = entity;
 		}
 		else {
 			layering[n.serializationLayer].emplace_back(entity);
 		}
+	}
 
-		/*if (n.serializationLayer < layering.size()) {
-			if (n.serializationOrderInLayer < layering[n.serializationLayer].size()) {
-
-				layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + n.serializationOrderInLayer, entity);
-
-				printf("Inserted - ");
-
-			}
-			else {
-				int i;
-				for (i = 0; i < layering[n.serializationLayer].size(); i++) {
-					if (nameArray.GetData(layering[n.serializationLayer][i]).serializationOrderInLayer > n.serializationOrderInLayer) {
-						layering[n.serializationLayer].insert(layering[n.serializationLayer].begin() + i, entity);
-						break;
-					}
-				}
-				if (i >= layering[n.serializationLayer].size()) {
-					layering[n.serializationLayer].emplace_back(entity);
-				}
+	// remove zeros from layering.
+	for (size_t i = 0; i < layering.size(); ++i) {
+		for (size_t j = 0; j < layering[i].size(); ++j) {
+			if (!(static_cast<unsigned>(layering[i][j]))) {
+				layering[i].erase(layering[i].begin() + j--);
 			}
 		}
-		else {
-			while (layering.size() <= n.serializationLayer) {
-				CreateNewLayer();
-			}
- 			layering[n.serializationLayer].emplace_back(entity);
-		}*/
-
-		//auto ittt = std::find(layering[n.serializationLayer].begin(), layering[n.serializationLayer].end(), entity);
-		//if (ittt != layering[n.serializationLayer].end()) {
-		//	printf("Entity %d for position %d at position %d\n", entity, n.serializationOrderInLayer, std::distance(layering[n.serializationLayer].begin(), ittt));
-		//}
-
 	}
+	
 }
 
 /******************************************************************************
