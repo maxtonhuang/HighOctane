@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 6,
+            "layerCounter": 1,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -9,7 +9,12 @@
                 "Layer 2",
                 "Layer 3",
                 "Layer 4",
-                "Layer 5"
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10"
             ]
         }
     },
@@ -60,7 +65,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.4000000059604645,
-            "Text String": "In Ancient China, people struggled to keep track of time. Hence, the Jade Emperor came up with a way for everyone to measure time.",
+            "Text String": "With the Jade Emperor defeated, the artifacts started absorbing the Chi of the ten other animals violently. Without hesitation, Mei quickly destroyed the artifacts.",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
@@ -77,47 +82,37 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "",
-                            "Line": "In Ancient China, people struggled to keep track of time. Hence, the Jade Emperor came up with a way for everyone to measure time.",
-                            "Voice": "Cutscene_VO_1.ogg"
+                            "Line": "With the Jade Emperor defeated, the artifacts started absorbing the Chi of the ten other animals violently. Without hesitation, Mei quickly destroyed the artifacts.",
+                            "Voice": ""
                         },
                         {
                             "Speaker": "",
-                            "Line": "He divided time into twelve months, which would then be considered one year. To preserve this order, he created twelve powerful artifacts.",
-                            "Voice": "Cutscene_VO_2.ogg"
+                            "Line": "But the artifacts unleashed a tremendous blast, gravely injuring Mei. As the animals awoke, Shu spotted Mei and hurried to her side.",
+                            "Voice": ""
                         },
                         {
                             "Speaker": "",
-                            "Line": "On his birthday, he announced a Zodiac Race, where the twelve winners will obtain these artifacts and gain immortality and eternal blessings.",
-                            "Voice": "Cutscene_VO_3.ogg"
+                            "Line": "Shu begged the injured Mei for forgiveness and tried desperately to stem the bleeding.",
+                            "Voice": ""
                         },
                         {
                             "Speaker": "",
-                            "Line": "People would also worship them as the greatest animals in Ancient China. Thus, animals from all over the world sent their strongest to participate in the race.",
-                            "Voice": "Cutscene_VO_4.ogg"
+                            "Line": "Despite the efforts, the injury was too severe. In their final moments together, Mei chose to forgive and forget the past grievances.",
+                            "Voice": ""
                         },
                         {
                             "Speaker": "",
-                            "Line": "Mei(Cat), chosen by the Cats, would then journey towards the Jade Mountains in hopes of obtaining one of the artifacts.",
-                            "Voice": "Cutscene_VO_5.ogg"
+                            "Line": "And soon, Mei eventually succumbs to the injury, leaving behind the deeply remorseful Shu.",
+                            "Voice": ""
                         },
                         {
                             "Speaker": "",
-                            "Line": "Shu(rat), best friend of Mei, was also in the race.",
-                            "Voice": "Cutscene_VO_6.ogg"
+                            "Line": "A few days after the whole incident, Yang and the others who had magic affinities created a magical prison to imprison the evil Jade Emperor forever.",
+                            "Voice": ""
                         },
                         {
                             "Speaker": "",
-                            "Line": "The day before, she promised to wake Mei up for the race and compete fairly. ",
-                            "Voice": "Cutscene_VO_8.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "However, on the day of the race itself, she did not wake Mei up, as Mei only realised when she woke up several hours after the race. ",
-                            "Voice": "Cutscene_VO_9.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "Furious and offended, Mei travelled towards the Jade Palace to find Shu for answers.",
+                            "Line": "As for Ancient China, the twelve winners who supposedly won the Zodiac Race ruled the country collectively, as they represented each year based on the order of the Zodiac Race.",
                             "Voice": ""
                         }
                     ],
@@ -130,7 +125,7 @@
                     "Is Triggered": false,
                     "Speaker Required": false,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "exploration1.scn"
+                    "Target Scene": "tbc.scn"
                 }
             ]
         },

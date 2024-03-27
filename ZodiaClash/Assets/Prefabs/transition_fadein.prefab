@@ -46,7 +46,7 @@
     {
         "Entity": {
             "Name": "transition_fadein",
-            "Current Layer": 7,
+            "Current Layer": 15,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
@@ -115,7 +115,7 @@
     {
         "Entity": {
             "Name": "logo",
-            "Current Layer": 8,
+            "Current Layer": 16,
             "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true

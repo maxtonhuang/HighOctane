@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 49,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,43 +23,14 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48"
+                "Layer 19"
             ]
         }
     },
     {
         "Entity": {
             "Name": "sceneselectmenu",
-            "Current Layer": 5,
+            "Current Layer": 10,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
@@ -159,7 +130,7 @@
     {
         "Entity": {
             "Name": "overlay",
-            "Current Layer": 4,
+            "Current Layer": 9,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
@@ -207,7 +178,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem1",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
@@ -308,7 +279,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem2",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
@@ -409,7 +380,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem3",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
@@ -510,7 +481,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem4",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
@@ -611,7 +582,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem5",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
@@ -712,7 +683,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem6",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 12,
             "isLocked": true,
             "isSkipped": true
@@ -813,7 +784,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem7",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 13,
             "isLocked": true,
             "isSkipped": true
@@ -914,7 +885,7 @@
     {
         "Entity": {
             "Name": "pause_menuitem8",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
@@ -1015,7 +986,7 @@
     {
         "Entity": {
             "Name": "pause_return",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
@@ -1116,7 +1087,7 @@
     {
         "Entity": {
             "Name": "sceneselectheader",
-            "Current Layer": 6,
+            "Current Layer": 11,
             "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
