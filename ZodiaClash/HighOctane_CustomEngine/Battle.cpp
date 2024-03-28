@@ -793,6 +793,9 @@ void BattleSystem::ProcessDamage() {
                                         animationArray->GetData(enemyshield).Queue("Death", enemyshield);
                                     }
                                 }
+                                for (CharacterStats* ally : GetPlayers()) {
+                                    ally->debuffs.igniteStack = 0;
+                                }
                                 chi = 5;
                             }
                         }

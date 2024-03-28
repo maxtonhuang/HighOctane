@@ -122,8 +122,10 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Player ox attack
     else if (attackName == "Shield Thrust") {
-        target->debuffs.defenseDebuff = 0.5f;
-        target->debuffs.defenseStack = 2;
+        if (!target->buffs.shieldStack) {
+            target->debuffs.defenseDebuff = 0.5f;
+            target->debuffs.defenseStack = 2;
+        }
     }
     //Enemy ox attack
     else if (attackName == "Shield Smash") {
@@ -134,7 +136,9 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Enemy ox skill
     else if (attackName == "Resolute Charge") {
-        target->debuffs.stunStack += 1;
+        if (!target->buffs.shieldStack) {
+            target->debuffs.stunStack += 1;
+        }
     }
     //Enemy ox skill
     else if (attackName == "Unstoppable Charge") {
@@ -202,12 +206,12 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Enemy monkey AOE
     else if (attackName == "Monkey AOE") {
-        if (target->debuffs.igniteStack) {
+        if (target->debuffs.igniteStack && owner->action.battleManager->GetEnemies().size() > 2) {
             owner->action.battleManager->aiMultiplier -= 100000;
         }
         target->debuffs.igniteStack += 1;
     }
-    //Enemy monkey charge
+    //Enemy monkey shield
     else if (attackName == "Create Shield") {
         if (owner->buffs.shieldStack == 0) {
             bool hasStun{ false };
@@ -253,7 +257,10 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
 
-    target->debuffs.bloodStack += bleed;
+    if (!target->buffs.shieldStack) {
+        target->debuffs.bloodStack += bleed;
+    }
+    
     if (target->debuffs.bloodStack > 5) {
         target->debuffs.bloodStack = 5;
     }
@@ -276,7 +283,7 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0 && attacktype != AttackType::AOE) {
-        owner->TakeDamage(0.1f * owner->stats.maxHealth);
+        owner->TakeDamage(0.2f * owner->stats.maxHealth);
     }
 }
 
@@ -291,7 +298,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 
     if (attackName == "Monkey AOE") {
-        if (owner->cycle == 0) {
+        if (owner->cycle == 0 || owner->action.battleManager->GetEnemies().size() <= 2) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
@@ -301,7 +308,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0) {
-        owner->TakeDamage(0.1f * owner->stats.maxHealth);
+        owner->TakeDamage(0.2f * owner->stats.maxHealth);
     }
 }
 

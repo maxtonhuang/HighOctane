@@ -4,11 +4,11 @@
 	"Texture": "OX_skill_icon_basic.png",
 	"Tooltip": "tooltip_OxSkill1.prefab",
         "Type": 0,
-        "Skill Attack": 70,
+        "Skill Attack": 100,
         "Minimum Attack Multiplier": 0.7,
         "Maximum Attack Multiplier": 1.3,
         "Crit Rate": 0.3,
-        "Crit Multiplier": 1.2,
+        "Crit Multiplier": 1.3,
 	"Chi Cost": -1
     }
 ]
