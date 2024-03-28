@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 37,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -30,7 +30,17 @@
                 "Layer 23",
                 "Layer 24",
                 "Layer 25",
-                "Layer 26"
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36"
             ]
         }
     },
@@ -46,7 +56,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 40,
+            "Order in Layer": 41,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1798,7 +1808,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 39,
+            "Order in Layer": 40,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1818,7 +1828,8 @@
             "Blue": 1.0,
             "Alpha": 1.0,
             "Mirror": true
-        }
+        },
+        "Parent": {}
     },
     {
         "Clone": {},

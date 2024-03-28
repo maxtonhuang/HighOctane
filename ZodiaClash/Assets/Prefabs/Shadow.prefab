@@ -38,8 +38,8 @@
     {
         "Entity": {
             "Name": "Shadow",
-            "Current Layer": 0,
-            "Order in Layer": 10,
+            "Current Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },

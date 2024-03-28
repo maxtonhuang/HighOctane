@@ -66,6 +66,7 @@
 
 constexpr float CORNER_SIZE{ 10.f };
 constexpr float CROSS_SIZE{ 10.f };
+constexpr float Y_OFFSET{ 75.f };
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -449,7 +450,8 @@ void MovementSystem::Update() {
 							}
 							if (boundaryMax.y - boundaryMin.y < GRAPHICS::defaultHeightF) {
 								//boundaryMin.y = -GRAPHICS::h;
-								boundaryMax.y = GRAPHICS::defaultHeightF;
+								boundaryMax.y = GRAPHICS::h;
+								boundaryMin.y = -GRAPHICS::h;
 							}
 						}
 						
@@ -495,7 +497,7 @@ void MovementSystem::Update() {
 							//camera.SetTarget(entity);
 
 							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), 
-								std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
+								std::clamp(transformData->position.y + Y_OFFSET, boundaryMin.y + GRAPHICS::h + Y_OFFSET, boundaryMax.y - GRAPHICS::h + Y_OFFSET));
 
 						}
 					}
