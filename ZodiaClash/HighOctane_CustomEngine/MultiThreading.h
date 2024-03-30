@@ -52,6 +52,9 @@ public:
         return tp;
     }
 
+    ThreadPool(const ThreadPool &) = delete;                // Copy constructor deleted
+    ThreadPool & operator=(const ThreadPool &) = delete;    // Copy assignment operator deleted
+
     // Add a task to the thread pool
     void Enqueue(std::function<void()> task);
 

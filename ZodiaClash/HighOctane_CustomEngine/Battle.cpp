@@ -247,7 +247,7 @@ void BattleSystem::Update()
         //continue battle
         else
         {
-            if (roundManage.characterCount < turnManage.characterList.size())
+            if (roundManage.characterCount < static_cast<int>(turnManage.characterList.size()))
             {
                 activeCharacter = turnManage.turnOrderList.front();
                 while (activeCharacter->untargetable) {
@@ -543,12 +543,12 @@ void BattleSystem::AddCharacter(Entity addition) {
     //Create UI for new character
     if (m->tag == CharacterType::PLAYER) {
         healthbar = EntityFactory::entityFactory().ClonePrefab("ally_healthbar.prefab");
-        hp_offset = healthBarOffset * (GetPlayers().size() - 1);
+        hp_offset = healthBarOffset * static_cast<float>(GetPlayers().size() - 1);
         turnUI = EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab");
     }
     else {
         healthbar = EntityFactory::entityFactory().ClonePrefab("enemy_healthbar.prefab");
-        hp_offset = healthBarOffset * (GetEnemies().size() - 1);
+        hp_offset = healthBarOffset * static_cast<float>(GetEnemies().size() - 1);
         turnUI = EntityFactory::entityFactory().ClonePrefab("turn_enemy.prefab");
     }
     
@@ -1293,7 +1293,7 @@ void BattleSystem::UpdateTargets() {
     bool aoe{ activeCharacter->action.selectedSkill.attacktype == AttackType::AOE };
     int selected{ -1 };
     if (targetCircleList.size() > 0) {
-        for (int i = 0; i < targetCircleList.size(); i++) {
+        for (int i = 0; i < static_cast<int>(targetCircleList.size()); i++) {
             Entity currentTarget{ targetCircleList[i] };
             Model& targetModel{ modelArray.GetData(currentTarget) };
             Button& targetButton{ buttonArray.GetData(currentTarget) };
@@ -1303,7 +1303,7 @@ void BattleSystem::UpdateTargets() {
                 selected = i;
             }
         }
-        for (int i = 0; i < targetCircleList.size(); i++) {
+        for (int i = 0; i < static_cast<int>(targetCircleList.size()); i++) {
             Entity currentTarget{ targetCircleList[i] };
             Button& targetButton{ buttonArray.GetData(currentTarget) };
             Entity hpIcon{};
@@ -1377,7 +1377,7 @@ void BattleSystem::UpdateTargets() {
     //TOOLTIPS
     static Entity tooltipPrefab{};
     bool isHovered{ false };
-    for (int i = 0; i < skillButtons.size(); i++) {
+    for (int i = 0; i < static_cast<int>(skillButtons.size()); i++) {
         Model& skillModel{ modelArray.GetData(skillButtons[i])};
         if (IsWithinObject(skillModel, mousePos)) {
             isHovered = true;

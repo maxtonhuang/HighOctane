@@ -242,7 +242,7 @@ void SelectSkill(std::string input) {
 	ss >> skillnum;
 
 	// ensure the skill number is valid, incase user later input skill 10 or smth
-	if (skillnum < 1 || skillnum > bs->activeCharacter->action.skills.size()) {
+	if (skillnum < 1 || skillnum > static_cast<int>(bs->activeCharacter->action.skills.size())) {
 		//can add error msg if we want 
 		return;
 	}

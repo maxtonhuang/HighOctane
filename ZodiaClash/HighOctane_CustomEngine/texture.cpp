@@ -141,9 +141,9 @@ void Texture::Init(Font& font, const char* texname) {
 			}
 		}
 
-		float t = (float)currHeight / fontHeight;
-		float b = (float)(currHeight + font.fontFace->glyph->bitmap.rows) / fontHeight;
-		float r = (float)font.fontFace->glyph->bitmap.width / fontWidth;
+		float t = static_cast<float>(currHeight) / static_cast<float>(fontHeight);
+		float b = static_cast<float>(currHeight + font.fontFace->glyph->bitmap.rows) / static_cast<float>(fontHeight);
+		float r = static_cast<float>(font.fontFace->glyph->bitmap.width) / static_cast<float>(fontWidth);
 		Texcoords spriteCoords;
 		spriteCoords.bl = glm::vec2{ 0.f, b };
 		spriteCoords.br = glm::vec2{ r, b };
@@ -179,8 +179,8 @@ void Texture::CreateSpriteSheet(int row, int column, int spritenum) {
 	std::vector<Texcoords> newtexcoords;
 	rowCount = row;
 	colCount = column;
-	float colDist = 1.f / column;
-	float rowDist = 1.f / row;
+	float colDist = 1.f / static_cast<float>(column);
+	float rowDist = 1.f / static_cast<float>(row);
 	width = (int)((float) width * colDist);
 	height = (int)((float)height * rowDist);
 	for (int i = 0; i < row; ++i) {

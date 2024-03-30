@@ -436,7 +436,7 @@ void UITutorialSystem::SurfaceTargetLayers(const std::vector<Entity> entities) {
 
 	for (std::pair<Entity, size_t>& pair : originalLayers) {
 		size_t layer = pair.second;
-		size_t newLayer = (highestLayer >= 0) ? topLayer - (highestLayer - layer) : layer;
+		size_t newLayer = /*(highestLayer >= 0) ? */topLayer - (highestLayer - layer)/* : layer*/;
 
 		//originalLayers.push_back(std::make_pair(e, layer));
 		TransferToLayer(pair.first, newLayer);

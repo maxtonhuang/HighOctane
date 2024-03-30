@@ -156,14 +156,14 @@ struct Master {
 
 struct Name {
     std::string             name{};
-    bool                    selected{ false };
-    CLICKED                 clicked = CLICKED::NONE;
     size_t                  group{};
     size_t                  serializationLayer{};
     size_t                  serializationOrderInLayer{};
+    vmath::Vector2          draggingOffset{};
+    CLICKED                 clicked = CLICKED::NONE;
+    bool                    selected{ false };
     bool                    skip{ true };
     bool                    lock{ true };
-    vmath::Vector2          draggingOffset{};
 };
 
 struct Parent {

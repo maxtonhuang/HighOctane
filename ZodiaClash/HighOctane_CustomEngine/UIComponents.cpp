@@ -252,13 +252,13 @@ void TextLabel::CalculateOffset() {
 	switch (textWrap) {
 	case UI_TEXT_WRAP::AUTO_WIDTH:
 		textWidth = longestLineWidth + verticalPadding;
-		textHeight = glyphHeight * lineHeight * lineData.size();
+		textHeight = glyphHeight * lineHeight * static_cast<float>(lineData.size());
 		break;
 	case UI_TEXT_WRAP::AUTO_HEIGHT:
-		textHeight = glyphHeight * lineHeight * lineData.size();
+		textHeight = glyphHeight * lineHeight * static_cast<float>(lineData.size());
 		break;
 	default:
-		textHeight = glyphHeight * lineHeight * lineData.size();
+		textHeight = glyphHeight * lineHeight * static_cast<float>(lineData.size());
 		break;
 	}
 	textHeight += verticalPadding;
@@ -324,13 +324,13 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Pad
 		case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
 			//bottom align
 			line.relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + (0.5f * verticalPadding) + paddingData.bottom;
-			line.relTransform.y += ((lineData.size() - 1) * glyphHeight * lineHeight);
+			line.relTransform.y += (static_cast<float>(lineData.size() - 1) * glyphHeight * lineHeight);
 			
 			break;
 		default:
 			//center align
 			line.relTransform.y = transformData.position.y - (0.5f * glyphHeight);
-			line.relTransform.y += (0.5f * (lineData.size() - 1) * glyphHeight * lineHeight);
+			line.relTransform.y += (0.5f * static_cast<float>(lineData.size() - 1) * glyphHeight * lineHeight);
 			break;
 		}
 		
@@ -1448,7 +1448,7 @@ void DialogueHUD::RemoveDialogue(int index) {
 	}
 
 	// step 3: remove from dialogues vector
-	if (index >= 0 && index < dialogues.size()) {
+	if (index >= 0 && index < static_cast<int>(dialogues.size())) {
 		dialogues.erase(dialogues.begin() + index);
 	}
 }
@@ -1467,7 +1467,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 	BattleSystem* battleSys = events.GetBattleSystem();
 
 	currentDialogue->viewingIndex++;
-	if (currentDialogue->viewingIndex > currentDialogue->dialogueLines.size() - 1) {
+	if (currentDialogue->viewingIndex > static_cast<int>(currentDialogue->dialogueLines.size() - 1)) {
 		currentDialogue->isActive = 0;
 		currentDialogue->isTriggered = 1;
 		currentDialogue->viewingIndex--;
