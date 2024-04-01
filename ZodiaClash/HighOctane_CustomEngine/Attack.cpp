@@ -171,24 +171,24 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->buffs.defenseStack = 2;
     }
     //Enemy emperor buff
-    else if (attackName == "Emperor Buff") {
+    else if (attackName == "Primal Fury") {
         if (owner->cycle == 0 && target->entity == owner->entity) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
         owner->buffs.attackBuff += 0.5;
-        owner->buffs.attackStack += 3;
+        owner->buffs.attackStack += 4;
     }
     //Enemy emperor lock-on
-    else if (attackName == "Locking on!") {
-        if (owner->cycle == 1 && target->entity == owner->parent->GetPlayers()[0]->entity) {
+    else if (attackName == "Hunter's Focus") {
+        if (owner->cycle == 1 && (ECS::ecs().GetComponent<Name>(target->entity).name == "Cat" || ECS::ecs().GetComponent<Name>(target->entity).name == "Player_Goat")) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
         target->debuffs.huntedStack = 2;
     }
     //Enemy emperor attack
-    else if (attackName == "Emperor Attack") {
+    else if (attackName == "Nimble Strike") {
         if (owner->cycle > 1) {
             owner->action.battleManager->aiMultiplier += 10000;
         }
@@ -198,21 +198,21 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
     //Enemy monkey attack
-    else if (attackName == "Monkey Attack") {
+    else if (attackName == "Golden Strike") {
         owner->cycle++;
         if (owner->cycle > 2) {
             owner->cycle = 0;
         }
     }
     //Enemy monkey AOE
-    else if (attackName == "Monkey AOE") {
+    else if (attackName == "Flaming Cyclone") {
         if (target->debuffs.igniteStack && owner->action.battleManager->GetEnemies().size() > 2) {
             owner->action.battleManager->aiMultiplier -= 100000;
         }
         target->debuffs.igniteStack += 1;
     }
     //Enemy monkey shield
-    else if (attackName == "Create Shield") {
+    else if (attackName == "Stone Skin") {
         if (owner->buffs.shieldStack == 0) {
             bool hasStun{ false };
             for (auto& enemy : owner->action.battleManager->GetEnemies()) {

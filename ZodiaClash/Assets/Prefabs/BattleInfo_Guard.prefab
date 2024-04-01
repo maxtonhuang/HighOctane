@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 36,
+            "layerCounter": 32,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -35,11 +35,7 @@
                 "Layer 28",
                 "Layer 29",
                 "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35"
+                "Layer 31"
             ]
         }
     },
@@ -47,7 +43,7 @@
         "Entity": {
             "Name": "BattleInfo_Guard.png",
             "Current Layer": 3,
-            "Order in Layer": 0,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -95,7 +91,7 @@
         "Entity": {
             "Name": "button_x.png",
             "Current Layer": 4,
-            "Order in Layer": 0,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -161,9 +157,9 @@
             "Default Text G": 0.0,
             "Default Text B": 1.0,
             "Default Text A": 1.0,
-            "Hovered Button R": 0.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 0.47843137383461,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 0.1921568661928177,
+            "Hovered Button B": 0.1921568661928177,
             "Hovered Button A": 1.0,
             "Hovered Text R": 1.0,
             "Hovered Text G": 1.0,

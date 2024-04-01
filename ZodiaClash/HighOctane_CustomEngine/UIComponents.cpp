@@ -1364,6 +1364,17 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 				}
 			}
 		}
+		else if (inputTriggerType == DIALOGUE_TRIGGER::POST_BATTLE_WIN && battleSys && currentDialogue) {
+			for (CharacterStats* c : ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>().GetDataArray()) {
+				if (!ECS::ecs().EntityExists(c->entity)) {
+					continue;
+				}
+				if (c->boss) {
+					animationArray.GetData(c->entity).Queue("Undeath", c->entity);
+					break;
+				}
+			}
+		}
 	}
 	else {
 		if (!dialogueQueue.empty()) {
@@ -1480,6 +1491,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
 		static auto& charstatsArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>() };
+		static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
 		if (animationArray.HasComponent(entity)) {
 			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
 				for (CharacterStats* cs : battleSys->GetEnemies())
@@ -1497,6 +1509,9 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 					transformArray.GetData(monkey2).position.y -= 350.f;
 					battleSys->AddCharacter(monkey1);
 					battleSys->AddCharacter(monkey2);
+
+					Entity battleinfo{ battleSys->battleInfoButton };
+					buttonArray.GetData(battleinfo).eventInput = "BattleInfo_Monkey.prefab";
 				}
 				battleSys->ProcessDamage();
 			}

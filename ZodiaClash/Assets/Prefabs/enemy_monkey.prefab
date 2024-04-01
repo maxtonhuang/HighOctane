@@ -103,9 +103,9 @@
             "Boss": false,
             "Untargetable": false,
             "Skills": [
-                "Monkey Attack",
-                "Monkey AOE",
-                "Create Shield"
+                "Golden Strike",
+                "Flaming Cyclone",
+                "Stone Skin"
             ]
         },
         "Model": {

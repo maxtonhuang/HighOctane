@@ -358,6 +358,10 @@ void SceneEntityComponents(Entity entity) {
 				ImGui::EndCombo();
 			}
 
+			if (modelType == BACKGROUND) {
+				ImGui::InputFloat("Scroll Speed", &modelComponent.backgroundScrollSpeed);
+			}
+
 			bool& modelMirror = modelComponent.GetMirrorRef();
 			ImGui::Checkbox("Mirror", &modelMirror);
 

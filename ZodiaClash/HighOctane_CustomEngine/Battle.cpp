@@ -721,7 +721,7 @@ void BattleSystem::ProcessDamage() {
                         }
                         found = true;
                     }
-                    if (c.stats.health != cs->stats.health) {
+                    if (c.stats.health != cs->stats.health || c.debuffs != cs->debuffs) {
                         Entity damageEffect{ EntityFactory::entityFactory().ClonePrefab(damagePrefab) };
                         if (damageEffect) {
                             transformArray->GetData(damageEffect).position = transformArray->GetData(entity).position;
@@ -734,7 +734,7 @@ void BattleSystem::ProcessDamage() {
                         textArray->GetData(damagelabel).textString = std::to_string(abs((int)(c.damage)));
 
                         if (c.stats.health > 0) {
-                            if (damage > 0) {
+                            if (damage > 0.f) {
                                 animationArray->GetData(entity).Queue("Damaged", entity);
 
                                 //For shield, play the respective shield animations for the children also
@@ -756,9 +756,16 @@ void BattleSystem::ProcessDamage() {
                                     c.crit = false;
                                 }
                             }
-                            else {
+                            else if (damage != 0.f) {
                                 textArray->GetData(damagelabel).SetTextColor(glm::vec4{ 0.f,1.f,0.f,1.f });
                             }
+                            
+                            //Delete damage label if damage is 0
+                            if (c.damage == 0.f) {
+                                ECS::ecs().DestroyEntity(damagelabel);
+                            }
+
+                            //Create boss label
                             if (c.boss == true && c.stats.health < 0.5 * c.stats.maxHealth && !ECS::ecs().EntityExists(bossAura)) {
                                 bossAura = EntityFactory::entityFactory().ClonePrefab("Boss_Circle.prefab");
                                 transformArray->GetData(bossAura).position = transformArray->GetData(c.entity).position;
@@ -1041,6 +1048,10 @@ void BattleSystem::AnimateSpeedupTurnOrder() {
         return;
     }
     while (iterator != turnManage.turnOrderList.end() && ((*iterator)->entity != speedupCharacter->entity || !firstfound)) {
+        if ((*iterator)->untargetable) {
+            iterator++;
+            continue;
+        }
         if ((*iterator)->entity == speedupCharacter->entity) {
             firstfound = true;
         }
@@ -1354,6 +1365,10 @@ void BattleSystem::UpdateTargets() {
                 }
             }
             else {
+                if (activeCharacter->action.selectedSkill.attacktype == AttackType::ALLY || activeCharacter->action.selectedSkill.attacktype == AttackType::ALLYSELF) {
+                    continue;
+                }
+
                 if (iconAnimation.activeAnimation != nullptr) {
                     iconAnimation.Stop();
                     modelArray.GetData(hpIcon).SetColor(1.f, 1.f, 1.f);
@@ -1407,7 +1422,6 @@ void BattleSystem::MoveOutUIAnimation() {
         return;
     }
     if (turnIndicator) {
-        //EntityFactory::entityFactory().DeleteCloneModel(turnIndicator);
         animationArray.GetData(turnIndicator).Queue("Hide", turnIndicator);
         turnIndicator = 0;
     }

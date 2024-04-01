@@ -212,3 +212,9 @@ bool CharacterStats::operator==(const CharacterStats& input) const {
     }
     return false;
 }
+
+bool CharacterStats::debuff::operator!=(const debuff& rhs) {
+    bool output{ false };
+    output |= huntedStack != rhs.huntedStack;
+    return output;
+}

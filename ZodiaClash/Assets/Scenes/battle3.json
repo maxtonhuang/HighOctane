@@ -1,107 +1,11 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 72,
+            "layerCounter": 1,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0",
-                "Layer 1",
-                "Layer 2",
-                "Layer 3",
-                "Layer 4",
-                "Layer 5",
-                "Layer 6",
-                "Layer 7",
-                "Layer 8",
-                "Layer 9",
-                "Layer 10",
-                "Layer 11",
-                "Layer 12",
-                "Layer 13",
-                "Layer 14",
-                "Layer 15",
-                "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71"
+                "Layer 0"
             ]
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "background_battle2.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "bg_battle",
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
         }
     },
     {
@@ -142,7 +46,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -168,7 +72,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -196,7 +100,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -401,7 +305,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -426,7 +330,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -499,5 +403,30 @@
             "Padding Setting": 1
         },
         "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "background_battle.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

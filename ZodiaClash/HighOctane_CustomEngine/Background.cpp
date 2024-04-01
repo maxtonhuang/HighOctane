@@ -58,11 +58,7 @@ BackgroundSystem::~BackgroundSystem() {
  * Main update function of the background system
  */
 void BackgroundSystem::Update() {
-	if (!ECS::ecs().HasComponent<Transform>(focus)) {
-		count = 0;
-		return;
-	}
-	float scrolltarget = ECS::ecs().GetComponent<Transform>(focus).position.x / GRAPHICS::w;
+	float scrolltarget = camera.GetPos().x / GRAPHICS::w;
 	graphics.renderer["parallax"].UpdateUniform1fv("scrolltarget", &scrolltarget);
 	graphics.renderer["parallax"].UpdateUniform1fv("scrollspeed", scrolldata, count);
 	count = 0;

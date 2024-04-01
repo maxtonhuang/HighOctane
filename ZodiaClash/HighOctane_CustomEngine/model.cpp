@@ -146,6 +146,7 @@ void Model::Draw(Tex* const entity) {
 		case ModelType::BACKGROUNDLOOP:
 			renderer = parallaxRenderer;
 			graphics.backgroundsystem.AddBackground(backgroundScrollSpeed);
+			graphics.backgroundsystem.Update();
 			break;
 		case ModelType::UI:
 			renderer = staticRenderer;

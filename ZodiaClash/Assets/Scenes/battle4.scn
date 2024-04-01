@@ -1,4 +1,5 @@
 ZodiaClash_Boss.ogg
+Battle Ambience BGM_Edited.wav
 Boss_Circle.spritesheet
 Boss_Circle.spritesheet
 Cat_Ulti.spritesheet
@@ -13,12 +14,12 @@ Heal_VFX.spritesheet
 Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-UI_ICON_bleed.png
 UI_ICON_def_down.png
+UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-mockup_icon_cat.png
 Goat_Idle.spritesheet
+mockup_icon_cat.png
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -44,10 +45,11 @@ Goat_Hit.spritesheet
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
 Goat_Basic.spritesheet
-mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
+mockup_chi_icon_lineart.png
 Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
+Ox_Ulti_VFX.spritesheet
 Goat_Death.spritesheet
 Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
@@ -59,8 +61,8 @@ Ox_Basic.spritesheet
 mockup_icon_goat.png
 ox.png
 mockup_qn_icon.png
-Effect_Ignited.png
 mockup_skillframe.png
+Effect_Ignited.png
 BattleInfo_Ox.png
 UI_target_circle_f1.png
 Ox_Idle.spritesheet
@@ -83,10 +85,10 @@ Emperor_Monkey_buff.spritesheet
 Emperor_Monkey_buff.spritesheet
 UI_ICON_atk_up.png
 skilltooltip_CatSkill1.png
-Emperor_Monkey_AOE.spritesheet
 VFX_Smoke.spritesheet
 Emperor_Monkey_AOE.spritesheet
 VFX_Smoke.spritesheet
+Emperor_Monkey_AOE.spritesheet
 UI_icon_ignite.png
 UI_ICON_reflect.png
 skill_icon_goat_1.png
@@ -101,47 +103,46 @@ Emperor_Monkey_Basic.spritesheet
 Emperor_Monkey_Basic.spritesheet
 tooltip_OxSkill2.png
 UI_ICON_stun.png
-
 Ox_Damaged.spritesheet
 Ox_Damaged.spritesheet
 tooltip_OxSkill3.png
 Ox_Ulti.spritesheet
 Ox_Ulti.spritesheet
-Ox_Ulti_VFX.spritesheet
 UI_ICON_def_up.png
 UI_ICON_taunt.png
-Battle Ambience BGM_Edited.wav
 Cat_Atk_2_Edited.wav
 Guard Damaged_Edited.wav
 Cat Atk_1_Edited.wav
-Guard Atk_Edited.wav
 Boss_AtkBuff.wav
-Cat_Atk_3_Edited.wav
+Guard Atk_Edited.wav
 Cat Damaged_Edited.wav
-Skill Select_Edited.wav
+Cat_Atk_3_Edited.wav
 Hover Target_Edited.wav
+Skill Select_Edited.wav
 Goat Damaged_Edited.wav
 Hover Select_Edited.wav
 Goat Atk 1_Edited.wav
-Boss_Aoe.wav
 Goat Atk 4_Edited.wav
+Boss_Aoe.wav
 Guard Death_Edited.wav
 Goat Death_Edited.wav
-Battle End_Edited.wav
 turnorder.wav
+Battle End_Edited.wav
 turnorder2.wav
-Goat Damaged4_Edited.wav
-Select_Target_Edited.wav
 shield damaged 2.wav
+Select_Target_Edited.wav
+Goat Damaged4_Edited.wav
 boss poof.wav
 shield damaged 1.wav
 Ox Atk 1_Edited.wav
 shield broken.wav
-Ox Atk 3_Edited.wav
 Guard Damaged2_Edited.wav
+Ox Atk 3_Edited.wav
 Cat Damaged3_Edited.wav
 Ox Damaged_Edited.wav
 Ox Damaged3_Edited.wav
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Dark Chi Surge.skill
@@ -152,9 +153,9 @@ Emperor Buff.skill
 Locking on!.skill
 Shepherd's Grace.skill
 Monkey Attack.skill
-Monkey Charge.skill
 Charging up Raging Surge!.skill
 Dark Rising.skill
+Create Shield.skill
 Jade Thrust.skill
 Monkey AOE.skill
 Shield Smash.skill

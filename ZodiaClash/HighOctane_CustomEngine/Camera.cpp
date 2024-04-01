@@ -31,6 +31,7 @@
 #include "Camera.h"
 #include "graphics.h"
 #include <random>
+#include <algorithm>
 
 const float SHAKE_REDUCTION = 50.f * FIXED_DT;
 Camera camera;
@@ -42,7 +43,9 @@ Camera::Camera() {
 void Camera::Update() {
 	if (target != 0 && ECS::ecs().EntityExists(target)) {
 		Transform targetTransform { ECS::ecs().GetComponent<Transform>(target) };
+
 		SetPos(targetTransform.position.x, targetTransform.position.y);
+		Clamp();
 	}
 
 	vmath::Vector2 finalpos{ -pos.x * scale,-pos.y * scale };
@@ -61,6 +64,10 @@ void Camera::Update() {
 	for (auto& r : graphics.renderer) {
 		r.second.UpdateUniformMatrix3fv("uCamera", &matrix);
 	}
+}
+
+void Camera::Clamp() {
+	SetPos(std::clamp(pos.x, -GRAPHICS::w + GRAPHICS::w / scale, GRAPHICS::w - GRAPHICS::w / scale), pos.y);
 }
 
 void Camera::Reset() {

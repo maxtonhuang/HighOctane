@@ -41,9 +41,9 @@
     },
     {
         "Entity": {
-            "Name": "BattleInfo_Ox.png",
+            "Name": "BattleInfo_Monkey",
             "Current Layer": 3,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -66,14 +66,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "BattleInfo_Ox_1.png"
+            "Texture File Path": "BattleInfo_Monkey.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
             "width": 720.0,
-            "height": 608.0
+            "height": 688.0
         },
         "Model": {
             "Model type": 3,
@@ -91,7 +91,7 @@
         "Entity": {
             "Name": "button_x.png",
             "Current Layer": 4,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -102,8 +102,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 289.0,
-            "position_y": 242.0,
+            "position_x": 262.5,
+            "position_y": 272.0,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,
@@ -140,7 +140,7 @@
             "Text String": "",
             "r": 0.0,
             "g": 0.0,
-            "b": 0.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "",
             "Horizontal Alignment": 1,
@@ -223,8 +223,8 @@
         ],
         "Animation Set Default Animation": "",
         "Child": {
-            "position_x": 289.0,
-            "position_y": 242.0,
+            "position_x": 262.5,
+            "position_y": 272.0,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,
