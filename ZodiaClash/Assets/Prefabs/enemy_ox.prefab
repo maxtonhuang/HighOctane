@@ -80,6 +80,7 @@
             "Speed": 2,
             "Icon": "ox_pfp.png",
             "Boss": true,
+            "Untargetable": false,
             "Skills": [
                 "Shield Smash",
                 "Unstoppable Charge",
@@ -160,10 +161,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Ox Damaged_Edited.wav",
-                                    "Ox Damaged2_Edited.wav",
-                                    "Ox Damaged3_Edited.wav",
-                                    "Ox Damaged4_Edited.wav"
+                                    "Ox Hurt_1.wav",
+                                    "Ox Hurt_2.wav",
+                                    "Ox Hurt_3.wav"
                                 ]
                             }
                         ]
@@ -227,6 +227,14 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Ox Attack_1.wav",
+                                    "Ox Attack_2.wav",
+                                    "Ox Attack_3.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 8,
                                 "Sounds": [
@@ -294,6 +302,14 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Ox Attack_1.wav",
+                                    "Ox Attack_2.wav",
+                                    "Ox Attack_3.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 6,
                                 "Sounds": [
@@ -364,6 +380,14 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Ox Attack_1.wav",
+                                    "Ox Attack_2.wav",
+                                    "Ox Attack_3.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 6,
                                 "Sounds": [
@@ -519,7 +543,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Ox Damaged4_Edited.wav"
+                                    "Ox Death_1.wav"
                                 ]
                             }
                         ]

@@ -1,10 +1,19 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 1,
+            "layerCounter": 10,
             "groupCounter": 0,
             "layerNames": [
-                "Layer 0"
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9"
             ]
         }
     },
@@ -46,7 +55,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -72,7 +81,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -134,52 +143,52 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Argh... what is this?",
-                            "Voice": "Ox_5.ogg"
+                            "Voice": "Ox_7.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "How did I even get tempted by this artifact?",
-                            "Voice": "Ox_6.ogg"
+                            "Voice": "Ox_8.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "From what it looks like, the Jade Emperor placed this curse within these artifacts to control us.",
-                            "Voice": "Ox_7.ogg"
+                            "Voice": "Goat_08.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "No way... Are the others also cursed by these artifacts?",
-                            "Voice": "Mei_10.ogg"
+                            "Voice": "Mei_11.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Unfortunately, I believe so...",
-                            "Voice": "Ox_8.ogg"
+                            "Voice": "Goat_09.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Oh no, that means Shu...",
-                            "Voice": "Goat_9.ogg"
+                            "Voice": "Mei_13.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Hmm... If so, then one thing is evident.",
-                            "Voice": "Ox_9.ogg"
+                            "Voice": "Ox_9.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "The Zodiac race is a deceitful scheme by the Jade Emperor. He must be stopped before it's too late!",
-                            "Voice": "Ox_10.ogg"
+                            "Voice": "Ox_10.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Then we must go now! If we join hands, I believe we can stop him.",
-                            "Voice": "Ox_11.ogg"
+                            "Voice": "Goat_10.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Alright, count on me!",
-                            "Voice": "Ox_12.ogg"
+                            "Voice": "Ox_11.wav"
                         }
                     ],
                     "Trigger Type": 5,
@@ -198,7 +207,7 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Prepare to utter your final words, cat!",
-                            "Voice": "Ox_1.ogg"
+                            "Voice": "Ox_3.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -217,17 +226,17 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Huh?",
-                            "Voice": "Ox_2.ogg"
+                            "Voice": "Ox_4.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "You shall not die on me!",
-                            "Voice": "Goat_7.ogg"
+                            "Voice": "Goat_07.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Thanks, now let's wake this ox up!",
-                            "Voice": "Mei_9.ogg"
+                            "Voice": "Mei_10.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -246,12 +255,12 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh... both of you are strong...",
-                            "Voice": "Ox_3.ogg"
+                            "Voice": "Ox_5.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "But you cannot defeat me!",
-                            "Voice": "Ox_4.ogg"
+                            "Voice": "Ox_6.wav"
                         }
                     ],
                     "Trigger Type": 4,
@@ -270,12 +279,12 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Leave while you still can, cat!",
-                            "Voice": ""
+                            "Voice": "Ox_2.wav"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Hmph... Stop me if you can!",
-                            "Voice": ""
+                            "Voice": "Mei_9.wav"
                         }
                     ],
                     "Trigger Type": 2,
@@ -305,7 +314,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -330,7 +339,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },

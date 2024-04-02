@@ -56,7 +56,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 41,
+            "Order in Layer": 40,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1671,7 +1671,7 @@
                         {
                             "Speaker": "Mei",
                             "Line": "This one's a tough one...",
-                            "Voice": "Mei_8.ogg"
+                            "Voice": "Mei_8.wav"
                         }
                     ],
                     "Trigger Type": 1,
@@ -1808,7 +1808,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 40,
+            "Order in Layer": 39,
             "isLocked": true,
             "isSkipped": true
         },

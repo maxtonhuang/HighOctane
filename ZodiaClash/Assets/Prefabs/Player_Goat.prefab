@@ -80,6 +80,7 @@
             "Speed": 3,
             "Icon": "mockup_icon_goat.png",
             "Boss": false,
+            "Untargetable": false,
             "Skills": [
                 "Yin-Yang Strike",
                 "Chi Surge",
@@ -226,6 +227,14 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat_Attack_1.ogg",
+                                    "Goat_Attack_2.ogg",
+                                    "Goat_Attack_3.ogg"
+                                ]
+                            },
+                            {
                                 "Frame Number": 8,
                                 "Sounds": [
                                     "Goat Atk 1_Edited.wav"
@@ -273,11 +282,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Goat Damaged_Edited.wav",
-                                    "Goat Damaged2_Edited.wav",
-                                    "Goat Damaged3_Edited.wav",
-                                    "Goat Damaged4_Edited.wav",
-                                    "Goat Damaged5_Edited.wav"
+                                    "Goat_Hurt_1.ogg",
+                                    "Goat_Hurt_2.ogg",
+                                    "Goat_Hurt_3.ogg"
                                 ]
                             }
                         ]
@@ -388,6 +395,14 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat_Attack_1.ogg",
+                                    "Goat_Attack_2.ogg",
+                                    "Goat_Attack_3.ogg"
+                                ]
+                            },
+                            {
                                 "Frame Number": 2,
                                 "Sounds": [
                                     "Goat Buff_Edited.wav"
@@ -409,7 +424,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Goat Death_Edited.wav"
+                                    "Goat_Death_1.ogg",
+                                    "Goat_Death_2.ogg",
+                                    "Goat_Death_3.ogg"
                                 ]
                             }
                         ]
@@ -561,6 +578,14 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat_Attack_1.ogg",
+                                    "Goat_Attack_2.ogg",
+                                    "Goat_Attack_3.ogg"
+                                ]
+                            },
                             {
                                 "Frame Number": 2,
                                 "Sounds": [

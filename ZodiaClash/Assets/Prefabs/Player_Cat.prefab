@@ -592,13 +592,13 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Cat Damaged_Edited.wav",
-                                    "Cat Damaged2_Edited.wav",
-                                    "Cat Damaged3_Edited.wav",
-                                    "Cat Damaged4_Edited.wav",
-                                    "Cat Damaged5_Edited.wav",
-                                    "Cat Damaged6_Edited.wav",
-                                    "Cat Damaged7_Edited.wav"
+                                    "Mei Hurt_1.wav",
+                                    "Mei Hurt_2.wav",
+                                    "Mei Hurt_3.wav",
+                                    "Mei Hurt_4.wav",
+                                    "Mei Hurt_5.wav",
+                                    "Mei Hurt_2.wav",
+                                    "Mei Hurt_4.wav"
                                 ]
                             }
                         ]
@@ -737,6 +737,19 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Mei Attack_1.wav",
+                                    "Mei Attack_2.wav",
+                                    "Mei Attack_3.wav",
+                                    "Mei Attack_4.wav",
+                                    "Mei Attack_5.wav",
+                                    "Mei Attack_6.wav",
+                                    "Mei Attack_7.wav",
+                                    "Mei Attack_8.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 3,
                                 "Sounds": [
@@ -883,7 +896,14 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Mei Attack_1.wav"
+                                    "Mei Attack_1.wav",
+                                    "Mei Attack_2.wav",
+                                    "Mei Attack_3.wav",
+                                    "Mei Attack_4.wav",
+                                    "Mei Attack_5.wav",
+                                    "Mei Attack_6.wav",
+                                    "Mei Attack_7.wav",
+                                    "Mei Attack_8.wav"
                                 ]
                             },
                             {
@@ -974,6 +994,19 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Mei Attack_1.wav",
+                                    "Mei Attack_2.wav",
+                                    "Mei Attack_3.wav",
+                                    "Mei Attack_4.wav",
+                                    "Mei Attack_5.wav",
+                                    "Mei Attack_6.wav",
+                                    "Mei Attack_7.wav",
+                                    "Mei Attack_8.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 2,
                                 "Sounds": [
@@ -1109,7 +1142,10 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Cat Damaged_Edited.wav"
+                                    "Mei Death_1.wav",
+                                    "Mei Death_2.wav",
+                                    "Mei Death_3.wav",
+                                    "Mei Death_4.wav"
                                 ]
                             }
                         ]

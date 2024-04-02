@@ -61,41 +61,34 @@ BattleInfo_Ox.png
 UI_target_circle_f1.png
 UI_dialogue_box_bg_v03.png
 mockup_playbutton_04.png
+circle-512.png
 Cat_Atk_2_Edited.wav
-Cat Atk_1_Edited.wav
-Guard Damaged_Edited.wav
 Goat_1.ogg
-Cat Damaged_Edited.wav
-Cat_Atk_3_Edited.wav
+Guard Damaged_Edited.wav
+Cat Atk_1_Edited.wav
 Guard Atk_Edited.wav
+Cat_Atk_3_Edited.wav
 Skill Select_Edited.wav
-Goat Damaged_Edited.wav
 Hover Select_Edited.wav
 Goat Atk 1_Edited.wav
 Goat Atk 4_Edited.wav
 Guard Death_Edited.wav
-Goat Death_Edited.wav
 Battle End_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Raging Soul Surge will be cast next!.skill
-Raging Soul Surge.skill
-Dark Rising.skill
-Dark Chi Surge.skill
-Shield Smash.skill
-Monkey Charge.skill
+Golden Strike.skill
+Nimble Strike.skill
+Charging up Raging Surge!.skill
 Shepherd's Grace.skill
-Monkey Attack.skill
-Jade Thrust.skill
-Monkey AOE.skill
+Primal Fury.skill
+Dark Chi Surge.skill
+Raging Surge.skill
+Hunter's Focus.skill
+Dark Rising.skill
+Stone Skin.skill
+Flaming Cyclone.skill
+Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
@@ -104,6 +97,7 @@ Dance of Fury.skill
 Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
+Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill

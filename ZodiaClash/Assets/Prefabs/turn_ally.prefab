@@ -295,14 +295,7 @@
                     },
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "turnorder2.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             },
