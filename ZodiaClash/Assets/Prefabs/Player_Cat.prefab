@@ -80,6 +80,7 @@
             "Speed": 4,
             "Icon": "mockup_icon_cat.png",
             "Boss": false,
+            "Untargetable": false,
             "Skills": [
                 "Scarlet Claw",
                 "Dance of Fury",
@@ -879,6 +880,12 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Mei Attack_1.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 2,
                                 "Sounds": [
