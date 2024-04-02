@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,7 +28,10 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24"
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27"
             ]
         }
     },
@@ -162,7 +165,7 @@
     },
     {
         "Clone": {
-            "Prefab": "emitter.prefab",
+            "Prefab": "emitter_mainmenu.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
@@ -172,7 +175,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
