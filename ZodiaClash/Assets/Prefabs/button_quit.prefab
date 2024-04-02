@@ -39,7 +39,7 @@
         "Entity": {
             "Name": "quitButton",
             "Current Layer": 1,
-            "Order in Layer": 3,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -50,10 +50,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -396.0,
-            "position_y": -276.0,
+            "position_x": -550.0,
+            "position_y": -450.0,
             "rotation": 0.0,
-            "scale": 0.05000000074505806,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -62,14 +62,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "QUIT_button_v02.png"
+            "Texture File Path": "UI_button_quit_white.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 3799.999755859375,
-            "height": 2048.0
+            "width": 161.5,
+            "height": 102.5
         },
         "Scripts": {
             "className": "",
@@ -220,8 +220,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -396.0,
-            "position_y": -276.0,
+            "position_x": -550.0,
+            "position_y": -450.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
