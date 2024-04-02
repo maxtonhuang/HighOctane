@@ -6,10 +6,9 @@ NEW_mainmenu_v02_01.png
 skill_icon_basic.png
 Guard_Death.spritesheet
 Status_Strengthened.png
-mockup_title_logo_02 (1).png
 Guard_Death.spritesheet
 Tutorial 5.png
-button_QUIT_v02.png
+mockup_title_logo_02 (1).png
 Goat_Ulti_VFX.spritesheet
 VFX_Hit.spritesheet
 Goat_Ulti_VFX.spritesheet
@@ -21,11 +20,10 @@ mockup_playbutton_04.png
 Tutorial 12.png
 Boss_Circle.spritesheet
 EXPLORATION_MAP_tiling_05.png
-button_PLAY_v02.png
 Goat_Death.spritesheet
-Goat_Basic_VFX.spritesheet
 Goat_Death.spritesheet
 Status_Bleed.png
+Goat_Basic_VFX.spritesheet
 Goat_Skill_VFX_Front.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Skill_VFX_Front.spritesheet
@@ -61,8 +59,8 @@ EXPLORATION_MAP_tiling_07.png
 catSkill3_tooltip.png
 Goat_Skill_VFX_Back.spritesheet
 Goat_Skill_VFX_Back.spritesheet
-Goat_Ulti.spritesheet
 mockup_chi_icon_lineart.png
+Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
 UI_sound_icon_L.png
 Goat_Ulti.spritesheet
@@ -73,23 +71,22 @@ VFX_Bleed.spritesheet
 Ox_Basic.spritesheet
 EXPLORATION_MAP_tiling_02.png
 EXPLORATION_MAP_tiling_03.png
+UI_button_quit_white.png
 EXPLORATION_MAP_tiling_04.png
 Status_Counter.png
 EXPLORATION_MAP_tiling_06.png
 EXPLORATION_MAP_tiling_08.png
 EXPLORATION_MAP_tiling_09.png
 How to Play.png
+UI_button_help_white.png
 Cat_Run.spritesheet
 Cat_Run.spritesheet
 Cutscene_v01_01.png
 exploration bg_03.png
 MAINMENU_illust_03_v01.png
-START_button_v02.png
-QUIT_button_v02.png
 new_logo_03.png
 Cat_Death.spritesheet
 Cat_Death.spritesheet
-HELP_button_v02.png
 Leaf.png
 UI_target_circle_f1.png
 Emperor_Monkey_Idle.spritesheet
@@ -97,6 +94,7 @@ BORDER_side_test_02.png
 Emperor_Monkey_Idle.spritesheet
 BG_sunset_level.png
 button_x.png
+UI_ICON_stun.png
 BattleInfo_Emperor.png
 BattleInfo_Goat_1.png
 BattleInfo_Guard_1.png
@@ -172,6 +170,10 @@ UI_icon_lock_on.png
 UI_Menu_Hover_Streak.spritesheet
 UI_Menu_Hover_Streak.spritesheet
 UI_sound_icon_S.png
+UI_button_start_white.png
+UI_button_credits_white.png
+UI_button_settings_white.png
+QUIT_button_v02.png
 Ox Atk 2_Edited.wav
 Hover Select_Edited.wav
 Skill Select_Edited.wav
