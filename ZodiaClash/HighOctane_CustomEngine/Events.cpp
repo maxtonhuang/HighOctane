@@ -127,6 +127,8 @@ void ChangeScene(std::string input) {
 	newSceneName = input;
 	destroyAll = true;
 	loadingBuffer = true;
+	keyObjectID = std::numeric_limits<Entity>().max();
+	keyObjectColor = { RESET_VEC4 };
 	// Change the current system mode to run, probably shouldn't be here
 	//currentSystemMode = SystemMode::RUN; // change to run mode
 
