@@ -1,10 +1,12 @@
 ZodiaClash_MainMenu2.ogg
 mockup_chi_icon.png
-NEW_howtoplay.png
 EXPLORATION_MAP_tiling_01.png
+NEW_howtoplay.png
 NEW_mainmenu_v02_01.png
 skill_icon_basic.png
+Status_Strengthened.png
 Guard_Death.spritesheet
+Tutorial 5.png
 Guard_Death.spritesheet
 mockup_title_logo_02 (1).png
 button_QUIT_v02.png
@@ -16,11 +18,13 @@ Cat_Idle.spritesheet
 Cat_Idle.spritesheet
 Boss_Circle.spritesheet
 Boss_Circle.spritesheet
+Tutorial 12.png
 mockup_playbutton_04.png
-Goat_Death.spritesheet
-Goat_Death.spritesheet
-button_PLAY_v02.png
 EXPLORATION_MAP_tiling_05.png
+button_PLAY_v02.png
+Goat_Death.spritesheet
+Status_Bleed.png
+Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Basic_VFX.spritesheet
 Goat_Skill_VFX_Front.spritesheet
@@ -28,6 +32,7 @@ Goat_Skill_VFX_Front.spritesheet
 Goat_Idle.spritesheet
 mockup_icon_cat.png
 Goat_Idle.spritesheet
+Slider_Button_02.png
 Heal_VFX.spritesheet
 Heal_VFX.spritesheet
 mockup_skillframe (1).png
@@ -35,11 +40,13 @@ UI_ICON_bleed.png
 catSkill2_tooltip.png
 skill_icon_skill.png
 skill_icon_ulti.png
+Status_Stunned.png
 NEW_bg_03.png
 NEW_guard_pfp.png
 GUARD_idle.png
-mockup_pausemenu.png
+Tutorial 9.png
 EXPLORATION_MAP_asset_rock.png
+mockup_pausemenu.png
 UI_Target_Circle.spritesheet
 UI_Target_Circle.spritesheet
 NEW_howtoplay2.png
@@ -47,19 +54,26 @@ mockup_qn_icon.png
 goat.png
 Goat_Hit.spritesheet
 Goat_Hit.spritesheet
+Goat_Basic.spritesheet
+Goat_Basic.spritesheet
 catSkill1_tooltip.png
-Goat_Basic.spritesheet
-Goat_Basic.spritesheet
-catSkill3_tooltip.png
 EXPLORATION_MAP_tiling_07.png
+catSkill3_tooltip.png
 Goat_Skill_VFX_Back.spritesheet
 Goat_Skill_VFX_Back.spritesheet
+mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
+UI_sound_icon_L.png
+Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
+Ox_Ulti_VFX.spritesheet
 VFX_Bleed.spritesheet
+Ox_Basic.spritesheet
 VFX_Bleed.spritesheet
+Ox_Basic.spritesheet
 EXPLORATION_MAP_tiling_02.png
 EXPLORATION_MAP_tiling_03.png
+Status_Counter.png
 EXPLORATION_MAP_tiling_04.png
 EXPLORATION_MAP_tiling_06.png
 EXPLORATION_MAP_tiling_08.png
@@ -78,35 +92,116 @@ Cat_Death.spritesheet
 HELP_button_v02.png
 Leaf.png
 UI_target_circle_f1.png
+Emperor_Monkey_Idle.spritesheet
+BORDER_side_test_02.png
+Emperor_Monkey_Idle.spritesheet
+BG_sunset_level.png
+button_x.png
+BattleInfo_Emperor.png
+BattleInfo_Goat_1.png
+BattleInfo_Guard_1.png
+BattleInfo_Monkey.png
+BattleInfo_Ox_1.png
+Effect_Ignited.png
+mockup_skillframe.png
+BORDER_side_test_01.png
+BORDER_test_01.png
+BORDER_test_02.png
+skilltooltip_CatSkill1.png
+skilltooltip_CatSkill2.png
+skilltooltip_CatSkill3.png
+Cat_Exploration_Idle.spritesheet
+Cat_Exploration_Idle.spritesheet
+circle-512.png
+Cutscene_v02_01.png
+Cutscene_v02_02.png
+Cutscene_v02_03.png
+Cutscene_v02_04.png
+Cutscene_v02_05.png
+Cutscene_v02_06.png
+Cutscene_v02_07.png
+Cutscene_v02_08.png
+UI_dialogue_box_bg_v02.png
+UI_dialogue_box_bg_v03.png
+Status_Broken.png
+Status_Enraged.png
+Effect_Hunted.png
+Status_Taunted.png
+VFX_Smoke.spritesheet
+Emperor_Monkey_AOE.spritesheet
+VFX_Smoke.spritesheet
+Emperor_Monkey_AOE.spritesheet
+Emperor_Monkey_Basic.spritesheet
+Emperor_Monkey_Basic.spritesheet
+Emperor_Monkey_buff.spritesheet
+Emperor_Monkey_buff.spritesheet
+Ox_Idle.spritesheet
+Ox_Idle.spritesheet
+UI_pause_menu_v02.png
+Exploration_Tutorial.png
+ox.png
+Ox_Damaged.spritesheet
+Ox_Damaged.spritesheet
+Ox_Death.spritesheet
+skilltooltip_GoatSkill3.png
+Ox_Death.spritesheet
+Ox_Skill.spritesheet
+Tutorial 4.png
+Ox_Skill.spritesheet
+Ox_Ulti.spritesheet
+Ox_Ulti.spritesheet
+Slider_01.png
+Slider_Button_01.png
+UI_ICON_atk_up.png
+tooltip_GoatSkill2.png
+skilltooltip_GoatSkill1.png
+skilltooltip_GoatSkill2.png
+tooltip_OxSkill1.png
+tooltip_OxSkill2.png
+tooltip_OxSkill3.png
+Tutorial 1.png
+Tutorial 2.png
+Tutorial 3.png
+Tutorial 6.png
+Tutorial 7.png
+Tutorial 8.png
+Tutorial 10.png
+Tutorial 11.png
+Tutorial 13.png
+UI_icon_lock_on.png
+UI_Menu_Hover_Streak.spritesheet
+UI_Menu_Hover_Streak.spritesheet
+UI_sound_icon_S.png
 Ox Atk 2_Edited.wav
 Hover Select_Edited.wav
+Hover Target_Edited.wav
 Skill Select_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Dark Chi Surge.skill
-Secret Arts: Pounce.skill
-Emperor Attack.skill
-Raging Soul Surge will be cast next!.skill
-Raging Soul Surge.skill
-Emperor Buff.skill
-Locking on!.skill
-Dark Rising.skill
+Golden Strike.skill
+Nimble Strike.skill
+Charging up Raging Surge!.skill
 Shepherd's Grace.skill
-Monkey Attack.skill
-Monkey Charge.skill
-Jade Thrust.skill
-Monkey AOE.skill
+Primal Fury.skill
+Dark Chi Surge.skill
+Raging Surge.skill
+Hunter's Focus.skill
+Dark Rising.skill
+Stone Skin.skill
+Flaming Cyclone.skill
 Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
 Scarlet Claw.skill
 Dance of Fury.skill
+Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
+Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill
