@@ -292,6 +292,17 @@
                                 "Scale": 0.0
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "turnorder2.wav"
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
@@ -358,7 +369,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "turnorder.wav"
+                                    "Tutorial_Panel_Whoosh.wav"
                                 ]
                             }
                         ]
