@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 24,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,17 +23,13 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23"
+                "Layer 19"
             ]
         }
     },
     {
         "Entity": {
-            "Name": "button",
+            "Name": "settingsButton",
             "Current Layer": 1,
             "Order in Layer": 2,
             "isLocked": true,
@@ -46,7 +42,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -550.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
@@ -58,14 +54,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": ""
+            "Texture File Path": "UI_button_settings_white.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 200.0,
-            "height": 100.0
+            "width": 327.0,
+            "height": 102.0
         },
         "Scripts": {
             "className": "",
@@ -85,7 +81,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Button",
+            "Text String": "",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -101,9 +97,9 @@
             "Default Button G": 1.0,
             "Default Button B": 1.0,
             "Default Button A": 1.0,
-            "Default Text R": 1.0,
-            "Default Text G": 1.0,
-            "Default Text B": 1.0,
+            "Default Text R": 0.0,
+            "Default Text G": 0.0,
+            "Default Text B": 0.0,
             "Default Text A": 1.0,
             "Hovered Button R": 1.0,
             "Hovered Button G": 1.0,
@@ -121,7 +117,7 @@
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Test",
+            "Event Name": "Toggle Settings",
             "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -148,12 +144,52 @@
                         ]
                     },
                     {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Red": 0.0,
+                                "Green": 0.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
                         "Animation Type": "Child",
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
                                 "Child Name": "UI_Streak",
                                 "Child Animation": "Start"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Reset",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Color",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Red": 1.0,
+                                "Green": 1.0,
+                                "Blue": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "UI_Streak",
+                                "Child Animation": "Stop"
                             }
                         ]
                     }
@@ -177,24 +213,6 @@
                         ]
                     }
                 ]
-            },
-            {
-                "Total Frames": 1,
-                "Group Name": "Reset",
-                "Loop": false,
-                "Frame Time": 0.01666666753590107,
-                "Animations": [
-                    {
-                        "Animation Type": "Child",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Child Name": "UI_Streak",
-                                "Child Animation": "Stop"
-                            }
-                        ]
-                    }
-                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -204,7 +222,7 @@
         "Entity": {
             "Name": "UI_Streak",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -216,8 +234,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -396.0,
-            "position_y": -276.0,
+            "position_x": -550.0,
+            "position_y": 0.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -252,7 +270,7 @@
                 "Total Frames": 5,
                 "Group Name": "Start",
                 "Loop": false,
-                "Frame Time": 0.10000000149011612,
+                "Frame Time": 0.017000000923871994,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",

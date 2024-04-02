@@ -398,19 +398,25 @@ void TogglePause(std::string input) {
  * std::string input : The input string. (Not used)
  */
 void ToggleSettings(std::string input) {
-	if (GetCurrentSystemMode() == SystemMode::PAUSE) {
-		SetCurrentSystemMode(SystemMode::SETTINGS);
-		settingsmenu = EntityFactory::entityFactory().ClonePrefab("settingsmenu.prefab");
-	}
-	else if (GetCurrentSystemMode() == SystemMode::SETTINGS) {
-		SetCurrentSystemMode(SystemMode::PAUSE);
+	if (GetCurrentSystemMode() == SystemMode::SETTINGS) {
+		SetCurrentSystemMode(GetPreviousSystemMode());
+
 		if (settingsmenu != 0) {
-			EntityFactory::entityFactory().DeleteCloneModel(settingsmenu);
+			ECS::ecs().DestroyEntity(settingsmenu);
 			settingsmenu = 0;
 		}
-		UITutorialSystem* ts = events.GetTutorialSystem();
-		if (ts->systemOverlayOn) {
-			ts->MaintainLayers();
+
+		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
+			UITutorialSystem* ts = events.GetTutorialSystem();
+			if (ts->systemOverlayOn) {
+				ts->MaintainLayers();
+			}
+		}
+	}
+	else {
+		SetCurrentSystemMode(SystemMode::SETTINGS);
+		if (settingsmenu == 0) {
+			settingsmenu = EntityFactory::entityFactory().ClonePrefab("settingsmenu.prefab");
 		}
 	}
 }
@@ -459,8 +465,16 @@ void ToggleScene(std::string input) {
 	(void)input;
 
 	if (GetCurrentSystemMode() == SystemMode::PAUSE || GetCurrentSystemMode() == SystemMode::GAMEHELP || GetCurrentSystemMode() == SystemMode::SETTINGS || GetCurrentSystemMode() == SystemMode::EDIT) {
+		if (scenemenu != 0) {}
+			// do nothing, skip over
+		else
+			return;
+	}
 
-		return;
+	events.Call("Toggle Pause", std::string{}); // pseudo pause
+	if (pausemenu != 0) {
+		EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+		pausemenu = 0;
 	}
 
 	if (scenemenu != 0) {

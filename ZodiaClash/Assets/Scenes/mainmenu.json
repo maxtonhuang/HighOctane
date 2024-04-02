@@ -77,8 +77,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -227.0,
-            "position_y": 232.0,
+            "position_x": -550.0,
+            "position_y": 350.0,
             "rotation": 0.0,
             "scale": 0.2209072709083557,
             "velocity_x": 0.0,
@@ -97,15 +97,15 @@
         "Entity": {
             "Name": "quitButton",
             "Current Layer": 1,
-            "Order in Layer": 3,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -396.0,
-            "position_y": -276.0,
+            "position_x": -550.0,
+            "position_y": -450.0,
             "rotation": 0.0,
-            "scale": 0.05000000074505806,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -123,15 +123,15 @@
         "Entity": {
             "Name": "helpButton",
             "Current Layer": 1,
-            "Order in Layer": 1,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -394.0,
-            "position_y": -113.0,
+            "position_x": -550.0,
+            "position_y": -150.0,
             "rotation": 0.0,
-            "scale": 0.05000000074505806,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -149,15 +149,15 @@
         "Entity": {
             "Name": "startButton",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -387.0,
-            "position_y": 69.0,
+            "position_x": -550.0,
+            "position_y": 150.0,
             "rotation": 0.0,
-            "scale": 0.05000000074505806,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -175,7 +175,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -187,5 +187,57 @@
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
+    },
+    {
+        "Clone": {
+            "Prefab": "button_credits.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "creditsButton",
+            "Current Layer": 1,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -550.0,
+            "position_y": -300.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "button_settings.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "settingsButton",
+            "Current Layer": 1,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -550.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Parent": {}
     }
 ]

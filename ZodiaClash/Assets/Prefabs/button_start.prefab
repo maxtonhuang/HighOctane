@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 20,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -23,12 +23,7 @@
                 "Layer 16",
                 "Layer 17",
                 "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24"
+                "Layer 19"
             ]
         }
     },
@@ -36,7 +31,7 @@
         "Entity": {
             "Name": "startButton",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -47,10 +42,10 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -387.0,
-            "position_y": 69.0,
+            "position_x": -550.0,
+            "position_y": 150.0,
             "rotation": 0.0,
-            "scale": 0.05000000074505806,
+            "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -59,14 +54,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "START_button_v02.png"
+            "Texture File Path": "UI_button_start_white.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 4539.99951171875,
-            "height": 2400.000244140625
+            "width": 192.9499969482422,
+            "height": 102.0
         },
         "Scripts": {
             "className": "",
@@ -227,7 +222,7 @@
         "Entity": {
             "Name": "UI_Streak",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -239,8 +234,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -387.0,
-            "position_y": 69.0,
+            "position_x": -550.0,
+            "position_y": 150.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
