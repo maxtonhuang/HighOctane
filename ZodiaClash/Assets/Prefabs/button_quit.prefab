@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 29,
+            "layerCounter": 25,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,11 +28,7 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28"
+                "Layer 24"
             ]
         }
     },
@@ -40,7 +36,7 @@
         "Entity": {
             "Name": "quitButton",
             "Current Layer": 1,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -106,25 +102,25 @@
             "Default Button G": 1.0,
             "Default Button B": 1.0,
             "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
+            "Default Text R": 1.0,
+            "Default Text G": 1.0,
+            "Default Text B": 1.0,
             "Default Text A": 1.0,
-            "Hovered Button R": 0.0,
+            "Hovered Button R": 1.0,
             "Hovered Button G": 1.0,
-            "Hovered Button B": 0.47843137383461,
+            "Hovered Button B": 1.0,
             "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
+            "Hovered Text R": 1.0,
+            "Hovered Text G": 1.0,
             "Hovered Text B": 1.0,
             "Hovered Text A": 1.0,
             "Focused Button R": 1.0,
             "Focused Button G": 1.0,
             "Focused Button B": 1.0,
             "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
+            "Focused Text R": 1.0,
+            "Focused Text G": 1.0,
+            "Focused Text B": 1.0,
             "Focused Text A": 1.0,
             "Event Name": "Exit Game",
             "Event Input": "",
@@ -209,7 +205,7 @@
         "Entity": {
             "Name": "UI_Streak",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -257,7 +253,7 @@
                 "Total Frames": 5,
                 "Group Name": "Start",
                 "Loop": false,
-                "Frame Time": 0.10000000149011612,
+                "Frame Time": 0.017000000923871994,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
