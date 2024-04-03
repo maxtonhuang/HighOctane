@@ -1550,7 +1550,7 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
 				if (GetCurrentSystemMode() == SystemMode::RUN && currentDialogue && currentDialogue->dialogueLines.size()) {
-					if (!currentDialogue->speakerRequired && (sceneName == "beginning_cutscene1.scn" || sceneName == "ending_cutscene.scn")) {
+					if (!currentDialogue->speakerRequired && (sceneName == "beginning_cutscene.scn" || sceneName == "ending_cutscene.scn")) {
 							continue;
 					}
 					JumpNextLine(entity);

@@ -301,6 +301,9 @@ void GraphicsManager::DrawLabel(TextLabel& txtLblData, glm::vec4 color) {
         float yPos;
         for (c = line.lineString.begin(); c != line.lineString.end(); c++) {
             Character ch{ fontData.characters[*c] };
+            if (ch.textureID == nullptr) {
+				continue;
+			}
             xPos = (xPos + ch.bearing.x * fontSize);
             yPos = (initPosY - (ch.size.y - ch.bearing.y) * fontSize);
                 

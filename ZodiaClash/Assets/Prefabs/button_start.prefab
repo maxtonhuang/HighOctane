@@ -126,7 +126,7 @@
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
             "Event Name": "Transition Scene",
-            "Event Input": "beginning_cutscene1.scn",
+            "Event Input": "beginning_cutscene.scn",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,

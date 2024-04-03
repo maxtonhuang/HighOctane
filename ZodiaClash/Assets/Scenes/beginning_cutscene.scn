@@ -1,17 +1,39 @@
 ZodiaClash_MainMenu2.ogg
 mockup_playbutton_04.png
 NEW_bg_03.png
+Cutscene_v01_01.png
+Cutscene_v01_02.png
+Cutscene_v01_03.png
+Cutscene_v01_04.png
+Cutscene_v01_05.png
+Cutscene_v01_06.png
+Cutscene_v01_07.png
+Goat_Idle.spritesheet
+Goat_Idle.spritesheet
+Cutscene_v01_08.png
 UI_dialogue_box_bg_v02.png
-Cutscene_v02_01.png
-Cutscene_v02_02.png
-Cutscene_v02_03.png
-Cutscene_v02_04.png
-Cutscene_v02_05.png
-Cutscene_v02_06.png
-Cutscene_v02_07.png
-Cutscene_v02_08.png
 UI_dialogue_box_bg_v03.png
+Intro_Part_1_01.png
+Intro_Part_1_02.png
+Intro_Part_1_03.png
+Intro_Part_1_04.png
+Intro_Part_1_05.png
+Intro_Part_1_06.png
+Intro_Part_2_01.png
+Intro_Part_2_02.png
+Intro_Part_2_03.png
+Intro_Part_2_04.png
+Intro_Part_2_05.png
+Intro_Part_2_06.png
+Cutscene_VO_8.ogg
+Cutscene_VO_1.ogg
+Cutscene_VO_6.5.ogg
+Cutscene_VO_2.ogg
+Cutscene_VO_3.ogg
+Cutscene_VO_4.ogg
+Cutscene_VO_5.ogg
 Cutscene_VO_6.ogg
+Cutscene_VO_7.ogg
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -23,19 +45,18 @@ Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
-Raging Soul Surge will be cast next!.skill
-Raging Soul Surge.skill
-Dark Rising.skill
-Dark Chi Surge.skill
-Shield Smash.skill
-Monkey Charge.skill
+Golden Strike.skill
+Nimble Strike.skill
+Charging up Raging Surge!.skill
 Shepherd's Grace.skill
-Monkey Attack.skill
-Jade Thrust.skill
-Monkey AOE.skill
+Primal Fury.skill
+Dark Chi Surge.skill
+Raging Surge.skill
+Hunter's Focus.skill
+Dark Rising.skill
+Stone Skin.skill
+Flaming Cyclone.skill
+Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
@@ -44,7 +65,8 @@ Dance of Fury.skill
 Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
+Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill
-beginning_cutscene2.json
+beginning_cutscene.json
