@@ -1,0 +1,181 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 35,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "Emperor_AOE_VFX.png",
+            "Current Layer": 0,
+            "Order in Layer": 17,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "Emperor_AOE_VFX.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 958.0,
+            "height": 959.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Collider": {
+            "Collider Enum": 0,
+            "Dimension X": 958.0,
+            "Dimension Y": 959.0,
+            "Type": 1,
+            "Event Name": "",
+            "Event Input": ""
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Start",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "X movement": 0.0,
+                                "Y movement": 200.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Destination": "Main"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 7,
+                "Group Name": "Main",
+                "Loop": false,
+                "Frame Time": 0.05999999865889549,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 6
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraReset",
+                        "Key Frames": []
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Start"
+    }
+]
