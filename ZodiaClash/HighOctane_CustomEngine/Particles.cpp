@@ -105,7 +105,10 @@ void ParticleManager::Draw(int layer)
 {
 	static Renderer* particleRenderer = &graphics.renderer["particle"];
 	
-	previousRenderer->Draw();
+	if (previousRenderer) {
+		previousRenderer->Draw();
+	}
+	
 	for (Particle& p : particleList) 
 	{
 		if (!p.active) continue;

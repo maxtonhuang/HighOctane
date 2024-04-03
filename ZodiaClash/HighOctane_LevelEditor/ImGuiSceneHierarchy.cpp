@@ -45,9 +45,7 @@
 #include <variant>
 #include "model.h"
 #include "UIComponents.h"
-#include "ScriptEngine.h"
 #include "CharacterStats.h"
-#include "Scripting.h"
 #include <sstream>
 #include "ImGuiComponents.h"
 #include "Serialization.h"
@@ -965,90 +963,7 @@ void SceneEntityComponents(Entity entity) {
 	// 	if (ECS::ecs().HasComponent<Master>(entity)) {
 	// 		return;
 	// 	}
-	if (ECS::ecs().HasComponent<Script>(entity) && !ECS::ecs().HasComponent<Master>(entity)) {
-		
-
-
-
-
-		if (ImGui::TreeNodeEx((void*)typeid(Script).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Scripts")) {
-			if (!fullNameVecImGUI.empty()) {
-		
-				if (ImGui::BeginCombo("Scripts Available", currentScriptForIMGUI.c_str())) {
-					for (int n = 0; n < fullNameVecImGUI.size(); n++) {
-						bool is_selected = (currentScriptForIMGUI == fullNameVecImGUI[n]);
-						if (ImGui::Selectable(fullNameVecImGUI[n].c_str(), is_selected)) {
-							currentScriptForIMGUI = fullNameVecImGUI[n];
-						}
-						if (is_selected) {
-							ImGui::SetItemDefaultFocus();
-						}
-					}
-					ImGui::EndCombo();
-				}
-
-			if (ImGui::Button("Add Script")) {
-				if (currentScriptForIMGUI.empty()) {
-					DEBUG_PRINT("No script selected");
-				}
-				else {
-					ScriptEngine::AttachScriptToEntity(entity, currentScriptForIMGUI);
-					currentScriptForIMGUI = "";
-				}
-			}
-
-			// For every new script in the vector, draw the tree
-			for (int i = 0; i < scriptNamesAttachedforIMGUI[entity].size(); /* no increment here */) {
-				const std::string& scriptNaming = scriptNamesAttachedforIMGUI[entity][i];
-
-				// Create a unique identifier for each button to avoid conflicts
-				std::string buttonId = "Delete Script##" + std::to_string(i);
-				if (ImGui::SmallButton(buttonId.c_str())) {
-					ScriptEngine::RemoveScriptFromEntity(entity, scriptNaming);
-
-					// Do not increment i, as the next element has shifted into the current position
-					continue;
-				}
-
-				ImGui::SameLine();
-				DrawScriptTreeWithImGui(scriptNaming, entity, i);
-
-				// Increment only if an element was not removed
-				++i;
-			}
-
-
-			// This part is for the scripts that are already attached to the entity (delete the script)
-			//if (ImGui::BeginCombo("Scripts Attached", currentScriptAttachedForIMGUI.c_str())) {
-			//	for (int n = 0; n < scriptNamesAttachedforIMGUI[entity].size(); n++) {
-			//		bool is_selected = (currentScriptAttachedForIMGUI == scriptNamesAttachedforIMGUI[entity][n]);
-			//		if (ImGui::Selectable(scriptNamesAttachedforIMGUI[entity][n].c_str(), is_selected)) {
-			//			currentScriptAttachedForIMGUI = scriptNamesAttachedforIMGUI[entity][n];
-			//		}
-			//		if (is_selected) {
-			//			ImGui::SetItemDefaultFocus();
-			//		}
-			//	}
-			//	ImGui::EndCombo();
-			//}
-
-			//ImGui::SameLine();
-			//if (ImGui::Button("Delete Script")) {
-			//	if (currentScriptAttachedForIMGUI.empty()) {
-			//		DEBUG_PRINT("No script selected");
-			//	}
-			//	else {
-			//		ScriptEngine::RemoveScriptFromEntity(entity, currentScriptAttachedForIMGUI);
-			//		currentScriptAttachedForIMGUI = "";
-			//	}
-			//}
-
-			ImGui::TreePop();
-			}
-		}
-		
-
-	}
+	
 
 	if (ECS::ecs().HasComponent<CharacterStats>(entity)) {
 		if (ImGui::TreeNodeEx((void*)typeid(CharacterStats).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Character Stats")) {
@@ -1189,67 +1104,3 @@ void SceneEntityComponents(Entity entity) {
 		}
 	}
 }
-
-// Macro for easier use
-#define DRAW_FIELD(TYPE, IMGUI_FUNCTION) \
-    TYPE data = scriptInstance->GetFieldValue<TYPE>(name); \
-    if (IMGUI_FUNCTION(name.c_str(), &data)) { \
-        scriptInstance->SetFieldValue(name, data); \
-    }
-
-void DrawScriptTreeWithImGui(const std::string& className, Entity entity, int i) 
-{
-	if (ImGui::TreeNodeEx(className.c_str())) 
-	{
-		auto scriptInstance = ScriptEngine::GetEntityScriptInstance(entity, i);
-		if (scriptInstance) 
-		{
-			const auto& fields = scriptInstance->GetScriptClass()->GetFields();
-			for (const auto& [name, field] : fields) 
-			{
-				switch (field.Type)
-				{
-				case ScriptFieldType::Float:
-				{
-					DRAW_FIELD(float, ImGui::DragFloat)
-						break;
-				}
-				case ScriptFieldType::Int:
-				{
-					DRAW_FIELD(int, ImGui::DragInt)
-						break;
-				}
-				case ScriptFieldType::Bool:
-				{
-					DRAW_FIELD(bool, ImGui::Checkbox)
-						break;
-				}
-				case ScriptFieldType::Vector2:
-				{
-					vmath::Vector2 dataVec2 = scriptInstance->GetFieldValue<vmath::Vector2>(name);
-					if (ImGui::DragFloat2(name.c_str(), &dataVec2[0], 0.5f)) 
-					{
-						scriptInstance->SetFieldValue(name, dataVec2);
-					}
-					break;
-				}
-				case ScriptFieldType::Vector3: {
-					vmath::Vector3 dataVec3 = scriptInstance->GetFieldValue<vmath::Vector3>(name);
-					float tempArray[3] = { dataVec3.x, dataVec3.y, dataVec3.z };
-
-					if (ImGui::DragFloat3(name.c_str(), tempArray, 0.5f)) {
-						dataVec3.x = tempArray[0];
-						dataVec3.y = tempArray[1];
-						dataVec3.z = tempArray[2];
-						scriptInstance->SetFieldValue(name, dataVec3);
-					}
-					break;
-				}
-				}
-			}
-		}
-		ImGui::TreePop();
-	}
-}
-#undef DRAW_FIELD
-

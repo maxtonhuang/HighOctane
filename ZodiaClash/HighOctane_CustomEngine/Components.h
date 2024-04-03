@@ -180,11 +180,6 @@ struct Movable {
     // empty by design
 };
 
-struct Script {
-    std::string             className{};  // ID of owner
-    std::vector<std::string> scriptNameVec{};
-
-};
 
 struct Tag {
     std::string             tag;

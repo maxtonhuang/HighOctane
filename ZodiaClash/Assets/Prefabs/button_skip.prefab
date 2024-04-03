@@ -1,0 +1,212 @@
+[
+    {
+        "LayeringSystems": {
+            "layerCounter": 33,
+            "groupCounter": 0,
+            "layerNames": [
+                "Layer 0",
+                "Layer 1",
+                "Layer 2",
+                "Layer 3",
+                "Layer 4",
+                "Layer 5",
+                "Layer 6",
+                "Layer 7",
+                "Layer 8",
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32"
+            ]
+        }
+    },
+    {
+        "Entity": {
+            "Name": "button_skip",
+            "Current Layer": 1,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 800.0,
+            "position_y": 450.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": ""
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 200.0,
+            "height": 100.0
+        },
+        "Scripts": {
+            "className": "",
+            "scriptAttachedNameVec": []
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Skip",
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 1.0,
+            "Default Button G": 1.0,
+            "Default Button B": 1.0,
+            "Default Button A": 1.0,
+            "Default Text R": 1.0,
+            "Default Text G": 1.0,
+            "Default Text B": 1.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.20000000298023224,
+            "Hovered Text R": 1.0,
+            "Hovered Text G": 1.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 1.0,
+            "Focused Button G": 1.0,
+            "Focused Button B": 1.0,
+            "Focused Button A": 1.0,
+            "Focused Text R": 1.0,
+            "Focused Text G": 1.0,
+            "Focused Text B": 1.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Transition Scene",
+            "Event Input": "exploration1.scn",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Hover Target_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "UI_Streak",
+                                "Child Animation": "Start"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Select_Target_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Reset",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "UI_Streak",
+                                "Child Animation": "Stop"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Parent": {}
+    }
+]

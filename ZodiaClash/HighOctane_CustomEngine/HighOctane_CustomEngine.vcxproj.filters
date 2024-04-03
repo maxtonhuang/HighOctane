@@ -51,9 +51,6 @@
     <Filter Include="Vendors">
       <UniqueIdentifier>{5df34908-c48e-483c-984e-163c28359e55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripting">
-      <UniqueIdentifier>{e17cdb35-4ebc-47b8-9616-fe6c97cf967d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Animator">
       <UniqueIdentifier>{aa0d8dc6-99ea-4506-ae66-2794fcc2954c}</UniqueIdentifier>
     </Filter>
@@ -170,9 +167,6 @@
     <ClInclude Include="AssetManager.h">
       <Filter>AssetsManager</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -184,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Miscellaneous</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptEngine.h">
-      <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Graphics</Filter>
@@ -244,9 +235,6 @@
     </ClInclude>
     <ClInclude Include="Reflections.h">
       <Filter>Reflection</Filter>
-    </ClInclude>
-    <ClInclude Include="InternalCalls.h">
-      <Filter>Scripting</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h">
       <Filter>EngineArchitecture</Filter>
@@ -370,9 +358,6 @@
     <ClCompile Include="Utilities.cpp">
       <Filter>Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="ScriptEngine.cpp">
-      <Filter>Scripting</Filter>
-    </ClCompile>
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -457,8 +442,5 @@
     <ClCompile Include="Tutorial.cpp">
       <Filter>Tutorial</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
