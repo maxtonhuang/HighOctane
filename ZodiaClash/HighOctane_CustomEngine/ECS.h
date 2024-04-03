@@ -626,11 +626,6 @@ public:
     void Update() override;
 };
 
-class ScriptSystem : public System {
-public:
-    void Initialize();
-    void Update() override;
-};
 
 class EditingSystem : public System {
 public:

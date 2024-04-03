@@ -184,45 +184,45 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeDebug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\includeD;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental>
     </LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EditorModeRelease|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='GameMode|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Game|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
     <IntDir>$(SolutionDir).tmp\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Extern\rttr-0.9.7-win64-\include;$(SolutionDir)Extern\Mono\include\mono-2.0;$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
-    <LibraryPath>$(SolutionDir)Extern\rttr-0.9.7-win64-\lib;$(SolutionDir)Extern\Mono\lib;$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
+    <IncludePath>$(IncludePath);$(SolutionDir)Extern;$(SolutionDir)Extern\imgui-1.87\;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\;$(SolutionDir)Extern\freetype-2.13.2\include\;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</IncludePath>
+    <LibraryPath>$(LibraryPath);$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022;$(SolutionDir)Extern\glew-2.2.0\lib\Release\x64;$(SolutionDir)Extern\imgui-1.87\examples\libs\glfw\lib-vc2010-64;SolutionDir)Extern\imgui-1.87;$(SolutionDir)Extern\fmod\core\lib\x64;$(SolutionDir)Extern\freetype-2.13.2\lib\x64\Release</LibraryPath>
     <LinkIncremental />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -336,16 +336,11 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
-xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
 copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
 copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
-copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
 
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.pdb" "$(TargetDir)rttr_core_d.pdb" /Y
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.dll" "$(TargetDir)rttr_core_d.dll" /Y
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -372,16 +367,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.dll" "$(TargetDir)r
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
-xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
 copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
 copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
-copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.pdb" "$(TargetDir)rttr_core_d.pdb" /Y
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.dll" "$(TargetDir)rttr_core_d.dll" /Y
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -411,14 +400,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core_d.dll" "$(TargetDir)r
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
-xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
 copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
 copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
-copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
 
 </Command>
     </PostBuildEvent>
@@ -449,14 +434,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
-xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
 copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
 copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
-copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
 
 </Command>
     </PostBuildEvent>
@@ -487,14 +468,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
-xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
 copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
 copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
-copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
 
 </Command>
     </PostBuildEvent>
@@ -525,14 +502,10 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     </Link>
     <PostBuildEvent>
       <Command>xcopy "$(SolutionDir)Assets\*" "$(OutDir)Assets\*" /s /r /y /q
-xcopy "$(SolutionDir)Extern\Mono\lib\mono\4.5\*" "$(OutDir)Mono\lib\mono\4.5\*" /s /r /y /q
 copy "$(SolutionDir)Extern\glfw-3.3.8.bin.WIN64\lib-vc2022\glfw3.dll" "$(TargetDir)glfw3.dll" /Y
 copy "$(SolutionDir)Extern\glew-2.2.0\bin\Release\x64\glew32.dll" "$(TargetDir)glew32.dll" /Y
 copy "$(SolutionDir)Extern\fmod\core\lib\x64\fmod.dll" "$(TargetDir)fmod.dll" /Y
 copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)freetype.dll" /Y
-copy "$(SolutionDir)Extern\Mono\bin\mono-2.0-sgen.dll" "$(TargetDir)mono-2.0-sgen.dll" /Y
-
-copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rttr_core.dll" /Y
 
 </Command>
     </PostBuildEvent>
@@ -578,7 +551,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphLib.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="InternalCalls.h" />
     <ClInclude Include="Layering.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="Message.h" />
@@ -592,8 +564,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClInclude Include="Reflections.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="ScriptEngine.h" />
-    <ClInclude Include="Scripting.h" />
     <ClInclude Include="Selection.h" />
     <ClInclude Include="Serialization.h" />
     <ClInclude Include="Shaders.h" />
@@ -651,7 +621,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="Serialization.cpp" />
     <ClCompile Include="Shaders.cpp" />
@@ -666,9 +635,6 @@ copy "$(SolutionDir)Extern\rttr-0.9.7-win64-\bin\rttr_core.dll" "$(TargetDir)rtt
     <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="VMath.cpp" />
     <ClCompile Include="WindowsInterlink.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

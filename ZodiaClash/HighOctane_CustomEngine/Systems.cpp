@@ -45,9 +45,7 @@
 #include "CollisionResolution.h"
 #include "Serialization.h"
 #include "Animator.h"
-#include "Scripting.h"
 #include "Editing.h"
-#include "ScriptEngine.h"
 #include "Battle.h"
 #include "EntityFactory.h"
 #include "EngineCore.h"
@@ -847,63 +845,6 @@ void SerializationSystem::Update() {
 
 
 }
-
-/******************************************************************************
-*
-*	@brief Initialies the Script System
-*
-*   This function initializes the Script System by calling the ScriptEngine's
-*   ScriptInit function for each entity with a script component.
-*
-******************************************************************************/
-bool FirstInitScriptSystem = true;
-void ScriptSystem::Initialize() {
-	std::unordered_map<Entity, std::vector<std::string>> scriptMap;
-
-	// Iterate through all entities with a script component
-	for (const Entity& entity : m_Entities) {
-
-		// Get the script component
-		Script* s = &ECS::ecs().GetComponent<Script>(entity);
-		if (!s) {
-			// If there's no script associated with the entity, just continue to the next iteration.
-			continue;
-		}
-
-		// Only allows the script system to init once
-		if (FirstInitScriptSystem) {
-			ScriptEngine::ScriptInit(entity);
-			FirstInitScriptSystem = false;
-		}
-	}
-}
-
-/******************************************************************************
-*
-*   @brief Updates the Script System
-*
-*   This function updates the Script System by calling the ScriptEngine's
-*   ScriptUpdate function for each entity with a script component.
-*
-******************************************************************************/
-void ScriptSystem::Update() {
-
-	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-	auto& scriptArray = componentManager.GetComponentArrayRef<Script>();
-
-	for (Entity const& entity : m_Entities) {
-
-		Script* scriptData = &scriptArray.GetData(entity);
-
-		for (size_t i = 0; i < scriptData->scriptNameVec.size(); ++i) {
-			ScriptEngine::ScriptUpdate(entity);
-
-		}
-
-	}
-
-}
-
 
 /******************************************************************************
 *
