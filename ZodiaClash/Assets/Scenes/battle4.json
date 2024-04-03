@@ -188,6 +188,25 @@
                     "Speaker Required": true,
                     "Post Dialogue Scene": false,
                     "Target Scene": ""
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": " ",
+                            "Line": "You have defeated the Emperor!",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 5,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": true,
+                    "Target Scene": "ending_cutscene.scn"
                 }
             ]
         },

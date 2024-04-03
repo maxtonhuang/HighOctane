@@ -1603,10 +1603,10 @@ void UIDialogueSystem::Update() {
 	auto& dialogueSpeakerArray = componentManager.GetComponentArrayRef<DialogueSpeaker>();
 	auto& dialogueHudArray = componentManager.GetComponentArrayRef<DialogueHUD>();
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 	auto& texArray = componentManager.GetComponentArrayRef<Tex>();
+	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
 	for (Entity const& entity : m_Entities) {
 		Parent* parentData = &parentArray.GetData(entity);
@@ -1679,12 +1679,9 @@ void UIDialogueSystem::Update() {
 			for (int count = 0; count < static_cast<int>(parentData->children.size()); count++) {
 				Entity childEntity = parentData->children[count];
 				// speaker text label
-				if (/*dialogueHudData->currentDialogue->isActive &&*/
-					dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
-					//Child* childData = &childArray.GetData(childEntity);
+				if (dialogueSpeakerArray.HasComponent(childEntity) && textLabelArray.HasComponent(childEntity)) {
 					TextLabel* speakerTextData = &textLabelArray.GetData(childEntity);
 					Size* speakerSizeData = &sizeArray.GetData(childEntity);
-					//Model* speakerModelData = &modelArray.GetData(childEntity);
 					speakerTextData->textString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
 					if (speakerTextData->textString == "" && cloneArray.HasComponent(childEntity))
@@ -1706,11 +1703,15 @@ void UIDialogueSystem::Update() {
 				// speaker tex label
 				if (dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
 					Model* speakerModelData = &modelArray.GetData(childEntity);
+					Name* speakerNameData = &nameArray.GetData(childEntity);
 					std::string speakerTextString = (!dialogueHudData->currentDialogue->dialogueLines.empty()) ? dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].speaker : "";
 
-					if (speakerTextString == "" && cloneArray.HasComponent(childEntity))
+					if (!dialogueHudData->currentDialogue->speakerRequired && cloneArray.HasComponent(childEntity))
 					{
-						speakerModelData->SetAlpha(0.0f);
+						if (speakerTextString != "" && speakerNameData->name == "dialogue_box_bg")
+							speakerModelData->SetAlpha(1.0f);
+						else
+							speakerModelData->SetAlpha(0.0f);
 					}
 					else
 					{
