@@ -34,7 +34,6 @@
 #include "GUIManager.h"
 #include "MultiThreading.h"
 #include "debugdiagnostic.h"
-#include "ScriptEngine.h"
 #include <filesystem>
 #include <fstream>
 #include <iostream>

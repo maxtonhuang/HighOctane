@@ -308,12 +308,13 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         //Check if turn/health conditions are met, trigger dialogue
-        if (m_Entities.size() > 0 && !dialogueCalled && (roundManage.roundCounter == 1)) {
+        if (m_Entities.size() > 0 && !dialogueCalled && emperorDead) {
             for (CharacterStats* c : turnManage.turnOrderList) {
                 // dialogue call trigger specific to round 1, Monkey is the boss
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Monkey") {
                     if (activeCharacter == c) {
-                        events.Call("Start Dialogue", "TURN");
+                        events.Call("Start Dialogue", "EVENT");
+                        emperorDead = false;
                         // to confirm indexing?
                     }
                 }
@@ -700,7 +701,6 @@ void BattleSystem::ProcessDamage() {
         ComponentArray<Size>* sizeArray = &componentManager.GetComponentArrayRef<Size>();
         ComponentArray<Name>* nameArray = &componentManager.GetComponentArrayRef<Name>();
         ComponentArray<Parent>* parentArray = &componentManager.GetComponentArrayRef<Parent>();
-        static Entity bossAura{ 0 };
 
         float totalDamage{ 0.f };
         for (Entity entity : m_Entities) {
@@ -763,22 +763,23 @@ void BattleSystem::ProcessDamage() {
                             }
 
                             //Create boss label
-                            if (c.boss == true && c.stats.health < 0.5 * c.stats.maxHealth && !ECS::ecs().EntityExists(bossAura)) {
-                                bossAura = EntityFactory::entityFactory().ClonePrefab("Boss_Circle.prefab");
-                                transformArray->GetData(bossAura).position = transformArray->GetData(c.entity).position;
-                                transformArray->GetData(bossAura).position.y -= (sizeArray->GetData(c.entity).height * transformArray->GetData(c.entity).scale) / 2;
+                            if (c.boss == true && c.stats.health < 0.5 * c.stats.maxHealth) {
+                                Entity aura{ parentArray->GetData(c.entity).GetChildByName("VFX_Corrupted") };
+                                if (animationArray->HasComponent(aura)) {
+                                    animationArray->GetData(aura).Start("Appear",aura);
+                                }
                             }
-                            else if (c.boss == true && c.stats.health > 0.5 * c.stats.maxHealth && ECS::ecs().EntityExists(bossAura)) {
-                                ECS::ecs().DestroyEntity(bossAura);
+                            else if (c.boss == true && c.stats.health > 0.5 * c.stats.maxHealth) {
+                                Entity aura{ parentArray->GetData(c.entity).GetChildByName("VFX_Corrupted") };
+                                if (animationArray->HasComponent(aura)) {
+                                    animationArray->GetData(aura).Start("Disappear", aura);
+                                }
                             }
                         }
                         else {
                             animationArray->GetData(entity).Start("Death", entity);
                             c.buffs = CharacterStats::buff{};
                             c.debuffs = CharacterStats::debuff{};
-                            if (cs->boss && ECS::ecs().EntityExists(bossAura)) {
-                                ECS::ecs().DestroyEntity(bossAura);
-                            }
 
                             // Handle boss ox death
                             if (nameArray->GetData(c.entity).name == "Ox_Enemy") {

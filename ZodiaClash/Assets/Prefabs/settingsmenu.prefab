@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 47,
+            "layerCounter": 88,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -50,7 +50,48 @@
                 "Layer 43",
                 "Layer 44",
                 "Layer 45",
-                "Layer 46"
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71",
+                "Layer 72",
+                "Layer 73",
+                "Layer 74",
+                "Layer 75",
+                "Layer 76",
+                "Layer 77",
+                "Layer 78",
+                "Layer 79",
+                "Layer 80",
+                "Layer 81",
+                "Layer 82",
+                "Layer 83",
+                "Layer 84",
+                "Layer 85",
+                "Layer 86",
+                "Layer 87"
             ]
         }
     },
@@ -62,7 +103,6 @@
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -847,7 +887,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": 162.4770050048828,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -879,7 +919,7 @@
         },
         "Movable": {},
         "Child": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": 162.4770050048828,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -887,7 +927,7 @@
             "velocity_y": 0.0
         },
         "SliderUI": {
-            "Linked Entity": 0,
+            "Linked Entity": 562,
             "Slider Type": 1,
             "Control Which": 1
         }
@@ -907,7 +947,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": 46.97700119018555,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -939,7 +979,7 @@
         },
         "Movable": {},
         "Child": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": 46.97700119018555,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -947,7 +987,7 @@
             "velocity_y": 0.0
         },
         "SliderUI": {
-            "Linked Entity": 0,
+            "Linked Entity": 563,
             "Slider Type": 1,
             "Control Which": 2
         }
@@ -967,7 +1007,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": -68.52300262451172,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -999,7 +1039,7 @@
         },
         "Movable": {},
         "Child": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": -68.52300262451172,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -1007,7 +1047,7 @@
             "velocity_y": 0.0
         },
         "SliderUI": {
-            "Linked Entity": 0,
+            "Linked Entity": 564,
             "Slider Type": 1,
             "Control Which": 3
         }
@@ -1027,7 +1067,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": -184.0229949951172,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -1059,7 +1099,7 @@
         },
         "Movable": {},
         "Child": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": -184.0229949951172,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -1067,7 +1107,7 @@
             "velocity_y": 0.0
         },
         "SliderUI": {
-            "Linked Entity": 0,
+            "Linked Entity": 565,
             "Slider Type": 1,
             "Control Which": 4
         }
@@ -1087,7 +1127,7 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": -299.52301025390625,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -1119,7 +1159,7 @@
         },
         "Movable": {},
         "Child": {
-            "position_x": 127.76000213623047,
+            "position_x": 321.260009765625,
             "position_y": -299.52301025390625,
             "rotation": 0.0,
             "scale": 0.4000000059604645,
@@ -1127,7 +1167,7 @@
             "velocity_y": 0.0
         },
         "SliderUI": {
-            "Linked Entity": 0,
+            "Linked Entity": 566,
             "Slider Type": 1,
             "Control Which": 5
         }
@@ -1207,9 +1247,9 @@
             "Default Text G": 1.0,
             "Default Text B": 1.0,
             "Default Text A": 1.0,
-            "Hovered Button R": 0.0,
-            "Hovered Button G": 1.0,
-            "Hovered Button B": 0.47843137383461,
+            "Hovered Button R": 1.0,
+            "Hovered Button G": 0.1921568661928177,
+            "Hovered Button B": 0.1921568661928177,
             "Hovered Button A": 1.0,
             "Hovered Text R": 1.0,
             "Hovered Text G": 1.0,

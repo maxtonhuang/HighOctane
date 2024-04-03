@@ -13,4 +13,4 @@ staticline.renderer
 staticpoint.renderer
 particle.renderer
 Danto Lite Normal/Danto Lite Normal.ttf
-mainmenu.scn
+splashscreen1.scn

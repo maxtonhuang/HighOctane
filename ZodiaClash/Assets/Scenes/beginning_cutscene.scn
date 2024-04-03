@@ -13,9 +13,27 @@ Goat_Idle.spritesheet
 Cutscene_v01_08.png
 UI_dialogue_box_bg_v02.png
 UI_dialogue_box_bg_v03.png
+Intro_Part_1_01.png
+Intro_Part_1_02.png
+Intro_Part_1_03.png
+Intro_Part_1_04.png
+Intro_Part_1_05.png
+Intro_Part_1_06.png
+Intro_Part_2_01.png
+Intro_Part_2_02.png
+Intro_Part_2_03.png
+Intro_Part_2_04.png
+Intro_Part_2_05.png
+Intro_Part_2_06.png
+Cutscene_VO_8.ogg
 Cutscene_VO_1.ogg
-Danto Lite Normal/Danto Lite Normal.ttf
-Danto Lite Normal/Danto Lite Normal.ttf
+Cutscene_VO_6.5.ogg
+Cutscene_VO_2.ogg
+Cutscene_VO_3.ogg
+Cutscene_VO_4.ogg
+Cutscene_VO_5.ogg
+Cutscene_VO_6.ogg
+Cutscene_VO_7.ogg
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
@@ -51,4 +69,4 @@ Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill
-ending_cutscene.json
+beginning_cutscene.json

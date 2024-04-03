@@ -54,8 +54,6 @@
 #include "physics.h"
 #include "AudioManager.h"
 #include "Serialization.h"
-#include "ScriptEngine.h"
-#include "Scripting.h"
 #include "ImGuiPerformance.h"
 #include "Animator.h"
 #include "AssetManager.h"
@@ -194,7 +192,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
-	ScriptEngine::Init(); // Script Engine should be same level as ECS
 
 	//SetCursor(hCustomCursor);
 
@@ -214,7 +211,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
-	ECS::ecs().RegisterComponent<Script>();
 	ECS::ecs().RegisterComponent<AnimationSet>();
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
@@ -268,10 +264,6 @@ void EngineCore::Run(bool const& mode) {
 	std::shared_ptr<AnimationSystem> animationSystem = ECS::ecs().RegisterSystem<AnimationSystem>();
 	runSystemList.emplace_back(animationSystem, "Animation System");
 	systemList.emplace_back(animationSystem, "Animation System");
-
-	std::shared_ptr<ScriptSystem> scriptingSystem = ECS::ecs().RegisterSystem<ScriptSystem>();
-	runSystemList.emplace_back(scriptingSystem, "Scripting System");
-	systemList.emplace_back(scriptingSystem, "Scripting System");
 
 	// Not in System List, will only be called when needed
 	std::shared_ptr<SerializationSystem> serializationSystem = ECS::ecs().RegisterSystem<SerializationSystem>();
@@ -488,14 +480,7 @@ void EngineCore::Run(bool const& mode) {
 		ECS::ecs().SetSystemSignature<GraphicsSystem>(signature);
 	}
 
-	{
-		Signature signature;
-		signature.set(ECS::ecs().GetComponentType<Script>());
-		signature.set(ECS::ecs().GetComponentType<Name>());
-		signature.set(ECS::ecs().GetComponentType<Clone>());
-
-		ECS::ecs().SetSystemSignature<ScriptSystem>(signature);
-	}
+	
 
 	{
 		Signature signature;
@@ -729,7 +714,6 @@ void EngineCore::Run(bool const& mode) {
 	while (EngineCore::engineCore().getGameActive()) {
 		if (initLevel) {
 			graphicsSystem->Initialize();
-			scriptingSystem->Initialize();
 			battleSystem->Initialize();
 			uiTutorialSystem->Initialize();
 			particles.ResetParticles();
@@ -851,8 +835,6 @@ void EngineCore::Run(bool const& mode) {
 
 
 
-	// Quit the script engine, maybe move it somewhere else in the future idk or no need
-	ScriptEngine::Shutdown();
 
 	delete physics::PHYSICS;
 
