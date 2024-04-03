@@ -64,13 +64,41 @@
             "Mirror": false
         },
         "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Disappear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Prefab": "credits_02.prefab"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Parent": {}
     },
     {
         "Entity": {
             "Name": "credits_next",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -146,7 +174,7 @@
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Update Credits",
+            "Event Name": "Test",
             "Event Input": "1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -154,6 +182,26 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Parent",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Animation": "Disappear"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 700.0,
             "position_y": -425.0,

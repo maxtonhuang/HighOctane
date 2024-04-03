@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 11,
+            "layerCounter": 18,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -14,7 +14,14 @@
                 "Layer 7",
                 "Layer 8",
                 "Layer 9",
-                "Layer 10"
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17"
             ]
         }
     },
@@ -64,6 +71,59 @@
             "Mirror": false
         },
         "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 2,
+                "Group Name": "Previous",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Prefab": "credits_05.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Next",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "CreatePrefab",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Prefab": "credits_07.prefab"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "SelfDestruct",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Parent": {}
     },
     {
@@ -111,9 +171,9 @@
             "Font Variant": "Regular",
             "Font Size": 0.5,
             "Text String": "<< Previous",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
@@ -146,7 +206,7 @@
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Update Credits",
+            "Event Name": "Test",
             "Event Input": "0",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -154,6 +214,26 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Parent",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Animation": "Previous"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": -700.0,
             "position_y": -425.0,
@@ -208,9 +288,9 @@
             "Font Variant": "Regular",
             "Font Size": 0.5,
             "Text String": "Next >>",
-            "r": 0.0,
-            "g": 0.0,
-            "b": 0.0,
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
             "a": 1.0,
             "Color Preset": "black",
             "Horizontal Alignment": 1,
@@ -243,7 +323,7 @@
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Update Credits",
+            "Event Name": "Test",
             "Event Input": "1",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
@@ -251,6 +331,26 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Parent",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Animation": "Next"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 700.0,
             "position_y": -425.0,
