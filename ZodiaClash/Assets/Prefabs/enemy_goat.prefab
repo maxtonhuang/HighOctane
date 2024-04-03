@@ -928,8 +928,8 @@
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 958.0,
-            "Dimension Y": 959.0,
+            "Dimension X": 0.001,
+            "Dimension Y": 0.001,
             "Type": 1,
             "Event Name": "",
             "Event Input": ""
