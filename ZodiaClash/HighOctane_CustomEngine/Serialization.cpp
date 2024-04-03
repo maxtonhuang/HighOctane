@@ -266,22 +266,7 @@ rapidjson::Value SerializeAnimation(const Animator& anim, rapidjson::Document::A
 	animObject.AddMember("Frame Display Duration", anim.GetFrameDisplayDuration() , allocator);
 	return animObject;
 }
-//rapidjson::Value SerializeScript(const Script& script, rapidjson::Document::AllocatorType& allocator) {
-//	rapidjson::Value scriptObject(rapidjson::kObjectType);
-//
-//	// Serialize the className
-//	scriptObject.AddMember("className", rapidjson::Value(script.className.c_str(), allocator).Move(), allocator);
-//
-//	// Serialize the scriptNameVec
-//	rapidjson::Value scriptAttachedNameVec(rapidjson::kArrayType);
-//	for (const std::string& name : script.scriptNameVec) {
-//		scriptAttachedNameVec.PushBack(rapidjson::Value(name.c_str(), allocator).Move(), allocator);
-//	}
-//
-//	scriptObject.AddMember("scriptAttachedNameVec", scriptAttachedNameVec, allocator);
-//
-//	return scriptObject;
-//}
+
 
 rapidjson::Value SerializeCharacterStats(const CharacterStats& stats, rapidjson::Document::AllocatorType& allocator) {
 	rapidjson::Value charstats(rapidjson::kObjectType);
@@ -756,9 +741,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	Circle* circle = nullptr;
 	AABB* aabb = nullptr;
 	Emitter* emitter = nullptr;
-	//Animator* anim = nullptr;
 	Name* name = nullptr;
-	Script* script = nullptr;
 	CharacterStats* charstats = nullptr;
 	Model* model = nullptr;
 	TextLabel* textLabel = nullptr;
@@ -871,11 +854,7 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 		//	rapidjson::Value animationObject = SerializeAnimation(*anim, allocator);
 		//	entityObject.AddMember("Animation", animationObject, allocator);
 		//}
-		/*if (CheckSerialize<Script>(entity, isPrefabClone, uComponentMap)) {
-			script = &ECS::ecs().GetComponent<Script>(entity);
-			rapidjson::Value scriptObject = SerializeScript(*script, allocator);
-			entityObject.AddMember("Scripts", scriptObject, allocator);
-		}*/
+		
 		if (CheckSerialize<CharacterStats>(entity, isPrefabClone, uComponentMap)) {
 			charstats = &ECS::ecs().GetComponent<CharacterStats>(entity);
 			rapidjson::Value charstatsObject = SerializeCharacterStats(*charstats, allocator);
@@ -1278,24 +1257,6 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 				}
 			}
 
-			/*if (entityObject.HasMember("Scripts")) {
-				const rapidjson::Value& scriptObject = entityObject["Scripts"];
-
-				Script script;
-				if (ECS::ecs().HasComponent<Script>(entity)) {
-					ECS::ecs().GetComponent<Script>(entity) = script;
-				}
-				else {
-					ECS::ecs().AddComponent<Script>(entity, script);
-				}
-
-
-				if (scriptObject.HasMember("className")) {
-					script.className = scriptObject["className"].GetString();
-				}
-
-
-			}*/
 			if (entityObject.HasMember("Master")) {
 				if (!ECS::ecs().HasComponent<Master>(entity)) {
 					ECS::ecs().AddComponent(entity, Master{});

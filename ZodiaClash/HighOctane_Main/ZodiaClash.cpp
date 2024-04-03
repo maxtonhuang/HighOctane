@@ -207,7 +207,6 @@ void EngineCore::Run(bool const& mode) {
 	ECS::ecs().RegisterComponent<Tag>();
 	ECS::ecs().RegisterComponent<Movable>();
 	ECS::ecs().RegisterComponent<CharacterStats>();
-	ECS::ecs().RegisterComponent<Script>();
 	ECS::ecs().RegisterComponent<AnimationSet>();
 	ECS::ecs().RegisterComponent<TextLabel>();
 	ECS::ecs().RegisterComponent<Button>();
