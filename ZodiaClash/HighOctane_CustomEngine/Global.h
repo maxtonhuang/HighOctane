@@ -56,6 +56,7 @@ const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
 const HCURSOR hNSCursor{ LoadCursor(NULL, IDC_SIZENS) };
 const HCURSOR hEWCursor{ LoadCursor(NULL, IDC_SIZEWE) };
 const HCURSOR hHandCursor{ LoadCursor(NULL, IDC_HAND) };
+extern HCURSOR hCustomCursor;
 
 extern float g_dt;
 extern float accumulatedTime;
@@ -89,6 +90,7 @@ extern bool draggingThisCycle;
 extern vmath::Vector2 currentMousePosition;
 extern vmath::Vector2 prevMousePosition;
 extern bool mouseMoved;
+extern bool somethingChangedCursor;
 extern bool withinSomething;
 extern Entity keyObjectID;
 extern glm::vec4 keyObjectColor;

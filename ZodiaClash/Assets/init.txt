@@ -1,3 +1,4 @@
+Jade_Cursor.cur
 parallax.renderer
 texture.renderer
 staticflat.renderer

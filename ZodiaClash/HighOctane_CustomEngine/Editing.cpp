@@ -70,9 +70,11 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 		if (model == nullptr) {
 			if (transform.position.distance(currentMousePosition) < GRAPHICS::DEBUG_CIRCLE_RADIUS) {
 				SetCursor(hAllDirCursor);
+				somethingChangedCursor = true;
 			}
 			else {
-				SetCursor(hDefaultCursor);
+				SetCursor(hCustomCursor);
+				somethingChangedCursor = true;
 			}
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
@@ -118,14 +120,17 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 		}
 		else if (selectedEntities.size() == 1 && IsNearby(model->GetRotPoint(), currentMousePosition, CORNER_SIZE * 3.f)) {
 			SetCursor(hHandCursor);
+			somethingChangedCursor = true;
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else if (IsWithinObject(*model, currentMousePosition)) {
 			SetCursor(hAllDirCursor);
+			somethingChangedCursor = true;
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else {
-			SetCursor(hDefaultCursor);
+			SetCursor(hCustomCursor);
+			somethingChangedCursor = true;
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 
@@ -161,6 +166,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 				SetCursor(hNSCursor);
 			}
 		
+			somethingChangedCursor = true;
+
 		}
 	}
 	

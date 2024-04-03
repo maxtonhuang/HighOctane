@@ -42,6 +42,8 @@
 #include "graphics.h"
 #include "Layering.h"
 #include "UndoRedo.h"
+#include "Global.h"
+#include <cwchar>
 
 AssetManager assetmanager;
 
@@ -356,6 +358,20 @@ void AssetManager::LoadEntities(const std::string& entitiesPath) {
     }
 }
 
+void AssetManager::LoadMouseCursor(const std::string& curPath) {
+    std::string path{ defaultPath };
+    path += curPath;
+    if (FileExists(path)) {
+        size_t convertedSize{};
+        std::wstring wpath(path.size(), L'\0');  // Allocate space for the wide string
+        mbstowcs_s(&convertedSize, &wpath[0], wpath.size() + 1, path.c_str(), path.size());
+        hCustomCursor = static_cast<HCURSOR>(LoadImage(NULL, wpath.c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE));
+    }
+    else {
+        // ASSERT(1, "Unable to open cursor file!");
+    }
+}
+
 std::vector<std::string> AssetManager::GetFiles() {
     std::vector<std::string> output{ texture.GetTextureNames() };
     std::vector<std::string> append{ audio.GetSoundNames() };
@@ -434,6 +450,9 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else if (extension == ".skill") {
         //LoadAttack(assetPath);
+    }
+    else if (extension == ".cur") {
+        LoadMouseCursor(assetPath);
     }
     else {
         // Error Handling

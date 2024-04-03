@@ -47,6 +47,8 @@
 
 // Declare global variables here
 
+HCURSOR hCustomCursor{};
+
 float g_dt;
 float accumulatedTime{};
 bool button_clicked{ true };
@@ -83,6 +85,7 @@ bool draggingThisCycle{ false };
 vmath::Vector2 currentMousePosition{ RESET_VEC2 };
 vmath::Vector2 prevMousePosition{ RESET_VEC2 };
 bool mouseMoved{ false };
+bool somethingChangedCursor{ false };
 bool withinSomething{ false };
 Entity keyObjectID{ std::numeric_limits<Entity>().max() };
 glm::vec4 keyObjectColor{ RESET_VEC4 };

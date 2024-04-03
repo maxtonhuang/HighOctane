@@ -88,6 +88,9 @@ public:
     //Load all entities in the scene
     void LoadEntities(const std::string& entitiesPath);
 
+    //Loads the cursor image
+    void LoadMouseCursor(const std::string& curPath);
+
     /***********************************************
     TEXTURE METHODS
     ***********************************************/

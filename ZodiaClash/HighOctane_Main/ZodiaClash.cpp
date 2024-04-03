@@ -71,6 +71,7 @@
 #include "Transition.h"
 #include "Particles.h"
 #include "Tutorial.h"
+#include "Global.h"
 
 bool gConsoleInitalized{ false };
 constexpr bool GAME_MODE{ false }; // Do not edit this
@@ -178,6 +179,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LOG_INFO("Graphics started");
 #endif
 
+
     //////////////////////////////
     ////////// Run Game //////////
     //////////////////////////////
@@ -193,6 +195,8 @@ void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
 	ScriptEngine::Init(); // Script Engine should be same level as ECS
+
+	//SetCursor(hCustomCursor);
 
 // Register components to be used in the ECS
 	ECS::ecs().Init();
@@ -737,6 +741,9 @@ void EngineCore::Run(bool const& mode) {
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
+		if (game_mode == GAME_MODE) {
+			SetCursor(hCustomCursor);
+		}
 
 		// Switch case for the pause screen
 		auto* sList{ &runSystemList };
@@ -785,6 +792,10 @@ void EngineCore::Run(bool const& mode) {
 			}
 			Mail::mail().ClearMails();
 			accumulatedTime -= FIXED_DT;
+		}
+
+		if (viewportWindowHovered && !somethingChangedCursor) {
+			SetCursor(hCustomCursor);
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {

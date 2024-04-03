@@ -1117,6 +1117,8 @@ void EditingSystem::Update() {
 
 	// Editing starts here
 
+	somethingChangedCursor = false;
+
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity& entity : layering[layer_it]) {
@@ -1136,6 +1138,7 @@ void EditingSystem::Update() {
 		}
 	}
 
+	
 
 	for (auto& [e, color] : snappingHighlight) {
 		if (modelArray.HasComponent(e)) {
