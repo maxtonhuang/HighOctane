@@ -44,6 +44,9 @@
 #include "UndoRedo.h"
 #include "Global.h"
 #include <cwchar>
+#include <filesystem>
+//#define STB_IMAGE_IMPLEMENTATION
+#include <stb-master/stb_image.h>
 
 AssetManager assetmanager;
 
@@ -360,12 +363,24 @@ void AssetManager::LoadEntities(const std::string& entitiesPath) {
 
 void AssetManager::LoadMouseCursor(const std::string& curPath) {
     std::string path{ defaultPath };
-    path += curPath;
+    std::filesystem::path filePath(curPath);
+    path += filePath.stem().string() + ".png";
     if (FileExists(path)) {
-        size_t convertedSize{};
-        std::wstring wpath(path.size(), L'\0');  // Allocate space for the wide string
-        mbstowcs_s(&convertedSize, &wpath[0], wpath.size() + 1, path.c_str(), path.size());
-        hCustomCursor = static_cast<HCURSOR>(LoadImage(NULL, wpath.c_str(), IMAGE_CURSOR, 0, 0, LR_LOADFROMFILE));
+        int width, height, channels;
+        unsigned char* cursorImageData = stbi_load(path.c_str(), &width, &height, &channels, 4);
+        if (cursorImageData) {
+            GLFWimage cursorImage;
+            cursorImage.width = width;
+            cursorImage.height = height;
+            cursorImage.pixels = cursorImageData;
+
+            // Create the GLFW cursor and set it for the window
+           customCursor = glfwCreateCursor(&cursorImage, 1, 0);
+
+            // Cleanup
+            stbi_image_free(cursorImageData);
+
+        }
     }
     else {
         // ASSERT(1, "Unable to open cursor file!");

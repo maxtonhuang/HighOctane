@@ -47,7 +47,8 @@
 
 // Declare global variables here
 
-HCURSOR hCustomCursor{};
+//HCURSOR hCustomCursor{};
+GLFWcursor * customCursor{ nullptr };
 
 float g_dt;
 float accumulatedTime{};

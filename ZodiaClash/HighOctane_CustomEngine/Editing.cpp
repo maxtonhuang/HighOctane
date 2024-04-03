@@ -41,6 +41,7 @@
 #include "DebugProfile.h"
 #include "EntityFactory.h"
 #include "vmath.h"
+#include "graphics.h"
 #include <algorithm>
 #include <limits>
 #include "UndoRedo.h"
@@ -73,7 +74,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 				somethingChangedCursor = true;
 			}
 			else {
-				SetCursor(hCustomCursor);
+				//SetCursor(hCustomCursor);
+				glfwSetCursor(graphics.GetWindow(), customCursor);
 				somethingChangedCursor = true;
 			}
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
@@ -129,7 +131,8 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else {
-			SetCursor(hCustomCursor);
+			//SetCursor(hCustomCursor);
+			glfwSetCursor(graphics.GetWindow(), customCursor);
 			somethingChangedCursor = true;
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}

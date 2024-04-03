@@ -724,7 +724,8 @@ void EngineCore::Run(bool const& mode) {
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
 		if (game_mode == GAME_MODE) {
-			SetCursor(hCustomCursor);
+			glfwSetCursor(graphics.GetWindow(), customCursor);
+			//SetCursor(hCustomCursor);
 		}
 
 		// Switch case for the pause screen
@@ -777,7 +778,8 @@ void EngineCore::Run(bool const& mode) {
 		}
 
 		if (viewportWindowHovered && !somethingChangedCursor) {
-			SetCursor(hCustomCursor);
+			glfwSetCursor(graphics.GetWindow(), customCursor);
+			//SetCursor(hCustomCursor);
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {

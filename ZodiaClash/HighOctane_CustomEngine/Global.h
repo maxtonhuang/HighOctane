@@ -56,7 +56,9 @@ const HCURSOR hAllDirCursor{ LoadCursor(NULL, IDC_SIZEALL) };
 const HCURSOR hNSCursor{ LoadCursor(NULL, IDC_SIZENS) };
 const HCURSOR hEWCursor{ LoadCursor(NULL, IDC_SIZEWE) };
 const HCURSOR hHandCursor{ LoadCursor(NULL, IDC_HAND) };
-extern HCURSOR hCustomCursor;
+//extern HCURSOR hCustomCursor;
+
+extern GLFWcursor * customCursor;
 
 extern float g_dt;
 extern float accumulatedTime;
