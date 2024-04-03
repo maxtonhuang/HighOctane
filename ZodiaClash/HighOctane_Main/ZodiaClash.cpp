@@ -193,8 +193,6 @@ void EngineCore::Run(bool const& mode) {
 
 	////////// INITIALIZE //////////
 
-	//SetCursor(hCustomCursor);
-
 // Register components to be used in the ECS
 	ECS::ecs().Init();
 	ECS::ecs().RegisterComponent<Transform>();
