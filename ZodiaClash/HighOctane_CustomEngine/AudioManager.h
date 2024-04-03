@@ -35,7 +35,7 @@
 #include <unordered_map>
 #include <string>
 
-const float LOW_FILTER_VALUE{ 0.2f };
+const float LOW_FILTER_VALUE{ 0.5f };
 
 class AudioManager {
 public:

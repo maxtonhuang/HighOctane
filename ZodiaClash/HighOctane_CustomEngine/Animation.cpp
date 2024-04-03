@@ -533,7 +533,7 @@ void SoundAnimation::Update(int frameNum) {
 			std::uniform_int_distribution<int> dis(0, (int)nextKeyframe->data.size() - 1);
 			int num{ dis(gen) };
 			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), "SFX");
-			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - camera.GetPos().x) / GRAPHICS::w };
+			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - camera.GetPos().x) / GRAPHICS::defaultWidthF };
 			channel->setPan(pan);
 		}
 		nextKeyframe++;
@@ -1011,6 +1011,7 @@ void CameraTargetAnimation::Update(int frameNum) {
 	float frameCount{ (float)(nextKeyframe->frameNum + 1 - frameNum) };
 	vmath::Vector2 velocity = (entityTransform->position - camera.GetPos()) / frameCount * FIXED_DT / frametime;
 	camera.AddPos(velocity.x,velocity.y);
+	camera.Clamp();
 
 	if (frameNum >= nextKeyframe->frameNum) {
 		nextKeyframe++;

@@ -178,28 +178,28 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 			case INFO::KEY_UP:
 				if (name.selected) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
-					transform.position.y += shiftKeyPressed ? 10 : 1;
+					transform.position.y += shiftKeyPressed ? 10.f : 1.f;
 				}
 				break;
 
 			case INFO::KEY_DOWN:
 				if (name.selected) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
-					transform.position.y -= shiftKeyPressed ? 10 : 1;
+					transform.position.y -= shiftKeyPressed ? 10.f : 1.f;
 				}
 				break;
 
 			case INFO::KEY_RIGHT:
 				if (name.selected) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
-					transform.position.x += shiftKeyPressed ? 10 : 1;
+					transform.position.x += shiftKeyPressed ? 10.f : 1.f;
 				}
 				break;
 
 			case INFO::KEY_LEFT:
 				if (name.selected) {
 					undoRedo.RecordCurrent(entity, ACTION::TRANSFORM);
-					transform.position.x -= shiftKeyPressed ? 10 : 1;
+					transform.position.x -= shiftKeyPressed ? 10.f : 1.f;
 				}
 				break;
 

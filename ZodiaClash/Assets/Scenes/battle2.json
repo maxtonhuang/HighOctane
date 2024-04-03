@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 72,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -30,7 +30,52 @@
                 "Layer 23",
                 "Layer 24",
                 "Layer 25",
-                "Layer 26"
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71"
             ]
         }
     },
@@ -108,7 +153,8 @@
             "scale": 0.26726171374320984,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Parent": {}
     },
     {
         "Clone": {
@@ -133,7 +179,8 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Parent": {}
     },
     {
         "Clone": {
@@ -147,7 +194,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -158,7 +205,8 @@
             "scale": 1.0,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        }
+        },
+        "Parent": {}
     },
     {
         "Clone": {
@@ -199,7 +247,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -233,47 +281,42 @@
                         {
                             "Speaker": "Yang",
                             "Line": "Urgh...",
-                            "Voice": "Goat_1.ogg"
+                            "Voice": "Goat_02.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "What happened to you?",
-                            "Voice": "Mei_4.ogg"
+                            "Voice": "Mei_4.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "I think... I think I wasn't being myself earlier...",
-                            "Voice": "Goat_2.ogg"
+                            "Voice": "Goat_03.ogg"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "I think it's this artifact. I can't remember what exactly happened...",
-                            "Voice": "Goat_3.ogg"
+                            "Voice": "Goat_04.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Huh, aren't the artifacts fom the Jade Emperor? Wait... Where are the others?",
-                            "Voice": "Mei_5.ogg"
+                            "Voice": "Mei_5.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "I'm not sure, a part of my memory is not with me.",
-                            "Voice": "Goat_4.ogg"
-                        },
-                        {
-                            "Speaker": "Mei",
-                            "Line": "...",
-                            "Voice": "Goat_5.ogg"
+                            "Voice": "Goat_05.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Alright, rest here. I will find the others and come back for you.",
-                            "Voice": "Mei_6.ogg"
+                            "Voice": "Mei_7.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "All the best. May the heavens bless you.",
-                            "Voice": "Goat_8.ogg"
+                            "Voice": "Goat_6.ogg"
                         }
                     ],
                     "Trigger Type": 5,
@@ -311,7 +354,7 @@
                         {
                             "Speaker": "Yang",
                             "Line": "The heavens shall punish you for treason!",
-                            "Voice": ""
+                            "Voice": "Goat_01.ogg"
                         }
                     ],
                     "Trigger Type": 2,

@@ -133,8 +133,8 @@ void TreeManager::Search(BattleSystem* start) {
 		std::vector<Node*> toRemove{};
 		
 		auto pointer = currentNodes.begin();
-		size_t currentSize = currentNodes.size();
-		for (auto i = 0; i < currentSize; i++) {
+		int currentSize = static_cast<int>(currentNodes.size());
+		for (int i = 0; i < currentSize; i++) {
 			Node* n = *pointer;
 			if (n->depth > MAXDEPTH) {
 				pointer++;

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 27,
+            "layerCounter": 37,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -30,7 +30,17 @@
                 "Layer 23",
                 "Layer 24",
                 "Layer 25",
-                "Layer 26"
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36"
             ]
         }
     },
@@ -1661,7 +1671,7 @@
                         {
                             "Speaker": "Mei",
                             "Line": "This one's a tough one...",
-                            "Voice": "Mei_8.ogg"
+                            "Voice": "Mei_8.wav"
                         }
                     ],
                     "Trigger Type": 1,
@@ -1818,7 +1828,8 @@
             "Blue": 1.0,
             "Alpha": 1.0,
             "Mirror": true
-        }
+        },
+        "Parent": {}
     },
     {
         "Clone": {},

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 72,
+            "layerCounter": 10,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -13,95 +13,8 @@
                 "Layer 6",
                 "Layer 7",
                 "Layer 8",
-                "Layer 9",
-                "Layer 10",
-                "Layer 11",
-                "Layer 12",
-                "Layer 13",
-                "Layer 14",
-                "Layer 15",
-                "Layer 16",
-                "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71"
+                "Layer 9"
             ]
-        }
-    },
-    {
-        "Clone": {
-            "Prefab": "background_battle2.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent"
-            ]
-        },
-        "Entity": {
-            "Name": "bg_battle",
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": 0.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 1.0,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
         }
     },
     {
@@ -196,7 +109,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -230,52 +143,52 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Argh... what is this?",
-                            "Voice": "Ox_5.ogg"
+                            "Voice": "Ox_7.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "How did I even get tempted by this artifact?",
-                            "Voice": "Ox_6.ogg"
+                            "Voice": "Ox_8.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "From what it looks like, the Jade Emperor placed this curse within these artifacts to control us.",
-                            "Voice": "Ox_7.ogg"
+                            "Voice": "Goat_08.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "No way... Are the others also cursed by these artifacts?",
-                            "Voice": "Mei_10.ogg"
+                            "Voice": "Mei_11.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Unfortunately, I believe so...",
-                            "Voice": "Ox_8.ogg"
+                            "Voice": "Goat_09.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Oh no, that means Shu...",
-                            "Voice": "Goat_9.ogg"
+                            "Voice": "Mei_13.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Hmm... If so, then one thing is evident.",
-                            "Voice": "Ox_9.ogg"
+                            "Voice": "Ox_9.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "The Zodiac race is a deceitful scheme by the Jade Emperor. He must be stopped before it's too late!",
-                            "Voice": "Ox_10.ogg"
+                            "Voice": "Ox_10.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "Then we must go now! If we join hands, I believe we can stop him.",
-                            "Voice": "Ox_11.ogg"
+                            "Voice": "Goat_10.ogg"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "Alright, count on me!",
-                            "Voice": "Ox_12.ogg"
+                            "Voice": "Ox_11.wav"
                         }
                     ],
                     "Trigger Type": 5,
@@ -294,7 +207,7 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Prepare to utter your final words, cat!",
-                            "Voice": "Ox_1.ogg"
+                            "Voice": "Ox_3.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -313,17 +226,17 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Huh?",
-                            "Voice": "Ox_2.ogg"
+                            "Voice": "Ox_4.wav"
                         },
                         {
                             "Speaker": "Yang",
                             "Line": "You shall not die on me!",
-                            "Voice": "Goat_7.ogg"
+                            "Voice": "Goat_07.ogg"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Thanks, now let's wake this ox up!",
-                            "Voice": "Mei_9.ogg"
+                            "Voice": "Mei_10.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -342,12 +255,12 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Urgh... both of you are strong...",
-                            "Voice": "Ox_3.ogg"
+                            "Voice": "Ox_5.wav"
                         },
                         {
                             "Speaker": "Niu",
                             "Line": "But you cannot defeat me!",
-                            "Voice": "Ox_4.ogg"
+                            "Voice": "Ox_6.wav"
                         }
                     ],
                     "Trigger Type": 4,
@@ -366,12 +279,12 @@
                         {
                             "Speaker": "Niu",
                             "Line": "Leave while you still can, cat!",
-                            "Voice": ""
+                            "Voice": "Ox_2.wav"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "Hmph... Stop me if you can!",
-                            "Voice": ""
+                            "Voice": "Mei_9.wav"
                         }
                     ],
                     "Trigger Type": 2,
@@ -499,5 +412,30 @@
             "Padding Setting": 1
         },
         "Parent": {}
+    },
+    {
+        "Clone": {
+            "Prefab": "background_battle.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "bg_battle",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
     }
 ]

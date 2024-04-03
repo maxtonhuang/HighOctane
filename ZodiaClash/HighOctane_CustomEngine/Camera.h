@@ -42,6 +42,8 @@ public:
 
 	void Reset(); //reset camera position and scale
 
+	void Clamp(); //clamp the camera
+
 	void SetPos(float x, float y); //set camera position
 	void AddPos(float x, float y); //add camera position
 	vmath::Vector2 GetPos();

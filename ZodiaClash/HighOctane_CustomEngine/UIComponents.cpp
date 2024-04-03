@@ -252,13 +252,13 @@ void TextLabel::CalculateOffset() {
 	switch (textWrap) {
 	case UI_TEXT_WRAP::AUTO_WIDTH:
 		textWidth = longestLineWidth + verticalPadding;
-		textHeight = glyphHeight * lineHeight * lineData.size();
+		textHeight = glyphHeight * lineHeight * static_cast<float>(lineData.size());
 		break;
 	case UI_TEXT_WRAP::AUTO_HEIGHT:
-		textHeight = glyphHeight * lineHeight * lineData.size();
+		textHeight = glyphHeight * lineHeight * static_cast<float>(lineData.size());
 		break;
 	default:
-		textHeight = glyphHeight * lineHeight * lineData.size();
+		textHeight = glyphHeight * lineHeight * static_cast<float>(lineData.size());
 		break;
 	}
 	textHeight += verticalPadding;
@@ -324,13 +324,13 @@ void TextLabel::UpdateOffset(Transform const& transformData, Size& sizeData, Pad
 		case(UI_VERTICAL_ALIGNMENT::V_BOTTOM_ALIGN):
 			//bottom align
 			line.relTransform.y = transformData.position.y - textHeight - (0.5f * sizeData.height - textHeight) + (0.5f * verticalPadding) + paddingData.bottom;
-			line.relTransform.y += ((lineData.size() - 1) * glyphHeight * lineHeight);
+			line.relTransform.y += (static_cast<float>(lineData.size() - 1) * glyphHeight * lineHeight);
 			
 			break;
 		default:
 			//center align
 			line.relTransform.y = transformData.position.y - (0.5f * glyphHeight);
-			line.relTransform.y += (0.5f * (lineData.size() - 1) * glyphHeight * lineHeight);
+			line.relTransform.y += (0.5f * static_cast<float>(lineData.size() - 1) * glyphHeight * lineHeight);
 			break;
 		}
 		
@@ -1364,6 +1364,17 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 				}
 			}
 		}
+		else if (inputTriggerType == DIALOGUE_TRIGGER::POST_BATTLE_WIN && battleSys && currentDialogue) {
+			for (CharacterStats* c : ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>().GetDataArray()) {
+				if (!ECS::ecs().EntityExists(c->entity)) {
+					continue;
+				}
+				if (c->boss) {
+					animationArray.GetData(c->entity).Queue("Undeath", c->entity);
+					break;
+				}
+			}
+		}
 	}
 	else {
 		if (!dialogueQueue.empty()) {
@@ -1448,7 +1459,7 @@ void DialogueHUD::RemoveDialogue(int index) {
 	}
 
 	// step 3: remove from dialogues vector
-	if (index >= 0 && index < dialogues.size()) {
+	if (index >= 0 && index < static_cast<int>(dialogues.size())) {
 		dialogues.erase(dialogues.begin() + index);
 	}
 }
@@ -1467,7 +1478,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 	BattleSystem* battleSys = events.GetBattleSystem();
 
 	currentDialogue->viewingIndex++;
-	if (currentDialogue->viewingIndex > currentDialogue->dialogueLines.size() - 1) {
+	if (currentDialogue->viewingIndex > static_cast<int>(currentDialogue->dialogueLines.size() - 1)) {
 		currentDialogue->isActive = 0;
 		currentDialogue->isTriggered = 1;
 		currentDialogue->viewingIndex--;
@@ -1480,6 +1491,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
 		static auto& transformArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Transform>() };
 		static auto& charstatsArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<CharacterStats>() };
+		static auto& buttonArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Button>() };
 		if (animationArray.HasComponent(entity)) {
 			if (battleSys && currentDialogue->triggerType == DIALOGUE_TRIGGER::HEALTH_BASED) {
 				for (CharacterStats* cs : battleSys->GetEnemies())
@@ -1497,6 +1509,9 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 					transformArray.GetData(monkey2).position.y -= 350.f;
 					battleSys->AddCharacter(monkey1);
 					battleSys->AddCharacter(monkey2);
+
+					Entity battleinfo{ battleSys->battleInfoButton };
+					buttonArray.GetData(battleinfo).eventInput = "BattleInfo_Monkey.prefab";
 				}
 				battleSys->ProcessDamage();
 			}
@@ -1535,6 +1550,9 @@ void DialogueHUD::Update(Model& modelData, Entity entity) {
 			if (IsWithinObject(modelData, uiMousePos)) {
 				//on click event trigger (outside edit mode)
 				if (GetCurrentSystemMode() == SystemMode::RUN && currentDialogue && currentDialogue->dialogueLines.size()) {
+					if (!currentDialogue->speakerRequired && (sceneName == "beginning_cutscene1.scn" || sceneName == "ending_cutscene.scn")) {
+							continue;
+					}
 					JumpNextLine(entity);
 				}
 			}

@@ -64,6 +64,7 @@
 
 constexpr float CORNER_SIZE{ 10.f };
 constexpr float CROSS_SIZE{ 10.f };
+constexpr float Y_OFFSET{ 75.f };
 
 // Extern for the vector to contain the full name for ImGui for scripting system
 extern std::vector<std::string> fullNameVecImGUI;
@@ -447,7 +448,8 @@ void MovementSystem::Update() {
 							}
 							if (boundaryMax.y - boundaryMin.y < GRAPHICS::defaultHeightF) {
 								//boundaryMin.y = -GRAPHICS::h;
-								boundaryMax.y = GRAPHICS::defaultHeightF;
+								boundaryMax.y = GRAPHICS::h;
+								boundaryMin.y = -GRAPHICS::h;
 							}
 						}
 						
@@ -493,7 +495,7 @@ void MovementSystem::Update() {
 							//camera.SetTarget(entity);
 
 							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), 
-								std::clamp(transformData->position.y, boundaryMin.y + GRAPHICS::h, boundaryMax.y - GRAPHICS::h));
+								std::clamp(transformData->position.y + Y_OFFSET, boundaryMin.y + GRAPHICS::h + Y_OFFSET, boundaryMax.y - GRAPHICS::h + Y_OFFSET));
 
 						}
 					}
@@ -740,9 +742,9 @@ void GraphicsSystem::Draw() {
 		int timesX = static_cast<int>(((static_cast<float>(std::abs(gridOffsetX)) / 100.f * static_cast<float>(gridSpacingX)) + (static_cast<float>(GRAPHICS::viewportWidth) / 2.f / camera.GetZoom())) / static_cast<float>(gridSpacingX));
 		for (int x = -timesX + static_cast<int>(camera.GetPos().x / static_cast<float>(gridSpacingX)) - 1; x < timesX + static_cast<int>(camera.GetPos().x / static_cast<float>(gridSpacingX)) + 2; ++x) {
 			graphics.DrawLine(
-				static_cast<float>(x * gridSpacingX) + (static_cast<float>(gridOffsetX) / 100.f * static_cast<float>(gridSpacingX)),
+				static_cast<float>(static_cast<float>(x) * gridSpacingX) + (static_cast<float>(gridOffsetX) / 100.f * static_cast<float>(gridSpacingX)),
 				static_cast<float>(GRAPHICS::viewportHeight) / 2.f / camera.GetZoom() + camera.GetPos().y,
-				static_cast<float>(x * gridSpacingX) + (static_cast<float>(gridOffsetX) / 100.f * static_cast<float>(gridSpacingX)),
+				static_cast<float>(static_cast<float>(x) * gridSpacingX) + (static_cast<float>(gridOffsetX) / 100.f * static_cast<float>(gridSpacingX)),
 				static_cast<float>(-GRAPHICS::viewportHeight) / 2.f / camera.GetZoom() + camera.GetPos().y, 0.7f, 0.7f, 0.7f, 0.2f, nullptr
 			);
 		}
@@ -751,9 +753,9 @@ void GraphicsSystem::Draw() {
 		for (int y = -timesY + static_cast<int>(camera.GetPos().y / static_cast<float>(gridSpacingY)) - 1; y < timesY + static_cast<int>(camera.GetPos().y / static_cast<float>(gridSpacingY)) + 2; ++y) {
 			graphics.DrawLine(
 				static_cast<float>(GRAPHICS::viewportWidth) / 2.f / camera.GetZoom() + camera.GetPos().x,
-				static_cast<float>(y * gridSpacingY) + (static_cast<float>(gridOffsetY) / 100.f * static_cast<float>(gridSpacingY)),
+				static_cast<float>(static_cast<float>(y) * gridSpacingY) + (static_cast<float>(gridOffsetY) / 100.f * static_cast<float>(gridSpacingY)),
 				static_cast<float>(-GRAPHICS::viewportWidth) / 2.f / camera.GetZoom() + camera.GetPos().x,
-				static_cast<float>(y * gridSpacingY) + (static_cast<float>(gridOffsetY) / 100.f * static_cast<float>(gridSpacingY)), 0.7f, 0.7f, 0.7f, 0.2f, nullptr
+				static_cast<float>(static_cast<float>(y) * gridSpacingY) + (static_cast<float>(gridOffsetY) / 100.f * static_cast<float>(gridSpacingY)), 0.7f, 0.7f, 0.7f, 0.2f, nullptr
 			);
 		}
 	}
@@ -1293,7 +1295,7 @@ void UIHealthBarSystem::Update() {
 		if (parentData->children.empty())
 			continue;
 
-		for (int count = 0; count < parentData->children.size(); count++) {
+		for (int count = 0; count < static_cast<int>(parentData->children.size()); count++) {
 			Entity childEntity = parentData->children[count];
 
 			if (healthRemainingArray.HasComponent(childEntity)) {
@@ -1355,7 +1357,7 @@ void UISkillPointSystem::Update() {
 		if (parentData->children.empty())
 			continue;
 
-		for (int count = 0; count < parentData->children.size(); count++) {
+		for (int count = 0; count < static_cast<int>(parentData->children.size()); count++) {
 			Entity childEntity = parentData->children[count];
 
 			if (!skillPtArray.HasComponent(childEntity))
@@ -1417,7 +1419,7 @@ void UIAttackSkillSystem::Update() {
 			if (parentData->children.empty())
 				continue;
 
-			for (int count = 0; count < parentData->children.size(); count++) {
+			for (int count = 0; count < static_cast<int>(parentData->children.size()); count++) {
 				Entity childEntity = parentData->children[count];
 
 				// update skill attack type (SkillAttackType + TextLabel/Tex components)
@@ -1671,7 +1673,7 @@ void UIDialogueSystem::Update() {
 
 		// load text data into text labels
 		if (!(parentData->children.empty())) {
-			for (int count = 0; count < parentData->children.size(); count++) {
+			for (int count = 0; count < static_cast<int>(parentData->children.size()); count++) {
 				Entity childEntity = parentData->children[count];
 				// speaker text label
 				if (/*dialogueHudData->currentDialogue->isActive &&*/

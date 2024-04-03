@@ -228,7 +228,7 @@ public:
     
 
     bool HasComponent(Entity entity) {
-        return m_EntityToIndexMap.count(entity);
+        return m_EntityToIndexMap.count(entity) ? true : false;
     }
 
 

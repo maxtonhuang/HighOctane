@@ -227,6 +227,14 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat_Attack_1.ogg",
+                                    "Goat_Attack_2.ogg",
+                                    "Goat_Attack_3.ogg"
+                                ]
+                            },
+                            {
                                 "Frame Number": 8,
                                 "Sounds": [
                                     "Goat Atk 1_Edited.wav"
@@ -274,11 +282,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Goat Damaged_Edited.wav",
-                                    "Goat Damaged2_Edited.wav",
-                                    "Goat Damaged3_Edited.wav",
-                                    "Goat Damaged4_Edited.wav",
-                                    "Goat Damaged5_Edited.wav"
+                                    "Goat_Hurt_1.ogg",
+                                    "Goat_Hurt_2.ogg",
+                                    "Goat_Hurt_3.ogg"
                                 ]
                             }
                         ]
@@ -389,6 +395,14 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat_Attack_1.ogg",
+                                    "Goat_Attack_2.ogg",
+                                    "Goat_Attack_3.ogg"
+                                ]
+                            },
+                            {
                                 "Frame Number": 2,
                                 "Sounds": [
                                     "Goat Buff_Edited.wav"
@@ -410,7 +424,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Goat Death_Edited.wav"
+                                    "Goat_Death_1.ogg",
+                                    "Goat_Death_2.ogg",
+                                    "Goat_Death_3.ogg"
                                 ]
                             }
                         ]
@@ -563,10 +579,125 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat_Attack_1.ogg",
+                                    "Goat_Attack_2.ogg",
+                                    "Goat_Attack_3.ogg"
+                                ]
+                            },
+                            {
                                 "Frame Number": 2,
                                 "Sounds": [
                                     "Goat Heal_Edited.wav"
                                 ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 11,
+                "Group Name": "Undeath",
+                "Loop": false,
+                "Frame Time": 0.15000000596046448,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 7,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 8,
+                                "Reverse": true
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Texture": "Goat_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 10,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat Heal_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 9,
+                                "Child Name": "Shadow",
+                                "Child Animation": "Appear"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": 0.0
+                            },
+                            {
+                                "Frame Number": 9,
+                                "X movement": 0.0,
+                                "Y movement": 0.0,
+                                "Rotation": 0.0,
+                                "Scale": -0.11999999731779099
                             }
                         ]
                     }
@@ -580,7 +711,7 @@
         "Entity": {
             "Name": "Shadow",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -635,6 +766,23 @@
                             {
                                 "Frame Number": 1,
                                 "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Appear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.20000000298023224
                             }
                         ]
                     }

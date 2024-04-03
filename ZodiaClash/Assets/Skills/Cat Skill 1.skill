@@ -8,7 +8,7 @@
         "Minimum Attack Multiplier": 0.7,
         "Maximum Attack Multiplier": 1.3,
         "Crit Rate": 0.5,
-        "Crit Multiplier": 1.2,
+        "Crit Multiplier": 1.3,
         "Chi Cost": -1,
 	"Bleed": 3
     }

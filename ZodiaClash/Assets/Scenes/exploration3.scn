@@ -26,6 +26,7 @@ Ox_Idle.spritesheet
 UI_dialogue_box_bg_v02.png
 mockup_playbutton_04.png
 UI_dialogue_box_bg_v03.png
+circle-512.png
 Mei_8.ogg
 footstep 8.wav
 Battle End_Edited.wav
@@ -43,16 +44,19 @@ Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
-Raging Soul Surge will be cast next!.skill
-Raging Soul Surge.skill
-Dark Rising.skill
-Dark Chi Surge.skill
-Shield Smash.skill
-Monkey Charge.skill
+Danto Lite Normal/Danto Lite Normal.ttf
+Golden Strike.skill
+Nimble Strike.skill
+Charging up Raging Surge!.skill
 Shepherd's Grace.skill
-Monkey Attack.skill
-Jade Thrust.skill
-Monkey AOE.skill
+Primal Fury.skill
+Dark Chi Surge.skill
+Raging Surge.skill
+Hunter's Focus.skill
+Dark Rising.skill
+Stone Skin.skill
+Flaming Cyclone.skill
+Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
@@ -61,6 +65,7 @@ Dance of Fury.skill
 Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
+Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill

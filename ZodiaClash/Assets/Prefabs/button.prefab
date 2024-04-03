@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 18,
+            "layerCounter": 24,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -21,19 +21,24 @@
                 "Layer 14",
                 "Layer 15",
                 "Layer 16",
-                "Layer 17"
+                "Layer 17",
+                "Layer 18",
+                "Layer 19",
+                "Layer 20",
+                "Layer 21",
+                "Layer 22",
+                "Layer 23"
             ]
         }
     },
     {
         "Entity": {
             "Name": "button",
-            "Current Layer": 0,
-            "Order in Layer": 5,
+            "Current Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
-        "Master": {},
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -53,14 +58,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_playbutton_04.png"
+            "Texture File Path": ""
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 333.0,
-            "height": 119.5
+            "width": 200.0,
+            "height": 100.0
         },
         "Scripts": {
             "className": "",
@@ -72,14 +77,15 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0
+            "Alpha": 1.0,
+            "Mirror": false
         },
         "Movable": {},
         "Text Label": {
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Battle Test",
+            "Text String": "Button",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -87,6 +93,7 @@
             "Color Preset": "black",
             "Horizontal Alignment": 1,
             "Vertical Alignment": 1,
+            "Text Wrap": 2,
             "Background": false
         },
         "Button": {
@@ -94,33 +101,226 @@
             "Default Button G": 1.0,
             "Default Button B": 1.0,
             "Default Button A": 1.0,
-            "Default Text R": 0.0,
-            "Default Text G": 0.0,
-            "Default Text B": 0.0,
+            "Default Text R": 1.0,
+            "Default Text G": 1.0,
+            "Default Text B": 1.0,
             "Default Text A": 1.0,
             "Hovered Button R": 1.0,
             "Hovered Button G": 1.0,
             "Hovered Button B": 1.0,
             "Hovered Button A": 1.0,
-            "Hovered Text R": 0.0,
-            "Hovered Text G": 0.0,
+            "Hovered Text R": 1.0,
+            "Hovered Text G": 1.0,
             "Hovered Text B": 1.0,
             "Hovered Text A": 1.0,
             "Focused Button R": 1.0,
             "Focused Button G": 1.0,
             "Focused Button B": 1.0,
             "Focused Button A": 1.0,
-            "Focused Text R": 0.0,
-            "Focused Text G": 0.0,
-            "Focused Text B": 0.0,
+            "Focused Text R": 1.0,
+            "Focused Text G": 1.0,
+            "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Change Scene",
-            "Event Input": "battle.scn",
+            "Event Name": "Test",
+            "Event Input": "",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
             "Padding Right": 60.0,
             "Padding Setting": 1
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Hover Target_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "UI_Streak",
+                                "Child Animation": "Start"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Select_Target_Edited.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Reset",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "UI_Streak",
+                                "Child Animation": "Stop"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
+        "Parent": {}
+    },
+    {
+        "Entity": {
+            "Name": "UI_Streak",
+            "Current Layer": 0,
+            "Order in Layer": 2,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": -396.0,
+            "position_y": -276.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "UI_Menu_Hover_Streak.spritesheet"
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 383.0,
+            "height": 383.0
+        },
+        "Model": {
+            "Model type": 0,
+            "Background scroll speed": 0.0,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Animation Set": [
+            {
+                "Total Frames": 5,
+                "Group Name": "Start",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "UI_Menu_Hover_Streak.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Stop",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "UI_Menu_Hover_Streak.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Reverse": true
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Stop",
+        "Child": {
+            "position_x": 0.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
         }
     }
 ]

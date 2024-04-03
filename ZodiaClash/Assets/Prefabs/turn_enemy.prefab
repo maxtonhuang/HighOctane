@@ -383,7 +383,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "turnorder.wav"
+                                    "Tutorial_Panel_Whoosh.wav"
                                 ]
                             }
                         ]
@@ -491,6 +491,17 @@
                                 "Y movement": 200.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "turnorder2.wav"
+                                ]
                             }
                         ]
                     }

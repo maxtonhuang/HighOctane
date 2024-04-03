@@ -450,7 +450,14 @@ void TransferToLayer(Entity e, size_t LayerIndex) {
 	// remove entity from source layer
 	RemoveEntityFromLayering(e);
 	// insert entity into target layer
-	layering[LayerIndex].emplace_back(e);
+	if (LayerIndex < layering.size()) {
+		layering[LayerIndex].emplace_back(e);
+	}
+	else {
+		std::deque<Entity> temp;
+		layering.emplace_back(temp);
+		layering[layering.size() - 1].emplace_back(e);
+	}
 }
 
 /******************************************************************************

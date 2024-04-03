@@ -122,8 +122,10 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Player ox attack
     else if (attackName == "Shield Thrust") {
-        target->debuffs.defenseDebuff = 0.5f;
-        target->debuffs.defenseStack = 2;
+        if (!target->buffs.shieldStack) {
+            target->debuffs.defenseDebuff = 0.5f;
+            target->debuffs.defenseStack = 2;
+        }
     }
     //Enemy ox attack
     else if (attackName == "Shield Smash") {
@@ -134,7 +136,9 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Enemy ox skill
     else if (attackName == "Resolute Charge") {
-        target->debuffs.stunStack += 1;
+        if (!target->buffs.shieldStack) {
+            target->debuffs.stunStack += 1;
+        }
     }
     //Enemy ox skill
     else if (attackName == "Unstoppable Charge") {
@@ -167,24 +171,24 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->buffs.defenseStack = 2;
     }
     //Enemy emperor buff
-    else if (attackName == "Emperor Buff") {
+    else if (attackName == "Primal Fury") {
         if (owner->cycle == 0 && target->entity == owner->entity) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
         owner->buffs.attackBuff += 0.5;
-        owner->buffs.attackStack += 3;
+        owner->buffs.attackStack += 4;
     }
     //Enemy emperor lock-on
-    else if (attackName == "Locking on!") {
-        if (owner->cycle == 1 && target->entity == owner->parent->GetPlayers()[0]->entity) {
+    else if (attackName == "Hunter's Focus") {
+        if (owner->cycle == 1 && (ECS::ecs().GetComponent<Name>(target->entity).name == "Cat" || ECS::ecs().GetComponent<Name>(target->entity).name == "Player_Goat")) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
         target->debuffs.huntedStack = 2;
     }
     //Enemy emperor attack
-    else if (attackName == "Emperor Attack") {
+    else if (attackName == "Nimble Strike") {
         if (owner->cycle > 1) {
             owner->action.battleManager->aiMultiplier += 10000;
         }
@@ -194,21 +198,21 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
     //Enemy monkey attack
-    else if (attackName == "Monkey Attack") {
+    else if (attackName == "Golden Strike") {
         owner->cycle++;
         if (owner->cycle > 2) {
             owner->cycle = 0;
         }
     }
     //Enemy monkey AOE
-    else if (attackName == "Monkey AOE") {
-        if (target->debuffs.igniteStack) {
+    else if (attackName == "Flaming Cyclone") {
+        if (target->debuffs.igniteStack && owner->action.battleManager->GetEnemies().size() > 2) {
             owner->action.battleManager->aiMultiplier -= 100000;
         }
         target->debuffs.igniteStack += 1;
     }
-    //Enemy monkey charge
-    else if (attackName == "Create Shield") {
+    //Enemy monkey shield
+    else if (attackName == "Stone Skin") {
         if (owner->buffs.shieldStack == 0) {
             bool hasStun{ false };
             for (auto& enemy : owner->action.battleManager->GetEnemies()) {
@@ -253,7 +257,10 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
 
-    target->debuffs.bloodStack += bleed;
+    if (!target->buffs.shieldStack) {
+        target->debuffs.bloodStack += bleed;
+    }
+    
     if (target->debuffs.bloodStack > 5) {
         target->debuffs.bloodStack = 5;
     }
@@ -276,7 +283,7 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0 && attacktype != AttackType::AOE) {
-        owner->TakeDamage(0.1f * owner->stats.maxHealth);
+        owner->TakeDamage(0.2f * owner->stats.maxHealth);
     }
 }
 
@@ -290,8 +297,8 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
         UseAttack(t);
     }
 
-    if (attackName == "Monkey AOE") {
-        if (owner->cycle == 0) {
+    if (attackName == "Flaming Cyclone") {
+        if (owner->cycle == 0 || owner->action.battleManager->GetEnemies().size() <= 2) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
@@ -301,7 +308,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0) {
-        owner->TakeDamage(0.1f * owner->stats.maxHealth);
+        owner->TakeDamage(0.2f * owner->stats.maxHealth);
     }
 }
 

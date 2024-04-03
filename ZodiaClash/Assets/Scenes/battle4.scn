@@ -1,4 +1,5 @@
 ZodiaClash_Boss.ogg
+Battle Ambience BGM_Edited.wav
 Boss_Circle.spritesheet
 Boss_Circle.spritesheet
 Cat_Ulti.spritesheet
@@ -48,6 +49,7 @@ mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
+Ox_Ulti_VFX.spritesheet
 Goat_Death.spritesheet
 Goat_Death.spritesheet
 Goat_Basic_VFX.spritesheet
@@ -101,16 +103,13 @@ Emperor_Monkey_Basic.spritesheet
 Emperor_Monkey_Basic.spritesheet
 tooltip_OxSkill2.png
 UI_ICON_stun.png
-
 Ox_Damaged.spritesheet
 Ox_Damaged.spritesheet
 tooltip_OxSkill3.png
 Ox_Ulti.spritesheet
 Ox_Ulti.spritesheet
-Ox_Ulti_VFX.spritesheet
 UI_ICON_def_up.png
 UI_ICON_taunt.png
-Battle Ambience BGM_Edited.wav
 Cat_Atk_2_Edited.wav
 Guard Damaged_Edited.wav
 Cat Atk_1_Edited.wav
@@ -144,27 +143,29 @@ Ox Damaged_Edited.wav
 Ox Damaged3_Edited.wav
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Golden Strike.skill
+Nimble Strike.skill
+Charging up Raging Surge!.skill
+Shepherd's Grace.skill
+Primal Fury.skill
 Dark Chi Surge.skill
 Raging Surge.skill
-Secret Arts: Pounce.skill
-Emperor Attack.skill
-Emperor Buff.skill
-Locking on!.skill
-Shepherd's Grace.skill
-Monkey Attack.skill
-Monkey Charge.skill
-Charging up Raging Surge!.skill
+Hunter's Focus.skill
 Dark Rising.skill
-Jade Thrust.skill
-Monkey AOE.skill
+Stone Skin.skill
+Flaming Cyclone.skill
 Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
 Scarlet Claw.skill
 Dance of Fury.skill
+Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
+Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill

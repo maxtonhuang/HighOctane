@@ -86,6 +86,7 @@ public:
        float attackDebuff{ 0.f };
        int defenseStack{ 0 };
        float defenseDebuff{ 0.f };
+       bool operator!= (const debuff& rhs);
     }; debuff debuffs{};
 
     bool boss{};

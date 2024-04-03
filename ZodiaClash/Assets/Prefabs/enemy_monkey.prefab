@@ -103,9 +103,9 @@
             "Boss": false,
             "Untargetable": false,
             "Skills": [
-                "Monkey Attack",
-                "Monkey AOE",
-                "Create Shield"
+                "Golden Strike",
+                "Flaming Cyclone",
+                "Stone Skin"
             ]
         },
         "Model": {
@@ -306,8 +306,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Guard Damaged_Edited.wav",
-                                    "Guard Damaged2_Edited.wav"
+                                    "Emperor_Hurt_1.wav",
+                                    "Emperor_Hurt_2.wav",
+                                    "Emperor_Hurt_3.wav"
                                 ]
                             }
                         ]
@@ -395,7 +396,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Guard Death_Edited.wav"
+                                    "Zodiac Clash_Jade Emperor_9.wav"
                                 ]
                             }
                         ]
@@ -488,6 +489,14 @@
                     {
                         "Animation Type": "Sound",
                         "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Emperor_Attack_1.wav",
+                                    "Emperor_Attack_2.wav",
+                                    "Emperor_Attack_3.wav"
+                                ]
+                            },
                             {
                                 "Frame Number": 4,
                                 "Sounds": []
@@ -584,6 +593,14 @@
                                 "Sounds": [
                                     "Boss_Aoe.wav"
                                 ]
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Sounds": [
+                                    "Emperor_Attack_1.wav",
+                                    "Emperor_Attack_2.wav",
+                                    "Emperor_Attack_3.wav"
+                                ]
                             }
                         ]
                     }
@@ -601,6 +618,19 @@
                             {
                                 "Frame Number": 1,
                                 "Destination": "Emperor moveback"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Emperor_Attack_1.wav",
+                                    "Emperor_Attack_2.wav",
+                                    "Emperor_Attack_3.wav"
+                                ]
                             }
                         ]
                     }

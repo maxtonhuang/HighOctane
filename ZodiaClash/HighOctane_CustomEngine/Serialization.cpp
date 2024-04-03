@@ -735,8 +735,10 @@ void Serializer::SaveEntityToJson(const std::string& fileName, const std::vector
 	layeringObject.AddMember("groupCounter", groupCounter, allocator);
 	if (!layerNames.empty()) {
 		rapidjson::Value layerNamesArray(rapidjson::kArrayType);
-		for (const std::pair<std::string, bool>& layerName : layerNames) {
-			layerNamesArray.PushBack(rapidjson::Value(layerName.first.c_str(), allocator), allocator);
+
+		for (unsigned i = 0; i < layerCounter; ++i) {
+		//for (const std::pair<std::string, bool>& layerName : layerNames) {
+			layerNamesArray.PushBack(rapidjson::Value(layerNames[i].first.c_str(), allocator), allocator);
 		}
 		layeringObject.AddMember("layerNames", layerNamesArray, allocator);
 	}
