@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 29,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,8 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28"
             ]
         }
     },
@@ -39,7 +40,7 @@
         "Entity": {
             "Name": "Monkey",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 18,
             "isLocked": true,
             "isSkipped": true
         },
@@ -773,7 +774,7 @@
         "Entity": {
             "Name": "Shadow",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 17,
             "isLocked": true,
             "isSkipped": true
         },
@@ -848,7 +849,7 @@
         "Entity": {
             "Name": "Monkey Shield",
             "Current Layer": 1,
-            "Order in Layer": 8,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -861,9 +862,9 @@
         },
         "Transform": {
             "position_x": -326.0,
-            "position_y": 138.64100646972656,
+            "position_y": 154.64100646972656,
             "rotation": 0.0,
-            "scale": 1.0000001192092896,
+            "scale": 0.07999999821186066,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -872,14 +873,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "circle-512.png"
+            "Texture File Path": "EMPEROR_shield_v02.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 252.0,
-            "height": 344.0
+            "width": 4276.0,
+            "height": 4416.0
         },
         "Model": {
             "Model type": 0,
@@ -1113,9 +1114,9 @@
         "Animation Set Default Animation": "Animation 3",
         "Child": {
             "position_x": 0.0,
-            "position_y": -3.5,
+            "position_y": 12.5,
             "rotation": 0.0,
-            "scale": 1.0000001192092896,
+            "scale": 0.07999999821186066,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -1124,7 +1125,7 @@
         "Entity": {
             "Name": "VFX_Corrupted",
             "Current Layer": 1,
-            "Order in Layer": 7,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -1163,14 +1164,14 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 0.001,
-            "Dimension Y": 0.001,
+            "Dimension X": 0.0010000000474974513,
+            "Dimension Y": 0.0010000000474974513,
             "Type": 1,
             "Event Name": "",
             "Event Input": ""
@@ -1248,7 +1249,7 @@
                 ]
             },
             {
-                "Total Frames": 2,
+                "Total Frames": 3,
                 "Group Name": "Appear",
                 "Loop": false,
                 "Frame Time": 0.01666666753590107,
@@ -1259,6 +1260,15 @@
                             {
                                 "Frame Number": 1,
                                 "Alpha": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Destination": "Loop"
                             }
                         ]
                     }

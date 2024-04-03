@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 29,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,8 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28"
             ]
         }
     },
@@ -682,7 +683,7 @@
         "Entity": {
             "Name": "Shadow",
             "Current Layer": 0,
-            "Order in Layer": 11,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
@@ -757,7 +758,7 @@
         "Entity": {
             "Name": "VFX_Corrupted",
             "Current Layer": 1,
-            "Order in Layer": 9,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -796,14 +797,14 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 1.0,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 0.001,
-            "Dimension Y": 0.001,
+            "Dimension X": 0.0010000000474974513,
+            "Dimension Y": 0.0010000000474974513,
             "Type": 1,
             "Event Name": "",
             "Event Input": ""
@@ -881,7 +882,7 @@
                 ]
             },
             {
-                "Total Frames": 2,
+                "Total Frames": 3,
                 "Group Name": "Appear",
                 "Loop": false,
                 "Frame Time": 0.01666666753590107,
@@ -892,6 +893,15 @@
                             {
                                 "Frame Number": 1,
                                 "Alpha": 1.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Destination": "Loop"
                             }
                         ]
                     }

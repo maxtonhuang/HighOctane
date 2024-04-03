@@ -678,6 +678,15 @@ rapidjson::Value SerializeAnimationSet(const AnimationSet& animSet, rapidjson::D
 					keyFrames.PushBack(keyframe, allocator);
 				}
 			}
+			else if (animType == "Parent") {
+				const std::shared_ptr<ParentAnimation> childAnim{ std::dynamic_pointer_cast<ParentAnimation>(anim) };
+				for (auto const& k : childAnim->keyframes) {
+					rapidjson::Value keyframe(rapidjson::kObjectType);
+					keyframe.AddMember("Frame Number", k.frameNum, allocator);
+					keyframe.AddMember("Animation", rapidjson::Value(k.data.c_str(), allocator).Move(), allocator);
+					keyFrames.PushBack(keyframe, allocator);
+				}
+			}
 			perAnimation.AddMember("Key Frames", keyFrames, allocator);
 			animations.PushBack(perAnimation, allocator);
 		}
@@ -1843,6 +1852,15 @@ Entity Serializer::LoadEntityFromJson(const std::string& fileName, bool isPrefab
 							}
 							anigrp.animations.push_back(std::make_shared<ChildAnimation>(a));
 						}
+						else if (animType == "Parent") {
+							ParentAnimation a{};
+							for (auto& k : animations["Key Frames"].GetArray()) {
+								std::string data{};
+								data = k["Animation"].GetString();
+								a.AddKeyFrame(k["Frame Number"].GetInt(), &data);
+							}
+							anigrp.animations.push_back(std::make_shared<ParentAnimation>(a));
+							}
 					}
 					animset.animationSet.push_back(anigrp);
 				}

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,17 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37"
             ]
         }
     },
@@ -39,7 +49,7 @@
         "Entity": {
             "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -662,7 +672,7 @@
         "Entity": {
             "Name": "Turn Indicator",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -675,9 +685,9 @@
         },
         "Transform": {
             "position_x": 571.5005493164063,
-            "position_y": -172.0,
+            "position_y": -152.5,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.30000001192092896,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         },
@@ -686,14 +696,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "UI_target_circle_f1.png"
+            "Texture File Path": "UI_Polish_Selector.spritesheet"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 256.0,
-            "height": 256.0
+            "width": 958.0,
+            "height": 958.0
         },
         "Model": {
             "Model type": 0,
@@ -707,7 +717,7 @@
         "Movable": {},
         "Animation Set": [
             {
-                "Total Frames": 2,
+                "Total Frames": 5,
                 "Group Name": "Default",
                 "Loop": true,
                 "Frame Time": 0.5,
@@ -717,11 +727,28 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "Texture": "UI_target_circle_f1.png"
-                            },
+                                "Texture": "UI_Polish_Selector.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
                             {
                                 "Frame Number": 1,
-                                "Texture": "UI_target_circle_f2.png"
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": false
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": false
                             }
                         ]
                     }
@@ -774,9 +801,9 @@
         "Animation Set Default Animation": "Default",
         "Child": {
             "position_x": 21.5,
-            "position_y": -22.0,
+            "position_y": -2.5,
             "rotation": 0.0,
-            "scale": 1.0,
+            "scale": 0.30000001192092896,
             "velocity_x": 0.0,
             "velocity_y": 0.0
         }
@@ -785,7 +812,7 @@
         "Entity": {
             "Name": "Shadow",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },

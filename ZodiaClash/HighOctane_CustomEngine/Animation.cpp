@@ -1217,3 +1217,55 @@ bool ChildAnimation::HasKeyFrame(int frameNum) {
 	}
 	return false;
 }
+
+ParentAnimation::ParentAnimation() {
+	type = "Parent";
+}
+void ParentAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (!ECS::ecs().HasComponent<Child>(parent)) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void ParentAnimation::Update(int frameNum) {
+	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+	static auto& childArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Child>() };
+	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		Child& c{ childArray.GetData(parent) };
+		Entity Parent{ c.parent };
+		if (Parent) {
+			animationArray.GetData(Parent).Start(nextKeyframe->data, Parent);
+		}
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+	}
+}
+void ParentAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void ParentAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<std::string>{frameNum});
+}
+bool ParentAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
