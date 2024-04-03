@@ -71,7 +71,7 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
             events.Call("Change Scene", "mainmenu.scn");
         }
         if (GLFW_KEY_F2 == key) {
-            events.Call("Change Scene", "beginning_cutscene1.scn");
+            events.Call("Change Scene", "beginning_cutscene.scn");
         }
         if (GLFW_KEY_F3 == key) {
             // empty slot
