@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 25,
+            "layerCounter": 74,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -28,7 +28,56 @@
                 "Layer 21",
                 "Layer 22",
                 "Layer 23",
-                "Layer 24"
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71",
+                "Layer 72",
+                "Layer 73"
             ]
         }
     },
@@ -41,8 +90,8 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 11704.0,
-            "position_y": 0.0,
+            "position_x": 17000.0,
+            "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -58,17 +107,17 @@
         "Movable": {},
         "Animation Set": [
             {
-                "Total Frames": 60,
+                "Total Frames": 61,
                 "Group Name": "Cutscene",
                 "Loop": false,
-                "Frame Time": 0.8999999761581421,
+                "Frame Time": 0.800000011920929,
                 "Animations": [
                     {
                         "Animation Type": "TransformAttach",
                         "Key Frames": [
                             {
                                 "Frame Number": 59,
-                                "Target": "Cutscene End"
+                                "Target": "Cutscene 1 End"
                             }
                         ]
                     },
@@ -84,7 +133,7 @@
                         "Animation Type": "Event",
                         "Key Frames": [
                             {
-                                "Frame Number": 12,
+                                "Frame Number": 10,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
@@ -94,12 +143,80 @@
                                 "Event Input": ""
                             },
                             {
-                                "Frame Number": 35,
+                                "Frame Number": 36,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
                             {
-                                "Frame Number": 47,
+                                "Frame Number": 50,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 60,
+                                "Destination": "Change Cutscene"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Change Cutscene",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Target": "Cutscene 2 Start"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5,
+                                "Destination": "Cutscene 2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Cutscene 2",
+                "Loop": false,
+                "Frame Time": 0.4000000059604645,
+                "Animations": [
+                    {
+                        "Animation Type": "Event",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 11,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 22,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 45,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
                             },
@@ -107,6 +224,15 @@
                                 "Frame Number": 59,
                                 "Event Name": "Advance Dialogue",
                                 "Event Input": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59,
+                                "Target": "Cutscene End"
                             }
                         ]
                     }

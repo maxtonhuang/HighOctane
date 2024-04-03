@@ -14,12 +14,12 @@ Heal_VFX.spritesheet
 Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-UI_ICON_def_down.png
 UI_ICON_bleed.png
+UI_ICON_def_down.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -45,8 +45,8 @@ Goat_Hit.spritesheet
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
 Goat_Basic.spritesheet
-Goat_Ulti.spritesheet
 mockup_chi_icon_lineart.png
+Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
@@ -61,8 +61,8 @@ Ox_Basic.spritesheet
 mockup_icon_goat.png
 ox.png
 mockup_qn_icon.png
-mockup_skillframe.png
 Effect_Ignited.png
+mockup_skillframe.png
 BattleInfo_Ox.png
 UI_target_circle_f1.png
 Ox_Idle.spritesheet
@@ -85,10 +85,10 @@ Emperor_Monkey_buff.spritesheet
 Emperor_Monkey_buff.spritesheet
 UI_ICON_atk_up.png
 skilltooltip_CatSkill1.png
-VFX_Smoke.spritesheet
 Emperor_Monkey_AOE.spritesheet
 VFX_Smoke.spritesheet
 Emperor_Monkey_AOE.spritesheet
+VFX_Smoke.spritesheet
 UI_icon_ignite.png
 UI_ICON_reflect.png
 skill_icon_goat_1.png
@@ -113,31 +113,31 @@ UI_ICON_taunt.png
 Cat_Atk_2_Edited.wav
 Guard Damaged_Edited.wav
 Cat Atk_1_Edited.wav
-Boss_AtkBuff.wav
 Guard Atk_Edited.wav
-Cat Damaged_Edited.wav
+Boss_AtkBuff.wav
 Cat_Atk_3_Edited.wav
-Hover Target_Edited.wav
+Cat Damaged_Edited.wav
 Skill Select_Edited.wav
+Hover Target_Edited.wav
 Goat Damaged_Edited.wav
 Hover Select_Edited.wav
 Goat Atk 1_Edited.wav
-Goat Atk 4_Edited.wav
 Boss_Aoe.wav
+Goat Atk 4_Edited.wav
 Guard Death_Edited.wav
 Goat Death_Edited.wav
-turnorder.wav
 Battle End_Edited.wav
+turnorder.wav
 turnorder2.wav
-shield damaged 2.wav
-Select_Target_Edited.wav
 Goat Damaged4_Edited.wav
+Select_Target_Edited.wav
+shield damaged 2.wav
 boss poof.wav
 shield damaged 1.wav
 Ox Atk 1_Edited.wav
 shield broken.wav
-Guard Damaged2_Edited.wav
 Ox Atk 3_Edited.wav
+Guard Damaged2_Edited.wav
 Cat Damaged3_Edited.wav
 Ox Damaged_Edited.wav
 Ox Damaged3_Edited.wav
@@ -145,27 +145,27 @@ Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
+Golden Strike.skill
+Nimble Strike.skill
+Charging up Raging Surge!.skill
+Shepherd's Grace.skill
+Primal Fury.skill
 Dark Chi Surge.skill
 Raging Surge.skill
-Secret Arts: Pounce.skill
-Emperor Attack.skill
-Emperor Buff.skill
-Locking on!.skill
-Shepherd's Grace.skill
-Monkey Attack.skill
-Charging up Raging Surge!.skill
+Hunter's Focus.skill
 Dark Rising.skill
-Create Shield.skill
-Jade Thrust.skill
-Monkey AOE.skill
+Stone Skin.skill
+Flaming Cyclone.skill
 Shield Smash.skill
 Unstoppable Charge.skill
 .skill
 Cursed War God's Wrath.skill
 Scarlet Claw.skill
 Dance of Fury.skill
+Secret Arts: Pounce.skill
 Yin-Yang Strike.skill
 Chi Surge.skill
+Jade Thrust.skill
 Shield Thrust.skill
 Resolute Charge.skill
 War God's Wrath.skill

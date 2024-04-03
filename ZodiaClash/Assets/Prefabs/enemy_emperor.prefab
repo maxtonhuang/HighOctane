@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 22,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -25,7 +25,13 @@
                 "Layer 18",
                 "Layer 19",
                 "Layer 20",
-                "Layer 21"
+                "Layer 21",
+                "Layer 22",
+                "Layer 23",
+                "Layer 24",
+                "Layer 25",
+                "Layer 26",
+                "Layer 27"
             ]
         }
     },
@@ -279,8 +285,9 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Guard Damaged_Edited.wav",
-                                    "Guard Damaged2_Edited.wav"
+                                    "Emperor_Hurt_1.wav",
+                                    "Emperor_Hurt_2.wav",
+                                    "Emperor_Hurt_3.wav"
                                 ]
                             }
                         ]
@@ -322,14 +329,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "Guard Death_Edited.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     },
                     {
                         "Animation Type": "Child",
@@ -452,6 +452,14 @@
                         "Animation Type": "Sound",
                         "Key Frames": [
                             {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Emperor_Attack_1.wav",
+                                    "Emperor_Attack_2.wav",
+                                    "Emperor_Attack_3.wav"
+                                ]
+                            },
+                            {
                                 "Frame Number": 4,
                                 "Sounds": [
                                     "Boss_SingleTarget.wav"
@@ -558,6 +566,19 @@
                                 "Prefab": "VFX_AtkBuff.prefab"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Emperor_Attack_1.wav",
+                                    "Emperor_Attack_2.wav",
+                                    "Emperor_Hurt_3.wav"
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
@@ -604,6 +625,19 @@
                             {
                                 "Frame Number": 4,
                                 "Reverse": false
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Emperor_Attack_1.wav",
+                                    "Emperor_Attack_2.wav",
+                                    "Emperor_Attack_3.wav"
+                                ]
                             }
                         ]
                     }

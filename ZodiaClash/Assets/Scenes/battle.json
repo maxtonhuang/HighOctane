@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 75,
+            "layerCounter": 72,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -75,10 +75,7 @@
                 "Layer 68",
                 "Layer 69",
                 "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73",
-                "Layer 74"
+                "Layer 71"
             ]
         }
     },
@@ -119,7 +116,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -145,7 +142,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -171,7 +168,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 12,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -199,7 +196,7 @@
         "Entity": {
             "Name": "dialogue_box",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -233,12 +230,12 @@
                         {
                             "Speaker": "Mei",
                             "Line": "This is weird. How are these statues alive? Aren't these the Jade Emperor's statues?",
-                            "Voice": "Mei_2.ogg"
+                            "Voice": "Mei_2.wav"
                         },
                         {
                             "Speaker": "Mei",
                             "Line": "I feel a sinister aura here.",
-                            "Voice": "Mei_3.ogg"
+                            "Voice": "Mei_3.wav"
                         }
                     ],
                     "Trigger Type": 5,
@@ -257,7 +254,7 @@
                         {
                             "Speaker": "Mei",
                             "Line": "Huh? What is happening?",
-                            "Voice": "Mei_1.ogg"
+                            "Voice": "Mei_1.wav"
                         }
                     ],
                     "Trigger Type": 2,

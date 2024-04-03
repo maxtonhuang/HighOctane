@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 37,
+            "layerCounter": 31,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -34,13 +34,7 @@
                 "Layer 27",
                 "Layer 28",
                 "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36"
+                "Layer 30"
             ]
         }
     },
@@ -143,7 +137,7 @@
                         {
                             "Speaker": "Emperor",
                             "Line": "Feel the might of Wukong!",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Jade Emperor_7.wav"
                         }
                     ],
                     "Trigger Type": 2,
@@ -162,7 +156,7 @@
                         {
                             "Speaker": "Emperor",
                             "Line": "Say your last words now, as you burn from these flames!",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Jade Emperor_10.wav"
                         }
                     ],
                     "Trigger Type": 3,
@@ -181,7 +175,7 @@
                         {
                             "Speaker": "Emperor",
                             "Line": "Argh...",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Jade Emperor_8.wav"
                         }
                     ],
                     "Trigger Type": 4,
@@ -348,7 +342,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 14,
+            "Order in Layer": 13,
             "isLocked": true,
             "isSkipped": true
         },
@@ -374,7 +368,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
         },
@@ -400,7 +394,7 @@
         "Entity": {
             "Name": "Emperor",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },

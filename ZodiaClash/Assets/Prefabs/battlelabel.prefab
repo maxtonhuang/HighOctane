@@ -157,14 +157,14 @@
             "Rows": 0,
             "Columns": 0,
             "Sprite Number": 0,
-            "Texture File Path": "mockup_skillframe.png"
+            "Texture File Path": "Extended_Frame.png"
         },
         "Visible": {
             "isVisible": false
         },
         "Size": {
-            "width": 550.0,
-            "height": 65.0
+            "width": 510.0,
+            "height": 78.0
         },
         "Model": {
             "Model type": 3,

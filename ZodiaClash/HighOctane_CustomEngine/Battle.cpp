@@ -420,9 +420,6 @@ void BattleSystem::Update()
                             character->stats.health = 0.f;
                             deadchars.push_back(character);
                         }
-                        if (character->tag == CharacterType::PLAYER) {
-                            character->debuffs.igniteStack += 1;
-                        }
                     }
                     if (m_Entities.size() > 0) {
                         events.Call("Start Dialogue", "HEALTH");

@@ -67,7 +67,9 @@ void Camera::Update() {
 }
 
 void Camera::Clamp() {
-	SetPos(std::clamp(pos.x, -GRAPHICS::w + GRAPHICS::w / scale, GRAPHICS::w - GRAPHICS::w / scale), pos.y);
+	if (events.GetBattleSystem()->battlestarted) {
+		SetPos(std::clamp(pos.x, -GRAPHICS::w + GRAPHICS::w / scale, GRAPHICS::w - GRAPHICS::w / scale), pos.y);
+	}
 }
 
 void Camera::Reset() {

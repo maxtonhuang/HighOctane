@@ -297,7 +297,7 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
         UseAttack(t);
     }
 
-    if (attackName == "Monkey AOE") {
+    if (attackName == "Flaming Cyclone") {
         if (owner->cycle == 0 || owner->action.battleManager->GetEnemies().size() <= 2) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
