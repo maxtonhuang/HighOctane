@@ -308,12 +308,13 @@ void BattleSystem::Update()
 
     case PLAYERTURN:
         //Check if turn/health conditions are met, trigger dialogue
-        if (m_Entities.size() > 0 && !dialogueCalled && (roundManage.roundCounter == 1)) {
+        if (m_Entities.size() > 0 && !dialogueCalled && emperorDead) {
             for (CharacterStats* c : turnManage.turnOrderList) {
                 // dialogue call trigger specific to round 1, Monkey is the boss
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Monkey") {
                     if (activeCharacter == c) {
-                        events.Call("Start Dialogue", "TURN");
+                        events.Call("Start Dialogue", "EVENT");
+                        emperorDead = false;
                         // to confirm indexing?
                     }
                 }
