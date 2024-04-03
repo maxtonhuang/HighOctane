@@ -184,10 +184,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 				layering[p.first].emplace_back(childClone);
 			}
 			else {
-				if (layering.size() == 0) {
-					CreateNewLayer();
-				}
-				else if (p.first != ULLONG_MAX && p.first > layering.size() + 1) {
+				if (p.first != ULLONG_MAX && p.first > layering.size() + 1) {
 					while (p.first >= layering.size()) {
 						CreateNewLayer();
 					}
@@ -204,10 +201,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 	Name& entityName = ECS::ecs().GetComponent<Name>(masterEntity);
 	std::pair<size_t, size_t> p{ entityName.serializationLayer,entityName.serializationOrderInLayer };
 	if (p.first != ULLONG_MAX && p.second != ULLONG_MAX) {
-		if (layering.size() == 0) {
-			CreateNewLayer();
-		}
-		else if (p.first >= layering.size()) {
+		if (p.first >= layering.size()) {
 			while (p.first >= layering.size()) {
 				CreateNewLayer();
 			}
@@ -215,10 +209,7 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 		layering[p.first].emplace_back(entity);
 	}
 	else {
-		if (layering.size() == 0) {
-			CreateNewLayer();
-		}
-		else if (p.first != ULLONG_MAX && p.first > layering.size()) {
+		if (p.first != ULLONG_MAX && p.first > layering.size()) {
 			for (unsigned i = 0; i < p.first - layering.size(); i++) {
 				CreateNewLayer();
 			}
