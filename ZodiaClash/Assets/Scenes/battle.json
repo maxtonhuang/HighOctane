@@ -116,7 +116,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -168,7 +168,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -201,7 +201,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -5.0,
             "position_y": -800.0,
             "rotation": 0.0,
             "scale": 1.25,
@@ -234,7 +234,7 @@
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "I feel a sinister aura here.",
+                            "Line": "I feel a sinister aura.",
                             "Voice": "Mei_3.wav"
                         }
                     ],
