@@ -175,7 +175,7 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
-        owner->buffs.attackBuff = 0.5;
+        owner->buffs.attackBuff = 0.3;
         owner->buffs.attackStack = 4;
     }
     //Enemy emperor lock-on
