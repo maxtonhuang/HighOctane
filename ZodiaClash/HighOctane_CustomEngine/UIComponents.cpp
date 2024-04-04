@@ -709,6 +709,7 @@ void HealthLerp::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& 
 
 void HealthLerp::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData) {
 	childData.offset.position.x = (-0.5f * parentSize.width) + (previousHealth / parentHealthBar.maxHealth * 0.5f * parentSize.width);
+	childData.offset.position.y = 0.f;
 }
 
 
