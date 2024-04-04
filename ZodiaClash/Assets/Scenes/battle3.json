@@ -55,7 +55,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -81,7 +81,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -177,7 +177,7 @@
                         },
                         {
                             "Speaker": "Niu",
-                            "Line": "The Zodiac race is a deceitful scheme by the Jade Emperor. He must be stopped before it's too late!",
+                            "Line": "The Zodiac race is a deceitful scheme by the Emperor. He must be stopped before it's too late!",
                             "Voice": "Ox_10.wav"
                         },
                         {

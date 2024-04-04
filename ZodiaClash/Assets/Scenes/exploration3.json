@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 37,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -40,7 +40,8 @@
                 "Layer 33",
                 "Layer 34",
                 "Layer 35",
-                "Layer 36"
+                "Layer 36",
+                "Layer 37"
             ]
         }
     },
@@ -1653,7 +1654,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "This one's a tough one...",
+            "Text String": "Huh?",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -1670,8 +1671,8 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "Mei",
-                            "Line": "This one's a tough one...",
-                            "Voice": "Mei_8.wav"
+                            "Line": "Huh?",
+                            "Voice": "Mei_4.wav"
                         }
                     ],
                     "Trigger Type": 1,
@@ -1836,7 +1837,7 @@
         "Entity": {
             "Name": "Dialogue Trigger",
             "Current Layer": 1,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

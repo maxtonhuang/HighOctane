@@ -194,7 +194,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -220,7 +220,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -286,7 +286,7 @@
                         {
                             "Speaker": "Mei",
                             "Line": "What happened to you?",
-                            "Voice": "Mei_4.wav"
+                            "Voice": "Mei_5.wav"
                         },
                         {
                             "Speaker": "Yang",
@@ -301,7 +301,7 @@
                         {
                             "Speaker": "Mei",
                             "Line": "Huh, aren't the artifacts fom the Jade Emperor? Wait... Where are the others?",
-                            "Voice": "Mei_5.wav"
+                            "Voice": "Mei_6.wav"
                         },
                         {
                             "Speaker": "Yang",
@@ -316,7 +316,7 @@
                         {
                             "Speaker": "Yang",
                             "Line": "All the best. May the heavens bless you.",
-                            "Voice": "Goat_6.ogg"
+                            "Voice": "Goat_06.ogg"
                         }
                     ],
                     "Trigger Type": 5,

@@ -520,7 +520,8 @@ void TransitionScene(std::string input) {
  * std::string input : The input string.
  */
 void TestFunction(std::string input) {
-	std::cout << input << "\n";
+	if (input != "")
+		std::cout << input << "\n";
 }
 
 /*!
@@ -627,34 +628,6 @@ void AdvanceTutorial(std::string input) {
  */
 void ToggleCredits(std::string input) {
 	events.Call("Transition Scene", "credits.scn");
-	creditsIndex = -1;
-}
-
-/*!
- * \brief Event trigger to update the credits scene.
- *
- * std::string input : The input string.
- */
-void UpdateCredits(std::string input) {
-	std::istringstream iss(input);
-	int inputVal;
-	if (!(iss >> inputVal)) {
-		return;
-	}
-	bool increment = (inputVal != 0);
-	creditsIndex = std::clamp(creditsIndex + (increment ? 1 : -1), 0, 6);
-
-	if (credits != 0) {
-		EntityFactory::entityFactory().DeleteCloneModel(credits);
-		credits = 0;
-	}
-
-	const std::string prefabNames[] = {
-		"credits_01.prefab", "credits_02.prefab", "credits_03.prefab",
-		"credits_04.prefab", "credits_05.prefab", "credits_06.prefab", "credits_07.prefab"
-	};
-	std::string prefabName = prefabNames[creditsIndex];
-	credits = EntityFactory::entityFactory().ClonePrefab(prefabName);
 }
 
 
@@ -690,7 +663,6 @@ void EventManager::InitialiseFunctions() {
 	functions["Toggle Settings"] = ToggleSettings;
 	functions["Toggle Scene"] = ToggleScene;
 	functions["Toggle Credits"] = ToggleCredits;
-	functions["Update Credits"] = UpdateCredits;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}

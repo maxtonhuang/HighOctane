@@ -10,12 +10,12 @@ Guard_Death.spritesheet
 Cat_Attack_1.spritesheet
 Cat_Attack_1.spritesheet
 mockup_skillframe (1).png
-UI_ICON_bleed.png
 catSkill2_tooltip.png
+UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -35,8 +35,8 @@ Guard_Damage.spritesheet
 Guard_Damage.spritesheet
 Guard_Attack.spritesheet
 Guard_Attack.spritesheet
-mockup_chi_icon_lineart.png
 Goat_Ulti.spritesheet
+mockup_chi_icon_lineart.png
 Ox_Ulti_VFX.spritesheet
 Goat_Ulti.spritesheet
 Ox_Ulti_VFX.spritesheet
@@ -92,6 +92,10 @@ mockup_playbutton_04.png
 BG_sunset_level.png
 UI_dialogue_box_bg_v03.png
 circle-512.png
+UI_Polish_Selector.spritesheet
+UI_Polish_Selector.spritesheet
+Corrupted_VFX.spritesheet
+Corrupted_VFX.spritesheet
 Ox Atk 1_Edited.wav
 Cat_Atk_2_Edited.wav
 Cat Atk_1_Edited.wav
@@ -101,8 +105,8 @@ Hover Select_Edited.wav
 Skill Select_Edited.wav
 Goat Atk 1_Edited.wav
 Goat Atk 4_Edited.wav
-Guard Damaged2_Edited.wav
 Ox Atk 3_Edited.wav
+Guard Damaged2_Edited.wav
 Ox Atk 2_Edited.wav
 Goat Buff_Edited.wav
 Guard Death_Edited.wav
@@ -113,6 +117,10 @@ Guard Damaged_Edited.wav
 Ox Damaged_Edited.wav
 Ox Damaged3_Edited.wav
 Guard Atk2_Edited.wav
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
