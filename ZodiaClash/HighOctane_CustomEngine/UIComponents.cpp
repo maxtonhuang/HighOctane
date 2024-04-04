@@ -1508,7 +1508,6 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 				if (battleSys->emperorDead) {
 					Entity monkey1{ EntityFactory::entityFactory().ClonePrefab("enemy_monkey.prefab") };
 					Entity monkey2{ EntityFactory::entityFactory().ClonePrefab("enemy_monkey.prefab") };
-					Entity shield{ EntityFactory::entityFactory().ClonePrefab("enemy_shield.prefab") };
 					transformArray.GetData(monkey2).position.y -= 350.f;
 					battleSys->AddCharacter(monkey1);
 					battleSys->AddCharacter(monkey2);

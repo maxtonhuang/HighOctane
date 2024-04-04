@@ -711,7 +711,6 @@ void BattleSystem::ProcessDamage() {
         ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
         ComponentArray<Transform>* transformArray = &componentManager.GetComponentArrayRef<Transform>();
         ComponentArray<TextLabel>* textArray = &componentManager.GetComponentArrayRef<TextLabel>();
-        ComponentArray<Size>* sizeArray = &componentManager.GetComponentArrayRef<Size>();
         ComponentArray<Name>* nameArray = &componentManager.GetComponentArrayRef<Name>();
         ComponentArray<Parent>* parentArray = &componentManager.GetComponentArrayRef<Parent>();
 
@@ -825,7 +824,6 @@ void BattleSystem::ProcessDamage() {
             }
             //Death animation and logic
             if (found == false) {
-                Model* model = &modelArray->GetData(entity);
                 cs->action.entityState = DEAD;
                 cs->debuffs = CharacterStats::debuff{};
                 cs->buffs = CharacterStats::buff{};

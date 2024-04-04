@@ -74,7 +74,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 				somethingChangedCursor = true;
 			}
 			else {
-				//SetCursor(hCustomCursor);
 				glfwSetCursor(graphics.GetWindow(), customCursor);
 				somethingChangedCursor = true;
 			}
@@ -131,7 +130,6 @@ void UpdateProperties (Entity & entity, Name & name, Transform & transform, Size
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;
 		}
 		else {
-			//SetCursor(hCustomCursor);
 			glfwSetCursor(graphics.GetWindow(), customCursor);
 			somethingChangedCursor = true;
 			cursorEditingTooltipState = CursorEditingTooltip::NONE;

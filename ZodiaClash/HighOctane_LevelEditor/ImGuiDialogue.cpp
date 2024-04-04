@@ -9,7 +9,6 @@ void DialogueWindow(Entity entity) {
     if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
         DialogueHUD& dialogueData = ECS::ecs().GetComponent<DialogueHUD>(entity);
         Transform& transformData = ECS::ecs().GetComponent<Transform>(entity);
-        TextLabel& textData = ECS::ecs().GetComponent<TextLabel>(entity);
         DialogueHUD::Dialogue newDialogue{};
 
         // Button to add a new dialogue line
