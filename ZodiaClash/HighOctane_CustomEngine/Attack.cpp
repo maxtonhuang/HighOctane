@@ -187,7 +187,7 @@ void Attack::UseAttack(CharacterStats* target) {
         else {
             owner->action.battleManager->aiMultiplier -= 100000;
         }
-        target->debuffs.huntedStack = 2;
+        target->debuffs.huntedStack = 3;
     }
     //Enemy emperor attack
     else if (attackName == "Nimble Strike") {
