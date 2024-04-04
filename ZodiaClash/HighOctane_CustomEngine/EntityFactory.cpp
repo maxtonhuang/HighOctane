@@ -244,7 +244,7 @@ Entity EntityFactory::ClonePrefab(std::string prefabName) {
 	layering[n.serializationLayer].push_back(clone);
 
 	//RebuildLayeringAfterDeserialization();
-	//ExtractSkipLockAfterDeserialization();
+	ExtractSkipLockAfterDeserialization();
 	return clone;
 }
 

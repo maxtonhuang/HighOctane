@@ -52,6 +52,7 @@
 #include "Utilities.h"
 #include "Global.h"
 #include "Layering.h"
+#include "CheatCode.h"
 
 //For animating skill buttons
 const float skillButtonOffset{ 160.f };
@@ -848,7 +849,7 @@ void BattleSystem::ProcessDamage() {
                 }
             }
         }
-        if (totalDamage > 0.f) {
+        if (totalDamage > 0.f && !godModeOn && !endGameOn) {
             camera.SetShake(totalDamage / MAGNITUDE_PER_HEALTH);
         }
         damagePrefab.clear();

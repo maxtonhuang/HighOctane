@@ -195,7 +195,7 @@ void EmitterSystem::Update()
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 
-	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
+	//for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		// Ensure that skip and lock logic is applied as intended
 		//if (layersToSkip[layer_it] || !layersToLock[layer_it]) continue;
 
@@ -258,6 +258,7 @@ void EmitterSystem::Update()
 
 						// Adding the particle to the system
 						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
+						printf("Creating particle\n");
 
 						p.timer = timer;
 						p.layer = layernum;
@@ -271,7 +272,7 @@ void EmitterSystem::Update()
 				}
 			}
 		}
-	}
+	//}
 }
 
 /**************************************************************************/
