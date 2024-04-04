@@ -1271,6 +1271,17 @@
                                 "Destination": "Loop"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "corrupted aura.wav"
+                                ]
+                            }
+                        ]
                     }
                 ]
             }

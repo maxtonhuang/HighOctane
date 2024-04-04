@@ -124,6 +124,10 @@ void ChangeScene(std::string input) {
 		}
 	}
 
+	if (assetmanager.audio.IsGroupPaused("VOC")) {
+		assetmanager.audio.ResumeGroup("VOC");
+	}
+
 	newScene = true;
 	button_clicked = true;
 	newSceneName = input;

@@ -777,13 +777,13 @@ void BattleSystem::ProcessDamage() {
                             //Create boss label
                             if (c.boss == true && c.stats.health < 0.5 * c.stats.maxHealth) {
                                 Entity aura{ parentArray->GetData(c.entity).GetChildByName("VFX_Corrupted") };
-                                if (animationArray->HasComponent(aura)) {
+                                if (modelArray->GetData(aura).GetAlpha() <= 0.1f && animationArray->HasComponent(aura)) {
                                     animationArray->GetData(aura).Start("Appear",aura);
                                 }
                             }
                             else if (c.boss == true && c.stats.health > 0.5 * c.stats.maxHealth) {
                                 Entity aura{ parentArray->GetData(c.entity).GetChildByName("VFX_Corrupted") };
-                                if (animationArray->HasComponent(aura)) {
+                                if (modelArray->GetData(aura).GetAlpha() >= 0.9f && animationArray->HasComponent(aura)) {
                                     animationArray->GetData(aura).Start("Disappear", aura);
                                 }
                             }
