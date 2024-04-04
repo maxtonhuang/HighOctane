@@ -96,7 +96,6 @@ void Attack::UseAttack(CharacterStats* target) {
         target->debuffs.bloodStack = 0;
         target->debuffs.tauntStack = 0;
         target->debuffs.stunStack = 0;
-        target->debuffs.huntedStack = 0;
     }
     //Enemy goat speedup
     else if (attackName == "Dark Chi Surge") {
