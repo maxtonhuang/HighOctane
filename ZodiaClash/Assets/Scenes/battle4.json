@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 31,
+            "layerCounter": 38,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -34,7 +34,14 @@
                 "Layer 27",
                 "Layer 28",
                 "Layer 29",
-                "Layer 30"
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37"
             ]
         }
     },
@@ -50,7 +57,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 1,
+            "Order in Layer": 13,
             "isLocked": true,
             "isSkipped": true
         },
@@ -76,7 +83,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -119,7 +126,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Feel the might of Wukong!",
+            "Text String": "Say your last words now, as you burn from these flames!",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -284,7 +291,7 @@
         "Entity": {
             "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
@@ -310,7 +317,7 @@
         "Entity": {
             "Name": "Player_Ox",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 15,
             "isLocked": true,
             "isSkipped": true
         },
@@ -361,7 +368,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -387,7 +394,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 14,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -413,7 +420,7 @@
         "Entity": {
             "Name": "Emperor",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },

@@ -116,7 +116,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 1,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -142,7 +142,7 @@
         "Entity": {
             "Name": "Goat_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -168,7 +168,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -194,7 +194,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -220,7 +220,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },

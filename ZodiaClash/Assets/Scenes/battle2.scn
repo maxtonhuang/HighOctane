@@ -17,8 +17,8 @@ mockup_skillframe (1).png
 UI_ICON_bleed.png
 skill_icon_skill.png
 skill_icon_ulti.png
-Goat_Idle.spritesheet
 mockup_icon_cat.png
+Goat_Idle.spritesheet
 Goat_Idle.spritesheet
 Cat_Damage.spritesheet
 Cat_Damage.spritesheet
@@ -44,8 +44,8 @@ Goat_Hit.spritesheet
 Goat_Hit.spritesheet
 Goat_Basic.spritesheet
 Goat_Basic.spritesheet
-Goat_Ulti.spritesheet
 mockup_chi_icon_lineart.png
+Goat_Ulti.spritesheet
 Goat_Ulti.spritesheet
 Goat_Death.spritesheet
 Goat_Death.spritesheet
@@ -67,11 +67,11 @@ UI_Polish_Selector.spritesheet
 Corrupted_VFX.spritesheet
 Corrupted_VFX.spritesheet
 Cat_Atk_2_Edited.wav
-Cat Atk_1_Edited.wav
 Goat_1.ogg
 Guard Damaged_Edited.wav
-Cat_Atk_3_Edited.wav
+Cat Atk_1_Edited.wav
 Guard Atk_Edited.wav
+Cat_Atk_3_Edited.wav
 Skill Select_Edited.wav
 Hover Select_Edited.wav
 Goat Atk 1_Edited.wav

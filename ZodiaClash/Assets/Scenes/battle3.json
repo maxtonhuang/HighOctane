@@ -29,7 +29,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 1,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -55,7 +55,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -81,7 +81,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -314,7 +314,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -339,7 +339,7 @@
         "Entity": {
             "Name": "Ox_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },

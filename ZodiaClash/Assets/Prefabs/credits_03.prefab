@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 39,
+            "layerCounter": 47,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -42,7 +42,15 @@
                 "Layer 35",
                 "Layer 36",
                 "Layer 37",
-                "Layer 38"
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46"
             ]
         }
     },
@@ -227,8 +235,8 @@
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Test",
-            "Event Input": "",
+            "Event Name": "Play Sound",
+            "Event Input": "PauseMenu_Active.wav",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
@@ -344,8 +352,8 @@
             "Focused Text G": 1.0,
             "Focused Text B": 1.0,
             "Focused Text A": 1.0,
-            "Event Name": "Test",
-            "Event Input": "",
+            "Event Name": "Play Sound",
+            "Event Input": "PauseMenu_Active.wav",
             "Padding Top": 30.0,
             "Padding Bottom": 30.0,
             "Padding Left": 60.0,
