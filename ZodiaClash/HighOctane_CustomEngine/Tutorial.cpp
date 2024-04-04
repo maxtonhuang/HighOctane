@@ -452,6 +452,8 @@ void UITutorialSystem::SurfaceTargetLayers(const std::vector<Entity> entities) {
 *
 */
 void UITutorialSystem::RevertLayers() {
+	RebuildLayeringAfterDeserialization();
+	ExtractSkipLockAfterDeserialization();
 	for (std::pair<Entity, size_t>& pair : originalLayers) {
 		TransferToLayer(pair.first, pair.second);
 	}
