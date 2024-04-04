@@ -1,14 +1,16 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 5,
+            "layerCounter": 7,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
                 "Layer 1",
                 "Layer 2",
                 "Layer 3",
-                "Layer 4"
+                "Layer 4",
+                "Layer 5",
+                "Layer 6"
             ]
         }
     },
@@ -148,7 +150,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Select_Target_Edited.wav"
+                                    "Skill Select_Edited_Old.wav"
                                 ]
                             }
                         ]

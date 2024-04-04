@@ -38,6 +38,7 @@
 #include "EntityFactory.h"
 #include "Global.h"
 #include "Camera.h"
+#include "Layering.h"
 #include <random>
 
 void AnimationSet::Initialise(Entity entity) {
@@ -542,10 +543,11 @@ void SoundAnimation::Update(int frameNum) {
 		//Play sound
 		std::random_device rd;
 		std::mt19937 gen(rd());
+		std::string soundGroup{ "SFX" };
 		if (nextKeyframe->data.size() > 0) {
 			std::uniform_int_distribution<int> dis(0, (int)nextKeyframe->data.size() - 1);
 			int num{ dis(gen) };
-			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), "SFX");
+			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), soundGroup.c_str());
 			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - camera.GetPos().x) / GRAPHICS::defaultWidthF };
 			channel->setPan(pan);
 		}

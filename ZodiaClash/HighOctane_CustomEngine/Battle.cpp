@@ -51,6 +51,7 @@
 #include "AssetManager.h"
 #include "Utilities.h"
 #include "Global.h"
+#include "Layering.h"
 
 //For animating skill buttons
 const float skillButtonOffset{ 160.f };
@@ -410,6 +411,17 @@ void BattleSystem::Update()
                     }
                     if (m_Entities.size() > 0) {
                         damagePrefab = "Goat_Skill_VFX.prefab";
+                    }
+                }
+
+                //Handle ox death
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                    for (auto& character : turnManage.turnOrderList) {
+                        if (character->tag == CharacterType::ENEMY && character->stats.health != 0.f) {
+                            character->damage = character->stats.health;
+                            character->stats.health = 0.f;
+                            deadchars.push_back(character);
+                        }
                     }
                 }
 

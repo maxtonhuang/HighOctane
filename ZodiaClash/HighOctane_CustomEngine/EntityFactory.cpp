@@ -232,14 +232,19 @@ Entity EntityFactory::CloneMaster(Entity& masterEntity) {
 *
 ******************************************************************************/
 Entity EntityFactory::ClonePrefab(std::string prefabName) {
+	static ComponentManager& componentManager = ECS::ecs().GetComponentManager();
+	static auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	Entity prefab{ assetmanager.GetPrefab(prefabName) };
 	if (prefab == 0) {
 		return 0;
 	}
 	Entity clone{ CloneMaster(prefab) };
 	ECS::ecs().GetComponent<Clone>(clone).prefab = prefabName;
-	RebuildLayeringAfterDeserialization();
-	ExtractSkipLockAfterDeserialization();
+	Name& n = nameArray.GetData(clone);
+	layering[n.serializationLayer].push_back(clone);
+
+	//RebuildLayeringAfterDeserialization();
+	//ExtractSkipLockAfterDeserialization();
 	return clone;
 }
 

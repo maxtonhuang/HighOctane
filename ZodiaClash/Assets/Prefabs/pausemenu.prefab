@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 35,
+            "layerCounter": 33,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -36,9 +36,7 @@
                 "Layer 29",
                 "Layer 30",
                 "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34"
+                "Layer 32"
             ]
         }
     },
@@ -78,10 +76,6 @@
         "Size": {
             "width": 3508.0,
             "height": 2480.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -141,6 +135,28 @@
             "Padding Right": 0.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Start",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Start",
         "Parent": {}
     },
     {
@@ -195,7 +211,7 @@
         "Entity": {
             "Name": "pause_menuitem1",
             "Current Layer": 11,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -220,10 +236,6 @@
         "Size": {
             "width": 421.5,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -283,6 +295,28 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": 85.0,
@@ -296,7 +330,7 @@
         "Entity": {
             "Name": "pause_menuitem2",
             "Current Layer": 11,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -321,10 +355,6 @@
         "Size": {
             "width": 580.0,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -384,6 +414,28 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": 5.0,
@@ -397,7 +449,7 @@
         "Entity": {
             "Name": "pause_menuitem3",
             "Current Layer": 11,
-            "Order in Layer": 3,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -422,10 +474,6 @@
         "Size": {
             "width": 384.5,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -485,6 +533,28 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": -75.0,
@@ -498,7 +568,7 @@
         "Entity": {
             "Name": "pause_menuitem4",
             "Current Layer": 11,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -523,10 +593,6 @@
         "Size": {
             "width": 360.0,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -586,6 +652,28 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": -155.0,
@@ -599,7 +687,7 @@
         "Entity": {
             "Name": "pause_menuitem5",
             "Current Layer": 11,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -624,10 +712,6 @@
         "Size": {
             "width": 355.5,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -687,6 +771,28 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": -235.0,
@@ -700,7 +806,7 @@
         "Entity": {
             "Name": "pause_menuheader",
             "Current Layer": 11,
-            "Order in Layer": 0,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -724,10 +830,6 @@
         "Size": {
             "width": 612.0000610351563,
             "height": 110.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,

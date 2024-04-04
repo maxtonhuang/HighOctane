@@ -1498,6 +1498,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 				{
 					if (cs->stats.health <= 0.f && ECS::ecs().GetComponent<Name>(cs->entity).name == "Ox_Enemy") {
 						cs->stats.health = 0.5f * battleSys->activeCharacter->stats.maxHealth;
+						cs->damage = cs->stats.health;
 						cs->action.entityState = START;
 						cs->buffs.reflectStack = 9;
 					}
