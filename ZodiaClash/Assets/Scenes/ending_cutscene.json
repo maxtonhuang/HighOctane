@@ -415,13 +415,11 @@
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_2_01.prefab",
+            "Prefab": "Ending_Part_2_01.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Tex",
-                "struct Size"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -438,28 +436,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_2_01.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_2_02.prefab",
+            "Prefab": "Ending_Part_2_02.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -476,28 +461,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_2_02.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_2_03.prefab",
+            "Prefab": "Ending_Part_2_03.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -514,28 +486,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_2_03.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_2_04.prefab",
+            "Prefab": "Ending_Part_2_04.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -552,28 +511,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_2_04.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_2_05.prefab",
+            "Prefab": "Ending_Part_2_05.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -590,28 +536,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_2_05.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_2_06.prefab",
+            "Prefab": "Ending_Part_2_06.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -628,28 +561,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_2_06.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_1_01.prefab",
+            "Prefab": "Ending_Part_1_01.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -666,17 +586,6 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_1_01.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
@@ -731,13 +640,11 @@
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_1_02.prefab",
+            "Prefab": "Ending_Part_1_02.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -754,28 +661,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_1_02.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_1_03.prefab",
+            "Prefab": "Ending_Part_1_03.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -792,28 +686,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_1_03.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_1_04.prefab",
+            "Prefab": "Ending_Part_1_04.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -830,28 +711,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_1_04.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_1_05.prefab",
+            "Prefab": "Ending_Part_1_05.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -868,28 +736,15 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_1_05.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
         "Clone": {
-            "Prefab": "Intro_Part_1_06.prefab",
+            "Prefab": "Ending_Part_1_06.prefab",
             "Unique Components": [
                 "struct Transform",
                 "struct Name",
-                "struct Parent",
-                "struct Size",
-                "struct Tex"
+                "struct Parent"
             ]
         },
         "Entity": {
@@ -906,17 +761,6 @@
             "scale": 0.5,
             "velocity_x": 0.0,
             "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Ending_Part_1_06.png"
-        },
-        "Size": {
-            "width": 3621.0,
-            "height": 2737.0
         }
     },
     {
