@@ -344,7 +344,7 @@ void ToggleBattleInfo(std::string input) {
  * std::string input : The input string.
  */
 void TogglePause(std::string input) {
-
+	(void)input;
 	if (sceneName == "mainmenu.scn") {
 		return;
 	}
@@ -359,7 +359,10 @@ void TogglePause(std::string input) {
 		return;
 	}
 
-	(void)input;
+	if (exitconfirmationmenu) {
+		ExitGame("");
+	}
+
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
 	PauseResumeGroup("VOC");
@@ -509,8 +512,7 @@ void TransitionScene(std::string input) {
 		exitconfirmationmenu = 0;
 	}
 	if (scenemenu) {
-		ECS::ecs().DestroyEntity(scenemenu);
-		scenemenu = 0;
+		ToggleScene("");
 	}
 
 	transitionActive = true;
