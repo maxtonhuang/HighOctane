@@ -717,6 +717,7 @@ void EngineCore::Run(bool const& mode) {
 			particles.ResetParticles();
 			initLevel = false;
 			newScene = false;
+			accumulatedTime += FIXED_DT;
 		}
 
 		uint64_t l_currentTime = GetTime();

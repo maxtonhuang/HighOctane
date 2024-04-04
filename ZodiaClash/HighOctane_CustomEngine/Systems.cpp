@@ -689,6 +689,11 @@ void GraphicsSystem::Draw() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 
+	//Do not draw if level is still initializing
+	if (initLevel) {
+		return;
+	}
+
 	graphics.viewport.Unuse();
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it]/* || GetCurrentSystemMode() != SystemMode::EDIT*/) {

@@ -65,15 +65,16 @@ void TransitionSystem::Update() {
 			}
 		}
 		else {
-			timer = TRANSITION_TIME;
-			initialVolume = assetmanager.audio.GetGroupVolume("BGM");
-			currentVolume = initialVolume;
-			volumeReduction = initialVolume / TRANSITION_TIME * FIXED_DT;
 			if (transitionType) {
 				EntityFactory::entityFactory().ClonePrefab(TRANSITION_FADEOUT_PREFAB);
+				timer = TRANSITION_TIME;
+				initialVolume = assetmanager.audio.GetGroupVolume("BGM");
+				volumeReduction = initialVolume / TRANSITION_TIME * FIXED_DT;
 			}
 			else {
 				EntityFactory::entityFactory().ClonePrefab(TRANSITION_FADEIN_PREFAB);
+				currentVolume = initialVolume;
+				timer = TRANSITION_TIME;
 			}
 		}
 	}
