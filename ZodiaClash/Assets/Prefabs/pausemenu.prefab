@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 33,
+            "layerCounter": 36,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -36,7 +36,10 @@
                 "Layer 29",
                 "Layer 30",
                 "Layer 31",
-                "Layer 32"
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35"
             ]
         }
     },
@@ -314,6 +317,25 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -428,6 +450,25 @@
                                 "Frame Number": 0,
                                 "Sounds": [
                                     "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
                                 ]
                             }
                         ]
@@ -552,6 +593,25 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -671,6 +731,25 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -785,6 +864,25 @@
                                 "Frame Number": 0,
                                 "Sounds": [
                                     "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
                                 ]
                             }
                         ]

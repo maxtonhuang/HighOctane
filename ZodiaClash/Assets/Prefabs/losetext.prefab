@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 36,
+            "layerCounter": 41,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -39,7 +39,12 @@
                 "Layer 32",
                 "Layer 33",
                 "Layer 34",
-                "Layer 35"
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40"
             ]
         }
     },
@@ -78,10 +83,6 @@
         "Size": {
             "width": 3508.0,
             "height": 2480.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -195,7 +196,7 @@
         "Entity": {
             "Name": "pause_menuitem1",
             "Current Layer": 6,
-            "Order in Layer": 1,
+            "Order in Layer": 0,
             "isLocked": true,
             "isSkipped": true
         },
@@ -220,10 +221,6 @@
         "Size": {
             "width": 450.0,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -283,6 +280,47 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": -15.0,
@@ -296,7 +334,7 @@
         "Entity": {
             "Name": "pause_menuitem2",
             "Current Layer": 6,
-            "Order in Layer": 3,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -321,10 +359,6 @@
         "Size": {
             "width": 566.0,
             "height": 80.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -384,6 +418,47 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 0.0,
             "position_y": -135.0,
@@ -421,10 +496,6 @@
         "Size": {
             "width": 700.0,
             "height": 110.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -464,7 +535,7 @@
         "Entity": {
             "Name": "lose_menuheader2",
             "Current Layer": 6,
-            "Order in Layer": 0,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -488,10 +559,6 @@
         "Size": {
             "width": 380.0,
             "height": 60.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,

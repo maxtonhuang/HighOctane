@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 88,
+            "layerCounter": 91,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -91,7 +91,10 @@
                 "Layer 84",
                 "Layer 85",
                 "Layer 86",
-                "Layer 87"
+                "Layer 87",
+                "Layer 88",
+                "Layer 89",
+                "Layer 90"
             ]
         }
     },
@@ -130,10 +133,6 @@
         "Size": {
             "width": 3508.0,
             "height": 2480.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -224,10 +223,6 @@
             "width": 348.47998046875,
             "height": 219.83999633789063
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -290,10 +285,6 @@
         "Size": {
             "width": 216.0,
             "height": 60.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -358,10 +349,6 @@
             "width": 235.20001220703125,
             "height": 66.5999984741211
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -424,10 +411,6 @@
         "Size": {
             "width": 121.60000610351563,
             "height": 64.19999694824219
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -492,10 +475,6 @@
             "width": 259.5999755859375,
             "height": 66.5999984741211
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -558,10 +537,6 @@
         "Size": {
             "width": 216.0,
             "height": 60.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -1209,10 +1184,6 @@
             "width": 170.0,
             "height": 170.0
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -1271,6 +1242,47 @@
             "Padding Right": 60.0,
             "Padding Setting": 1
         },
+        "Animation Set": [
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Click",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "PauseMenu_Active.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "",
         "Child": {
             "position_x": 297.5,
             "position_y": 296.0,
@@ -1284,7 +1296,7 @@
         "Entity": {
             "Name": "overlay",
             "Current Layer": 15,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
