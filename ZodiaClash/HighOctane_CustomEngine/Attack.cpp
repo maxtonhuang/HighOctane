@@ -285,7 +285,11 @@ void Attack::UseAttack(CharacterStats* target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0 && attacktype != AttackType::AOE) {
-        owner->TakeDamage(0.2f * owner->stats.maxHealth);
+        float igniteDamage{ 0.2f * owner->stats.maxHealth };
+        if (igniteDamage >= owner->stats.health) {
+            igniteDamage = owner->stats.health - 1;
+        }
+        owner->TakeDamage(igniteDamage);
     }
 }
 
