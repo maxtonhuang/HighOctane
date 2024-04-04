@@ -488,6 +488,7 @@ void Button::Update(Model& modelData, Name& nameData, TextLabel& textLabelData, 
 					}
 					if (animationArray.HasComponent(entity)) {
 						animationArray.GetData(entity).Queue("Click", entity);
+						animationArray.GetData(entity).InstantFinish(entity);
 					}
 					events.Call(eventName, eventInput);
 				}

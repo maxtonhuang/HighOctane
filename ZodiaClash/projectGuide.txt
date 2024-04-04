@@ -35,20 +35,16 @@ Input Keys(Main menu)
 
 Input Keys (Battle scene)
 - Press Use Skill 1, 2 and 3 to use the skills for currently active player character (target will be the first enemy character)
-- Refer to console to see battle logs and AI output (either editor console or game console)
 
 ================================================================
 Different Projects:
-1. HighOctane_CSharpScript
-	- Project that will create a dynamic link library (.dll) that enables the Mono Runtime 	to execute C# scripts.
-
-2. HighOctane_CustomEngine
+1. HighOctane_CustomEngine
 	- Project that will create a static library (.lib). It contains the code and functionalities for our custom engine such as Entity Component System (ECS), Script Engine, Physics, Collision.
 
-3. HighOctane_LevelEditor
+2. HighOctane_LevelEditor
 	- Project that will create a static library (.lib). It contains the code for the level editor using ImGui.
 
-4. HighOctane_Main
+3. HighOctane_Main
 	- Project is an application(.exe). This project contains the code to initialize the systems and run the systems such as the game loop. This project will use the aforementioned library projects to run. For example, running in "Game" x64 mode would not compile any of the Level editor codes as it is not needed.
 
 

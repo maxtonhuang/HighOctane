@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 40,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,7 +33,17 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29"
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39"
             ]
         }
     },
@@ -1020,7 +1030,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": -9045.0,
+            "position_x": -8853.0,
             "position_y": -1500.0,
             "rotation": 0.0,
             "scale": 1.0,

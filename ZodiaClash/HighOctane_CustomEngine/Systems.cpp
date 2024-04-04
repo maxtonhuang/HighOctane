@@ -258,7 +258,6 @@ void EmitterSystem::Update()
 
 						// Adding the particle to the system
 						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
-						printf("Creating particle\n");
 
 						p.timer = timer;
 						p.layer = layernum;

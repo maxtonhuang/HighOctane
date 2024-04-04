@@ -642,7 +642,7 @@ void TransformAttachAnimation::Update(int frameNum) {
 	entityTransform->position += velocity;
 
 
-	if (frameNum >= nextKeyframe->frameNum) {
+	if (frameNum > nextKeyframe->frameNum) {
 		float frameCount{ (float)(nextKeyframe->frameNum) };
 		Transform* prevTransform{ GetEntityTransform(nextKeyframe->data) };
 		nextKeyframe++;
