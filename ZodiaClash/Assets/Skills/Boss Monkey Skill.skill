@@ -2,10 +2,10 @@
     {
         "Name": "Flaming Cyclone",
         "Type": 1,
-        "Skill Attack": 100,
-        "Minimum Attack Multiplier": 1.0,
-        "Maximum Attack Multiplier": 1.0,
-        "Crit Rate": 0.0,
-        "Crit Multiplier": 1.0
+        "Skill Attack": 120,
+        "Minimum Attack Multiplier": 0.7,
+        "Maximum Attack Multiplier": 1.3,
+        "Crit Rate": 0.5,
+        "Crit Multiplier": 1.3
     }
 ]
