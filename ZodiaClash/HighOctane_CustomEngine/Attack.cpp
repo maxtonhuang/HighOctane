@@ -76,7 +76,7 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Player goat attack
     else if (attackName == "Yin-Yang Strike") {
-        if (rand(gen) > 0.6f) {
+        if (rand(gen) > 0.75f) {
             target->buffs.attackStack = 0;
             target->buffs.attackBuff = 0.f;
             target->buffs.defenseStack = 0;
