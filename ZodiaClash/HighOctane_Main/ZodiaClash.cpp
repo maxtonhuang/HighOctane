@@ -325,10 +325,6 @@ void EngineCore::Run(bool const& mode) {
 	settingsSystemList.emplace_back(uiTextLabelSystem, "UI Text Label System");
 
 	std::shared_ptr<UISliderSystem> uiSliderSystem = ECS::ecs().RegisterSystem<UISliderSystem>();
-	//runSystemList.emplace_back(uiSliderSystem, "UI Slider System");
-	//editSystemList.emplace_back(uiSliderSystem, "UI Slider System");
-	//systemList.emplace_back(uiSliderSystem, "UI Slider System");
-	//pauseSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 	gameHelpSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 	settingsSystemList.emplace_back(uiSliderSystem, "UI Slider System");
 
@@ -415,7 +411,6 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Emitter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
-		//signature.set(ECS::ecs().GetComponentType<Particle>());
 
 		ECS::ecs().SetSystemSignature<EmitterSystem>(signature);
 	}
@@ -425,7 +420,6 @@ void EngineCore::Run(bool const& mode) {
 		signature.set(ECS::ecs().GetComponentType<MainCharacter>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
-		//signature.set(ECS::ecs().GetComponentType<Animator>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
 
@@ -617,10 +611,8 @@ void EngineCore::Run(bool const& mode) {
 		Signature signature;
 		signature.set(ECS::ecs().GetComponentType<Transform>());
 		signature.set(ECS::ecs().GetComponentType<Size>());
-		//signature.set(ECS::ecs().GetComponentType<Parent>());
 		signature.set(ECS::ecs().GetComponentType<Child>());
 		signature.set(ECS::ecs().GetComponentType<Tex>());
-		//signature.set(ECS::ecs().GetComponentType<SliderUI>());
 		signature.set(ECS::ecs().GetComponentType<Model>());
 		signature.set(ECS::ecs().GetComponentType<Clone>());
 		signature.set(ECS::ecs().GetComponentType<Name>());
@@ -724,9 +716,8 @@ void EngineCore::Run(bool const& mode) {
 		g_dt = static_cast<float>(l_currentTime - EngineCore::engineCore().get_m_previousTime()) / 1'000'000.f; // g_dt is in seconds after dividing by 1,000,000
 		EngineCore::engineCore().set_m_previousTime(l_currentTime);
 
-		if (game_mode == GAME_MODE) {
+		if constexpr (game_mode == GAME_MODE) {
 			glfwSetCursor(graphics.GetWindow(), customCursor);
-			//SetCursor(hCustomCursor);
 		}
 
 		// Switch case for the pause screen
@@ -780,7 +771,6 @@ void EngineCore::Run(bool const& mode) {
 
 		if (viewportWindowHovered && !somethingChangedCursor) {
 			glfwSetCursor(graphics.GetWindow(), customCursor);
-			//SetCursor(hCustomCursor);
 		}
 
 		for (std::pair<std::shared_ptr<System>, std::string>& sys : *sList) {
