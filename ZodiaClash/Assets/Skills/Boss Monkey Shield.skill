@@ -1,7 +1,7 @@
 [
     {
         "Name": "Stone Skin",
-        "Type": 3,
+        "Type": 2,
         "Skill Attack": 0,
         "Minimum Attack Multiplier": 1.0,
         "Maximum Attack Multiplier": 1.0,

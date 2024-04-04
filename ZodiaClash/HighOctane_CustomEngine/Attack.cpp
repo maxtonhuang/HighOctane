@@ -175,8 +175,8 @@ void Attack::UseAttack(CharacterStats* target) {
             owner->action.battleManager->aiMultiplier += 100000;
             owner->cycle++;
         }
-        owner->buffs.attackBuff += 0.5;
-        owner->buffs.attackStack += 4;
+        owner->buffs.attackBuff = 0.5;
+        owner->buffs.attackStack = 4;
     }
     //Enemy emperor lock-on
     else if (attackName == "Hunter's Focus") {
@@ -215,7 +215,7 @@ void Attack::UseAttack(CharacterStats* target) {
     }
     //Enemy monkey shield
     else if (attackName == "Stone Skin") {
-        if (owner->buffs.shieldStack == 0) {
+        if (owner->buffs.shieldStack == 0 && owner->action.battleManager->GetEnemies().size() > 1) {
             bool hasStun{ false };
             for (auto& enemy : owner->action.battleManager->GetEnemies()) {
                 if (enemy->debuffs.stunStack) {
@@ -271,8 +271,8 @@ void Attack::UseAttack(CharacterStats* target) {
         owner->action.battleManager->aiMultiplier -= 100000;
     }
 
-    if (owner->debuffs.tauntTarget == target->entity) {
-        owner->action.battleManager->aiMultiplier += 50000;
+    if (owner->debuffs.tauntStack && owner->debuffs.tauntTarget == target->entity) {
+        owner->action.battleManager->aiMultiplier += 500000;
     }
 
     if (target->debuffs.huntedStack) {
@@ -314,7 +314,11 @@ void Attack::UseAttack(std::vector<CharacterStats*> target) {
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0) {
-        owner->TakeDamage(0.2f * owner->stats.maxHealth);
+        float igniteDamage{ 0.1f * owner->stats.maxHealth };
+        if (igniteDamage >= owner->stats.health) {
+            igniteDamage = owner->stats.health - 1;
+        }
+        owner->TakeDamage(igniteDamage);
     }
 }
 
