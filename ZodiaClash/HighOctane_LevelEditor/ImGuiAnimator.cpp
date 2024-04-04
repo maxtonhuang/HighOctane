@@ -43,7 +43,7 @@ void AnimatorWindow(Entity entity) {
 	const ImVec4 playingCol{ 1.f,0.f,0.f,1.f };
 
 	const std::vector<const char*> animTypeNames{ "Sprite","TextureChange","Sound","Fade","Color","TransformAttach","TransformDirect",
-		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Event", "Child", "Swap", "SelfDestruct"};
+		"CameraZoom","CameraTarget","CameraReset","CreatePrefab", "DamageImpact", "Event", "Child","Parent", "Swap", "SelfDestruct"};
 
 	static std::string selectedType{};
 	static std::string selectedAnim{};
@@ -247,6 +247,9 @@ void AnimatorWindow(Entity entity) {
 						}
 						else if (selectedType == "Child") {
 							selectedAnimGroup->animations.push_back(std::make_shared<ChildAnimation>());
+						}
+						else if (selectedType == "Parent") {
+							selectedAnimGroup->animations.push_back(std::make_shared<ParentAnimation>());
 						}
 					}
 				}
@@ -524,6 +527,35 @@ void AnimatorWindow(Entity entity) {
 							}
 						}
 					}
+					else if (selectedAnimation->GetType() == "Parent") {
+						std::shared_ptr<ParentAnimation> eventAnim{ std::dynamic_pointer_cast<ParentAnimation>(selectedAnimation) };
+						Keyframe<std::string>* keyframe{ nullptr };
+						for (auto& k : eventAnim->keyframes) {
+							if (k.frameNum == selectedFrame) {
+								keyframe = &k;
+								break;
+							}
+						}
+						if (keyframe != nullptr) {
+							Entity parent{ ECS::ecs().GetComponent<Child>(entity).parent };
+							if (parent && ECS::ecs().HasComponent<AnimationSet>(parent) && ImGui::BeginCombo("Parent Animation", keyframe->data.c_str())) {
+								std::vector<std::string> parentAnim{ };
+								for (auto& anim : ECS::ecs().GetComponent<AnimationSet>(parent).animationSet) {
+									parentAnim.push_back(anim.name);
+								}
+								for (int n = 0; n < parentAnim.size(); n++) {
+									bool is_selected = (keyframe->data == parentAnim[n]);
+									if (ImGui::Selectable(parentAnim[n].c_str(), is_selected)) {
+										keyframe->data = parentAnim[n];
+									}
+									if (is_selected) {
+										ImGui::SetItemDefaultFocus();
+									}
+								}
+								ImGui::EndCombo();
+							}
+						}
+						}
 					else if (selectedAnimation->GetType() == "DamageImpact") {
 					std::shared_ptr<DamageImpactAnimation> changetex{ std::dynamic_pointer_cast<DamageImpactAnimation>(selectedAnimation) };
 					Keyframe<std::string>* keyframe{ nullptr };

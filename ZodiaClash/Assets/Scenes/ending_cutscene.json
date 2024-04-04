@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 74,
+            "layerCounter": 40,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -43,41 +43,7 @@
                 "Layer 36",
                 "Layer 37",
                 "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57",
-                "Layer 58",
-                "Layer 59",
-                "Layer 60",
-                "Layer 61",
-                "Layer 62",
-                "Layer 63",
-                "Layer 64",
-                "Layer 65",
-                "Layer 66",
-                "Layer 67",
-                "Layer 68",
-                "Layer 69",
-                "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73"
+                "Layer 39"
             ]
         }
     },
@@ -104,7 +70,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -875.0,
+            "position_y": -864.0,
             "rotation": 0.0,
             "scale": 1.25,
             "velocity_x": 0.0,
@@ -120,7 +86,7 @@
             "Red": 1.0,
             "Green": 1.0,
             "Blue": 1.0,
-            "Alpha": 0.20000000298023224,
+            "Alpha": 0.0,
             "Mirror": false
         },
         "Movable": {},
@@ -146,37 +112,37 @@
                         {
                             "Speaker": "",
                             "Line": "With the Jade Emperor defeated, the artifacts started absorbing the Chi of the ten other animals violently. Without hesitation, Mei quickly destroyed the artifacts.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending1.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "But the artifacts unleashed a tremendous blast, gravely injuring Mei. As the animals awoke, Shu spotted Mei and hurried to her side.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending2.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "Shu begged the injured Mei for forgiveness and tried desperately to stem the bleeding.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending3.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "Despite the efforts, the injury was too severe. In their final moments together, Mei chose to forgive and forget the past grievances.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending4.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "And soon, Mei eventually succumbs to the injury, leaving behind the deeply remorseful Shu.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending5.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "A few days after the whole incident, Yang and the others who had magic affinities created a magical prison to imprison the evil Jade Emperor forever.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending6.ogg"
                         },
                         {
                             "Speaker": "",
                             "Line": "As for Ancient China, the twelve winners who supposedly won the Zodiac Race ruled the country collectively, as they represented each year based on the order of the Zodiac Race.",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_Ending7.ogg"
                         }
                     ],
                     "Trigger Type": 0,
@@ -188,7 +154,7 @@
                     "Is Triggered": false,
                     "Speaker Required": false,
                     "Post Dialogue Scene": true,
-                    "Target Scene": "tbc.scn"
+                    "Target Scene": "ending.scn"
                 }
             ]
         },
@@ -196,378 +162,10 @@
     },
     {
         "Clone": {
-            "Prefab": "Cutscene_v01_01.prefab",
-            "Unique Components": [
-                "struct Transform",
-                "struct Name",
-                "struct Parent",
-                "struct Tex"
-            ]
-        },
-        "Entity": {
-            "Name": "Cutscene 1",
-            "Current Layer": 0,
-            "Order in Layer": 9,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Transform": {
-            "position_x": -108.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_01.png"
-        }
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 2",
-            "Current Layer": 0,
-            "Order in Layer": 3,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 1600.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_02.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3172.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 3",
-            "Current Layer": 0,
-            "Order in Layer": 4,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 3309.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_03.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3172.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 4",
-            "Current Layer": 0,
-            "Order in Layer": 7,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 5018.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_04.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3172.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 6",
-            "Current Layer": 0,
-            "Order in Layer": 8,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 8436.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_06.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3172.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 5",
-            "Current Layer": 0,
-            "Order in Layer": 5,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 6727.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_05.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3172.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 8",
-            "Current Layer": 0,
-            "Order in Layer": 6,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 11854.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_08.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3173.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {},
-        "Entity": {
-            "Name": "Cutscene 7",
-            "Current Layer": 0,
-            "Order in Layer": 0,
-            "isLocked": true,
-            "isSkipped": true
-        },
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Transform": {
-            "position_x": 10145.0,
-            "position_y": 0.0,
-            "rotation": 0.0,
-            "scale": 0.5391073226928711,
-            "velocity_x": 0.0,
-            "velocity_y": 0.0
-        },
-        "Texture": {
-            "Texture Index": 0,
-            "Rows": 0,
-            "Columns": 0,
-            "Sprite Number": 0,
-            "Texture File Path": "Cutscene_v01_07.png"
-        },
-        "Visible": {
-            "isVisible": false
-        },
-        "Size": {
-            "width": 3172.0,
-            "height": 2001.0
-        },
-        "Model": {
-            "Model type": 0,
-            "Background scroll speed": 0.0,
-            "Red": 1.0,
-            "Green": 1.0,
-            "Blue": 1.0,
-            "Alpha": 1.0,
-            "Mirror": false
-        },
-        "Movable": {}
-    },
-    {
-        "Clone": {
             "Prefab": "cutscene_start.prefab",
             "Unique Components": [
                 "struct Transform",
+                "class AnimationSet",
                 "struct Name",
                 "struct Parent"
             ]
@@ -580,8 +178,445 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 11704.0,
+            "position_x": 17687.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Animation Set": [
+            {
+                "Total Frames": 61,
+                "Group Name": "Cutscene",
+                "Loop": false,
+                "Frame Time": 0.3499999940395355,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59,
+                                "Target": "Cutscene 1 End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraTarget",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Event",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 30,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 60,
+                                "Destination": "Change Cutscene"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": []
+                    }
+                ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Change Cutscene",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Target": "Cutscene 2 Start"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5,
+                                "Destination": "Cutscene 2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 61,
+                "Group Name": "Cutscene 2",
+                "Loop": false,
+                "Frame Time": 0.4000000059604645,
+                "Animations": [
+                    {
+                        "Animation Type": "Event",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 15,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 39,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59,
+                                "Target": "Cutscene End"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 60,
+                                "Destination": "Change Cutscene 2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 3,
+                "Group Name": "Stat",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "CameraZoom",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Zoom": 0.75
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 2,
+                                "Destination": "Cutscene"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Change Cutscene 2",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 4,
+                                "Target": "Cutscene 3 Start"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 5,
+                                "Destination": "Cutscene 3 "
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 60,
+                "Group Name": "Cutscene 3 ",
+                "Loop": false,
+                "Frame Time": 0.4000000059604645,
+                "Animations": [
+                    {
+                        "Animation Type": "Event",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 30,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            },
+                            {
+                                "Frame Number": 59,
+                                "Event Name": "Advance Dialogue",
+                                "Event Input": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TransformAttach",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 59,
+                                "Target": "Real Cutscene End"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "Animation Set Default Animation": "Stat"
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Cutscene End",
+            "Current Layer": 0,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 192.0,
             "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_2_01.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_2_01.png",
+            "Current Layer": 0,
+            "Order in Layer": 4,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 2.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_2_02.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_2_02.png",
+            "Current Layer": 0,
+            "Order in Layer": 5,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 1811.5,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_2_03.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_2_03.png",
+            "Current Layer": 0,
+            "Order in Layer": 6,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 3618.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_2_04.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_2_04.png",
+            "Current Layer": 0,
+            "Order in Layer": 7,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 5427.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_2_05.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_2_05.png",
+            "Current Layer": 0,
+            "Order in Layer": 8,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 7236.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_2_06.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_2_06.png",
+            "Current Layer": 0,
+            "Order in Layer": 9,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 8999.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_1_01.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_1_01.png",
+            "Current Layer": 0,
+            "Order in Layer": 1,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 9045.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Cutscene 1 End",
+            "Current Layer": 0,
+            "Order in Layer": 10,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 9045.0,
+            "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -598,15 +633,430 @@
             ]
         },
         "Entity": {
-            "Name": "Cutscene End",
+            "Name": "Cutscene 2 Start",
             "Current Layer": 0,
-            "Order in Layer": 1,
+            "Order in Layer": 11,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 9045.0,
+            "position_y": 0.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_1_02.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_1_02.png",
+            "Current Layer": 0,
+            "Order in Layer": 12,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 10854.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_1_03.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_1_03.png",
+            "Current Layer": 0,
+            "Order in Layer": 13,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 12663.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_1_04.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_1_04.png",
+            "Current Layer": 0,
+            "Order in Layer": 14,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 14472.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_1_05.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_1_05.png",
+            "Current Layer": 0,
+            "Order in Layer": 15,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 16281.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_1_06.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Intro_Part_1_06.png",
+            "Current Layer": 0,
+            "Order in Layer": 3,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 18090.0,
+            "position_y": 1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {},
+        "Entity": {
+            "Name": "button_skip",
+            "Current Layer": 9,
+            "Order in Layer": 0,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Master": {},
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "position_x": 743.0,
+            "position_y": 450.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        },
+        "Visible": {
+            "isVisible": false
+        },
+        "Size": {
+            "width": 300.0,
+            "height": 80.0
+        },
+        "Model": {
+            "Model type": 3,
+            "Background scroll speed": 0.0,
+            "Red": 0.0,
+            "Green": 0.0,
+            "Blue": 0.0,
+            "Alpha": 0.0,
+            "Mirror": false
+        },
+        "Movable": {},
+        "Text Label": {
+            "Font Family": "Danto Lite Normal",
+            "Font Variant": "Regular",
+            "Font Size": 0.5,
+            "Text String": "Skip",
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0,
+            "Color Preset": "black",
+            "Horizontal Alignment": 1,
+            "Vertical Alignment": 1,
+            "Text Wrap": 2,
+            "Background": false
+        },
+        "Button": {
+            "Default Button R": 0.0,
+            "Default Button G": 0.0,
+            "Default Button B": 0.0,
+            "Default Button A": 0.0,
+            "Default Text R": 1.0,
+            "Default Text G": 1.0,
+            "Default Text B": 1.0,
+            "Default Text A": 1.0,
+            "Hovered Button R": 0.0,
+            "Hovered Button G": 0.0,
+            "Hovered Button B": 0.0,
+            "Hovered Button A": 0.09803921729326248,
+            "Hovered Text R": 1.0,
+            "Hovered Text G": 1.0,
+            "Hovered Text B": 1.0,
+            "Hovered Text A": 1.0,
+            "Focused Button R": 0.0,
+            "Focused Button G": 0.0,
+            "Focused Button B": 0.0,
+            "Focused Button A": 0.19607843458652496,
+            "Focused Text R": 1.0,
+            "Focused Text G": 1.0,
+            "Focused Text B": 1.0,
+            "Focused Text A": 1.0,
+            "Event Name": "Transition Scene",
+            "Event Input": "ending.scn",
+            "Padding Top": 30.0,
+            "Padding Bottom": 30.0,
+            "Padding Left": 60.0,
+            "Padding Right": 60.0,
+            "Padding Setting": 1
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_3_06.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ending_Part_3_06.png",
+            "Current Layer": 0,
+            "Order in Layer": 16,
             "isLocked": true,
             "isSkipped": true
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 0.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_3_05.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ending_Part_3_05.png",
+            "Current Layer": 0,
+            "Order in Layer": 17,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -1809.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_3_04.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ending_Part_3_04.png",
+            "Current Layer": 0,
+            "Order in Layer": 18,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -3618.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_3_03.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ending_Part_3_03.png",
+            "Current Layer": 0,
+            "Order in Layer": 19,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -5427.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_3_02.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ending_Part_3_02.png",
+            "Current Layer": 0,
+            "Order in Layer": 20,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -7236.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "Ending_Part_3_01.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Ending_Part_3_01.png",
+            "Current Layer": 0,
+            "Order in Layer": 21,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -9045.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 0.5,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Real Cutscene End",
+            "Current Layer": 0,
+            "Order in Layer": 22,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": -8853.0,
+            "position_y": -1500.0,
+            "rotation": 0.0,
+            "scale": 1.0,
+            "velocity_x": 0.0,
+            "velocity_y": 0.0
+        }
+    },
+    {
+        "Clone": {
+            "Prefab": "attachpoint.prefab",
+            "Unique Components": [
+                "struct Transform",
+                "struct Name",
+                "struct Parent"
+            ]
+        },
+        "Entity": {
+            "Name": "Cutscene 3 Start",
+            "Current Layer": 0,
+            "Order in Layer": 23,
+            "isLocked": true,
+            "isSkipped": true
+        },
+        "Transform": {
+            "position_x": 0.0,
+            "position_y": -1500.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

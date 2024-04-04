@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 35,
+            "layerCounter": 58,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -38,7 +38,30 @@
                 "Layer 31",
                 "Layer 32",
                 "Layer 33",
-                "Layer 34"
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57"
             ]
         }
     },
@@ -130,7 +153,7 @@
                 "Total Frames": 7,
                 "Group Name": "Main",
                 "Loop": false,
-                "Frame Time": 0.05999999865889549,
+                "Frame Time": 0.12999999523162842,
                 "Animations": [
                     {
                         "Animation Type": "Sprite",
@@ -172,6 +195,17 @@
                     {
                         "Animation Type": "CameraReset",
                         "Key Frames": []
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "boss ignite.wav"
+                                ]
+                            }
+                        ]
                     }
                 ]
             }

@@ -116,6 +116,10 @@ void CharacterStats::TakeDamage(float d)
             if (c->entity == this->buffs.shieldEntity) {
                 c->stats.health = d > c->stats.health ? 0.f : c->stats.health - d;
                 c->damage = d;
+                if (endGameOn) {
+                    c->stats.health = 0.f;
+                    c->damage = c->stats.maxHealth;
+                }
                 break;
             }
         }

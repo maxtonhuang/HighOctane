@@ -39,7 +39,7 @@
         "Entity": {
             "Name": "Win Text",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -51,44 +51,36 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 270.0,
+            "position_y": 266.0,
             "rotation": 0.0,
-            "scale": 1.4233474731445313,
+            "scale": 0.30000001192092896,
             "velocity_x": 0.0,
             "velocity_y": 0.0
+        },
+        "Texture": {
+            "Texture Index": 0,
+            "Rows": 0,
+            "Columns": 0,
+            "Sprite Number": 0,
+            "Texture File Path": "UI_victory_white.png"
         },
         "Visible": {
             "isVisible": true
         },
         "Size": {
-            "width": 384.0,
-            "height": 95.0
+            "width": 3508.0,
+            "height": 2480.0
         },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
-            "Red": 0.21176470816135406,
-            "Green": 0.47058823704719543,
-            "Blue": 0.16078431904315948,
-            "Alpha": 0.20000000298023224,
+            "Red": 1.0,
+            "Green": 1.0,
+            "Blue": 1.0,
+            "Alpha": 1.0,
             "Mirror": false
         },
         "Movable": {},
-        "Text Label": {
-            "Font Family": "Danto Lite Normal",
-            "Font Variant": "Regular",
-            "Font Size": 1.0,
-            "Text String": "WIN!",
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0,
-            "Color Preset": "white",
-            "Horizontal Alignment": 1,
-            "Vertical Alignment": 1,
-            "Text Wrap": 2,
-            "Background": true
-        },
         "Animation Set": [
             {
                 "Total Frames": 60,

@@ -435,3 +435,17 @@ public:
 	std::list<Keyframe<std::pair<std::string, std::string>>> keyframes;
 	std::list<Keyframe<std::pair<std::string, std::string>>>::iterator nextKeyframe{};
 };
+
+//Calls a parents animation, does not work if entity is not a child
+class ParentAnimation : public Animation {
+public:
+	ParentAnimation();
+	void Start() override;
+	void Update(int frameNum) override;
+	void AddKeyFrame(int frameNum, void* frameData) override;
+	void RemoveKeyFrame(int frameNum) override;
+	bool HasKeyFrame(int frameNum) override;
+
+	std::list<Keyframe<std::string>> keyframes;
+	std::list<Keyframe<std::string>>::iterator nextKeyframe{};
+};

@@ -53,6 +53,8 @@ Entity exitconfirmationmenu{};
 Entity pausemenu{};
 Entity settingsmenu{};
 Entity scenemenu{};
+Entity credits{};
+int creditsIndex{-1};
 
 /*!
  * \brief Exits the game menu, voids input
@@ -120,6 +122,10 @@ void ChangeScene(std::string input) {
 			events.Call("Toggle Pause", "");
 			return;
 		}
+	}
+
+	if (assetmanager.audio.IsGroupPaused("VOC")) {
+		assetmanager.audio.ResumeGroup("VOC");
 	}
 
 	newScene = true;
@@ -518,7 +524,8 @@ void TransitionScene(std::string input) {
  * std::string input : The input string.
  */
 void TestFunction(std::string input) {
-	std::cout << input << "\n";
+	if (input != "")
+		std::cout << input << "\n";
 }
 
 /*!
@@ -618,6 +625,15 @@ void AdvanceTutorial(std::string input) {
 	ts->UpdateState();
 }
 
+/*!
+ * \brief Event trigger to toggle the credits scene.
+ *
+ * std::string input : The input string.
+ */
+void ToggleCredits(std::string input) {
+	events.Call("Transition Scene", "credits.scn");
+}
+
 
 /*!
  * \brief Initializes the functions for the event manager.
@@ -650,6 +666,7 @@ void EventManager::InitialiseFunctions() {
 	functions["Advance Tutorial"] = AdvanceTutorial;
 	functions["Toggle Settings"] = ToggleSettings;
 	functions["Toggle Scene"] = ToggleScene;
+	functions["Toggle Credits"] = ToggleCredits;
 	for (auto& e : functions) {
 		functionNames.push_back(e.first.c_str());
 	}

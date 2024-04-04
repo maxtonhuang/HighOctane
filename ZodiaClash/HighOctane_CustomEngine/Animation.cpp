@@ -38,6 +38,7 @@
 #include "EntityFactory.h"
 #include "Global.h"
 #include "Camera.h"
+#include "Layering.h"
 #include <random>
 
 void AnimationSet::Initialise(Entity entity) {
@@ -373,6 +374,19 @@ AnimationGroup& AnimationGroup::operator= (const AnimationGroup& copy) {
 			}
 			animations.push_back(ptr);
 		}
+		else if (animation->GetType() == "Parent") {
+			std::shared_ptr <ParentAnimation> ptr{ std::make_shared<ParentAnimation>() };
+			std::shared_ptr<ParentAnimation> copyptr{ std::dynamic_pointer_cast<ParentAnimation>(animation) };
+			*ptr = *copyptr;
+			if (copyptr->IsActive()) {
+				auto keyframe{ ptr->keyframes.begin() };
+				while (keyframe->frameNum != copyptr->nextKeyframe->frameNum && keyframe != ptr->keyframes.end()) {
+					keyframe++;
+				}
+				ptr->nextKeyframe = keyframe;
+			}
+			animations.push_back(ptr);
+			}
 		else {
 			ASSERT(1, "Unable to copy animation group!");
 		}
@@ -529,10 +543,11 @@ void SoundAnimation::Update(int frameNum) {
 		//Play sound
 		std::random_device rd;
 		std::mt19937 gen(rd());
+		std::string soundGroup{ "SFX" };
 		if (nextKeyframe->data.size() > 0) {
 			std::uniform_int_distribution<int> dis(0, (int)nextKeyframe->data.size() - 1);
 			int num{ dis(gen) };
-			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), "SFX");
+			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), soundGroup.c_str());
 			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - camera.GetPos().x) / GRAPHICS::defaultWidthF };
 			channel->setPan(pan);
 		}
@@ -627,7 +642,7 @@ void TransformAttachAnimation::Update(int frameNum) {
 	entityTransform->position += velocity;
 
 
-	if (frameNum >= nextKeyframe->frameNum) {
+	if (frameNum > nextKeyframe->frameNum) {
 		float frameCount{ (float)(nextKeyframe->frameNum) };
 		Transform* prevTransform{ GetEntityTransform(nextKeyframe->data) };
 		nextKeyframe++;
@@ -1210,6 +1225,58 @@ void ChildAnimation::RemoveKeyFrame(int frameNum) {
 	keyframes.remove(Keyframe<std::pair<std::string, std::string>>{frameNum});
 }
 bool ChildAnimation::HasKeyFrame(int frameNum) {
+	for (auto& k : keyframes) {
+		if (k.frameNum == frameNum) {
+			return true;
+		}
+	}
+	return false;
+}
+
+ParentAnimation::ParentAnimation() {
+	type = "Parent";
+}
+void ParentAnimation::Start() {
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (!ECS::ecs().HasComponent<Child>(parent)) {
+		return;
+	}
+	nextKeyframe = keyframes.begin();
+	active = true;
+}
+void ParentAnimation::Update(int frameNum) {
+	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
+	static auto& childArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Child>() };
+	static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
+	if (keyframes.size() == 0) {
+		return;
+	}
+	if (frameNum >= nextKeyframe->frameNum) {
+		Child& c{ childArray.GetData(parent) };
+		Entity Parent{ c.parent };
+		if (Parent) {
+			animationArray.GetData(Parent).Start(nextKeyframe->data, Parent);
+		}
+		nextKeyframe++;
+		if (nextKeyframe == keyframes.end()) {
+			active = false;
+		}
+	}
+}
+void ParentAnimation::AddKeyFrame(int frameNum, void* frameData) {
+	Keyframe<std::string> frame{ frameNum };
+	if (frameData != nullptr) {
+		frame.data = *(static_cast<std::string*>(frameData));
+	}
+	keyframes.push_back(frame);
+	keyframes.sort();
+}
+void ParentAnimation::RemoveKeyFrame(int frameNum) {
+	keyframes.remove(Keyframe<std::string>{frameNum});
+}
+bool ParentAnimation::HasKeyFrame(int frameNum) {
 	for (auto& k : keyframes) {
 		if (k.frameNum == frameNum) {
 			return true;

@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 91,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,7 +31,70 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27"
+                "Layer 27",
+                "Layer 28",
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46",
+                "Layer 47",
+                "Layer 48",
+                "Layer 49",
+                "Layer 50",
+                "Layer 51",
+                "Layer 52",
+                "Layer 53",
+                "Layer 54",
+                "Layer 55",
+                "Layer 56",
+                "Layer 57",
+                "Layer 58",
+                "Layer 59",
+                "Layer 60",
+                "Layer 61",
+                "Layer 62",
+                "Layer 63",
+                "Layer 64",
+                "Layer 65",
+                "Layer 66",
+                "Layer 67",
+                "Layer 68",
+                "Layer 69",
+                "Layer 70",
+                "Layer 71",
+                "Layer 72",
+                "Layer 73",
+                "Layer 74",
+                "Layer 75",
+                "Layer 76",
+                "Layer 77",
+                "Layer 78",
+                "Layer 79",
+                "Layer 80",
+                "Layer 81",
+                "Layer 82",
+                "Layer 83",
+                "Layer 84",
+                "Layer 85",
+                "Layer 86",
+                "Layer 87",
+                "Layer 88",
+                "Layer 89",
+                "Layer 90"
             ]
         }
     },
@@ -68,12 +131,8 @@
             "isVisible": false
         },
         "Size": {
-            "width": 327.0,
-            "height": 102.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
+            "width": 261.6000061035156,
+            "height": 81.5999984741211
         },
         "Model": {
             "Model type": 3,
@@ -215,7 +274,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Select_Target_Edited.wav"
+                                    "PauseMenu_Active.wav"
                                 ]
                             }
                         ]

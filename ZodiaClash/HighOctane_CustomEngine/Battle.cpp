@@ -51,6 +51,8 @@
 #include "AssetManager.h"
 #include "Utilities.h"
 #include "Global.h"
+#include "Layering.h"
+#include "CheatCode.h"
 
 //For animating skill buttons
 const float skillButtonOffset{ 160.f };
@@ -413,6 +415,17 @@ void BattleSystem::Update()
                     }
                 }
 
+                //Handle ox death
+                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                    for (auto& character : turnManage.turnOrderList) {
+                        if (character->tag == CharacterType::ENEMY && character->stats.health != 0.f) {
+                            character->damage = character->stats.health;
+                            character->stats.health = 0.f;
+                            deadchars.push_back(character);
+                        }
+                    }
+                }
+
                 //Handle emperor death
                 if (ECS::ecs().GetComponent<Name>(c->entity).name == "Emperor") {
                     for (auto& character : turnManage.turnOrderList) {
@@ -765,13 +778,13 @@ void BattleSystem::ProcessDamage() {
                             //Create boss label
                             if (c.boss == true && c.stats.health < 0.5 * c.stats.maxHealth) {
                                 Entity aura{ parentArray->GetData(c.entity).GetChildByName("VFX_Corrupted") };
-                                if (animationArray->HasComponent(aura)) {
+                                if (modelArray->GetData(aura).GetAlpha() <= 0.1f && animationArray->HasComponent(aura)) {
                                     animationArray->GetData(aura).Start("Appear",aura);
                                 }
                             }
                             else if (c.boss == true && c.stats.health > 0.5 * c.stats.maxHealth) {
                                 Entity aura{ parentArray->GetData(c.entity).GetChildByName("VFX_Corrupted") };
-                                if (animationArray->HasComponent(aura)) {
+                                if (modelArray->GetData(aura).GetAlpha() >= 0.9f && animationArray->HasComponent(aura)) {
                                     animationArray->GetData(aura).Start("Disappear", aura);
                                 }
                             }
@@ -836,7 +849,7 @@ void BattleSystem::ProcessDamage() {
                 }
             }
         }
-        if (totalDamage > 0.f) {
+        if (totalDamage > 0.f && !godModeOn && !endGameOn) {
             camera.SetShake(totalDamage / MAGNITUDE_PER_HEALTH);
         }
         damagePrefab.clear();

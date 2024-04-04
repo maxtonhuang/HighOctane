@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 81,
+            "layerCounter": 72,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -75,16 +75,7 @@
                 "Layer 68",
                 "Layer 69",
                 "Layer 70",
-                "Layer 71",
-                "Layer 72",
-                "Layer 73",
-                "Layer 74",
-                "Layer 75",
-                "Layer 76",
-                "Layer 77",
-                "Layer 78",
-                "Layer 79",
-                "Layer 80"
+                "Layer 71"
             ]
         }
     },
@@ -92,7 +83,7 @@
         "Entity": {
             "Name": "Goat_Enemy",
             "Current Layer": 0,
-            "Order in Layer": 2,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -791,7 +782,7 @@
         "Entity": {
             "Name": "Shadow",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -895,8 +886,8 @@
             "a": 1.0
         },
         "Transform": {
-            "position_x": -550.0,
-            "position_y": 0.0,
+            "position_x": -567.5,
+            "position_y": 26.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -928,8 +919,8 @@
         "Movable": {},
         "Collider": {
             "Collider Enum": 0,
-            "Dimension X": 0.001,
-            "Dimension Y": 0.001,
+            "Dimension X": 0.0010000000474974513,
+            "Dimension Y": 0.0010000000474974513,
             "Type": 1,
             "Event Name": "",
             "Event Input": ""
@@ -1029,14 +1020,25 @@
                                 "Destination": "Loop"
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "corrupted aura.wav"
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
         ],
         "Animation Set Default Animation": "Loop",
         "Child": {
-            "position_x": 0.0,
-            "position_y": 0.0,
+            "position_x": -17.5,
+            "position_y": 26.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,

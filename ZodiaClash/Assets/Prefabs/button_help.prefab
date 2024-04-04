@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 28,
+            "layerCounter": 23,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -26,12 +26,7 @@
                 "Layer 19",
                 "Layer 20",
                 "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27"
+                "Layer 22"
             ]
         }
     },
@@ -68,12 +63,8 @@
             "isVisible": false
         },
         "Size": {
-            "width": 161.5,
-            "height": 102.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
+            "width": 129.1999969482422,
+            "height": 82.0
         },
         "Model": {
             "Model type": 3,
@@ -215,7 +206,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Select_Target_Edited.wav"
+                                    "PauseMenu_Active.wav"
                                 ]
                             }
                         ]

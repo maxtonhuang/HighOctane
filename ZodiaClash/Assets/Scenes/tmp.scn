@@ -1,37 +1,146 @@
-mockup_playbutton_04.png
+Boss_Circle.spritesheet
+Boss_Circle.spritesheet
+Cat_Ulti.spritesheet
+mockup_chi_icon.png
+Cat_Ulti.spritesheet
 NEW_bg_03.png
-Cutscene_v01_01.png
-Cutscene_v01_02.png
-Cutscene_v01_03.png
-Cutscene_v01_04.png
-Cutscene_v01_05.png
-Cutscene_v01_06.png
-Cutscene_v01_07.png
+Guard_Death.spritesheet
+Guard_Death.spritesheet
+skill_icon_basic.png
+Heal_VFX.spritesheet
+Heal_VFX.spritesheet
+Cat_Attack_1.spritesheet
+Cat_Attack_1.spritesheet
+mockup_skillframe (1).png
+UI_ICON_def_down.png
+UI_ICON_bleed.png
+skill_icon_skill.png
+skill_icon_ulti.png
 Goat_Idle.spritesheet
+mockup_icon_cat.png
 Goat_Idle.spritesheet
-Cutscene_v01_08.png
-UI_dialogue_box_bg_v02.png
+Cat_Damage.spritesheet
+Cat_Damage.spritesheet
+Goat_Ulti_VFX.spritesheet
+Goat_Ulti_VFX.spritesheet
+Guard_Damage.spritesheet
+Guard_Damage.spritesheet
+VFX_Hit.spritesheet
+VFX_Hit.spritesheet
+Cat_Idle.spritesheet
+Cat_Idle.spritesheet
+Cat_Attack_2.spritesheet
+Cat_Attack_2.spritesheet
+GUARD_idle.png
+UI_Target_Circle.spritesheet
+UI_Target_Circle.spritesheet
+NEW_guard_pfp.png
+Cat_Dash.spritesheet
+Cat_Dash.spritesheet
+Guard_Attack.spritesheet
+Guard_Attack.spritesheet
+Goat_Hit.spritesheet
+Goat_Hit.spritesheet
+Goat_Basic.spritesheet
+Goat_Basic.spritesheet
+Goat_Ulti.spritesheet
+mockup_chi_icon_lineart.png
+Ox_Ulti_VFX.spritesheet
+Goat_Ulti.spritesheet
+Ox_Ulti_VFX.spritesheet
+Goat_Death.spritesheet
+Goat_Death.spritesheet
+Goat_Basic_VFX.spritesheet
+Goat_Basic_VFX.spritesheet
+VFX_Bleed.spritesheet
+Ox_Basic.spritesheet
+VFX_Bleed.spritesheet
+Ox_Basic.spritesheet
+mockup_icon_goat.png
+ox.png
+mockup_qn_icon.png
+mockup_skillframe.png
+Effect_Ignited.png
+BattleInfo_Ox.png
+UI_target_circle_f1.png
+Ox_Idle.spritesheet
+Ox_Idle.spritesheet
 UI_dialogue_box_bg_v03.png
-Intro_Part_1_01.png
-Intro_Part_1_02.png
-Intro_Part_1_03.png
-Intro_Part_1_04.png
-Intro_Part_1_05.png
-Intro_Part_1_06.png
-Intro_Part_2_01.png
-Intro_Part_2_02.png
-Intro_Part_2_03.png
-Intro_Part_2_04.png
-Intro_Part_2_05.png
-Intro_Part_2_06.png
-ZodiaClash_MainMenu2.ogg
-Cutscene_VO_1.ogg
-Cutscene_VO_6.5.ogg
-Cutscene_VO_2.ogg
-Cutscene_VO_3.ogg
-Cutscene_VO_4.ogg
-Cutscene_VO_5.ogg
-Cutscene_VO_6.ogg
+mockup_playbutton_04.png
+Emperor_Monkey_Idle.spritesheet
+BORDER_side_test_02.png
+Emperor_Monkey_Idle.spritesheet
+BG_sunset_level.png
+circle-512.png
+BORDER_test_02.png
+BORDER_test_01.png
+ox_pfp.png
+BORDER_side_test_01.png
+EMPEROR_MONKEY_potrait.png
+Leaf.png
+UI_target_circle_f2.png
+Emperor_Monkey_buff.spritesheet
+Emperor_Monkey_buff.spritesheet
+UI_ICON_atk_up.png
+skilltooltip_CatSkill1.png
+VFX_Smoke.spritesheet
+Emperor_Monkey_AOE.spritesheet
+VFX_Smoke.spritesheet
+Emperor_Monkey_AOE.spritesheet
+UI_Polish_Selector.spritesheet
+UI_icon_ignite.png
+UI_ICON_reflect.png
+skill_icon_goat_1.png
+skill_icon_goat_2.png
+skill_icon_goat_3.png
+skilltooltip_GoatSkill1.png
+OX_skill_icon_basic.png
+OX_skill_icon_skill.png
+OX_skill_icon_ult.png
+tooltip_OxSkill1.png
+Emperor_Monkey_Basic.spritesheet
+Emperor_Monkey_Basic.spritesheet
+tooltip_OxSkill2.png
+UI_ICON_stun.png
+Ox_Damaged.spritesheet
+Ox_Damaged.spritesheet
+tooltip_OxSkill3.png
+Ox_Ulti.spritesheet
+Ox_Ulti.spritesheet
+UI_ICON_def_up.png
+UI_ICON_taunt.png
+Corrupted_VFX.spritesheet
+Corrupted_VFX.spritesheet
+UI_Polish_Selector.spritesheet
+ZodiaClash_Boss.ogg
+Battle Ambience BGM_Edited.wav
+Cat_Atk_2_Edited.wav
+Guard Damaged_Edited.wav
+Cat Atk_1_Edited.wav
+Boss_AtkBuff.wav
+Guard Atk_Edited.wav
+Cat_Atk_3_Edited.wav
+Hover Target_Edited.wav
+Skill Select_Edited.wav
+Hover Select_Edited.wav
+Goat Atk 1_Edited.wav
+Goat Atk 4_Edited.wav
+Boss_Aoe.wav
+Guard Death_Edited.wav
+turnorder.wav
+Battle End_Edited.wav
+turnorder2.wav
+shield damaged 2.wav
+Select_Target_Edited.wav
+boss poof.wav
+shield damaged 1.wav
+Ox Atk 1_Edited.wav
+shield broken.wav
+Guard Damaged2_Edited.wav
+Ox Atk 3_Edited.wav
+Ox Damaged_Edited.wav
+Ox Damaged3_Edited.wav
+Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Danto Lite Normal/Danto Lite Normal.ttf
 Golden Strike.skill

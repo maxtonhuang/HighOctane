@@ -72,6 +72,7 @@ void CharacterAction::UpdateState() {
             battleManager->locked = true;
             battleManager->MoveOutUIAnimation();
             entityState = ENDING;
+            battleManager->ProcessDamage();
         }
         break;
     case ATTACKING:
