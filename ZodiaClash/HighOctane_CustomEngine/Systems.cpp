@@ -1319,8 +1319,8 @@ void UISkillPointSystem::Update() {
 
 				//note: changes will be reflected outside of edit mode!
 				(skillPtData->isActive) ?
-					aniSetData->Start("Active", childEntity)
-					: aniSetData->Start("Inactive", childEntity);
+					aniSetData->Queue("Active", childEntity)
+					: aniSetData->Queue("Inactive", childEntity);
 			}
 		}
 	}
