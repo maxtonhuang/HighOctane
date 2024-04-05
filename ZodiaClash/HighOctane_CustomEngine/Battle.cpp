@@ -414,7 +414,7 @@ void BattleSystem::Update()
                 }
 
                 //Handle ox death
-                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                else if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
                     for (auto& character : turnManage.turnOrderList) {
                         if (character->tag == CharacterType::ENEMY && character->stats.health != 0.f) {
                             character->damage = character->stats.health;
@@ -425,7 +425,7 @@ void BattleSystem::Update()
                 }
 
                 //Handle emperor death
-                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Emperor") {
+                else if (ECS::ecs().GetComponent<Name>(c->entity).name == "Emperor") {
                     for (auto& character : turnManage.turnOrderList) {
                         if (character->tag == CharacterType::ENEMY && character->stats.health != 0.f) {
                             character->damage = character->stats.health;
@@ -433,6 +433,8 @@ void BattleSystem::Update()
                             deadchars.push_back(character);
                         }
                     }
+                    ProcessDamage();
+                    camera.SetShake(0.f);
                     if (m_Entities.size() > 0) {
                         events.Call("Start Dialogue", "HEALTH");
                         emperorDead = true;
@@ -440,7 +442,7 @@ void BattleSystem::Update()
                 }
 
                 //Handle shield death
-                if (c->untargetable) {
+                else if (c->untargetable) {
                     for (auto& character : turnManage.turnOrderList) {
                         if (character->buffs.shieldEntity == c->entity) {
                             character->buffs.shieldStack = 0;
