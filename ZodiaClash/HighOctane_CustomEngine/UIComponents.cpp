@@ -1290,6 +1290,11 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		}
 	}
 
+	// check if currentDialogue is already triggered
+	if (currentDialogue && currentDialogue->isTriggered) {
+		currentDialogue = nullptr;
+	}
+
 	// assign dialogue pointer if empty
 	if (!currentDialogue && !dialogueQueue.empty())
 	{

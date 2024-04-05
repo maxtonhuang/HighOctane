@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 40,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,17 +33,7 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39"
+                "Layer 29"
             ]
         }
     },
@@ -70,7 +60,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": -864.0,
+            "position_y": -800.0,
             "rotation": 0.0,
             "scale": 1.25,
             "velocity_x": 0.0,
@@ -141,7 +131,7 @@
                         },
                         {
                             "Speaker": "",
-                            "Line": "As for Ancient China, the twelve winners who supposedly won the Zodiac Race ruled the country collectively, as they represented each year based on the order of the Zodiac Race.",
+                            "Line": "As for Ancient China, the twelve winners who won the Zodiac Race ruled the country collectively, as they represented each year based on the order of the Zodiac Race.",
                             "Voice": "Zodiac Clash_Ending7.ogg"
                         }
                     ],
