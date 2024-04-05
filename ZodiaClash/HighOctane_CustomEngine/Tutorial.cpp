@@ -194,8 +194,8 @@ void UITutorialSystem::UpdateState() {
 		nextStepWait = false;
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_10.prefab");
 
+		entityList = entityList = battleSys->skillButtons;
 		entityList.push_back(battleSys->chiLabel);
-		entityList.push_back(battleSys->skillButtons[1]);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
 		break;
@@ -233,6 +233,10 @@ void UITutorialSystem::UpdateState() {
 		battleSys->tutorialLock = 1;
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_12.prefab");
 		RevertLayers();
+
+		entityList.push_back(battleSys->chiLabel);
+		GetChildren(entityList);
+		SurfaceTargetLayers(entityList);
 		break;
 	case 12:
 		// end of tutorial/outro 2

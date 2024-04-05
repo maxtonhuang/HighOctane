@@ -659,6 +659,15 @@
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "Animation Type": "DamageImpact",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Prefab": ""
+                            }
+                        ]
                     }
                 ]
             },

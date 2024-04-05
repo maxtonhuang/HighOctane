@@ -237,6 +237,9 @@ void Attack::UseAttack(CharacterStats* target) {
                         enemy->buffs.shieldStack = 1;
                         enemy->buffs.shieldEntity = shield;
 
+                        CharacterStats dispel{};
+                        enemy->debuffs = dispel.debuffs;
+
                         if (ECS::ecs().HasComponent<Parent>(enemy->entity)) {
                             Entity child_shield{ ECS::ecs().GetComponent<Parent>(enemy->entity).GetChildByName("Monkey Shield") };
                             if (child_shield) {
@@ -259,12 +262,14 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
 
-    if (!target->buffs.shieldStack && !target->untargetable) {
-        target->debuffs.bloodStack += bleed;
-    }
-    
+    target->debuffs.bloodStack += bleed;
+
     if (target->debuffs.bloodStack > 5) {
         target->debuffs.bloodStack = 5;
+    }
+    if (target->buffs.shieldStack || target->untargetable) {
+        CharacterStats dispel{};
+        target->debuffs = dispel.debuffs;
     }
 
     if (damage > 0 && target->tag == owner->tag) {
