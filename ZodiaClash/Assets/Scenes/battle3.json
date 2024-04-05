@@ -29,7 +29,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 4,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -55,7 +55,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -81,7 +81,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -193,7 +193,7 @@
                         {
                             "Speaker": "",
                             "Line": "Niu has joined your team!",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_JoinTeam.wav"
                         }
                     ],
                     "Trigger Type": 5,
@@ -246,7 +246,7 @@
                         {
                             "Speaker": "",
                             "Line": "Yang has joined your team!",
-                            "Voice": ""
+                            "Voice": "Zodiac Clash_JoinTeam.wav"
                         }
                     ],
                     "Trigger Type": 3,
