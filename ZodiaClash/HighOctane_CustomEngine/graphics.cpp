@@ -137,7 +137,11 @@ void GraphicsManager::Initialize(int w, int h) {
     //TEMP
     glPointSize(15.f);
     glLineWidth(3.f);
-    glfwSwapInterval(0);
+
+    //Disable vsync when not in game mode
+    if (!fullscreen) {
+        glfwSwapInterval(0);
+    }
 
     Fullscreen(fullscreen);
 }
