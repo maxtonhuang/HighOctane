@@ -71,7 +71,6 @@ void ThreadPool::WorkerFunction() {
         }
         task(); // Execute the task
         active_tasks--;
-        //printf("Done executing task. Active Tasks: %d\n", active_tasks.load());
         main_condition.notify_one(); // Notify main thread if necessary
     }
 }
@@ -119,7 +118,6 @@ void ThreadPool::Enqueue(std::function<void()> task) {
         std::unique_lock<std::mutex> lock(queue_mutex);
         tasks.push(task);
         active_tasks++;
-        //printf("Active Tasks after Enqueue: %d\n", active_tasks.load());
     }
     condition.notify_one(); // Notify a waiting worker thread
 }
