@@ -242,6 +242,11 @@
                             "Speaker": "Mei",
                             "Line": "Thanks, now let's wake this ox up!",
                             "Voice": "Mei_10.wav"
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Yang has joined your team!",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 3,

@@ -317,11 +317,6 @@
                             "Speaker": "Yang",
                             "Line": "All the best. May the heavens bless you.",
                             "Voice": "Goat_06.ogg"
-                        },
-                        {
-                            "Speaker": "",
-                            "Line": "Yang has joined your team!",
-                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 5,
