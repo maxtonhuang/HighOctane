@@ -814,7 +814,6 @@ void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
 			buttonData.currentState = STATE::DISABLED;
 		break;
 	
-	case 11:
 	case 12:
 		if (battleSys->tutorialLock)
 			buttonData.currentState = STATE::DISABLED;

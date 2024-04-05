@@ -234,6 +234,7 @@ void UITutorialSystem::UpdateState() {
 		currentTutorialEntity = EntityFactory::entityFactory().ClonePrefab("tutorial_12.prefab");
 		RevertLayers();
 
+		entityList = entityList = battleSys->skillButtons;
 		entityList.push_back(battleSys->chiLabel);
 		GetChildren(entityList);
 		SurfaceTargetLayers(entityList);
