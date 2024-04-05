@@ -63,9 +63,6 @@
     <Filter Include="Events">
       <UniqueIdentifier>{531f8a7d-ed1a-4ae2-944c-2e47389335a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Reflection">
-      <UniqueIdentifier>{9702622b-4f7e-4eb6-b7c1-ca998e062476}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tutorial">
       <UniqueIdentifier>{0107adae-2ce0-43d7-9880-8f0c706075aa}</UniqueIdentifier>
     </Filter>
@@ -170,9 +167,6 @@
     <ClInclude Include="Viewport.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Scripting.h">
-      <Filter>Scripting</Filter>
-    </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>Animator</Filter>
     </ClInclude>
@@ -232,9 +226,6 @@
     </ClInclude>
     <ClInclude Include="PlayerAction.h">
       <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Reflections.h">
-      <Filter>Reflection</Filter>
     </ClInclude>
     <ClInclude Include="Selection.h">
       <Filter>EngineArchitecture</Filter>
@@ -402,9 +393,6 @@
     </ClCompile>
     <ClCompile Include="Layering.cpp">
       <Filter>EngineArchitecture</Filter>
-    </ClCompile>
-    <ClCompile Include="Reflections.cpp">
-      <Filter>Reflection</Filter>
     </ClCompile>
     <ClCompile Include="Selection.cpp">
       <Filter>EngineArchitecture</Filter>

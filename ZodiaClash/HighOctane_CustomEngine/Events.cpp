@@ -135,12 +135,6 @@ void ChangeScene(std::string input) {
 	loadingBuffer = true;
 	keyObjectID = std::numeric_limits<Entity>().max();
 	keyObjectColor = { RESET_VEC4 };
-	// Change the current system mode to run, probably shouldn't be here
-	//currentSystemMode = SystemMode::RUN; // change to run mode
-
-	/*RebuildLayeringAfterDeserialization();
-	ExtractSkipLockAfterDeserialization();*/
-	//playButton = true;
 }
 
 /*!
@@ -162,9 +156,6 @@ void RestartScene(std::string input) {
  * std::string input : The input string.
  */
 void PlayAudio(std::string input) {
-	//Find the entity from map using input string
-	//Call the sound component and play it
-	//DEBUG_PRINT("playing: %s", input.c_str());
 	if (input == "") {
 		return;
 	}
@@ -172,9 +163,6 @@ void PlayAudio(std::string input) {
 }
 
 void PlayVocal(std::string input) {
-	//Find the entity from map using input string
-	//Call the sound component and play it
-	//DEBUG_PRINT("playing: %s", input.c_str());
 	if (input == "") {
 		return;
 	}
@@ -187,9 +175,6 @@ void PlayVocal(std::string input) {
  * std::string input : The input string.
  */
 void PlayMusic(std::string input) {
-	//Find the entity from map using input string
-	//Call the sound component and play it
-	//DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 
@@ -199,10 +184,7 @@ void PlayMusic(std::string input) {
  * std::string input : The input string.
  */
 void RestartMusic(std::string input) {
-	//Find the entity from map using input string
-	//Call the sound component and play it
 	assetmanager.audio.StopGroup("BGM");
-	//DEBUG_PRINT("playing: %s", input.c_str());
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 
@@ -254,17 +236,6 @@ void SelectSkill(std::string input) {
 		//can add error msg if we want 
 		return;
 	}
-
-	// check if the character has enough Chi to perform the skill
-	//if (bs->chi >= bs->activeCharacter->action.skills[skillnum - 1].chiCost) {
-	//	auto targets = bs->GetEnemies();
-	//	bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
-	//	bs->activeCharacter->action.entityState = ATTACKING;
-	//}
-	//else {
-	//	// handle not enough Chi, ZR part?
-	//}
-
 	for (Entity& s : bs->skillButtons) {
 		buttonArray.GetData(s).hoveredColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
 		buttonArray.GetData(s).defaultColor.buttonColor = glm::vec4{ 1.f,1.f,1.f,1.f };
@@ -274,9 +245,6 @@ void SelectSkill(std::string input) {
 
 	bs->activeCharacter->action.selectedSkill = bs->activeCharacter->action.skills[skillnum - 1];
 	bs->CreateTargets();
-	//auto targets = bs->GetEnemies();
-	//bs->activeCharacter->action.targetSelect.selectedTarget = targets[0];
-	//bs->activeCharacter->action.entityState = ATTACKING;
 	if (ECS::ecs().EntityExists(bs->battleinfo)) {
 		EntityFactory::entityFactory().DeleteCloneModel(bs->battleinfo);
 		bs->battleinfo = 0;
@@ -644,7 +612,6 @@ void ToggleCredits(std::string input) {
  * a vector of function names.
  */
 void EventManager::InitialiseFunctions() {
-	//functions["ChangeLevel"] = ChangeLevel;
 	functions["Play Sound"] = PlayAudio;
 	functions["Play Music"] = PlayMusic;
 	functions["Restart Music"] = RestartMusic;

@@ -51,57 +51,6 @@ namespace physics {
 
     /**************************************************************************/
     /*!
-        @brief Updates the physics manager.
-        @param deltaTime Elapsed time since the last frame in seconds.
-
-        This method is responsible for updating the physics system.
-        If in continuous mode, it'll perform physics calculations as long
-        as the accumulated time exceeds a defined time step. In step mode,
-        it'll update one step at a time when a step update is requested.
-     */
-     /**************************************************************************/
-    //void PhysicsManager::Update(float deltaTime)
-    //{
-    //    // Define a constant time step (fixed interval at which physics calculations will be performed)
-    //    const float timeStep = 1.0f / 60.0f; // 60 updates per second
-
-    //    // When physics simulation is not in step mode (eg.running continuously)
-    //    if (!stepModeActive)
-    //    {
-    //        // Keeps track of the passed time
-    //        timeAccumulation += deltaTime;
-
-    //        // If the accumulated time has reached or exceeded the time step
-    //        if (timeAccumulation > timeStep)
-    //        {
-    //            // Subtract the time step from the accumulated time
-    //            timeAccumulation -= timeStep;
-
-    //            // Perform the physics calculations for this time step
-    //            Step(timeStep);
-    //        }
-    //    }
-    //    // When physics simulation is in step mode (it updates one step at a time)
-    //    // Reset the accumulated time
-    //    else // When physics simulation is in step mode (it updates one step at a time)
-    //    {
-    //        // Reset the accumulated time
-    //        timeAccumulation = 0.0f;
-
-    //        // If a step update is requested
-    //        if (advanceStep)
-    //        {
-    //            // Perform the physics calculations for this time step
-    //            Step(timeStep);
-
-    //            // Reset the step request flag
-    //            advanceStep = false;
-    //        }
-    //    }
-    //}
-
-    /**************************************************************************/
-    /*!
         @brief Adds an entity to the physics manager.
         @param entity The entity to be added.
 
@@ -130,8 +79,6 @@ namespace physics {
     {
         // calculate acceleration due to force
         transformData.acceleration = transformData.force * transformData.inverseMass;
-        // optionally add gravitational acceleration
-        //transformData.acceleration += {GRAVITY_X* FIXED_DT, GRAVITY_Y* FIXED_DT};
         // update velocity with acceleration and apply friction
         transformData.velocity += transformData.acceleration * FIXED_DT;
 

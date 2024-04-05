@@ -68,8 +68,6 @@ namespace debug {
 
         // Redirects it to ImGui
         std::cout << buffer << std::endl;
-        //imguiOutputBuffer.buffer += buffer;
-        //imguiOutputBuffer.buffer += "\n";
     }
 
 

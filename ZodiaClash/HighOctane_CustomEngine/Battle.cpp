@@ -657,7 +657,6 @@ std::vector<CharacterStats*> BattleSystem::GetEnemies() {
  */
 void BattleSystem::SwitchTurnOrder(CharacterStats* target)
 {
-    //turnManage.turnOrderList.remove(target);
     auto iterator = turnManage.turnOrderList.begin();
     iterator++;
     turnManage.turnOrderList.insert(iterator, target);
@@ -674,10 +673,6 @@ void BattleSystem::SwitchTurnOrder(CharacterStats* target)
 void BattleSystem::RevertTurnOrder(CharacterStats* target)
 {
     UNREFERENCED_PARAMETER(target);
-    //auto& ogTurnList = turnManage.originalTurnOrderList;
-    //auto originalIndex = std::find(ogTurnList.begin(), ogTurnList.end(), target);
-    //turnManage.turnOrderList.remove(target);
-    //turnManage.turnOrderList.insert(originalIndex, target);
 }
 
 void BattleSystem::CompleteBattle() {

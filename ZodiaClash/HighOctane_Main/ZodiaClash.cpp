@@ -36,6 +36,7 @@
 
 ////////// MAIN ///////////
 #include <Windows.h>
+#include <sstream>
 #include "Framework.h"
 #include "ZodiaClash.h"
 #include "EngineCore.h"
@@ -62,7 +63,7 @@
 #include "EnemyAction.h"
 #include "PlayerAction.h"
 #include "UIComponents.h"
-#include "Reflections.h"
+//#include "Reflections.h"
 #include "Events.h"
 #include "Layering.h"
 #include "Animation.h"

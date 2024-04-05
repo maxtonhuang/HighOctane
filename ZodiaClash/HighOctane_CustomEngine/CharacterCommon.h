@@ -54,13 +54,6 @@ struct GameObject {
 public:
     static std::vector<GameObject*> FindGameObjectsWithTag(std::string tag)
     {
-        //std::vector<GameObject*> output{};
-        //auto tagArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Tag>().GetArray() };
-        //for (auto t : tagArray) {
-            //if (t->tag == tag) {
-                //output.push_back(t);
-            //}
-        //}
         return std::vector<GameObject*>{};
     }
     GameObject() : isActive(true), isnull() {}  // By default, the game object is active

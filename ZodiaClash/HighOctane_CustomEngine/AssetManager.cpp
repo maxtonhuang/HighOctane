@@ -97,9 +97,6 @@ void AssetManager::LoadTexture(const std::string& texturePath) {
     if (FileExists(path)) {
         texture.Add(path.c_str(), texturePath.c_str());
     }
-    else {
-        //ASSERT(1, "Unable to open texture file!");
-    }
 }
 
 void AssetManager::LoadSpritesheet(const std::string& spritePath) {
@@ -120,9 +117,6 @@ void AssetManager::LoadSpritesheet(const std::string& spritePath) {
         std::string texturePath{ defaultPath + "Textures/" + textureName };
         texture.AddSpriteSheet(textureName.c_str(), row, column, spritenum, texturePath.c_str());
     }
-    else {
-        //ASSERT(1, "Unable to open sprite sheet file!");
-    }
 }
 
 /**************************************AUDIO**************************************************/
@@ -132,9 +126,6 @@ void AssetManager::LoadSound(const std::string& audioPath) {
     if (FileExists(path)) {
         audio.AddSound(path.c_str(), audioPath.c_str());
     }
-    else {
-        //ASSERT(1, "Unable to open sound file!");
-    }
 }
 
 void AssetManager::LoadMusic(const std::string& audioPath) {
@@ -143,9 +134,6 @@ void AssetManager::LoadMusic(const std::string& audioPath) {
     if (FileExists(path)) {
         audio.AddMusic(path.c_str(), audioPath.c_str());
     }
-    else {
-        //ASSERT(1, "Unable to open music file!");
-    }
 }
 
 void AssetManager::LoadAmbience(const std::string& audioPath) {
@@ -153,9 +141,6 @@ void AssetManager::LoadAmbience(const std::string& audioPath) {
     path += "Ambience/" + audioPath;
     if (FileExists(path)) {
         audio.AddAmbience(path.c_str(), audioPath.c_str());
-    }
-    else {
-        //ASSERT(1, "Unable to open music file!");
     }
 }
 
@@ -166,9 +151,6 @@ void AssetManager::LoadFont(const std::string& fontPath) {
     if (FileExists(path)) {
         fonts.LoadFontFilePath(path);
     }
-    else {
-        //ASSERT(1, "Unable to open font file!");
-    }    
 }
 
 /**************************************SHADERS*************************************************/
@@ -209,7 +191,6 @@ void AssetManager::LoadRenderer(const std::string& rendererPath) {
             return;
         }
         graphics.AddRenderer(rendererName).Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
-        //graphics.renderer[rendererName].Initialize(vertexShader.c_str(), fragmentShader.c_str(), type);
     }
     else {
         ASSERT(1, "Unable to open renderer file!");
@@ -292,10 +273,6 @@ void AssetManager::LoadScene(const std::string& scenePath) {
             }
         }
     }
-    else {
-        //ASSERT(true, "Unable to open scene file!");
-    }
-
     sceneName = scenePath;
 }
 
@@ -356,9 +333,6 @@ void AssetManager::LoadEntities(const std::string& entitiesPath) {
     if (FileExists(path)) {
         Serializer::LoadEntityFromJson(path);
     }
-    else {
-        //ASSERT(1, "Unable to open json file!");
-    }
 }
 
 void AssetManager::LoadMouseCursor(const std::string& curPath) {
@@ -381,9 +355,6 @@ void AssetManager::LoadMouseCursor(const std::string& curPath) {
             stbi_image_free(cursorImageData);
 
         }
-    }
-    else {
-        // ASSERT(1, "Unable to open cursor file!");
     }
 }
 
@@ -468,10 +439,6 @@ void AssetManager::LoadAssets(const std::string& assetPath) {
     }
     else if (extension == ".cur") {
         LoadMouseCursor(assetPath);
-    }
-    else {
-        // Error Handling
-        //ASSERT(true,"Unsupported asset type");
     }
     loadedFiles.push_back(assetPath);
 

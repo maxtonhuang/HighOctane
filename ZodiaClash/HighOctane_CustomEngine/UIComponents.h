@@ -130,10 +130,6 @@ public:
 
 	std::string initClr;
 
-	// FUTURE IMPLEMENTATIONS
-	// -> multiline, auto/fixed height
-	// -> line height
-
 	/**************************
 	******* CONSRUCTORS *******
 	**************************/
@@ -165,13 +161,6 @@ public:
 	******* SYSTEM CALLS ******
 	**************************/
 	void Update(Model& modelData, Name& nameData);
-
-	/**************************
-	******* DEPRECATED ********
-	**************************/
-	/*void OnClick(Model& modelData, Name& nameData) override;
-	void OnHover(Model& modelData, Name& nameData) override;
-	void OnFocus() override;*/
 };
 
 class Button : public UIComponent {
@@ -287,14 +276,6 @@ public:
 	bool isActive{};
 };
 
-
-//class AttackSkillsHUD : UIComponent {
-//public:
-//	//parent entity of AttackSkill (x3)
-//	CharacterStats* charaStatsRef{};
-//	std::vector<Attack> atkSkills{};
-//};
-
 class AttackSkill : UIComponent {
 public:
 	//parent entity of SkillIcon, SkillCost, AttackType
@@ -378,22 +359,6 @@ class TurnIndicator : UIComponent {
 public:
 	Entity character{}; //character this indicator links to
 };
-
-
-//class StatusEffectsPanel : UIComponent {
-//public:
-//	UI_HORIZONTAL_ALIGNMENT hAlignment{};
-//
-//	/*
-//	* notes:
-//	* - for future implementation where more status effects are introduced! kiv!!
-//	* - parent entity to hold multiple "Effect" (prefab?)
-//	* - not meant to be modifiable, to constantly get info from CharacterStats and display accordingly
-//	* - usage: left aligned in Ally HUD, right aligned in enemy HUD
-//	*/
-//
-//	//void UpdateOffset();
-//};
 
 class DialogueSpeaker : UIComponent {
 public:

@@ -49,18 +49,7 @@ namespace debuglog {
      *
      * This function is the default constructor
      */
-	Logger::Logger() {
-		//currentLogFileName = "console.txt";
-		//this->currentLogLevel = LOG_LEVEL::Trace;
-
-		//// Open the file
-		//logFile.open(currentLogFileName, std::ios::out | std::ios::app);
-
-		//// If logfile cannot open for some reason
-		//if (!logFile) {
-		//	throw std::runtime_error("File cannot be opened");
-		//}
-	}
+	Logger::Logger() {}
 
 	    /*!
      * \brief Constructor
@@ -71,14 +60,6 @@ namespace debuglog {
 
 		currentLogFileName = logFileName;
 		this->currentLogLevel = level;
-
-		//// Open the file
-		//logFile.open(logFileName, std::ios::out | std::ios::app);
-
-		//// If logfile cannot open for some reason
-		//if (!logFile) {
-		//	throw std::runtime_error("File cannot be opened");
-		//}
 	}
 
 	 /*!
@@ -121,35 +102,6 @@ namespace debuglog {
 		//ROTATELOGFILEL(MAX_FILE_SIZE);
 	}
 
-	/*!
-	 * \brief Crash logging function
-	 *
-	 * This function is responsible for the logging of the crash messages automatically
-	 * onto the file crash.log
-	 *
-	 * \param kevel : The level of the message
-	 * \param message : The message to be logged
-	 * 
-     */
-	//void Logger::CrashLog(LOG_LEVEL level, const std::string& message) {
-
-	//	// If the logging is enabled and current log level is lower than the level set
-	//	if (static_cast<int>(level) >= static_cast<int>(currentLogLevel)) {
-
-	//		// Get the time
-	//		std::string timeStamp = GetTimeStamp();
-
-	//		// Get the current level
-	//		std::string levels = GetLevel(level);
-
-	//		// Write to the file crash.log
-	//		std::ofstream crashFile("crash.log", std::ios::out | std::ios::app);
-	//		if (!crashFile) {
-	//			throw std::runtime_error("File cannot be opened");
-	//		}
-	//		crashFile << message << std::endl;
-	//	}
-	//}
 	void Logger::CrashLog(LOG_LEVEL level, const std::string& message) {
 		(void)message;
 		// If the logging is enabled and current log level is lower than the level set
@@ -169,13 +121,6 @@ namespace debuglog {
 
 			// Construct the full file name
 			std::string fullFileName = folderName + "/crash.txt";
-
-			// Write to the file crash.log
-			//std::ofstream crashFile(fullFileName, std::ios::out | std::ios::app);
-			//if (!crashFile) {
-			//	throw std::runtime_error("File cannot be opened: " + fullFileName);
-			//}
-			//crashFile << "[" << timeStamp << "] [" << levels << "] " << message << std::endl;
 		}
 	}
 	/*!
@@ -283,15 +228,6 @@ namespace debuglog {
 
 			// Rename the file using std::filesystem
 			std::filesystem::rename(currentPath, newPath);
-
-			// Reopen the log file
-			//logFile.open(currentLogFileName, std::ios::out | std::ios::app);
-			//if (!logFile.is_open()) {
-			//	throw std::runtime_error("File cannot be opened");
-			//}
-
-			// Remove the old file
-			//std::filesystem::remove(newPath);
 		}
 	}
 

@@ -172,11 +172,6 @@ void Animator::UpdateAnimationMC(Tex& texData, Size& sizeData) {
 				ChangeAnimation(texData);
 				ResizeOnChange(texData, sizeData);
 			}
-
-			//not in use - input will be registered under generic UpdateAnimation
-			//if ((msg.info == INFO::KEY_V) && (aniData.animationType == Animation::ANIMATION_EVENT_BASED)) {
-			//	AnimateOnKeyPress(aniData, texData);
-			//}
 		}
 	}
 }

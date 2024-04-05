@@ -69,12 +69,5 @@ protected:
     bool checkingStatus{};
     
     void RefreshTargets();
-    //virtual void SelectTarget() {};
-    //virtual void UseSkill() {};
-    //virtual void AttackAnimation() {};
     void ApplySkill();
-    //EntityState PlayerDeath();
-    //EntityState AttackStartDelay(float startDelay, float endDelay);
-    //EntityState BuffStartDelay(float startDelay, float endDelay);
-    //EntityState EndTurnDelay(float seconds);
 };

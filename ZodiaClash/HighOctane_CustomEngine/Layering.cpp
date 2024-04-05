@@ -73,8 +73,6 @@ void LayerOrderSendBackward(Entity entity) {
 			std::swap(layering[pos.first][pos.second], layering[pos.first][pos.second - 1]);
 		}
 	}
-	//PrepareLayeringForSerialization();
-	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -92,8 +90,6 @@ void LayerOrderSendToBack(Entity entity) {
 			layering[pos.first].emplace_front(entity);
 		}
 	}
-	//PrepareLayeringForSerialization();
-	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -110,8 +106,6 @@ void LayerOrderBringForward(Entity entity) {
 			std::swap(layering[pos.first][pos.second], layering[pos.first][pos.second + 1]);
 		}
 	}
-	//PrepareLayeringForSerialization();
-	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -129,8 +123,6 @@ void LayerOrderBringToFront(Entity entity) {
 			layering[pos.first].emplace_back(entity);
 		}
 	}
-	//PrepareLayeringForSerialization();
-	//EmbedSkipLockForSerialization();
 }
 
 /******************************************************************************
@@ -164,9 +156,6 @@ void DeleteLayer() {
 	selectedEntities.clear();
 	for (Entity entity : layering[selectedLayer]) {
 		selectedEntities.emplace_back(entity);
-		/*if (undoRedo.Find(entity)) {
-			EntityFactory::entityFactory().DeleteCloneModel(entity);
-		}*/
 		undoRedo.Layer(selectedLayer);
 	}
 	toDestroy = true;
@@ -186,8 +175,6 @@ void RemoveEntityFromLayering(Entity entity) {
 		for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 			if (layering[layer_it][entity_it] == entity) {
 				layering[layer_it].erase(layering[layer_it].begin() + entity_it);
-				//PrepareLayeringForSerialization();
-				//EmbedSkipLockForSerialization();
 				return;
 			}
 		}
@@ -413,7 +400,6 @@ void SetWholeLockLayer(size_t layer_it) {
 bool CheckAnySelectedInLayer(size_t layer_it) {
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
-	//std::set<Entity>* e = &(s_ptr->m_Entities);
 	for (size_t entity_it = 0; entity_it < layering[layer_it].size(); ++entity_it) {
 		Name& n = nameArray.GetData(layering[layer_it][entity_it]);
 		if (n.selected) {
