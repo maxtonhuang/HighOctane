@@ -780,6 +780,7 @@ void SerializationSystem::Update() {
 		if (GetCurrentSystemMode() == SystemMode::PAUSE) {
 			SetCurrentSystemMode(SystemMode::RUN);
 		}
+		assetmanager.audio.ResumeGroup("Master");
 		assetmanager.audio.ResumeGroup("BGM");
 		assetmanager.audio.ResumeGroup("SFX");
 		EngineCore::engineCore().set_m_previousTime(GetTime());
@@ -1318,8 +1319,8 @@ void UISkillPointSystem::Update() {
 
 				//note: changes will be reflected outside of edit mode!
 				(skillPtData->isActive) ?
-					aniSetData->Start("Active", childEntity)
-					: aniSetData->Start("Inactive", childEntity);
+					aniSetData->Queue("Active", childEntity)
+					: aniSetData->Queue("Inactive", childEntity);
 			}
 		}
 	}
