@@ -467,6 +467,7 @@ void ToggleScene(std::string input) {
 	if (scenemenu != 0) {
 		EntityFactory::entityFactory().DeleteCloneModel(scenemenu);
 		scenemenu = 0;
+		assetmanager.audio.ResumeGroup("Master");
 	}
 	else {
 		scenemenu = EntityFactory::entityFactory().ClonePrefab("scene_select.prefab");
