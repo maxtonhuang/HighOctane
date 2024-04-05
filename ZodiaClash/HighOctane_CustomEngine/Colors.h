@@ -19,12 +19,11 @@
 *
 *	@section	Section A
 *
-*	@date		26 February 2024
+*	@date		[M2] 23 October 2023
 *
 * *****************************************************************************
 *
-*	@brief
-*
+*	@brief	reading predefined colors from a file (engine POC)
 *
 ******************************************************************************/
 #pragma once

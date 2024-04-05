@@ -19,13 +19,11 @@
 *
 *	@section	Section A
 *
-*	@date		26 February 2024
+*	@date		[M2] 23 October 2023
 *
 * *****************************************************************************
 *
-*	@brief
-*
-*	
+*	@brief	reading predefined colors from a file (engine POC)	
 *
 ******************************************************************************/
 #include "Colors.h"
@@ -35,14 +33,14 @@
 
 ColorManager colors;
 
-/*!***********************************************************************
- \brief
-  Reads color definitions from a text file and stores them in a map for later use. This method is designed to initialize the color manager with a predefined set of colors.
- \param
-  This method does not take any parameters.
- \return
-  This method does not return a value. It populates the internal color map with colors defined in a text file located at a predetermined path.
- *************************************************************************/
+ /*!
+ * \brief ColorManager color initializer
+ *
+ * Reads color definitions from a text file and stores them in a map for later use.
+ * This method does not take any parameters.
+ * This method does not return a value.
+ *
+ */
 void ColorManager::ReadColors() {
     const std::string filePath = "colors.txt";
     std::string path{ filePath };
@@ -63,16 +61,22 @@ void ColorManager::ReadColors() {
     }
 }
 
-/*!***********************************************************************
- \brief
-  Updates the color value of a specified color name in the color map. If the color name exists, its value is updated with the new color provided. This method also triggers the update of the colors definition file to reflect the changes made.
- \param colorName
-  The name of the color to update.
- \param newColor
-  The new color value to assign to the color name, given as a glm::vec4 containing the RGBA values.
- \return
-  This method does not return a value. It updates the specified color's value in the internal map and the color definition file.
- *************************************************************************/
+ /*!
+ * \brief ColorManager update existing color
+ *
+ * Updates the color value of a specified color name in the color map. If the 
+ * color name exists, its value is updated with the new color provided. 
+ * Also triggers the update of the colors definition file.
+ * 
+ * \param colorName
+ * The name of the color to update.
+ * \param newColor
+ * The new color value to assign to the color name, given as a glm::vec4
+ * containing the RGBA values.
+ * 
+ * \return
+ * This method does not return a value.
+ */
 void ColorManager::UpdateColor(const std::string& colorName, const glm::vec4& newColor) {
     using colorMapType = std::unordered_multimap<std::string, glm::vec4>;
     colorMapType::iterator it = colorMap.find(colorName);
@@ -84,14 +88,14 @@ void ColorManager::UpdateColor(const std::string& colorName, const glm::vec4& ne
     }
 }
 
-/*!***********************************************************************
- \brief
-  Writes the current set of colors from the color map back to the colors definition file. This method is used to persist any changes made to the colors during runtime, ensuring that updated color values are saved.
- \param
-  This method does not take any parameters.
- \return
-  This method does not return a value. It overwrites the colors definition file with the current colors from the color map.
- *************************************************************************/
+ /*!
+ * \brief ColorManager update colors file
+ *
+ * Writes the current set of colors from the color map back to the colors
+ * definition file.
+ * This method does not take any parameters.
+ * This method does not return a value.
+ */
 void ColorManager::UpdateColorsFile() {
     const std::string filePath = "colors.txt";
     std::string path{ filePath };
