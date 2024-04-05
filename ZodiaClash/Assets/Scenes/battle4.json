@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 38,
+            "layerCounter": 47,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -41,7 +41,16 @@
                 "Layer 34",
                 "Layer 35",
                 "Layer 36",
-                "Layer 37"
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45",
+                "Layer 46"
             ]
         }
     },
@@ -57,7 +66,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 13,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -83,7 +92,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 11,
             "isLocked": true,
             "isSkipped": true
         },
@@ -167,7 +176,7 @@
                         }
                     ],
                     "Trigger Type": 1,
-                    "Round Trigger": 1,
+                    "Round Trigger": 0,
                     "Health Trigger": 0,
                     "Viewing Index": 0,
                     "Display Duration": 0.0,
@@ -199,9 +208,9 @@
                 {
                     "Dialogue Lines": [
                         {
-                            "Speaker": " ",
-                            "Line": "You have defeated the Emperor!",
-                            "Voice": ""
+                            "Speaker": " Emperor",
+                            "Line": "Argh! No!",
+                            "Voice": "Zodiac Clash_Jade Emperor_9.wav"
                         }
                     ],
                     "Trigger Type": 5,
@@ -211,7 +220,7 @@
                     "Display Duration": 0.0,
                     "Is Active": false,
                     "Is Triggered": false,
-                    "Speaker Required": false,
+                    "Speaker Required": true,
                     "Post Dialogue Scene": true,
                     "Target Scene": "ending_cutscene.scn"
                 }
@@ -291,7 +300,7 @@
         "Entity": {
             "Name": "Player_Goat",
             "Current Layer": 0,
-            "Order in Layer": 16,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -317,7 +326,7 @@
         "Entity": {
             "Name": "Player_Ox",
             "Current Layer": 0,
-            "Order in Layer": 15,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -368,7 +377,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -394,7 +403,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 14,
             "isLocked": true,
             "isSkipped": true
         },
@@ -420,7 +429,7 @@
         "Entity": {
             "Name": "Emperor",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },

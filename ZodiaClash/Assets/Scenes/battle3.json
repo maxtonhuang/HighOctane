@@ -29,7 +29,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -55,7 +55,7 @@
         "Entity": {
             "Name": "Guard 1",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -81,7 +81,7 @@
         "Entity": {
             "Name": "Guard 2",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -189,6 +189,11 @@
                             "Speaker": "Niu",
                             "Line": "Alright, count on me!",
                             "Voice": "Ox_11.wav"
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Niu has joined your team!",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 5,

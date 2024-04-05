@@ -1663,7 +1663,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Who's there?!",
+            "Text String": "Hmm? Who's there?!",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -1680,7 +1680,7 @@
                     "Dialogue Lines": [
                         {
                             "Speaker": "???",
-                            "Line": "Who's there?!",
+                            "Line": "Hmm? Who's there?!",
                             "Voice": "Zodiac Clash_Jade Emperor_1.wav"
                         },
                         {

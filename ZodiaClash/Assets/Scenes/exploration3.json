@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 38,
+            "layerCounter": 19,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -22,26 +22,7 @@
                 "Layer 15",
                 "Layer 16",
                 "Layer 17",
-                "Layer 18",
-                "Layer 19",
-                "Layer 20",
-                "Layer 21",
-                "Layer 22",
-                "Layer 23",
-                "Layer 24",
-                "Layer 25",
-                "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37"
+                "Layer 18"
             ]
         }
     },
@@ -1685,6 +1666,25 @@
                     "Speaker Required": true,
                     "Post Dialogue Scene": true,
                     "Target Scene": "battle3.scn"
+                },
+                {
+                    "Dialogue Lines": [
+                        {
+                            "Speaker": " ",
+                            "Line": "Yang has joined your team!",
+                            "Voice": ""
+                        }
+                    ],
+                    "Trigger Type": 0,
+                    "Round Trigger": 0,
+                    "Health Trigger": 0,
+                    "Viewing Index": 0,
+                    "Display Duration": 0.0,
+                    "Is Active": false,
+                    "Is Triggered": false,
+                    "Speaker Required": false,
+                    "Post Dialogue Scene": false,
+                    "Target Scene": ""
                 }
             ]
         },
