@@ -2,7 +2,7 @@
     {
         "Name": "Hunter's Focus",
         "Type": 0,
-        "Skill Attack": 0,
+        "Skill Attack": 10000,
         "Minimum Attack Multiplier": 1.0,
         "Maximum Attack Multiplier": 1.0,
         "Crit Rate": 0.0,

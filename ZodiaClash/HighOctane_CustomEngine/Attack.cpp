@@ -211,7 +211,7 @@ void Attack::UseAttack(CharacterStats* target) {
         if (target->debuffs.igniteStack && owner->action.battleManager->GetEnemies().size() > 2) {
             owner->action.battleManager->aiMultiplier -= 100000;
         }
-        target->debuffs.igniteStack += 3;
+        target->debuffs.igniteStack = 3;
     }
     //Enemy monkey shield
     else if (attackName == "Stone Skin") {

@@ -678,11 +678,13 @@ void BattleSystem::CompleteBattle() {
     static ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
     if (m_Entities.size() > 0) {
         assetmanager.audio.PauseGroup("BGM");
-        for (Entity& e : allBattleUI) {
-            animationArray->GetData(e).Start("Pop Out", e);
-        }
-        for (Entity& e : turnOrderQueueAnimator) {
-            animationArray->GetData(e).Start("Pop Out", e);
+        for (int i = 0; i < 2; i++) {
+            for (Entity& e : allBattleUI) {
+                animationArray->GetData(e).Queue("Pop Out", e);
+            }
+            for (Entity& e : turnOrderQueueAnimator) {
+                animationArray->GetData(e).Queue("Pop Out", e);
+            }
         }
         if (battleState == WIN) {
             EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
@@ -806,6 +808,7 @@ void BattleSystem::ProcessDamage() {
                                     ally->debuffs.igniteStack = 0;
                                 }
                                 chi = 5;
+                                animationArray->GetData(chiLabel).Queue("Refresh", chiLabel);
                             }
                         }
                     }
@@ -1531,6 +1534,7 @@ void BattleSystem::AnimateRemoveHealthBar(Entity entity) {
         Entity healthbarEntity{ healthbarArray.GetData(e).entity };
         if (healthbarEntity == entity) {
             animationArray.GetData(e).Start("Pop Out", e);
+            found = true;
 
             std::vector<Entity> newAllBattleUI{};
             for (Entity& ui : allBattleUI) {
