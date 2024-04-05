@@ -148,6 +148,13 @@ bool fullscreen{ false };
 
 CursorEditingTooltip cursorEditingTooltipState{ CursorEditingTooltip::NONE };
 
+/******************************************************************************
+*
+*	@brief Converts the System Mode enum to a string literal
+*
+*	-
+*
+******************************************************************************/
 std::string SystemModeToString(SystemMode mode)
 {
 	switch (mode)
@@ -171,6 +178,13 @@ std::string SystemModeToString(SystemMode mode)
 
 std::deque<SystemMode> systemModeStack = { SystemMode::NONE, SystemMode::NONE, SystemMode::EDIT };
 
+/******************************************************************************
+*
+*	@brief Sets the System Mode
+*
+*	-
+*
+******************************************************************************/
 void SetCurrentSystemMode(SystemMode mode)
 {
 	if (mode == GetCurrentSystemMode()) {
@@ -180,6 +194,13 @@ void SetCurrentSystemMode(SystemMode mode)
 	systemModeStack.emplace_back(mode);
 }
 
+/******************************************************************************
+*
+*	@brief Returns the current System Mode
+*
+*	-
+*
+******************************************************************************/
 SystemMode GetCurrentSystemMode() {
 
 	if (systemModeStack.empty()) {
@@ -189,6 +210,13 @@ SystemMode GetCurrentSystemMode() {
 	return systemModeStack.back();
 }
 
+/******************************************************************************
+*
+*	@brief returns the previous System Mode from the stack
+*
+*	
+*
+******************************************************************************/
 SystemMode GetPreviousSystemMode() {
 	
 	if (systemModeStack.size() < 2) {
@@ -199,6 +227,13 @@ SystemMode GetPreviousSystemMode() {
 
 }
 
+/******************************************************************************
+*
+*	@brief Returns the System Mode from two modes back
+*
+*	-
+*
+******************************************************************************/
 SystemMode GetPreviousPreviousSystemMode() {
 
 	if (systemModeStack.size() < 3) {
