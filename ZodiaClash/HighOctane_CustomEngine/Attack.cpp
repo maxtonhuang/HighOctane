@@ -286,7 +286,11 @@ void Attack::UseAttack(CharacterStats* target) {
 
     target->TakeDamage(damage);
     if (target->buffs.reflectStack > 0) {
-        owner->TakeDamage(0.5f * damage);
+        float reflectDamage{ 0.5f * damage };
+        if (reflectDamage >= owner->stats.health) {
+            reflectDamage = owner->stats.health - 1;
+        }
+        owner->TakeDamage(reflectDamage);
     }
 
     if (owner->debuffs.igniteStack && chiCost > 0 && attacktype != AttackType::AOE) {
