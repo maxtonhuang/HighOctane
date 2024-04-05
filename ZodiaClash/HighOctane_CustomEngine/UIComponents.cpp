@@ -1484,6 +1484,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 	BattleSystem* battleSys = events.GetBattleSystem();
 
 	currentDialogue->viewingIndex++;
+	events.Call("Stop Group", "VOC");
 	if (currentDialogue->viewingIndex > static_cast<int>(currentDialogue->dialogueLines.size() - 1)) {
 		currentDialogue->isActive = 0;
 		currentDialogue->isTriggered = 1;
@@ -1531,7 +1532,6 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 		}
 	}
 	else {
-		events.Call("Stop Group", "VOC");
 		events.Call("Play Voice", currentDialogue->dialogueLines[currentDialogue->viewingIndex].voice);
 	}
 }
