@@ -1300,13 +1300,6 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		currentDialogue = nullptr;
 	}
 
-	// assign dialogue pointer if empty
-	if (!currentDialogue && !dialogueQueue.empty())
-	{
-		currentDialogue = dialogueQueue.top();
-		dialogueQueue.pop();
-	}
-
 	if (currentDialogue && (currentDialogue->triggerType != inputTriggerType)) {
 		if (currentDialogue != nullptr) {
 			dialogueQueue.push(currentDialogue);
@@ -1320,12 +1313,13 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		if (battleSys) {
 			int roundIndex = battleSys->roundManage.roundCounter;
 			// bounce back if currentDialogue is already playing dialogue of that turn
-			if (currentDialogue && (currentDialogue->triggerType == inputTriggerType) && (currentDialogue->roundTrigger == roundIndex)) {
+			if (currentDialogue && (currentDialogue->triggerType == inputTriggerType) && (currentDialogue->roundTrigger == roundIndex) && currentDialogue->isActive) {
 				return;
 			}
 			else {
 				if (currentDialogue != nullptr) {
 					dialogueQueue.push(currentDialogue);
+					currentDialogue = nullptr;
 				}
 			}
 			while (!dialogueQueue.empty()) {
@@ -1340,11 +1334,11 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 			// if match pass dialogue pointer to currentDialogue
 			if (!dialogueQueue.empty() && (dialogueQueue.top()->triggerType == inputTriggerType) && (dialogueQueue.top()->roundTrigger == roundIndex)) {
 				currentDialogue = dialogueQueue.top();
+				dialogueQueue.pop();
 			}
 			// push non-matching dialogues back into queue
 			for (Dialogue* dialogue : nonMatchingDialogues) {
 				dialogueQueue.push(dialogue);
-				dialogueQueue.pop();
 			}
 		}
 	}
