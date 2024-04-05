@@ -281,7 +281,7 @@
                 "Total Frames": 6,
                 "Group Name": "Refresh",
                 "Loop": false,
-                "Frame Time": 0.30000001192092896,
+                "Frame Time": 0.10000000149011612,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -417,7 +417,7 @@
                 "Total Frames": 6,
                 "Group Name": "Refresh",
                 "Loop": false,
-                "Frame Time": 0.30000001192092896,
+                "Frame Time": 0.10000000149011612,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -553,7 +553,7 @@
                 "Total Frames": 6,
                 "Group Name": "Refresh",
                 "Loop": false,
-                "Frame Time": 0.30000001192092896,
+                "Frame Time": 0.10000000149011612,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -689,7 +689,7 @@
                 "Total Frames": 6,
                 "Group Name": "Refresh",
                 "Loop": false,
-                "Frame Time": 0.30000001192092896,
+                "Frame Time": 0.10000000149011612,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",
@@ -825,7 +825,7 @@
                 "Total Frames": 6,
                 "Group Name": "Refresh",
                 "Loop": false,
-                "Frame Time": 0.30000001192092896,
+                "Frame Time": 0.10000000149011612,
                 "Animations": [
                     {
                         "Animation Type": "TransformDirect",

@@ -808,9 +808,7 @@ void BattleSystem::ProcessDamage() {
                                     ally->debuffs.igniteStack = 0;
                                 }
                                 chi = 5;
-                                for (Entity& child : parentArray->GetData(chiLabel).children) {
-                                    animationArray->GetData(child).Queue("Refresh", chiLabel);
-                                }
+                                animationArray->GetData(chiLabel).Queue("Refresh", chiLabel);
                             }
                         }
                     }
