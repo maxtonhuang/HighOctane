@@ -21,6 +21,9 @@
 *
 *	@date		[M2] 23 October 2023
 *				[M3] 26 November 2023
+*				[M4] 08 February 2024
+*				[M5] 15 March 2024
+*				[M6] 05 April 2024
 *
 * *****************************************************************************
 *
@@ -32,8 +35,11 @@
 *	M2 -	core functionalities for TextLabel and Button
 *	M3 -	refinements to TextLabel and Button (padding, alignment, resizing),
 *			added all remaining UI required for battle scene (HealthBar,
-			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
-			Status Effect and their	child components)
+*			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
+*			Status Effect and their	child components)
+*	M4 -	dialogue system, enhance text alignment/wrapping
+*	M5 -	enhance dialogue system
+*	M6 -	health lerping
 *
 ******************************************************************************/
 
@@ -192,7 +198,6 @@ bool TextLabel::CheckStringUpdated(TextLabel& txtLblData) {
 *
 */
 void TextLabel::CalculateOffset() {
-	//DEBUG_PRINT("Recalculating...");
 	// reset variables
 	glyphHeight = 0.f;
 	float verticalPadding = static_cast<float>(-(*font).largestNegativeOffset);
@@ -208,7 +213,6 @@ void TextLabel::CalculateOffset() {
 
 	while (std::getline(textStream,tmpLine)) {
 		std::stringstream lineStream{ tmpLine };
-		//newline.lineWidth = verticalPadding;
 		while (lineStream >> tmpWord) {
 			float wordWidth = 0.f;
 			float glyphSpace = 0.f;
@@ -688,7 +692,12 @@ void HealthRemaining::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar,
 
 
 
-// health lerp section
+/*!
+* \brief HealthLerp
+* 
+* Triggers lerp function when currentHealth != previousHealth
+*
+*/
 void HealthLerp::LerpHealth() {
 	if (previousHealth == currentHealth)
 		return;
@@ -702,11 +711,23 @@ void HealthLerp::LerpHealth() {
 	previousHealth = previousHealth + lerpTimeElapsed * (currentHealth - previousHealth);
 }
 
+/*!
+* \brief HealthLerp Update health bar length
+*
+* Calculates health bar dimensions with reference to parent health bar dimensions and healthPct
+*
+*/
 void HealthLerp::UpdateSize(HealthBar& parentHealthBar, Size& parentSize, Size& childSize) {
 	childSize.width = parentSize.width * (previousHealth / parentHealthBar.maxHealth) * 0.95f;
 	childSize.height = parentSize.height * 0.8f;
 }
 
+/*!
+* \brief HealthLerp Update offset
+*
+* Offsets currentHP bar based off parentHP bar and healthPct
+*
+*/
 void HealthLerp::UpdateOffset(Size& parentSize, HealthBar& parentHealthBar, Child& childData) {
 	childData.offset.position.x = (-0.5f * parentSize.width) + (previousHealth / parentHealthBar.maxHealth * 0.5f * parentSize.width);
 	childData.offset.position.y = 0.f;
@@ -748,10 +769,6 @@ void SkillPointHUD::UpdateBalance() {
 /**************************
 **** ATK SKILL SYSTEM *****
 **************************/
-
-//void AttackSkill::UpdateSkillTex(Tex& texData) {
-//	// FUTURE IMPLEMENTATION: retrieve skill tex (to be stored)
-//}
 
 /*!
 * \brief AttackSkill update button event
@@ -812,10 +829,6 @@ void AttackSkill::UpdateButtonState(Button& buttonData, bool isSufficient) {
 *
 * Updates button label to indicate attack type
 * Entity requirements: Child, SkillAttackType and TextLabel
-* 
-* FUTURE CONSIDERINGS: 
-* - allow for customization of attack type? 
-*	will have to involve serialization
 *
 */
 void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType) {
@@ -826,13 +839,7 @@ void AttackSkill::UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType)
 	else {
 		textLabelData.textString = "Single Target";
 	}
-	//textLabelData.textString = (atkType == AttackType::NORMAL) ? "Single Target" : "AOE";
 }
-
-// FUTURE IMPLEMENTATION: to display attack type icon accordingly
-//void AttackSkill::UpdateAtkTypeIcon(Tex& texData, AttackType atktype) {
-//	//texData.tex = (atkType == AttackType::NORMAL) ? /* get asset: ST icon */ : /* get asset: AOE icon */;
-//}
 
 /*!
 * \brief AttackSkill update skill cost label
@@ -915,7 +922,6 @@ void AllyHUD::CheckValidIndex(int playerCount, bool& result) {
 *
 */
 void AllyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
-	//DEBUG_PRINT("STACKS: %d", stacks);
 	static auto& statusEffectArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<StatusEffect>() };
 	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
@@ -1037,7 +1043,6 @@ void EnemyHUD::CheckValidIndex(int enemyCount, bool& result) {
 *
 */
 void EnemyHUD::ToggleStatusFx(Entity parent, CharacterStats* charstats) {
-	//DEBUG_PRINT("STACKS: %d", stacks);
 	static auto& statusEffectArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<StatusEffect>() };
 	static auto& healthbarArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<HealthBar>() };
 	static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };

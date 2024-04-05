@@ -21,6 +21,9 @@
 *
 *	@date		[M2] 23 October 2023
 *				[M3] 26 November 2023
+*				[M4] 08 February 2024
+*				[M5] 15 March 2024
+*				[M6] 05 April 2024
 *
 * *****************************************************************************
 *
@@ -32,8 +35,11 @@
 *	M2 -	core functionalities for TextLabel and Button
 *	M3 -	refinements to TextLabel and Button (padding, alignment, resizing),
 *			added all remaining UI required for battle scene (HealthBar,
-			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
-			Status Effect and their	child components)
+*			SkillPointHUD, AttackSkill, AllyHUD, EnemyHUD, Turn Indicator, 
+*			Status Effect and their	child components)
+*	M4 -	dialogue system, enhance text alignment/wrapping
+*	M5 -	enhance dialogue system, tutorial system
+*	M6 -	health lerping
 *
 ******************************************************************************/
 

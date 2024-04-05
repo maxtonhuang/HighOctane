@@ -1,3 +1,38 @@
+/******************************************************************************
+*
+*	\copyright
+*		All content(C) 2023/2024 DigiPen Institute of Technology Singapore.
+*		All rights reserved. Reproduction or disclosure of this file or its
+*		contents without the prior written consent of DigiPen Institute of
+*		Technology is prohibited.
+*
+* *****************************************************************************
+*
+*	@file		ImGuiDialogue.cpp
+*
+*	@co-author	Chua Zhen Rong
+*
+*	@email		c.zhenrong\@digipen.edu
+*
+*	@course		CSD 2401 - Software Engineering Project 3
+*				CSD 2451 - Software Engineering Project 4
+*
+*	@section	Section A
+*
+*	@date		[M4] 08 February 2024
+*               [M5] 15 March 2024
+*
+* *****************************************************************************
+*
+*	@brief		Editor Interface for dialogue system
+*
+*	Interface for easier modifications to scene dialogues
+*
+*   M4 -    base dialogue system
+*   M5 -	enhancements, allow more than 1 dialogue/scene + identifier enums
+*
+******************************************************************************/
+
 #include "ImGuiDialogue.h"
 #include "ImGuiSceneHierarchy.h"
 #include "UIComponents.h"
@@ -5,6 +40,12 @@
 
 static bool flag{};
 
+/*!
+* \brief DialogueWindow
+*
+* The imgui window for dialogue editor (docked)
+*
+*/
 void DialogueWindow(Entity entity) {
     if (ECS::ecs().HasComponent<DialogueHUD>(entity)) {
         DialogueHUD& dialogueData = ECS::ecs().GetComponent<DialogueHUD>(entity);
@@ -249,15 +290,17 @@ void DialogueWindow(Entity entity) {
     }
 }
 
+
+/*!
+* \brief UpdateDialogEditor
+*
+* Component checker for dialogue editor tab
+*
+*/
 void UpdateDialogEditor() {
 	Entity chosenEntity{ currentSelectedEntity };
-	/*static bool dialogPrefab{ false };
-	if (dialogPrefab) {
-		chosenEntity = currentSelectedPrefab;
-	}*/
 	if (ECS::ecs().HasComponent<DialogueHUD>(chosenEntity)) {
 		ImGui::Begin("Dialogue Editor", nullptr, flag);
-		//ImGui::Checkbox("Edit prefab?##dialog", &dialogPrefab);
 
 		DialogueWindow(chosenEntity);
 
