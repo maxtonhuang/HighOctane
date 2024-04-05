@@ -93,20 +93,27 @@ using Signature = std::bitset<MAX_COMPONENTS>;
 ////////// ENTITY /////////////////////////////////////////////////////////////
 class EntityManager {
 public:
+    // Constructor
     EntityManager();
 
+    // Creates a new entity
     Entity CreateEntity();
 
+    // Destroys an entity
     void DestroyEntity(Entity entity);
 
+    // Adds a component to an entity
     void SetSignature(Entity entity, Signature signature);
 
+    // Gets the signature of an entity
     Signature GetSignature(Entity entity);
 
+    // Get the number of living entities
     uint32_t GetEntityCount() {
         return m_LivingEntityCount;
     }
 
+    // Returns true if entity exists
     bool EntityExists(Entity entity);
 
 private:
@@ -137,9 +144,11 @@ public:
 
     //Copies component from dst entity to src entity
     virtual void CopyComponent(Entity dst, Entity src) = 0;
+    
     std::string name{};
 };
 
+// This class is used to store the functions of a component
 template <typename T>
 class IComponentFunctions : public ComponentFunctions {
 public:
@@ -156,21 +165,23 @@ public:
     void CopyComponent(Entity dst, Entity src);
 };
 
+// This virtual class is used to store the functions of a component
 class IComponentArray {
 public:
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity) = 0;
 };
 
-
+// This class is used to store the functions of a component
 template<typename T>
 class ComponentArray : public IComponentArray {
 public:
 
+    // Insert data into the array
     void InsertData(Entity entity, T component) {
         ASSERT(m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end(), "Component added to same entity more than once.");
 
-        //put new entry at end and update the maps
+        // Put new entry at end and update the maps
         size_t newIndex = m_Size;
         m_EntityToIndexMap[entity] = newIndex;
         m_IndexToEntityMap[newIndex] = entity;
@@ -185,8 +196,8 @@ public:
 
     }
 
-
-    void RemoveData(Entity entity) { // check
+    // Removes data from the array
+    void RemoveData(Entity entity) {
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Removing non-existent component.");
 
         // Copy element at end into deleted element's place to maintain density
@@ -210,7 +221,7 @@ public:
         --m_Size;
     }
     
-
+    // Returns a reference to the component of an entity
     T& GetData(Entity entity) {
         ASSERT(m_EntityToIndexMap.find(entity) == m_EntityToIndexMap.end(), "Retrieving non-existent component.");
 
@@ -218,7 +229,7 @@ public:
         return *(m_ComponentArray[m_EntityToIndexMap[entity]]);
     }
     
-
+    // Updates the maps when an entity is destroyed
     void EntityDestroyed(Entity entity) {
         if (m_EntityToIndexMap.find(entity) != m_EntityToIndexMap.end()) {
             // Remove the entity's component if it existed
@@ -226,12 +237,12 @@ public:
         }
     }
     
-
+    // Checks if an entity has a component
     bool HasComponent(Entity entity) {
         return m_EntityToIndexMap.count(entity) ? true : false;
     }
 
-
+    // Returns the array of entities
     std::vector<Entity> GetEntityArray() {
         std::vector<Entity> array{};
         for (auto& e : m_EntityToIndexMap) {
@@ -240,6 +251,7 @@ public:
         return array;
     }
 
+    // Returns the array of components
     std::vector<T*> GetDataArray() {
         std::vector<T*> array{};
         for (auto& e : m_EntityToIndexMap) {
@@ -248,6 +260,7 @@ public:
         return array;
     }
 
+    // Returns the array of pairs of entities and components
     std::vector<std::pair<Entity, T*>> GetPairArray() {
         std::vector<std::pair<Entity, T*>> array{};
         for (auto& e : m_EntityToIndexMap) {
@@ -256,8 +269,10 @@ public:
         return array;
     }
 
+    // Constructor
     ComponentArray() : m_MemoryManager{ std::make_unique<ObjectAllocator>((sizeof(T) < sizeof(void*)) ? (sizeof(void*)) : (sizeof(T)), config) } {};
 
+    // Destructor
     ~ComponentArray() {
         for (auto& e : m_EntityToIndexMap) {
             if (m_ComponentArray[e.second] != nullptr) {
@@ -302,6 +317,7 @@ private:
 class ComponentManager {
 public:
 
+    // Registers a component type
     template<typename T>
     void RegisterComponent() {
         const char* typeName = typeid(T).name();
@@ -318,7 +334,7 @@ public:
         ++m_NextComponentType;
     }
 
-
+    // Returns the component type of a component
     template<typename T>
     ComponentType GetComponentType() {
         const char* typeName = typeid(T).name();
@@ -329,32 +345,39 @@ public:
         return m_ComponentTypes[typeName];
     }
 
+    // Adds a component to an entity
     template<typename T>
     void AddComponent(Entity entity, T component) {
         // Add a component to the array for an entity
         GetComponentArray<T>()->InsertData(entity, component);
     }
 
+    // Removes a component from an entity
     template<typename T>
     void RemoveComponent(Entity entity) {
         // Remove a component from the array for an entity
         GetComponentArray<T>()->RemoveData(entity);
     }
 
+    // Returns a reference to a component of an entity
     template<typename T>
     T& GetComponent(Entity entity) {
         // Get a reference to a component from the array for an entity
         return GetComponentArray<T>()->GetData(entity);
     }
 
+    // Updates the component arrays when an entity is destroyed
     void EntityDestroyed(Entity entity);
 
+
+    // Checks if a component type is registered
     template<typename T>
     bool isComponentTypeRegistered() {
         const char* typeName = typeid(T).name();
         return m_ComponentTypes.find(typeName) != m_ComponentTypes.end();
     }
 
+    // Returns the component array of a component type
     template<typename T>
     ComponentArray<T>& GetComponentArrayRef() {
         const char* typeName = typeid(T).name();
@@ -397,6 +420,8 @@ public:
 
 class SystemManager {
 public:
+
+    // Registers new systems
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
         const char* typeName = typeid(T).name();
@@ -409,6 +434,7 @@ public:
         return system;
     }
     
+    // Registers new systems
     template<typename T>
     void SetSignature(Signature signature) {
         const char* typeName = typeid(T).name();
@@ -419,6 +445,7 @@ public:
         m_Signatures.insert({ typeName, signature });
     }
 
+    
     void EntityDestroyed(Entity entity);
 
     void EntitySignatureChanged(Entity entity, Signature entitySignature);
@@ -436,6 +463,8 @@ private:
 
 class ECS {
 public:
+
+    // Initializes the ECS
     void Init();
 
     // Disallow copying to prevent creation of more than one instance
@@ -453,7 +482,6 @@ public:
 
     void DestroyEntity(Entity entity);
 
-
     uint32_t GetEntityCount();
 
     // Component methods ------------------------------------------------------
@@ -467,6 +495,7 @@ public:
         m_ComponentManager->RegisterComponent<T>();
     }
 
+    // Adds a component to an entity
     template<typename T>
     void AddComponent(Entity entity, T component) {
         m_ComponentManager->AddComponent<T>(entity, component);
@@ -478,6 +507,7 @@ public:
         m_SystemManager->EntitySignatureChanged(entity, signature);
     }
 
+    // Removes a component from an entity
     template<typename T>
     void RemoveComponent(Entity entity) {
         m_ComponentManager->RemoveComponent<T>(entity);
@@ -489,21 +519,25 @@ public:
         m_SystemManager->EntitySignatureChanged(entity, signature);
     }
 
+    // Returns a reference to a component of an entity
     template<typename T>
     T& GetComponent(Entity entity) {
         return m_ComponentManager->GetComponent<T>(entity);
     }
 
+    // Returns the type of a component
     template<typename T>
     ComponentType GetComponentType() {
         return m_ComponentManager->GetComponentType<T>();
     }
 
+    // Checks if a component type is registered
     template<typename T>
     bool isComponentTypeRegistered() {
         return m_ComponentManager->isComponentTypeRegistered<T>();
     }
 
+    // Checks if an entity has a component
     template<typename T>
     bool HasComponent(Entity entity) {
         return m_ComponentManager->isComponentTypeRegistered<T>() &&
@@ -515,26 +549,31 @@ public:
     std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>>& GetTypeManager();
 
     // System methods ---------------------------------------------------------
+    // Registers a system
     template<typename T>
     std::shared_ptr<T> RegisterSystem() {
         return m_SystemManager->RegisterSystem<T>();
     }
 
+    // Sets the signature of a system
     template<typename T>
     std::shared_ptr<T> RegisterSystem(T& input) {
         return m_SystemManager->RegisterSystem<T>(input);
     }
 
+    // Sets the signature of a system
     template<typename T>
     void SetSystemSignature(Signature signature) {
         m_SystemManager->SetSignature<T>(signature);
     }
 
+    // Checks whether an entity exists
     bool EntityExists(Entity entity) {
         return m_EntityManager->EntityExists(entity);
     }
 
 private:
+    // Constructor
     ECS() {}
     std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>> m_TypeManager;
     std::unique_ptr<ComponentManager> m_ComponentManager;
@@ -544,21 +583,25 @@ private:
 
 ////////// Definitions of IComponentFunctions //////////////////////////////////
 
+// Adds component to the current entity
 template <typename T>
 void IComponentFunctions<T>::AddComponent(Entity e) {
     ECS::ecs().AddComponent<T>(e, T{});
 }
 
+// Removes component from the current entity
 template <typename T>
 void IComponentFunctions<T>::RemoveComponent(Entity e) {
     ECS::ecs().RemoveComponent<T>(e);
 }
 
+// Returns true if entity has component
 template <typename T>
 bool IComponentFunctions<T>::HasComponent(Entity e) {
     return ECS::ecs().HasComponent<T>(e);
 }
 
+// Copies component from dst entity to src entity
 template <typename T>
 void IComponentFunctions<T>::CopyComponent(Entity dst, Entity src) {
     if (ECS::ecs().HasComponent<T>(dst)) {
@@ -598,12 +641,6 @@ public:
     void Update() override;
 };
 
-//class AnimatorSystem : public System {
-//public:
-//    void Update() override;
-//};
-
-//Intended to overwrite animator system
 class AnimationSystem : public System {
 public:
     void Update() override;

@@ -48,22 +48,27 @@ public:
 		return ec;
 	}
 
+	// records the previous time
 	void set_m_previousTime(uint64_t time) {
 		m_previousTime = time;
 	}
 
+	// Returns the stored previous time
 	uint64_t get_m_previousTime() {
 		return m_previousTime;
 	}
 
+	// Sets the game to active or inactive
 	void setGameActive(bool active) {
 		gameActive = active;
 	}
 
+	// Returns whether game is active or not
 	bool getGameActive() {
 		return gameActive;
 	}
 	
+	// Found in ZodiaClash.cpp
 	void Run(bool const & mode);
 
 	friend uint64_t GetTime();

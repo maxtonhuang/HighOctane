@@ -173,6 +173,7 @@ ComponentManager& ECS::GetComponentManager() {
     return *m_ComponentManager;
 }
 
+// Return pointer to the Type Manager
 std::unordered_map<std::string, std::shared_ptr<ComponentFunctions>>& ECS::GetTypeManager() {
     return m_TypeManager;
 }

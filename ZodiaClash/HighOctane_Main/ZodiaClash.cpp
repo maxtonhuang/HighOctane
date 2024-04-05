@@ -677,6 +677,7 @@ void EngineCore::Run(bool const& mode) {
 
 	}
 #endif
+
 	// Mailbox Registrations
 	Mail::mail().RegisterMailbox(ADDRESS::MOVEMENT);
 	Mail::mail().RegisterMailbox(ADDRESS::INPUT);
@@ -696,9 +697,6 @@ void EngineCore::Run(bool const& mode) {
 
 	// update time calculations
 	EngineCore::engineCore().set_m_previousTime(GetTime());
-
-	// Script engine that creates a new domain and loads the assembly (singleton)
-
 
 	// Game loop will contain the others
 	while (EngineCore::engineCore().getGameActive()) {
@@ -825,15 +823,11 @@ void EngineCore::Run(bool const& mode) {
 	///////////////////////////////////////
 
 
-
-
 	delete physics::PHYSICS;
 
 
 	//////////////////////////////
 	////////// End Game //////////
 	//////////////////////////////
-
-
 
 }
