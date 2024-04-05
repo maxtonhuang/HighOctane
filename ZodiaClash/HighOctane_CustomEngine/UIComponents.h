@@ -281,13 +281,10 @@ public:
 	//parent entity of SkillIcon, SkillCost, AttackType
 	//entity tagged with this component should have button component to implement button event
 	int skillIndex{};
-	//Attack* atkSkillRef{};
 
-	//void UpdateSkillTex(Tex& texData);
 	void UpdateSkillEvent(Button& buttonData);
 	void UpdateButtonState(Button& buttonData, bool isSufficient);
 	void UpdateAtkTypeLbl(TextLabel& textLabelData, AttackType atkType);
-	//void UpdateAtkTypeIcon(Tex& texData, AttackType atktype);
 	void UpdateSkillCostLbl(TextLabel& textLabelData, int skillCost);
 };
 
@@ -339,10 +336,6 @@ public:
 
 	void CheckValidIndex(int playerCount, bool& res);
 	void ToggleStatusFx(Entity parentEntity, CharacterStats* charstats);
-
-	// FUTURE IMPLEMENTATIONS: dynamic allocation!!
-	//static int allyInstanceIndex;
-	//AllyHUD() : allyIndex{ allyInstanceIndex++ } {}
 };
 
 class EnemyHUD : UIComponent {
@@ -403,7 +396,6 @@ public:
 
 	bool isEditing{};
 	int dialogueCalledNum;
-	//bool isAllTriggered{};
 
 	DialogueHUD();
 

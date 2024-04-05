@@ -35,7 +35,6 @@
 ******************************************************************************/
 
 #pragma once
-//#include "CharacterStats.h"
 #include "ECS.h"
 #include <list>
 #include <vector>
@@ -169,7 +168,6 @@ public:
 	bool emperorDead{ false }; //To call dialogue for emperor
 private:
 	
-	//std::vector <GameObject> gameObjects;
 	bool roundInProgress;
 	bool speedupAnimationPlayed{ false };
 

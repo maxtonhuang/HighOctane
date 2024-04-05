@@ -156,6 +156,8 @@ void RestartScene(std::string input) {
  * std::string input : The input string.
  */
 void PlayAudio(std::string input) {
+	//Find the entity from map using input string
+	//Call the sound component and play it
 	if (input == "") {
 		return;
 	}
@@ -163,6 +165,8 @@ void PlayAudio(std::string input) {
 }
 
 void PlayVocal(std::string input) {
+	//Find the entity from map using input string
+	//Call the sound component and play it
 	if (input == "") {
 		return;
 	}
@@ -175,6 +179,8 @@ void PlayVocal(std::string input) {
  * std::string input : The input string.
  */
 void PlayMusic(std::string input) {
+	//Find the entity from map using input string
+	//Call the sound component and play it
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }
 
@@ -184,6 +190,8 @@ void PlayMusic(std::string input) {
  * std::string input : The input string.
  */
 void RestartMusic(std::string input) {
+	//Find the entity from map using input string
+	//Call the sound component and play it
 	assetmanager.audio.StopGroup("BGM");
 	assetmanager.audio.PlaySounds(input.c_str(), "BGM");
 }

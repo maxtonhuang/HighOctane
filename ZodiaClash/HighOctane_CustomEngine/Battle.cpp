@@ -195,7 +195,6 @@ void BattleSystem::Update()
 
     switch (battleState) {
     case NEWGAME:
-        //LOG_WARNING("Initializing battle system");
 
         if (!battlestarted) {
             StartBattle();
@@ -333,7 +332,6 @@ void BattleSystem::Update()
 
                             //Do player healing and VFX first
                             for (CharacterStats* cc : turnManage.turnOrderList) {
-                                //c->stats.health = c->stats.maxHealth;
                                 if (cc->tag == CharacterType::PLAYER) {
                                     cc->stats.health = cc->stats.maxHealth;
                                     cc->damage = cc->stats.maxHealth;
@@ -692,7 +690,6 @@ void BattleSystem::CompleteBattle() {
         }
         else if (battleState == LOSE) {
             EntityFactory::entityFactory().ClonePrefab("losetext.prefab");
-            //events.Call("Start Dialogue", "LOSE");
         }
         events.Call("Play Sound", "Battle End_Edited.wav");
     }
@@ -893,7 +890,6 @@ void BattleSystem::InitialiseBattleUI() {
         for (CharacterStats* c : GetPlayers()) {
             Entity healthbar{ EntityFactory::entityFactory().ClonePrefab("ally_healthbar.prefab") };
             ECS::ecs().GetComponent<Transform>(healthbar).position.y += ally_hp_offset;
-            //ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
             ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
             ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = &ECS::ecs().GetComponent<CharacterStats>(c->entity);
             allyHealthBars.push_back(healthbar);
@@ -924,7 +920,6 @@ void BattleSystem::InitialiseBattleUI() {
         for (CharacterStats* c : GetEnemies()) {
             Entity healthbar{ EntityFactory::entityFactory().ClonePrefab("enemy_healthbar.prefab") };
             ECS::ecs().GetComponent<Transform>(healthbar).position.y += enemy_hp_offset;
-            //ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = c;
             ECS::ecs().GetComponent<HealthBar>(healthbar).entity = c->entity;
             ECS::ecs().GetComponent<HealthBar>(healthbar).charaStatsRef = &ECS::ecs().GetComponent<CharacterStats>(c->entity);
             enemyHealthBars.push_back(healthbar);
@@ -967,18 +962,15 @@ void BattleSystem::InitialiseTurnOrderAnimator() {
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };
     if (m_Entities.size() > 0 && !ECS::ecs().EntityExists(turnOrderAnimator)) {
         turnOrderAnimator = EntityFactory::entityFactory().ClonePrefab("turnorderattach.prefab");
-        //ECS::ecs().GetComponent<Transform>(turnOrderAnimator).position.y -= turnOrderOffset * turnManage.characterList.size();
         for (auto& c : turnManage.turnOrderList) {
             if (c->tag == CharacterType::PLAYER) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_ally.prefab") };
                 turnOrderQueueInitializer.push_back(turnUI);
-                //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c->entity;
             }
             else if (c->tag == CharacterType::ENEMY) {
                 Entity turnUI{ EntityFactory::entityFactory().ClonePrefab("turn_enemy.prefab") };
                 turnOrderQueueInitializer.push_back(turnUI);
-                //allBattleUI.push_back(turnUI);
                 ECS::ecs().GetComponent<TurnIndicator>(turnUI).character = c->entity;
             }
             animationArray.GetData(turnOrderAnimator).Queue("Add", turnOrderAnimator);
@@ -1241,9 +1233,6 @@ void BattleSystem::CreateTargets() {
             }
             Entity targetcircle{ EntityFactory::entityFactory().ClonePrefab("targetcircle.prefab") };
             ECS::ecs().GetComponent<Transform>(targetcircle).position = ECS::ecs().GetComponent<Transform>(ally->entity).position;
-            //if (activeCharacter->action.selectedSkill.attacktype == AttackType::AOE) {
-            //    ECS::ecs().GetComponent<Model>(targetcircle).SetColor(1.f, 0.f, 0.f);
-            //}
             ECS::ecs().GetComponent<Button>(targetcircle).eventInput = std::to_string(count);
             targetCircleList.push_back(targetcircle);
             count++;

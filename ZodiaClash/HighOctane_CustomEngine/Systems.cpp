@@ -192,68 +192,68 @@ void EmitterSystem::Update()
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-		for (Entity entity : m_Entities) {
+	for (Entity entity : m_Entities) {
 
-			// Check if entity should be skipped or is not locked as intended
-			if (ECS::ecs().HasComponent<Emitter>(entity)) {
-				Emitter* emitter = &ECS::ecs().GetComponent<Emitter>(entity);
+		// Check if entity should be skipped or is not locked as intended
+		if (ECS::ecs().HasComponent<Emitter>(entity)) {
+			Emitter* emitter = &ECS::ecs().GetComponent<Emitter>(entity);
 
-				if (emitter->textures.size() == 0) {
-					continue;
-				}
+			if (emitter->textures.size() == 0) {
+				continue;
+			}
 
-				std::random_device rd;
-				std::mt19937 gen(rd());
-				// Create a uniform distribution
-				std::uniform_real_distribution<float> dis(-1.f, 1.f);
-				std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			// Create a uniform distribution
+			std::uniform_real_distribution<float> dis(-1.f, 1.f);
+			std::uniform_int_distribution<int> disTex(0, (int)(emitter->textures.size()) - 1);
 
-				if (!emitter->initialised) {
-					emitter->emitterLifetime = fabs(dis(gen)) * emitter->frequency;
-					emitter->initialised = true;
-				}
+			if (!emitter->initialised) {
+				emitter->emitterLifetime = fabs(dis(gen)) * emitter->frequency;
+				emitter->initialised = true;
+			}
 
-				emitter->emitterLifetime += FIXED_DT;
-				emitter->position = transformArray.GetData(entity).position;
-				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
-				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
-				int layernum = static_cast<int>(FindInLayer(entity).first);
+			emitter->emitterLifetime += FIXED_DT;
+			emitter->position = transformArray.GetData(entity).position;
+			float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
+			float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
+			int layernum = static_cast<int>(FindInLayer(entity).first);
 
-				if (emitter->emitterLifetime >= emitter->frequency) {
-					for (int i = 0; i < emitter->particlesRate; ++i) {
-						// Here, you might introduce randomness or variations based on the emitter's properties
-						Vec2 position = emitter->position + Vec2{dis(gen) * emitterWidth,dis(gen) * emitterHeight}; // Plus any offset or randomness
-						Vec2 size = emitter->size;
+			if (emitter->emitterLifetime >= emitter->frequency) {
+				for (int i = 0; i < emitter->particlesRate; ++i) {
+					// Here, you might introduce randomness or variations based on the emitter's properties
+					Vec2 position = emitter->position + Vec2{dis(gen) * emitterWidth,dis(gen) * emitterHeight}; // Plus any offset or randomness
+					Vec2 size = emitter->size;
 
-						if (!emitter->singleSided) {
-							position = emitter->position + Vec2{ dis(gen) * (emitterWidth / 2),-fabs(dis(gen)) * emitterHeight };
-						}
-
-						float velocityRandomness = emitter->singleSided ? fabs(dis(gen)) : dis(gen);
-						Vec2 velocity = { emitter->velocity.x * velocityRandomness, emitter->velocity.y * fabs(dis(gen))}; // Plus any randomness or directional adjustments
-						Color color = emitter->particleColor;
-						float rotation = emitter->rotation * dis(gen);
-						float rotationSpeed = emitter->rotationSpeed * dis(gen);
-						float timer = emitter->particleLifetime;
-
-						// Assuming nullptr for now, but you can pass custom update functions based on emitter or particle type
-						void (*particleUpdate)(Particle&) = nullptr;
-
-						// Adding the particle to the system
-						auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
-
-						p.timer = timer;
-						p.layer = layernum;
-
-						int textureIndex{ disTex(gen) };
-						p.texture = assetmanager.texture.Get(emitter->textures[textureIndex].c_str());
-						if (!p.texture) continue;
-						p.textureID = (float)(p.texture->GetID() - 1.f);
+					if (!emitter->singleSided) {
+						position = emitter->position + Vec2{ dis(gen) * (emitterWidth / 2),-fabs(dis(gen)) * emitterHeight };
 					}
-					emitter->emitterLifetime = 0.f; // Reset after spawning cycle
+
+					float velocityRandomness = emitter->singleSided ? fabs(dis(gen)) : dis(gen);
+					Vec2 velocity = { emitter->velocity.x * velocityRandomness, emitter->velocity.y * fabs(dis(gen))}; // Plus any randomness or directional adjustments
+					Color color = emitter->particleColor;
+					float rotation = emitter->rotation * dis(gen);
+					float rotationSpeed = emitter->rotationSpeed * dis(gen);
+					float timer = emitter->particleLifetime;
+
+					// Assuming nullptr for now, but you can pass custom update functions based on emitter or particle type
+					void (*particleUpdate)(Particle&) = nullptr;
+
+					// Adding the particle to the system
+					auto & p = particles.AddParticle(true, position, size, velocity, color, particleUpdate, rotation, rotationSpeed);
+
+					p.timer = timer;
+					p.layer = layernum;
+
+					int textureIndex{ disTex(gen) };
+					p.texture = assetmanager.texture.Get(emitter->textures[textureIndex].c_str());
+					if (!p.texture) continue;
+					p.textureID = (float)(p.texture->GetID() - 1.f);
 				}
+				emitter->emitterLifetime = 0.f; // Reset after spawning cycle
 			}
 		}
+	}
 }
 
 /**************************************************************************/
@@ -495,13 +495,13 @@ void AnimationSystem::Update() {
 	bool lockBattleSystem{ false };
 
 	for (Entity const& entity : m_Entities) {
-						AnimationSet* animationData = &animationArray.GetData(entity);
-						animationData->Update(entity);
+		AnimationSet* animationData = &animationArray.GetData(entity);
+		animationData->Update(entity);
 
-						//Lock the battle system if animation is playing
-						if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
-							lockBattleSystem = true;
-						}
+		//Lock the battle system if animation is playing
+		if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
+			lockBattleSystem = true;
+		}
 	}
 	if (lockBattleSystem) {
 		Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
@@ -1450,7 +1450,6 @@ void UIEnemyHudSystem::Update() {
 	// Access component arrays through the ComponentManager
 	auto& enemyHudArray = componentManager.GetComponentArrayRef<EnemyHUD>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
-	//auto& characterStatsArray = componentManager.GetComponentArrayRef<CharacterStats>();
 
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
@@ -1459,11 +1458,9 @@ void UIEnemyHudSystem::Update() {
 			EnemyHUD* enemyHudData = &enemyHudArray.GetData(entity);
 			HealthBar* healthBarData = &healthBarArray.GetData(entity);
 			bool checkResult = true;
-			//enemyHudData->CheckValidIndex(static_cast<int>(allEnemies.size()), checkResult);
 			if (checkResult) {
 				if (!enemyHudData->initialised) {
 					enemyHudData->initialised = true;
-					//healthBarData->charaStatsRef = allEnemies[enemyHudData->enemyIndex];
 				}
 				if (healthBarData->charaStatsRef != nullptr) {
 					enemyHudData->ToggleStatusFx(entity, healthBarData->charaStatsRef);
@@ -1473,7 +1470,6 @@ void UIEnemyHudSystem::Update() {
 				enemyHudData->ToggleStatusFx(entity, 0);
 			}
 			if (battleSys->battleState == WIN || battleSys->battleState == LOSE) {
-				//healthBarData->charaStatsRef = nullptr;
 			}
 		}
 	}

@@ -47,6 +47,7 @@ void AnimationSet::Initialise(Entity entity) {
 }
 
 void AnimationSet::Start(std::string animationName, Entity entity) {
+	// Set active animation
 	bool found{ false };
 	initialised = true;
 	for (auto& a : animationSet) {
@@ -433,6 +434,7 @@ void SpriteAnimation::Update(int frameNum) {
 		return;
 	}
 	if (frameNum >= nextKeyframe->frameNum) {
+		// Advance animation
 		Tex& tex{ ECS::ecs().GetComponent<Tex>(parent) };
 		if (nextKeyframe->data) {
 			tex.frameIndex = tex.frameIndex - 1;
