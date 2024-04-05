@@ -1,24 +1,33 @@
 ZODIACLASH Project Guide File
+================================================================
+
+Module: CSD2450 / CSD2451 / UXG2450 / DAA2452
+Team Name: High Octane
+Game Name: ZodiaClash
+Main Game Component: Turn-Based Combat
+Milestone: Milestone 6
 
 ================================================================
 
-Game name: ZodiaClash
-Version: v0.6 M6 build
+Team Members:
 
-Programmers:
-Huang Maxton Xinghua (m.huang@digipen.edu)
-Liu Wanting (wanting.liu@digipen.edu)
-Foong Pun Yuen Nigel (p.foong@digipen.edu)
-Chua Zhen Rong (c.zhenrong@digipen.edu)
-Van Adrichem Boogaert Kai Alexander (kaialexander.v@digipen.edu)
+[RTIS]
+- FOONG Pun Yuen, Nigel (p.foong@digipen.edu)
+- LIU Wanting (wanting.liu@digipen.edu)
+- VAN ADRICHEM BOOGAERT Kai Alexander (kaialexander.v@digipen.edu)
 
-Designer:
-Yau Yee Onn Oliver (y.yau@digipen.edu)
+[IMGD]
+- CHUA Zhen Rong (c.zhenrong@digipen.edu)
+- HUANG Maxton Xinghua (m.huang@digipen.edu)
 
-Artist:
-Loo Zhi Ying (zhiying.loo@digipen.edu)
+[UXGD]
+- YAU Yee Onn Oliver (y.yau@digipen.edu)
+
+[BFA]
+- Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 ================================================================
+
 Debug/Release Mode will be for the editor while Game Mode will be for the game.
 
 Project Settings (In Debug/Release Mode)
