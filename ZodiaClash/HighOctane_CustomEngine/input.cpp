@@ -64,36 +64,8 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         keyStatus[key] = static_cast<INFO>(key);
         Mail::mail().CreatePostcard(TYPE::KEY_TRIGGERED, ADDRESS::INPUT, static_cast<INFO>(key), 0.f, 0.f);
 
-        if (GLFW_KEY_ESCAPE == key) {
-            events.Call("Toggle Pause", std::string{});
-        }
-        if (GLFW_KEY_F1 == key) {
-            events.Call("Change Scene", "mainmenu.scn");
-        }
-        if (GLFW_KEY_F2 == key) {
-            events.Call("Change Scene", "beginning_cutscene.scn");
-        }
-        if (GLFW_KEY_F3 == key) {
-            // empty slot
-        }
         if (GLFW_KEY_F4 == key) {
             events.Call("Toggle Scene", std::string{});
-        }
-        if (GLFW_KEY_F5 == key) {
-            events.Call("Change Scene", "battle.scn");
-        }
-        if (GLFW_KEY_F6 == key) {
-            events.Call("Change Scene", "battle2.scn");
-        }
-        if (GLFW_KEY_F7 == key) {
-            events.Call("Change Scene", "battle3.scn");
-        }
-        if (GLFW_KEY_F8 == key) {
-            events.Call("Change Scene", "battle4.scn");
-        }
-        if (GLFW_KEY_F11 == key) {
-            fullscreen = !fullscreen;
-            graphics.Fullscreen(fullscreen);
         }
         if (GLFW_KEY_F9 == key) {
             ToggleGodMode();
@@ -101,11 +73,9 @@ void InputManager::KeyCallback(GLFWwindow* pwin, int key, int scancode, int acti
         if (GLFW_KEY_F10 == key) {
             ToggleEndGameMode();
         }
-        if (GLFW_KEY_1 == key) {
-            assetmanager.audio.SetGroupFilter("BGM", 0.5f);
-        }
-        if (GLFW_KEY_2 == key) {
-            assetmanager.audio.SetGroupFilter("BGM", 1.f);
+        if (GLFW_KEY_F11 == key) {
+            fullscreen = !fullscreen;
+            graphics.Fullscreen(fullscreen);
         }
         break;
     case GLFW_RELEASE:
