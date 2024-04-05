@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 40,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,7 +33,17 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29"
+                "Layer 29",
+                "Layer 30",
+                "Layer 31",
+                "Layer 32",
+                "Layer 33",
+                "Layer 34",
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39"
             ]
         }
     },
@@ -279,14 +289,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             },
@@ -417,14 +420,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             },

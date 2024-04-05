@@ -321,7 +321,7 @@ void ToggleBattleInfo(std::string input) {
  */
 void TogglePause(std::string input) {
 	(void)input;
-	if (sceneName == "mainmenu.scn") {
+	if (sceneName == "mainmenu.scn" || sceneName == "ending.scn") {
 		return;
 	}
 
@@ -341,12 +341,12 @@ void TogglePause(std::string input) {
 
 	UITutorialSystem* ts = events.GetTutorialSystem();
 
-	PauseResumeGroup("VOC");
 	/*-----Prevent Softlocking-----*/
 	if ((GetPreviousSystemMode() == SystemMode::GAMEHELP || GetPreviousSystemMode() == SystemMode::SETTINGS) && GetCurrentSystemMode() == SystemMode::PAUSE) {
 		SetCurrentSystemMode(SystemMode::RUN);
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+			assetmanager.audio.ResumeGroup("Master");
 			pausemenu = 0;
 		}
 	}
@@ -356,6 +356,7 @@ void TogglePause(std::string input) {
 		SetCurrentSystemMode(GetPreviousSystemMode());
 		if (pausemenu != 0) {
 			EntityFactory::entityFactory().DeleteCloneModel(pausemenu);
+			assetmanager.audio.ResumeGroup("Master");
 			pausemenu = 0;
 		}
 	}
@@ -363,6 +364,7 @@ void TogglePause(std::string input) {
 		SetCurrentSystemMode(SystemMode::PAUSE);
 		if (pausemenu == 0) {
 			pausemenu = EntityFactory::entityFactory().ClonePrefab("pausemenu.prefab");
+			assetmanager.audio.PauseGroup("Master");
 			
 			if (ts->overlay)
 				ts->SurfaceSystemOverlay(pausemenu);
@@ -465,6 +467,7 @@ void ToggleScene(std::string input) {
 	if (scenemenu != 0) {
 		EntityFactory::entityFactory().DeleteCloneModel(scenemenu);
 		scenemenu = 0;
+		assetmanager.audio.ResumeGroup("Master");
 	}
 	else {
 		scenemenu = EntityFactory::entityFactory().ClonePrefab("scene_select.prefab");

@@ -73,7 +73,7 @@
         },
         "Size": {
             "width": 720.0,
-            "height": 688.0
+            "height": 782.0
         },
         "Model": {
             "Model type": 3,
@@ -103,7 +103,7 @@
         },
         "Transform": {
             "position_x": 262.5,
-            "position_y": 272.0,
+            "position_y": 324.5,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,
@@ -213,7 +213,7 @@
                             {
                                 "Frame Number": 0,
                                 "Sounds": [
-                                    "Skill Select_Edited.wav"
+                                    "Skill Select_Edited_Old.wav"
                                 ]
                             }
                         ]
@@ -224,7 +224,7 @@
         "Animation Set Default Animation": "",
         "Child": {
             "position_x": 262.5,
-            "position_y": 272.0,
+            "position_y": 324.5,
             "rotation": 0.0,
             "scale": 0.3499999940395355,
             "velocity_x": 0.0,

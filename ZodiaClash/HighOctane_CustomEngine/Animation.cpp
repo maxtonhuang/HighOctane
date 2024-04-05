@@ -547,7 +547,11 @@ void SoundAnimation::Update(int frameNum) {
 			std::uniform_int_distribution<int> dis(0, (int)nextKeyframe->data.size() - 1);
 			int num{ dis(gen) };
 			FMOD::Channel* channel = assetmanager.audio.PlaySounds(nextKeyframe->data[num].c_str(), soundGroup.c_str());
-			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - camera.GetPos().x) / GRAPHICS::defaultWidthF };
+			float offset{ 0.f };
+			if (ECS::ecs().GetComponent<Model>(parent).type == ModelType::GAMEPLAY) {
+				offset = camera.GetPos().x;
+			}
+			float pan{ (ECS::ecs().GetComponent<Transform>(parent).position.x - offset) / GRAPHICS::defaultWidthF };
 			channel->setPan(pan);
 		}
 		nextKeyframe++;

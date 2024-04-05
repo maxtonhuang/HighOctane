@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 36,
+            "layerCounter": 46,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -39,7 +39,17 @@
                 "Layer 32",
                 "Layer 33",
                 "Layer 34",
-                "Layer 35"
+                "Layer 35",
+                "Layer 36",
+                "Layer 37",
+                "Layer 38",
+                "Layer 39",
+                "Layer 40",
+                "Layer 41",
+                "Layer 42",
+                "Layer 43",
+                "Layer 44",
+                "Layer 45"
             ]
         }
     },
@@ -326,14 +336,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             }
@@ -464,14 +467,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             }
@@ -602,14 +598,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             }
@@ -740,14 +729,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             }
@@ -878,14 +860,7 @@
                 "Animations": [
                     {
                         "Animation Type": "Sound",
-                        "Key Frames": [
-                            {
-                                "Frame Number": 0,
-                                "Sounds": [
-                                    "brush hover 1.wav"
-                                ]
-                            }
-                        ]
+                        "Key Frames": []
                     }
                 ]
             }

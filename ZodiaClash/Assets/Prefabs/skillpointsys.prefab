@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 30,
+            "layerCounter": 28,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -31,9 +31,7 @@
                 "Layer 24",
                 "Layer 25",
                 "Layer 26",
-                "Layer 27",
-                "Layer 28",
-                "Layer 29"
+                "Layer 27"
             ]
         }
     },
@@ -41,7 +39,7 @@
         "Entity": {
             "Name": "lbl_skillpt",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 8,
             "isLocked": true,
             "isSkipped": true
         },
@@ -65,10 +63,6 @@
         "Size": {
             "width": 100.0,
             "height": 59.5
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -139,6 +133,55 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 5,
+                "Group Name": "Refresh",
+                "Loop": false,
+                "Frame Time": 0.25,
+                "Animations": [
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Child Name": "skillpt01",
+                                "Child Animation": "Refresh"
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Child Name": "skillpt2",
+                                "Child Animation": "Refresh"
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Child Name": "skillpt3",
+                                "Child Animation": "Refresh"
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Child Name": "skillpt4",
+                                "Child Animation": "Refresh"
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Child Name": "skillpt5",
+                                "Child Animation": "Refresh"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "regain chi.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -149,7 +192,7 @@
         "Entity": {
             "Name": "skillpt01",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -162,7 +205,7 @@
         },
         "Transform": {
             "position_x": 148.0,
-            "position_y": -682.0,
+            "position_y": -682.0003051757813,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -181,10 +224,6 @@
         "Size": {
             "width": 128.0,
             "height": 128.0
-        },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
         },
         "Model": {
             "Model type": 3,
@@ -237,12 +276,48 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Refresh",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": 500.0,
+                                "Rotation": 0.0,
+                                "Scale": 3.0
+                            },
+                            {
+                                "Frame Number": 5,
+                                "X movement": 0.0,
+                                "Y movement": -500.0,
+                                "Rotation": 0.0,
+                                "Scale": -3.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
         "Child": {
             "position_x": 60.0,
-            "position_y": 0.0,
+            "position_y": -0.000308990478515625,
             "rotation": 0.0,
             "scale": 0.5,
             "velocity_x": 0.0,
@@ -253,7 +328,7 @@
         "Entity": {
             "Name": "skillpt2",
             "Current Layer": 0,
-            "Order in Layer": 8,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -286,10 +361,6 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -341,6 +412,42 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Refresh",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": 500.0,
+                                "Rotation": 0.0,
+                                "Scale": 3.0
+                            },
+                            {
+                                "Frame Number": 5,
+                                "X movement": 0.0,
+                                "Y movement": -500.0,
+                                "Rotation": 0.0,
+                                "Scale": -3.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -357,7 +464,7 @@
         "Entity": {
             "Name": "skillpt3",
             "Current Layer": 0,
-            "Order in Layer": 9,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -390,10 +497,6 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -445,6 +548,42 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Refresh",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": 500.0,
+                                "Rotation": 0.0,
+                                "Scale": 3.0
+                            },
+                            {
+                                "Frame Number": 5,
+                                "X movement": 0.0,
+                                "Y movement": -500.0,
+                                "Rotation": 0.0,
+                                "Scale": -3.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -461,7 +600,7 @@
         "Entity": {
             "Name": "skillpt4",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -494,10 +633,6 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -537,7 +672,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -545,6 +680,42 @@
                             {
                                 "Frame Number": 0,
                                 "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Refresh",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": 500.0,
+                                "Rotation": 0.0,
+                                "Scale": 3.0
+                            },
+                            {
+                                "Frame Number": 5,
+                                "X movement": 0.0,
+                                "Y movement": -500.0,
+                                "Rotation": 0.0,
+                                "Scale": -3.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
                             }
                         ]
                     }
@@ -598,10 +769,6 @@
             "width": 128.0,
             "height": 128.0
         },
-        "Scripts": {
-            "className": "",
-            "scriptAttachedNameVec": []
-        },
         "Model": {
             "Model type": 3,
             "Background scroll speed": 0.0,
@@ -641,7 +808,7 @@
                 "Total Frames": 1,
                 "Group Name": "Inactive",
                 "Loop": false,
-                "Frame Time": 0.0,
+                "Frame Time": 0.01666666753590107,
                 "Animations": [
                     {
                         "Animation Type": "TextureChange",
@@ -649,6 +816,42 @@
                             {
                                 "Frame Number": 0,
                                 "Texture": "mockup_chi_icon_lineart.png"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 6,
+                "Group Name": "Refresh",
+                "Loop": false,
+                "Frame Time": 0.10000000149011612,
+                "Animations": [
+                    {
+                        "Animation Type": "TransformDirect",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "X movement": 0.0,
+                                "Y movement": 500.0,
+                                "Rotation": 0.0,
+                                "Scale": 3.0
+                            },
+                            {
+                                "Frame Number": 5,
+                                "X movement": 0.0,
+                                "Y movement": -500.0,
+                                "Rotation": 0.0,
+                                "Scale": -3.0
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Texture": "mockup_chi_icon.png"
                             }
                         ]
                     }

@@ -414,7 +414,7 @@ void BattleSystem::Update()
                 }
 
                 //Handle ox death
-                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
+                else if (ECS::ecs().GetComponent<Name>(c->entity).name == "Ox_Enemy") {
                     for (auto& character : turnManage.turnOrderList) {
                         if (character->tag == CharacterType::ENEMY && character->stats.health != 0.f) {
                             character->damage = character->stats.health;
@@ -425,7 +425,7 @@ void BattleSystem::Update()
                 }
 
                 //Handle emperor death
-                if (ECS::ecs().GetComponent<Name>(c->entity).name == "Emperor") {
+                else if (ECS::ecs().GetComponent<Name>(c->entity).name == "Emperor") {
                     for (auto& character : turnManage.turnOrderList) {
                         if (character->tag == CharacterType::ENEMY && character->stats.health != 0.f) {
                             character->damage = character->stats.health;
@@ -433,6 +433,8 @@ void BattleSystem::Update()
                             deadchars.push_back(character);
                         }
                     }
+                    ProcessDamage();
+                    camera.SetShake(0.f);
                     if (m_Entities.size() > 0) {
                         events.Call("Start Dialogue", "HEALTH");
                         emperorDead = true;
@@ -440,7 +442,7 @@ void BattleSystem::Update()
                 }
 
                 //Handle shield death
-                if (c->untargetable) {
+                else if (c->untargetable) {
                     for (auto& character : turnManage.turnOrderList) {
                         if (character->buffs.shieldEntity == c->entity) {
                             character->buffs.shieldStack = 0;
@@ -678,11 +680,13 @@ void BattleSystem::CompleteBattle() {
     static ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
     if (m_Entities.size() > 0) {
         assetmanager.audio.PauseGroup("BGM");
-        for (Entity& e : allBattleUI) {
-            animationArray->GetData(e).Start("Pop Out", e);
-        }
-        for (Entity& e : turnOrderQueueAnimator) {
-            animationArray->GetData(e).Start("Pop Out", e);
+        for (int i = 0; i < 2; i++) {
+            for (Entity& e : allBattleUI) {
+                animationArray->GetData(e).Queue("Pop Out", e);
+            }
+            for (Entity& e : turnOrderQueueAnimator) {
+                animationArray->GetData(e).Queue("Pop Out", e);
+            }
         }
         if (battleState == WIN) {
             EntityFactory::entityFactory().ClonePrefab("wintext.prefab");
@@ -790,8 +794,13 @@ void BattleSystem::ProcessDamage() {
                                 events.Call("Start Dialogue", "HEALTH");
                             }
 
+                            // Handle boss ox death
+                            else if (nameArray->GetData(c.entity).name == "Monkey") {
+                                modelArray->GetData(c.entity).SetMirror(!modelArray->GetData(c.entity).GetMirror());
+                            }
+
                             //Handle shield death
-                            if (c.untargetable) {
+                            else if (c.untargetable) {
                                 for (CharacterStats* enemy : GetEnemies()) {
                                     if (!parentArray->HasComponent(enemy->entity)) {
                                         continue;
@@ -806,6 +815,7 @@ void BattleSystem::ProcessDamage() {
                                     ally->debuffs.igniteStack = 0;
                                 }
                                 chi = 5;
+                                animationArray->GetData(chiLabel).Queue("Refresh", chiLabel);
                             }
                         }
                     }
@@ -1531,6 +1541,7 @@ void BattleSystem::AnimateRemoveHealthBar(Entity entity) {
         Entity healthbarEntity{ healthbarArray.GetData(e).entity };
         if (healthbarEntity == entity) {
             animationArray.GetData(e).Start("Pop Out", e);
+            found = true;
 
             std::vector<Entity> newAllBattleUI{};
             for (Entity& ui : allBattleUI) {

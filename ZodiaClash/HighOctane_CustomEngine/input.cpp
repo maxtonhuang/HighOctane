@@ -194,13 +194,16 @@ void InputManager::MouseCheck() {
 
 void InputManager::WindowFocusCallback(GLFWwindow* pwin, int focused) {
     UNREFERENCED_PARAMETER(pwin);
-    if (focused) {
-        assetmanager.audio.ResumeGroup("Master");
-    }
-    else {
-        assetmanager.audio.PauseGroup("Master");
-        if (GetCurrentSystemMode() == SystemMode::RUN) {
-            events.Call("Toggle Pause", "");
-        }
+    //if (focused) {
+    //    //assetmanager.audio.ResumeGroup("Master");
+    //}
+    //else {
+    //    //assetmanager.audio.PauseGroup("Master");
+    //    if (GetCurrentSystemMode() == SystemMode::RUN) {
+    //        events.Call("Toggle Pause", "");
+    //    }
+    //}
+    if (GetCurrentSystemMode() == SystemMode::RUN) {
+        events.Call("Toggle Pause", "");
     }
 }
