@@ -52,7 +52,7 @@
         "Entity": {
             "Name": "Lose Screen",
             "Current Layer": 5,
-            "Order in Layer": 0,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -148,7 +148,7 @@
         "Entity": {
             "Name": "overlay",
             "Current Layer": 4,
-            "Order in Layer": 0,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -196,7 +196,7 @@
         "Entity": {
             "Name": "pause_menuitem1",
             "Current Layer": 6,
-            "Order in Layer": 0,
+            "Order in Layer": 1,
             "isLocked": true,
             "isSkipped": true
         },
@@ -334,7 +334,7 @@
         "Entity": {
             "Name": "pause_menuitem2",
             "Current Layer": 6,
-            "Order in Layer": 1,
+            "Order in Layer": 2,
             "isLocked": true,
             "isSkipped": true
         },
@@ -374,7 +374,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "Return to main menu",
+            "Text String": "Return to Main Menu",
             "r": 0.0,
             "g": 0.0,
             "b": 0.0,
@@ -472,7 +472,7 @@
         "Entity": {
             "Name": "lose_menuheader",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -484,7 +484,7 @@
         },
         "Transform": {
             "position_x": 0.0,
-            "position_y": 280.5,
+            "position_y": 250.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -524,7 +524,7 @@
         },
         "Child": {
             "position_x": 0.0,
-            "position_y": 280.5,
+            "position_y": 250.0,
             "rotation": 0.0,
             "scale": 1.0,
             "velocity_x": 0.0,
@@ -535,7 +535,7 @@
         "Entity": {
             "Name": "lose_menuheader2",
             "Current Layer": 6,
-            "Order in Layer": 3,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
