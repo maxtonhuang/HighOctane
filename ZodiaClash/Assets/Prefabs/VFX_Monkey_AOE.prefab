@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 58,
+            "layerCounter": 30,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -33,35 +33,7 @@
                 "Layer 26",
                 "Layer 27",
                 "Layer 28",
-                "Layer 29",
-                "Layer 30",
-                "Layer 31",
-                "Layer 32",
-                "Layer 33",
-                "Layer 34",
-                "Layer 35",
-                "Layer 36",
-                "Layer 37",
-                "Layer 38",
-                "Layer 39",
-                "Layer 40",
-                "Layer 41",
-                "Layer 42",
-                "Layer 43",
-                "Layer 44",
-                "Layer 45",
-                "Layer 46",
-                "Layer 47",
-                "Layer 48",
-                "Layer 49",
-                "Layer 50",
-                "Layer 51",
-                "Layer 52",
-                "Layer 53",
-                "Layer 54",
-                "Layer 55",
-                "Layer 56",
-                "Layer 57"
+                "Layer 29"
             ]
         }
     },
@@ -131,7 +103,7 @@
                         "Key Frames": [
                             {
                                 "Frame Number": 0,
-                                "X movement": 0.0,
+                                "X movement": 300.0,
                                 "Y movement": 200.0,
                                 "Rotation": 0.0,
                                 "Scale": 0.0
