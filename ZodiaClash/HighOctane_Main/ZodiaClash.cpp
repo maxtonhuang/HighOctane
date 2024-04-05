@@ -63,7 +63,6 @@
 #include "EnemyAction.h"
 #include "PlayerAction.h"
 #include "UIComponents.h"
-//#include "Reflections.h"
 #include "Events.h"
 #include "Layering.h"
 #include "Animation.h"
@@ -151,14 +150,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	**************************************************************************/
 	//SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
-    LoadConfig();
-    nCmdShow = nCmdShow; //unused variable
-    hInstance = hInstance; //unused variable
-
-    // Enable run-time memory check for debug builds.
+	// Enable run-time memory check for debug builds.
     #if (_DEBUG)
         _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     #endif
+
+    LoadConfig();
+    nCmdShow = nCmdShow; //unused variable
+    hInstance = hInstance; //unused variable
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
