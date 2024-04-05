@@ -259,7 +259,7 @@ void Attack::UseAttack(CharacterStats* target) {
         }
     }
 
-    if (!target->buffs.shieldStack) {
+    if (!target->buffs.shieldStack && !target->untargetable) {
         target->debuffs.bloodStack += bleed;
     }
     
