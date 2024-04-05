@@ -794,8 +794,13 @@ void BattleSystem::ProcessDamage() {
                                 events.Call("Start Dialogue", "HEALTH");
                             }
 
+                            // Handle boss ox death
+                            else if (nameArray->GetData(c.entity).name == "Monkey") {
+                                modelArray->GetData(c.entity).SetMirror(!modelArray->GetData(c.entity).GetMirror());
+                            }
+
                             //Handle shield death
-                            if (c.untargetable) {
+                            else if (c.untargetable) {
                                 for (CharacterStats* enemy : GetEnemies()) {
                                     if (!parentArray->HasComponent(enemy->entity)) {
                                         continue;
