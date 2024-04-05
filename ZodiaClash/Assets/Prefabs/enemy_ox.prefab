@@ -1,7 +1,7 @@
 [
     {
         "LayeringSystems": {
-            "layerCounter": 10,
+            "layerCounter": 19,
             "groupCounter": 0,
             "layerNames": [
                 "Layer 0",
@@ -13,7 +13,16 @@
                 "Layer 6",
                 "Layer 7",
                 "Layer 8",
-                "Layer 9"
+                "Layer 9",
+                "Layer 10",
+                "Layer 11",
+                "Layer 12",
+                "Layer 13",
+                "Layer 14",
+                "Layer 15",
+                "Layer 16",
+                "Layer 17",
+                "Layer 18"
             ]
         }
     },
@@ -655,6 +664,86 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 9,
+                "Group Name": "Undeath",
+                "Loop": false,
+                "Frame Time": 0.15000000596046448,
+                "Animations": [
+                    {
+                        "Animation Type": "Sprite",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 1,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 2,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 3,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 4,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 5,
+                                "Reverse": true
+                            },
+                            {
+                                "Frame Number": 6,
+                                "Reverse": true
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "TextureChange",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 7,
+                                "Texture": "Ox_Idle.spritesheet"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "Goat Heal_Edited.wav"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Swap",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 8,
+                                "Destination": "Idle"
+                            }
+                        ]
+                    },
+                    {
+                        "Animation Type": "Child",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 7,
+                                "Child Name": "Shadow",
+                                "Child Animation": "Appear"
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "Idle",
@@ -664,7 +753,7 @@
         "Entity": {
             "Name": "Shadow",
             "Current Layer": 0,
-            "Order in Layer": 5,
+            "Order in Layer": 10,
             "isLocked": true,
             "isSkipped": true
         },
@@ -719,6 +808,23 @@
                             {
                                 "Frame Number": 1,
                                 "Alpha": 0.0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 2,
+                "Group Name": "Appear",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Fade",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 1,
+                                "Alpha": 0.20000000298023224
                             }
                         ]
                     }
