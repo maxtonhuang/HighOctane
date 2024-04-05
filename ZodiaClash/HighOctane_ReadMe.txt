@@ -3,7 +3,7 @@ ZODIACLASH README
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.5 M5 build
+Version: v0.6 M6 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
@@ -22,7 +22,7 @@ Loo Zhi Ying (zhiying.loo@digipen.edu)
 
 About:
 
-Currently, the game for M5 consists of the main exploration map, as well as 3 battle stages. There will be a final level for M6. The characters' stats are also not fully balanced yet, but it is playable.
+Currently, the game for M6 consists of the main exploration map, as well as 3 battle stages. There will be a final level for M6. The characters' stats are also not fully balanced yet, but it is playable.
 
 Scenes: Start Menu, Cutscene, Exploration Map, 3 Battle Scenes
 

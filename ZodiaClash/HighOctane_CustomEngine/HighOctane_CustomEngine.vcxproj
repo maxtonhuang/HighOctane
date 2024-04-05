@@ -561,7 +561,6 @@ copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)fr
     <ClInclude Include="Particles.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="PlayerAction.h" />
-    <ClInclude Include="Reflections.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Selection.h" />
@@ -619,7 +618,6 @@ copy "$(SolutionDir)Extern\freetype-2.13.2\lib\x64\freetype.dll" "$(TargetDir)fr
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="MultiThreading.cpp" />
     <ClCompile Include="Particles.cpp" />
-    <ClCompile Include="Reflections.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Selection.cpp" />
     <ClCompile Include="Serialization.cpp" />

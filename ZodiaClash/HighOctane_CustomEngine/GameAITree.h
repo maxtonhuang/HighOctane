@@ -93,9 +93,7 @@ private:
 
 class TreeManager {
 public:
-	//void Initialize(BattleSystem startState);
 	void Search(BattleSystem* start);
-	//std::vector<Node> parents;
 private:
 	void MakeDecision(Node*);
 	BattleSystem* original;

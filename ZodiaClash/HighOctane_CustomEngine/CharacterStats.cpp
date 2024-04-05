@@ -155,19 +155,6 @@ void CharacterStats::HealBuff(float buffAmount)
 
 void CharacterStats::SpeedBuff(CharacterStats* target)
 {
-    //if (user->tag == CharacterType::ENEMY) {
-    //    CharacterStats* tmp{};
-    //    for (CharacterStats* character : parent->GetEnemies()) {
-    //        if (character->entity != user->entity) {
-    //            tmp = character;
-    //            break;
-    //        }
-    //    }
-    //    //tmp->tag = CharacterType::ENEMYSPEDUP;
-    //    parent->SwitchTurnOrder(tmp);
-    //    goatSpeedup = true;
-
-    //}
     parent->SwitchTurnOrder(target);
 }
 

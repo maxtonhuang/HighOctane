@@ -80,15 +80,10 @@ void ObjectAllocator::RemoveFromMap(char* ptr) {
 			// remove this node.
 			if (prevptr == nullptr) {
 				*currptr = std::move(temp);
-				//FLMAP[idx] = currptr->next;
 			}
 			else {
 				(*prevptr)->next = std::move(temp);
-				//prevptr->next = currptr->next;
 			}
-
-			//delete currptr;
-			//currptr = nullptr;
 			return;
 
 		}
@@ -112,8 +107,6 @@ bool ObjectAllocator::FindInMap(char* ptr) const {
 	uintptr_t idx = u_ptr & 0xFFFF;
 
 	const LList* currptr = FLMAP[idx].get();
-	//LList* currptr = FLMAP[idx];
-
 	while (currptr) {
 
 		if (currptr->ptr == u_ptr) {

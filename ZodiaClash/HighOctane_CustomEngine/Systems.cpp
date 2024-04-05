@@ -150,7 +150,6 @@ void PhysicsSystem::Update() {
 
 	else {
 		// Regular physics integration and debug drawing
-		//for (Entity const& entity : m_Entities) {
 		for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 			if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 				for (Entity& entity : layering[layer_it]) {
@@ -172,7 +171,6 @@ void PhysicsSystem::Draw() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& colliderArray = componentManager.GetComponentArrayRef<Collider>();
 
-	//for (Entity const& entity : m_Entities) {
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity& entity : layering[layer_it]) {
@@ -194,17 +192,9 @@ void EmitterSystem::Update()
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-
-	//for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		// Ensure that skip and lock logic is applied as intended
-		//if (layersToSkip[layer_it] || !layersToLock[layer_it]) continue;
-
-		//for (Entity& entity : layering[layer_it]) {
 		for (Entity entity : m_Entities) {
 
 			// Check if entity should be skipped or is not locked as intended
-			//if (entitiesToSkip[static_cast<uint32_t>(entity)] || !entitiesToLock[static_cast<uint32_t>(entity)] || !ECS::ecs().EntityExists(entity)) continue;
-
 			if (ECS::ecs().HasComponent<Emitter>(entity)) {
 				Emitter* emitter = &ECS::ecs().GetComponent<Emitter>(entity);
 
@@ -224,13 +214,6 @@ void EmitterSystem::Update()
 				}
 
 				emitter->emitterLifetime += FIXED_DT;
-
-				//Initialise emitter
-				//if (emitter->size.x == 0 && emitter->size.y == 0) {
-				//	emitter->size.x = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale;
-				//	emitter->size.y = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale;
-				//}
-
 				emitter->position = transformArray.GetData(entity).position;
 				float emitterWidth = sizeArray.GetData(entity).width * transformArray.GetData(entity).scale / 2;
 				float emitterHeight = sizeArray.GetData(entity).height * transformArray.GetData(entity).scale / 2;
@@ -271,7 +254,6 @@ void EmitterSystem::Update()
 				}
 			}
 		}
-	//}
 }
 
 /**************************************************************************/
@@ -301,7 +283,6 @@ void ParticleSystem::Update()
 ******************************************************************************/
 void ParticleSystem::Draw()
 {
-	//particles.Draw(FIXED_DT);
 }
 
 /******************************************************************************
@@ -328,7 +309,6 @@ void CollisionSystem::Update() {
 	std::vector<physics::SweepAndPruneEntry> xSortedColliders;
 
 	// Populate the xSortedColliders list and sort it along the x-axis
-	//for (Entity const& entity : m_Entities) {
 	for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 			for (Entity& entity : layering[layer_it]) {
@@ -431,7 +411,6 @@ void MovementSystem::Update() {
 		auto& mcArray = componentManager.GetComponentArrayRef<MainCharacter>();
 		auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
 
-		//for (Entity const& entity : m_Entities) {
 		for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
 			if (layersToSkip[layer_it] && layersToLock[layer_it]) {
 				for (Entity& entity : layering[layer_it]) {
@@ -447,7 +426,6 @@ void MovementSystem::Update() {
 								boundaryMax.x = GRAPHICS::w;
 							}
 							if (boundaryMax.y - boundaryMin.y < GRAPHICS::defaultHeightF) {
-								//boundaryMin.y = -GRAPHICS::h;
 								boundaryMax.y = GRAPHICS::h;
 								boundaryMin.y = -GRAPHICS::h;
 							}
@@ -462,7 +440,6 @@ void MovementSystem::Update() {
 							for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::MOVEMENT]) {
 								switch (msg.type) {
 								case(TYPE::DIALOGUE_ACTIVE):
-									//animationData->Stop();
 									return;
 								}
 							}
@@ -471,7 +448,6 @@ void MovementSystem::Update() {
 							//Idle
 							if (transformData->force.x == 0.f && transformData->force.y == 0.f) {
 								if (mcData->moved) {
-									//animationData->Stop();
 									animationData->Start("Idle Start", entity);
 								}
 								mcData->moved = false;
@@ -491,9 +467,6 @@ void MovementSystem::Update() {
 								modelData->SetMirror(true);
 							}
 							colliderArray.GetData(entity).type = Collider::MAIN;
-
-							//camera.SetTarget(entity);
-
 							camera.SetPos(std::clamp(transformData->position.x, boundaryMin.x + GRAPHICS::w, boundaryMax.x - GRAPHICS::w), 
 								std::clamp(transformData->position.y + Y_OFFSET, boundaryMin.y + GRAPHICS::h + Y_OFFSET, boundaryMax.y - GRAPHICS::h + Y_OFFSET));
 
@@ -522,11 +495,6 @@ void AnimationSystem::Update() {
 	bool lockBattleSystem{ false };
 
 	for (Entity const& entity : m_Entities) {
-	/*for (size_t layer_it = 0; layer_it < layering.size(); ++layer_it) {
-		if (layersToSkip[layer_it] && layersToLock[layer_it]) {
-			for (Entity& entity : layering[layer_it]) {
-				if (entitiesToSkip[static_cast<uint32_t>(entity)] && entitiesToLock[static_cast<uint32_t>(entity)] && ECS::ecs().EntityExists(entity)) {
-					if (ECS::ecs().HasComponent<AnimationSet>(entity) && ECS::ecs().HasComponent<Clone>(entity)) {*/
 						AnimationSet* animationData = &animationArray.GetData(entity);
 						animationData->Update(entity);
 
@@ -534,10 +502,6 @@ void AnimationSystem::Update() {
 						if (animationData->activeAnimation != nullptr && animationData->activeAnimation->loop == false && animationData->activeAnimation->active == true) {
 							lockBattleSystem = true;
 						}
-		//			}
-		//		}
-		//	}
-		//}
 	}
 	if (lockBattleSystem) {
 		Mail::mail().CreatePostcard(TYPE::ANIMATING, ADDRESS::ANIMATION, INFO::NONE, 0.f, 0.f);
@@ -616,9 +580,6 @@ void GraphicsSystem::Update() {
 						Model* m = &modelArray.GetData(entity);
 						Size* size = &sizeArray.GetData(entity);
 						Transform* transform = &transformArray.GetData(entity);
-						/*if (m->CheckTransformUpdated(*transform, *size)) {
-
-						}*/
 						m->Update(*transform, *size);
 					}
 				}
@@ -795,7 +756,6 @@ void SerializationSystem::Update() {
 			entitylist.push_back(e);
 		}
 		for (Entity e : entitylist) {
-			//ECS::ecs().DestroyEntity(e);
 			EntityFactory::entityFactory().DeleteCloneModel(e);
 		}
 		EntityFactory::entityFactory().UpdateDeletion();
@@ -845,8 +805,6 @@ void SerializationSystem::Update() {
 			sceneFile << "tmp.json";
 			sceneFile.close();
 		}
-
-		//initLevel = true;
 		playButton = false;
 	}
 
@@ -872,8 +830,7 @@ void EditingSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
-	//auto& colorArray = componentManager.GetComponentArrayRef<Color>();
-
+	
 	for (Postcard const& msg : Mail::mail().mailbox[ADDRESS::EDITING]) {
 		switch (msg.type) {
 		case TYPE::KEY_TRIGGERED: {
@@ -1201,8 +1158,6 @@ void UITextLabelSystem::Draw() {
 			textLabelData->UpdateOffset(*transformData, *sizeData, buttonData->padding);
 		}
 		else {
-			/*sizeData->width = std::max(textLabelData->textWidth, sizeData->width);
-			sizeData->height = std::max(textLabelData->textHeight, sizeData->height);*/
 			textLabelData->Update(*modelData, *nameData);
 			textLabelData->UpdateOffset(*transformData, *sizeData);
 		}
@@ -1235,20 +1190,12 @@ void UITextLabelSystem::Draw() {
 void UIButtonSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
-
-	// Access component arrays through the ComponentManager
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& modelArray = componentManager.GetComponentArrayRef<Model>();
 	auto& nameArray = componentManager.GetComponentArrayRef<Name>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& buttonArray = componentManager.GetComponentArrayRef<Button>();
-	//auto& animationArray = componentManager.GetComponentArrayRef<AnimationSet>();
-
-	//BattleSystem* battleSys = events.GetBattleSystem();
-	//bool updateBattleInfoButton{ battleSys && !buttonArray.HasComponent(battleSys->battleInfoButton) };
 
 	for (Entity const& entity : m_Entities) {
-		//Size* sizeData = &sizeArray.GetData(entity);
 		Name* nameData = &nameArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		TextLabel* textLabelData = &textLabelArray.GetData(entity);
@@ -1259,15 +1206,6 @@ void UIButtonSystem::Update() {
 		glm::vec4 btnColor = (GetCurrentSystemMode() == SystemMode::EDIT) ? buttonData->GetDefaultButtonColor() : buttonData->GetButtonColor();
 		modelData->SetColor(btnColor.r, btnColor.g, btnColor.b);
 		modelData->SetAlpha(btnColor.a);
-
-		//if (updateBattleInfoButton && buttonData->eventName == "Toggle Battle Info") {
-		//	battleSys->battleInfoButton = entity;
-		//	battleSys->allBattleUI.push_back(entity);
-		//	if (!battleSys->battlestarted) {
-		//		animationArray.GetData(entity).Stop();
-		//		animationArray.GetData(entity).Start("Pop In", entity);
-		//	}
-		//}
 	}
 }
 
@@ -1552,9 +1490,6 @@ void UIEffectSystem::Update() {
 	// Access the ComponentManager through the ECS class
 	ComponentManager& componentManager = ECS::ecs().GetComponentManager();
 
-	// Access component arrays through the ComponentManager
-	//auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
-	//auto& sizeArray = componentManager.GetComponentArrayRef<Size>();
 	auto& textLabelArray = componentManager.GetComponentArrayRef<TextLabel>();
 	auto& healthBarArray = componentManager.GetComponentArrayRef<HealthBar>();
 	auto& statusFxArray = componentManager.GetComponentArrayRef<StatusEffect>();
@@ -1562,7 +1497,6 @@ void UIEffectSystem::Update() {
 	BattleSystem* battleSys = events.GetBattleSystem();
 	if (battleSys) {
 		for (Entity const& entity : m_Entities) {
-			//Transform* transformData = &transformArray.GetData(entity);
 			StatusEffect* statusFxData = &statusFxArray.GetData(entity);
 
 			statusFxData->UpdateOffset(entity);
@@ -1618,8 +1552,6 @@ void UIDialogueSystem::Update() {
 		DialogueHUD* dialogueHudData = &dialogueHudArray.GetData(entity);
 		Model* modelData = &modelArray.GetData(entity);
 		Transform* transformData = &transformArray.GetData(entity);
-		//Size* sizeData = &sizeArray.GetData(entity);
-
 		if (dialogueHudData->dialogues.empty())
 		{
 			continue;
@@ -1697,13 +1629,8 @@ void UIDialogueSystem::Update() {
 					speakerTextData->hasBackground = false;
 
 					if (dialogueHudData->currentDialogue->isActive && !dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated) {
-					//events.Call("Stop Group", "VOC");
-					//events.Call("Play Voice", dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].voice);
-
 					dialogueHudData->currentDialogue->dialogueLines[dialogueHudData->currentDialogue->viewingIndex].updated = true;
 					}
-
-					//dialogueHudData->EnforceAlignment(*sizeData, *speakerSizeData, *speakerTextData, *childData);
 				}
 				// speaker tex label
 				if (dialogueSpeakerArray.HasComponent(childEntity) && texArray.HasComponent(childEntity)) {
@@ -1891,7 +1818,6 @@ void ChildSystem::Update() {
 	auto& transformArray = componentManager.GetComponentArrayRef<Transform>();
 	auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
-	//auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {
 		Child* childData = &childArray.GetData(entity);
@@ -1922,7 +1848,6 @@ void ParentSystem::Update() {
 
 	// Access component arrays through the ComponentManager
 	auto& parentArray = componentManager.GetComponentArrayRef<Parent>();
-	//auto& childArray = componentManager.GetComponentArrayRef<Child>();
 	auto& cloneArray = componentManager.GetComponentArrayRef<Clone>();
 
 	for (Entity const& entity : m_Entities) {

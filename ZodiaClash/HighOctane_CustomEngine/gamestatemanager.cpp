@@ -262,6 +262,9 @@ void GameStateMgr::QuitGame()
     continueNextState = false; nextState = 0;
 }
 
+/**
+ * @brief Skips to next level
+ */
 void GameStateMgr::NextLevel() {
     gameLevel->IncreaseLevel();
 
@@ -277,6 +280,9 @@ void GameStateMgr::NextLevel() {
     }
 }
 
+/**
+ * @brief Skips to end level
+ */
 void GameStateMgr::GoToEndLevel() {
     gameLevel->JumpToEndLevel();
     //last game state is the end state

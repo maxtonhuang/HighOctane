@@ -121,7 +121,6 @@ public:
 	bool speedup{ false };
 	CharacterStats* speedupCharacter{};
 	void AddCharacter(Entity addition); //Add a new character midway through a battle
-
 	bool locked{};
 
 	//for battle system to pass its version of characters

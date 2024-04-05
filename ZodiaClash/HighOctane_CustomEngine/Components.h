@@ -36,8 +36,8 @@
 #include "GraphLib.h"
 #include "FontLib.h"
 #include "Texture.h"
-#include "Reflections.h"
 #include <unordered_set>
+#include <sstream>
 
 using Vec2 = vmath::Vector2;
 using Entity = std::uint32_t;

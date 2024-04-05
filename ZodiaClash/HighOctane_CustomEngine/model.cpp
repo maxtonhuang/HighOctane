@@ -242,20 +242,6 @@ void Model::DrawOutlineRed() {
 	graphics.DrawLine(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
 	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
 	graphics.DrawLine(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 1.f, 0.f, 0.f, 1.f, render);
-	//graphics.DrawLine(topmidpoint.x * GRAPHICS::w, topmidpoint.y * GRAPHICS::h, rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);
-
-	/*if (type == UI) {
-		render = &graphics.renderer["staticpoint"];
-	}
-	graphics.DrawPoint(topleft.x * GRAPHICS::w, topleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(topright.x * GRAPHICS::w, topright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(botleft.x * GRAPHICS::w, botleft.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(botright.x * GRAPHICS::w, botright.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(top.x * GRAPHICS::w, top.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(bot.x * GRAPHICS::w, bot.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(right.x * GRAPHICS::w, right.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(left.x * GRAPHICS::w, left.y * GRAPHICS::h, 0.f, 1.f, 0.f, 1.f, render);
-	graphics.DrawPoint(rotationpoint.x, rotationpoint.y, 0.f, 1.f, 0.f, 1.f, render);*/
 }
 
 bool Model::CheckTransformUpdated(Transform& transform, Size& size) {
@@ -292,12 +278,10 @@ float Model::GetAlpha() {
 }
 
 vmath::Vector2 Model::GetMin() const {
-	//return vmath::Vector2{ botleft.x * GRAPHICS::w + camera.GetPos().x, botleft.y * GRAPHICS::h + camera.GetPos().y};
 	return minimum;
 }
 
 vmath::Vector2 Model::GetMax() const {
-	//return vmath::Vector2{ topright.x * GRAPHICS::w + camera.GetPos().x, topright.y * GRAPHICS::h + camera.GetPos().y };
 	return maximum;
 }
 

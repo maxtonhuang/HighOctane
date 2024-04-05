@@ -3,7 +3,7 @@ ZODIACLASH Project Guide File
 ================================================================
 
 Game name: ZodiaClash
-Version: v0.5 M5 build
+Version: v0.6 M6 build
 
 Programmers:
 Huang Maxton Xinghua (m.huang@digipen.edu)
