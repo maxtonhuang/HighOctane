@@ -69,7 +69,7 @@
             "Font Family": "Danto Lite Normal",
             "Font Variant": "Regular",
             "Font Size": 0.5,
-            "Text String": "You have defeated all enemies and completed the game.",
+            "Text String": "You have defeated all enemies and completed the game.\nThank you for playing!",
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
