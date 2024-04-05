@@ -1720,7 +1720,10 @@ void UIDialogueSystem::Update() {
 					}
 					else
 					{
-						speakerModelData->SetAlpha(1.0f);
+						if (speakerTextString == "" && speakerNameData->name == "dialogue_speaker_bg")
+							speakerModelData->SetAlpha(0.0f);
+						else
+							speakerModelData->SetAlpha(1.0f);
 					}
 				}
 			}
