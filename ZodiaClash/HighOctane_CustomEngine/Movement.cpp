@@ -46,6 +46,16 @@ vmath::Vector2 finalPos{ RESET_VEC2 };
 
 constexpr float speed = 200.f;
 
+/*!***********************************************************************
+ \brief
+  Updates the movement of an entity based on received input messages. It processes key presses for directional movement and mouse interactions for setting movement direction and force. This function resets the force at each call, updates it based on the input, and adjusts the entity's scale, rotation, or alpha if relevant keys are pressed.
+ \param transform
+  A reference to the Transform component of the entity, which will be modified based on the input to reflect new position, scale, rotation, or force.
+ \param model
+  A reference to the Model component of the entity. This parameter is currently unused in the function and is marked as unreferenced.
+ \return
+  This function does not return a value. It directly modifies the passed Transform component based on the processed input messages from the mailbox.
+ *************************************************************************/
 void UpdateMovement(Transform & transform, Model & model) {	
 	UNREFERENCED_PARAMETER(model);
 	transform.force = { RESET_VEC2 };

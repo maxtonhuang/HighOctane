@@ -293,14 +293,38 @@ glm::vec4& Model::GetColorRef() {
 	return color;
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the mirror state of the model. The mirror state indicates whether the model is mirrored along its vertical axis.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns a boolean value indicating the mirror state of the model. True means the model is mirrored; false means it is not.
+ *************************************************************************/
 bool Model::GetMirror() const {
 	return mirror;
 }
 
+/*!***********************************************************************
+ \brief
+  Provides a reference to the mirror state of the model. This allows for direct modification of the model's mirror state.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns a reference to a boolean value representing the model's mirror state. This reference can be used to modify the mirror state directly.
+ *************************************************************************/
 bool& Model::GetMirrorRef() {
 	return mirror;
 }
 
+/*!***********************************************************************
+ \brief
+  Sets the mirror state of the model. This method allows the model to be mirrored or unmirrored along its vertical axis.
+ \param m
+  A boolean value indicating the desired mirror state. True sets the model to be mirrored; false sets it to be unmirrored.
+ \return
+  This method does not return a value. It updates the mirror state of the model based on the provided boolean value.
+ *************************************************************************/
 void Model::SetMirror(bool m) {
 	mirror = m;
 }
@@ -343,6 +367,15 @@ vmath::Vector2 Model::GetBotRight() const {
 	}
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the top position of the model in screen space. The position is adjusted based on whether the model is considered part of the UI or part of the game world, with UI elements being unaffected by the camera's position.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns a vmath::Vector2 representing the top position of the model in screen space. If the model is of type UI, the position is directly scaled by the screen dimensions. Otherwise, it is adjusted based on the camera's current position.
+ *************************************************************************/
+
 vmath::Vector2 Model::GetTop() const {
 	if (type == UI) {
 		return vmath::Vector2{ top.x * GRAPHICS::w, top.y * GRAPHICS::h };
@@ -352,6 +385,14 @@ vmath::Vector2 Model::GetTop() const {
 	}
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the bottom position of the model in screen space. Similar to GetTop, this method adjusts the position based on the model's type (UI or game world) and the camera's position for non-UI elements.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns a vmath::Vector2 representing the bottom position of the model in screen space. The calculation accounts for whether the model is part of the UI or the game world, adjusting for the camera's position as necessary.
+ *************************************************************************/
 vmath::Vector2 Model::GetBot() const {
 	if (type == UI) {
 		return vmath::Vector2{ bot.x * GRAPHICS::w, bot.y * GRAPHICS::h };
@@ -361,6 +402,14 @@ vmath::Vector2 Model::GetBot() const {
 	}
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the leftmost position of the model in screen space. The position is adjusted based on the model's type, with UI elements positioned based on screen dimensions and game world elements adjusted for the camera's position.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns a vmath::Vector2 representing the leftmost position of the model in screen space, adjusted for the camera's position for non-UI elements.
+ *************************************************************************/
 vmath::Vector2 Model::GetLeft() const {
 	if (type == UI) {
 		return vmath::Vector2{ left.x * GRAPHICS::w, left.y * GRAPHICS::h };
@@ -370,6 +419,14 @@ vmath::Vector2 Model::GetLeft() const {
 	}
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the rightmost position of the model in screen space. This method differentiates between UI and game world elements in its calculation, adjusting the position based on the camera's position for the latter.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns a vmath::Vector2 representing the rightmost position of the model in screen space. For UI elements, the position is based on screen dimensions; for game world elements, it is adjusted for the camera's position.
+ *************************************************************************/
 vmath::Vector2 Model::GetRight() const {
 	if (type == UI) {
 		return vmath::Vector2{ right.x * GRAPHICS::w, right.y * GRAPHICS::h };

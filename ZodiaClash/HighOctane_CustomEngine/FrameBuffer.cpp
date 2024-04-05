@@ -35,6 +35,14 @@
 #include "debugdiagnostic.h"
 #include "graphics.h"
 
+/*!***********************************************************************
+ \brief
+  Initializes the framebuffer by creating a new framebuffer object, texture for color attachment, and a texture for depth and stencil attachment. It sets up the necessary parameters for these objects, including their filtering modes and attachments to the framebuffer. This method should be called to set up the framebuffer before it is used for rendering.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It initializes the framebuffer with a color attachment and a depth-stencil attachment based on the current window dimensions. It also ensures that the framebuffer is complete and ready for use.
+ *************************************************************************/
 void FrameBuffer::Initialize() {
 	//create framebuffer
 	glCreateFramebuffers(1, &id);
@@ -61,31 +69,79 @@ void FrameBuffer::Initialize() {
 	Unbind();
 }
 
+/*!***********************************************************************
+ \brief
+  Deletes the framebuffer and its associated texture and renderbuffer objects from memory. This method should be called when the framebuffer is no longer needed or before the framebuffer object is recreated.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It directly frees the OpenGL resources associated with the framebuffer, its texture, and renderbuffer.
+ *************************************************************************/
 void FrameBuffer::Delete() {
 	glDeleteFramebuffers(1, &id);
 	glDeleteTextures(1, &textureid);
 	glDeleteTextures(1, &rbo);
 }
 
+/*!***********************************************************************
+ \brief
+  Recreates the framebuffer by first deleting the current OpenGL framebuffer, texture, and renderbuffer objects, and then reinitializing them. This method is useful for when the properties of the framebuffer need to be reset or changed.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It ensures the framebuffer is refreshed with new OpenGL resources by deleting and reinitializing them.
+ *************************************************************************/
 void FrameBuffer::Recreate() {
 	Delete();
 	Initialize();
 }
 
+/*!***********************************************************************
+ \brief
+  Binds the framebuffer object for rendering operations. After this method is called, any subsequent rendering commands will affect this framebuffer until it is unbound.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It changes the current rendering target to this framebuffer object.
+ *************************************************************************/
 void FrameBuffer::Bind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
 }
 
+/*!***********************************************************************
+ \brief
+  Unbinds the current framebuffer, reverting the rendering target back to the default framebuffer provided by OpenGL. This method should be called after finishing rendering to a custom framebuffer.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It resets the rendering target to the default framebuffer.
+ *************************************************************************/
 void FrameBuffer::Unbind() {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+/*!***********************************************************************
+ \brief
+  Clears the framebuffer by binding it and then clearing its color buffer. This is typically used at the beginning of a new frame to reset the framebuffer's contents.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It clears the contents of the framebuffer to prepare it for new rendering operations.
+ *************************************************************************/
 void FrameBuffer::Clear() {
 	Bind();
 	glClear(GL_COLOR_BUFFER_BIT);
 	Unbind();
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the texture ID associated with the framebuffer. This texture ID can be used to access the framebuffer's color attachment for use in shaders or other OpenGL operations.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns the unsigned integer ID of the texture associated with the framebuffer.
+ *************************************************************************/
 unsigned int FrameBuffer::GetTextureID() {
 	return textureid;
 }

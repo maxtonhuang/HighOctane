@@ -48,27 +48,7 @@ public:
 	};
 	void SetFilePath(std::string file);
 	std::string GetFilePathWithNewExtension(const std::string& newExtension);
-
-/*!***********************************************************************
- \brief
-	Gets the file extension e.g. .jpg, .ttf, .mp3
- \param [in] filePath
- \return
-	string of the extenstion
- *************************************************************************/
 	static std::string GetFileExtension(const std::string& filePath);
-/*!***********************************************************************
-	\brief
-	One stop function to create filepath for all file types,
-	just input filename and file type. 
-	E.g. FileName = Characters, FileType = CSV
-	build would be Characters.csv in the /CSV folder
-	\param [in] FileName
-	\param [in] FileType
-	CSV,Frags,Vert,Textures
-	\return
-	a built file path e.g. ../Assets/CSV/Characters.csv
-*************************************************************************/
 	std::string FilePathDir(std::string fileName, FileType fileType);
 
 	std::string Extension;

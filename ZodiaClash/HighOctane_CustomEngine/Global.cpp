@@ -198,7 +198,7 @@ void SetCurrentSystemMode(SystemMode mode)
 *
 *	@brief Returns the current System Mode
 *
-*	-
+*	
 *
 ******************************************************************************/
 SystemMode GetCurrentSystemMode() {

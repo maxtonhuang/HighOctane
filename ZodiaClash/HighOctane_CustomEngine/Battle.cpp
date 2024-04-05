@@ -675,6 +675,14 @@ void BattleSystem::RevertTurnOrder(CharacterStats* target)
     UNREFERENCED_PARAMETER(target);
 }
 
+/*!***********************************************************************
+ \brief
+  Finalizes the battle process, handling both win and lose scenarios. It pauses the background music, animates UI elements to indicate the battle's end, and, based on the battle outcome, spawns appropriate win or lose text. It also plays a sound to signify the battle's completion.
+ \param
+  This function does not take any parameters.
+ \return
+  This function does not return a value. It affects the game state by altering UI elements, playing audio, and potentially spawning new entities based on the battle outcome.
+ *************************************************************************/
 void BattleSystem::CompleteBattle() {
     static ComponentManager& componentManager = ECS::ecs().GetComponentManager();
     static ComponentArray<AnimationSet>* animationArray = &componentManager.GetComponentArrayRef<AnimationSet>();
@@ -1043,6 +1051,14 @@ bool BattleSystem::AnimateUpdateTurnOrder() {
     return true;
 }
 
+/*!***********************************************************************
+ \brief
+  Animates the speed-up effect in the turn order queue. This function identifies the position of a specific entity (the one to be sped up) within the turn order list. It animates the front of the turn order queue to simulate the effect of speeding up the specified entity's turn, adjusts the turn order visually, and applies an expanding animation to the icon representing the sped-up entity in the UI.
+ \param
+  This function does not take any parameters.
+ \return
+  This function does not return a value. Instead, it modifies the turn order queue's visual representation by animating UI elements to reflect a change in the turn order, specifically highlighting the effect of a "speed-up" action on a particular entity.
+ *************************************************************************/
 void BattleSystem::AnimateSpeedupTurnOrder() {
     static auto& parentArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<Parent>() };
     static auto& animationArray{ ECS::ecs().GetComponentManager().GetComponentArrayRef<AnimationSet>() };

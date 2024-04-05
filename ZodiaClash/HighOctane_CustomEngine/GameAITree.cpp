@@ -108,6 +108,14 @@ void Node::Advance(Node* node, std::vector<Node*>& input, int* nodeCount) {
 	return;
 }
 
+/*!***********************************************************************
+ \brief
+  Applies the decision from a chosen node to the battle system. This involves setting the active character's selected skill and target based on the decision represented by the node.
+ \param chosenNode
+  A pointer to the Node that represents the chosen decision in the decision tree. This node contains the selected skill and target that should be applied to the active character's action.
+ \return
+  This function does not return a value. It directly modifies the battle system's state by updating the active character's selected skill and target based on the chosen decision.
+ *************************************************************************/
 void TreeManager::MakeDecision(Node* chosenNode) {
 	original ->activeCharacter->action.selectedSkill = chosenNode->GetChosen()->nodeCharacter->action.selectedSkill;
 	Node* chosen = chosenNode->GetChosen();
@@ -119,6 +127,14 @@ void TreeManager::MakeDecision(Node* chosenNode) {
 	original->activeCharacter->action.entityState = ATTACKING;
 }
 
+/*!***********************************************************************
+ \brief
+  Performs a search through the decision tree to find the best move for the AI. It evaluates potential moves and their outcomes by simulating the battle states that result from different actions. This function builds a tree of possible moves and evaluates them to select the most advantageous move according to the game's AI logic. The selected move is then applied to the battle system.
+ \param start
+  A pointer to the BattleSystem that represents the current state of the battle from which the search will begin. This battle system is used as the root for generating the decision tree.
+ \return
+  This function does not return a value. It selects the best move based on the evaluation of the decision tree and applies this decision to the battle system, potentially altering the course of the battle.
+ *************************************************************************/
 void TreeManager::Search(BattleSystem* start) {
 	int currentEval{ INT_MIN };
 	std::vector<Node*> selectedNodes;

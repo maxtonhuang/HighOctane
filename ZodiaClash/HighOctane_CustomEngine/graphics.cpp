@@ -51,6 +51,14 @@ GraphicsManager graphics;
 
 /*                                                   objects with file scope
 ----------------------------------------------------------------------------- */
+/*!***********************************************************************
+ \brief
+  Constructs a GraphicsManager object, initializing its width, height, and window pointers to default values.
+ \param
+  This constructor does not take any parameters.
+ \return
+  This constructor does not return a value.
+ *************************************************************************/
 
 GraphicsManager::GraphicsManager() {
     width = 0;
@@ -58,10 +66,28 @@ GraphicsManager::GraphicsManager() {
     window = nullptr;
 }
 
+/*!***********************************************************************
+ \brief
+  Destroys the GraphicsManager object, performing necessary cleanup such as terminating GLFW.
+ \param
+  This destructor does not take any parameters.
+ \return
+  This destructor does not return a value.
+ *************************************************************************/
 GraphicsManager::~GraphicsManager() {
     glfwTerminate();
 }
 
+/*!***********************************************************************
+ \brief
+  Initializes the graphics system, setting up the GLFW window, OpenGL context, and other necessary graphics settings. This includes window creation, setting GLFW callbacks, initializing GLEW, setting the window icon, and preparing the rendering viewport and framebuffer.
+ \param w
+  The width of the window.
+ \param h
+  The height of the window.
+ \return
+  This method does not return a value. It initializes the graphics system with the specified window dimensions.
+ *************************************************************************/
 void GraphicsManager::Initialize(int w, int h) {
     //TEMPORARY INITIALISATION, TO BE READ FROM FILE
     width = w;
@@ -146,6 +172,14 @@ void GraphicsManager::Initialize(int w, int h) {
     Fullscreen(fullscreen);
 }
 
+/*!***********************************************************************
+ \brief
+  Updates the graphics manager's state, including calculating and displaying the frames per second (FPS) in the window title.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It updates the state of the graphics manager.
+ *************************************************************************/
 void GraphicsManager::Update() {
     static float fpsInterval = 1.f;
     static int count = 0;
@@ -160,6 +194,14 @@ void GraphicsManager::Update() {
     }
 }
 
+/*!***********************************************************************
+ \brief
+  Handles the drawing operations for each frame, updating background systems, rendering entities, and managing the viewport.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It performs drawing operations for the current frame.
+ *************************************************************************/
 void GraphicsManager::Draw() {
     graphics.backgroundsystem.Update();
 
@@ -172,12 +214,28 @@ void GraphicsManager::Draw() {
     renderer["static"].DrawFrameBuffer(); //END OF GAMEPLAY DRAW CALL
 }
 
+/*!***********************************************************************
+ \brief
+  Finalizes drawing operations for the current frame, clearing the framebuffer and swapping the window buffers.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It finalizes the drawing operations.
+ *************************************************************************/
 void GraphicsManager::EndDraw() {
     graphics.framebuffer.Clear();
     glfwSwapBuffers(window);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+/*!***********************************************************************
+ \brief
+  Adds a renderer to the graphics manager or retrieves an existing one by name. This method manages the collection of renderers used for drawing various graphics components.
+ \param name
+  The name identifier for the renderer.
+ \return
+  Returns a reference to the Renderer object associated with the given name. If the renderer does not exist, it creates a new one.
+ *************************************************************************/
 Renderer& GraphicsManager::AddRenderer(std::string name) {
     if (renderer.count(name) > 0) {
         return renderer[name];
@@ -187,12 +245,29 @@ Renderer& GraphicsManager::AddRenderer(std::string name) {
     return renderer[name];
 }
 
+/*!***********************************************************************
+ \brief
+  Draws a point on the screen with specified dimensions and color. Optionally, a specific renderer can be provided to perform the drawing; otherwise, a default renderer is used.
+ \param
+  Parameters vary based on the method but generally include coordinates, dimensions, color, and an optional renderer.
+ \return
+  This method does not return a value. It performs drawing operations for the specified shape.
+ *************************************************************************/
 void GraphicsManager::DrawPoint(float x, float y, float r, float g, float b, float a, Renderer* input) {
     if (input == nullptr) {
         input = &renderer["point"];
     }
     input->AddVertex(Vertex{glm::vec2{x / GRAPHICS::w, y / GRAPHICS::h}, glm::vec4{r,g,b,a}});
 }
+
+/*!***********************************************************************
+ \brief
+  Draws a line on the screen with specified dimensions and color. Optionally, a specific renderer can be provided to perform the drawing; otherwise, a default renderer is used.
+ \param
+  Parameters vary based on the method but generally include coordinates, dimensions, color, and an optional renderer.
+ \return
+  This method does not return a value. It performs drawing operations for the specified shape.
+ *************************************************************************/
 
 void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
     if (input == nullptr) {
@@ -202,6 +277,14 @@ void GraphicsManager::DrawLine(float x1, float y1, float x2, float y2, float r, 
     input->AddVertex(Vertex{ glm::vec2{x2 / GRAPHICS::w, y2 / GRAPHICS::h}, glm::vec4{r,g,b,a} });
 }
 
+/*!***********************************************************************
+ \brief
+  Draws a circle on the screen with specified dimensions and color. Optionally, a specific renderer can be provided to perform the drawing; otherwise, a default renderer is used.
+ \param
+  Parameters vary based on the method but generally include coordinates, dimensions, color, and an optional renderer.
+ \return
+  This method does not return a value. It performs drawing operations for the specified shape.
+ *************************************************************************/
 void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float g, float b, float a, Renderer* input) {
     if (input == nullptr) {
         input = &renderer["circle"];
@@ -217,6 +300,15 @@ void GraphicsManager::DrawCircle(float x, float y, float radius, float r, float 
     //input->Draw();
 }
 
+/*!***********************************************************************
+ \brief
+  Draws a Rectangle on the screen with specified dimensions and color. Optionally, a specific renderer can be provided to perform the drawing; otherwise, a default renderer is used.
+ \param
+  Parameters vary based on the method but generally include coordinates, dimensions, color, and an optional renderer.
+ \return
+  This method does not return a value. It performs drawing operations for the specified shape.
+ *************************************************************************/
+
 void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
     if (input == nullptr) {
         input = &renderer["rectangle"];
@@ -228,6 +320,14 @@ void GraphicsManager::DrawRect(float x1, float y1, float x2, float y2, float r, 
     input->Draw();
 }
 
+/*!***********************************************************************
+ \brief
+  Draws a outline on the screen with specified dimensions and color. Optionally, a specific renderer can be provided to perform the drawing; otherwise, a default renderer is used.
+ \param
+  Parameters vary based on the method but generally include coordinates, dimensions, color, and an optional renderer.
+ \return
+  This method does not return a value. It performs drawing operations for the specified shape.
+ *************************************************************************/
 void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float r, float g, float b, float a, Renderer* input) {
     DrawLine(x1, y1, x1, y2, r, g, b, a, input);
     DrawLine(x1, y1, x2, y1, r, g, b, a, input);
@@ -235,14 +335,40 @@ void GraphicsManager::DrawOutline(float x1, float y1, float x2, float y2, float 
     DrawLine(x2, y2, x1, y2, r, g, b, a, input);
 }
 
+/*!***********************************************************************
+ \brief
+  retrieving the graphics manager's name
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
+
 std::string GraphicsManager::GetName() {
     return "Graphics";
 }
+
+/*!***********************************************************************
+ \brief
+  checking if the window is closed
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 
 bool GraphicsManager::WindowClosed() {
     return glfwWindowShouldClose(window);
 }
 
+/*!***********************************************************************
+ \brief
+  toggling fullscreen mode
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 void GraphicsManager::Fullscreen(bool input) {
     if (input) {
         int x, y, w, h;
@@ -266,22 +392,62 @@ void GraphicsManager::Fullscreen(bool input) {
     graphics.framebuffer.Recreate();
 }
 
+/*!***********************************************************************
+ \brief
+  updating window dimensions
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 void GraphicsManager::UpdateWindow() {
     glfwGetWindowSize(window, &width, &height);
 }
 
+/*!***********************************************************************
+ \brief
+  retrieving window width 
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 float GraphicsManager::GetWindowWidth() {
     return (float)width;
 }
 
+/*!***********************************************************************
+ \brief
+  retrieving window height
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 float GraphicsManager::GetWindowHeight() {
     return (float)height;
 }
 
+/*!***********************************************************************
+ \brief
+  retrieving window
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 GLFWwindow* GraphicsManager::GetWindow() {
     return window;
 }
 
+/*!***********************************************************************
+ \brief
+  retrieving text label
+ \param
+  Parameters vary based on the method, including booleans for fullscreen mode and text label data for drawing.
+ \return
+  Returns vary based on the method, including boolean status, string names, window dimensions, and GLFW window pointers.
+ *************************************************************************/
 void GraphicsManager::DrawLabel(TextLabel& txtLblData, glm::vec4 color) {    
     static Renderer* fontRenderer{ &renderer["font"] };
 

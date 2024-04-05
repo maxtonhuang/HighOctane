@@ -144,6 +144,14 @@ void Renderer::Draw() {
    graphics.framebuffer.Unbind();
 }
 
+/*!***********************************************************************
+ \brief
+  Renders the entire framebuffer as a fullscreen quad. This method is used to display the contents of the framebuffer, which has been rendered to off-screen, onto the screen. It setups up vertex data for a fullscreen quad, updates the vertex buffer, and executes the draw call using a shader that samples from the framebuffer texture.
+ \param
+  This method does not take any parameters.
+ \return
+  This method does not return a value. It renders the framebuffer's texture to the screen as a fullscreen quad, effectively displaying the off-screen rendered content.
+ *************************************************************************/
 void Renderer::DrawFrameBuffer() {
     //Create a fullscreen quad to render framebuffer
     AddVertex(Vertex{ glm::vec2{-1,-1}, glm::vec4{1,1,1,1}, glm::vec2{0,0},0 }); //bottom left
@@ -166,6 +174,14 @@ void Renderer::DrawFrameBuffer() {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+/*!***********************************************************************
+ \brief
+  Draws text to the screen using a specified font texture. This method is specifically designed for rendering font glyphs. It binds the font texture, updates the vertex buffer with glyph information, and executes the draw call.
+ \param texID
+  The texture ID of the font texture to be used for drawing the text.
+ \return
+  This method does not return a value. It renders glyphs to the screen based on the vertex data prepared for the text, using the specified font texture.
+ *************************************************************************/
 void Renderer::FontDraw(GLuint texID) {
     if (drawcount <= 0) {
         return;
@@ -239,10 +255,26 @@ GLuint Renderer::GetDrawCount() {
     return drawcount;
 }
 
+/*!***********************************************************************
+ \brief
+  Sets the name of the renderer to the specified input string. The name can be used to identify or retrieve the renderer from a collection.
+ \param input
+  The new name for the renderer as a std::string.
+ \return
+  This method does not return a value. It assigns the input string as the new name of the renderer.
+ *************************************************************************/
 void Renderer::SetName(std::string input) {
     name = input;
 }
 
+/*!***********************************************************************
+ \brief
+  Retrieves the name of the renderer. This name is used to identify the renderer and can be set to any string value using the SetName method.
+ \param
+  This method does not take any parameters.
+ \return
+  Returns the name of the renderer as a std::string.
+ *************************************************************************/
 std::string Renderer::GetName() {
     return name;
 }
