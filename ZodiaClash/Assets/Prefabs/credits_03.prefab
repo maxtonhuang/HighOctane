@@ -58,7 +58,7 @@
         "Entity": {
             "Name": "credits_03",
             "Current Layer": 6,
-            "Order in Layer": 0,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -159,7 +159,7 @@
         "Entity": {
             "Name": "credits_prev",
             "Current Layer": 6,
-            "Order in Layer": 1,
+            "Order in Layer": 3,
             "isLocked": true,
             "isSkipped": true
         },
@@ -260,6 +260,25 @@
                         ]
                     }
                 ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         ],
         "Animation Set Default Animation": "",
@@ -276,7 +295,7 @@
         "Entity": {
             "Name": "credits_next",
             "Current Layer": 6,
-            "Order in Layer": 2,
+            "Order in Layer": 4,
             "isLocked": true,
             "isSkipped": true
         },
@@ -373,6 +392,25 @@
                             {
                                 "Frame Number": 0,
                                 "Animation": "Next"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
                             }
                         ]
                     }

@@ -37,7 +37,7 @@
         "Entity": {
             "Name": "credits_07",
             "Current Layer": 6,
-            "Order in Layer": 0,
+            "Order in Layer": 9,
             "isLocked": true,
             "isSkipped": true
         },
@@ -113,7 +113,7 @@
         "Entity": {
             "Name": "credits_prev",
             "Current Layer": 6,
-            "Order in Layer": 1,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -210,6 +210,25 @@
                             {
                                 "Frame Number": 0,
                                 "Animation": "Previous"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "Total Frames": 1,
+                "Group Name": "Hover",
+                "Loop": false,
+                "Frame Time": 0.01666666753590107,
+                "Animations": [
+                    {
+                        "Animation Type": "Sound",
+                        "Key Frames": [
+                            {
+                                "Frame Number": 0,
+                                "Sounds": [
+                                    "brush hover 1.wav"
+                                ]
                             }
                         ]
                     }
