@@ -217,7 +217,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 0.0,
+            "position_x": -2.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -242,7 +242,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 1535.0,
+            "position_x": 1533.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -267,7 +267,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 3071.0,
+            "position_x": 3069.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -292,7 +292,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 4606.0,
+            "position_x": 4604.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -317,7 +317,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 6141.0,
+            "position_x": 6139.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -342,7 +342,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 7677.0,
+            "position_x": 7672.0,
             "position_y": 0.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -442,7 +442,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 9556.0,
+            "position_x": 9555.0,
             "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -467,7 +467,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 11435.0,
+            "position_x": 11433.0,
             "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -492,7 +492,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 13314.0,
+            "position_x": 13311.0,
             "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -517,7 +517,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 15193.0,
+            "position_x": 15189.0,
             "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 0.5,
@@ -542,7 +542,7 @@
             "isSkipped": true
         },
         "Transform": {
-            "position_x": 17072.0,
+            "position_x": 17068.0,
             "position_y": 1500.0,
             "rotation": 0.0,
             "scale": 0.5,
