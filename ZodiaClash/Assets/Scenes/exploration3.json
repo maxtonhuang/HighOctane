@@ -1666,25 +1666,6 @@
                     "Speaker Required": true,
                     "Post Dialogue Scene": true,
                     "Target Scene": "battle3.scn"
-                },
-                {
-                    "Dialogue Lines": [
-                        {
-                            "Speaker": " ",
-                            "Line": "Yang has joined your team!",
-                            "Voice": ""
-                        }
-                    ],
-                    "Trigger Type": 0,
-                    "Round Trigger": 0,
-                    "Health Trigger": 0,
-                    "Viewing Index": 0,
-                    "Display Duration": 0.0,
-                    "Is Active": false,
-                    "Is Triggered": false,
-                    "Speaker Required": false,
-                    "Post Dialogue Scene": false,
-                    "Target Scene": ""
                 }
             ]
         },

@@ -116,7 +116,7 @@
         "Entity": {
             "Name": "Cat",
             "Current Layer": 0,
-            "Order in Layer": 10,
+            "Order in Layer": 7,
             "isLocked": true,
             "isSkipped": true
         },
@@ -194,7 +194,7 @@
         "Entity": {
             "Name": "Guard",
             "Current Layer": 0,
-            "Order in Layer": 6,
+            "Order in Layer": 5,
             "isLocked": true,
             "isSkipped": true
         },
@@ -220,7 +220,7 @@
         "Entity": {
             "Name": "Emitter",
             "Current Layer": 0,
-            "Order in Layer": 7,
+            "Order in Layer": 6,
             "isLocked": true,
             "isSkipped": true
         },
@@ -300,7 +300,7 @@
                         },
                         {
                             "Speaker": "Mei",
-                            "Line": "Huh, aren't the artifacts fom the Jade Emperor? Wait... Where are the others?",
+                            "Line": "Huh, aren't the artifacts from the Jade Emperor? Wait... Where are the others?",
                             "Voice": "Mei_6.wav"
                         },
                         {
@@ -317,6 +317,11 @@
                             "Speaker": "Yang",
                             "Line": "All the best. May the heavens bless you.",
                             "Voice": "Goat_06.ogg"
+                        },
+                        {
+                            "Speaker": "",
+                            "Line": "Yang has joined your team!",
+                            "Voice": ""
                         }
                     ],
                     "Trigger Type": 5,
