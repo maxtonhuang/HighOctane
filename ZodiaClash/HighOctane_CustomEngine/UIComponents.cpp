@@ -1392,7 +1392,7 @@ void DialogueHUD::StartDialogue(Entity entity, DIALOGUE_TRIGGER inputTriggerType
 		currentDialogue->isActive = 1;
 		currentDialogue->viewingIndex = 0;
 		if (animationArray.HasComponent(entity)) {
-			animationArray.GetData(entity).Start("Launch", entity);
+			animationArray.GetData(entity).Queue("Launch", entity);
 		}
 
 		//Update audio system
@@ -1522,7 +1522,7 @@ void DialogueHUD::JumpNextLine(Entity entity) {
 				battleSys->ProcessDamage();
 			}
 			battleSys->MoveInAllUIAnimation();
-			animationArray.GetData(entity).Start("Exit", entity);
+			animationArray.GetData(entity).Queue("Exit", entity);
 
 			//Return filter for BGM after dialogue
 			if (currentDialogue->speakerRequired) {
