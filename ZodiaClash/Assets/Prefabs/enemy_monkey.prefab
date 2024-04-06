@@ -94,8 +94,8 @@
         },
         "CharacterStats": {
             "Character type": 1,
-            "Max Health": 170.0,
-            "Health": 170.0,
+            "Max Health": 160.0,
+            "Health": 160.0,
             "Attack": 30.0,
             "Defense": 30.0,
             "Speed": 99,
